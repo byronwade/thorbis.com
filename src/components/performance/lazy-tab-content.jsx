@@ -5,7 +5,7 @@
 
 "use client";
 
-import React, { Suspense, memo, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { cn } from "@utils";
 
 // Enhanced loading component for tab sections
@@ -73,9 +73,7 @@ const LazyTabContent = memo(({
 			data-tab={targetTab}
 		>
 			<TabErrorBoundary tabName={targetTab}>
-				<Suspense fallback={loadingComponent}>
-					{children}
-				</Suspense>
+				{children}
 			</TabErrorBoundary>
 		</div>
 	);
@@ -156,13 +154,7 @@ export const LazySection = memo(({
 
 	return (
 		<div ref={elementRef} className={className}>
-			{isVisible ? (
-				<Suspense fallback={fallback}>
-					{children}
-				</Suspense>
-			) : (
-				fallback
-			)}
+			{children}
 		</div>
 	);
 });

@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,23 +6,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { ContentDataFetchers } from "@lib/database/supabase/server";
+import { getPostBySlug, getRelatedPosts } from "@lib/data/blog-posts";
 
-// Get blog post data from Supabase
+// Get blog post data from mock data
 async function getBlogPostData(slug) {
 	try {
-		const [post, relatedPosts] = await Promise.all([
-			ContentDataFetchers.getBlogPostBySlug(slug),
-			// Get related posts after we have the main post
-			slug ? ContentDataFetchers.getBlogPosts({ limit: 4 }) : { posts: [] },
-		]);
+		// Get the main post
+		const post = getPostBySlug(slug);
 
 		if (!post) {
 			return null;
 		}
 
 		// Get related posts from the same category
-		const relatedPostsFromCategory = post.category?.id ? await ContentDataFetchers.getRelatedBlogPosts(post.id, post.category.id, 4) : relatedPosts.posts.filter((p) => p.id !== post.id).slice(0, 4);
+		const relatedPostsFromCategory = post.category?.id ? getRelatedPosts(post.id, post.category.id, 4) : [];
 
 		return {
 			post,
@@ -191,8 +188,8 @@ function PostContent({ post, relatedPosts }) {
 										{article.featured_image ? (
 											<Image src={article.featured_image} alt={article.title} width={640} height={384} className="mb-5 rounded-lg w-full h-48 object-cover" />
 										) : (
-											<div className="mb-5 rounded-lg w-full h-48 bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
-												<span className="text-gray-500 dark:text-gray-400">No image</span>
+											<div className="mb-5 rounded-lg w-full h-48 bg-muted flex items-center justify-center">
+												<span className="text-muted-foreground">No image</span>
 											</div>
 										)}
 									</Link>
@@ -253,48 +250,7 @@ function PostContent({ post, relatedPosts }) {
 	);
 }
 
-// Loading component for Suspense
-function PostLoading() {
-	return (
-		<main className="pt-8 pb-16 lg:pt-16 lg:pb-24">
-			<div className="flex justify-center max-w-screen-xl px-4 mx-auto">
-				<article className="w-full max-w-2xl">
-					<header className="mb-4 lg:mb-6">
-						{/* Image skeleton */}
-						<div className="mb-6 h-64 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse"></div>
 
-						{/* Tags skeleton */}
-						<div className="flex items-center gap-2 mb-4">
-							<div className="h-6 w-20 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-							<div className="h-6 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-						</div>
-
-						{/* Author skeleton */}
-						<div className="flex items-center mb-6">
-							<div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse mr-4"></div>
-							<div>
-								<div className="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
-								<div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-							</div>
-						</div>
-
-						{/* Title skeleton */}
-						<div className="h-10 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
-						<div className="h-6 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
-						<div className="h-6 w-5/6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-					</header>
-
-					{/* Content skeleton */}
-					<div className="space-y-4">
-						{[...Array(8)].map((_, i) => (
-							<div key={i} className="h-4 w-full bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-						))}
-					</div>
-				</article>
-			</div>
-		</main>
-	);
-}
 
 // Main server component
 export default async function PostPage({ params }) {
@@ -308,8 +264,6 @@ export default async function PostPage({ params }) {
 	const { post, relatedPosts } = data;
 
 	return (
-		<Suspense fallback={<PostLoading />}>
-			<PostContent post={post} relatedPosts={relatedPosts} />
-		</Suspense>
+		<PostContent post={post} relatedPosts={relatedPosts} />
 	);
 }

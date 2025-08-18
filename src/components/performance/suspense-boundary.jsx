@@ -1,16 +1,14 @@
 /**
- * SuspenseBoundary - Global Suspense boundary with performance monitoring
- * Prevents large document rendering issues across the application
+ * SuspenseBoundary - Simplified component wrapper without loading states
+ * Renders children immediately for maximum performance
  */
 
 "use client";
 
-import React, { Suspense, memo, useState, useEffect } from "react";
-import { Skeleton } from "@components/ui/skeleton";
+import React, { memo, useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
-import { AlertTriangle, RefreshCw, Loader2 } from "lucide-react";
-import { cn } from "@utils";
+import { AlertTriangle, RefreshCw } from "lucide-react";
 
 // Performance monitoring hook
 const usePerformanceMonitoring = (componentName) => {
@@ -35,91 +33,6 @@ const usePerformanceMonitoring = (componentName) => {
 		};
 	}, [componentName]);
 };
-
-// Generic loading skeleton
-const GenericSkeleton = memo(({ 
-	rows = 3, 
-	showHeader = true, 
-	showCards = true,
-	className = "" 
-}) => (
-	<div className={cn("space-y-6 animate-pulse", className)}>
-		{showHeader && (
-			<div className="space-y-2">
-				<Skeleton className="h-8 w-64" />
-				<Skeleton className="h-4 w-96" />
-			</div>
-		)}
-		
-		{showCards ? (
-			<div className="grid gap-4">
-				{Array.from({ length: rows }).map((_, i) => (
-					<Card key={i}>
-						<CardHeader>
-							<Skeleton className="h-6 w-48" />
-							<Skeleton className="h-4 w-64" />
-						</CardHeader>
-						<CardContent>
-							<div className="space-y-3">
-								<Skeleton className="h-32 w-full" />
-								<div className="grid grid-cols-2 gap-3">
-									<Skeleton className="h-8 w-full" />
-									<Skeleton className="h-8 w-full" />
-								</div>
-							</div>
-						</CardContent>
-					</Card>
-				))}
-			</div>
-		) : (
-			<div className="space-y-4">
-				{Array.from({ length: rows }).map((_, i) => (
-					<div key={i} className="space-y-2">
-						<Skeleton className="h-4 w-full" />
-						<Skeleton className="h-4 w-3/4" />
-						<Skeleton className="h-4 w-1/2" />
-					</div>
-				))}
-			</div>
-		)}
-	</div>
-));
-
-GenericSkeleton.displayName = "GenericSkeleton";
-
-// Specialized skeletons for different content types
-const ListSkeleton = memo(({ items = 5, showAvatar = false }) => (
-	<div className="space-y-3">
-		{Array.from({ length: items }).map((_, i) => (
-			<div key={i} className="flex items-center space-x-3">
-				{showAvatar && <Skeleton className="w-10 h-10 rounded-full" />}
-				<div className="flex-1 space-y-2">
-					<Skeleton className="h-4 w-3/4" />
-					<Skeleton className="h-3 w-1/2" />
-				</div>
-			</div>
-		))}
-	</div>
-));
-
-const TableSkeleton = memo(({ rows = 5, columns = 4 }) => (
-	<div className="space-y-3">
-		{/* Header */}
-		<div className="flex space-x-4">
-			{Array.from({ length: columns }).map((_, i) => (
-				<Skeleton key={i} className="h-6 w-24" />
-			))}
-		</div>
-		{/* Rows */}
-		{Array.from({ length: rows }).map((_, i) => (
-			<div key={i} className="flex space-x-4">
-				{Array.from({ length: columns }).map((_, j) => (
-					<Skeleton key={j} className="h-8 w-24" />
-				))}
-			</div>
-		))}
-	</div>
-));
 
 // Error fallback component
 const SuspenseErrorFallback = memo(({ 
@@ -172,38 +85,11 @@ const SuspenseErrorFallback = memo(({
 
 SuspenseErrorFallback.displayName = "SuspenseErrorFallback";
 
-// Loading fallback with progress indication
-const ProgressiveLoader = memo(({ 
-	message = "Loading...", 
-	showProgress = false,
-	progress = 0 
-}) => (
-	<div className="flex flex-col items-center justify-center p-8 space-y-4">
-		<Loader2 className="w-8 h-8 animate-spin text-primary" />
-		<div className="text-center space-y-2">
-			<p className="text-sm font-medium">{message}</p>
-			{showProgress && (
-				<div className="w-64 bg-muted rounded-full h-2">
-					<div 
-						className="bg-primary h-2 rounded-full transition-all duration-300"
-						style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
-					/>
-				</div>
-			)}
-		</div>
-	</div>
-));
-
-ProgressiveLoader.displayName = "ProgressiveLoader";
-
 /**
- * SuspenseBoundary - Main Suspense wrapper with error handling
+ * SuspenseBoundary - Simplified wrapper that renders children immediately
  */
 const SuspenseBoundary = memo(({
 	children,
-	fallback,
-	fallbackType = "generic", // "generic", "list", "table", "custom"
-	fallbackProps = {},
 	componentName = "Component",
 	onError,
 	showErrorDetails = false,
@@ -221,22 +107,6 @@ const SuspenseBoundary = memo(({
 	const handleRetry = () => {
 		setError(null);
 		setRetryKey(prev => prev + 1);
-	};
-
-	// Get appropriate fallback component
-	const getFallback = () => {
-		if (fallback) return fallback;
-
-		switch (fallbackType) {
-			case "list":
-				return <ListSkeleton {...fallbackProps} />;
-			case "table":
-				return <TableSkeleton {...fallbackProps} />;
-			case "progress":
-				return <ProgressiveLoader {...fallbackProps} />;
-			default:
-				return <GenericSkeleton {...fallbackProps} />;
-		}
 	};
 
 	// Error boundary effect
@@ -270,23 +140,18 @@ const SuspenseBoundary = memo(({
 		);
 	}
 
+	// Render children immediately without any loading states
 	return (
 		<div key={retryKey} className={className}>
-			<Suspense fallback={getFallback()}>
-				{children}
-			</Suspense>
+			{children}
 		</div>
 	);
 });
 
 SuspenseBoundary.displayName = "SuspenseBoundary";
 
-// Convenience exports
+// Convenience exports (kept for backwards compatibility but empty)
 export { 
-	GenericSkeleton,
-	ListSkeleton, 
-	TableSkeleton,
-	ProgressiveLoader,
 	SuspenseErrorFallback 
 };
 

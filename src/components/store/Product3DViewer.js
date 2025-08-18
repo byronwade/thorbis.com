@@ -33,6 +33,7 @@ export default function Product3DViewer({
   const animationIdRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const isDraggingRef = useRef(false);
+  const handleResizeRef = useRef(null);
   
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,9 +45,9 @@ export default function Product3DViewer({
     if (!mountRef.current) return;
 
     try {
-      // Scene setup
+      // Scene setup with premium Thorbis styling
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0xf8fafc); // Light gray background
+      scene.background = new THREE.Color(0xffffff); // Pure white background for clean look
       sceneRef.current = scene;
 
       // Camera setup - optimized for product viewing
@@ -97,6 +98,9 @@ export default function Product3DViewer({
         renderer.setSize(width, height);
       };
 
+      // Store resize handler in ref for cleanup
+      handleResizeRef.current = handleResize;
+
       // Add event listeners
       window.addEventListener('resize', handleResize);
       handleResize();
@@ -124,7 +128,9 @@ export default function Product3DViewer({
         mountRef.current.removeChild(rendererRef.current.domElement);
         rendererRef.current.dispose();
       }
-      window.removeEventListener('resize', handleResize);
+      if (handleResizeRef.current) {
+        window.removeEventListener('resize', handleResizeRef.current);
+      }
     };
   }, []);
 
@@ -171,14 +177,15 @@ export default function Product3DViewer({
     // Round the edges
     const edges = new THREE.EdgesGeometry(productGeometry);
     
-    // Main product material - premium look
+    // Premium Thorbis-branded product material
     const productMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x3b82f6, // Thorbis blue
-      metalness: 0.7,
-      roughness: 0.2,
-      clearcoat: 1,
-      clearcoatRoughness: 0.1,
-      envMapIntensity: 1
+      color: 0x1e40af, // Deep Thorbis blue (blue-700)
+      metalness: 0.8,
+      roughness: 0.15,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.05,
+      envMapIntensity: 1.2,
+      reflectivity: 0.9
     });
 
     const productMesh = new THREE.Mesh(productGeometry, productMaterial);
@@ -333,14 +340,19 @@ export default function Product3DViewer({
   }
 
   return (
-    <div className={`relative bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden ${className}`}>
-      {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4">
+    <div className={`relative bg-white dark:bg-neutral-950 rounded-3xl border border-gray-200 dark:border-neutral-800 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ${className}`}>
+      {/* Enhanced Header with Thorbis Branding */}
+      <div className="absolute top-0 left-0 right-0 z-10 p-6">
         <div className="flex items-center justify-between">
-          <Badge className="bg-blue-600 hover:bg-blue-700 text-white">
-            <Move3D className="h-3 w-3 mr-1" />
-            3D View
-          </Badge>
+          <div className="flex items-center gap-3">
+            					<Badge className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-1.5 text-sm font-medium shadow-lg border-0">
+              <Move3D className="h-4 w-4 mr-1.5" />
+              Interactive 3D
+            </Badge>
+            <div className="hidden sm:block text-sm text-gray-600 dark:text-gray-300 font-medium">
+              {productName}
+            </div>
+          </div>
           
           {showControls && (
             <div className="flex items-center gap-2">
@@ -348,7 +360,7 @@ export default function Product3DViewer({
                 variant="ghost"
                 size="sm"
                 onClick={resetView}
-                className="h-8 w-8 p-0 bg-white/80 hover:bg-white dark:bg-slate-800/80 dark:hover:bg-slate-800"
+                className="h-10 w-10 p-0 bg-white/90 hover:bg-white dark:bg-neutral-800/90 dark:hover:bg-neutral-800 shadow-md border border-gray-200 dark:border-neutral-700 transition-all duration-200"
                 title="Reset view"
               >
                 <RotateCcw className="h-4 w-4" />
@@ -358,8 +370,10 @@ export default function Product3DViewer({
                 variant="ghost"
                 size="sm"
                 onClick={toggleAutoRotate}
-                className={`h-8 w-8 p-0 bg-white/80 hover:bg-white dark:bg-slate-800/80 dark:hover:bg-slate-800 ${
-                  autoRotateEnabled ? 'text-blue-600' : ''
+                className={`h-10 w-10 p-0 bg-white/90 hover:bg-white dark:bg-neutral-800/90 dark:hover:bg-neutral-800 shadow-md border transition-all duration-200 ${
+                  autoRotateEnabled 
+                    					? 'border-primary text-primary dark:border-primary' 
+                    : 'border-gray-200 dark:border-neutral-700'
                 }`}
                 title="Auto rotate"
               >
@@ -370,8 +384,8 @@ export default function Product3DViewer({
                 variant="ghost"
                 size="sm"
                 onClick={toggleFullscreen}
-                className="h-8 w-8 p-0 bg-white/80 hover:bg-white dark:bg-slate-800/80 dark:hover:bg-slate-800"
-                title="Fullscreen"
+                className="h-10 w-10 p-0 bg-white/90 hover:bg-white dark:bg-neutral-800/90 dark:hover:bg-neutral-800 shadow-md border border-gray-200 dark:border-neutral-700 transition-all duration-200"
+                title="Fullscreen view"
               >
                 <Maximize className="h-4 w-4" />
               </Button>
@@ -380,45 +394,71 @@ export default function Product3DViewer({
         </div>
       </div>
 
-      {/* 3D Viewer Container */}
+      {/* Enhanced 3D Viewer Container */}
       <div 
         ref={mountRef}
-        className={`relative ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-slate-900' : 'aspect-square'}`}
-        style={{ minHeight: isFullscreen ? '100vh' : '400px' }}
+        className={`relative ${isFullscreen ? 'fixed inset-0 z-50 bg-white dark:bg-neutral-950' : 'aspect-square'}`}
+        style={{ minHeight: isFullscreen ? '100vh' : '500px' }}
       />
 
-      {/* Loading State */}
+      {/* Enhanced Loading State */}
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-50/80 dark:bg-slate-900/80">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/95 dark:bg-neutral-950/95 backdrop-blur-sm">
           <div className="text-center">
-            <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2 text-blue-600" />
-            <p className="text-sm text-slate-600 dark:text-slate-400">Loading 3D view...</p>
+            <div className="relative mb-6">
+              					<div className="w-16 h-16 mx-auto bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center">
+						<Loader2 className="h-8 w-8 animate-spin text-primary" />
+					</div>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Loading 3D Experience</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Preparing interactive product view...</p>
           </div>
         </div>
       )}
 
-      {/* Instructions */}
-      <div className="absolute bottom-0 left-0 right-0 p-4">
-        <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg p-3">
-          <p className="text-xs text-slate-600 dark:text-slate-400 text-center">
-            <span className="hidden sm:inline">Drag to rotate • Scroll to zoom • </span>
-            <span className="sm:hidden">Touch to rotate • Pinch to zoom • </span>
-            Click controls to reset
-          </p>
+      {/* Modern Instructions Panel */}
+      <div className="absolute bottom-0 left-0 right-0 p-6">
+        <div className="bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-neutral-700/50 p-4 shadow-lg">
+          <div className="flex items-center justify-center gap-6 text-sm text-gray-600 dark:text-gray-300">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-5 border-2 border-gray-300 dark:border-gray-500 rounded-sm flex items-center justify-center">
+                <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+              </div>
+              <span className="hidden sm:inline">Drag to rotate</span>
+              <span className="sm:hidden">Touch & drag</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-4 border-2 border-gray-300 dark:border-gray-500 rounded-sm relative">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-gray-400 rounded-full"></div>
+              </div>
+              <span className="hidden sm:inline">Scroll to zoom</span>
+              <span className="sm:hidden">Pinch to zoom</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Fullscreen overlay close button */}
+      {/* Enhanced Fullscreen Close Button */}
       {isFullscreen && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={toggleFullscreen}
-          className="absolute top-4 right-4 z-20 h-10 w-10 p-0 bg-white/90 hover:bg-white dark:bg-slate-800/90 dark:hover:bg-slate-800"
-        >
-          <X className="h-5 w-5" />
-        </Button>
+        <div className="absolute top-6 right-6 z-20">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleFullscreen}
+            className="h-12 w-12 p-0 bg-white/95 hover:bg-white dark:bg-neutral-800/95 dark:hover:bg-neutral-800 shadow-lg border border-gray-200 dark:border-neutral-700 rounded-xl transition-all duration-200"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
       )}
+
+      {/* Product Info Overlay for Enhanced Context */}
+      <div className="absolute top-20 right-6 z-10">
+        <div className="bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-xl p-3 shadow-lg border border-gray-200/50 dark:border-neutral-700/50 max-w-xs">
+          <div className="text-xs font-medium text-gray-900 dark:text-white mb-1">Premium Build Quality</div>
+          <div className="text-xs text-gray-600 dark:text-gray-400">360° interactive view • Professional materials</div>
+        </div>
+      </div>
     </div>
   );
 }

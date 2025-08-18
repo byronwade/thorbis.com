@@ -25,12 +25,12 @@ export default function DirectorySuccess() {
 				{/* Success Header */}
 				<div className="space-y-4">
 					<div className="flex justify-center">
-						<div className="w-20 h-20 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center">
-							<CheckCircle className="w-10 h-10 text-green-600" />
-						</div>
+											<div className="w-20 h-20 bg-primary/20 dark:bg-primary/20 rounded-full flex items-center justify-center">
+						<CheckCircle className="w-10 h-10 text-primary" />
+					</div>
 					</div>
 					<div>
-						<h2 className="text-3xl font-bold text-green-600 mb-2">🎉 Directory Created Successfully!</h2>
+						<h2 className="text-3xl font-bold text-primary mb-2">🎉 Directory Created Successfully!</h2>
 						<p className="text-lg text-muted-foreground">
 							Your LocalHub directory <strong>{directoryName}</strong> is now live and ready for businesses to join.
 						</p>
@@ -41,7 +41,7 @@ export default function DirectorySuccess() {
 				<Card>
 					<CardHeader>
 						<CardTitle className="flex items-center gap-2">
-							<Sparkles className="w-5 h-5 text-purple-500" />
+							<Sparkles className="w-5 h-5 text-primary" />
 							Directory Details
 						</CardTitle>
 					</CardHeader>
@@ -99,7 +99,7 @@ export default function DirectorySuccess() {
 				<Card>
 					<CardHeader>
 						<CardTitle className="flex items-center gap-2">
-							<ArrowRight className="w-5 h-5 text-blue-500" />
+							<ArrowRight className="w-5 h-5 text-primary" />
 							What&apos;s Next?
 						</CardTitle>
 					</CardHeader>
@@ -107,7 +107,7 @@ export default function DirectorySuccess() {
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
 							<div className="p-4 border rounded-lg">
 								<div className="flex items-center gap-2 mb-2">
-									<Users className="w-5 h-5 text-blue-500" />
+									<Users className="w-5 h-5 text-primary" />
 									<h4 className="font-semibold">Invite Businesses</h4>
 								</div>
 								<p className="text-sm text-muted-foreground mb-3">Start reaching out to local businesses to join your directory.</p>
@@ -118,7 +118,7 @@ export default function DirectorySuccess() {
 
 							<div className="p-4 border rounded-lg">
 								<div className="flex items-center gap-2 mb-2">
-									<Settings className="w-5 h-5 text-purple-500" />
+									<Settings className="w-5 h-5 text-primary" />
 									<h4 className="font-semibold">Customize Further</h4>
 								</div>
 								<p className="text-sm text-muted-foreground mb-3">Fine-tune your directory&apos;s appearance and settings.</p>
@@ -129,7 +129,7 @@ export default function DirectorySuccess() {
 
 							<div className="p-4 border rounded-lg">
 								<div className="flex items-center gap-2 mb-2">
-									<Globe className="w-5 h-5 text-green-500" />
+									<Globe className="w-5 h-5 text-primary" />
 									<h4 className="font-semibold">Domain Setup</h4>
 								</div>
 								<p className="text-sm text-muted-foreground mb-3">Configure custom domain or manage your subdomain settings.</p>

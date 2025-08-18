@@ -129,7 +129,7 @@ export const baseMetadata = {
 		"theme-color": "#000000",
 		"msapplication-TileColor": "#000000",
 		"msapplication-config": "/browserconfig.xml",
-		"apple-mobile-web-app-capable": "yes",
+		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
 		"apple-mobile-web-app-title": "Local Directory",
 		"format-detection": "telephone=no",
@@ -148,7 +148,7 @@ export const baseMetadata = {
 
 		// Security headers
 		"X-UA-Compatible": "IE=edge",
-		"Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://vitals.vercel-analytics.com;",
+		"Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://maps.googleapis.com; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://maps.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://vitals.vercel-analytics.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://maps.googleapis.com https://maps.gstatic.com https://*.googleapis.com https://mapsresources-pa.googleapis.com; worker-src 'self' blob:;",
 
 		// Performance hints
 		"dns-prefetch": "https://fonts.googleapis.com",

@@ -210,12 +210,12 @@ class EdgeStreamingManager {
 								<div class="h-8 bg-gray-200 rounded shimmer mb-3" style="width: 60%"></div>
 								<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 40%"></div>
 								<div class="flex space-x-2 mb-4">
-									<div class="h-4 bg-yellow-200 rounded shimmer" style="width: 100px"></div>
+									<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 100px"></div>
 									<div class="h-4 bg-gray-200 rounded shimmer" style="width: 80px"></div>
 								</div>
 								<div class="flex space-x-3">
-									<div class="h-10 bg-green-200 rounded shimmer" style="width: 100px"></div>
-									<div class="h-10 bg-blue-200 rounded shimmer" style="width: 80px"></div>
+																	<div class="h-10 bg-primary/20 rounded shimmer" style="width: 100px"></div>
+								<div class="h-10 bg-primary/20 rounded shimmer" style="width: 80px"></div>
 								</div>
 							</div>
 						</div>
@@ -261,7 +261,7 @@ class EdgeStreamingManager {
 											<div class="w-10 h-10 bg-gray-200 rounded-full shimmer"></div>
 											<div>
 												<div class="h-4 bg-gray-200 rounded shimmer" style="width: 120px"></div>
-												<div class="h-3 bg-yellow-200 rounded shimmer mt-1" style="width: 80px"></div>
+												<div class="h-3 bg-muted-foreground/20 rounded shimmer mt-1" style="width: 80px"></div>
 											</div>
 										</div>
 										<div class="space-y-2">
@@ -322,7 +322,7 @@ class EdgeStreamingManager {
 					<div class="max-w-7xl mx-auto">
 						<div class="flex items-center space-x-4">
 							<div class="flex-1 h-12 bg-gray-100 rounded-lg shimmer"></div>
-							<div class="w-24 h-12 bg-blue-200 rounded-lg shimmer"></div>
+															<div class="w-24 h-12 bg-primary/20 rounded-lg shimmer"></div>
 						</div>
 						<!-- Filters -->
 						<div class="flex space-x-4 mt-4">
@@ -347,7 +347,7 @@ class EdgeStreamingManager {
 								<div class="h-5 bg-gray-200 rounded shimmer mb-2" style="width: 80%"></div>
 								<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 60%"></div>
 								<div class="flex items-center space-x-2">
-									<div class="h-4 bg-yellow-200 rounded shimmer" style="width: 60px"></div>
+									<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 60px"></div>
 									<div class="h-4 bg-gray-200 rounded shimmer" style="width: 40px"></div>
 								</div>
 							</div>
@@ -400,7 +400,7 @@ class EdgeStreamingManager {
 									<div class="h-5 bg-gray-200 rounded shimmer mb-2" style="width: 75%"></div>
 									<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 55%"></div>
 									<div class="flex items-center space-x-2">
-										<div class="h-4 bg-yellow-200 rounded shimmer" style="width: 60px"></div>
+										<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 60px"></div>
 										<div class="h-4 bg-gray-200 rounded shimmer" style="width: 40px"></div>
 									</div>
 								</div>
@@ -460,7 +460,7 @@ class EdgeStreamingManager {
 									<div class="h-6 bg-gray-200 rounded shimmer mb-2" style="width: 80%"></div>
 									<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 60%"></div>
 									<div class="flex items-center space-x-2">
-										<div class="h-4 bg-yellow-200 rounded shimmer" style="width: 80px"></div>
+										<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 80px"></div>
 										<div class="h-4 bg-gray-200 rounded shimmer" style="width: 50px"></div>
 									</div>
 								</div>

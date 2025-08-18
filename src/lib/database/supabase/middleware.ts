@@ -58,15 +58,56 @@ export async function createAuthMiddleware(request: NextRequest) {
 			},
 		});
 
+		// Debug cookie information
+		const cookies = request.cookies.getAll();
+		const supabaseCookies = cookies.filter(cookie => 
+			cookie.name.includes('supabase') || 
+			cookie.name.includes('sb-') ||
+			cookie.name.includes('auth')
+		);
+		
+		console.log("🍪 Middleware cookies debug:", {
+			totalCookies: cookies.length,
+			supabaseCookies: supabaseCookies.map(c => ({ name: c.name, hasValue: !!c.value })),
+			pathname: request.nextUrl.pathname
+		});
+
 		// Optimized session retrieval with caching
 		const {
 			data: { session },
 			error,
 		} = await supabase.auth.getSession();
 
+		console.log("🔍 Middleware session check:", {
+			hasSession: !!session,
+			hasError: !!error,
+			userId: session?.user?.id,
+			pathname: request.nextUrl.pathname
+		});
+
 		if (error) {
 			logger.error("Auth middleware error:", error);
-			// Don't block navigation on auth errors
+			// Don't block navigation on auth errors for non-protected routes
+		}
+
+		// Check if this is a protected route that requires authentication
+		const pathname = request.nextUrl.pathname;
+		const isProtectedRoute = pathname.startsWith("/dashboard") || pathname.startsWith("/admin");
+
+		if (isProtectedRoute && !session) {
+			// No session for protected route - redirect to login
+			logger.security({
+				action: "unauthorized_access_attempt",
+				route: pathname,
+				ip: request.ip,
+				userAgent: request.headers.get("user-agent"),
+				timestamp: Date.now(),
+			});
+
+			const url = request.nextUrl.clone();
+			url.pathname = "/login";
+			url.searchParams.set("redirectTo", pathname);
+			return NextResponse.redirect(url);
 		}
 
 		// Performance logging
@@ -85,7 +126,9 @@ export async function createAuthMiddleware(request: NextRequest) {
 
 		// Fail securely - redirect to auth page
 		const url = request.nextUrl.clone();
+		const originalPath = url.pathname;
 		url.pathname = "/login";
+		url.searchParams.set("redirectTo", originalPath);
 		return NextResponse.redirect(url);
 	}
 }

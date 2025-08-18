@@ -1,21 +1,21 @@
 "use client";
 
 import React from 'react';
-import Header from '@components/business/header';
+import UnifiedHeader from '@components/shared/unified-header';
 
 /**
  * Unified Dashboard Layout for all dashboard types
- * Uses the comprehensive business header for consistency across all dashboards
- * Maintains the same header design and layout patterns everywhere
+ * Uses the compact unified header with icon-only design for dashboards
+ * Maintains consistent navigation patterns across all dashboard types
  */
 export default function UnifiedDashboardLayout({ children, dashboardType = "business" }) {
   return (
     <div className="min-h-screen bg-background">
-      {/* Unified Header - Uses the comprehensive business header for consistency */}
-      <Header dashboardType={dashboardType} />
+      {/* Compact Dashboard Header with Icon-Only Design */}
+      <UnifiedHeader dashboardType={dashboardType} />
       
-      {/* Main Content Area */}
-      <main className="pt-0">
+      {/* Main Content Area - Ensure content isn't hidden behind header */}
+      <main className="px-4 py-6 lg:px-8">
         {children}
       </main>
     </div>

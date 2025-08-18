@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Retail Business Management Software – POS, Inventory, Customer Analytics | Thorbis",
-	description: "Complete retail management platform with point of sale, inventory tracking, customer analytics, and multi-location support for retail businesses.",
-	keywords: ["retail business management", "retail POS system", "inventory management software", "retail analytics", "multi-store management"],
-	alternates: { canonical: "https://thorbis.com/retail-business-management" },
-	openGraph: {
-		title: "Retail Business Management Software – Complete Store Operations",
-		description: "POS system, inventory tracking, customer analytics, and multi-location support.",
-		type: "website",
-		url: "https://thorbis.com/retail-business-management",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Retail Business Management")}&description=${encodeURIComponent("POS system, inventory tracking, and customer analytics.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Retail Business Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Retail Business Management Software – Complete Store Operations",
-		description: "POS system, inventory tracking, customer analytics, and multi-location support.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Retail Business Management")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Retail Business Management Software – POS, Inventory, Customer Analytics | Thorbis",
+		description: "Complete retail management platform with point of sale, inventory tracking, customer analytics, and multi-location support for retail businesses.",
+		path: "/retail-business-management",
+		keywords: ["retail business management", "retail POS system", "inventory management software", "retail analytics", "multi-store management"],
+	});
+}
 
 import { Star, ShoppingCart, Package, BarChart3, Users, CreditCard, MapPin } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -158,7 +139,7 @@ export default function RetailBusinessManagement() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-pink-600 px-6 py-3 text-white font-semibold hover:bg-pink-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -238,7 +219,7 @@ export default function RetailBusinessManagement() {
 				<h2 className="text-3xl font-bold mb-4">Transform Your Retail Operations</h2>
 				<p className="text-lg mb-6 opacity-90">Join thousands of retailers using Thorbis to optimize their business performance and increase sales.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-pink-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

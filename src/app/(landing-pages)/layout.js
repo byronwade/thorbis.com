@@ -1,4 +1,4 @@
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
 import { notFound } from "next/navigation";
 
 export default async function LandingPagesLayout({ children }) {

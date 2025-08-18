@@ -1,39 +1,15 @@
 import { SignupPage } from "@features/auth";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Sign Up - Thorbis",
-	description: "Create your Thorbis account to connect with local businesses and service providers.",
-	keywords: ["Thorbis", "signup", "sign up", "create account", "register", "find business", "contractors", "home improvement"],
-	openGraph: {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 		title: "Sign Up - Thorbis",
 		description: "Create your Thorbis account to connect with local businesses and service providers.",
-		url: "https://thorbis.com/signup",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: "https://thorbis.com/og-signup.jpg",
-				width: 800,
-				height: 600,
-				alt: "Sign up for Thorbis",
-			},
-		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Sign Up - Thorbis",
-		description: "Create your Thorbis account to connect with local businesses and service providers.",
-		images: ["https://thorbis.com/twitter-signup.jpg"],
-	},
-	alternates: {
-		canonical: "https://thorbis.com/signup",
-		languages: {
-			"en-US": "https://thorbis.com/en-US/signup",
-			"es-ES": "https://thorbis.com/es-ES/signup",
-		},
-	},
-};
+		path: "/signup",
+		keywords: ["Thorbis", "signup", "sign up", "create account", "register", "find business", "contractors", "home improvement"],
+	});
+}
 
 const jsonLdData = {
 	"@context": "http://schema.org",

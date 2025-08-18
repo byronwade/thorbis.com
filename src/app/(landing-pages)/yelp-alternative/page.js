@@ -4,37 +4,60 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, Zap, Globe, MessageSquare, Calendar, Award, ArrowRight, Star, DollarSign, Shield, Target, Building, AlertTriangle, Heart, Briefcase, Utensils } from "lucide-react";
+import { getDictionary, languages } from '@lib/i18n/dictionaries';
 
-export const metadata = {
-	title: "Yelp Alternative – Thorbis vs Yelp | Thorbis",
-	description: "See why Thorbis is a modern alternative to Yelp: fair review system, AI insights, lead generation, and multi‑platform integration.",
-	keywords: ["Yelp alternative", "Yelp vs Thorbis", "business reviews alternative", "lead generation platform", "AI analytics"],
-	alternates: { canonical: "https://thorbis.com/yelp-alternative" },
-	openGraph: {
-		title: "Yelp Alternative – Thorbis vs Yelp",
-		description: "Modern alternative to Yelp with fair review system, AI insights, lead generation, and multi‑platform integration.",
-		type: "website",
-		url: "https://thorbis.com/yelp-alternative",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Yelp Alternative")}&description=${encodeURIComponent("Thorbis vs Yelp – fair review system, AI insights, lead generation, multi‑platform integration.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis vs Yelp",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Yelp Alternative – Thorbis vs Yelp",
-		description: "Modern alternative to Yelp with fair review system, AI insights, lead generation, and multi‑platform integration.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Yelp Alternative")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate internationalized metadata
+export async function generateMetadata({ params, searchParams }) {
+	const locale = 'en'; // Default to English for now
+	const dict = await getDictionary(locale);
+	
+	// Get landing pages translations with fallbacks
+	const landingTranslations = dict.landingPages?.alternatives?.yelp || {};
+	const commonTranslations = dict.landingPages?.common || {};
+	
+	const title = landingTranslations.hero?.title || "Yelp Alternative – Thorbis vs Yelp";
+	const description = landingTranslations.hero?.subtitle || "See why Thorbis is a modern alternative to Yelp: fair review system, AI insights, lead generation, and multi‑platform integration.";
+	
+	// Generate alternate language URLs
+	const alternateLanguages = {};
+	Object.keys(languages).forEach(lang => {
+		alternateLanguages[`${lang}-${lang.toUpperCase()}`] = `https://thorbis.com/${lang}/yelp-alternative`;
+	});
+
+	return {
+		title: `${title} | Thorbis`,
+		description: description,
+		keywords: ["Yelp alternative", "Yelp vs Thorbis", "business reviews alternative", "lead generation platform", "AI analytics"],
+		alternates: { 
+			canonical: `https://thorbis.com/${locale}/yelp-alternative`,
+			languages: alternateLanguages,
+		},
+		openGraph: {
+			title: title,
+			description: description,
+			type: "website",
+			url: `https://thorbis.com/${locale}/yelp-alternative`,
+			siteName: "Thorbis",
+			images: [
+				{
+					url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`,
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+			locale: `${locale}_${locale.toUpperCase()}`,
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: title,
+			description: description,
+			images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent(title)}`],
+			creator: "@thorbis",
+			site: "@thorbis",
+		},
+	};
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {

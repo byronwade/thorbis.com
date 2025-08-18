@@ -203,7 +203,6 @@ export const useBusinessHours = (initialHours = defaultHours) => {
 
 	// Get current day status
 	const getCurrentDayStatus = useCallback(() => {
-		const today = new Date().toLocaleLowerCase();
 		const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 		const currentDay = dayNames[new Date().getDay()];
 		

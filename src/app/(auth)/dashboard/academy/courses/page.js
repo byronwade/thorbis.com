@@ -50,7 +50,7 @@ function AcademyCoursesContent() {
 	const getProgressIcon = (progress) => {
 		if (progress === 100) return <CheckCircle className="w-5 h-5 text-green-600" />;
 		if (progress > 0) return <Play className="w-5 h-5 text-blue-600" />;
-		return <BookOpen className="w-5 h-5 text-gray-600" />;
+		return <BookOpen className="w-5 h-5 text-muted-foreground" />;
 	};
 
 	// Course stats

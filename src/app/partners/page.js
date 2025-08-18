@@ -4,7 +4,9 @@ import Link from "next/link";
 import { Button } from "@components/ui/button";
 import { Card, CardContent, CardHeader } from "@components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 const partners = [
 	{ name: "Partner One", logo: "/placeholder.svg" },
@@ -51,36 +53,15 @@ const affiliateBenefits = [
 	},
 ];
 
-export const metadata = {
-	title: "Partners & Affiliates - Collaborate & Earn with Thorbis",
-	description: "Join Thorbis's partner network or affiliate program. Collaborate with leading companies, earn commissions through referrals, and grow together.",
-	keywords: ["business partnerships", "affiliate program", "thorbis partners", "earn commissions", "referral program", "business collaboration"],
-	openGraph: {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 		title: "Partners & Affiliates - Collaborate & Earn with Thorbis",
-		description: "Join Thorbis's partner network or affiliate program. Collaborate with leading companies, earn commissions through referrals, and grow together.",
-		url: "https://thorbis.com/partners",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Partners & Affiliates")}&description=${encodeURIComponent("Collaborate and earn with Thorbis partnerships.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Partners & Affiliates",
-			},
-		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Partners & Affiliates - Thorbis",
-		description: "Join our partner network or affiliate program to collaborate and earn.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Partners & Affiliates")}`],
-	},
-	alternates: {
-		canonical: "https://thorbis.com/partners",
-	},
-};
+		description: "Join Thorbis",
+		path: "/partners",
+		keywords: ["business partnerships", "affiliate program", "thorbis partners", "earn commissions", "referral program", "business collaboration"],
+	});
+}
 
 export default async function PartnersPage() {
 	const affiliatesEnabled = await isEnabled("affiliates");

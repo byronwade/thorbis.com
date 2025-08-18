@@ -10,7 +10,7 @@ import { SiAol } from "react-icons/si";
 const UserSuccess = () => {
 	return (
 		<>
-			<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-green-600 dark:text-green-500">Successful signup</h2>
+							<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-primary dark:text-primary">Successful signup</h2>
 			<p className="text-sm leading-6 text-left text-muted-foreground">An email has been sent to your email and will need to be confirmed before the account is avaliable to use.</p>
 			<div className="flex flex-col mt-6">
 				<div className="space-y-4">

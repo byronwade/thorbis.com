@@ -119,11 +119,11 @@ export const PasswordStrength = {
 	 */
 	getColorScheme(level) {
 		const schemes = {
-			none: { bg: "bg-gray-200", fill: "bg-gray-400", text: "text-gray-600" },
-			weak: { bg: "bg-red-200", fill: "bg-red-500", text: "text-red-700" },
-			fair: { bg: "bg-yellow-200", fill: "bg-yellow-500", text: "text-yellow-700" },
-			good: { bg: "bg-blue-200", fill: "bg-blue-500", text: "text-blue-700" },
-			strong: { bg: "bg-green-200", fill: "bg-green-500", text: "text-green-700" },
+					none: { bg: "bg-gray-200", fill: "bg-gray-400", text: "text-gray-600" },
+		weak: { bg: "bg-destructive/20", fill: "bg-destructive", text: "text-destructive" },
+		fair: { bg: "bg-muted-foreground/20", fill: "bg-muted-foreground", text: "text-muted-foreground" },
+		good: { bg: "bg-primary/20", fill: "bg-primary", text: "text-primary" },
+		strong: { bg: "bg-primary/20", fill: "bg-primary", text: "text-primary" },
 		};
 		return schemes[level] || schemes.none;
 	},

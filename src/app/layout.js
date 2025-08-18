@@ -2,7 +2,8 @@ import "./globals.css";
 import React from "react";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@context/theme-context";
-import { LanguageProvider } from "@context/language-context";
+import { TranslationProvider } from "@lib/i18n/enhanced-client";
+import { getDictionary } from "@lib/i18n/server";
 import { StatsigProvider } from "@context/statsig-context";
 import { Toaster } from "@components/ui/toaster";
 import ErrorBoundary from "@components/shared/error-boundary";
@@ -22,14 +23,12 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
 // Feature flags and site layout components
-import { evaluateAllFlags } from "@lib/flags/server";
-import { cookies } from "next/headers";
-import Header from "@components/site/header";
-import Footer from "@components/site/footer";
-import DevToolsClient from "@components/debug/dev-tools-client";
-import WebVitalsClient from "@components/debug/web-vitals-client";
-import WDYRClient from "@components/debug/wdyr-client";
-import ProfilerToggle from "@components/debug/profiler-toggle";
+import { evaluateAllFlags } from "@/lib/flags/server";
+import { cookies, headers } from "next/headers";
+import { VoipProvider, VoipControlButton } from "@components/shared/voip/VoipSystem";
+import VercelFlagTracker from "@components/shared/vercel-flag-tracker";
+import ConditionalLayoutWrapper from "@components/layout/conditional-layout-wrapper";
+import HydrationMonitor from "@components/shared/hydration-monitor";
 
 // Import SEO configuration from centralized location
 export { baseMetadata as metadata, viewport } from "@lib/seo";
@@ -134,7 +133,7 @@ export { baseMetadata as metadata, viewport } from "@lib/seo";
 		"theme-color": "#000000",
 		"msapplication-TileColor": "#000000",
 		"msapplication-config": "/browserconfig.xml",
-		"apple-mobile-web-app-capable": "yes",
+		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
 		"apple-mobile-web-app-title": "Local Directory",
 		"format-detection": "telephone=no",
@@ -384,19 +383,28 @@ function usePathname() {
 
 function shouldShowSiteLayout(pathname = '/') {
 	// Don't show header/footer on dashboard routes or auth forms
-	if (pathname.startsWith('/dashboard/') || 
+	if (pathname.startsWith('/dashboard') || 
 		pathname.startsWith('/login') || 
 		pathname.startsWith('/signup') || 
 		pathname.startsWith('/password-reset') || 
 		pathname.startsWith('/otp') || 
-		pathname.startsWith('/onboarding')) {
+		pathname.startsWith('/onboarding') ||
+		pathname.startsWith('/auth/') ||  // Any auth routes
+		pathname.includes('/forms/') ||   // Form pages
+		pathname === '/unauthorized' ||
+		pathname === '/support-ticket') {
 		return false;
 	}
 	return true;
 }
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({ children, params }) {
 	const isDev = process.env.NODE_ENV === "development";
+	
+	// Get locale from headers (set by middleware) or default to English
+	const headersList = await headers();
+	const locale = headersList.get('x-locale') || 'en';
+	const dictionary = await getDictionary(locale);
 	
 	// Evaluate feature flags once per request (SSR-first approach)
 	const ff = await evaluateAllFlags();
@@ -421,7 +429,8 @@ export default async function RootLayout({ children }) {
 	}
 	
 	return (
-		<html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+		<html lang={locale} suppressHydrationWarning data-scroll-behavior="smooth" className="dark">
+			<HydrationMonitor />
 			<head>
 				{/* Dark mode script to prevent flash of wrong theme */}
 				<script
@@ -430,17 +439,15 @@ export default async function RootLayout({ children }) {
 							(function() {
 								try {
 									const savedTheme = localStorage.getItem('thorbis-theme');
-									if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-										document.documentElement.classList.add('dark');
-									} else if (savedTheme === 'light') {
+									if (savedTheme === 'light') {
 										document.documentElement.classList.remove('dark');
-									} else {
-										// Default to dark mode if no preference is set
+									} else if (savedTheme === 'dark' || !savedTheme) {
+										// Keep dark mode as default (already set in className)
+									} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
 										document.documentElement.classList.add('dark');
 									}
 								} catch (e) {
-									// Fallback to dark mode
-									document.documentElement.classList.add('dark');
+									// Fallback: keep existing dark class
 								}
 							})();
 						`,
@@ -453,10 +460,10 @@ export default async function RootLayout({ children }) {
 				<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 				<link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
-				{/* Critical resource prefetching */}
-                <link rel="prefetch" href="/logos/ThorbisLogo.webp" />
-				<link rel="prefetch" href="/api/categories" />
-				<link rel="prefetch" href="/api/businesses/featured" />
+				{/* Critical resource prefetching with proper 'as' attributes */}
+                <link rel="preload" href="/logos/ThorbisLogo.webp" as="image" />
+				<link rel="prefetch" href="/api/categories" as="fetch" crossOrigin="anonymous" />
+				<link rel="prefetch" href="/api/businesses/featured" as="fetch" crossOrigin="anonymous" />
 
 				{/* Service Worker registration hint */}
 				<link rel="manifest" href="/manifest.json" />
@@ -556,21 +563,19 @@ export default async function RootLayout({ children }) {
 					}}
 				/>
 			</head>
+			{/* Emit ALL feature flags to DOM for Vercel Analytics tracking */}
 			<body 
 				className={cn("min-h-screen bg-background text-foreground font-sans antialiased", fontSans.variable)}
+				style={{ colorScheme: 'dark' }}
 				data-flags={JSON.stringify(overridden)}
-				data-flag-new-navigation={overridden.newNavigation ? "1" : "0"}
-				data-flag-linkedin-clone={overridden.linkedinClone ? "1" : "0"}
-				data-flag-jobs-app={overridden.jobsApp ? "1" : "0"}
-				data-flag-affiliates={overridden.affiliates ? "1" : "0"}
-				data-flag-landing-pages={overridden.landingPages ? "1" : "0"}
-				data-flag-business-certification={overridden.businessCertification ? "1" : "0"}
-				data-flag-investor-relations={overridden.investorRelations ? "1" : "0"}
-				data-flag-about-us={overridden.aboutUs ? "1" : "0"}
+				{...Object.entries(overridden).reduce((acc, [key, value]) => ({
+					...acc,
+					[`data-flag-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`]: value ? "1" : "0"
+				}), {})}
 			>
-				<LayoutContent isDev={isDev} overridden={overridden}>
-					{children}
-				</LayoutContent>
+														<LayoutContent isDev={isDev} overridden={overridden} locale={locale} dictionary={dictionary}>
+											{children}
+										</LayoutContent>
 				{/* Global error handlers and performance optimizations */}
 				<script
 					dangerouslySetInnerHTML={{
@@ -652,28 +657,47 @@ export default async function RootLayout({ children }) {
 								}
 							});
 							
-							// Optimize image loading performance
+							// Optimize resource loading and prevent preload warnings
 							if (typeof window !== 'undefined') {
-								// Prevent preload warnings by ensuring images are used quickly
-								const imagePreloadHandler = function() {
+								// Intelligent preload handler that only preloads when resources will be used
+								const intelligentPreloadHandler = function() {
+									// Only trigger image preloads when actually needed
 									const preloadedImages = document.querySelectorAll('link[rel="preload"][as="image"]');
 									preloadedImages.forEach(function(link) {
-										const img = new Image();
-										img.src = link.href;
-										img.style.display = 'none';
-										document.body.appendChild(img);
-										setTimeout(function() {
-											if (img.parentNode) {
-												img.parentNode.removeChild(img);
+										// Check if this image will actually be used
+										const isThorbisLogo = link.href.includes('ThorbisLogo');
+										if (isThorbisLogo) {
+											// Create invisible image to satisfy preload requirement
+											const img = new Image();
+											img.src = link.href;
+											img.onload = function() {
+												// Image loaded successfully, no action needed
+											};
+										} else {
+											// Remove unused preload links to prevent warnings
+											if (link.parentNode) {
+												link.parentNode.removeChild(link);
 											}
-										}, 100);
+										}
 									});
+
+									// Handle API prefetches - only if user is likely to need them
+									const isHomePage = window.location.pathname === '/';
+									if (!isHomePage) {
+										// Remove API prefetches from non-home pages to prevent warnings
+										const apiPrefetches = document.querySelectorAll('link[rel="prefetch"][as="fetch"]');
+										apiPrefetches.forEach(function(link) {
+											if (link.parentNode) {
+												link.parentNode.removeChild(link);
+											}
+										});
+									}
 								};
 								
 								if (document.readyState === 'loading') {
-									document.addEventListener('DOMContentLoaded', imagePreloadHandler);
+									document.addEventListener('DOMContentLoaded', intelligentPreloadHandler);
 								} else {
-									imagePreloadHandler();
+									intelligentPreloadHandler();
 								}
 							}
 						`,
@@ -687,27 +711,12 @@ export default async function RootLayout({ children }) {
 /**
  * Inner layout content component to handle conditional site layout
  */
-function LayoutContent({ children, isDev, overridden }) {
-	// Server-side detection of route type (simplified approach)
-	// We'll use a more direct approach by checking the children props or using headers
-	const showSiteLayout = true; // For now, always show site layout - can be refined later
-
-	const content = showSiteLayout ? (
-		<>
-			<Header />
-			<ProfilerToggle>{children}</ProfilerToggle>
-			<Footer />
-			{isDev && (
-				<>
-					<DevLinks />
-					<WDYRClient />
-					<WebVitalsClient />
-					<DevToolsClient />
-				</>
-			)}
-		</>
-	) : (
-		<ProfilerToggle>{children}</ProfilerToggle>
+function LayoutContent({ children, isDev, overridden, locale, dictionary }) {
+	// Use client-side component for layout decision
+	const content = (
+		<ConditionalLayoutWrapper isDev={isDev}>
+			{children}
+		</ConditionalLayoutWrapper>
 	);
 
 	return isDev ? (
@@ -715,38 +724,46 @@ function LayoutContent({ children, isDev, overridden }) {
 			{/* Dev diagnostics to capture chunk errors and environment details */}
 			{process.env.NODE_ENV === "development" && <DevDiagnostics />}
 			<ThemeProvider>
-				<LanguageProvider initialLocale="en">
+				<TranslationProvider initialLocale={locale} serverDictionary={dictionary}>
 					<AuthProvider>
 						<StatsigProvider>
-							<AnalyticsInitializer />
-							{/* Compact global site alert above all headers */}
-							<SiteWideAlert />
-							{content}
-							<Toaster />
-							<SpeedInsights />
-							<Analytics />
+							<VoipProvider>
+								<AnalyticsInitializer />
+								{/* Compact global site alert above all headers */}
+								<SiteWideAlert />
+								{content}
+								<VoipControlButton />
+								<Toaster />
+								<SpeedInsights />
+								<Analytics />
+								<VercelFlagTracker />
+							</VoipProvider>
 						</StatsigProvider>
 					</AuthProvider>
-				</LanguageProvider>
+				</TranslationProvider>
 			</ThemeProvider>
 		</PerformanceProvider>
 	) : (
 		<ErrorBoundary>
 			<PerformanceProvider enableServiceWorker={process.env.NODE_ENV === "production"} enableMonitoring={true} enableExperimentalAPIs={true} showPerformanceMonitor={process.env.NODE_ENV === "development"} autoOptimize={true}>
 				<ThemeProvider>
-					<LanguageProvider initialLocale="en">
+					<TranslationProvider initialLocale={locale} serverDictionary={dictionary}>
 						<AuthProvider>
 							<StatsigProvider>
-								<AnalyticsInitializer />
-								{/* Compact global site alert above all headers */}
-								<SiteWideAlert />
-								{content}
-								<Toaster />
-								<SpeedInsights />
-								<Analytics />
+								<VoipProvider>
+									<AnalyticsInitializer />
+									{/* Compact global site alert above all headers */}
+									<SiteWideAlert />
+									{content}
+									<VoipControlButton />
+									<Toaster />
+									<SpeedInsights />
+									<Analytics />
+									<VercelFlagTracker />
+								</VoipProvider>
 							</StatsigProvider>
 						</AuthProvider>
-					</LanguageProvider>
+					</TranslationProvider>
 				</ThemeProvider>
 			</PerformanceProvider>
 		</ErrorBoundary>

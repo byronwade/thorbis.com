@@ -5,6 +5,12 @@ alwaysApply: false
 ---
 # Cursor Rules Location
 
+## 🚨 CRITICAL: EDIT EXISTING RULES FIRST
+**Before creating new cursor rule files:**
+1. Search existing rule files in `.cursor/rules/` to see if any can be extended
+2. Check if existing rules can be modified to include new functionality
+3. Only create new rule files when no existing rule can serve the purpose
+
 How to add new cursor rules to the project
 
 1. Always place rule files in PROJECT_ROOT/.cursor/rules/:

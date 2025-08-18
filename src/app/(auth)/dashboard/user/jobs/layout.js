@@ -1,4 +1,4 @@
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
 
 export default async function UserJobsLayout({ children }) {
 	const on = await isEnabled("dashboardJobs");

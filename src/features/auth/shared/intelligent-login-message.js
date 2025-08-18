@@ -182,141 +182,17 @@ export default function IntelligentLoginMessage({ onContextDetected, isSignupMod
 	const timeSensitive = ContextMessageGenerator.getTimeSensitiveMessage(context);
 
 	return (
-		<div className={cn(isVisible ? "opacity-100" : "opacity-0")}>
-			<Card className="bg-card border border-border">
-				<CardContent className="p-5 sm:p-6">
-					{/* Header with Icon and Badge */}
-					<div className="flex justify-between items-start mb-4">
-						<div className="flex items-center space-x-3">
-							<div className="p-2.5 rounded-full border border-border">
-								<IconComponent className="h-5 w-5 text-foreground" />
-							</div>
-
-							<div>
-								<h3 className="text-lg font-semibold text-gray-900 dark:text-white">{context.title}</h3>
-								<p className="text-sm text-muted-foreground">{context.subtitle}</p>
-							</div>
-						</div>
-
-						{context.priority === "high" && <Badge variant="destructive">Priority</Badge>}
-					</div>
-
-					{/* Main Message with collapse */}
-					<div className="mb-2">
-						<p className="leading-relaxed text-foreground/90">{context.message}</p>
-					</div>
-					<button type="button" className="text-xs text-primary hover:underline" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
-						{expanded ? "Hide details" : "Show details"}
-					</button>
-
-					{/* Time Sensitive Alert */}
-					{expanded && timeSensitive && (
-						<div className="p-3 mb-4 bg-muted rounded-lg border border-border">
-							<div className="flex items-center space-x-2">
-								<Clock className="w-4 h-4 text-foreground" />
-								<span className="text-sm font-medium text-foreground">{timeSensitive}</span>
-							</div>
-						</div>
-					)}
-
-					{/* Benefits Grid */}
-					{expanded && (
-						<div className="grid grid-cols-1 gap-2 mb-4 md:grid-cols-2">
-							{context.benefits.map((benefit, index) => (
-								<div key={index} className="flex items-center space-x-2">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-foreground" />
-									<span className="text-sm text-muted-foreground">{benefit}</span>
-								</div>
-							))}
-						</div>
-					)}
-
-					{/* Social Proof */}
-					{expanded && socialProof && (
-						<div className="p-3 mb-4 bg-muted rounded-lg border border-border">
-							<div className="flex items-center space-x-2">
-								<TrendingUp className="w-4 h-4 text-foreground" />
-								<span className="text-sm font-medium text-foreground">{socialProof}</span>
-							</div>
-						</div>
-					)}
-
-					{/* Route-Specific Personalized Content */}
-					{expanded && context.source && (
-						<div className="p-3 mb-4 bg-muted rounded-lg border border-border">
-							<div className="flex items-center space-x-2 mb-2">
-								<Badge variant="secondary" className="text-xs">
-									{isSignupMode ? "Joining from" : "Coming from"}: {context.source.replace(/_/g, " ")}
-								</Badge>
-							</div>
-							{getSourceSpecificMessage(context, isSignupMode)}
-						</div>
-					)}
-
-					{/* Context-Specific Action Preview */}
-					{expanded && (context.key === "add-business" || context.key === "claim-business") && (
-						<div className="pt-4 mt-4 border-t">
-							<p className="mb-2 text-sm text-muted-foreground">After signing in, you'll be able to:</p>
-							<div className="flex justify-between items-center p-3 bg-background rounded-lg border">
-								<div className="flex items-center space-x-3">
-									<div className="p-2 rounded border border-border">
-										<Building2 className="w-4 h-4 text-foreground" />
-									</div>
-									<div>
-										<p className="text-sm font-medium text-foreground">{context.key === "add-business" ? "Add Your Business" : "Claim Your Business"}</p>
-										<p className="text-xs text-muted-foreground">Complete your business profile</p>
-									</div>
-								</div>
-								<ChevronRight className="w-4 h-4 text-muted-foreground" />
-							</div>
-						</div>
-					)}
-
-					{/* Enhanced Discovery Context */}
-					{expanded && context.category === "discovery" && (
-						<div className="pt-4 mt-4 border-t">
-							<p className="mb-2 text-sm text-muted-foreground">{isSignupMode ? "After creating your account:" : "After signing in:"}</p>
-							<div className="space-y-2">
-								{getDiscoveryPreview(context).map((item, index) => (
-									<div key={index} className="flex items-center space-x-3 p-2 bg-background rounded border">
-										<item.icon className="w-4 h-4 text-foreground" />
-										<div>
-											<p className="text-sm font-medium text-foreground">{item.title}</p>
-											<p className="text-xs text-muted-foreground">{item.description}</p>
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-					)}
-
-					{/* Local Community Context */}
-					{expanded && context.category === "local" && (
-						<div className="pt-4 mt-4 border-t">
-							<p className="mb-2 text-sm text-muted-foreground">Connect with your local community:</p>
-							<div className="grid grid-cols-2 gap-2">
-								{getLocalPreview().map((item, index) => (
-									<div key={index} className="flex items-center space-x-2 p-2 bg-background rounded border">
-										<item.icon className="w-4 h-4 text-foreground" />
-										<span className="text-xs font-medium text-foreground">{item.label}</span>
-									</div>
-								))}
-							</div>
-						</div>
-					)}
-
-					{/* Quick Sign-in Encouragement */}
-					<div className="pt-4 mt-4 border-t">
-						<div className="flex justify-between items-center">
-							<div>
-								<p className="text-sm font-medium text-foreground">Ready to get started?</p>
-								<p className="text-xs text-muted-foreground">Sign in takes less than 30 seconds</p>
-							</div>
-							<div className="text-right" />
-						</div>
-					</div>
-				</CardContent>
-			</Card>
+		<div className={cn(
+			"mb-6 transition-opacity duration-300",
+			isVisible ? "opacity-100" : "opacity-0"
+		)}>
+			{/* Noticeable but Clean Banner */}
+			<div className="flex items-center p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+				<div className="flex items-center space-x-3">
+					<IconComponent className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+					<p className="text-sm text-blue-900 dark:text-blue-100 font-medium">{context.message}</p>
+				</div>
+			</div>
 		</div>
 	);
 }

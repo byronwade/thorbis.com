@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 import { Alert, AlertDescription } from "@components/ui/alert";
 import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { DollarSign, TrendingUp, Users, Calendar, Clock, Star, MapPin, Wrench, AlertTriangle, CheckCircle, Target, BarChart3, ArrowUpRight, ArrowDownRight, Activity, Zap, Timer, Bell, Plus, Eye, RefreshCw, Filter } from "lucide-react";
+import WeatherWidget from "@components/shared/weather-widget";
 
 export default function DashboardOverview() {
 	const router = useRouter();
@@ -511,6 +512,9 @@ export default function DashboardOverview() {
 							</CardContent>
 						</Card>
 					</div>
+
+					{/* Weather Widget - Full Width */}
+					<WeatherWidget showBusinessImpact={true} />
 
 					{/* Alerts & Notifications */}
 					<Card>

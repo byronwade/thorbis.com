@@ -1,6 +1,6 @@
 import JobsClient from "./jobs-client";
 import { JobDataFetchers } from "@lib/database/supabase/server";
-import { Suspense } from "react";
+
 
 // Transform Supabase job data to match client component expectations
 function transformJobData(job) {
@@ -113,28 +113,7 @@ export async function generateMetadata({ searchParams }) {
 	};
 }
 
-// Loading skeleton component
-function JobsListingSkeleton() {
-	return (
-		<div className="space-y-4">
-			{Array.from({ length: 5 }).map((_, i) => (
-				<div key={i} className="border rounded-lg p-4 animate-pulse">
-					<div className="flex items-center gap-4">
-						<div className="w-12 h-12 bg-gray-300 rounded"></div>
-						<div className="flex-1">
-							<div className="h-4 bg-gray-300 rounded w-1/3 mb-2"></div>
-							<div className="h-3 bg-gray-200 rounded w-1/4"></div>
-						</div>
-						<div className="hidden md:flex gap-2">
-							<div className="h-6 bg-gray-200 rounded w-16"></div>
-							<div className="h-6 bg-gray-200 rounded w-20"></div>
-						</div>
-					</div>
-				</div>
-			))}
-		</div>
-	);
-}
+
 
 async function JobsList({ searchParams }) {
 	const jobsData = await getJobsData(searchParams);
@@ -146,8 +125,6 @@ export default async function JobsPage({ searchParams }) {
 	const awaitedSearchParams = await searchParams;
 
 	return (
-		<Suspense fallback={<JobsListingSkeleton />}>
-			<JobsList searchParams={awaitedSearchParams} />
-		</Suspense>
+		<JobsList searchParams={awaitedSearchParams} />
 	);
 }

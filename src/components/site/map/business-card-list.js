@@ -16,7 +16,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 // Import extracted components and hooks
 import { useBusinessCardList } from "@lib/hooks/map/use-business-card-list";
 import { BusinessCard, GoogleStyleBusinessCard } from "./business-cards";
-import SkeletonBusinessCard from "./skeleton-business-card";
+// Removed skeleton business card import - no loading states
 import FilterPanel from "./filter-panel";
 import MinimalistSearchHeader from "./minimalist-search-header";
 import MinimalistEmptyState from "./minimalist-empty-state";
@@ -77,18 +77,7 @@ const BusinessCardList = ({ businesses, activeBusinessId, activeCardRef, onAICli
 	}, [activeBusinessId, visibleBusinesses, onBusinessSelect]);
 
 	// Show loading state
-	if (loading) {
-		return (
-			<div className="h-full flex flex-col">
-				<MinimalistSearchHeader resultsCount={0} showMap={showMap} onMapToggle={onMapToggle} onFilterClick={handleFilterClick} showFilters={showFilters} onAIClick={onAIClick} />
-				<div className="flex-1 p-4 space-y-4">
-					{Array.from({ length: 5 }).map((_, i) => (
-						<SkeletonBusinessCard key={i} />
-					))}
-				</div>
-			</div>
-		);
-	}
+	// Removed loading state - render content immediately
 
 	// Show empty state
 	if (!visibleBusinesses.length && !loading) {

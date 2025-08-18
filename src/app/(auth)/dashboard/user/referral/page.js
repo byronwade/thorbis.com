@@ -148,7 +148,7 @@ Best regards`);
 			case "pending":
 				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
 	};
 
@@ -378,7 +378,7 @@ Best regards`);
 								{referralData.leaderboard.slice(0, 5).map((user, index) => (
 									<div key={user.rank} className={`flex items-center justify-between p-3 rounded-lg ${user.name === "You" ? "bg-primary/10 border border-primary/20" : "bg-muted/30"}`}>
 										<div className="flex items-center gap-3">
-											<div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${index === 0 ? "bg-yellow-500 text-white" : index === 1 ? "bg-gray-400 text-white" : index === 2 ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground"}`}>{user.rank}</div>
+											<div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${index === 0 ? "bg-yellow-500 text-white" : index === 1 ? "bg-muted-foreground text-white" : index === 2 ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground"}`}>{user.rank}</div>
 											<div>
 												<p className="font-medium">{user.name}</p>
 												<p className="text-sm text-muted-foreground">{user.referrals} referrals</p>

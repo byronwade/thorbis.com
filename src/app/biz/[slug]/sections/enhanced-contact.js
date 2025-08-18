@@ -163,7 +163,7 @@ export default function EnhancedContact({ business }) {
 							</div>
 							<Textarea placeholder="Tell us about your project or question..." rows={4} value={contactForm.message} onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })} required />
 							<div className="flex items-center space-x-4">
-								<span className="text-sm text-gray-600">Preferred contact method:</span>
+								<span className="text-sm text-muted-foreground">Preferred contact method:</span>
 								<div className="flex space-x-2">
 									{["email", "phone", "text"].map((method) => (
 										<Badge key={method} variant={contactForm.preferredContact === method ? "default" : "outline"} className="cursor-pointer" onClick={() => setContactForm({ ...contactForm, preferredContact: method })}>
@@ -196,10 +196,10 @@ export default function EnhancedContact({ business }) {
 						<CardContent className="space-y-4">
 							{/* Address */}
 							<div className="flex items-start space-x-3">
-								<MapPin className="w-5 h-5 text-gray-400 mt-1" />
+								<MapPin className="w-5 h-5 text-muted-foreground mt-1" />
 								<div className="flex-1">
 									<p className="font-medium">{business.address || "Address not available"}</p>
-									<p className="text-sm text-gray-500">{business.city && business.state ? `${business.city}, ${business.state}` : "Location"}</p>
+									<p className="text-sm text-muted-foreground">{business.city && business.state ? `${business.city}, ${business.state}` : "Location"}</p>
 									<Button
 										variant="link"
 										size="sm"
@@ -218,7 +218,7 @@ export default function EnhancedContact({ business }) {
 							{business.phone && (
 								<div className="flex items-center justify-between">
 									<div className="flex items-center space-x-3">
-										<Phone className="w-5 h-5 text-gray-400" />
+										<Phone className="w-5 h-5 text-muted-foreground" />
 										<span className="font-medium">{business.phone}</span>
 									</div>
 									<Button variant="ghost" size="sm" onClick={() => copyToClipboard(business.phone, "Phone number")}>
@@ -231,7 +231,7 @@ export default function EnhancedContact({ business }) {
 							{business.email && (
 								<div className="flex items-center justify-between">
 									<div className="flex items-center space-x-3">
-										<Mail className="w-5 h-5 text-gray-400" />
+										<Mail className="w-5 h-5 text-muted-foreground" />
 										<span className="font-medium">{business.email}</span>
 									</div>
 									<Button variant="ghost" size="sm" onClick={() => copyToClipboard(business.email, "Email address")}>
@@ -243,7 +243,7 @@ export default function EnhancedContact({ business }) {
 							{/* Website */}
 							{business.website && (
 								<div className="flex items-center space-x-3">
-									<Globe className="w-5 h-5 text-gray-400" />
+									<Globe className="w-5 h-5 text-muted-foreground" />
 									<Button variant="link" className="p-0 h-auto font-medium text-primary" onClick={() => window.open(business.website, "_blank")}>
 										Visit Website <ExternalLink className="w-3 h-3 ml-1" />
 									</Button>
@@ -272,8 +272,8 @@ export default function EnhancedContact({ business }) {
 								</div>
 							) : (
 								<div className="text-center py-4">
-									<p className="text-gray-500">Hours not available</p>
-									<p className="text-xs text-gray-400 mt-1">Contact business for hours</p>
+									<p className="text-muted-foreground">Hours not available</p>
+									<p className="text-xs text-muted-foreground mt-1">Contact business for hours</p>
 								</div>
 							)}
 						</CardContent>
@@ -288,7 +288,7 @@ export default function EnhancedContact({ business }) {
 							{/* Social Media Links */}
 							{socialLinks.length > 0 && (
 								<div>
-									<p className="text-sm text-gray-600 mb-3">Follow us on social media:</p>
+									<p className="text-sm text-muted-foreground mb-3">Follow us on social media:</p>
 									<div className="flex space-x-2">
 										{socialLinks.map((social, index) => (
 											<Button key={index} variant="outline" size="sm" className="p-2" onClick={() => window.open(social.href, "_blank")}>
@@ -302,7 +302,7 @@ export default function EnhancedContact({ business }) {
 							{/* Share Options */}
 							<Separator />
 							<div>
-								<p className="text-sm text-gray-600 mb-3">Share this business:</p>
+								<p className="text-sm text-muted-foreground mb-3">Share this business:</p>
 								<div className="flex space-x-2">
 									<Button variant="outline" size="sm" onClick={shareProfile}>
 										<Share2 className="w-4 h-4 mr-2" />

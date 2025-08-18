@@ -8,7 +8,7 @@ import { createServerClient } from "@supabase/ssr";
 import { z } from "zod";
 import { logger } from "@utils/logger";
 import { withAuth, withValidation, withCache, withPerformanceMonitoring, createSuccessResponse, createErrorResponse, compose, type ApiRequest } from "@lib/api/middleware";
-import { dashboardDemoLocalhubFlag } from "@lib/flags/definitions";
+import { dashboardDemoLocalhubFlag } from "@/lib/flags/definitions";
 
 // LocalHub dashboard query validation schema
 const localHubDashboardQuerySchema = z.object({
@@ -33,6 +33,9 @@ async function getLocalHubDashboard(req: ApiRequest, queryParams: LocalHubDashbo
 		if (!req.user && !req.demoMode) {
 			return createErrorResponse("UNAUTHORIZED", "Authentication required");
 		}
+
+		// Check if demo mode should be enabled for users without LocalHub
+		const isDemoEnabled = await dashboardDemoLocalhubFlag();
 
 		const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
 			cookies: {
@@ -61,10 +64,26 @@ async function getLocalHubDashboard(req: ApiRequest, queryParams: LocalHubDashbo
 		// Find user's LocalHub or use provided ID
 		let localHubId = queryParams.localHubId;
 
-		if (!localHubId) {
+		if (!localHubId && req.user) {
 			const { data: userLocalHub } = await supabase.from("local_hubs").select("id").eq("owner_id", req.user.id).single();
 
 			if (!userLocalHub) {
+				// If demo mode is enabled and user has no LocalHub, return demo data
+				if (isDemoEnabled) {
+					const demoData = createLocalHubDemoData(queryParams);
+					return createSuccessResponse({
+						dashboard: demoData,
+						metadata: {
+							localHubId: "demo-localhub",
+							userId: req.user.id,
+							period: queryParams.period,
+							sections: queryParams.sections,
+							generatedAt: new Date().toISOString(),
+							demo: true,
+						},
+					});
+				}
+				
 				return createErrorResponse("NOT_FOUND", "No LocalHub found for this user");
 			}
 
@@ -307,6 +326,26 @@ async function getLocalHubDashboard(req: ApiRequest, queryParams: LocalHubDashbo
 		});
 	} catch (error) {
 		logger.error("LocalHub dashboard API error:", error);
+		
+		// If demo mode is enabled, return demo data as fallback
+		const isDemoEnabled = await dashboardDemoLocalhubFlag();
+		if (isDemoEnabled) {
+			logger.info("Falling back to demo data due to database error");
+			const demoData = createLocalHubDemoData(queryParams);
+			return createSuccessResponse({
+				dashboard: demoData,
+				metadata: {
+					localHubId: "demo-localhub",
+					userId: req.user?.id || "demo-user",
+					period: queryParams.period,
+					sections: queryParams.sections,
+					generatedAt: new Date().toISOString(),
+					demo: true,
+					fallback: true,
+				},
+			});
+		}
+		
 		return createErrorResponse("INTERNAL_ERROR", "Failed to fetch dashboard data");
 	}
 }

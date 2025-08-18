@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Healthcare Practice Management Software – EMR, Billing, Scheduling | Thorbis",
-	description: "Streamline your medical practice with integrated EMR, patient scheduling, insurance billing, and revenue cycle management.",
-	keywords: ["healthcare practice management", "EMR software", "medical practice software", "patient scheduling", "medical billing", "revenue cycle management"],
-	alternates: { canonical: "https://thorbis.com/healthcare-practice-management" },
-	openGraph: {
-		title: "Healthcare Practice Management Software – Streamlined Operations",
-		description: "EMR, scheduling, billing, and revenue cycle management for medical practices.",
-		type: "website",
-		url: "https://thorbis.com/healthcare-practice-management",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Healthcare Practice Management")}&description=${encodeURIComponent("EMR, scheduling, billing, and revenue cycle management.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Healthcare Practice Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Healthcare Practice Management Software – Streamlined Operations",
-		description: "EMR, scheduling, billing, and revenue cycle management for medical practices.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Healthcare Practice Management")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Healthcare Practice Management Software – EMR, Billing, Scheduling | Thorbis",
+		description: "Streamline your medical practice with integrated EMR, patient scheduling, insurance billing, and revenue cycle management.",
+		path: "/healthcare-practice-management",
+		keywords: ["healthcare practice management", "EMR software", "medical practice software", "patient scheduling", "medical billing", "revenue cycle management"],
+	});
+}
 
 import { Star, Shield, Clock, DollarSign } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -119,7 +100,7 @@ export default function HealthcarePracticeManagement() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-blue-600 px-6 py-3 text-white font-semibold hover:bg-blue-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -166,7 +147,7 @@ export default function HealthcarePracticeManagement() {
 				<h2 className="text-3xl font-bold mb-4">Ready to Modernize Your Practice?</h2>
 				<p className="text-lg mb-6 opacity-90">Join thousands of healthcare providers already using Thorbis to streamline their operations.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-blue-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

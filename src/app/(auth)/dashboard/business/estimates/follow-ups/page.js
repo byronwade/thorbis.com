@@ -302,9 +302,9 @@ export default function EstimateFollowUps() {
 			case "hot_lead":
 				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
 			case "expired":
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
 	};
 
@@ -334,7 +334,7 @@ export default function EstimateFollowUps() {
 			case "low":
 				return "text-green-600 dark:text-green-400";
 			default:
-				return "text-gray-600 dark:text-gray-400";
+				return "text-muted-foreground dark:text-muted-foreground";
 		}
 	};
 
@@ -754,7 +754,7 @@ export default function EstimateFollowUps() {
 														<Eye className="w-4 h-4" />
 													</Button>
 													<Button variant="ghost" size="sm" onClick={() => handleToggleAutomation(followUp.id)}>
-														<Zap className={`w-4 h-4 ${followUp.automationRules.enabled ? "text-blue-600" : "text-gray-400"}`} />
+														<Zap className={`w-4 h-4 ${followUp.automationRules.enabled ? "text-blue-600" : "text-muted-foreground"}`} />
 													</Button>
 												</div>
 											</div>

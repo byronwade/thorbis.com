@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { evaluateAllFlags } from "@lib/flags/server";
-import { flagDocs } from "@lib/flags/definitions";
+import { evaluateAllFlags } from "@/lib/flags/server";
+import { flagDocs } from "@/lib/flags/definitions";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { Badge } from "@components/ui/badge";
 

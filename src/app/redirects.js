@@ -31,8 +31,7 @@ export const redirectConfig = {
 	"/press": "/company",
 	"/investor-relations": "/company",
 
-	// Resources Hub Redirects (blog, news, learn, events → resources)
-	"/blog": "/resources",
+	// Resources Hub Redirects (news, learn, events → resources)
 	"/news": "/resources",
 	"/learn": "/resources",
 	"/events": "/resources",

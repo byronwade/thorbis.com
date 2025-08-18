@@ -87,24 +87,20 @@ const useMapStore = create((set, get) => ({
 		}
 
 		try {
-			const offsetX = 500;
-			const offsetLng = offsetX / (256 * Math.pow(2, zoom));
-			const newCenter = [longitude + offsetLng, latitude];
-
+			// Google Maps uses panTo and setZoom methods
+			const newCenter = { lat: latitude, lng: longitude };
+			
 			// Validate the final center coordinates
-			if (isNaN(newCenter[0]) || isNaN(newCenter[1])) {
+			if (isNaN(newCenter.lat) || isNaN(newCenter.lng)) {
 				console.error("Calculated center coordinates are invalid:", newCenter);
 				return;
 			}
 
-			map.flyTo({
-				center: newCenter,
-				zoom,
-				duration: 100,
-				essential: true,
-			});
+			// Use Google Maps methods
+			map.panTo(newCenter);
+			map.setZoom(zoom);
 		} catch (error) {
-			console.error("Error during map flyTo:", error);
+			console.error("Error during map centerOn:", error);
 		}
 	},
 }));

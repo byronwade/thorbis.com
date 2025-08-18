@@ -4,29 +4,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Building, Users, Newspaper, TrendingUp, MapPin, Calendar, Award, Target, Heart, Globe, Download, ExternalLink, Mail, Briefcase } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Company Information - About Us, Careers, Press & Investors | Local Business Directory",
-	description: "Learn about our company, mission, team, career opportunities, press releases, and investor information. Building stronger local communities through technology.",
-	keywords: "about us, company information, careers, jobs, press releases, investor relations, team, mission, local business platform",
-	openGraph: {
-		title: "Company Information - About Us, Careers, Press & Investors",
-		description: "Learn about our company, mission, team, career opportunities, press releases, and investor information.",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Company Information - About Us, Careers, Press & Investors",
-		description: "Learn about our company, mission, team, career opportunities, and press releases.",
-	},
-	robots: {
-		index: true,
-		follow: true,
-	},
-	alternates: {
-		canonical: "/company",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Company Information - About Us, Careers, Press & Investors | Local Business Directory",
+		description: "Learn about our company, mission, team, career opportunities, press releases, and investor information. Building stronger local communities through technology.",
+		path: "/company",
+		keywords: ["about us", "company information", "careers", "jobs", "press releases", "investor relations", "team", "mission", "local business platform"],
+	});
+}
 
 const companyStats = [
 	{ label: "Local Businesses", value: "50,000+", icon: Building },
@@ -207,7 +195,7 @@ function CompanyContent() {
 								<div className="grid lg:grid-cols-2 gap-12">
 									<div>
 										<h2 className="text-3xl font-bold mb-6">Our Story</h2>
-										<div className="space-y-4 text-gray-600">
+										<div className="space-y-4 text-muted-foreground">
 											<p>Founded in 2016, our platform began with a simple observation: local businesses are the heart of thriving communities, but they often struggle to compete with larger chains in the digital space.</p>
 											<p>What started as a weekend project to help a friend's restaurant get discovered online has grown into a comprehensive platform serving over 50,000 local businesses across 500+ cities.</p>
 											<p>Today, we're proud to be the bridge between communities and the local businesses that make them special, from family restaurants to innovative startups.</p>
@@ -232,7 +220,7 @@ function CompanyContent() {
 												<CardContent className="p-6">
 													<value.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
 													<h3 className="font-semibold mb-2">{value.title}</h3>
-													<p className="text-gray-600 text-sm">{value.description}</p>
+													<p className="text-muted-foreground text-sm">{value.description}</p>
 												</CardContent>
 											</Card>
 										))}
@@ -246,10 +234,10 @@ function CompanyContent() {
 										{teamMembers.map((member, index) => (
 											<Card key={index} className="text-center hover:shadow-lg transition-shadow">
 												<CardContent className="p-6">
-													<div className="w-24 h-24 bg-gray-200 rounded-full mx-auto mb-4"></div>
+													<div className="w-24 h-24 bg-muted rounded-full mx-auto mb-4"></div>
 													<h3 className="font-semibold mb-1">{member.name}</h3>
 													<p className="text-blue-600 text-sm mb-3">{member.role}</p>
-													<p className="text-gray-600 text-sm">{member.bio}</p>
+													<p className="text-muted-foreground text-sm">{member.bio}</p>
 												</CardContent>
 											</Card>
 										))}
@@ -263,7 +251,7 @@ function CompanyContent() {
 								{/* Careers Intro */}
 								<div className="text-center">
 									<h2 className="text-3xl font-bold mb-4">Join Our Team</h2>
-									<p className="text-gray-600 max-w-2xl mx-auto mb-8">Help us build the future of local business discovery. We're looking for passionate people who believe in the power of community and want to make a real impact.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto mb-8">Help us build the future of local business discovery. We're looking for passionate people who believe in the power of community and want to make a real impact.</p>
 									<div className="flex flex-wrap justify-center gap-4">
 										<Button size="lg">
 											View All Positions <Briefcase className="h-5 w-5 ml-2" />
@@ -275,23 +263,23 @@ function CompanyContent() {
 								</div>
 
 								{/* Benefits */}
-								<div className="bg-gray-50 p-8 rounded-lg">
+								<div className="bg-muted/30 p-8 rounded-lg">
 									<h3 className="text-xl font-semibold mb-6 text-center">Why Work With Us?</h3>
 									<div className="grid md:grid-cols-3 gap-6">
 										<div className="text-center">
 											<Heart className="h-8 w-8 text-red-500 mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Impact & Purpose</h4>
-											<p className="text-gray-600 text-sm">Work on products that directly impact local communities and small business success.</p>
+											<p className="text-muted-foreground text-sm">Work on products that directly impact local communities and small business success.</p>
 										</div>
 										<div className="text-center">
 											<Globe className="h-8 w-8 text-blue-500 mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Remote-First Culture</h4>
-											<p className="text-gray-600 text-sm">Flexible work arrangements with optional office access in major cities.</p>
+											<p className="text-muted-foreground text-sm">Flexible work arrangements with optional office access in major cities.</p>
 										</div>
 										<div className="text-center">
 											<Award className="h-8 w-8 text-green-500 mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Growth & Learning</h4>
-											<p className="text-gray-600 text-sm">Continuous learning budget, conference attendance, and career development support.</p>
+											<p className="text-muted-foreground text-sm">Continuous learning budget, conference attendance, and career development support.</p>
 										</div>
 									</div>
 								</div>
@@ -309,7 +297,7 @@ function CompanyContent() {
 																<h4 className="text-lg font-semibold">{position.title}</h4>
 																<Badge variant="secondary">{position.department}</Badge>
 															</div>
-															<div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
+															<div className="flex items-center space-x-4 text-sm text-muted-foreground mb-3">
 																<span className="flex items-center space-x-1">
 																	<MapPin className="h-4 w-4" />
 																	<span>{position.location}</span>
@@ -319,7 +307,7 @@ function CompanyContent() {
 																	<span>{position.type}</span>
 																</span>
 															</div>
-															<p className="text-gray-600">{position.description}</p>
+															<p className="text-muted-foreground">{position.description}</p>
 														</div>
 														<Button className="ml-4">Apply Now</Button>
 													</div>
@@ -336,7 +324,7 @@ function CompanyContent() {
 								{/* Press Intro */}
 								<div className="text-center">
 									<h2 className="text-3xl font-bold mb-4">Press & Media</h2>
-									<p className="text-gray-600 max-w-2xl mx-auto mb-8">Stay updated with our latest announcements, company milestones, and industry insights.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto mb-8">Stay updated with our latest announcements, company milestones, and industry insights.</p>
 									<div className="flex flex-wrap justify-center gap-4">
 										<Button size="lg">
 											Download Press Kit <Download className="h-5 w-5 ml-2" />
@@ -360,7 +348,7 @@ function CompanyContent() {
 																<Badge variant="outline">{release.date}</Badge>
 															</div>
 															<h4 className="text-lg font-semibold mb-2">{release.title}</h4>
-															<p className="text-gray-600 mb-3">{release.summary}</p>
+															<p className="text-muted-foreground mb-3">{release.summary}</p>
 														</div>
 														<Button variant="outline" size="sm" className="ml-4">
 															Read More <ExternalLink className="h-4 w-4 ml-2" />
@@ -373,13 +361,13 @@ function CompanyContent() {
 								</div>
 
 								{/* Media Kit */}
-								<div className="bg-gray-50 p-8 rounded-lg">
+								<div className="bg-muted/30 p-8 rounded-lg">
 									<h3 className="text-xl font-semibold mb-6">Media Resources</h3>
 									<div className="grid md:grid-cols-3 gap-6">
 										<div className="text-center">
 											<Download className="h-8 w-8 text-blue-500 mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Brand Assets</h4>
-											<p className="text-gray-600 text-sm mb-3">Logos, brand guidelines, and visual assets</p>
+											<p className="text-muted-foreground text-sm mb-3">Logos, brand guidelines, and visual assets</p>
 											<Button variant="outline" size="sm">
 												Download
 											</Button>
@@ -387,7 +375,7 @@ function CompanyContent() {
 										<div className="text-center">
 											<Newspaper className="h-8 w-8 text-green-500 mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Fact Sheet</h4>
-											<p className="text-gray-600 text-sm mb-3">Company stats, timeline, and key information</p>
+											<p className="text-muted-foreground text-sm mb-3">Company stats, timeline, and key information</p>
 											<Button variant="outline" size="sm">
 												Download
 											</Button>
@@ -395,7 +383,7 @@ function CompanyContent() {
 										<div className="text-center">
 											<Users className="h-8 w-8 text-purple-500 mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Executive Bios</h4>
-											<p className="text-gray-600 text-sm mb-3">Leadership team backgrounds and photos</p>
+											<p className="text-muted-foreground text-sm mb-3">Leadership team backgrounds and photos</p>
 											<Button variant="outline" size="sm">
 												Download
 											</Button>
@@ -410,7 +398,7 @@ function CompanyContent() {
 								{/* Investor Intro */}
 								<div className="text-center">
 									<h2 className="text-3xl font-bold mb-4">Investor Relations</h2>
-									<p className="text-gray-600 max-w-2xl mx-auto mb-8">Information for current and prospective investors about our business, growth, and financial performance.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto mb-8">Information for current and prospective investors about our business, growth, and financial performance.</p>
 									<div className="flex flex-wrap justify-center gap-4">
 										<Button size="lg">
 											Latest Financials <TrendingUp className="h-5 w-5 ml-2" />
@@ -427,19 +415,19 @@ function CompanyContent() {
 									<div className="grid md:grid-cols-4 gap-6 text-center">
 										<div>
 											<div className="text-3xl font-bold text-green-600">$45M</div>
-											<div className="text-sm text-gray-600">Series B Funding</div>
+											<div className="text-sm text-muted-foreground">Series B Funding</div>
 										</div>
 										<div>
 											<div className="text-3xl font-bold text-blue-600">250%</div>
-											<div className="text-sm text-gray-600">YoY Revenue Growth</div>
+											<div className="text-sm text-muted-foreground">YoY Revenue Growth</div>
 										</div>
 										<div>
 											<div className="text-3xl font-bold text-purple-600">50K+</div>
-											<div className="text-sm text-gray-600">Business Partners</div>
+											<div className="text-sm text-muted-foreground">Business Partners</div>
 										</div>
 										<div>
 											<div className="text-3xl font-bold text-orange-600">2.5M+</div>
-											<div className="text-sm text-gray-600">Monthly Active Users</div>
+											<div className="text-sm text-muted-foreground">Monthly Active Users</div>
 										</div>
 									</div>
 								</div>
@@ -452,13 +440,13 @@ function CompanyContent() {
 											<Card key={index} className="hover:shadow-md transition-shadow">
 												<CardContent className="p-6">
 													<div className="flex items-start space-x-4">
-														<div className="w-16 h-16 bg-gray-200 rounded-lg flex-shrink-0"></div>
+														<div className="w-16 h-16 bg-muted rounded-lg flex-shrink-0"></div>
 														<div className="flex-1">
 															<h4 className="font-semibold mb-1">{investor.name}</h4>
 															<Badge variant="secondary" className="mb-2 text-xs">
 																{investor.type}
 															</Badge>
-															<p className="text-gray-600 text-sm">{investor.description}</p>
+															<p className="text-muted-foreground text-sm">{investor.description}</p>
 														</div>
 													</div>
 												</CardContent>
@@ -468,12 +456,12 @@ function CompanyContent() {
 								</div>
 
 								{/* Investment Highlights */}
-								<div className="bg-gray-50 p-8 rounded-lg">
+								<div className="bg-muted/30 p-8 rounded-lg">
 									<h3 className="text-xl font-semibold mb-6">Investment Highlights</h3>
 									<div className="grid md:grid-cols-2 gap-6">
 										<div>
 											<h4 className="font-semibold mb-3">Market Opportunity</h4>
-											<ul className="space-y-2 text-gray-600">
+											<ul className="space-y-2 text-muted-foreground">
 												<li>• $150B+ local business advertising market</li>
 												<li>• 33M+ small businesses in the US</li>
 												<li>• Growing demand for local discovery tools</li>
@@ -482,7 +470,7 @@ function CompanyContent() {
 										</div>
 										<div>
 											<h4 className="font-semibold mb-3">Competitive Advantages</h4>
-											<ul className="space-y-2 text-gray-600">
+											<ul className="space-y-2 text-muted-foreground">
 												<li>• Comprehensive business management suite</li>
 												<li>• Strong network effects and local focus</li>
 												<li>• Advanced AI-powered recommendations</li>

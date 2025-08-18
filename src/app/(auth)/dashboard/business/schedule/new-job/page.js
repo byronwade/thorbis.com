@@ -277,7 +277,7 @@ export default function NewJob() {
 													{customer.type === "commercial" ? <Building className="w-4 h-4" /> : <Home className="w-4 h-4" />}
 													<div>
 														<p className="font-medium">{customer.name}</p>
-														<p className="text-xs text-gray-500">
+														<p className="text-xs text-muted-foreground">
 															{customer.phone} • {customer.jobHistory} jobs
 														</p>
 													</div>
@@ -293,15 +293,15 @@ export default function NewJob() {
 										<CardContent className="p-4">
 											<div className="space-y-2">
 												<div className="flex items-center gap-2">
-													<Phone className="w-4 h-4 text-gray-500" />
+													<Phone className="w-4 h-4 text-muted-foreground" />
 													<span>{getSelectedCustomer().phone}</span>
 												</div>
 												<div className="flex items-center gap-2">
-													<Mail className="w-4 h-4 text-gray-500" />
+													<Mail className="w-4 h-4 text-muted-foreground" />
 													<span>{getSelectedCustomer().email}</span>
 												</div>
 												<div className="flex items-center gap-2">
-													<MapPin className="w-4 h-4 text-gray-500" />
+													<MapPin className="w-4 h-4 text-muted-foreground" />
 													<span>{getSelectedCustomer().address}</span>
 												</div>
 											</div>
@@ -357,7 +357,7 @@ export default function NewJob() {
 								<SelectContent>
 									{["HVAC", "Electrical", "Plumbing"].map((category) => (
 										<div key={category}>
-											<div className="px-2 py-1.5 text-sm font-medium text-gray-500 bg-gray-50 dark:bg-gray-800">{category}</div>
+											<div className="px-2 py-1.5 text-sm font-medium text-muted-foreground bg-muted">{category}</div>
 											{services
 												.filter((s) => s.category === category)
 												.map((service) => (
@@ -366,7 +366,7 @@ export default function NewJob() {
 															{getServiceIcon(service.category)}
 															<div>
 																<p className="font-medium">{service.name}</p>
-																<p className="text-xs text-gray-500">
+																<p className="text-xs text-muted-foreground">
 																	{service.duration}h • ${service.price}
 																</p>
 															</div>
@@ -462,7 +462,7 @@ export default function NewJob() {
 												<div className={`w-3 h-3 rounded-full ${tech.availability === "available" ? "bg-green-500" : tech.availability === "busy" ? "bg-yellow-500" : "bg-red-500"}`}></div>
 												<div>
 													<p className="font-medium">{tech.name}</p>
-													<p className="text-xs text-gray-500">
+													<p className="text-xs text-muted-foreground">
 														{tech.skills.join(", ")} • {tech.todaysJobs} jobs today
 													</p>
 												</div>
@@ -517,37 +517,37 @@ export default function NewJob() {
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div>
-									<h4 className="font-medium text-sm text-gray-500 mb-2">Customer</h4>
+									<h4 className="font-medium text-sm text-muted-foreground mb-2">Customer</h4>
 									<div className="space-y-1">
 										<p className="font-medium">{selectedCustomer.name}</p>
-										<p className="text-sm text-gray-600">{selectedCustomer.phone}</p>
-										<p className="text-sm text-gray-600">{selectedCustomer.address}</p>
+										<p className="text-sm text-muted-foreground">{selectedCustomer.phone}</p>
+										<p className="text-sm text-muted-foreground">{selectedCustomer.address}</p>
 									</div>
 								</div>
 
 								<div>
-									<h4 className="font-medium text-sm text-gray-500 mb-2">Service</h4>
+									<h4 className="font-medium text-sm text-muted-foreground mb-2">Service</h4>
 									<div className="space-y-1">
 										<p className="font-medium">{jobData.title}</p>
-										<p className="text-sm text-gray-600">{selectedService?.name}</p>
-										<p className="text-sm text-gray-600">{jobData.description}</p>
+										<p className="text-sm text-muted-foreground">{selectedService?.name}</p>
+										<p className="text-sm text-muted-foreground">{jobData.description}</p>
 									</div>
 								</div>
 
 								<div>
-									<h4 className="font-medium text-sm text-gray-500 mb-2">Schedule</h4>
+									<h4 className="font-medium text-sm text-muted-foreground mb-2">Schedule</h4>
 									<div className="space-y-1">
 										<p className="font-medium">
 											{format(new Date(jobData.scheduledDate), "EEEE, MMMM d, yyyy")} at {jobData.scheduledTime}
 										</p>
-										<p className="text-sm text-gray-600">Estimated duration: {jobData.estimatedDuration} hours</p>
-										<p className="text-sm text-gray-600">Assigned to: {selectedTechnician?.name}</p>
+										<p className="text-sm text-muted-foreground">Estimated duration: {jobData.estimatedDuration} hours</p>
+										<p className="text-sm text-muted-foreground">Assigned to: {selectedTechnician?.name}</p>
 									</div>
 								</div>
 
 								{jobData.estimatedValue && (
 									<div>
-										<h4 className="font-medium text-sm text-gray-500 mb-2">Pricing</h4>
+										<h4 className="font-medium text-sm text-muted-foreground mb-2">Pricing</h4>
 										<p className="font-medium">${jobData.estimatedValue}</p>
 									</div>
 								)}

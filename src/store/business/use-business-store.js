@@ -527,12 +527,14 @@ const useBusinessStore = create((set, get) => ({
 			const map = useMapStore.getState().fetchMapRef();
 			console.log("Map ref:", map);
 			if (map) {
-				map.once("moveend", () => {
+				// Use Google Maps methods instead of Mapbox
+				set({ preventFetch: true });
+				map.setZoom(10);
+				// Use setTimeout to simulate the moveend event
+				setTimeout(() => {
 					console.log("Zoom reset to 10");
 					set({ preventFetch: false });
-				});
-				set({ preventFetch: true });
-				map.flyTo({ zoom: 10 });
+				}, 100);
 			}
 		}
 	},

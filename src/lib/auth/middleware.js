@@ -308,15 +308,17 @@ function redirectToUnauthorized(url) {
  * Add comprehensive security headers with enhanced protection
  */
 function addSecurityHeaders(response) {
-	// Enhanced Content Security Policy
+	// Enhanced Content Security Policy with Vercel Analytics, Mapbox Maps, and Google Maps support
 	const csp = [
 		"default-src 'self'",
-		"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://challenges.cloudflare.com",
-		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://challenges.cloudflare.com",
+		"script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://vercel.live https://*.supabase.co https://cdn.jsdelivr.net https://unpkg.com https://challenges.cloudflare.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://api.mapbox.com https://maps.googleapis.com",
+		"script-src-elem 'self' 'unsafe-inline' https://vercel.live https://*.supabase.co https://cdn.jsdelivr.net https://unpkg.com https://challenges.cloudflare.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://api.mapbox.com https://maps.googleapis.com",
+		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://challenges.cloudflare.com https://api.mapbox.com",
 		"font-src 'self' https://fonts.gstatic.com",
-		"img-src 'self' data: https: blob:",
-		"connect-src 'self' https://*.supabase.co https://api.resend.com https://haveibeenpwned.com https://api.pwnedpasswords.com",
+		"img-src 'self' data: https: blob: https://*.tiles.mapbox.com https://api.mapbox.com https://maps.googleapis.com https://maps.gstatic.com",
+		"connect-src 'self' https://*.supabase.co https://api.resend.com https://haveibeenpwned.com https://api.pwnedpasswords.com https://va.vercel-scripts.com https://vercel.live https://*.vercel-scripts.com https://api.mapbox.com https://*.tiles.mapbox.com https://events.mapbox.com https://maps.googleapis.com https://maps.gstatic.com",
 		"media-src 'self' https:",
+		"worker-src 'self' blob: https://api.mapbox.com",
 		"object-src 'none'",
 		"base-uri 'self'",
 		"form-action 'self'",

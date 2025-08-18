@@ -22,7 +22,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 			return {
 				type: "high-demand",
 				text: "High demand today",
-				color: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800",
+				color: "bg-destructive/20 text-destructive border-destructive/30",
 				icon: TrendingUp,
 			};
 		}
@@ -30,7 +30,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 			return {
 				type: "trending",
 				text: `${activityData.recentViews} people viewing`,
-				color: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800",
+				color: "bg-muted-foreground/20 text-muted-foreground border-muted-foreground/30",
 				icon: Eye,
 			};
 		}
@@ -38,7 +38,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 			return {
 				type: "fast-response",
 				text: `Responds in ${activityData.responseTime}h`,
-				color: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800",
+				color: "bg-primary/20 text-primary border-primary/30",
 				icon: Timer,
 			};
 		}
@@ -56,7 +56,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 	};
 
 	const renderStars = (rating, size = "w-3 h-3") => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`${size} ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : i < rating ? "fill-yellow-200 text-yellow-400" : "text-muted-foreground/50"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`${size} ${i < Math.floor(rating) ? "fill-muted-foreground text-muted-foreground" : i < rating ? "fill-muted-foreground/50 text-muted-foreground" : "text-muted-foreground/50"}`} />);
 	};
 
 	const urgency = getUrgencyIndicator();
@@ -74,12 +74,12 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 						</div>
 						{/* Trust indicator overlay */}
 						{trustScore >= 80 && (
-							<div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-sm">
-								<Shield className="w-3 h-3 text-white" />
+							<div className="absolute -top-1 -right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center shadow-sm">
+								<Shield className="w-3 h-3 text-primary-foreground" />
 							</div>
 						)}
 						{/* Activity pulse for high activity */}
-						{activityData.recentViews >= 8 && <div className="absolute -top-1 -left-1 w-3 h-3 bg-orange-400 rounded-full animate-pulse shadow-sm" />}
+						{activityData.recentViews >= 8 && <div className="absolute -top-1 -left-1 w-3 h-3 bg-muted-foreground rounded-full animate-pulse shadow-sm" />}
 					</div>
 
 					<div className="flex-1 min-w-0">

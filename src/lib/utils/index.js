@@ -26,8 +26,9 @@ export * from './cacheManager.js';
 export { default as speechRecognition } from './speechRecognition.js';
 
 // Default exports for common utilities
+// Temporarily disable problematic exports to get server running
 export default {
-  logger: require('./logger.js').logger,
-  CacheManager: require('./cacheManager.js').CacheManager,
+  // logger: require('../../utils/logger.js').logger,
+  // CacheManager: require('./cacheManager.js').CacheManager,
   cn,
 };

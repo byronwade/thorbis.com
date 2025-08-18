@@ -1,0 +1,114 @@
+# ================================
+# SECURE DOCKER COMPOSE CONFIGURATION
+# Production-ready setup with security best practices
+# ================================
+
+version: '3.8'
+
+services:
+  # ================================
+  # Next.js Application (Production)
+  # ================================
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        NODE_ENV: production
+    
+    container_name: local-byronwade-app
+    
+    # Security: Run as non-root user
+    user: "1001:1001"
+    
+    # Security: Read-only root filesystem
+    read_only: true
+    
+    # Security: Drop all capabilities except required ones
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+    
+    # Security: No new privileges
+    security_opt:
+      - no-new-privileges:true
+    
+    # Resource limits for security and stability
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+    
+    # Port mapping (non-privileged port)
+    ports:
+      - "3000:3000"
+    
+    # Environment variables (use .env file for sensitive data)
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - NEXT_TELEMETRY_DISABLED=1
+      # Note: Sensitive environment variables should be loaded from .env file
+      # or external secrets management system
+    
+    # Health check configuration
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Security: Prevent privilege escalation
+    privileged: false
+    
+    # Restart policy for production stability
+    restart: unless-stopped
+    
+    # Temporary filesystem mounts (security)
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=100m
+      - /var/tmp:rw,noexec,nosuid,size=50m
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Network security
+    networks:
+      - app-network
+
+# ================================
+# Network Configuration (Security)
+# ================================
+networks:
+  app-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-local-byronwade
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ================================
+# Volume Configuration (If needed)
+# ================================
+volumes:
+  app-logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./logs

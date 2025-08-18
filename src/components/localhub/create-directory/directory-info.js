@@ -114,7 +114,7 @@ export default function DirectoryInfo() {
 						</Badge>
 					)}
 					{autoSaveStatus === "saved" && (
-						<Badge variant="secondary" className="flex items-center gap-1 bg-green-100 text-green-800">
+						<Badge variant="secondary" className="flex items-center gap-1 bg-primary/20 text-primary">
 							<CheckCircle className="w-3 h-3" />
 							Saved
 						</Badge>
@@ -137,14 +137,14 @@ export default function DirectoryInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<MapPin className="w-4 h-4" />
-									Directory Name <span className="text-red-500">*</span>
+									Directory Name <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>This will be the public name of your business directory (e.g., &quot;Raleigh LocalHub&quot;, &quot;Downtown Dallas Directory&quot;).</FormDescription>
 								<FormControl>
 									<Input {...field} placeholder="e.g., Raleigh LocalHub" className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.directoryName && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.directoryName.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.directoryName.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.directoryName.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.directoryName.replace("✓ ", "")}
 									</div>
@@ -161,14 +161,14 @@ export default function DirectoryInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<FileText className="w-4 h-4" />
-									Description <span className="text-red-500">*</span>
+									Description <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Describe what makes your directory special and what area/community it serves.</FormDescription>
 								<FormControl>
 									<Textarea {...field} placeholder="e.g., The premier business directory for Raleigh, NC. Connecting local customers with trusted businesses since 2024." rows={4} className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.description && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.description.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.description.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.description.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.description.replace("✓ ", "")}
 									</div>
@@ -185,14 +185,14 @@ export default function DirectoryInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Mail className="w-4 h-4" />
-									Contact Email <span className="text-red-500">*</span>
+									Contact Email <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>This email will be used for business inquiries and directory management.</FormDescription>
 								<FormControl>
 									<Input {...field} type="email" placeholder="contact@raleighlocalhub.com" className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.contactEmail && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.contactEmail.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.contactEmail.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.contactEmail.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.contactEmail.replace("✓ ", "")}
 									</div>
@@ -209,7 +209,7 @@ export default function DirectoryInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Phone className="w-4 h-4" />
-									Contact Phone Number <span className="text-red-500">*</span>
+									Contact Phone Number <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>A phone number where businesses and customers can reach you for support.</FormDescription>
 								<FormControl>
@@ -224,7 +224,7 @@ export default function DirectoryInfo() {
 									/>
 								</FormControl>
 								{validationTips.contactPhone && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.contactPhone.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.contactPhone.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.contactPhone.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.contactPhone.replace("✓ ", "")}
 									</div>
@@ -236,9 +236,9 @@ export default function DirectoryInfo() {
 				</div>
 
 				{/* Additional Info Alert */}
-				<Alert className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20">
-					<AlertCircle className="h-4 w-4 text-blue-600" />
-					<AlertDescription className="text-blue-800 dark:text-blue-200">Your contact information will be displayed publicly on your directory for businesses and customers to reach out for support or partnership opportunities.</AlertDescription>
+									<Alert className="border-primary/20 bg-primary/10 dark:border-primary/20 dark:bg-primary/10">
+						<AlertCircle className="h-4 w-4 text-primary" />
+						<AlertDescription className="text-primary dark:text-primary">Your contact information will be displayed publicly on your directory for businesses and customers to reach out for support or partnership opportunities.</AlertDescription>
 				</Alert>
 			</div>
 		</>

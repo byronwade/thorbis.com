@@ -6,3 +6,10 @@ alwaysApply: true
 # important 
 always use byterover-retrive-knowledge tool to get the related context before any tasks 
 always use byterover-store-knowledge to store all the critical informations after sucessful tasks
+
+# CRITICAL FILE EDITING PRINCIPLE
+ALWAYS EDIT EXISTING FILES RATHER THAN CREATING NEW ONES
+- Search for existing files with similar functionality first
+- Extend or modify existing files instead of creating duplicates
+- Only create new files when absolutely no existing file can serve the purpose
+- Never create backup, copy, example, or demo versions of files

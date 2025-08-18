@@ -57,7 +57,7 @@ export default function BusinessCertification() {
 										<FormLabel>Customer Details</FormLabel>
 										<FormDescription>
 											Please upload a file containing at least 400 customer details for evaluation. Our team will reach out to all 400 customers and verify customer satisfaction. If you have any questions, please visit{" "}
-											<a href="/thorbis-certifications" className="text-blue-500 underline">
+											<a href="/thorbis-certifications" className="text-primary underline">
 												this link
 											</a>
 											.

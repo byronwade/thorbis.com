@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Medical Office Software – Appointments, Records, Billing | Thorbis",
-	description: "Comprehensive medical office management software with patient scheduling, electronic health records, and automated billing solutions.",
-	keywords: ["medical office software", "clinic management system", "patient appointment software", "medical records software", "healthcare automation"],
-	alternates: { canonical: "https://thorbis.com/medical-office-software" },
-	openGraph: {
-		title: "Medical Office Software – Complete Clinic Management",
-		description: "Patient scheduling, electronic records, and automated billing for medical offices.",
-		type: "website",
-		url: "https://thorbis.com/medical-office-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Medical Office Software")}&description=${encodeURIComponent("Patient scheduling, electronic records, and automated billing.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Medical Office Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Medical Office Software – Complete Clinic Management",
-		description: "Patient scheduling, electronic records, and automated billing for medical offices.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Medical Office Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Medical Office Software – Appointments, Records, Billing | Thorbis",
+		description: "Comprehensive medical office management software with patient scheduling, electronic health records, and automated billing solutions.",
+		path: "/medical-office-software",
+		keywords: ["medical office software", "clinic management system", "patient appointment software", "medical records software", "healthcare automation"],
+	});
+}
 
 import { Star, Calendar, FileText, CreditCard } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -121,7 +102,7 @@ export default function MedicalOfficeSoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-green-600 px-6 py-3 text-white font-semibold hover:bg-green-700 transition-colors">
 						Try Free for 30 Days
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Request Demo
 					</a>
 				</div>
@@ -189,7 +170,7 @@ export default function MedicalOfficeSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Transform Your Medical Office Today</h2>
 				<p className="text-lg mb-6 opacity-90">See why thousands of healthcare providers choose Thorbis for their practice management needs.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-green-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { Suspense } from "react";
+
 import { ArrowRight, Check, Building2, Search, BarChart3, Shield, Globe, Zap, FileText, Star, Briefcase, Image as ImageIcon, Download, Route } from "lucide-react";
 import LocalHubClient from "./local-hub-client";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 // For now, let's use static components to avoid dynamic import issues
 // We'll add motion back once the basic layout is working
@@ -34,48 +36,15 @@ function MotionGridItem({ children, className = "" }) {
 	return <div className={className}>{children}</div>;
 }
 
-export const metadata = {
-	title: "LocalHub - Build Your Own Local Business Directory | Thorbis",
-	description: "Create and monetize your own local business directory with LocalHub. Set your own pricing, earn recurring revenue from local businesses in your community.",
-	keywords: ["local directory", "business directory platform", "monetize directory", "white label directory", "local business platform"],
-	openGraph: {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 		title: "LocalHub - Build Your Own Local Business Directory | Thorbis",
 		description: "Create and monetize your own local business directory with LocalHub. Set your own pricing, earn recurring revenue from local businesses in your community.",
-		url: "https://thorbis.com/localhub",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("LocalHub – Build Your Directory")}&description=${encodeURIComponent("Create and monetize a local business directory with sponsors and leads.")}`,
-				width: 1200,
-				height: 630,
-				alt: "LocalHub Business Directory Platform",
-			},
-		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "LocalHub - Build Your Own Local Business Directory | Thorbis",
-		description: "Create and monetize your own local business directory with LocalHub. Set your own pricing, earn recurring revenue from local businesses in your community.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("LocalHub – Build Your Directory")}`],
-		creator: "@thorbis",
-	},
-	robots: {
-		index: true,
-		follow: true,
-		googleBot: {
-			index: true,
-			follow: true,
-			"max-video-preview": -1,
-			"max-image-preview": "large",
-			"max-snippet": -1,
-		},
-	},
-	alternates: {
-		canonical: "https://thorbis.com/localhub",
-	},
-};
+		path: "/localhub",
+		keywords: ["local directory", "business directory platform", "monetize directory", "white label directory", "local business platform"],
+	});
+}
 
 // JSON-LD structured data
 const jsonLd = {
@@ -110,22 +79,7 @@ const jsonLd = {
 	},
 };
 
-function LocalHubLoadingSkeleton() {
-	return (
-		<div className="min-h-screen bg-background">
-			<div className="animate-pulse">
-				<div className="h-64 bg-gray-200 dark:bg-gray-700"></div>
-				<div className="container mx-auto px-4 py-8">
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-						{[...Array(6)].map((_, i) => (
-							<div key={i} className="h-48 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
-						))}
-					</div>
-				</div>
-			</div>
-		</div>
-	);
-}
+
 
 export default function LocalHubPage() {
 	const faq = [
@@ -156,45 +110,45 @@ export default function LocalHubPage() {
 	];
 
 	return (
-		<main className="min-h-screen w-full bg-white dark:bg-neutral-900">
+		<main className="min-h-screen w-full bg-black text-white">
 			{/* JSON-LD */}
 			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
 			{/* Hero Section - Full Height */}
 			<section className="relative min-h-[100svh] flex items-center py-16" id="hero-section">
-				<div className="w-full max-w-[1200px] mx-auto px-6 text-center">
+				<div className="w-full max-w-[1400px] mx-auto px-6 text-center">
 					<MotionHero>
 						{/* Main Headline */}
-						<h1 className="text-5xl md:text-6xl font-bold leading-tight mb-6 text-neutral-900 dark:text-white">
+						<h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-tight mb-8 text-white">
 							Launch your local
 							<br />
-							business directory
+							<span className="text-blue-500">business directory</span>
 						</h1>
 
-						{/* Simple Subheadline */}
-						<p className="text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed mb-12 max-w-2xl mx-auto">
+						{/* Large Subheadline */}
+						<p className="text-2xl md:text-3xl text-muted-foreground leading-relaxed mb-16 max-w-4xl mx-auto">
 							Build a profitable local directory in minutes. We take 25% of your revenue,
-							<strong className="text-neutral-900 dark:text-white"> otherwise it's completely free</strong>.
+							<strong className="text-white"> otherwise it's completely free</strong>.
 						</p>
 
-						{/* Simple CTA */}
-						<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-							<MotionButton href="/signup" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 text-white px-8 py-4 font-semibold text-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+						{/* Large CTA */}
+						<div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
+							<MotionButton href="/signup" className="inline-flex items-center gap-3 rounded-2xl bg-blue-500 text-white px-12 py-6 font-bold text-xl hover:bg-blue-600 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
 								Start building for free
-								<ArrowRight className="h-5 w-5" />
+								<ArrowRight className="h-6 w-6" />
 							</MotionButton>
-							<MotionButton href="#demo" className="inline-flex items-center gap-2 rounded-xl border-2 border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 px-8 py-4 font-semibold text-lg hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all duration-300">
+							<MotionButton href="#demo" className="inline-flex items-center gap-3 rounded-2xl border-2 border-white/20 text-white px-12 py-6 font-bold text-xl hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
 								See how it works
 							</MotionButton>
 						</div>
 
-						{/* Simple Social Proof */}
-						<div className="text-neutral-600 dark:text-neutral-400">
-							<div className="text-lg font-medium mb-3">Join 500+ successful directory owners</div>
-							<div className="flex items-center justify-center gap-8 text-sm font-medium">
-								<span>✓ No setup fees</span>
-								<span>✓ No monthly costs</span>
-								<span>✓ Only pay when you earn</span>
+						{/* Large Social Proof */}
+						<div className="text-muted-foreground">
+							<div className="text-2xl font-bold mb-4">Join 500+ successful directory owners</div>
+							<div className="flex items-center justify-center gap-12 text-lg font-semibold">
+								<span className="flex items-center gap-2">✓ No setup fees</span>
+								<span className="flex items-center gap-2">✓ No monthly costs</span>
+								<span className="flex items-center gap-2">✓ Only pay when you earn</span>
 							</div>
 						</div>
 					</MotionHero>
@@ -205,12 +159,12 @@ export default function LocalHubPage() {
 			<LocalHubClient />
 
 			{/* Success Stories */}
-			<section className="py-24 bg-neutral-50 dark:bg-neutral-900">
-				<MotionSection className="w-full max-w-[1200px] mx-auto px-6 text-center">
-					<p className="text-lg font-medium text-neutral-600 dark:text-neutral-400 mb-12">Trusted by successful directory owners nationwide</p>
+			<section className="py-32 bg-white">
+				<MotionSection className="w-full max-w-[1400px] mx-auto px-6 text-center">
+					<p className="text-2xl font-bold text-muted-foreground mb-16">Trusted by successful directory owners nationwide</p>
 
 					{/* Success Metrics */}
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
 						{[
 							{ number: "500+", label: "Active directories" },
 							{ number: "$2.4M", label: "Revenue generated" },
@@ -218,18 +172,18 @@ export default function LocalHubPage() {
 							{ number: "4.9★", label: "Average rating" },
 						].map((stat, idx) => (
 							<div key={idx} className="text-center">
-								<div className="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-white mb-2">{stat.number}</div>
-								<div className="text-sm font-medium text-neutral-600 dark:text-neutral-400">{stat.label}</div>
+								<div className="text-5xl md:text-6xl font-black text-black mb-4">{stat.number}</div>
+								<div className="text-lg font-semibold text-muted-foreground">{stat.label}</div>
 							</div>
 						))}
 					</div>
 
 					{/* Customer Logos */}
-					<div className="flex flex-wrap items-center justify-center gap-8 opacity-60">
+					<div className="flex flex-wrap items-center justify-center gap-12 opacity-80">
 						{["Austin Local Hub", "Miami Business Connect", "Seattle Small Biz", "Denver Directory Pro"].map((name, idx) => (
-							<div key={idx} className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
-								<Building2 className="h-4 w-4" />
-								<span className="font-medium text-sm">{name}</span>
+							<div key={idx} className="flex items-center gap-3 text-muted-foreground">
+								<Building2 className="h-6 w-6 text-blue-500" />
+								<span className="font-bold text-lg">{name}</span>
 							</div>
 						))}
 					</div>
@@ -237,66 +191,66 @@ export default function LocalHubPage() {
 			</section>
 
 			{/* Revenue Opportunities */}
-			<section className="py-24 bg-white dark:bg-neutral-950">
-				<MotionSection className="w-full max-w-[1200px] mx-auto px-6">
-					<div className="grid lg:grid-cols-2 gap-16 items-center">
+			<section className="py-32 bg-black">
+				<MotionSection className="w-full max-w-[1400px] mx-auto px-6">
+					<div className="grid lg:grid-cols-2 gap-20 items-center">
 						{/* Left Content */}
 						<div>
-							<div className="inline-flex items-center gap-2 rounded-full bg-green-100 dark:bg-green-900/50 px-4 py-2 text-sm font-semibold text-green-700 dark:text-green-300 mb-6">
-								<BarChart3 className="h-4 w-4" />
+							<div className="inline-flex items-center gap-3 rounded-full bg-blue-500/20 px-6 py-3 text-lg font-bold text-blue-400 mb-8">
+								<BarChart3 className="h-6 w-6" />
 								Revenue Streams
 							</div>
-							<h2 className="text-4xl md:text-5xl font-bold mb-6 text-neutral-900 dark:text-white">
-								Turn your local knowledge into recurring revenue
+							<h2 className="text-5xl md:text-6xl font-black mb-8 text-white">
+								Turn your local knowledge into <span className="text-blue-500">recurring revenue</span>
 							</h2>
-							<p className="text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed mb-8">
-								LocalHub directory owners earn an average of <strong className="text-neutral-900 dark:text-white">$8,500 per month</strong> through multiple proven monetization strategies.
+							<p className="text-2xl text-muted-foreground leading-relaxed mb-12">
+								LocalHub directory owners earn an average of <strong className="text-white">$8,500 per month</strong> through multiple proven monetization strategies.
 							</p>
 
 							{/* Revenue Streams */}
-							<div className="space-y-6">
+							<div className="space-y-8">
 								{[
 									{
 										icon: Building2,
 										title: "Featured Listings",
 										description: "Businesses pay $50-$200/month for premium placement",
 										revenue: "$2,500/mo avg",
-										bg: "bg-blue-600",
+										bg: "bg-blue-500",
 									},
 									{
 										icon: Search,
 										title: "Category Sponsorships",
 										description: "Exclusive category rights for $300-$500/month",
 										revenue: "$3,200/mo avg",
-										bg: "bg-purple-600",
+										bg: "bg-blue-500",
 									},
 									{
 										icon: Route,
 										title: "Lead Generation",
 										description: "Qualified lead routing at $15-$50 per lead",
 										revenue: "$2,800/mo avg",
-										bg: "bg-orange-600",
+										bg: "bg-blue-500",
 									},
 								].map((stream, idx) => (
-									<div key={idx} className="flex items-start gap-4 p-6 rounded-2xl bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 shadow-sm">
-										<div className={`flex-shrink-0 w-12 h-12 rounded-xl ${stream.bg} flex items-center justify-center`}>
-											<stream.icon className="h-6 w-6 text-white" />
+									<div key={idx} className="flex items-start gap-6 p-8 rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-sm">
+										<div className={`flex-shrink-0 w-16 h-16 rounded-2xl ${stream.bg} flex items-center justify-center`}>
+											<stream.icon className="h-8 w-8 text-white" />
 										</div>
 										<div className="flex-1">
-											<div className="flex items-center justify-between mb-2">
-												<h4 className="font-bold text-neutral-900 dark:text-white">{stream.title}</h4>
-												<span className="text-sm font-semibold text-green-600">{stream.revenue}</span>
+											<div className="flex items-center justify-between mb-4">
+												<h4 className="text-2xl font-black text-white">{stream.title}</h4>
+												<span className="text-xl font-bold text-blue-400">{stream.revenue}</span>
 											</div>
-											<p className="text-neutral-600 dark:text-neutral-400 text-sm">{stream.description}</p>
+											<p className="text-lg text-muted-foreground">{stream.description}</p>
 										</div>
 									</div>
 								))}
 							</div>
 
-							<div className="mt-8">
-								<MotionButton href="/revenue-calculator" className="inline-flex items-center gap-2 rounded-xl bg-green-600 text-white px-8 py-4 font-bold hover:bg-green-700 transition-all duration-300">
+							<div className="mt-12">
+								<MotionButton href="/revenue-calculator" className="inline-flex items-center gap-3 rounded-2xl bg-blue-500 text-white px-10 py-6 font-bold text-xl hover:bg-blue-600 transition-all duration-300 shadow-2xl">
 									Calculate your revenue potential
-									<ArrowRight className="h-5 w-5" />
+									<ArrowRight className="h-6 w-6" />
 								</MotionButton>
 							</div>
 						</div>
@@ -349,14 +303,14 @@ export default function LocalHubPage() {
 			</section>
 
 			{/* How It Works */}
-			<section className="py-24">
-				<MotionSection className="w-full max-w-[1200px] mx-auto px-6 text-center mb-16">
-					<div className="inline-flex items-center gap-2 rounded-full bg-blue-50 dark:bg-blue-950 px-4 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400 mb-6">
-						<Route className="h-4 w-4" />
+			<section className="py-32 bg-white">
+				<MotionSection className="w-full max-w-[1400px] mx-auto px-6 text-center mb-20">
+					<div className="inline-flex items-center gap-3 rounded-full bg-blue-500/20 px-6 py-3 text-lg font-bold text-blue-600 mb-8">
+						<Route className="h-6 w-6" />
 						How LocalHub Works
 					</div>
-					<h2 className="text-4xl md:text-5xl font-bold mb-6 text-neutral-900 dark:text-white">From zero to profitable in 3 steps</h2>
-					<p className="text-xl text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto">Launch your local directory in minutes and start earning revenue from day one</p>
+					<h2 className="text-5xl md:text-6xl font-black mb-8 text-black">From zero to profitable in <span className="text-blue-500">3 steps</span></h2>
+					<p className="text-2xl text-muted-foreground max-w-3xl mx-auto">Launch your local directory in minutes and start earning revenue from day one</p>
 				</MotionSection>
 
 				<MotionGrid className="w-full max-w-[1200px] mx-auto px-6 grid gap-12">
@@ -366,41 +320,41 @@ export default function LocalHubPage() {
 							title: "Choose your city & setup",
 							description: "Pick your location, customize your brand, and go live instantly with our ready-to-use templates",
 							icon: Globe,
-							bg: "bg-blue-600",
+							bg: "bg-blue-500",
 						},
 						{
 							step: "02",
 							title: "Businesses find & join you",
 							description: "Our SEO-optimized platform attracts local businesses. They discover your directory and request premium features",
 							icon: Search,
-							bg: "bg-purple-600",
+							bg: "bg-blue-500",
 						},
 						{
 							step: "03",
 							title: "Collect revenue automatically",
 							description: "Get paid for featured listings, category sponsorships, and qualified leads. We handle billing, you keep 75%",
 							icon: BarChart3,
-							bg: "bg-green-600",
+							bg: "bg-blue-500",
 						},
 					].map((item, idx) => (
 						<MotionGridItem key={idx}>
-							<div className="flex flex-col lg:flex-row items-center gap-8">
+							<div className="flex flex-col lg:flex-row items-center gap-12">
 								{/* Step Number */}
-								<div className={`flex-shrink-0 w-20 h-20 rounded-2xl ${item.bg} flex items-center justify-center text-white font-bold text-xl shadow-lg`}>{item.step}</div>
+								<div className={`flex-shrink-0 w-24 h-24 rounded-3xl ${item.bg} flex items-center justify-center text-white font-black text-3xl shadow-2xl`}>{item.step}</div>
 
 								{/* Content */}
 								<div className="flex-1 text-center lg:text-left">
-									<div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
-										<item.icon className="h-6 w-6 text-neutral-600 dark:text-neutral-400" />
-										<h3 className="text-2xl font-bold text-neutral-900 dark:text-white">{item.title}</h3>
+									<div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+										<item.icon className="h-8 w-8 text-blue-500" />
+										<h3 className="text-3xl font-black text-black">{item.title}</h3>
 									</div>
-									<p className="text-lg text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.description}</p>
+									<p className="text-xl text-muted-foreground leading-relaxed">{item.description}</p>
 								</div>
 
 								{/* Arrow (except last item) */}
 								{idx < 2 && (
 									<div className="hidden lg:block">
-										<ArrowRight className="h-6 w-6 text-neutral-300 dark:text-neutral-600" />
+										<ArrowRight className="h-8 w-8 text-blue-500" />
 									</div>
 								)}
 							</div>
@@ -409,12 +363,12 @@ export default function LocalHubPage() {
 				</MotionGrid>
 
 				{/* CTA */}
-				<MotionSection className="text-center mt-16 px-6">
-					<MotionButton href="/signup" className="inline-flex items-center gap-2 rounded-xl bg-blue-600 text-white px-8 py-4 font-semibold text-lg hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl">
+				<MotionSection className="text-center mt-20 px-6">
+					<MotionButton href="/signup" className="inline-flex items-center gap-3 rounded-2xl bg-blue-500 text-white px-12 py-6 font-bold text-xl hover:bg-blue-600 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
 						Start your directory now
-						<ArrowRight className="h-5 w-5" />
+						<ArrowRight className="h-6 w-6" />
 					</MotionButton>
-					<p className="text-neutral-600 dark:text-neutral-400 mt-4 font-medium">Takes less than 5 minutes to set up</p>
+					<p className="text-muted-foreground mt-6 font-semibold text-lg">Takes less than 5 minutes to set up</p>
 				</MotionSection>
 			</section>
 
@@ -423,7 +377,7 @@ export default function LocalHubPage() {
 				<div className="w-full max-w-[1400px] mx-auto rounded-3xl bg-[#f6f7fb] dark:bg-[#171717] p-10 grid md:grid-cols-2 gap-10 items-center">
 					<div className="space-y-4 order-2 md:order-1">
 						<h3 className="text-2xl md:text-3xl font-semibold">Flexible revenue streams</h3>
-						<ul className="space-y-2 text-gray-800 dark:text-gray-200">
+						<ul className="space-y-2 text-foreground">
 							<li className="flex items-start gap-2">
 								<Check className="h-5 w-5 text-green-600" /> Featured listings with tiered placements
 							</li>
@@ -467,7 +421,7 @@ export default function LocalHubPage() {
 							<div className="group relative rounded-2xl border bg-white dark:bg-neutral-950 p-8 shadow-sm hover:shadow-xl transition-all duration-300">
 								{/* Icon with gradient background */}
 								<div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-6`}>
-									<Icon className="h-6 w-6 text-gray-900 dark:text-white" />
+									<Icon className="h-6 w-6 text-foreground" />
 								</div>
 								<h4 className="text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors">{title}</h4>
 								<p className="text-muted-foreground leading-relaxed">{desc}</p>
@@ -481,17 +435,17 @@ export default function LocalHubPage() {
 			</section>
 
 			{/* Pre-built Directory Tools (sticky + cards) */}
-			<section className="w-full mt-16 px-4 sm:px-8">
-				<div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-8">
-					<div className="lg:max-w-[30%] flex flex-col items-start gap-4 p-2 mx-auto lg:mx-0 text-center lg:text-left">
+			<section className="w-full mt-20 px-4 sm:px-8 bg-black py-32">
+				<div className="w-full max-w-[1400px] mx-auto flex flex-col lg:flex-row gap-12">
+					<div className="lg:max-w-[35%] flex flex-col items-start gap-6 p-4 mx-auto lg:mx-0 text-center lg:text-left">
 						<div className="lg:sticky top-40">
-							<h2 className="text-5xl font-serif font-medium">Pre-built Directory Tools</h2>
-							<a href="/signup" className="mt-8 inline-flex items-center justify-center rounded-md border px-5 py-3">
+							<h2 className="text-5xl md:text-6xl font-black text-white mb-8">Pre-built Directory Tools</h2>
+							<a href="/signup" className="mt-10 inline-flex items-center justify-center rounded-2xl bg-blue-500 text-white px-8 py-4 font-bold text-lg hover:bg-blue-600 transition-colors shadow-2xl">
 								Get Started
 							</a>
 						</div>
 					</div>
-					<div className="flex-1 flex flex-col gap-10 px-[10%] lg:px-0">
+					<div className="flex-1 flex flex-col gap-12 px-[10%] lg:px-0">
 						{[
 							{ Icon: FileText, title: "Listings moderation", desc: "Flagging, disputes, and audit logs keep quality high." },
 							{ Icon: Star, title: "Review analytics", desc: "Track ratings, volume, sentiment, and responses." },
@@ -500,15 +454,16 @@ export default function LocalHubPage() {
 							{ Icon: Download, title: "Import listings", desc: "Bulk import with validation for categories and businesses." },
 							{ Icon: Route, title: "Lead routing", desc: "Capture, qualify, and route leads with attribution." },
 						].map(({ Icon, title, desc }) => (
-							<a key={title} href="#" className="flex w-full gap-8 rounded-xl hover:shadow-lg dark:shadow-[#171717] transition-all duration-300 p-8 group">
-								<div className="flex-shrink-0 w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-950 flex items-center justify-center">
-									<Icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+							<a key={title} href="#" className="flex w-full gap-10 rounded-3xl hover:shadow-2xl transition-all duration-300 p-10 group bg-white/5 border border-white/10 backdrop-blur-sm">
+								<div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-blue-500 flex items-center justify-center">
+									<Icon className="h-8 w-8 text-white" />
 								</div>
-								<div className="flex flex-col gap-4">
-									<h3 className="text-2xl md:text-xl">{title}</h3>
-									<p className="text-neutral-800 dark:text-neutral-100 text-sm md:text-base">{desc}</p>
-									<div className="mt-auto flex gap-2 underline underline-offset-4">
+								<div className="flex flex-col gap-6">
+									<h3 className="text-3xl font-black text-white">{title}</h3>
+									<p className="text-xl text-muted-foreground">{desc}</p>
+									<div className="mt-auto flex gap-3 text-blue-400 font-semibold text-lg">
 										<span>Learn more</span>
+										<ArrowRight className="h-5 w-5" />
 									</div>
 								</div>
 							</a>
@@ -618,9 +573,9 @@ export default function LocalHubPage() {
 			{/* Access and compare */}
 			<section className="relative w-full px-4 sm:px-8 py-12">
 				<div className="w-full max-w-[1400px] mx-auto rounded-md bg-[#f6f7fb] dark:bg-[#171717] py-12 flex flex-col items-center gap-4 px-4">
-					<h3 className="text-5xl font-medium text-center">Access and compare neighborhoods & categories</h3>
+					<h3 className="text-4xl md:text-5xl font-bold text-center text-neutral-900 dark:text-white">Access and compare neighborhoods & categories</h3>
 					<div className="mt-6">
-						<a href="/search" className="inline-flex items-center rounded-full px-6 py-3 font-medium border">
+						<a href="/search" className="inline-flex items-center rounded-full px-6 py-3 font-semibold border bg-blue-600 text-white hover:bg-blue-700 transition-colors">
 							Launch Directory
 						</a>
 					</div>
@@ -704,13 +659,13 @@ export default function LocalHubPage() {
 								</div>
 
 								{/* Testimonial Text */}
-								<blockquote className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">"{testimonial.text}"</blockquote>
+								<blockquote className="text-muted-foreground mb-6 leading-relaxed">"{testimonial.text}"</blockquote>
 
 								{/* Author */}
 								<div className="flex items-center gap-3">
 									<div className="flex items-center justify-center w-12 h-12 rounded-full bg-neutral-800 text-white font-semibold text-sm">{testimonial.avatar}</div>
 									<div>
-										<div className="font-semibold text-gray-900 dark:text-white">{testimonial.name}</div>
+										<div className="font-semibold text-foreground">{testimonial.name}</div>
 										<div className="text-sm text-muted-foreground">
 											{testimonial.role}, {testimonial.company}
 										</div>
@@ -731,12 +686,12 @@ export default function LocalHubPage() {
 							<div className="text-3xl font-bold text-blue-600">500+</div>
 							<div className="text-sm text-muted-foreground">Active Directories</div>
 						</div>
-						<div className="w-px h-12 bg-gray-300 dark:bg-gray-600" />
+						<div className="w-px h-12 bg-border" />
 						<div className="text-center">
 							<div className="text-3xl font-bold text-green-600">$2M+</div>
 							<div className="text-sm text-muted-foreground">Revenue Generated</div>
 						</div>
-						<div className="w-px h-12 bg-gray-300 dark:bg-gray-600" />
+						<div className="w-px h-12 bg-border" />
 						<div className="text-center">
 							<div className="text-3xl font-bold text-purple-600">98%</div>
 							<div className="text-sm text-muted-foreground">Satisfaction Rate</div>
@@ -829,7 +784,7 @@ export default function LocalHubPage() {
 			{/* Articles */}
 			<section className="w-full mt-16 px-4 sm:px-8">
 				<div className="w-full max-w-[1400px] mx-auto text-center">
-					<h3 className="text-3xl md:text-4xl font-medium">Read resources by experts</h3>
+					<h3 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white">Read resources by experts</h3>
 				</div>
 				<div className="w-full max-w-[1400px] mx-auto mt-10 grid gap-10 grid-cols-1 md:grid-cols-3">
 					{[1, 2, 3].map((i) => (
@@ -837,11 +792,11 @@ export default function LocalHubPage() {
 							<div className="h-[350px] w-full overflow-hidden rounded-2xl">
 								<Image src="/assets/images/heroes/pexels-christian-heitz-285904-842711.jpg" alt="article image" width={800} height={600} className="h-full w-full object-cover" />
 							</div>
-							<div className="text-gray-600 dark:text-gray-300 flex justify-between">
-								<div className="text-gray-800 dark:text-gray-200">Announcement</div>
-								<div className="text-gray-600 dark:text-gray-400">2025</div>
+							<div className="text-muted-foreground flex justify-between">
+								<div className="text-foreground">Announcement</div>
+								<div className="text-muted-foreground">2025</div>
 							</div>
-							<h4 className="mt-1 font-medium text-xl">LocalHub update {i}</h4>
+							<h4 className="mt-1 font-semibold text-xl text-neutral-900 dark:text-white">LocalHub update {i}</h4>
 						</a>
 					))}
 				</div>
@@ -906,12 +861,12 @@ export default function LocalHubPage() {
 			<section className="w-full mt-16 px-4 sm:px-8">
 				<div className="w-full max-w-[1400px] mx-auto rounded-lg bg-[#F6F7FB] dark:bg-[#171717] p-6 flex flex-col md:flex-row items-center justify-between gap-4">
 					<div className="flex flex-col gap-1 md:text-left text-center">
-						<h2 className="text-2xl text-gray-800 dark:text-gray-200">Join our newsletter</h2>
-						<div className="text-gray-700 dark:text-gray-300">Get product insights and updates.</div>
+						<h2 className="text-2xl text-foreground">Join our newsletter</h2>
+						<div className="text-muted-foreground">Get product insights and updates.</div>
 					</div>
 					<form className="flex h-[56px] items-center gap-2 p-2" action="/api/newsletter" method="post">
 						<input type="email" name="email" required className="h-full w-full border px-3 rounded-md bg-white dark:bg-black" placeholder="email" />
-						<button className="inline-flex items-center rounded-full border px-4 py-2 bg-transparent text-black dark:text-white dark:border-gray-300 border-black">Signup</button>
+						<button className="inline-flex items-center rounded-full border px-4 py-2 bg-transparent text-foreground border-border">Signup</button>
 					</form>
 				</div>
 			</section>
@@ -969,8 +924,7 @@ export default function LocalHubPage() {
 				</MotionSection>
 			</section>
 
-			{/* Defer any remaining content */}
-			<Suspense fallback={<LocalHubLoadingSkeleton />}></Suspense>
+
 		</main>
 	);
 }

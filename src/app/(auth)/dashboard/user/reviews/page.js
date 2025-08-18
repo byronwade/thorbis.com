@@ -144,7 +144,7 @@ export default function Reviews() {
 			case "failed_verification":
 				return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground";
 		}
 	};
 
@@ -389,7 +389,7 @@ export default function Reviews() {
 											<div className="flex items-center space-x-2 mb-3">
 												<div className="flex items-center space-x-1">
 													{[1, 2, 3, 4, 5].map((star) => (
-														<Star key={star} className={`w-4 h-4 ${star <= review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+														<Star key={star} className={`w-4 h-4 ${star <= review.rating ? "fill-muted-foreground text-muted-foreground" : "text-muted-foreground/30"}`} />
 													))}
 												</div>
 												<span className="text-sm font-medium">{review.rating}/5</span>
@@ -412,7 +412,7 @@ export default function Reviews() {
 													</div>
 													<div className="flex space-x-2">
 														{review.photos.map((photo, index) => (
-															<div key={index} className="relative w-20 h-20 rounded-md bg-gray-100 dark:bg-gray-800">
+															<div key={index} className="relative w-20 h-20 rounded-md bg-muted">
 																<Image src={photo} alt={`Review photo ${index + 1}`} width={400} height={400} className="w-full h-full object-cover rounded-md" />
 																<Button
 																	variant="ghost"
@@ -495,7 +495,7 @@ export default function Reviews() {
 							<div className="flex items-center space-x-2 mt-2">
 								{[1, 2, 3, 4, 5].map((star) => (
 									<Button key={star} variant="ghost" size="sm" onClick={() => setEditForm({ ...editForm, rating: star })} className="p-1">
-										<Star className={`w-6 h-6 ${star <= editForm.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+										<Star className={`w-6 h-6 ${star <= editForm.rating ? "fill-muted-foreground text-muted-foreground" : "text-muted-foreground/30"}`} />
 									</Button>
 								))}
 							</div>
@@ -515,7 +515,7 @@ export default function Reviews() {
 							<Label>Photos</Label>
 							<div className="mt-2 flex space-x-2">
 								{editForm.photos.map((photo, index) => (
-									<div key={index} className="relative w-20 h-20 rounded-md bg-gray-100 dark:bg-gray-800">
+									<div key={index} className="relative w-20 h-20 rounded-md bg-muted">
 										<Image src={photo} alt={`Photo ${index + 1}`} width={400} height={400} className="w-full h-full object-cover rounded-md" />
 										<Button
 											variant="ghost"

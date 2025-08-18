@@ -63,7 +63,7 @@ export const BusinessHoursSection = ({
 					<CardTitle className="flex items-center space-x-2">
 						<Clock className="w-5 h-5" />
 						<span>Business Hours</span>
-						{isCurrentlyOpen ? (
+						{isCurrentlyOpen() ? (
 							<Badge className="bg-green-100 text-green-800">
 								<Sun className="w-3 h-3 mr-1" />
 								Open Now
@@ -142,7 +142,7 @@ export const BusinessHoursSection = ({
 				<CardContent className="pt-6">
 					<div className="text-center">
 						<div className="mb-2">
-							{isCurrentlyOpen ? (
+							{isCurrentlyOpen() ? (
 								<div className="text-green-600">
 									<Sun className="w-8 h-8 mx-auto mb-2" />
 									<h3 className="text-lg font-semibold">Currently Open</h3>

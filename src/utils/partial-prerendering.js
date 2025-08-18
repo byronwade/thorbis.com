@@ -1,6 +1,6 @@
 // lib/utils/partialPrerendering.js - Partial Prerendering (PPR) Implementation
 import { logger } from "./logger";
-import { CacheManager } from "./cache-manager";
+import cacheManager from "./cache-manager";
 import edgeStreamingManager from "./edge-streaming";
 import instantPageLoader from "./instant-page-loader";
 import ultraAggressivePrefetcher from "./ultra-aggressive-prefetching";
@@ -176,7 +176,11 @@ class PartialPrerenderingManager {
 		});
 
 		// Cache the shell
-		CacheManager.memory.set(`ppr-shell:${route}`, shell, config.shellTTL);
+		try {
+			cacheManager.memory?.set?.(`ppr-shell:${route}`, shell, config.shellTTL);
+		} catch (error) {
+			console.warn('Cache manager not available, skipping cache set:', error.message);
+		}
 
 		const generateTime = performance.now() - startTime;
 		config.lastGenerated = Date.now();
@@ -651,7 +655,13 @@ class PartialPrerenderingManager {
 	 */
 	async getStaticShell(route, config) {
 		// Check memory cache first
-		const cached = CacheManager.memory.get(`ppr-shell:${route}`);
+		let cached = null;
+		try {
+			cached = cacheManager.memory?.get?.(`ppr-shell:${route}`) || null;
+		} catch (error) {
+			console.warn('Cache manager not available, skipping cache check:', error.message);
+			cached = null;
+		}
 		if (cached) {
 			return cached;
 		}

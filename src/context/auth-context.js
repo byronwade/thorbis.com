@@ -16,6 +16,22 @@ export const AuthProvider = ({ children }) => {
 	const [oauthProviders, setOauthProviders] = useState([]);
 	const [isInitialized, setIsInitialized] = useState(false);
 
+	// Debug logging for auth provider - throttled to prevent spam
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			console.log('🔍 AuthProvider DEBUG:', {
+				enhancedAuthUser: !!enhancedAuth.user,
+				enhancedAuthUserId: enhancedAuth.user?.id,
+				enhancedAuthLoading: enhancedAuth.loading,
+				enhancedAuthIsAuthenticated: enhancedAuth.isAuthenticated,
+				enhancedAuthUserRoles: enhancedAuth.userRoles.length,
+				isInitialized,
+			});
+		}, 100); // Debounce logs by 100ms
+		
+		return () => clearTimeout(timeoutId);
+	}, [enhancedAuth.user?.id, enhancedAuth.loading, enhancedAuth.isAuthenticated, enhancedAuth.userRoles.length, isInitialized]); // Only log on meaningful changes
+
 	// Initialize OAuth providers
 	useEffect(() => {
 		const initializeProviders = async () => {
@@ -51,6 +67,7 @@ export const AuthProvider = ({ children }) => {
 		isEmailVerified: enhancedAuth.isEmailVerified,
 		userRoles: enhancedAuth.userRoles,
 		loading: enhancedAuth.loading,
+		initialized: enhancedAuth.initialized,
 		error: enhancedAuth.error,
 		isInitialized,
 

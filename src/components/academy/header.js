@@ -33,7 +33,7 @@ import {
   HelpCircle, 
   Menu 
 } from "lucide-react";
-import { SunIcon, MoonIcon, DesktopIcon } from "@radix-ui/react-icons";
+import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
 import UnifiedHeader from "@components/shared/unified-header";
 
 // Mock companies for academy (learning paths or specializations)
@@ -109,7 +109,7 @@ function LegacyAcademyHeader() {
 	];
 
 	return (
-		<div className="sticky top-0 z-[60] bg-background/95 backdrop-blur-md border-b border-border">
+		<div className="sticky top-[98px] z-[60] bg-background/95 backdrop-blur-md border-b border-border">
 			<div className="flex items-center justify-between w-full gap-6 py-3 mx-auto px-4 lg:px-24">
 				{/* Left Section - Logo and Academy Info */}
 				<div className="flex flex-row items-center w-full space-x-6">

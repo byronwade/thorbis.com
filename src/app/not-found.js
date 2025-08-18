@@ -1,11 +1,15 @@
-import { BackButton } from "./BackButton";
+import { BackButton } from "@components/shared/BackButton";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	robots: { index: false, follow: true },
-	alternates: { canonical: "https://thorbis.com/404" },
-	title: "Page Not Found | Thorbis",
-	description: "Sorry, we couldn't find that page. Explore top sections of Thorbis instead.",
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Page Not Found | Thorbis",
+		description: "Sorry, we couldn't find that page. Explore top sections of Thorbis instead.",
+		path: "/404",
+		keywords: ["404", "page not found", "error"],
+	});
+}
 
 export default function NotFound() {
 	return (

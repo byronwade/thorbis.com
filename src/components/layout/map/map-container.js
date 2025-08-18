@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, useMemo, Suspense, useState } from "react";
+import React, { useRef, useEffect, useCallback, useMemo, useState } from "react";
 import { Button } from "@components/ui/button";
 import { Minus, Plus, MapPin, Search, Target } from "lucide-react";
 import BusinessInfoPanel from "@components/site/map/business-info-panel";
@@ -423,83 +423,81 @@ const MapContainer = React.forwardRef((props, ref) => {
 
 	return (
 		<div className="map-container relative w-full h-full overflow-hidden" ref={containerRef}>
-			<Suspense fallback={<FullScreenMapSkeleton />}>
-				<Map
-					ref={mapRef}
-					{...viewState}
-					onMove={handleViewStateChange}
-					mapStyle={mapStyle}
-					mapboxAccessToken={MAPBOX_TOKEN}
-					attributionControl={false}
-					onLoad={handleMapLoad}
-					interactiveLayerIds={[]}
-					cursor="default"
-					style={{
-						width: "100%",
-						height: "100%",
-						marginLeft: isBusinessDetailsOpen ? "384px" : "0",
-						transition: "margin-left 300ms ease-in-out",
-					}}
-					{...mapSettings}
-					// Performance optimizations
-					reuseMaps={true}
-					maxZoom={20}
-					minZoom={1}
-					maxBounds={[
-						[-180, -85],
-						[180, 85],
-					]}
-					// Additional safety options to prevent transformation matrix errors
-					cooperativeGestures={false}
-					preventStyleDiffing={true}
-					optimizeForTerrain={false}
-					antialias={false}
-					preserveDrawingBuffer={false}
-					refreshExpiredTiles={false}
-					transformRequest={(url, resourceType) => {
-						// Prevent problematic resource requests that could corrupt transformation matrices
-						if (resourceType === "Style" || resourceType === "Source") {
-							return { url };
-						}
+			<Map
+				ref={mapRef}
+				{...viewState}
+				onMove={handleViewStateChange}
+				mapStyle={mapStyle}
+				mapboxAccessToken={MAPBOX_TOKEN}
+				attributionControl={false}
+				onLoad={handleMapLoad}
+				interactiveLayerIds={[]}
+				cursor="default"
+				style={{
+					width: "100%",
+					height: "100%",
+					marginLeft: isBusinessDetailsOpen ? "384px" : "0",
+					transition: "margin-left 300ms ease-in-out",
+				}}
+				{...mapSettings}
+				// Performance optimizations
+				reuseMaps={true}
+				maxZoom={20}
+				minZoom={1}
+				maxBounds={[
+					[-180, -85],
+					[180, 85],
+				]}
+				// Additional safety options to prevent transformation matrix errors
+				cooperativeGestures={false}
+				preventStyleDiffing={true}
+				optimizeForTerrain={false}
+				antialias={false}
+				preserveDrawingBuffer={false}
+				refreshExpiredTiles={false}
+				transformRequest={(url, resourceType) => {
+					// Prevent problematic resource requests that could corrupt transformation matrices
+					if (resourceType === "Style" || resourceType === "Source") {
 						return { url };
-					}}
-					onError={(error) => {
-						console.warn("Map error:", error);
-						// Attempt to recover from transformation matrix errors
-						if (error.message?.includes("transformMat4") || error.message?.includes("matrix")) {
-							console.warn("Transformation matrix error detected, attempting recovery");
-							setTimeout(() => {
-								try {
-									if (mapRef.current) {
-										const map = mapRef.current.getMap();
-										if (map && map.loaded()) {
-											map.resize();
-										}
+					}
+					return { url };
+				}}
+				onError={(error) => {
+					console.warn("Map error:", error);
+					// Attempt to recover from transformation matrix errors
+					if (error.message?.includes("transformMat4") || error.message?.includes("matrix")) {
+						console.warn("Transformation matrix error detected, attempting recovery");
+						setTimeout(() => {
+							try {
+								if (mapRef.current) {
+									const map = mapRef.current.getMap();
+									if (map && map.loaded()) {
+										map.resize();
 									}
-								} catch (recoveryError) {
-									console.warn("Map recovery failed:", recoveryError);
 								}
-							}, 100);
-						}
-					}}
-					onStyleData={(e) => {
-						// Ensure style is fully loaded before enabling interactions
-						if (e.dataType === "style") {
-							const map = e.target;
-							if (map && map.isStyleLoaded()) {
-								// Style is ready, transformation matrices should be initialized
-								map.resize(); // Ensure proper matrix initialization
+							} catch (recoveryError) {
+								console.warn("Map recovery failed:", recoveryError);
 							}
+						}, 100);
+					}
+				}}
+				onStyleData={(e) => {
+					// Ensure style is fully loaded before enabling interactions
+					if (e.dataType === "style") {
+						const map = e.target;
+						if (map && map.isStyleLoaded()) {
+							// Style is ready, transformation matrices should be initialized
+							map.resize(); // Ensure proper matrix initialization
 						}
-					}}
-				>
-					{/* Built-in Controls */}
-					<ScaleControl position="bottom-left" />
+					}
+				}}
+			>
+				{/* Built-in Controls */}
+				<ScaleControl position="bottom-left" />
 
-					<ServiceArea />
-					<BusinessMarkers />
-				</Map>
-			</Suspense>
+				<ServiceArea />
+				<BusinessMarkers />
+			</Map>
 
 			<BusinessInfoPanel />
 

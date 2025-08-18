@@ -203,7 +203,7 @@ export default function BreadcrumbNavigation({
 
   // Handle breadcrumb click
   const handleBreadcrumbClick = useCallback((breadcrumb) => {
-    logger.user({
+    logger.debug('Breadcrumb event', {
       action: 'breadcrumb_click',
       page: breadcrumb.href,
       name: breadcrumb.name,
@@ -318,7 +318,7 @@ export default function BreadcrumbNavigation({
                   <DropdownMenuItem 
                     key={page.href}
                     onClick={() => {
-                      logger.user({
+                      logger.debug('Breadcrumb event', {
                         action: 'related_page_click',
                         page: page.href,
                         name: page.name,

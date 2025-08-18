@@ -11,60 +11,64 @@ import { useAuth } from "@context/auth-context";
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { getEnabledProviders } from "@lib/database/supabase/auth/providers";
-import { Eye, EyeOff, Loader2, AlertCircle, Shield, CheckCircle2, Mail, Lock, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, AlertCircle, CheckCircle2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaGithub, FaTwitter, FaApple } from "react-icons/fa";
 import { SiDiscord, SiLinkedin } from "react-icons/si";
 import { cn } from "@utils";
 import { logger } from "@utils/logger";
 import { DeviceFingerprint } from "@lib/security/device-fingerprint";
-import RateLimitWarning from "@features/auth/shared/rate-limit-warning";
-import IntelligentLoginMessage from "@features/auth/shared/intelligent-login-message";
-import { LoginContextDetector, ContextMessageGenerator } from "@lib/auth/login-context";
+import { LoginContextDetector } from "@lib/auth/login-context";
 import ZodErrorBoundary from "@components/shared/zod-error-boundary";
+import IntelligentLoginMessage from "@features/auth/shared/intelligent-login-message";
 
-// Lenient validation schema for real-time typing (allows empty values)
-const typingSchema = z.object({
-	email: z.string().optional(),
-	password: z.string().optional(),
-	rememberMe: z.boolean().optional(),
-	trustedDevice: z.boolean().optional(),
-});
+// Import the new i18n hooks
+import { useAuthTranslation } from '@lib/i18n/useTranslation';
 
-// Strict validation schema for form submission
-const submitSchema = z.object({
-	email: z
-		.string()
-		.min(1, { message: "Email is required" })
-		.email({ message: "Please enter a valid email address" })
-		.toLowerCase()
-		.refine(
-			(email) => {
-				// Basic email security validation
-				const domain = email.split("@")[1];
-				return domain && !domain.includes("..");
-			},
-			{ message: "Email format appears suspicious" }
-		),
-	password: z
-		.string()
-		.min(1, { message: "Password is required" })
-		.min(8, { message: "Password must be at least 8 characters" })
-		.max(128, { message: "Password is too long" })
-		.refine(
-			(password) => {
-				// Check for common patterns that indicate weak passwords
-				const commonPatterns = ["123456", "password", "qwerty", "abc123"];
-				return !commonPatterns.some((pattern) => password.toLowerCase().includes(pattern));
-			},
-			{ message: "Password contains common patterns - please choose a stronger password" }
-		),
-	rememberMe: z.boolean().optional(),
-	trustedDevice: z.boolean().optional(),
-});
+// Create internationalized validation schema
+const createLoginSchemas = (tLogin) => {
+	// Lenient validation schema for real-time typing (allows empty values)
+	const typingSchema = z.object({
+		email: z.string().optional(),
+		password: z.string().optional(),
+		rememberMe: z.boolean().optional(),
+		trustedDevice: z.boolean().optional(),
+	});
 
-// Use the lenient schema for real-time validation
-const loginSchema = typingSchema;
+	// Strict validation schema for form submission
+	const submitSchema = z.object({
+		email: z
+			.string()
+			.min(1, { message: tLogin('errors.required') })
+			.email({ message: tLogin('errors.email') })
+			.toLowerCase()
+			.refine(
+				(email) => {
+					// Basic email security validation
+					const domain = email.split("@")[1];
+					return domain && !domain.includes("..");
+				},
+				{ message: tLogin('errors.invalid') }
+			),
+		password: z
+			.string()
+			.min(1, { message: tLogin('errors.required') })
+			.min(8, { message: tLogin('errors.password') })
+			.max(128, { message: tLogin('errors.password') })
+			.refine(
+				(password) => {
+					// Check for common patterns that indicate weak passwords
+					const commonPatterns = ["123456", "password", "qwerty", "abc123"];
+					return !commonPatterns.some((pattern) => password.toLowerCase().includes(pattern));
+				},
+				{ message: tLogin('errors.invalid') }
+			),
+		rememberMe: z.boolean().optional(),
+		trustedDevice: z.boolean().optional(),
+	});
+
+	return { typingSchema, submitSchema };
+};
 
 // Custom hook for real-time email validation
 const useEmailValidation = (email) => {
@@ -129,9 +133,13 @@ const useEmailValidation = (email) => {
 };
 
 export default function LoginPage() {
+	// Use the auth translation hook
+	const { tLogin, tCommon, locale } = useAuthTranslation();
+
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isSubmitting] = useState(false); // Never show submitting state
+	const setIsSubmitting = () => {}; // No-op
 	const [showPassword, setShowPassword] = useState(false);
 	const [oauthProviders, setOauthProviders] = useState([]);
 	const [deviceFingerprint, setDeviceFingerprint] = useState(null);
@@ -170,6 +178,9 @@ export default function LoginPage() {
 	} = formMethods;
 
 	const { user, isAuthenticated, userRoles, loading, login, loginWithOAuth, error: authError, clearError, validateEmail, checkBreachedPassword } = useAuth();
+
+	// Create internationalized schemas
+	const { typingSchema, submitSchema } = useMemo(() => createLoginSchemas(tLogin), [tLogin]);
 
 	// Watch form values for real-time validation
 	const watchedValues = watch();
@@ -226,6 +237,15 @@ export default function LoginPage() {
 		}
 	}, [currentEmail, emailValidation.isValid]);
 
+	// Detect login context for intelligent messaging
+	useEffect(() => {
+		const detectedContext = LoginContextDetector.detectContext(window.location.href, searchParams);
+		setLoginContext(detectedContext);
+
+		// Store context globally for access by other components
+		window.loginContext = detectedContext;
+	}, [searchParams]);
+
 	// Initialize security features and device fingerprinting
 	useEffect(() => {
 		const initializeSecurityFeatures = async () => {
@@ -269,11 +289,27 @@ export default function LoginPage() {
 		initializeSecurityFeatures();
 	}, []);
 
-	// Handle URL parameters for redirects and errors
+	// Handle URL parameters for redirects and errors (never prefill credentials from URL)
 	useEffect(() => {
 		const redirectTo = searchParams.get("redirectTo");
 		const urlError = searchParams.get("error");
 		const message = searchParams.get("message");
+
+		// Explicitly ignore and wipe any sensitive params if present in client (defense-in-depth)
+		if (typeof window !== 'undefined') {
+			const sensitiveParams = ["password", "pass", "pwd", "email"]; // never use these from URL
+			const url = new URL(window.location.href);
+			let mutated = false;
+			sensitiveParams.forEach((k) => {
+				if (url.searchParams.has(k)) {
+					url.searchParams.delete(k);
+					mutated = true;
+				}
+			});
+			if (mutated) {
+				window.history.replaceState({}, "", url.toString());
+			}
+		}
 
 		if (message) {
 			if (urlError) {
@@ -341,36 +377,47 @@ export default function LoginPage() {
 		[searchParams]
 	);
 
-	// Redirect authenticated users to their dashboard with contextual intelligence
+	// Redirect authenticated users to their dashboard (run once to avoid loops)
+	const didRedirectRef = useRef(false);
 	useEffect(() => {
-		if (isAuthenticated && user && userRoles.length > 0) {
-			// Priority: contextual redirect > URL redirect > role-based dashboard
+		console.log('🔍 Login redirect check:', { 
+			didRedirect: didRedirectRef.current, 
+			isAuthenticated, 
+			hasUser: !!user,
+			userRoles 
+		});
+		
+		if (didRedirectRef.current) return;
+		if (isAuthenticated && user) {
+			didRedirectRef.current = true;
 			let targetPath = contextualRedirect;
-
 			if (!targetPath) {
 				const redirectTo = searchParams.get("redirectTo");
 				if (redirectTo && redirectTo.startsWith("/")) {
 					targetPath = redirectTo;
 				} else {
-					// Default role-based dashboard
-					if (userRoles.includes("admin")) {
+					// Use same logic as dashboard router
+					const userRole = user?.user_metadata?.role || user?.role || "user";
+					const accountType = user?.user_metadata?.account_type || user?.account_type;
+					
+					if (userRoles.includes("admin") || userRoles.includes("super_admin") || userRole === "admin" || userRole === "super_admin") {
 						targetPath = "/dashboard/admin";
-					} else if (userRoles.includes("business_owner")) {
-						targetPath = "/dashboard/business";
+					} else if (userRole === "localhub_operator" || accountType === "localhub") {
+						targetPath = "/dashboard/localhub";
 					} else {
-						targetPath = "/dashboard/user";
+						targetPath = "/dashboard/business"; // All other users use business dashboard
 					}
 				}
 			}
-
-			router.push(targetPath);
+			console.log('🚀 Login successful, redirecting to:', targetPath);
+			router.replace(targetPath);
 		}
 	}, [isAuthenticated, user, userRoles, router, searchParams, contextualRedirect]);
 
 	// Enhanced submit with security features
 	const onSubmit = useCallback(
 		async (data) => {
-			if (isSubmitting || loading || isRateLimited) return;
+			if (isRateLimited) return; // Removed loading checks
 
 			// Clear any previous errors
 			clearError();
@@ -387,7 +434,7 @@ export default function LoginPage() {
 				} catch (zodError) {
 					// Handle any unexpected Zod errors gracefully
 					console.warn("Zod validation error caught:", zodError);
-					toast.error("Form validation failed. Please check your inputs.");
+					toast.error(tLogin('errors.generic'));
 					setIsSubmitting(false);
 					return;
 				}
@@ -405,14 +452,14 @@ export default function LoginPage() {
 
 				// Security validations
 				if (loginAttempts >= 5) {
-					throw new Error("Too many failed attempts. Please wait before trying again.");
+					throw new Error(tLogin('errors.generic'));
 				}
 
 				// Check for breached passwords on client side
 				if (checkBreachedPassword) {
 					const isBreached = await checkBreachedPassword(data.password);
 					if (isBreached) {
-						toast.error("This password has been found in data breaches. Please use a different password.");
+						toast.error(tLogin('errors.generic'));
 						setIsSubmitting(false);
 						return;
 					}
@@ -446,7 +493,9 @@ export default function LoginPage() {
 					setLoginAttempts(0);
 
 					// Contextual success message
-					const successMessage = window.loginContext && window.loginContext.key !== "default" ? `Welcome back! Taking you to ${window.loginContext.actionText.toLowerCase()}...` : "Login successful! Redirecting...";
+					const successMessage = window.loginContext && window.loginContext.key !== "default" 
+						? `${tLogin('success')} Taking you to ${window.loginContext.actionText.toLowerCase()}...` 
+						: tLogin('success');
 
 					toast.success(successMessage);
 
@@ -460,6 +509,34 @@ export default function LoginPage() {
 						intendedAction: window.loginContext?.actionText,
 						timestamp: Date.now(),
 					});
+
+					// EXPLICIT REDIRECT - Don't rely on auth state change listener
+					setTimeout(() => {
+						// Determine redirect destination
+						const redirectTo = searchParams.get("redirectTo");
+						let destination = "/dashboard/business"; // Default to business dashboard
+						
+						if (redirectTo && redirectTo.startsWith("/")) {
+							destination = redirectTo;
+						} else if (window.loginContext?.redirectUrl) {
+							destination = window.loginContext.redirectUrl;
+						} else {
+							// Use same logic as dashboard router
+							const userRole = user?.user_metadata?.role || user?.role || "user";
+							const accountType = user?.user_metadata?.account_type || user?.account_type;
+							
+							if (userRole === "admin" || userRole === "super_admin") {
+								destination = "/dashboard/admin";
+							} else if (userRole === "localhub_operator" || accountType === "localhub") {
+								destination = "/dashboard/localhub";
+							} else {
+								destination = "/dashboard/business"; // All other users use business dashboard
+							}
+						}
+						
+						console.log('🚀 Login successful, redirecting to:', destination);
+						router.push(destination);
+					}, 500); // Reduced delay since auth state is now updated immediately
 				} else {
 					// Handle failed login
 					const newAttempts = loginAttempts + 1;
@@ -517,11 +594,11 @@ export default function LoginPage() {
 				setIsSubmitting(false);
 			}
 		},
-		[isSubmitting, loading, isRateLimited, loginAttempts, deviceFingerprint, login, clearError, checkBreachedPassword]
+		[isRateLimited, loginAttempts, deviceFingerprint, login, clearError, checkBreachedPassword] // Removed loading dependencies
 	);
 
 	const handleOAuthLogin = async (providerName) => {
-		if (isSubmitting || loading) return;
+		// Removed loading checks for immediate OAuth
 
 		try {
 			const redirectTo = searchParams.get("redirectTo");
@@ -549,8 +626,8 @@ export default function LoginPage() {
 
 	// Smart form state for better UX
 	const isFormReady = useMemo(() => {
-		return !loading && !isSubmitting && !isRateLimited;
-	}, [loading, isSubmitting, isRateLimited]);
+		return !isRateLimited; // Removed loading checks
+	}, [isRateLimited]); // Removed loading dependencies
 
   const ProviderIcon = ({ name }) => {
 		switch (name) {
@@ -574,85 +651,61 @@ export default function LoginPage() {
   };
 
 	return (
-		<ZodErrorBoundary>
-			{/* Intelligent Context Message */}
-			<IntelligentLoginMessage onContextDetected={handleContextDetected} isSignupMode={false} />
-
-			{/* Dynamic Header Based on Context - Simplified for new layout */}
-			{loginContext && loginContext.key !== "default" && (
-				<div className="mb-6 text-center">
-					<h2 className="text-xl font-semibold text-foreground mb-1">{loginContext.title}</h2>
-					<p className="text-sm text-muted-foreground">{loginContext.subtitle}</p>
-				</div>
-			)}
-
-			{/* Important messages - only show when needed */}
-			{isRateLimited && (
-				<div className="mt-4">
-					<RateLimitWarning
-						attempts={loginAttempts}
-						onReset={() => {
-							setIsRateLimited(false);
-							setLoginAttempts(0);
-							sessionStorage.removeItem("loginAttempts");
-						}}
-					/>
-				</div>
-			)}
-
-			{/* Display auth errors */}
-			{authError && (
-				<div className="mt-4 p-3 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-					<div className="flex">
-						<AlertCircle className="h-5 w-5 text-red-400" />
-						<div className="ml-3">
-							<p className="text-sm text-red-800 dark:text-red-200">{authError.userMessage}</p>
+		<>
+			{/* Intelligent Login Message Banner - Outside the card */}
+			<IntelligentLoginMessage onContextDetected={setLoginContext} isSignupMode={false} />
+			
+			<ZodErrorBoundary>
+				{/* Minimal error messages only */}
+				{isRateLimited && (
+					<div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-800">
+						<div className="flex items-center text-sm text-red-700 dark:text-red-300">
+							<AlertCircle className="h-4 w-4 mr-2 flex-shrink-0" />
+							<span>Too many attempts. Please wait before trying again.</span>
 						</div>
 					</div>
-				</div>
-			)}
+				)}
 
-			{/* Subtle security notice - only when enhanced */}
-			{(securityFeatures.captchaEnabled || securityFeatures.deviceVerification) && (
-				<div className="mt-4 p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-					<div className="flex items-center text-sm">
-						<Shield className="h-4 w-4 text-blue-600 mr-2 flex-shrink-0" />
-						<span className="text-blue-800 dark:text-blue-200">Extra security is active to protect your account</span>
+				{/* Display auth errors - simplified */}
+				{authError && (
+					<div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-800">
+						<div className="flex items-center">
+							<AlertCircle className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
+							<p className="text-sm text-red-700 dark:text-red-300">{authError.userMessage}</p>
+						</div>
 					</div>
-				</div>
-			)}
+				)}
 
-			<div className="w-full">
-				<FormProvider {...formMethods}>
-					<Form {...formMethods}>
-						<form
-							onSubmit={handleSubmit(onSubmit)}
-							className="space-y-5"
-							suppressHydrationWarning={true}
-							onKeyDown={(e) => {
-								// Enhanced keyboard navigation
-								if (e.key === "Enter" && !isSubmitting) {
-									e.preventDefault();
-									handleSubmit(onSubmit)();
-								}
-								// Escape to clear focused field
-								if (e.key === "Escape") {
-									setFocusedField(null);
-									e.target.blur();
-								}
-							}}
-							role="form"
-							aria-label="Sign in to your account"
-						>
-							{/* Email Field */}
+				<div className="w-full">
+					<FormProvider {...formMethods}>
+						<Form {...formMethods}>
+							<form
+								onSubmit={handleSubmit(onSubmit)}
+								className="space-y-6"
+								suppressHydrationWarning={true}
+								onKeyDown={(e) => {
+									// Enhanced keyboard navigation
+									if (e.key === "Enter") { // Removed submitting check
+										e.preventDefault();
+										handleSubmit(onSubmit)();
+									}
+									// Escape to clear focused field
+									if (e.key === "Escape") {
+										setFocusedField(null);
+										e.target.blur();
+									}
+								}}
+								role="form"
+								aria-label="Sign in to your account"
+							>
+							{/* Email Field - Clean Design */}
 							<FormField
 								control={formMethods.control}
 								name="email"
 								render={({ field }) => (
 									<FormItem className="space-y-2">
-										<FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
-											<Mail className="w-4 h-4 text-muted-foreground" />
-											Email Address
+										<FormLabel className="text-sm font-medium text-foreground">
+											Email address
 										</FormLabel>
 										<FormControl>
 											<div className="relative">
@@ -660,17 +713,13 @@ export default function LoginPage() {
 													{...field}
 													id="email"
 													type="email"
-													placeholder="Enter your email address"
+													placeholder="Enter your email"
 													className={cn(
-														"h-12 pl-12 pr-4 text-base transition-all duration-200",
-														// Error state
-														emailValidation.error && fieldTouched.email
-															? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20"
-															: // Success state
-																emailValidation.isValid && fieldTouched.email
-																? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20"
-																: // Default state
-																	"border-input focus:border-primary focus:ring-2 focus:ring-primary/20"
+														"h-11 pr-4 text-base transition-all duration-200 border-border/60 focus:border-foreground/60 focus:ring-1 focus:ring-foreground/20 rounded-lg",
+														// Error state - cleaner colors
+														emailValidation.error && fieldTouched.email && "border-red-300 focus:border-red-400 focus:ring-red-400/20",
+														// Success state - cleaner colors
+														emailValidation.isValid && fieldTouched.email && "border-green-300 focus:border-green-400 focus:ring-green-400/20"
 													)}
 													required
 													autoComplete="email"
@@ -684,17 +733,12 @@ export default function LoginPage() {
 													onBlur={() => setFocusedField(null)}
 													suppressHydrationWarning={true}
 												/>
-												<Mail className={cn("absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors", emailValidation.error && fieldTouched.email ? "text-red-500" : emailValidation.isValid && fieldTouched.email ? "text-green-600" : focusedField === "email" ? "text-primary" : "text-muted-foreground")} />
-												{emailValidation.isChecking && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />}
-												{emailValidation.isValid && fieldTouched.email && !emailValidation.isChecking && (
-													<div className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-														<CheckCircle2 className="w-3 h-3 text-white" />
-													</div>
-												)}
+												{/* Removed email validation loading indicator */}
+												{emailValidation.isValid && fieldTouched.email && !emailValidation.isChecking && <CheckCircle2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />}
 											</div>
 										</FormControl>
 
-										{/* Email suggestions */}
+										{/* Email suggestions - Cleaner design */}
 										{emailValidation.suggestions.length > 0 && fieldTouched.email && (
 											<div id="email-suggestions" className="space-y-2">
 												<p className="text-xs text-muted-foreground">Did you mean:</p>
@@ -707,7 +751,7 @@ export default function LoginPage() {
 																field.onChange(suggestion);
 																setFieldTouched((prev) => ({ ...prev, email: true }));
 															}}
-															className="text-xs px-2 py-1 bg-muted hover:bg-muted/80 rounded-md transition-colors text-primary hover:text-primary/80"
+															className="text-xs px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-lg transition-colors text-foreground hover:text-foreground/80"
 														>
 															{suggestion}
 														</button>
@@ -716,28 +760,22 @@ export default function LoginPage() {
 											</div>
 										)}
 
-										{emailValidation.error && fieldTouched.email && (
-											<p id="email-error" className="text-xs text-destructive flex items-center gap-1">
-												<AlertCircle className="w-3 h-3" />
-												{emailValidation.error}
-											</p>
-										)}
+										<FormMessage className="text-xs" />
 									</FormItem>
 								)}
 							/>
 
-							{/* Password Field */}
+							{/* Password Field - Clean Design */}
 							<FormField
 								control={formMethods.control}
 								name="password"
 								render={({ field }) => (
 									<FormItem className="space-y-2">
 										<div className="flex items-center justify-between">
-											<FormLabel className="text-sm font-medium text-foreground flex items-center gap-2">
-												<Lock className="w-4 h-4 text-muted-foreground" />
+											<FormLabel className="text-sm font-medium text-foreground">
 												Password
 											</FormLabel>
-											<Link href="/password-reset" className="text-xs text-primary hover:text-primary/80 transition-colors">
+											<Link href="/password-reset" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
 												Forgot password?
 											</Link>
 										</div>
@@ -749,18 +787,9 @@ export default function LoginPage() {
 													type={showPassword ? "text" : "password"}
 													placeholder="Enter your password"
 													className={cn(
-														"h-12 pl-12 pr-12 text-base transition-all duration-200",
-														// Error state
-														errors.password
-															? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20"
-															: // Strong password state
-																fieldTouched.password && currentPassword && passwordStrength.score >= 70
-																? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20"
-																: // Good password state
-																	fieldTouched.password && currentPassword && passwordStrength.score >= 50
-																	? "border-yellow-500 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-500/20 bg-yellow-50/50 dark:bg-yellow-950/20"
-																	: // Default state
-																		"border-input focus:border-primary focus:ring-2 focus:ring-primary/20"
+														"h-11 pr-12 text-base transition-all duration-200 border-border/60 focus:border-foreground/60 focus:ring-1 focus:ring-foreground/20 rounded-lg",
+														// Error state - cleaner colors
+														errors.password && "border-red-300 focus:border-red-400 focus:ring-red-400/20"
 													)}
 													required
 													autoComplete="current-password"
@@ -771,112 +800,110 @@ export default function LoginPage() {
 													onBlur={() => setFocusedField(null)}
 													suppressHydrationWarning={true}
 												/>
-												<Lock className={cn("absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors", errors.password ? "text-red-500" : fieldTouched.password && currentPassword && passwordStrength.score >= 70 ? "text-green-600" : fieldTouched.password && currentPassword && passwordStrength.score >= 50 ? "text-yellow-600" : focusedField === "password" ? "text-primary" : "text-muted-foreground")} />
-												<button type="button" className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors" onClick={() => setShowPassword(!showPassword)} tabIndex={-1} aria-label={showPassword ? "Hide password" : "Show password"}>
+												<button 
+													type="button" 
+													className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors p-1" 
+													onClick={() => setShowPassword(!showPassword)} 
+													tabIndex={-1} 
+													aria-label={showPassword ? "Hide password" : "Show password"}
+												>
 													{showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
 												</button>
 											</div>
 										</FormControl>
-
-										{/* Password strength indicator */}
-										{currentPassword && fieldTouched.password && (
-											<div className="space-y-2">
-												<div className="flex items-center justify-between">
-													<span className="text-xs text-muted-foreground">Password strength</span>
-													<span className={cn("text-xs font-medium", passwordStrength.level === "excellent" ? "text-green-600" : passwordStrength.level === "strong" ? "text-blue-600" : passwordStrength.level === "good" ? "text-yellow-600" : passwordStrength.level === "fair" ? "text-orange-600" : "text-red-600")}>{passwordStrength.level === "none" ? "Too weak" : passwordStrength.level.charAt(0).toUpperCase() + passwordStrength.level.slice(1)}</span>
-												</div>
-												<div className="w-full bg-muted rounded-full h-1.5">
-													<div className={cn("h-1.5 rounded-full transition-all duration-300", passwordStrength.level === "excellent" ? "bg-green-500" : passwordStrength.level === "strong" ? "bg-blue-500" : passwordStrength.level === "good" ? "bg-yellow-500" : passwordStrength.level === "fair" ? "bg-orange-500" : "bg-red-500")} style={{ width: `${passwordStrength.score}%` }} />
-												</div>
-											</div>
-										)}
-
 										<FormMessage className="text-xs" />
 									</FormItem>
 								)}
 							/>
 
-							{/* Remember Me */}
+							{/* Remember Me - Simplified */}
 							<FormField
 								control={formMethods.control}
 								name="rememberMe"
 								render={({ field }) => (
-									<div className="flex items-center space-x-3 py-2">
-										<input type="checkbox" id="rememberMe" checked={field.value} onChange={field.onChange} className="w-4 h-4 text-primary focus:ring-primary focus:ring-2 border-border rounded transition-all" />
-										<label htmlFor="rememberMe" className="text-sm text-foreground cursor-pointer select-none">
-											Keep me signed in for 30 days
+									<div className="flex items-center space-x-2 py-1">
+										<input 
+											type="checkbox" 
+											id="rememberMe" 
+											checked={field.value} 
+											onChange={field.onChange} 
+											className="w-4 h-4 text-foreground focus:ring-foreground/20 focus:ring-2 border-border/60 rounded transition-all" 
+										/>
+										<label htmlFor="rememberMe" className="text-sm text-muted-foreground cursor-pointer select-none">
+											Remember me
 										</label>
 									</div>
 								)}
 							/>
 
-							<Button type="submit" className={cn("group w-full h-12 text-base font-semibold transition-all duration-300 relative overflow-hidden", "bg-primary hover:bg-primary/90 focus:ring-4 focus:ring-primary/20", "transform hover:scale-[1.02] active:scale-[0.98]", isSubmitting && "bg-primary/80 cursor-not-allowed")} disabled={isSubmitting || loading || isRateLimited}>
-								<div className={cn("flex items-center justify-center transition-all duration-200", isSubmitting && "opacity-0")}>
-									{isRateLimited ? (
-										<>
-											<AlertCircle className="mr-2 h-5 w-5" />
-											Please wait before trying again
-										</>
-									) : loginContext && loginContext.key !== "default" ? (
-										<>
-											{ContextMessageGenerator.getPersonalizedCTA(loginContext, true)}
-											<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-										</>
-									) : (
-										<>
-											Sign In
-											<ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-										</>
-									)}
-								</div>
-
-								{/* Loading state */}
-								{isSubmitting && (
-									<div className="absolute inset-0 flex items-center justify-center">
-										<Loader2 className="mr-2 h-5 w-5" />
-										<span>{loginContext && loginContext.key !== "default" ? `Signing in to ${loginContext.actionText.toLowerCase()}...` : "Signing you in..."}</span>
+							{/* Clean Submit Button */}
+							<Button 
+								type="submit" 
+								className={cn(
+									"w-full h-11 text-base font-medium transition-all duration-200 rounded-lg",
+									"bg-foreground hover:bg-foreground/90 text-background",
+									"focus:ring-2 focus:ring-foreground/20 focus:outline-none",
+									"disabled:opacity-60 disabled:cursor-not-allowed",
+									"shadow-sm hover:shadow-md"
+								)} 
+								disabled={isRateLimited} // Removed loading states
+							>
+								{isRateLimited ? (
+									<div className="flex items-center justify-center">
+										<AlertCircle className="mr-2 h-4 w-4" />
+										<span>Please wait</span>
 									</div>
+								) : (
+									<span>Sign in</span>
 								)}
-
-								{/* Success animation overlay */}
-								<div className={cn("absolute inset-0 bg-green-500 flex items-center justify-center transition-all duration-500", "transform translate-y-full group-data-[success=true]:translate-y-0")}>
-									<CheckCircle2 className="h-5 w-5 text-white" />
-								</div>
 							</Button>
 						</form>
 					</Form>
 				</FormProvider>
+				</div>
 
-				{/* OAuth Providers */}
+				{/* OAuth Providers - Clean Design */}
 				{oauthProviders.length > 0 && (
 					<>
-						<div className="relative my-6">
+						<div className="relative my-8">
 							<div className="absolute inset-0 flex items-center">
-								<span className="w-full border-t" />
+								<span className="w-full border-t border-border/60" />
 							</div>
 							<div className="relative flex justify-center text-xs">
-								<span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+								<span className="bg-background px-3 text-muted-foreground">
+									or
+								</span>
 							</div>
 						</div>
 
-						<div className="grid gap-3">
+						<div className="space-y-3">
 							{oauthProviders.map((provider) => (
-								<Button key={provider.name} type="button" variant="outline" className="w-full h-11" onClick={() => handleOAuthLogin(provider.name)} disabled={isSubmitting || loading}>
-									{isSubmitting || loading ? <Loader2 className="mr-2 h-4 w-4" /> : <ProviderIcon name={provider.name} />}
-									Continue with {provider.displayName}
+								<Button 
+									key={provider.name} 
+									type="button" 
+									variant="outline" 
+									className="w-full h-11 border-border/60 hover:border-border hover:bg-muted/50 transition-all duration-200 rounded-lg" 
+									onClick={() => handleOAuthLogin(provider.name)} 
+									disabled={false} // Removed loading states
+								>
+									<ProviderIcon name={provider.name} /> {/* Removed loading state */}
+									<span className="ml-2">Continue with {provider.displayName}</span>
 								</Button>
 							))}
 						</div>
 					</>
 				)}
 
-				<div className="mt-6 text-sm text-center text-muted-foreground">
-					Don&apos;t have an account?{" "}
-					<Link href="/signup" className="font-medium text-primary hover:text-primary/80 transition-colors">
-						Sign up here
-					</Link>
+				{/* Clean Footer */}
+				<div className="mt-8 text-center">
+					<p className="text-sm text-muted-foreground">
+						Don&apos;t have an account?{" "}
+						<Link href="/signup" className="font-medium text-foreground hover:text-foreground/80 transition-colors underline-offset-4 hover:underline">
+							Sign up
+						</Link>
+					</p>
 				</div>
-			</div>
-		</ZodErrorBoundary>
+			</ZodErrorBoundary>
+		</>
 	);
 }

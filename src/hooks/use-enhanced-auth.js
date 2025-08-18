@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@lib/database/supabase/client";
+import { supabase } from "@lib/database/supabase";
 import { logger } from "@utils/logger";
 import { PasswordSecurity } from "@lib/security/password-security";
 import { validateEmail, validatePasswordStrength } from "@lib/database/supabase/auth/utils";
@@ -38,7 +38,9 @@ export function useEnhancedAuth() {
 	const router = useRouter();
 	const [user, setUser] = useState(null);
 	const [session, setSession] = useState(null);
-	const [loading, setLoading] = useState(true);
+	const [initialized, setInitialized] = useState(false);
+	const [loading] = useState(false); // Never show loading states
+	const setLoading = () => {}; // No-op function - don't change loading state
 	const [error, setError] = useState(null);
 	const [userRoles, setUserRoles] = useState([]);
 	const [profile, setProfile] = useState(null);
@@ -50,6 +52,23 @@ export function useEnhancedAuth() {
 		mfaEnabled: false,
 		securityLevel: "standard",
 	});
+
+	// Debug logging for enhanced auth hook - throttled to prevent spam
+	useEffect(() => {
+		const timeoutId = setTimeout(() => {
+			console.log('🔍 useEnhancedAuth DEBUG:', {
+				user: !!user,
+				userEmail: user?.email,
+				session: !!session,
+				loading,
+				userRoles: userRoles.length,
+				profile: !!profile,
+				initialized,
+			});
+		}, 100); // Debounce logs by 100ms
+		
+		return () => clearTimeout(timeoutId);
+	}, [user?.id, session?.access_token, loading, userRoles.length, profile?.id, initialized]); // Only log on meaningful changes
 
 	// This useEffect will be moved after initializeAuth is defined
 
@@ -218,102 +237,19 @@ export function useEnhancedAuth() {
 	/**
 	 * Initialize authentication state
 	 */
-	const initializeAuth = useCallback(async () => {
-		const startTime = performance.now();
-
-		try {
-			setLoading(true);
-
-			// OPTIMIZED: Run device fingerprint and session fetch in parallel
-			// PERFORMANCE OPTIMIZATION: Use lightweight device info instead of heavy fingerprinting
-			const [deviceInfo, sessionResult] = await Promise.all([
-				// Generate lightweight device info for security
-				Promise.resolve({
-					id: `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-					userAgent: navigator.userAgent.substring(0, 100), // Truncate for performance
-					screen: `${window.screen.width}x${window.screen.height}`,
-					timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-					language: navigator.language,
-					platform: navigator.platform,
-					timestamp: Date.now(),
-				}),
-				supabase.auth.getSession(),
-			]);
-
-			setDeviceInfo(deviceInfo);
-
-			const {
-				data: { session },
-				error: sessionError,
-			} = sessionResult;
-
-			if (sessionError) {
-				logger.error("Session initialization error:", sessionError);
-				throw sessionError;
-			}
-
-			if (session) {
-				await handleAuthStateChange("SIGNED_IN", session);
-			}
-
-			// Set up auth state change listener
-			const {
-				data: { subscription },
-			} = supabase.auth.onAuthStateChange(async (event, session) => {
-				logger.debug("Auth state changed:", event);
-				await handleAuthStateChange(event, session);
-			});
-
-			const duration = performance.now() - startTime;
-			logger.performance(`Auth initialization completed in ${duration.toFixed(2)}ms`);
-
-			return () => {
-				subscription?.unsubscribe();
-			};
-		} catch (error) {
-			logger.error("Auth initialization failed:", error);
-			setError({
-				message: error.message,
-				userMessage: "Failed to initialize authentication. Please refresh the page.",
-			});
-		} finally {
-			setLoading(false);
-		}
-	}, []); // Remove circular dependencies
-
-	// Initialize auth state and listeners - runs only once on mount
-	useEffect(() => {
-		let cleanup;
-		const init = async () => {
-			cleanup = await initializeAuth();
-		};
-		init();
-
-		// Cleanup subscription on unmount
-		return () => {
-			if (cleanup && typeof cleanup === "function") {
-				cleanup();
-			}
-		};
-	}, []); // Empty dependency array ensures this only runs once
-
 	/**
-	 * Handle auth state changes
+	 * Handle auth state changes - defined before initializeAuth to avoid circular dependencies
 	 */
 	const handleAuthStateChange = useCallback(
 		async (event, session) => {
 			try {
-				if (process.env.NODE_ENV === "development") {
-					console.log("🔐 Auth state change:", { event, hasSession: !!session, userId: session?.user?.id });
-				}
+				console.log("🔐 Auth state change:", { event, hasSession: !!session, userId: session?.user?.id });
 
 				setSession(session);
 				setUser(session?.user || null);
 
 				if (session?.user) {
-					if (process.env.NODE_ENV === "development") {
-						console.log("👤 Loading user data for:", session.user.id);
-					}
+					console.log("👤 Loading user data for:", session.user.id);
 
 					// OPTIMIZED: Parallel loading of user data with error isolation
 					const userDataPromises = [
@@ -334,9 +270,8 @@ export function useEnhancedAuth() {
 					// Execute all user data fetching in parallel
 					await Promise.allSettled(userDataPromises);
 
-					// Log security event asynchronously (don't block UI) - using setTimeout for browser compatibility
+					// Log security event asynchronously (don't block UI)
 					setTimeout(() => {
-						// Get current deviceInfo state instead of using dependency
 						setDeviceInfo((currentDeviceInfo) => {
 							logger.security({
 								action: "auth_state_changed",
@@ -350,35 +285,20 @@ export function useEnhancedAuth() {
 					}, 0);
 
 					if (process.env.NODE_ENV === "development") {
-						console.log("✅ Auth state change completed successfully");
+						console.log("✅ User data loaded successfully");
 					}
 				} else {
-					if (process.env.NODE_ENV === "development") {
-						console.log("👤 User logged out or no session - clearing data");
-					}
-
-					// Clear user data on logout
+					// User signed out - clear data
 					setProfile(null);
 					setUserRoles([]);
-					setSecurityMetrics({
-						loginAttempts: 0,
-						lastLogin: null,
-						deviceTrusted: false,
-						mfaEnabled: false,
-						securityLevel: "standard",
-					});
+					console.log("🔒 User signed out, data cleared");
 				}
 			} catch (error) {
-				if (process.env.NODE_ENV === "development") {
-					console.error("❌ Auth state change handling failed:", error);
-				}
-
-				// Robust error logging with safe property access
 				try {
-					logger.error("Auth state change handling failed:", {
-						event: event || "unknown",
-						userId: session?.user?.id || "unknown",
-						error: error?.message || error?.toString() || "Unknown error",
+					logger.error("Auth state change handler error:", {
+						event,
+						userId: session?.user?.id,
+						message: error?.message || "Unknown error",
 						stack: error?.stack || "No stack trace available",
 						errorType: typeof error,
 						errorConstructor: error?.constructor?.name || "unknown",
@@ -394,8 +314,195 @@ export function useEnhancedAuth() {
 				}
 			}
 		},
-		[fetchUserProfile, fetchUserRoles] // Only depend on the fetch functions, not deviceInfo
+		[fetchUserProfile, fetchUserRoles] // Dependencies for the handler
 	);
+
+	const initializeAuth = useCallback(async () => {
+		const startTime = performance.now();
+		console.log('🔍 useEnhancedAuth initializeAuth: Starting initialization');
+
+		try {
+			setLoading(true);
+
+			// OPTIMIZED: Run device fingerprint and session fetch in parallel
+			// PERFORMANCE OPTIMIZATION: Use lightweight device info instead of heavy fingerprinting
+			console.log('🔍 useEnhancedAuth: Starting parallel device info and session fetch');
+			
+			const [deviceInfo, sessionResult] = await Promise.all([
+				// Generate lightweight device info for security
+				Promise.resolve({
+					id: `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+					userAgent: navigator.userAgent.substring(0, 100), // Truncate for performance
+					screen: `${window.screen.width}x${window.screen.height}`,
+					timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+					language: navigator.language,
+					platform: navigator.platform,
+					timestamp: Date.now(),
+				}),
+				Promise.race([
+					supabase.auth.getSession(),
+					new Promise((_, reject) => 
+						setTimeout(() => reject(new Error('Session fetch timeout')), 1500) // Reduced from 5s to 1.5s
+					)
+				]).catch(err => {
+					console.warn('⚠️ Session fetch failed:', err);
+					return { data: { session: null }, error: null };
+				})
+			]);
+			
+			console.log('🔍 useEnhancedAuth: Parallel fetch completed:', {
+				hasDeviceInfo: !!deviceInfo,
+				hasSessionResult: !!sessionResult
+			});
+
+			setDeviceInfo(deviceInfo);
+			
+			console.log('🔍 useEnhancedAuth: Processing session result:', {
+				sessionResult,
+				hasData: !!sessionResult?.data,
+				hasSession: !!sessionResult?.data?.session,
+				error: sessionResult?.error
+			});
+
+			const {
+				data: { session } = { session: null },
+				error: sessionError,
+			} = sessionResult || {};
+
+			if (sessionError) {
+				console.warn('⚠️ Session initialization error:', sessionError);
+				logger.error("Session initialization error:", sessionError);
+				// Don't throw - continue with no session
+			}
+
+			if (session) {
+				console.log('🔍 useEnhancedAuth: Session found, calling handleAuthStateChange');
+				await handleAuthStateChange("SIGNED_IN", session);
+			} else {
+				console.log('🔍 useEnhancedAuth: No session found initially, checking localStorage backup');
+				
+				// Check if we have a session in localStorage as backup
+				if (typeof window !== 'undefined') {
+					// Check for Supabase session data in localStorage
+					const supabaseSessionKey = `sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0]}-auth-token`;
+					const localSession = localStorage.getItem(supabaseSessionKey);
+					
+					if (localSession) {
+						console.log('🔍 useEnhancedAuth: Found potential session in localStorage, attempting refresh');
+						try {
+							// Try to refresh the session using Supabase's built-in method
+							const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession();
+							if (refreshedSession && !refreshError) {
+								console.log('✅ useEnhancedAuth: Successfully restored session from localStorage');
+								await handleAuthStateChange("SIGNED_IN", refreshedSession);
+								return; // Exit early since we found a valid session
+							} else {
+								console.log('🔍 useEnhancedAuth: Session refresh failed or returned no session:', refreshError);
+							}
+						} catch (error) {
+							console.warn('⚠️ useEnhancedAuth: Session refresh failed:', error);
+						}
+					} else {
+						console.log('🔍 useEnhancedAuth: No session data found in localStorage');
+					}
+				}
+				
+				console.log('🔍 useEnhancedAuth: No valid session found, setting unauthenticated state');
+				setLoading(false);
+				setUser(null);
+				setProfile(null);
+				setUserRoles([]);
+			}
+
+			// Set up auth state change listener
+			console.log('🔍 useEnhancedAuth: Setting up auth state change listener');
+			const {
+				data: { subscription },
+			} = supabase.auth.onAuthStateChange(async (event, session) => {
+				console.log("🔐 Auth state changed:", event, "hasSession:", !!session);
+				try {
+					await handleAuthStateChange(event, session);
+				} catch (error) {
+					console.error('❌ Auth state change handler error:', error);
+				}
+			});
+			
+			console.log('🔍 useEnhancedAuth: Auth state listener set up:', {
+				hasSubscription: !!subscription
+			});
+
+			const duration = performance.now() - startTime;
+			logger.performance(`Auth initialization completed in ${duration.toFixed(2)}ms`);
+			console.log('✅ useEnhancedAuth: Initialization completed successfully');
+			setInitialized(true);
+
+			return () => {
+				subscription?.unsubscribe();
+			};
+		} catch (error) {
+			console.error('❌ useEnhancedAuth: Initialization failed:', error);
+			logger.error("Auth initialization failed:", error);
+			setError({
+				message: error.message,
+				userMessage: "Failed to initialize authentication. Please refresh the page.",
+			});
+			// Ensure loading is set to false even on error
+			setLoading(false);
+			setInitialized(true);
+		}
+	}, [handleAuthStateChange]); // Now properly depends on handleAuthStateChange
+
+	// Initialize auth state and listeners - runs only once on mount
+	useEffect(() => {
+		console.log('🔍 useEnhancedAuth: useEffect triggered for auth initialization');
+		let cleanup;
+		let timeoutId;
+		let initializationCompleted = false;
+		
+		const init = async () => {
+			console.log('🔍 useEnhancedAuth: Calling initializeAuth()');
+			
+			// Set a reasonable timeout failsafe - reduced from 5s to 2s for better UX
+			timeoutId = setTimeout(() => {
+				if (!initializationCompleted) {
+					console.warn('⚠️ useEnhancedAuth: Auth initialization timeout after 2 seconds');
+					setLoading(false);
+					// Don't clear user state - might be a valid session that took time to load
+					console.log('🔄 useEnhancedAuth: Timeout triggered, but preserving any valid session data');
+					setInitialized(true);
+				}
+			}, 2000); // 2 second timeout - faster response for better UX
+			
+			try {
+				cleanup = await initializeAuth();
+				initializationCompleted = true;
+				console.log('✅ useEnhancedAuth: Initialization completed successfully');
+			} catch (error) {
+				console.error('❌ useEnhancedAuth: Init error:', error);
+				setLoading(false);
+				initializationCompleted = true;
+			} finally {
+				// Clear the timeout since initialization attempt completed
+				if (timeoutId) {
+					clearTimeout(timeoutId);
+				}
+			}
+		};
+		
+		init();
+
+		// Cleanup subscription on unmount
+		return () => {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+			if (cleanup && typeof cleanup === "function") {
+				cleanup();
+			}
+		};
+	}, []); // Empty dependency array ensures this only runs once
+
+
 
 	/**
 	 * Enhanced login with security features
@@ -460,6 +567,12 @@ export function useEnhancedAuth() {
 					timestamp: Date.now(),
 				});
 
+				// CRITICAL FIX: Explicitly update auth state after successful login
+				// This ensures the user data is immediately available and doesn't rely 
+				// solely on the auth state change listener which may have timing issues
+				console.log('✅ Login successful, updating auth state immediately');
+				await handleAuthStateChange("SIGNED_IN", data.session);
+
 				return { success: true, data };
 			} catch (error) {
 				const duration = performance.now() - startTime;
@@ -479,7 +592,7 @@ export function useEnhancedAuth() {
 				setLoading(false);
 			}
 		},
-		[deviceInfo]
+		[deviceInfo, handleAuthStateChange]
 	);
 
 	/**
@@ -713,12 +826,22 @@ export function useEnhancedAuth() {
 			return false;
 		}
 
+		if (!password || password.length < 4) {
+			return false;
+		}
+
 		if (process.env.NODE_ENV === "development") {
 			console.log("🔐 Starting password breach check...");
 		}
 
 		try {
 			const result = await PasswordSecurity.checkBreachedPassword(password);
+
+			// Validate result object structure
+			if (!result || typeof result !== 'object') {
+				logger.warn('Password breach check returned invalid result:', result);
+				return false; // Allow login to continue with warning
+			}
 
 			// Handle various error states gracefully
 			if (result.error) {
@@ -727,7 +850,7 @@ export function useEnhancedAuth() {
 				}
 
 				// Non-blocking errors - allow login to continue
-				const nonBlockingErrors = ["HASH_GENERATION_FAILED", "API_ERROR", "TIMEOUT", "CHECK_FAILED"];
+				const nonBlockingErrors = ["HASH_GENERATION_FAILED", "API_ERROR", "TIMEOUT", "CHECK_FAILED", "UNKNOWN_ERROR", "EMPTY_OBJECT_ERROR", "NULL_ERROR", "STRING_ERROR", "UNKNOWN_TYPE_ERROR", "EMPTY_FETCH_ERROR", "FETCH_ERROR"];
 				if (nonBlockingErrors.includes(result.error)) {
 					logger.info(`Password breach check failed with recoverable error: ${result.error}`);
 					return false; // Allow login to continue
@@ -740,9 +863,56 @@ export function useEnhancedAuth() {
 
 			return result.isBreached;
 		} catch (error) {
-			logger.error("Password breach check failed:", error);
+			// Enhanced error handling with better debugging
+			let errorDetails = "Unknown error";
+			let errorType = typeof error;
+			let errorKeys = [];
+			
+			// Enhanced error analysis
+			if (!error) {
+				errorDetails = "Null/undefined error";
+				errorType = "null";
+			} else if (typeof error === 'object') {
+				if (Object.keys(error).length === 0) {
+					errorDetails = "Empty error object";
+					errorType = "empty_object";
+				} else {
+					errorKeys = Object.keys(error);
+					errorDetails = error.message || error.toString() || "Object error without message";
+					errorType = "object";
+					
+					// Log additional error properties for debugging
+					if (process.env.NODE_ENV === "development") {
+						console.error("🔍 Error object analysis in auth hook:", {
+							keys: errorKeys,
+							constructor: error.constructor?.name,
+							prototype: Object.getPrototypeOf(error)?.constructor?.name,
+							hasMessage: 'message' in error,
+							hasName: 'name' in error,
+							hasStack: 'stack' in error,
+							hasCode: 'code' in error,
+						});
+					}
+				}
+			} else if (typeof error === 'string') {
+				errorDetails = error;
+				errorType = "string";
+			} else {
+				errorDetails = `Unhandled error type: ${typeof error}`;
+				errorType = typeof error;
+			}
+
+			logger.error("Password breach check failed in auth hook:", { 
+				errorDetails, 
+				errorType,
+				errorKeys,
+				timestamp: Date.now(),
+				environment: process.env.NODE_ENV,
+				userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server',
+			});
+
 			if (process.env.NODE_ENV === "development") {
-				console.warn("❌ Password breach check failed - allowing login to continue for better UX");
+				console.warn("❌ Password breach check failed - allowing login to continue for better UX:", errorDetails);
 			}
 			return false; // Fail safely - don't block legitimate users
 		}
@@ -760,6 +930,10 @@ export function useEnhancedAuth() {
 					} else {
 						console.warn("⚠️ Crypto fallback system test failed");
 					}
+					
+					// Run comprehensive debug test
+					console.log("🔍 Running comprehensive password breach check debug...");
+					await PasswordSecurity.debugPasswordBreachCheck();
 				} catch (error) {
 					console.warn("⚠️ Crypto fallback system test error:", error.message);
 				}
@@ -1090,6 +1264,7 @@ export function useEnhancedAuth() {
 		session,
 		profile,
 		loading,
+		initialized,
 		error,
 		userRoles,
 		deviceInfo,

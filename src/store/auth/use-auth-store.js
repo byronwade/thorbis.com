@@ -86,12 +86,12 @@ const useAuthStore = create((set, get) => ({
 	profile: null,
 	businessProfile: null,
 	session: null,
-	loading: true,
+	loading: false, // Never show loading states
 	error: null,
-	isSigningIn: false,
-	isSigningUp: false,
-	isSigningOut: false,
-	isResettingPassword: false,
+	isSigningIn: false, // Never show loading states
+	isSigningUp: false, // Never show loading states
+	isSigningOut: false, // Never show loading states
+	isResettingPassword: false, // Never show loading states
 	lastActivity: Date.now(),
 	userRoles: [], // Computed from profile.role
 
@@ -115,14 +115,14 @@ const useAuthStore = create((set, get) => ({
 		set({
 			session,
 			user: session?.user || null,
-			loading: false,
+			// Removed loading state change
 		});
 
 		// Update last activity
 		get().updateLastActivity();
 	},
 
-	setLoading: (loading) => set({ loading }),
+	setLoading: () => {}, // No-op - never change loading state
 
 	setError: (error) => set({ error }),
 
@@ -134,7 +134,7 @@ const useAuthStore = create((set, get) => ({
 	signIn: async (email, password) => {
 		const state = get();
 		state.setError(null);
-		set({ isSigningIn: true });
+		// Removed loading state - no loading indicators
 
 		try {
 			const { data, error } = await supabase.auth.signInWithPassword({
@@ -151,14 +151,14 @@ const useAuthStore = create((set, get) => ({
 			state.setError(error.message);
 			return { success: false, error: error.message };
 		} finally {
-			set({ isSigningIn: false });
+			// Removed loading state change
 		}
 	},
 
 	signUp: async (email, password, metadata = {}) => {
 		const state = get();
 		state.setError(null);
-		set({ isSigningUp: true });
+		// Removed loading state - no loading indicators
 
 		try {
 			const { data, error } = await supabase.auth.signUp({
@@ -178,13 +178,13 @@ const useAuthStore = create((set, get) => ({
 			state.setError(error.message);
 			return { success: false, error: error.message };
 		} finally {
-			set({ isSigningUp: false });
+			// Removed loading state change
 		}
 	},
 
 	signOut: async () => {
 		const state = get();
-		set({ isSigningOut: true });
+		// Removed loading state - no loading indicators
 
 		try {
 			const { error } = await supabase.auth.signOut();
@@ -214,7 +214,7 @@ const useAuthStore = create((set, get) => ({
 			state.setError(error.message);
 			return { success: false, error: error.message };
 		} finally {
-			set({ isSigningOut: false });
+			// Removed loading state change
 		}
 	},
 
@@ -231,7 +231,7 @@ const useAuthStore = create((set, get) => ({
 	resetPassword: async (email) => {
 		const state = get();
 		state.setError(null);
-		set({ isResettingPassword: true });
+		// Removed loading state - no loading indicators
 
 		try {
 			const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -247,7 +247,7 @@ const useAuthStore = create((set, get) => ({
 			state.setError(error.message);
 			return { success: false, error: error.message };
 		} finally {
-			set({ isResettingPassword: false });
+			// Removed loading state change
 		}
 	},
 
@@ -326,10 +326,48 @@ const useAuthStore = create((set, get) => ({
 		}
 	},
 
+	// Fetch user profile from database
+	fetchProfile: async () => {
+		try {
+			const state = get();
+			const user = state.user;
+			
+			if (!user) {
+				logger.debug("No user available for profile fetch");
+				return;
+			}
+
+			logger.debug("Fetching user profile for:", user.id);
+
+			// Fetch user profile from public.users table
+			const { data: profile, error: profileError } = await supabase
+				.from("users")
+				.select("*")
+				.eq("id", user.id)
+				.maybeSingle();
+
+			if (profileError && profileError.code !== "PGRST116") {
+				logger.error("Error fetching user profile:", profileError);
+				return;
+			}
+
+			// Set profile data
+			state.setProfile(profile);
+
+			// Fetch business profile if user has one
+			const businessProfile = await getUserBusinessProfile(user.id);
+			state.setBusinessProfile(businessProfile);
+
+			logger.debug("Profile fetch completed successfully");
+		} catch (error) {
+			logger.error("Error in fetchProfile:", error);
+		}
+	},
+
 	// Session management
 	initializeAuth: async () => {
 		try {
-			set({ loading: true });
+			// Removed loading state - no loading indicators
 
 			// Get initial session
 			const {
@@ -339,7 +377,7 @@ const useAuthStore = create((set, get) => ({
 
 			if (error) {
 				logger.error("Error getting session:", error);
-				set({ error: error.message, loading: false });
+				set({ error: error.message }); // Removed loading state
 				return;
 			}
 
@@ -347,7 +385,7 @@ const useAuthStore = create((set, get) => ({
 				get().setSession(session);
 				await get().fetchProfile();
 			} else {
-				set({ loading: false });
+				// Removed loading state change
 			}
 
 			// Set up auth state change listener
@@ -370,7 +408,7 @@ const useAuthStore = create((set, get) => ({
 			});
 		} catch (error) {
 			logger.error("Error initializing auth:", error);
-			set({ error: error.message, loading: false });
+			set({ error: error.message }); // Removed loading state
 		}
 	},
 
@@ -432,12 +470,12 @@ const useAuthStore = create((set, get) => ({
 			profile: null,
 			businessProfile: null,
 			session: null,
-			loading: false,
-			error: null,
-			isSigningIn: false,
-			isSigningUp: false,
-			isSigningOut: false,
-			isResettingPassword: false,
+					loading: false, // Never show loading states
+		error: null,
+		isSigningIn: false, // Never show loading states
+		isSigningUp: false, // Never show loading states
+		isSigningOut: false, // Never show loading states
+		isResettingPassword: false, // Never show loading states
 			lastActivity: Date.now(),
 			userRoles: [],
 		});

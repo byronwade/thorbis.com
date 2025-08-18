@@ -25,7 +25,7 @@ export default function UserProfile() {
 										<AvatarFallback className="text-2xl rounded-md">CN</AvatarFallback>
 									</Avatar>
 									<label htmlFor="image-upload" className="p-2 text-sm">
-										<span className="text-blue-500">Click here to add image</span>
+										<span className="text-primary">Click here to add image</span>
 										<input id="image-upload" type="file" accept="image/*" className="hidden" onChange={(e) => field.onChange(e.target.files[0])} />
 									</label>
 								</div>
@@ -40,7 +40,7 @@ export default function UserProfile() {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>
-								Username <span className="text-red-500">*</span>
+																	Username <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormControl>
 								<Input {...field} />

@@ -9,6 +9,12 @@ description: Performance-first development with enterprise-level monitoring and 
 
 **ALL CODE DECISIONS MUST PRIORITIZE PERFORMANCE AND SPEED ABOVE EVERYTHING ELSE**
 
+### 🚨 CRITICAL: EDIT EXISTING PERFORMANCE FILES FIRST
+**Before creating new performance utilities, monitoring, or optimization code:**
+1. Search for existing performance utilities in `src/lib/performance/` and `src/utils/`
+2. Check if existing logging, monitoring, or optimization functions can be extended
+3. Only create new performance-related files when no existing ones can serve the purpose
+
 ### Core Performance Principles (Google/Netflix/Meta Standards)
 
 1. **Speed Over Features**: If a feature impacts performance, performance wins

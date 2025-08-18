@@ -1,33 +1,12 @@
-export const metadata = {
-	title: "Real Estate Operations Platform – Listings, Showings, Deals | Thorbis",
-	description: "Manage listings and showings, track offers and deals, and coordinate agents and marketing.",
-	keywords: ["real estate operations", "real estate CRM", "listing management", "showings scheduler", "offers and deals", "agent coordination"],
-	alternates: { canonical: "https://thorbis.com/real-estate-operations-platform" },
-	openGraph: {
-		title: "Real Estate Operations Platform – Close More Deals",
-		description: "Listings, showings, offers, and agent coordination.",
-		type: "website",
-		url: "https://thorbis.com/real-estate-operations-platform",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Real Estate Operations Platform")}&description=${encodeURIComponent("Listings, showings, offers, and agent coordination.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Real Estate Operations Platform",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Real Estate Operations Platform – Close More Deals",
-		description: "Listings, showings, offers, and agent coordination.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Real Estate Operations Platform")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Real Estate Operations Platform – Listings, Showings, Deals | Thorbis",
+		description: "Manage listings and showings, track offers and deals, and coordinate agents and marketing.",
+		path: "/real-estate-operations-platform",
+		keywords: ["real estate operations", "real estate CRM", "listing management", "showings scheduler", "offers and deals", "agent coordination"],
+	});
+}
 
 function JsonLd() {
 	const data = {

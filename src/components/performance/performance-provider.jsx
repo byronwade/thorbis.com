@@ -279,8 +279,8 @@ export default function PerformanceProvider({ children, enableServiceWorker = tr
 
 	// Background optimizations
 	const startBackgroundOptimizations = async () => {
-		// Prefetch critical routes
-		const criticalRoutes = ["/categories", "/search", "/dashboard/user", "/jobs"];
+		// Prefetch critical routes (exclude protected user dashboard to avoid auth loops)
+		const criticalRoutes = ["/categories", "/search", "/jobs"];
 
 		if (serviceWorkerManager) {
 			await serviceWorkerManager.prefetchRoutes(criticalRoutes);

@@ -1,19 +1,14 @@
 <svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect width="400" height="300" fill="#F0FDF4"/>
-  
-  <!-- Wrench icon -->
-  <path d="M180 140L200 120L220 140L210 150L190 150Z" fill="#22C55E"/>
-  <rect x="185" y="150" width="30" height="8" fill="#22C55E"/>
-  
-  <!-- Screwdriver -->
-  <rect x="170" y="170" width="4" height="40" fill="#16A34A"/>
-  <rect x="165" y="165" width="14" height="10" fill="#16A34A"/>
-  
-  <!-- Hammer outline -->
-  <rect x="210" y="170" width="6" height="35" fill="#15803D"/>
-  <rect x="200" y="165" width="26" height="10" fill="#15803D"/>
-  
-  <!-- Background circle -->
-  <circle cx="200" cy="180" r="50" fill="#DCFCE7"/>
+  <rect width="400" height="300" fill="#e0f2fe"/>
+  <g opacity="0.7">
+    <rect x="160" y="80" width="80" height="60" rx="8" fill="#0284c7" transform="rotate(15 200 110)"/>
+    <rect x="180" y="100" width="40" height="6" rx="3" fill="#0ea5e9" transform="rotate(15 200 103)"/>
+    <rect x="180" y="115" width="40" height="6" rx="3" fill="#0ea5e9" transform="rotate(15 200 118)"/>
+    <circle cx="170" cy="140" r="8" fill="#0284c7"/>
+    <circle cx="230" cy="140" r="8" fill="#0284c7"/>
+    <rect x="190" y="155" width="20" height="20" rx="4" fill="#0891b2"/>
+  </g>
+  <text x="200" y="220" text-anchor="middle" fill="#0284c7" font-family="system-ui, sans-serif" font-size="14" font-weight="600">
+    Service Provider
+  </text>
 </svg>

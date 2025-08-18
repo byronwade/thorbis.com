@@ -12,7 +12,11 @@ import EnabledIntegrations from "@components/dashboard/business/enabled-integrat
 import { AgricultureWidget, AutomotiveWidget, EcommerceWidget, LogisticsWidget, PropertyManagementWidget, HospitalityWidget } from "@components/dashboard/business/integrations/widgets/IndustryOpsWidgets";
 import FieldServiceJobsWidget from "@components/dashboard/business/integrations/widgets/FieldServiceJobs";
 import HospitalityPOSWidget from "@components/dashboard/business/integrations/widgets/HospitalityPOS";
+import { FleetManagementWidget } from "@components/dashboard/business/integrations/fleet-management";
+import EnhancedFieldManagementWidget from "@components/dashboard/business/integrations/widgets/EnhancedFieldManagement";
 import RoleDebugger from "@components/debug/role-debugger";
+import AutoRoleSync from "@components/shared/AutoRoleSync";
+import WeatherWidget from "@components/shared/weather-widget";
 
 /**
  * Business dashboard page for business owners
@@ -22,19 +26,32 @@ export default function BusinessDashboardPage() {
 	return (
 		<ProtectedRoute
 			requiredPermissions={[PERMISSIONS.BUSINESS_MANAGE]}
-			minRoleLevel={2}
-			requireEmailVerification={true}
+			minRoleLevel={1}
+			requireEmailVerification={false}
+			fallbackPermissions={[PERMISSIONS.PROFILE_READ]}
 			unauthorizedComponent={
 				<div className="mx-auto max-w-7xl space-y-8">
 					<RoleDebugger />
 					<div className="text-center">
 						<h2 className="text-2xl font-bold text-red-600">Access Denied</h2>
-						<p className="text-muted-foreground">Use the debug info above to troubleshoot</p>
+						<p className="text-muted-foreground">Please sync your user roles using the debug panel above</p>
 					</div>
 				</div>
 			}
 		>
-			<BusinessDashboardContent />
+			<AutoRoleSync 
+				fallback={
+					<div className="mx-auto max-w-7xl space-y-8">
+						<RoleDebugger />
+						<div className="text-center">
+							<h2 className="text-2xl font-bold text-yellow-600">Account Setup Required</h2>
+							<p className="text-muted-foreground">Unable to automatically configure your account. Please use the sync button above.</p>
+						</div>
+					</div>
+				}
+			>
+				<BusinessDashboardContent />
+			</AutoRoleSync>
 		</ProtectedRoute>
 	);
 }
@@ -300,6 +317,9 @@ function BusinessDashboardContent() {
 						})}
 					</div>
 
+					{/* Weather Widget - Full Width */}
+					<WeatherWidget showBusinessImpact={true} />
+
 					{/* Main Content Grid */}
 					<div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
 						{/* Combined Business Overview - Takes up 2 columns */}
@@ -329,6 +349,8 @@ function BusinessDashboardContent() {
 						{/* Right Sidebar */}
 						<div className="space-y-6">
 							<EnabledIntegrations />
+							<FleetManagementWidget />
+							<EnhancedFieldManagementWidget />
 							<FieldServiceJobsWidget />
 							<HospitalityPOSWidget />
 							<AgricultureWidget />

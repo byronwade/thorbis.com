@@ -102,7 +102,7 @@ export const metadata = {
 		"theme-color": "#000000",
 		"msapplication-TileColor": "#000000",
 		"msapplication-config": "/browserconfig.xml",
-		"apple-mobile-web-app-capable": "yes",
+		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
 		"apple-mobile-web-app-title": "Local Directory",
 		"format-detection": "telephone=no",
@@ -121,7 +121,7 @@ export const metadata = {
 
 		// Security headers
 		"X-UA-Compatible": "IE=edge",
-		"Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://vitals.vercel-analytics.com;",
+		"Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://vercel.live https://api.mapbox.com; script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://vercel.live https://api.mapbox.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob: https://*.tiles.mapbox.com https://api.mapbox.com; connect-src 'self' https://www.google-analytics.com https://vitals.vercel-analytics.com https://va.vercel-scripts.com https://*.vercel-scripts.com https://vercel.live https://api.mapbox.com https://*.tiles.mapbox.com https://events.mapbox.com; worker-src 'self' blob: https://api.mapbox.com;",
 
 		// Performance hints
 		"dns-prefetch": "https://fonts.googleapis.com",

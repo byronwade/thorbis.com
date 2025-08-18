@@ -12,7 +12,7 @@ import { Progress } from "@components/ui/progress";
 import { Badge } from "@components/ui/badge";
 import { Shield, Heart, Activity, CheckCircle, AlertTriangle } from "lucide-react";
 
-const LocalHubDirectoryHealthSection = () => {
+const LocalHubDirectoryHealthSection = ({ healthData }) => {
 	// Directory Health Metrics (would come from API/store in real implementation)
 	const healthMetrics = [
 		{

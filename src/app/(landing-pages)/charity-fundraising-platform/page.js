@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Charity Fundraising Platform – Online Donations, Campaign Management | Thorbis",
-	description: "Powerful charity fundraising platform with online donation processing, campaign management, donor engagement, and impact reporting tools for nonprofits and charitable organizations.",
-	keywords: ["charity fundraising software", "online donation platform", "fundraising campaign management", "donor engagement", "charity management", "nonprofit fundraising"],
-	alternates: { canonical: "https://thorbis.com/charity-fundraising-platform" },
-	openGraph: {
-		title: "Charity Fundraising Platform – Maximize Donations & Impact",
-		description: "Online donation processing, campaign management, donor engagement, and impact reporting tools.",
-		type: "website",
-		url: "https://thorbis.com/charity-fundraising-platform",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Charity Fundraising Platform")}&description=${encodeURIComponent("Online donations, campaigns, and impact reporting.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Charity Fundraising Platform",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Charity Fundraising Platform – Maximize Donations & Impact",
-		description: "Online donation processing, campaign management, donor engagement, and impact reporting tools.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Charity Fundraising Platform")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Charity Fundraising Platform – Online Donations, Campaign Management | Thorbis",
+		description: "Powerful charity fundraising platform with online donation processing, campaign management, donor engagement, and impact reporting tools for nonprofits and charitable organizations.",
+		path: "/charity-fundraising-platform",
+		keywords: ["charity fundraising software", "online donation platform", "fundraising campaign management", "donor engagement", "charity management", "nonprofit fundraising"],
+	});
+}
 
 import { Star, DollarSign, Megaphone, BarChart3, Heart, Users, Shield } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -167,7 +148,7 @@ export default function CharityFundraisingPlatform() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-green-600 px-6 py-3 text-white font-semibold hover:bg-green-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -262,7 +243,7 @@ export default function CharityFundraisingPlatform() {
 				<h2 className="text-3xl font-bold mb-4">Amplify Your Charitable Impact</h2>
 				<p className="text-lg mb-6 opacity-90">Join hundreds of nonprofits using Thorbis to increase donations and maximize their impact.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-green-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

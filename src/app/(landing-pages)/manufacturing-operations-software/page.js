@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Manufacturing Operations Software – Production Planning, Quality Control | Thorbis",
-	description: "Comprehensive manufacturing management software with production planning, quality control, inventory tracking, and equipment maintenance.",
-	keywords: ["manufacturing operations software", "production planning software", "quality control system", "manufacturing ERP", "factory management"],
-	alternates: { canonical: "https://thorbis.com/manufacturing-operations-software" },
-	openGraph: {
-		title: "Manufacturing Operations Software – Complete Production Management",
-		description: "Production planning, quality control, inventory tracking, and equipment maintenance.",
-		type: "website",
-		url: "https://thorbis.com/manufacturing-operations-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Manufacturing Operations Software")}&description=${encodeURIComponent("Production planning, quality control, and inventory tracking.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Manufacturing Operations Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Manufacturing Operations Software – Complete Production Management",
-		description: "Production planning, quality control, inventory tracking, and equipment maintenance.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Manufacturing Operations Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Manufacturing Operations Software – Production Planning, Quality Control | Thorbis",
+		description: "Comprehensive manufacturing management software with production planning, quality control, inventory tracking, and equipment maintenance.",
+		path: "/manufacturing-operations-software",
+		keywords: ["manufacturing operations software", "production planning software", "quality control system", "manufacturing ERP", "factory management"],
+	});
+}
 
 import { Star, Settings, CheckCircle, Package } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 export default function ManufacturingOperationsSoftware() {
 	const features = [
@@ -73,10 +54,10 @@ export default function ManufacturingOperationsSoftware() {
 					Optimize your manufacturing operations with comprehensive production planning, quality control, inventory management, and equipment maintenance tools.
 				</p>
 				<div className="flex items-center justify-center gap-4 pt-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-gray-700 px-6 py-3 text-white font-semibold hover:bg-gray-800 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-primary-foreground font-semibold hover:bg-primary/90 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -87,13 +68,13 @@ export default function ManufacturingOperationsSoftware() {
 				{features.map((feature) => (
 					<div key={feature.title} className="rounded-xl border p-6 bg-card hover:shadow-lg transition-shadow">
 						<div className="flex items-center gap-3 mb-4">
-							<feature.icon className="w-8 h-8 text-gray-700" />
+							<feature.icon className="w-8 h-8 text-primary" />
 							<h3 className="font-bold text-lg">{feature.title}</h3>
 						</div>
 						<ul className="space-y-2 text-sm text-muted-foreground">
 							{feature.points.map((point) => (
 								<li key={point} className="flex items-start gap-2">
-									<span className="w-1.5 h-1.5 bg-gray-700 rounded-full mt-2 flex-shrink-0"></span>
+									<span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
 									{point}
 								</li>
 							))}
@@ -107,7 +88,7 @@ export default function ManufacturingOperationsSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Streamline Your Manufacturing Operations</h2>
 				<p className="text-lg mb-6 opacity-90">Join manufacturers worldwide using Thorbis to improve efficiency and quality.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-gray-700 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 				</div>

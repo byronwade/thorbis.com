@@ -83,13 +83,13 @@ export const BusinessCard = memo(
 		};
 
 		const renderStars = (rating) => {
-			return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-2.5 h-2.5 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300 dark:text-gray-600"}`} />);
+			return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-2.5 h-2.5 ${i < rating ? "fill-muted-foreground text-muted-foreground" : "text-muted-foreground/50"}`} />);
 		};
 
 		return (
 			<Card
 				ref={ref}
-				className={`group relative cursor-pointer transition-all duration-200 ease-out ${isMobile ? "rounded-xl" : "rounded-2xl"} overflow-hidden ${isActive ? "ring-2 ring-blue-500 bg-blue-50/80 dark:bg-blue-950/30 shadow-lg" : "bg-white dark:bg-gray-900 hover:shadow-lg hover:shadow-gray-100/50 dark:hover:shadow-gray-900/50"} ${isMobile ? "active:scale-[0.98] shadow-sm" : "hover:scale-[1.01]"} border border-gray-200 dark:border-gray-700`}
+				className={`group relative cursor-pointer transition-all duration-200 ease-out ${isMobile ? "rounded-xl" : "rounded-2xl"} overflow-hidden ${isActive ? "ring-2 ring-primary bg-primary/10 shadow-lg" : "bg-card hover:shadow-lg hover:shadow-primary/10"} ${isMobile ? "active:scale-[0.98] shadow-sm" : "hover:scale-[1.01]"} border border-border`}
 				onClick={() => handleClick(business)}
 				onMouseEnter={handleMouseEnter}
 				onMouseLeave={handleMouseLeave}

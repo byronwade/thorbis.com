@@ -1,48 +1,95 @@
+/**
+ * Google Geocoding API Route
+ * Proxies requests to Google Geocoding API for address verification and geocoding
+ */
+
+import { NextResponse } from 'next/server';
+import { logger } from '@lib/utils/logger';
+
 export async function GET(request) {
-	const { searchParams } = new URL(request.url);
-	const address = searchParams.get("address");
+  try {
+    const { searchParams } = new URL(request.url);
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'Google Maps API key not configured' },
+        { status: 500 }
+      );
+    }
 
-	if (!address) {
-		return new Response(JSON.stringify({ error: "Address parameter is required" }), {
-			status: 400,
-			headers: { "Content-Type": "application/json" },
-		});
-	}
+    const address = searchParams.get('address');
+    const latlng = searchParams.get('latlng');
+    
+    if (!address && !latlng) {
+      return NextResponse.json(
+        { error: 'Address or latlng parameter required' },
+        { status: 400 }
+      );
+    }
 
-	try {
-		// For now, return mock coordinates for Jasper, GA
-		// In production, you would use a real geocoding service like Google Maps API
-		const mockCoordinates = {
-			"Jasper, GA": { lat: 34.4673, lng: -84.4294 },
-			"Atlanta, GA": { lat: 33.749, lng: -84.388 },
-			"Marietta, GA": { lat: 33.9526, lng: -84.5499 },
-			"Alpharetta, GA": { lat: 34.0754, lng: -84.2941 },
-		};
+        // Build Google Geocoding API URL
+    const googleParams = new URLSearchParams({
+      key: apiKey,
+      latlng: latlng || '',
+      address: address || ''
+    });
 
-		const coords = mockCoordinates[address] || { lat: 34.4673, lng: -84.4294 }; // Default to Jasper, GA
+    const googleUrl = `https://maps.googleapis.com/maps/api/geocode/json?${googleParams}`;
+    
+    // Make request to Google Geocoding API
+    const response = await fetch(googleUrl, {
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
 
-		return new Response(
-			JSON.stringify({
-				results: [
-					{
-						geometry: {
-							location: coords,
-						},
-						formatted_address: address,
-					},
-				],
-				status: "OK",
-			}),
-			{
-				status: 200,
-				headers: { "Content-Type": "application/json" },
-			}
-		);
-	} catch (error) {
-		console.error("Geocoding error:", error);
-		return new Response(JSON.stringify({ error: "Failed to geocode address" }), {
-			status: 500,
-			headers: { "Content-Type": "application/json" },
-		});
-	}
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Google Geocoding API error: ${response.status} - ${errorText}`);
+    }
+
+    const responseText = await response.text();
+    
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (parseError) {
+      throw new Error(`Failed to parse Google API response: ${parseError.message}`);
+    }
+
+    if (data.status !== 'OK' && data.status !== 'ZERO_RESULTS') {
+      throw new Error(`Google Geocoding API returned status: ${data.status}`);
+    }
+
+    // Transform Google response to our format
+    const result = data.results?.[0];
+    if (!result) {
+      return NextResponse.json({
+        error: 'No results found',
+        status: data.status
+      });
+    }
+
+    const transformedResult = {
+      lat: result.geometry.location.lat,
+      lng: result.geometry.location.lng,
+      formatted_address: result.formatted_address,
+      place_id: result.place_id,
+      types: result.types,
+      location_type: result.geometry.location_type,
+      address_components: result.address_components
+    };
+
+          return NextResponse.json(transformedResult);
+
+  } catch (error) {
+    return NextResponse.json(
+      { 
+        error: 'Failed to geocode address',
+        details: error.message 
+      },
+      { status: 500 }
+    );
+  }
 }

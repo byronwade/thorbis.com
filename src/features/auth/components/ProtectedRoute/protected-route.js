@@ -7,7 +7,7 @@ import { RoleManager } from "@lib/auth/roles";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { Alert, AlertDescription } from "@components/ui/alert";
-import { Loader2, Lock, AlertTriangle, ArrowLeft } from "lucide-react";
+import { Lock, AlertTriangle, ArrowLeft } from "lucide-react";
 import { logger } from "@utils/logger";
 
 /**
@@ -15,15 +15,15 @@ import { logger } from "@utils/logger";
  * Provides comprehensive authentication and authorization checking
  */
 export function ProtectedRoute({ children, requiredPermissions = [], requiredRoles = [], fallbackPermissions = [], redirectTo = "/login", loadingComponent = null, unauthorizedComponent = null, allowUnauthenticated = false, requireEmailVerification = false, requirePhoneVerification = false, minRoleLevel = 0 }) {
-	const { user, isAuthenticated, loading: authLoading, userRoles } = useAuth();
+	const { user, isAuthenticated, loading: authLoading, initialized, userRoles } = useAuth();
 	const router = useRouter();
 	const [authState, setAuthState] = useState("checking");
 
 	useEffect(() => {
 		const checkAccess = async () => {
 			try {
-				// Wait for auth to finish loading
-				if (authLoading) {
+				// Wait until auth is initialized to avoid redirect loops
+				if (!initialized) {
 					setAuthState("loading");
 					return;
 				}
@@ -39,7 +39,7 @@ export function ProtectedRoute({ children, requiredPermissions = [], requiredRol
 
 					setAuthState("redirecting");
 					const currentUrl = window.location.pathname + window.location.search;
-					router.push(`${redirectTo}?redirect=${encodeURIComponent(currentUrl)}`);
+					router.push(`${redirectTo}?redirectTo=${encodeURIComponent(currentUrl)}`);
 					return;
 				}
 
@@ -158,35 +158,10 @@ export function ProtectedRoute({ children, requiredPermissions = [], requiredRol
 		};
 
 		checkAccess();
-	}, [authLoading, isAuthenticated, user, requiredPermissions, requiredRoles, fallbackPermissions, redirectTo, allowUnauthenticated, requireEmailVerification, requirePhoneVerification, minRoleLevel, router]);
+	}, [initialized, authLoading, isAuthenticated, user, requiredPermissions, requiredRoles, fallbackPermissions, redirectTo, allowUnauthenticated, requireEmailVerification, requirePhoneVerification, minRoleLevel, router]);
 
-	// Show loading state
-	if (authState === "loading" || authState === "checking") {
-		if (loadingComponent) {
-			return loadingComponent;
-		}
-
-		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<div className="text-center space-y-4">
-					<Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600" />
-					<p className="text-muted-foreground">Verifying access...</p>
-				</div>
-			</div>
-		);
-	}
-
-	// Show redirecting state
-	if (authState === "redirecting") {
-		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<div className="text-center space-y-4">
-					<Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600" />
-					<p className="text-muted-foreground">Redirecting...</p>
-				</div>
-			</div>
-		);
-	}
+	// No loading states - handle auth in background
+	// Skip loading and redirecting states for immediate rendering
 
 	// Show unauthorized state
 	if (authState === "unauthorized") {

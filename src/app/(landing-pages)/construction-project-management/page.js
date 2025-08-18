@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Construction Project Management Software – Scheduling, Teams, Budget Tracking | Thorbis",
-	description: "Comprehensive construction project management with team coordination, budget tracking, progress monitoring, and subcontractor management.",
-	keywords: ["construction project management", "construction scheduling software", "project budget tracking", "construction team management", "subcontractor management"],
-	alternates: { canonical: "https://thorbis.com/construction-project-management" },
-	openGraph: {
-		title: "Construction Project Management Software – Complete Project Control",
-		description: "Team coordination, budget tracking, progress monitoring, and subcontractor management.",
-		type: "website",
-		url: "https://thorbis.com/construction-project-management",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Construction Project Management")}&description=${encodeURIComponent("Team coordination, budget tracking, and progress monitoring.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Construction Project Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Construction Project Management Software – Complete Project Control",
-		description: "Team coordination, budget tracking, progress monitoring, and subcontractor management.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Construction Project Management")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Construction Project Management Software – Scheduling, Teams, Budget Tracking | Thorbis",
+		description: "Comprehensive construction project management with team coordination, budget tracking, progress monitoring, and subcontractor management.",
+		path: "/construction-project-management",
+		keywords: ["construction project management", "construction scheduling software", "project budget tracking", "construction team management", "subcontractor management"],
+	});
+}
 
 import { Star, Calendar, DollarSign, Users } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -90,7 +71,7 @@ export default function ConstructionProjectManagement() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-orange-600 px-6 py-3 text-white font-semibold hover:bg-orange-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Request Demo
 					</a>
 				</div>
@@ -121,7 +102,7 @@ export default function ConstructionProjectManagement() {
 				<h2 className="text-3xl font-bold mb-4">Deliver Projects On Time & On Budget</h2>
 				<p className="text-lg mb-6 opacity-90">Join construction leaders using Thorbis to improve project outcomes.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-orange-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 				</div>

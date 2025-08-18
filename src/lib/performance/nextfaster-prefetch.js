@@ -39,7 +39,7 @@ const ROUTE_PRIORITIES = {
 
 // Define route priority mappings
 const PRIORITY_ROUTES = {
-	[ROUTE_PRIORITIES.CRITICAL]: ["/dashboard", "/login", "/signup", "/dashboard/user", "/dashboard/business"],
+	[ROUTE_PRIORITIES.CRITICAL]: ["/dashboard", "/login", "/signup", "/dashboard/business"],
 	[ROUTE_PRIORITIES.HIGH]: ["/categories", "/search", "/biz/", "/jobs", "/reviews"],
 	[ROUTE_PRIORITIES.MEDIUM]: ["/blog/", "/about-us", "/how-it-works"],
 	[ROUTE_PRIORITIES.LOW]: ["/privacy", "/terms", "/contact"],
@@ -545,7 +545,7 @@ export function startBackgroundPrefetching() {
 	if (!shouldPrefetch()) return;
 
 	requestIdleCallback(() => {
-		const commonRoutes = ["/categories", "/search", "/dashboard/user", "/jobs"];
+		const commonRoutes = ["/categories", "/search", "/jobs"];
 
 		commonRoutes.forEach((route, index) => {
 			setTimeout(() => {

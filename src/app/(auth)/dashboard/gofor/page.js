@@ -174,7 +174,7 @@ export default function GoForDashboard() {
       case "delivered": return "bg-green-100 text-green-800 border-green-300";
       case "completed": return "bg-green-100 text-green-800 border-green-300";
       case "cancelled": return "bg-red-100 text-red-800 border-red-300";
-      default: return "bg-gray-100 text-gray-800 border-gray-300";
+      default: return "bg-muted text-muted-foreground border-border";
     }
   };
 
@@ -606,7 +606,7 @@ export default function GoForDashboard() {
                             {[...Array(5)].map((_, i) => (
                               <Star 
                                 key={i} 
-                                className={`w-3 h-3 ${i < delivery.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
+                                className={`w-3 h-3 ${i < delivery.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`} 
                               />
                             ))}
                           </div>

@@ -131,7 +131,7 @@ export default function Header() {
 												{directory.businessCount} businesses • ${directory.monthlyRevenue.toLocaleString()}/mo
 											</p>
 										</div>
-										{directory.id === currentDirectoryId && <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full"></div>}
+										{directory.id === currentDirectoryId && <div className="flex-shrink-0 w-2 h-2 bg-primary rounded-full"></div>}
 									</DropdownMenuItem>
 								))}
 								<DropdownMenuSeparator />
@@ -176,7 +176,7 @@ export default function Header() {
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="sm" className="relative p-2 w-9 h-9 text-muted-foreground hover:text-foreground hover:bg-accent">
 								<Bell className="w-5 h-5" />
-								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-purple-500 rounded-full border-2 border-white dark:border-neutral-800"></span>
+								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-white dark:border-neutral-800"></span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="w-80 z-[90] bg-neutral-950/95 backdrop-blur-md border border-neutral-900">
@@ -188,7 +188,7 @@ export default function Header() {
 							</div>
 							<div className="overflow-y-auto max-h-96">
 								<DropdownMenuItem className="flex items-start p-4 space-x-3">
-									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-green-500 rounded-full"></div>
+									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-primary rounded-full"></div>
 									<div className="flex-1 min-w-0">
 										<p className="text-sm font-medium text-foreground">New business subscription</p>
 										<p className="mt-1 text-xs text-muted-foreground">Wade&apos;s Plumbing started Pro subscription</p>
@@ -196,7 +196,7 @@ export default function Header() {
 									</div>
 								</DropdownMenuItem>
 								<DropdownMenuItem className="flex items-start p-4 space-x-3">
-									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-blue-500 rounded-full"></div>
+									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-primary rounded-full"></div>
 									<div className="flex-1 min-w-0">
 										<p className="text-sm font-medium text-foreground">Payment received</p>
 										<p className="mt-1 text-xs text-muted-foreground">$79 payment from Downtown Coffee</p>
@@ -252,11 +252,11 @@ export default function Header() {
 							<DropdownMenuGroup>
 								<DropdownMenuLabel>Theme</DropdownMenuLabel>
 								<DropdownMenuItem onClick={() => setTheme("light")}>
-									<SunIcon className="mr-2 w-4 h-4 text-yellow-500" />
+									<SunIcon className="mr-2 w-4 h-4 text-muted-foreground" />
 									Light
 								</DropdownMenuItem>
 								<DropdownMenuItem onClick={() => setTheme("dark")}>
-									<MoonIcon className="mr-2 w-4 h-4 text-indigo-500" />
+									<MoonIcon className="mr-2 w-4 h-4 text-muted-foreground" />
 									Dark
 								</DropdownMenuItem>
 								<DropdownMenuItem onClick={() => setTheme("system")}>
@@ -293,7 +293,7 @@ export default function Header() {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
+							<DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
 								<span>Logout</span>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
@@ -349,7 +349,7 @@ export default function Header() {
 												<p className="text-xs opacity-80">{directory.location}</p>
 												<p className="text-xs opacity-80">{directory.businessCount} businesses</p>
 											</div>
-											{directory.id === currentDirectoryId && <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full"></div>}
+											{directory.id === currentDirectoryId && <div className="flex-shrink-0 w-2 h-2 bg-primary rounded-full"></div>}
 										</button>
 									))}
 

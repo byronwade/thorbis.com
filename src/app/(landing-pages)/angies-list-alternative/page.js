@@ -4,31 +4,18 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, MessageSquare, Calendar, BarChart3, Wrench, Home, ArrowRight, Star, DollarSign, Shield, Target, Building, Zap, Award, Truck, Settings, AlertTriangle, Briefcase, Play, CreditCard, Hammer } from "lucide-react";
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Angie's List Alternative – Thorbis vs Angi | Thorbis",
-	description: "See why Thorbis is a modern alternative to Angie's List (Angi): AI‑verified leads, multi‑platform sync, advanced reviews, and 24/7 priority support.",
-	keywords: ["Angie's List alternative", "Angi vs Thorbis", "business reviews platform", "lead generation", "local directory alternative"],
-	alternates: { canonical: "https://thorbis.com/angies-list-alternative" },
-	openGraph: {
-		title: "Angie's List Alternative – Thorbis vs Angi",
-		description: "Modern alternative to Angi with AI‑verified leads, multi‑platform sync, advanced reviews, and 24/7 support.",
-		type: "website",
-		url: "https://thorbis.com/angies-list-alternative",
-		siteName: "Thorbis",
-		images: [`https://thorbis.com/opengraph-image?title=${encodeURIComponent("Angie's List Alternative")}&description=${encodeURIComponent("Thorbis vs Angi – AI‑verified leads, multi‑platform sync, advanced reviews, 24/7 support.")}`],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Angie's List Alternative – Thorbis vs Angi",
-		description: "Modern alternative to Angi with AI‑verified leads, multi‑platform sync, advanced reviews, and 24/7 support.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Angie's List Alternative")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Angie's List Alternative – Thorbis vs Angi | Thorbis",
+		description: "See why Thorbis is a modern alternative to Angie's List (Angi): AI‑verified leads, multi‑platform sync, advanced reviews, and 24/7 priority support.",
+		path: "/angies-list-alternative",
+		keywords: ["Angie's List alternative", "Angi vs Thorbis", "business reviews platform", "lead generation", "local directory alternative"],
+	});
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {

@@ -303,11 +303,11 @@ export default function EstimatesList() {
 			case "rejected":
 				return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
 			case "draft":
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 			case "expired":
 				return "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-300";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 		}
 	};
 
@@ -322,7 +322,7 @@ export default function EstimatesList() {
 			case "low":
 				return "border-l-green-500 bg-green-50 dark:bg-green-900/10";
 			default:
-				return "border-l-gray-500 bg-gray-50 dark:bg-gray-900/10";
+				return "border-l-muted-foreground bg-muted dark:bg-muted/10";
 		}
 	};
 
@@ -478,7 +478,7 @@ export default function EstimatesList() {
 							<CardContent className="p-4">
 								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 									<div className="relative">
-										<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+										<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
 										<Input placeholder="Search estimates..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
 									</div>
 									<Select value={statusFilter} onValueChange={setStatusFilter}>

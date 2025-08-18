@@ -1,11 +1,16 @@
-export const metadata = {
-	title: "Restaurant Management System – POS, Inventory, Staff Scheduling | Thorbis",
-	description: "Complete restaurant management software with point of sale, inventory tracking, staff scheduling, and customer management for food service businesses.",
-	keywords: ["restaurant management software", "restaurant POS system", "food service management", "restaurant inventory", "dining management"],
-	alternates: { canonical: "https://thorbis.com/restaurant-management-system" },
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Restaurant Management System – POS, Inventory, Staff Scheduling | Thorbis",
+		description: "Complete restaurant management software with point of sale, inventory tracking, staff scheduling, and customer management for food service businesses.",
+		path: "/restaurant-management-system",
+		keywords: ["restaurant management software", "restaurant POS system", "food service management", "restaurant inventory", "dining management"],
+	});
+}
 
 import { Utensils, Clock, Users } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 export default function RestaurantManagementSystem() {
 	const features = [

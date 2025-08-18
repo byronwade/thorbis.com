@@ -5,7 +5,7 @@
  */
 
 import { logger } from "@utils/logger";
-import { CacheManager } from "@utils/cache-manager";
+import cacheManager from "@utils/cache-manager";
 import { compressedSearch } from "@utils/compressed-search-index";
 
 // Search configuration optimized for instant responses
@@ -105,7 +105,13 @@ class StreamingSearchEngine {
 
 			// Step 2: Check cache for full results
 			const cacheKey = this.getCacheKey(query, filters);
-			const cachedResults = CacheManager.memory.get(cacheKey);
+			let cachedResults = null;
+			try {
+				cachedResults = cacheManager.memory?.get?.(cacheKey) || null;
+			} catch (error) {
+				console.warn('Cache manager not available, skipping cache check:', error.message);
+				cachedResults = null;
+			}
 
 			if (cachedResults) {
 				logger.debug(`Cache hit for search: "${query}"`);
@@ -373,16 +379,20 @@ class StreamingSearchEngine {
 		if (!SEARCH_CONFIG.CACHE_STREAMING_RESULTS) return;
 
 		const cacheKey = this.getCacheKey(query, filters);
-		CacheManager.memory.set(
-			cacheKey,
-			{
-				results,
-				timestamp: Date.now(),
-				query,
-				filters,
-			},
-			5 * 60 * 1000
-		); // 5 minute cache
+		try {
+			cacheManager.memory?.set?.(
+				cacheKey,
+				{
+					results,
+					timestamp: Date.now(),
+					query,
+					filters,
+				},
+				5 * 60 * 1000
+			); // 5 minute cache
+		} catch (error) {
+			console.warn('Cache manager not available, skipping cache set:', error.message);
+		}
 
 		logger.debug(`Cached search results: ${cacheKey} (${results.length} results)`);
 	}

@@ -1,6 +1,9 @@
 {
-  "snapshot": "snapshot-20250618-f51b036e-093a-427b-bbd3-6aa6a31116b5",
-  "install": "npm install",
-  "start": "npm run build",
-  "terminals": []
+  "install": "bun install",
+  "start": "bun run build",
+  "terminals": [],
+  "build": {
+    "context": ".",
+    "dockerfile": ".cursor/Dockerfile"
+  }
 }

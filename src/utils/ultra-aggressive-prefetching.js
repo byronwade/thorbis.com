@@ -1,6 +1,6 @@
 // lib/utils/ultraAggressivePrefetching.js - Maximum Prefetching for Zero Loading
 import { logger } from "./logger";
-import { CacheManager } from "./cache-manager";
+import cacheManager from "./cache-manager";
 
 /**
  * Ultra-Aggressive Prefetching System
@@ -556,7 +556,11 @@ class UltraAggressivePrefetcher {
 	 */
 	cacheResponse(url, response, size) {
 		// Use our existing cache manager
-		CacheManager.memory.set(`prefetch:${url}`, response.clone(), 300000); // 5 min TTL
+		try {
+			cacheManager.memory?.set?.(`prefetch:${url}`, response.clone(), 300000); // 5 min TTL
+		} catch (error) {
+			console.warn('Cache manager not available, skipping cache set:', error.message);
+		}
 
 		// Track cache size
 		this.currentCacheSize += size;

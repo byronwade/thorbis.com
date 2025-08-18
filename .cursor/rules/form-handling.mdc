@@ -5,6 +5,12 @@ alwaysApply: false
 ---
 # Form Handling
 
+## 🚨 CRITICAL: EDIT EXISTING FORMS FIRST
+**Before creating new forms or validation schemas:**
+1. Search for existing similar forms in `src/components/` and subdirectories
+2. Check if existing validation schemas in `src/lib/validations/` can be extended
+3. Only create new forms/validations when no existing ones can be modified
+
 - Use React Hook Form with Zod for validation
 - The same validation should be done in the server action too
 

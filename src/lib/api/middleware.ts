@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { logger } from "@utils/logger";
 import { CacheManager } from "@utils/cache-manager";
-import { dashboardDemoAdminFlag, dashboardDemoBusinessFlag, dashboardDemoLocalhubFlag } from "@lib/flags/definitions";
+import { dashboardDemoAdminFlag, dashboardDemoBusinessFlag, dashboardDemoLocalhubFlag } from "@/lib/flags/definitions";
 
 export interface ApiRequest extends NextRequest {
 	user?: {

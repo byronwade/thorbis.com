@@ -5,100 +5,15 @@
 
 "use client";
 
-import React, { Suspense, memo, useState, useEffect } from "react";
-import { Skeleton } from "@components/ui/skeleton";
+import React, { memo, useState, useEffect } from "react";
+// Removed Skeleton import - component was deleted
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import { LazySection } from "./lazy-tab-content";
 import BizProfileClient from "@app/(site)/biz/[slug]/biz-profile-client";
 
-// Performance-optimized skeleton for business profile
-const BizProfileSkeleton = memo(() => (
-	<div className="min-h-screen bg-background">
-		{/* Header Skeleton */}
-		<div className="relative">
-			<Skeleton className="w-full h-64 md:h-80" />
-			<div className="absolute bottom-4 left-4 right-4">
-				<div className="flex items-end space-x-4">
-					<Skeleton className="w-20 h-20 rounded-full" />
-					<div className="flex-1 space-y-2">
-						<Skeleton className="h-8 w-64" />
-						<Skeleton className="h-4 w-48" />
-						<Skeleton className="h-4 w-32" />
-					</div>
-				</div>
-			</div>
-		</div>
-
-		{/* Content Skeleton */}
-		<div className="container mx-auto px-4 py-8">
-			<div className="grid lg:grid-cols-3 gap-8">
-				{/* Main Content */}
-				<div className="lg:col-span-2 space-y-6">
-					{/* Tabs Skeleton */}
-					<div className="flex space-x-1 border-b">
-						{Array.from({ length: 6 }).map((_, i) => (
-							<Skeleton key={i} className="h-10 w-24" />
-						))}
-					</div>
-
-					{/* Tab Content Skeleton */}
-					<div className="space-y-6">
-						{Array.from({ length: 3 }).map((_, i) => (
-							<Card key={i}>
-								<CardHeader>
-									<Skeleton className="h-6 w-48" />
-									<Skeleton className="h-4 w-64" />
-								</CardHeader>
-								<CardContent>
-									<div className="space-y-4">
-										<Skeleton className="h-32 w-full" />
-										<div className="grid grid-cols-2 gap-4">
-											<Skeleton className="h-20 w-full" />
-											<Skeleton className="h-20 w-full" />
-										</div>
-									</div>
-								</CardContent>
-							</Card>
-						))}
-					</div>
-				</div>
-
-				{/* Sidebar Skeleton */}
-				<div className="space-y-6">
-					<Card>
-						<CardHeader>
-							<Skeleton className="h-6 w-32" />
-						</CardHeader>
-						<CardContent>
-							<div className="space-y-3">
-								<Skeleton className="h-4 w-full" />
-								<Skeleton className="h-4 w-3/4" />
-								<Skeleton className="h-10 w-full" />
-							</div>
-						</CardContent>
-					</Card>
-
-					<Card>
-						<CardHeader>
-							<Skeleton className="h-6 w-32" />
-						</CardHeader>
-						<CardContent>
-							<div className="space-y-3">
-								{Array.from({ length: 4 }).map((_, i) => (
-									<Skeleton key={i} className="h-8 w-full" />
-								))}
-							</div>
-						</CardContent>
-					</Card>
-				</div>
-			</div>
-		</div>
-	</div>
-));
-
-BizProfileSkeleton.displayName = "BizProfileSkeleton";
+// Removed BizProfileSkeleton component - no loading states
 
 // Error fallback component
 const BizProfileError = memo(({ error, onRetry }) => (
@@ -178,20 +93,18 @@ const OptimizedBizProfile = memo(({ businessId, initialBusiness, seoData, ...pro
 
 	return (
 		<div key={retryKey} className="biz-profile-container">
-			<Suspense fallback={<BizProfileSkeleton />}>
-				<LazySection
-					threshold={0.1}
-					rootMargin="100px"
-					fallback={<BizProfileSkeleton />}
-				>
-					<BizProfileClient
-						businessId={businessId}
-						initialBusiness={initialBusiness}
-						seoData={seoData}
-						{...props}
-					/>
-				</LazySection>
-			</Suspense>
+			<LazySection
+				threshold={0.1}
+				rootMargin="100px"
+				fallback={null} // Removed skeleton loading
+			>
+				<BizProfileClient
+					businessId={businessId}
+					initialBusiness={initialBusiness}
+					seoData={seoData}
+					{...props}
+				/>
+			</LazySection>
 		</div>
 	);
 });

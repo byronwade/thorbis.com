@@ -7,14 +7,14 @@ import { FaDiscord, FaCertificate, FaAward, FaBriefcaseMedical, FaBookOpen, FaBu
 import { SiYelp, SiGoogle, SiTripadvisor, SiExpedia, SiThumbtack } from "react-icons/si";
 import { MdVerifiedUser, MdGppGood, MdSecurity, MdRateReview, MdWork, MdCompare } from "react-icons/md";
 import LanguageSelector from "@components/ui/language-selector";
-import { useLanguage } from "@context/language-context";
+import { useTranslation } from "@lib/i18n/enhanced-client";
 import { Twitter, Facebook, Instagram, Linkedin, Youtube } from "lucide-react";
 import { FaApple, FaGooglePlay } from "react-icons/fa";
  
 
 export default function Footer() {
 	const pathname = usePathname();
-	const { dictionary, loading } = useLanguage();
+	const { dictionary, isLoading } = useTranslation();
 
 	// Check if the current route contains /search
 	if (pathname.includes("/search")) {
@@ -25,7 +25,7 @@ export default function Footer() {
 
 	// Ensure consistent initial rendering to prevent hydration mismatches
 	const footer =
-		loading || !dictionary?.footer
+		isLoading || !dictionary?.footer
 			? {
 					trademark: "Connecting local businesses with their communities.",
 					mission: "Empowering small businesses through innovative technology and community-first approach.",
@@ -246,6 +246,29 @@ export default function Footer() {
 								<a href="/developers" className="block text-sm text-slate-400 hover:text-white transition-colors">
 									{footer.links.developers}
 								</a>
+								<button 
+									onClick={() => {
+										// Use the advanced VOIP system for call simulation
+										console.log('📞 Launching Advanced VOIP Call Simulation...');
+										
+										// Import and use the VOIP integration
+										if (typeof window !== 'undefined') {
+											// Trigger VOIP integration
+											const voipEvent = new CustomEvent('voip:simulate-call', {
+												detail: {
+													phoneNumber: '555-SUPPORT',
+													customerName: 'Thorbis Support',
+													company: 'Thorbis Communications',
+													callType: 'support'
+												}
+											});
+											window.dispatchEvent(voipEvent);
+										}
+									}}
+									className="block text-sm text-slate-400 hover:text-white transition-colors text-left w-full"
+								>
+									📞 Advanced VOIP Demo
+								</button>
 							</div>
 						</div>
 
@@ -285,7 +308,7 @@ export default function Footer() {
 								<a href="/resources" className="block text-sm text-slate-400 hover:text-white transition-colors">
 									Resources Hub
 								</a>
-								<a href="/resources#blog" className="block text-sm text-slate-400 hover:text-white transition-colors">
+								<a href="/blog" className="block text-sm text-slate-400 hover:text-white transition-colors">
 									{footer.links.blog}
 								</a>
 								<a href="/resources#news" className="block text-sm text-slate-400 hover:text-white transition-colors">

@@ -40,9 +40,9 @@ export default function Categories() {
 				}}
 			/>
 			<div className="flex items-center justify-between w-full gap-6 p-4 mx-auto sm:px-12 lg:px-24">
-				<div className="font-sans text-gray-900 bg-white">
+				<div className="font-sans text-foreground bg-background">
 					{/* Header */}
-					<header className="py-12 text-center bg-gray-100">
+					<header className="py-12 text-center bg-muted/30">
 						<h1 className="text-5xl font-bold">Duncan Plumbing Ent., Inc.</h1>
 						<p className="mt-4 text-2xl">Diamond Certified Company Report</p>
 						<img src="diamondcertified_logo.png" alt="Diamond Certified Logo" className="w-24 h-24 mx-auto mt-6" />
@@ -70,7 +70,7 @@ export default function Categories() {
 						</section>
 
 						{/* Ratings Dashboard */}
-						<section className="p-12 my-16 bg-gray-100 rounded-lg">
+						<section className="p-12 my-16 bg-muted/30 rounded-lg">
 							<h2 className="mb-8 text-2xl font-bold">Diamond Certified Ratings Dashboard</h2>
 							<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
 								<div className="text-center">
@@ -209,7 +209,7 @@ export default function Categories() {
 					</main>
 
 					{/* Footer */}
-					<footer className="py-12 text-center bg-gray-100">
+					<footer className="py-12 text-center bg-muted/30">
 						<p className="text-sm">&copy; 2024 Duncan Plumbing Ent., Inc. All rights reserved.</p>
 					</footer>
 				</div>

@@ -1,33 +1,12 @@
-export const metadata = {
-	title: "Hospitality Operations Platform – Reservations, Staffing, POS | Thorbis",
-	description: "Run hospitality operations with reservations, staffing, POS, and guest engagement in one place.",
-	keywords: ["hospitality operations platform", "reservations and events", "staff scheduling", "POS for hospitality", "guest engagement"],
-	alternates: { canonical: "https://thorbis.com/hospitality-operations-platform" },
-	openGraph: {
-		title: "Hospitality Operations Platform – Guest Experience",
-		description: "Reservations, staffing, POS, and engagement.",
-		type: "website",
-		url: "https://thorbis.com/hospitality-operations-platform",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Hospitality Operations Platform")}&description=${encodeURIComponent("Reservations, staffing, POS, and engagement.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Hospitality Operations Platform",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Hospitality Operations Platform – Guest Experience",
-		description: "Reservations, staffing, POS, and engagement.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Hospitality Operations Platform")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Hospitality Operations Platform – Reservations, Staffing, POS | Thorbis",
+		description: "Run hospitality operations with reservations, staffing, POS, and guest engagement in one place.",
+		path: "/hospitality-operations-platform",
+		keywords: ["hospitality operations platform", "reservations and events", "staff scheduling", "POS for hospitality", "guest engagement"],
+	});
+}
 
 function JsonLd() {
 	const data = {

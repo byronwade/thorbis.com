@@ -149,7 +149,7 @@ export default function RealTimeNotifications({
         setUnreadCount(prev => prev + 1);
         
         // Log notification
-        logger.user({
+        logger.debug('Notification interaction', {
           action: 'notification_received',
           type: newNotification.type,
           dashboardType,
@@ -203,7 +203,7 @@ export default function RealTimeNotifications({
     
     setUnreadCount(prev => Math.max(0, prev - 1));
     
-    logger.user({
+    logger.debug('Notification event', {
       action: 'notification_read',
       notificationId,
       dashboardType,
@@ -216,7 +216,7 @@ export default function RealTimeNotifications({
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
     setUnreadCount(0);
     
-    logger.user({
+    logger.debug('Notification event', {
       action: 'notifications_mark_all_read',
       count: unreadCount,
       dashboardType,
@@ -233,7 +233,7 @@ export default function RealTimeNotifications({
       setUnreadCount(prev => Math.max(0, prev - 1));
     }
 
-    logger.user({
+    logger.debug('Notification event', {
       action: 'notification_deleted',
       notificationId,
       dashboardType,
@@ -268,16 +268,16 @@ export default function RealTimeNotifications({
         <Button 
           variant="ghost" 
           size="sm" 
-          className={`relative p-2 h-9 w-9 transition-colors ${className}`}
+          className={`relative h-7 w-7 rounded-md p-0 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 transition-colors ${className}`}
         >
           {unreadCount > 0 ? (
-            <BellRing className="w-4 h-4 text-primary animate-pulse" />
+            <BellRing className="w-3.5 h-3.5 text-primary animate-pulse" />
           ) : (
-            <Bell className="w-4 h-4" />
+            <Bell className="w-3.5 h-3.5" />
           )}
           
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
               {unreadCount > 99 ? "99+" : unreadCount}
             </span>
           )}

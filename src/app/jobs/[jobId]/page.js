@@ -7,7 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Markdown from "react-markdown";
 import { JobDataFetchers } from "@lib/database/supabase/server";
-import { Suspense } from "react";
+import React from "react";
 
 // Transform Supabase job data for the detail view
 function transformJobDetailData(job) {
@@ -112,29 +112,29 @@ function JobDetailSkeleton() {
 		<div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
 			<div className="lg:col-span-3">
 				<div className="border rounded-lg p-6 animate-pulse">
-					<div className="h-8 bg-gray-300 rounded w-2/3 mb-4"></div>
+					<div className="h-8 bg-muted rounded w-2/3 mb-4"></div>
 					<div className="flex gap-4 mb-6">
-						<div className="h-4 bg-gray-200 rounded w-32"></div>
-						<div className="h-4 bg-gray-200 rounded w-32"></div>
+						<div className="h-4 bg-muted/60 rounded w-32"></div>
+						<div className="h-4 bg-muted/60 rounded w-32"></div>
 					</div>
 					<div className="space-y-3">
 						{Array.from({ length: 8 }).map((_, i) => (
-							<div key={i} className="h-4 bg-gray-200 rounded w-full"></div>
+							<div key={i} className="h-4 bg-muted/60 rounded w-full"></div>
 						))}
 					</div>
 				</div>
 			</div>
 			<aside className="lg:col-span-1">
 				<div className="border rounded-lg p-6 animate-pulse">
-					<div className="w-20 h-20 bg-gray-300 rounded mx-auto mb-4"></div>
-					<div className="h-6 bg-gray-300 rounded w-full mb-2"></div>
-					<div className="h-4 bg-gray-200 rounded w-24 mx-auto mb-6"></div>
-					<div className="h-10 bg-gray-300 rounded w-full mb-4"></div>
+					<div className="w-20 h-20 bg-muted rounded mx-auto mb-4"></div>
+					<div className="h-6 bg-muted rounded w-full mb-2"></div>
+					<div className="h-4 bg-muted/60 rounded w-24 mx-auto mb-6"></div>
+					<div className="h-10 bg-muted rounded w-full mb-4"></div>
 					<div className="space-y-2">
 						{Array.from({ length: 4 }).map((_, i) => (
 							<div key={i} className="flex justify-between">
-								<div className="h-4 bg-gray-200 rounded w-20"></div>
-								<div className="h-4 bg-gray-200 rounded w-16"></div>
+								<div className="h-4 bg-muted/60 rounded w-20"></div>
+								<div className="h-4 bg-muted/60 rounded w-16"></div>
 							</div>
 						))}
 					</div>
@@ -378,8 +378,6 @@ async function JobDetails({ params }) {
 
 export default async function JobDetailsPage({ params }) {
 	return (
-		<Suspense fallback={<JobDetailSkeleton />}>
-			<JobDetails params={params} />
-		</Suspense>
+		<JobDetails params={params} />
 	);
 }

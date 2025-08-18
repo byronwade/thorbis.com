@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Education Management Platform – Student Records, Scheduling, Communication | Thorbis",
-	description: "Complete education management system with student information, class scheduling, grade tracking, and parent-teacher communication tools for schools and educational institutions.",
-	keywords: ["education management software", "student information system", "school management platform", "grade tracking software", "educational administration", "school ERP"],
-	alternates: { canonical: "https://thorbis.com/education-management-platform" },
-	openGraph: {
-		title: "Education Management Platform – Complete School Management",
-		description: "Student records, scheduling, grade tracking, and parent-teacher communication for educational institutions.",
-		type: "website",
-		url: "https://thorbis.com/education-management-platform",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Education Management Platform")}&description=${encodeURIComponent("Student records, scheduling, and communication tools.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Education Management Platform",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Education Management Platform – Complete School Management",
-		description: "Student records, scheduling, grade tracking, and parent-teacher communication for educational institutions.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Education Management Platform")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Education Management Platform – Student Records, Scheduling, Communication | Thorbis",
+		description: "Complete education management system with student information, class scheduling, grade tracking, and parent-teacher communication tools for schools and educational institutions.",
+		path: "/education-management-platform",
+		keywords: ["education management software", "student information system", "school management platform", "grade tracking software", "educational administration", "school ERP"],
+	});
+}
 
 import { Star, GraduationCap, Calendar, Users, BookOpen, BarChart3, Shield } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -167,7 +148,7 @@ export default function EducationManagementPlatform() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-emerald-600 px-6 py-3 text-white font-semibold hover:bg-emerald-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -262,7 +243,7 @@ export default function EducationManagementPlatform() {
 				<h2 className="text-3xl font-bold mb-4">Transform Your Educational Institution</h2>
 				<p className="text-lg mb-6 opacity-90">Join hundreds of schools using Thorbis to improve efficiency and student outcomes.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-emerald-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

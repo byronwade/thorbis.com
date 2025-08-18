@@ -9,12 +9,12 @@ import { MdVerifiedUser, MdGppGood, MdSecurity, MdRateReview, MdWork, MdCompare,
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@components/ui/tooltip";
 import { Button } from "@components/ui/button";
 import LanguageSelector from "@components/ui/language-selector";
-import { useLanguage } from "@context/language-context";
+import { useTranslation } from "@lib/i18n/enhanced-client";
 import { Twitter, Facebook, Instagram, Linkedin, Youtube, ExternalLink, Smartphone } from "lucide-react";
 
 export default function Footer() {
 	const pathname = usePathname();
-	const { dictionary, loading } = useLanguage();
+	const { dictionary, isLoading } = useTranslation();
 
 	// Check if the current route contains /search
 	if (pathname.includes("/search")) {
@@ -23,7 +23,7 @@ export default function Footer() {
 
 	// Always use the same structure, but provide fallback data to prevent hydration mismatches
 	let footer;
-	if (loading || !dictionary) {
+	if (isLoading || !dictionary) {
 		// Fallback footer data to match dictionary structure
 		footer = {
 			trademark: "Connecting local businesses with their communities.",

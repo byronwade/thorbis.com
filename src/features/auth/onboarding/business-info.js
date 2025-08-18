@@ -102,7 +102,7 @@ export default function BusinessInfo() {
 						</Badge>
 					)}
 					{autoSaveStatus === "saved" && (
-						<Badge variant="secondary" className="flex items-center gap-1 bg-green-100 text-green-800">
+						<Badge variant="secondary" className="flex items-center gap-1 bg-primary/20 text-primary">
 							<CheckCircle className="w-3 h-3" />
 							Saved
 						</Badge>
@@ -125,14 +125,14 @@ export default function BusinessInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Building2 className="w-4 h-4" />
-									Business Name <span className="text-red-500">*</span>
+									Business Name <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Please provide the company display name not legal entity name.</FormDescription>
 								<FormControl>
 									<Input {...field} placeholder="e.g., Joe's Pizza & Pasta" className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.businessName && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.businessName.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.businessName.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.businessName.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.businessName.replace("✓ ", "")}
 									</div>
@@ -149,7 +149,7 @@ export default function BusinessInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Phone className="w-4 h-4" />
-									Business Phone Number <span className="text-red-500">*</span>
+									Business Phone Number <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>This will be the number that users on the website will call.</FormDescription>
 								<FormControl>
@@ -164,7 +164,7 @@ export default function BusinessInfo() {
 									/>
 								</FormControl>
 								{validationTips.phoneNumber && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.phoneNumber.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.phoneNumber.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.phoneNumber.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.phoneNumber.replace("✓ ", "")}
 									</div>
@@ -181,14 +181,14 @@ export default function BusinessInfo() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Mail className="w-4 h-4" />
-									Email <span className="text-red-500">*</span>
+									Email <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>We don&apos;t use your email for marketing.</FormDescription>
 								<FormControl>
 									<Input {...field} type="email" placeholder="contact@yourbusiness.com" className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.email && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.email.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.email.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.email.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.email.replace("✓ ", "")}
 									</div>

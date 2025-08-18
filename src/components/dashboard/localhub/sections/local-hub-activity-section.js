@@ -98,7 +98,7 @@ const LocalHubActivitySection = ({ activities }) => {
 				<CardDescription>Latest business actions and revenue events in your directory</CardDescription>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				{recentActivity.map((activity) => {
+				{(activities || mockActivity).map((activity) => {
 					const IconComponent = activity.icon;
 
 					return (

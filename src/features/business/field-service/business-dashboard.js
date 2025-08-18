@@ -78,28 +78,28 @@ export default function BusinessDashboard({ businessId, user }) {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "scheduled":
-				return "bg-blue-100 text-blue-800";
+				return "bg-primary/20 text-primary";
 			case "in_progress":
-				return "bg-yellow-100 text-yellow-800";
+				return "bg-muted-foreground/20 text-muted-foreground";
 			case "completed":
-				return "bg-green-100 text-green-800";
+				return "bg-primary/20 text-primary";
 			case "cancelled":
-				return "bg-red-100 text-red-800";
+				return "bg-destructive/20 text-destructive";
 			default:
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted/20 text-muted-foreground";
 		}
 	};
 
 	const getPriorityColor = (priority) => {
 		switch (priority) {
 			case "high":
-				return "text-red-600";
+				return "text-destructive";
 			case "medium":
-				return "text-yellow-600";
+				return "text-muted-foreground";
 			case "low":
-				return "text-green-600";
+				return "text-primary";
 			default:
-				return "text-gray-600";
+				return "text-muted-foreground";
 		}
 	};
 
@@ -133,9 +133,9 @@ export default function BusinessDashboard({ businessId, user }) {
 									<p className="text-sm font-medium text-muted-foreground">Total Revenue</p>
 									<p className="text-2xl font-bold">${analytics.totalRevenue?.toLocaleString()}</p>
 								</div>
-								<DollarSign className="w-8 h-8 text-green-600" />
+								<DollarSign className="w-8 h-8 text-primary" />
 							</div>
-							<div className="mt-2 flex items-center text-sm text-green-600">
+							<div className="mt-2 flex items-center text-sm text-primary">
 								<TrendingUp className="w-4 h-4 mr-1" />+{analytics.monthlyGrowth}% from last month
 							</div>
 						</CardContent>
@@ -148,7 +148,7 @@ export default function BusinessDashboard({ businessId, user }) {
 									<p className="text-sm font-medium text-muted-foreground">Completed Jobs</p>
 									<p className="text-2xl font-bold">{analytics.completedJobs}</p>
 								</div>
-								<CheckCircle className="w-8 h-8 text-blue-600" />
+								<CheckCircle className="w-8 h-8 text-primary" />
 							</div>
 							<div className="mt-2 text-sm text-muted-foreground">{analytics.weeklyScheduled} scheduled this week</div>
 						</CardContent>
@@ -161,7 +161,7 @@ export default function BusinessDashboard({ businessId, user }) {
 									<p className="text-sm font-medium text-muted-foreground">Average Rating</p>
 									<p className="text-2xl font-bold">{analytics.avgRating}</p>
 								</div>
-								<Star className="w-8 h-8 text-yellow-600" />
+								<Star className="w-8 h-8 text-muted-foreground" />
 							</div>
 							<div className="mt-2 text-sm text-muted-foreground">Based on customer reviews</div>
 						</CardContent>
@@ -174,7 +174,7 @@ export default function BusinessDashboard({ businessId, user }) {
 									<p className="text-sm font-medium text-muted-foreground">Response Time</p>
 									<p className="text-2xl font-bold">{analytics.responseTime}</p>
 								</div>
-								<Clock className="w-8 h-8 text-purple-600" />
+								<Clock className="w-8 h-8 text-muted-foreground" />
 							</div>
 							<div className="mt-2 text-sm text-muted-foreground">Average quote response</div>
 						</CardContent>
@@ -228,22 +228,22 @@ export default function BusinessDashboard({ businessId, user }) {
 								</CardHeader>
 								<CardContent className="space-y-4">
 									<div className="space-y-3">
-										<div className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
-											<CheckCircle className="w-5 h-5 text-blue-600 mt-0.5" />
+										<div className="flex items-start gap-3 p-3 bg-primary/10 rounded-lg">
+											<CheckCircle className="w-5 h-5 text-primary mt-0.5" />
 											<div>
 												<p className="text-sm font-medium">Job completed for Mike Davis</p>
 												<p className="text-xs text-muted-foreground">2 hours ago</p>
 											</div>
 										</div>
-										<div className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
-											<Star className="w-5 h-5 text-green-600 mt-0.5" />
+										<div className="flex items-start gap-3 p-3 bg-primary/10 rounded-lg">
+											<Star className="w-5 h-5 text-primary mt-0.5" />
 											<div>
 												<p className="text-sm font-medium">5-star review received</p>
 												<p className="text-xs text-muted-foreground">4 hours ago</p>
 											</div>
 										</div>
-										<div className="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
-											<MessageSquare className="w-5 h-5 text-yellow-600 mt-0.5" />
+										<div className="flex items-start gap-3 p-3 bg-muted-foreground/10 rounded-lg">
+											<MessageSquare className="w-5 h-5 text-muted-foreground mt-0.5" />
 											<div>
 												<p className="text-sm font-medium">New quote request</p>
 												<p className="text-xs text-muted-foreground">6 hours ago</p>

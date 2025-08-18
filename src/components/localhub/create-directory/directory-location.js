@@ -120,11 +120,11 @@ export default function DirectoryLocation() {
 				</Alert>
 
 				{/* Address Autocomplete */}
-				<Card className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20">
+				<Card className="border-primary/20 bg-primary/10 dark:border-primary/20 dark:bg-primary/10">
 					<CardContent className="p-4">
 						<div className="space-y-3">
 							<div className="flex items-center gap-2">
-								<Search className="w-4 h-4 text-blue-600" />
+								<Search className="w-4 h-4 text-primary" />
 								<h3 className="text-sm font-medium">Quick Address Lookup</h3>
 							</div>
 							<div className="relative">
@@ -161,14 +161,14 @@ export default function DirectoryLocation() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<MapPin className="w-4 h-4" />
-									Street Address <span className="text-red-500">*</span>
+									Street Address <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>The central address for your directory (this can be your office or a central location in your coverage area).</FormDescription>
 								<FormControl>
 									<Input {...field} placeholder="123 Main Street" className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.street && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.street.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.street.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.street.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.street.replace("✓ ", "")}
 									</div>
@@ -185,13 +185,13 @@ export default function DirectoryLocation() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										City <span className="text-red-500">*</span>
+										City <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input {...field} placeholder="Raleigh" className={fieldState.error ? "border-red-500" : ""} />
 									</FormControl>
 									{validationTips.city && (
-										<div className={`flex items-center gap-1 text-sm ${validationTips.city.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+										<div className={`flex items-center gap-1 text-sm ${validationTips.city.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 											{validationTips.city.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 											{validationTips.city.replace("✓ ", "")}
 										</div>
@@ -207,7 +207,7 @@ export default function DirectoryLocation() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										State <span className="text-red-500">*</span>
+										State <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -221,7 +221,7 @@ export default function DirectoryLocation() {
 										/>
 									</FormControl>
 									{validationTips.state && (
-										<div className={`flex items-center gap-1 text-sm ${validationTips.state.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+										<div className={`flex items-center gap-1 text-sm ${validationTips.state.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 											{validationTips.state.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 											{validationTips.state.replace("✓ ", "")}
 										</div>
@@ -237,13 +237,13 @@ export default function DirectoryLocation() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										ZIP Code <span className="text-red-500">*</span>
+										ZIP Code <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input {...field} placeholder="27601" className={fieldState.error ? "border-red-500" : ""} />
 									</FormControl>
 									{validationTips.zip && (
-										<div className={`flex items-center gap-1 text-sm ${validationTips.zip.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+										<div className={`flex items-center gap-1 text-sm ${validationTips.zip.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 											{validationTips.zip.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 											{validationTips.zip.replace("✓ ", "")}
 										</div>
@@ -262,7 +262,7 @@ export default function DirectoryLocation() {
 								<FormLabel className="flex items-center justify-between">
 									<span className="flex items-center gap-2">
 										<Navigation className="w-4 h-4" />
-										Service Radius <span className="text-red-500">*</span>
+										Service Radius <span className="text-destructive">*</span>
 									</span>
 									<Badge variant={serviceRadius <= 10 ? "secondary" : serviceRadius <= 25 ? "default" : "destructive"}>{serviceRadius} miles</Badge>
 								</FormLabel>
@@ -285,9 +285,9 @@ export default function DirectoryLocation() {
 				</div>
 
 				{/* Service Radius Info */}
-				<Alert className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20">
-					<AlertCircle className="h-4 w-4 text-green-600" />
-					<AlertDescription className="text-green-800 dark:text-green-200">
+									<Alert className="border-primary/20 bg-primary/10 dark:border-primary/20 dark:bg-primary/10">
+						<AlertCircle className="h-4 w-4 text-primary" />
+						<AlertDescription className="text-primary dark:text-primary">
 						<strong>Service Radius Guide:</strong>
 						<br />• 1-10 miles: Neighborhood or small city
 						<br />• 11-25 miles: Metropolitan area

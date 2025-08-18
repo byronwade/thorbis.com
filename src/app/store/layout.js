@@ -1,4 +1,4 @@
-import { evaluateAllFlags } from "@lib/flags/server";
+import { evaluateAllFlags } from "@/lib/flags/server";
 import { cookies } from "next/headers";
 
 // Disable caching for store pages to ensure real-time inventory
@@ -172,7 +172,7 @@ export default async function StoreLayout({ children }) {
 				}}
 			/>
 			
-			<main className="min-h-screen bg-white dark:bg-gray-950">
+			<main className="min-h-screen bg-white dark:bg-slate-900">
 				{children}
 			</main>
 		</div>

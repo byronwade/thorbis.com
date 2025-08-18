@@ -159,11 +159,12 @@ export const SECURITY_CONFIG = {
 		contentSecurityPolicy: {
 			directives: {
 				defaultSrc: ["'self'"],
-				scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com"],
+				scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://www.googletagmanager.com", "https://va.vercel-scripts.com", "https://*.vercel-scripts.com"],
+				scriptSrcElem: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://va.vercel-scripts.com", "https://*.vercel-scripts.com"],
 				styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
 				fontSrc: ["'self'", "https://fonts.gstatic.com"],
 				imgSrc: ["'self'", "data:", "https:", "blob:"],
-				connectSrc: ["'self'", "https://www.google-analytics.com"],
+				connectSrc: ["'self'", "https://www.google-analytics.com", "https://va.vercel-scripts.com", "https://*.vercel-scripts.com"],
 			},
 		},
 		hsts: {

@@ -1,11 +1,16 @@
-export const metadata = {
-	title: "Media Production Management Software – Project Tracking, Asset Management | Thorbis",
-	description: "Complete media production management with project tracking, asset organization, crew scheduling, and budget management for creative productions.",
-	keywords: ["media production software", "video production management", "creative project management", "media asset management", "production scheduling"],
-	alternates: { canonical: "https://thorbis.com/media-production-management" },
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Media Production Management Software – Project Tracking, Asset Management | Thorbis",
+		description: "Complete media production management with project tracking, asset organization, crew scheduling, and budget management for creative productions.",
+		path: "/media-production-management",
+		keywords: ["media production software", "video production management", "creative project management", "media asset management", "production scheduling"],
+	});
+}
 
 import { Video, Calendar, Folder } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 export default function MediaProductionManagement() {
 	const features = [

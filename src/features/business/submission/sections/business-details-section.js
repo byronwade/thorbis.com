@@ -170,7 +170,7 @@ const BusinessDetailsSection = ({ form, selectedAmenities, selectedPaymentMethod
 										)}
 									/>
 								</div>
-								<Button type="button" variant="ghost" size="sm" onClick={() => removeSpecialtyItem(index)} className="text-red-500 hover:text-red-700">
+								<Button type="button" variant="ghost" size="sm" onClick={() => removeSpecialtyItem(index)} className="text-destructive hover:text-destructive/80">
 									<X className="h-4 w-4" />
 								</Button>
 							</div>

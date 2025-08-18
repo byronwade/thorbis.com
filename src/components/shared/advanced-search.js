@@ -13,6 +13,7 @@ import {
   CommandList,
   CommandSeparator 
 } from "@components/ui/command";
+import { DialogTitle } from "@components/ui/dialog";
 import { 
   Search, 
   Clock, 
@@ -26,7 +27,11 @@ import {
   Building2,
   ArrowRight,
   Command,
-  X
+  X,
+  Home,
+  Monitor,
+  MapPin,
+  Plus
 } from "lucide-react";
 import { logger } from "@lib/utils/logger";
 
@@ -213,6 +218,15 @@ export default function AdvancedSearch({
         { title: "Overview", href: "/academy", icon: BarChart3 },
         { title: "Courses", href: "/academy/courses", icon: FileText },
         { title: "Progress", href: "/academy/progress", icon: BarChart3 },
+      ],
+      localhub: [
+        { title: "Hub Dashboard", href: "/dashboard/localhub", icon: Home },
+        { title: "Directory Businesses", href: "/dashboard/localhub/businesses", icon: Building2 },
+        { title: "Community Analytics", href: "/dashboard/localhub/analytics", icon: BarChart3 },
+        { title: "Manage Directories", href: "/dashboard/localhub/directories", icon: MapPin },
+        { title: "Hub Customization", href: "/dashboard/localhub/customization", icon: Settings },
+        { title: "Domain Management", href: "/dashboard/localhub/domains", icon: Monitor },
+        { title: "Create Directory", href: "/dashboard/localhub/create-directory", icon: Plus },
       ]
     };
 
@@ -267,7 +281,7 @@ export default function AdvancedSearch({
     
     // Log interaction
     logger.performance(`Search selection made in ${searchTime.toFixed(2)}ms`);
-    logger.user({
+    logger.debug('Search event', {
       action: 'search_select',
       item: item.title || item.href,
       dashboardType,
@@ -354,6 +368,7 @@ export default function AdvancedSearch({
 
       {/* Enhanced Command Dialog */}
       <CommandDialog open={open} onOpenChange={setOpen}>
+        <DialogTitle className="sr-only">Advanced Search</DialogTitle>
         <div className="border-b border-border/50 bg-muted/20">
           <div className="flex items-center px-4 py-3">
             <Search className="w-5 h-5 text-muted-foreground mr-3" />

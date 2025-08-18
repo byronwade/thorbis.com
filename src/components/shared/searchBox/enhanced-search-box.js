@@ -323,7 +323,7 @@ const EnhancedSearchBox = () => {
 												const Icon = suggestion.icon;
 												return (
 													<button key={index} onClick={() => handleSuggestionClick(suggestion)} className={`flex items-center gap-3 w-full text-left p-3 rounded-lg transition-all ${selectedSuggestionIndex === index ? "bg-primary/10 text-primary shadow-sm" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
-														<div className={`w-8 h-8 rounded-lg flex items-center justify-center ${suggestion.type === "business" ? "bg-green-100 dark:bg-green-900" : "bg-gray-100 dark:bg-gray-800"}`}>
+														<div className={`w-8 h-8 rounded-lg flex items-center justify-center ${suggestion.type === "business" ? "bg-primary/20 dark:bg-primary/20" : "bg-gray-100 dark:bg-gray-800"}`}>
 															<Icon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
 														</div>
 														<div className="flex-1 min-w-0">
@@ -332,8 +332,8 @@ const EnhancedSearchBox = () => {
 															{suggestion.address && <span className="text-xs text-gray-400">{suggestion.address}</span>}
 														</div>
 														{suggestion.rating && (
-															<div className="flex items-center gap-1 px-2 py-1 rounded bg-yellow-50 dark:bg-yellow-900/20">
-																<Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+																						<div className="flex items-center gap-1 px-2 py-1 rounded bg-muted-foreground/10 dark:bg-muted-foreground/20">
+								<Star className="w-3 h-3 text-muted-foreground fill-muted-foreground" />
 																<span className="text-sm font-medium">{suggestion.rating}</span>
 															</div>
 														)}

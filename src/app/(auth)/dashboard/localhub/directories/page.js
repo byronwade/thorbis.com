@@ -126,13 +126,13 @@ export default function ManageDirectories() {
 			case "active":
 				return "bg-green-500";
 			case "inactive":
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 			case "suspended":
-				return "bg-red-500";
+				return "bg-destructive";
 			case "pending":
-				return "bg-yellow-500";
+				return "bg-muted-foreground";
 			default:
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 		}
 	};
 

@@ -17,7 +17,7 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 	const [imageError, setImageError] = useState(false);
 
 	const renderStars = (rating) => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300 dark:text-gray-600"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < rating ? "fill-muted-foreground text-muted-foreground" : "text-muted-foreground/50"}`} />);
 	};
 
 	const handleBusinessPageClick = (event) => {
@@ -53,19 +53,19 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 	};
 
 	return (
-		<Card className={`group cursor-pointer transition-all duration-300 ease-out hover:shadow-lg hover:shadow-blue-100/20 dark:hover:shadow-blue-900/10 border border-gray-200/60 dark:border-gray-700/60 rounded-lg overflow-hidden backdrop-blur-sm ${isActive ? "ring-2 ring-blue-500 dark:ring-blue-400 shadow-lg bg-gradient-to-r from-blue-50/80 to-indigo-50/40 dark:from-blue-950/50 dark:to-indigo-950/30 scale-[1.01]" : "bg-white/80 dark:bg-gray-900/80"}`} onClick={handleBusinessPageClick}>
+		<Card className={`group cursor-pointer transition-all duration-300 ease-out hover:shadow-lg hover:shadow-primary/10 border border-border/60 rounded-lg overflow-hidden backdrop-blur-sm ${isActive ? "ring-2 ring-primary shadow-lg bg-gradient-to-r from-primary/10 to-primary/5 scale-[1.01]" : "bg-card/80"}`} onClick={handleBusinessPageClick}>
 			<CardContent className="p-4">
 				{/* Modern Header with Business Info */}
 				<div className="flex gap-4">
 					{/* Enhanced Business Logo */}
 					<div className="relative flex-shrink-0">
-						<div className="w-14 h-14 rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-700 ring-2 ring-gray-100 dark:ring-gray-600 transition-all duration-300 group-hover:ring-blue-200 dark:group-hover:ring-blue-700 shadow-sm">
+						<div className="w-14 h-14 rounded-xl overflow-hidden bg-muted ring-2 ring-border transition-all duration-300 group-hover:ring-primary/30 shadow-sm">
 							<Image src={!imageError ? business.image || business.logo || "/placeholder-business.jpg" : "/placeholder-business.jpg"} alt={business.name} width={56} height={56} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" onError={() => setImageError(true)} />
 						</div>
 
 						{/* Enhanced Photo Count */}
 						{business.photoCount > 0 && (
-							<Badge className="absolute -top-1 -right-1 bg-blue-600 hover:bg-blue-700 text-white text-xs px-1.5 py-0.5 rounded-full shadow-md border-2 border-white dark:border-gray-800 transition-colors min-w-[20px] h-[20px] flex items-center justify-center">
+							<Badge className="absolute -top-1 -right-1 bg-primary hover:bg-primary/90 text-primary-foreground text-xs px-1.5 py-0.5 rounded-full shadow-md border-2 border-background transition-colors min-w-[20px] h-[20px] flex items-center justify-center">
 								<Eye className="w-2.5 h-2.5 mr-0.5" />
 								{business.photoCount}
 							</Badge>
@@ -76,23 +76,23 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 					<div className="flex-1 min-w-0">
 						{/* Business Name and Status */}
 						<div className="flex items-start justify-between">
-							<h3 className="font-medium text-gray-900 dark:text-white text-sm truncate pr-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{business.name}</h3>
+							<h3 className="font-medium text-foreground text-sm truncate pr-2 group-hover:text-primary transition-colors">{business.name}</h3>
 
 							{/* Status Badges */}
 							<div className="flex items-center space-x-1 flex-shrink-0">
 								{business.isOpen && (
-									<div className="flex items-center text-xs text-green-600 dark:text-green-400">
-										<div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+									<div className="flex items-center text-xs text-primary">
+										<div className="w-2 h-2 bg-primary rounded-full mr-1"></div>
 										Open
 									</div>
 								)}
 								{business.verified && (
-									<Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs px-1.5 py-0.5">
+									<Badge variant="secondary" className="bg-primary/20 text-primary text-xs px-1.5 py-0.5">
 										Verified
 									</Badge>
 								)}
 								{business.sponsored && (
-									<Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-300 text-xs px-1.5 py-0.5">
+									<Badge variant="outline" className="bg-muted-foreground/20 text-muted-foreground border-muted-foreground/30 text-xs px-1.5 py-0.5">
 										Ad
 									</Badge>
 								)}

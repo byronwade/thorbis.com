@@ -12,7 +12,7 @@ import { ImageOff } from "lucide-react";
  *
  * Drop-in replacement for Next.js Image component.
  */
-export default function Image({ src, alt, fallbackSrc = "/placeholder-image.svg", showPlaceholderOnError = true, className = "", fill = false, width, height, sizes, priority = false, quality = 75, ...props }) {
+export default function Image({ src, alt, fallbackSrc = "/placeholder-image.svg", showPlaceholderOnError = true, className = "", fill = false, width, height, sizes = "100vw", priority = false, quality = 75, ...props }) {
 	const [imgSrc, setImgSrc] = useState(src);
 	const [hasError, setHasError] = useState(false);
 

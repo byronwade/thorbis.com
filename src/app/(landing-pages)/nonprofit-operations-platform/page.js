@@ -1,33 +1,12 @@
-export const metadata = {
-	title: "Nonprofit Operations Platform – Programs, Donors, Compliance | Thorbis",
-	description: "Manage programs and volunteers, track donors and grants, and report outcomes with audit-ready records.",
-	keywords: ["nonprofit operations platform", "program management", "volunteers scheduling", "donor and grants", "outcome reporting", "audit trails"],
-	alternates: { canonical: "https://thorbis.com/nonprofit-operations-platform" },
-	openGraph: {
-		title: "Nonprofit Operations Platform – Mission Impact",
-		description: "Programs, volunteers, donors, and outcome reporting.",
-		type: "website",
-		url: "https://thorbis.com/nonprofit-operations-platform",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Nonprofit Operations Platform")}&description=${encodeURIComponent("Programs, volunteers, donors, and outcome reporting.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Nonprofit Operations Platform",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Nonprofit Operations Platform – Mission Impact",
-		description: "Programs, volunteers, donors, and outcome reporting.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Nonprofit Operations Platform")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Nonprofit Operations Platform – Programs, Donors, Compliance | Thorbis",
+		description: "Manage programs and volunteers, track donors and grants, and report outcomes with audit-ready records.",
+		path: "/nonprofit-operations-platform",
+		keywords: ["nonprofit operations platform", "program management", "volunteers scheduling", "donor and grants", "outcome reporting", "audit trails"],
+	});
+}
 
 function JsonLd() {
 	const data = {

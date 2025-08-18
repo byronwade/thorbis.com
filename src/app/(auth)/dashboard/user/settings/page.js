@@ -160,7 +160,7 @@ export default function Settings() {
 								</div>
 								<div className="flex items-center justify-between p-4 border rounded-lg">
 									<div className="flex items-center space-x-3">
-										<div className="w-2 h-2 bg-gray-300 rounded-full"></div>
+										<div className="w-2 h-2 bg-muted-foreground rounded-full"></div>
 										<div>
 											<p className="text-sm font-medium">Mobile Session</p>
 											<p className="text-xs text-muted-foreground">Safari on iPhone • 2 hours ago</p>

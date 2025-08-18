@@ -1,71 +1,132 @@
 import { Login } from "@features/auth";
+import { getDictionary, languages } from '@lib/i18n/dictionaries';
 
-export const metadata = {
-	title: "Login - Thorbis",
-	description: "Log in to your Thorbis account to post jobs and connect with professional service providers easily.",
-	keywords: ["Thorbis", "login", "log in", "account access", "find business", "contractors", "home improvement"],
-	openGraph: {
-		title: "Login - Thorbis",
-		description: "Log in to your Thorbis account to post jobs and connect with professional service providers easily.",
-		url: "https://thorbis.com/login",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: "https://thorbis.com/logos/ThorbisLogo.webp",
-				width: 800,
-				height: 600,
-				alt: "Login to Thorbis",
-			},
+// Generate internationalized metadata
+export async function generateMetadata({ params, searchParams }) {
+	// Auto-detect locale from browser or use default
+	const locale = 'en'; // For now, default to English - can be enhanced later
+	const dict = await getDictionary(locale);
+	
+	// Get auth translations with fallbacks
+	const authTranslations = dict.auth?.login || {};
+	const commonTranslations = dict.common || {};
+	
+	const title = authTranslations.title || "Welcome Back";
+	const description = "Log in to your Thorbis account to post jobs and connect with professional service providers easily.";
+	
+	// Generate alternate language URLs
+	const alternateLanguages = {};
+	Object.keys(languages).forEach(lang => {
+		alternateLanguages[`${lang}-${lang.toUpperCase()}`] = `https://thorbis.com/${lang}/login`;
+	});
+
+	return {
+		title: `${title} - Thorbis`,
+		description: description,
+		robots: { index: false, follow: false },
+		keywords: [
+			"Thorbis", 
+			authTranslations.email || "login", 
+			authTranslations.signIn || "log in", 
+			commonTranslations.navigation?.login || "account access", 
+			"find business", 
+			"contractors", 
+			"home improvement"
 		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Login - Thorbis",
-		description: "Log in to your Thorbis account to post jobs and connect with professional service providers easily.",
-		images: ["https://thorbis.com/logos/ThorbisLogo.webp"],
-	},
-	alternates: {
-		canonical: "https://thorbis.com/login",
-		languages: {
-			"en-US": "https://thorbis.com/en-US/login",
-			"es-ES": "https://thorbis.com/es-ES/login",
+		openGraph: {
+			title: `${title} - Thorbis`,
+			description: description,
+			url: `https://thorbis.com/${locale}/login`,
+			siteName: "Thorbis",
+			images: [
+				{
+					url: "https://thorbis.com/logos/ThorbisLogo.webp",
+					width: 800,
+					height: 600,
+					alt: title,
+				},
+			],
+			locale: `${locale}_${locale.toUpperCase()}`,
+			type: "website",
 		},
-	},
-};
+		twitter: {
+			card: "summary_large_image",
+			title: `${title} - Thorbis`,
+			description: description,
+			images: ["https://thorbis.com/logos/ThorbisLogo.webp"],
+		},
+		alternates: {
+			canonical: `https://thorbis.com/${locale}/login`,
+			languages: alternateLanguages,
+		},
+	};
+}
 
-const jsonLdData = {
-	"@context": "https://schema.org",
-	"@type": "WebPage",
-	url: "https://thorbis.com/login",
-	name: "Login - Thorbis",
-	inLanguage: "en-US",
-	description: "Log in to your Thorbis account to post jobs and connect with professional service providers easily.",
-	publisher: {
-		"@type": "Organization",
-		name: "Thorbis",
-		logo: {
+// Generate internationalized JSON-LD schema
+async function generateJsonLd(locale = 'en') {
+	const dict = await getDictionary(locale);
+	const authTranslations = dict.auth?.login || {};
+	
+	const title = authTranslations.title || "Welcome Back";
+	const description = "Log in to your Thorbis account to post jobs and connect with professional service providers easily.";
+	const signInText = authTranslations.signIn || "Login to Thorbis";
+
+	return {
+		"@context": "https://schema.org",
+		"@type": "WebPage",
+		url: `https://thorbis.com/${locale}/login`,
+		name: `${title} - Thorbis`,
+		inLanguage: locale,
+		description: description,
+		publisher: {
+			"@type": "Organization",
+			name: "Thorbis",
+			logo: {
+				"@type": "ImageObject",
+				url: "https://thorbis.com/logos/ThorbisLogo.webp",
+			},
+		},
+		primaryImageOfPage: {
 			"@type": "ImageObject",
 			url: "https://thorbis.com/logos/ThorbisLogo.webp",
 		},
-	},
-	primaryImageOfPage: {
-		"@type": "ImageObject",
-		url: "https://thorbis.com/logos/ThorbisLogo.webp",
-	},
-	potentialAction: {
-		"@type": "LoginAction",
-		target: "https://thorbis.com/login",
-		name: "Login to Thorbis",
-	},
-};
+		potentialAction: {
+			"@type": "LoginAction",
+			target: `https://thorbis.com/${locale}/login`,
+			name: signInText,
+		},
+		// Add breadcrumb navigation
+		breadcrumb: {
+			"@type": "BreadcrumbList",
+			itemListElement: [
+				{
+					"@type": "ListItem",
+					position: 1,
+					name: "Home",
+					item: `https://thorbis.com/${locale}`
+				},
+				{
+					"@type": "ListItem",
+					position: 2,
+					name: title,
+					item: `https://thorbis.com/${locale}/login`
+				}
+			]
+		}
+	};
+}
 
-export default function LoginPage() {
+export default async function LoginPage() {
+	const locale = 'en'; // For now, default to English - can be enhanced later
+	const jsonLdData = await generateJsonLd(locale);
+
 	return (
 		<>
 			<Login />
-			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }} />
+			<script 
+				type="application/ld+json" 
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }} 
+			/>
 		</>
 	);
 }

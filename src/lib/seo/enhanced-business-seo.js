@@ -419,7 +419,7 @@ export function generateCompleteSEOConfig(business) {
 		other: {
 			...metaTags.other,
 			"format-detection": "telephone=yes",
-			"apple-mobile-web-app-capable": "yes",
+			"mobile-web-app-capable": "yes",
 			"apple-mobile-web-app-status-bar-style": "default",
 			"theme-color": "#ffffff",
 			"msapplication-TileColor": "#ffffff",

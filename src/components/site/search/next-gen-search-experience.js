@@ -1,19 +1,32 @@
 /**
- * NextGenSearchExperience Component
- * Revolutionary business discovery interface that makes Yelp look ancient
- * Vercel-style design with extreme attention to detail and user experience
+ * NextGenSearchExperience Component - Airbnb-Style Business Discovery
+ * Multi-modal search interface with interactive map, advanced filtering, and real-time results
+ * Inspired by Airbnb's maps page but optimized for business discovery
  */
 
 "use client";
 
-import React, { useState, useCallback, useMemo, useRef } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Badge } from "@components/ui/badge";
-import { Card, CardContent } from "@components/ui/card";
-import { Search, Mic, Camera, MapPin, Clock, Star, TrendingUp, Map, List, Phone, Navigation, Heart, Share2, ArrowRight, Sparkles, Brain } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
+import { Checkbox } from "@components/ui/checkbox";
+import { Slider } from "@components/ui/slider";
+import { 
+  Search, Mic, Camera, MapPin, Clock, Star, TrendingUp, Map, List, Grid3X3, 
+  Phone, Navigation, Heart, Share2, ArrowRight, Sparkles, Brain, Filter, 
+  SlidersHorizontal, X, ChevronDown, ChevronUp, Loader2, RefreshCw,
+  DollarSign, Shield, Wifi, Car, CreditCard, Users, Calendar, Globe
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { BusinessHeader } from "@components/dashboard/business/business-header";
+import { useMapStore } from "@store/map";
+import { useBusinessStore } from "@store/business";
+import MapContainer from "@components/site/map/map-container";
+import { toast } from "@components/ui/use-toast";
 
 // Enhanced search interface component
 const SmartSearchBar = ({ searchCapabilities, onSearch, initialQuery = "", placeholder = "What are you looking for?" }) => {

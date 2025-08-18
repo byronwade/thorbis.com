@@ -1,161 +1,21 @@
-// lib/utils/seoUtils.js - SEO utilities and structured data generators
+// lib/utils/seoUtils.js - SEO utilities
 import { logger } from "@utils/logger";
+import { StructuredDataGenerator } from "./structured-data-schemas";
 
-// Generate JSON-LD structured data for local businesses
-export const generateBusinessStructuredData = (business) => {
-	if (!business) return null;
+// Canonical structured data generator (single source of truth)
+const schemaGen = new StructuredDataGenerator({
+	name: "Thorbis",
+	url: process.env.NEXT_PUBLIC_BASE_URL || "https://thorbis.com",
+	organization: "ByteRover LLC",
+});
 
-	const structuredData = {
-		"@context": "https://schema.org",
-		"@type": "LocalBusiness",
-		name: business.name,
-		description: business.description,
-		url: business.website || `${process.env.NEXT_PUBLIC_BASE_URL}/biz/${business.slug}`,
-		telephone: business.phone,
-		email: business.email,
-		address: {
-			"@type": "PostalAddress",
-			streetAddress: business.address?.split(",")[0],
-			addressLocality: business.address?.split(",")[1]?.trim(),
-			addressRegion: business.address?.split(",")[2]?.trim()?.split(" ")[0],
-			postalCode: business.address?.split(",")[2]?.trim()?.split(" ")[1],
-			addressCountry: "US",
-		},
-		geo: business.coordinates
-			? {
-					"@type": "GeoCoordinates",
-					latitude: business.coordinates.lat,
-					longitude: business.coordinates.lng,
-			  }
-			: null,
-		aggregateRating: business.ratings
-			? {
-					"@type": "AggregateRating",
-					ratingValue: business.ratings.overall || business.rating,
-					reviewCount: business.reviewCount || 0,
-					bestRating: 5,
-					worstRating: 1,
-			  }
-			: null,
-		priceRange: business.price || business.priceLevel,
-		openingHours: business.hours,
-		image: business.photos?.[0] || business.logo,
-		paymentAccepted: business.paymentMethods?.join(", "),
-		currenciesAccepted: "USD",
-	};
-
-	// Add categories/services
-	if (business.categories && business.categories.length > 0) {
-		structuredData.category = business.categories.join(", ");
-	}
-
-	// Add amenities as additionalProperty
-	if (business.amenities && business.amenities.length > 0) {
-		structuredData.additionalProperty = business.amenities.map((amenity) => ({
-			"@type": "PropertyValue",
-			name: amenity,
-			value: true,
-		}));
-	}
-
-	// Remove null values
-	Object.keys(structuredData).forEach((key) => {
-		if (structuredData[key] === null || structuredData[key] === undefined) {
-			delete structuredData[key];
-		}
-	});
-
-	return structuredData;
-};
-
-// Generate breadcrumb structured data
-export const generateBreadcrumbStructuredData = (breadcrumbs) => {
-	if (!breadcrumbs || breadcrumbs.length === 0) return null;
-
-	return {
-		"@context": "https://schema.org",
-		"@type": "BreadcrumbList",
-		itemListElement: breadcrumbs.map((crumb, index) => ({
-			"@type": "ListItem",
-			position: index + 1,
-			name: crumb.name,
-			item: crumb.url,
-		})),
-	};
-};
-
-// Generate search results structured data
-export const generateSearchResultsStructuredData = (searchQuery, results, totalResults) => {
-	if (!results || results.length === 0) return null;
-
-	return {
-		"@context": "https://schema.org",
-		"@type": "SearchResultsPage",
-		mainEntity: {
-			"@type": "ItemList",
-			numberOfItems: totalResults,
-			itemListElement: results.slice(0, 10).map((business, index) => ({
-				"@type": "ListItem",
-				position: index + 1,
-				item: {
-					"@type": "LocalBusiness",
-					name: business.name,
-					url: `${process.env.NEXT_PUBLIC_BASE_URL}/biz/${business.slug}`,
-					image: business.photos?.[0] || business.logo,
-					aggregateRating: business.ratings
-						? {
-								"@type": "AggregateRating",
-								ratingValue: business.ratings.overall || business.rating,
-								reviewCount: business.reviewCount || 0,
-						  }
-						: null,
-				},
-			})),
-		},
-		potentialAction: {
-			"@type": "SearchAction",
-			target: `${process.env.NEXT_PUBLIC_BASE_URL}/search?q={search_term_string}`,
-			"query-input": "required name=search_term_string",
-		},
-	};
-};
-
-// Generate organization structured data
-export const generateOrganizationStructuredData = () => {
-	return {
-		"@context": "https://schema.org",
-		"@type": "Organization",
-		name: "Thorbis",
-		url: process.env.NEXT_PUBLIC_BASE_URL,
-		logo: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
-		description: "Discover and connect with trusted local businesses. Read verified reviews, compare services, and find the perfect business for your needs.",
-		sameAs: ["https://twitter.com/thorbis", "https://facebook.com/thorbis", "https://linkedin.com/company/thorbis"],
-		contactPoint: {
-			"@type": "ContactPoint",
-			telephone: "+1-555-THORBIS",
-			contactType: "customer service",
-			availableLanguage: "English",
-		},
-	};
-};
-
-// Generate FAQ structured data
-export const generateFAQStructuredData = (faqs) => {
-	if (!faqs || faqs.length === 0) return null;
-
-	return {
-		"@context": "https://schema.org",
-		"@type": "FAQPage",
-		mainEntity: faqs.map((faq) => ({
-			"@type": "Question",
-			name: faq.question,
-			acceptedAnswer: {
-				"@type": "Answer",
-				text: faq.answer,
-			},
-		})),
-	};
-};
+// Delegate structured data helpers to the canonical generator
+export const generateBusinessStructuredData = (business) => schemaGen.generateLocalBusinessSchema?.(business) || null;
+export const generateBreadcrumbStructuredData = (breadcrumbs) => schemaGen.generateBreadcrumbListSchema?.(breadcrumbs) || null;
+export const generateSearchResultsStructuredData = (searchQuery, results, totalResults) =>
+	schemaGen.generateSearchResultsPageSchema?.({ query: searchQuery, results, totalResults }) || null;
+export const generateOrganizationStructuredData = () => schemaGen.generateOrganizationSchema();
+export const generateFAQStructuredData = (faqs) => schemaGen.generateFAQPageSchema?.({ questions: faqs }) || null;
 
 // Generate comprehensive meta tags
 export const generateMetaTags = ({ title, description, keywords = [], canonicalUrl, ogImage, ogType = "website", twitterCard = "summary_large_image", noindex = false, structuredData = null }) => {

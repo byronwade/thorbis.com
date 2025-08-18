@@ -1,4 +1,4 @@
-import { isEnabled, evaluateAllFlags } from "@lib/flags/server";
+import { isEnabled, evaluateAllFlags } from "@/lib/flags/server";
 
 export default async function DashboardRootLayout({ children }) {
 	const coreOn = await isEnabled("dashboardCore");

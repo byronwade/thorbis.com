@@ -4,37 +4,17 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, Zap, Globe, Search, Building, TrendingUp, ArrowRight, Star, DollarSign, Target, Award, Briefcase, Calendar, AlertTriangle, MapPin } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Yellow Pages Alternative – Thorbis vs Yellow Pages | Thorbis",
-	description: "Discover why Thorbis is the superior alternative to Yellow Pages for business discovery and local search. Free listings, modern digital tools, and comprehensive business solutions.",
-	keywords: ["Yellow Pages alternative", "Thorbis vs Yellow Pages", "business directory alternative", "free business listing", "local search platform"],
-	alternates: { canonical: "https://thorbis.com/yellow-pages-alternative" },
-	openGraph: {
-		title: "Yellow Pages Alternative – Thorbis vs Yellow Pages",
-		description: "Business directory alternative with modern digital tools and free listings.",
-		type: "website",
-		url: "https://thorbis.com/yellow-pages-alternative",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Yellow Pages Alternative")}&description=${encodeURIComponent("Modern tools and free listings for business discovery.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis vs Yellow Pages",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Yellow Pages Alternative – Thorbis vs Yellow Pages",
-		description: "Business directory alternative with modern digital tools and free listings.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Yellow Pages Alternative")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Yellow Pages Alternative – Thorbis vs Yellow Pages | Thorbis",
+		description: "Discover why Thorbis is the superior alternative to Yellow Pages for business discovery and local search. Free listings, modern digital tools, and comprehensive business solutions.",
+		path: "/yellow-pages-alternative",
+		keywords: ["Yellow Pages alternative", "Thorbis vs Yellow Pages", "business directory alternative", "free business listing", "local search platform"],
+	});
+}
 
 export default function YellowPagesAlternative() {
 	return (

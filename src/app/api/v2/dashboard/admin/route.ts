@@ -8,7 +8,7 @@ import { createServerClient } from "@supabase/ssr";
 import { z } from "zod";
 import { logger } from "@utils/logger";
 import { withAuth, withValidation, withCache, withPerformanceMonitoring, createSuccessResponse, createErrorResponse, compose, type ApiRequest } from "@lib/api/middleware";
-import { dashboardDemoAdminFlag } from "@lib/flags/definitions";
+import { dashboardDemoAdminFlag } from "@/lib/flags/definitions";
 
 // Admin dashboard query validation schema
 const adminDashboardQuerySchema = z.object({

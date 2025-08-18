@@ -31,11 +31,11 @@ const CONTEXT_COLORS = {
 	"save-business": "bg-red-600 hover:bg-red-700",
 	"book-service": "bg-purple-600 hover:bg-purple-700",
 	"business-dashboard": "bg-gray-600 hover:bg-gray-700",
-	"view-profile": "bg-indigo-600 hover:bg-indigo-700",
-	"admin-access": "bg-orange-600 hover:bg-orange-700",
-	"premium-features": "bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700",
-	"join-community": "bg-teal-600 hover:bg-teal-700",
-	"get-support": "bg-cyan-600 hover:bg-cyan-700",
+	"view-profile": "bg-primary hover:bg-primary/90",
+	"admin-access": "bg-primary hover:bg-primary/90",
+	"premium-features": "bg-primary hover:bg-primary/90",
+	"join-community": "bg-primary hover:bg-primary/90",
+	"get-support": "bg-primary hover:bg-primary/90",
 	default: "bg-gray-900 hover:bg-gray-800",
 };
 

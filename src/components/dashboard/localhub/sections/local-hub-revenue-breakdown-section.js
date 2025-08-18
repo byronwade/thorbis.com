@@ -12,7 +12,7 @@ import { Progress } from "@components/ui/progress";
 import { Badge } from "@components/ui/badge";
 import { DollarSign, TrendingUp, Users } from "lucide-react";
 
-const LocalHubRevenueBreakdownSection = () => {
+const LocalHubRevenueBreakdownSection = ({ revenueData, expanded = false }) => {
 	// Revenue Breakdown Data (would come from API/store in real implementation)
 	const revenueBreakdown = [
 		{

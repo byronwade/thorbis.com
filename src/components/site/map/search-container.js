@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { logger } from "@utils/logger";
 
 // Lazy-load the heavy map to improve initial TTI and SEO (client-only)
-import MapContainer from "@components/site/map/map-container";
+import GoogleMapsContainer from "@components/site/map/google-maps-container";
 
 const SearchContainer = ({ searchParams: propSearchParams }) => {
 	const urlSearchParams = useSearchParams();
@@ -222,7 +222,7 @@ const SearchContainer = ({ searchParams: propSearchParams }) => {
 							{/* Desktop Map Panel - Adjusted for Compact Sidebar */}
 							<ResizablePanel defaultSize={activeBusinessId ? 68 : 75}>
 								<div className="h-full w-full relative overflow-hidden">
-									<MapContainer businesses={filteredBusinesses} selectedBusiness={selectedBusiness} onBusinessSelect={handleBusinessSelect} />
+									<GoogleMapsContainer businesses={filteredBusinesses} selectedBusiness={selectedBusiness} onBusinessSelect={handleBusinessSelect} />
 								</div>
 							</ResizablePanel>
 						</ResizablePanelGroup>
@@ -246,7 +246,7 @@ const SearchContainer = ({ searchParams: propSearchParams }) => {
 						<div className="flex flex-col h-full">
 							{/* Mobile Map Container */}
 							<div className="flex-1 relative">
-								<MapContainer businesses={filteredBusinesses} selectedBusiness={selectedBusiness} onBusinessSelect={handleBusinessSelect} />
+								<GoogleMapsContainer businesses={filteredBusinesses} selectedBusiness={selectedBusiness} onBusinessSelect={handleBusinessSelect} />
 
 								{/* Mobile Floating Action Button */}
 								<div className="absolute bottom-4 right-4 z-30">

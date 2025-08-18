@@ -1,4 +1,4 @@
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
 
 export default async function UserBillingLayout({ children }) {
 	const on = await isEnabled("dashboardBilling");

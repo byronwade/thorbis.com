@@ -1,11 +1,15 @@
-export const metadata = {
-	title: "Transportation Management Software – Fleet, Routing, Dispatch | Thorbis",
-	description: "Complete transportation management with fleet tracking, route optimization, dispatch coordination, and driver management for logistics companies.",
-	keywords: ["transportation management software", "fleet management system", "dispatch software", "route optimization", "logistics management"],
-	alternates: { canonical: "https://thorbis.com/transportation-management-software" },
-};
-
 import { Truck, MapPin, Users } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
+
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Transportation Management Software – Fleet, Routing, Dispatch | Thorbis",
+		description: "Complete transportation management with fleet tracking, route optimization, dispatch coordination, and driver management for logistics companies.",
+		path: "/transportation-management-software",
+		keywords: ["transportation management software", "fleet management system", "dispatch software", "route optimization", "logistics management"],
+	});
+}
 
 export default function TransportationManagementSoftware() {
 	const features = [

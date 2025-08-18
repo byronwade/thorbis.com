@@ -1,690 +1,236 @@
-import { Suspense } from "react";
+"use client";
+
+import { useState, useEffect } from "react";
 import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
+import { Input } from "@components/ui/input";
 import { 
   ShoppingCart, 
-  CreditCard, 
-  Truck, 
-  Monitor, 
-  Shield, 
-  Zap, 
-  Star, 
-  TrendingUp,
-  ArrowRight,
-  Package,
-  Settings,
+  Star,
   BarChart3,
   Users,
-  Heart
+  Headphones,
+  Info,
+  Search,
+  Filter,
+  Grid,
+  List
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import ProductCard from "@components/store/ProductCard";
+import ScrollSection from "@components/site/home/scroll-section";
+import { 
+  allProducts, 
+  featuredProducts, 
+  getProductsByCategory, 
+  getAllCategories,
+  searchProducts 
+} from "@data/products";
 
 // Force dynamic rendering for real-time inventory
 export const dynamic = "force-dynamic";
 
-// Store categories with comprehensive product data
-const storeCategories = [
+// Mock testimonials data
+const testimonials = [
   {
-    id: "pos-systems",
-    name: "POS Systems",
-    description: "Complete point-of-sale solutions for modern businesses",
-    icon: CreditCard,
-    products: [
-      {
-        id: "thorbis-pos-pro",
-        name: "Thorbis POS Pro",
-        description: "Advanced point-of-sale system with integrated payment processing",
-        price: 1299,
-        originalPrice: 1599,
-        image: "/placeholder-business.svg",
-        features: ["Contactless payments", "Inventory management", "Employee tracking", "Analytics dashboard"],
-        rating: 4.8,
-        reviewCount: 127,
-        inStock: true,
-        badge: "Best Seller"
-      },
-      {
-        id: "thorbis-pos-lite",
-        name: "Thorbis POS Lite",
-        description: "Essential POS system for small businesses",
-        price: 799,
-        originalPrice: 999,
-        image: "/placeholder-business.svg",
-        features: ["Basic payments", "Simple inventory", "Receipt printing", "Cloud backup"],
-        rating: 4.6,
-        reviewCount: 89,
-        inStock: true,
-        badge: "Popular"
-      },
-      {
-        id: "thorbis-pos-enterprise",
-        name: "Thorbis POS Enterprise",
-        description: "Enterprise-grade POS for multi-location businesses",
-        price: 2499,
-        originalPrice: 2999,
-        image: "/placeholder-business.svg",
-        features: ["Multi-location sync", "Advanced analytics", "API integration", "24/7 support"],
-        rating: 4.9,
-        reviewCount: 45,
-        inStock: true,
-        badge: "Enterprise"
-      }
-    ]
+    content: "Thorbis POS Pro transformed our restaurant operations. The inventory management is incredible and the customer analytics help us make better business decisions.",
+    name: "Sarah Mitchell",
+    role: "Restaurant Owner",
+    rating: 5
   },
   {
-    id: "fleet-management",
-    name: "Fleet Management",
-    description: "GPS tracking and fleet optimization solutions",
-    icon: Truck,
-    products: [
-      {
-        id: "thorbis-fleet-tracker",
-        name: "Thorbis Fleet Tracker",
-        description: "Real-time GPS tracking for fleet vehicles",
-        price: 299,
-        originalPrice: 399,
-        image: "/placeholder-business.svg",
-        features: ["Real-time GPS", "Route optimization", "Fuel monitoring", "Driver safety"],
-        rating: 4.7,
-        reviewCount: 156,
-        inStock: true,
-        badge: "Top Rated"
-      },
-      {
-        id: "thorbis-fleet-analytics",
-        name: "Thorbis Fleet Analytics",
-        description: "Advanced analytics and reporting for fleet operations",
-        price: 599,
-        originalPrice: 799,
-        image: "/placeholder-business.svg",
-        features: ["Performance metrics", "Cost analysis", "Predictive maintenance", "Custom reports"],
-        rating: 4.8,
-        reviewCount: 78,
-        inStock: true,
-        badge: "Analytics"
-      }
-    ]
+    content: "The fleet tracker has saved us thousands in fuel costs and improved our delivery times. Highly recommend for any business with vehicles.",
+    name: "Mike Rodriguez",
+    role: "Logistics Manager",
+    rating: 5
   },
   {
-    id: "hardware-devices",
-    name: "Hardware Devices",
-    description: "Professional hardware for business operations",
-    icon: Monitor,
-    products: [
-      {
-        id: "thorbis-payment-terminal",
-        name: "Thorbis Payment Terminal",
-        description: "Secure payment processing terminal",
-        price: 199,
-        originalPrice: 249,
-        image: "/placeholder-business.svg",
-        features: ["EMV compliant", "Contactless support", "Bluetooth connectivity", "Battery powered"],
-        rating: 4.6,
-        reviewCount: 234,
-        inStock: true,
-        badge: "Secure"
-      },
-      {
-        id: "thorbis-receipt-printer",
-        name: "Thorbis Receipt Printer",
-        description: "High-speed thermal receipt printer",
-        price: 149,
-        originalPrice: 199,
-        image: "/placeholder-business.svg",
-        features: ["Thermal printing", "Auto-cutter", "USB/WiFi", "Paper sensor"],
-        rating: 4.5,
-        reviewCount: 167,
-        inStock: true,
-        badge: "Reliable"
-      },
-      {
-        id: "thorbis-barcode-scanner",
-        name: "Thorbis Barcode Scanner",
-        description: "High-performance barcode scanner",
-        price: 89,
-        originalPrice: 119,
-        image: "/placeholder-business.svg",
-        features: ["1D/2D scanning", "Wireless connectivity", "Long battery life", "Drop resistant"],
-        rating: 4.7,
-        reviewCount: 198,
-        inStock: true,
-        badge: "Fast"
-      }
-    ]
-  },
-  {
-    id: "software-solutions",
-    name: "Software Solutions",
-    description: "Cloud-based business management software",
-    icon: Settings,
-    products: [
-      {
-        id: "thorbis-business-suite",
-        name: "Thorbis Business Suite",
-        description: "Complete business management platform",
-        price: 99,
-        originalPrice: 129,
-        image: "/placeholder-business.svg",
-        features: ["CRM integration", "Accounting tools", "Marketing automation", "Customer support"],
-        rating: 4.8,
-        reviewCount: 312,
-        inStock: true,
-        badge: "Complete"
-      },
-      {
-        id: "thorbis-analytics-pro",
-        name: "Thorbis Analytics Pro",
-        description: "Advanced business intelligence and analytics",
-        price: 199,
-        originalPrice: 249,
-        image: "/placeholder-business.svg",
-        features: ["Real-time dashboards", "Predictive analytics", "Custom reports", "Data export"],
-        rating: 4.9,
-        reviewCount: 145,
-        inStock: true,
-        badge: "Pro"
-      }
-    ]
+    content: "Easy to set up, reliable, and the customer support is outstanding. Thorbis products are worth every penny.",
+    name: "Jennifer Chen",
+    role: "Small Business Owner",
+    rating: 5
   }
 ];
 
-// Loading skeleton for store sections
-function StoreSectionSkeleton() {
-  return (
-    <div className="space-y-16">
-      {Array.from({ length: 2 }).map((_, sectionIndex) => (
-        <div key={sectionIndex} className="space-y-8">
-          {/* Section header skeleton */}
-          <div className="flex justify-between items-start">
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-neutral-200 dark:bg-neutral-700 rounded-xl animate-pulse"></div>
-                <div className="h-8 bg-neutral-200 dark:bg-neutral-700 rounded-lg w-48 animate-pulse"></div>
-              </div>
-              <div className="h-6 bg-neutral-200 dark:bg-neutral-700 rounded-lg w-80 animate-pulse"></div>
-            </div>
-          </div>
+// Thorbis-style Product Slider Component - Updated to match Netflix-style home hero
+function ProductSlider() {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-          {/* Products grid skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 3 }).map((_, cardIndex) => (
-              <div key={cardIndex} className="animate-pulse">
-                <div className="aspect-[4/3] bg-neutral-200 dark:bg-neutral-700 rounded-2xl mb-4"></div>
-                <div className="space-y-3">
-                  <div className="h-6 bg-neutral-200 dark:bg-neutral-700 rounded w-3/4"></div>
-                  <div className="h-4 bg-neutral-200 dark:bg-neutral-700 rounded w-full"></div>
-                  <div className="h-5 bg-neutral-200 dark:bg-neutral-700 rounded w-1/3"></div>
-                </div>
-              </div>
-            ))}
+  // Featured products for the slider - use actual products from data
+  const sliderProducts = [
+    allProducts.find(p => p.id === "thorbis-pos-pro"),
+    allProducts.find(p => p.id === "thorbis-aegis-360"),
+    allProducts.find(p => p.id === "thorbis-doorsense")
+  ].filter(Boolean);
+
+  // Auto-rotate products every 8 seconds
+  useEffect(() => {
+    if (!sliderProducts || sliderProducts.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % sliderProducts.length);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, [sliderProducts]);
+
+  const currentProduct = sliderProducts?.[currentIndex];
+  
+  // If no products available, show a fallback
+  if (!currentProduct) {
+    return (
+      <section className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-black">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h1 className="text-4xl font-bold mb-4">Loading Products...</h1>
+            <p className="text-muted-foreground">Please wait while we load our product catalog.</p>
           </div>
         </div>
-      ))}
-    </div>
-  );
-}
+      </section>
+    );
+  }
 
-// Product card component
-function ProductCard({ product }) {
   return (
-    <div className="group relative">
-      <div className="group relative h-full flex flex-col border border-foreground/10 hover:border-foreground/20 transition-colors duration-200 rounded-lg my-0.5">
+    <section className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-black">
+      {/* Netflix-style hero background image */}
+      <div className="absolute inset-0">
+        <Image
+          src={currentProduct.image}
+          alt={currentProduct.name}
+          fill
+          className="object-cover transition-all duration-1000 ease-in-out"
+          priority
+          onError={(e) => {
+            e.target.src = "/placeholder-business.svg";
+          }}
+        />
         
-        {/* Wishlist Button */}
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="absolute z-[1] right-2 top-2 h-9 w-9"
-        >
-          <Heart className="h-5 w-5 transition-colors duration-200 fill-secondary stroke-foreground/60 group-hover:stroke-foreground/80" />
-        </Button>
+        {/* Gradient overlays with design system colors */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/20 md:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
+      </div>
 
-        {/* Product Image */}
-        <Link href={`/store/product/${product.id}`} className="block shrink-0 w-full">
-          <div className="relative bg-neutral-100 dark:bg-neutral-800 overflow-hidden border border-foreground/10 hover:border-foreground/20 transition-colors border-0 aspect-square w-full rounded-t-lg">
-            <Image
-              alt={product.name}
-              loading="eager"
-              fill
-              className="object-cover hover:scale-105 transition-transform duration-300"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              src={product.image}
-            />
-            {/* Badge Overlay */}
-            {product.badge && (
-              <div className="absolute top-3 left-3 z-10">
-                <Badge className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 text-xs font-medium">
-                  {product.badge}
-                </Badge>
+      {/* Netflix-style content overlay - mobile responsive */}
+      <div className="relative z-10 h-full flex items-center">
+        <div className="px-4 md:px-6 lg:px-12 max-w-screen-2xl mx-auto w-full">
+          <div className="max-w-full md:max-w-2xl">
+            {/* Product category badge - mobile responsive */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mb-4">
+              					<div className="bg-primary text-primary-foreground px-3 py-1 rounded text-xs sm:text-sm font-semibold">
+                {currentProduct.badge}
               </div>
-            )}
-            {!product.inStock && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <Badge variant="secondary" className="bg-red-600 text-white">
-                  Out of Stock
-                </Badge>
-              </div>
-            )}
-          </div>
-        </Link>
-
-        {/* Product Info */}
-        <div className="flex flex-col mt-3 flex-1 p-3">
-          <Link href={`/store/product/${product.id}`} className="flex-1">
-            <p className="text-sm text-muted-foreground mb-1">Thorbis</p>
-            <h2 className="font-medium text-base group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">
-              {product.name}
-            </h2>
-            
-            {/* Rating */}
-            <div className="mt-1">
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
-                  />
-                ))}
-                <span className="text-sm text-muted-foreground ml-1">
-                  ({product.reviewCount} reviews)
-                </span>
-              </div>
+              <span className="text-muted-foreground text-sm font-medium">
+                {currentProduct.category}
+              </span>
             </div>
 
-            {/* Price */}
-            <div className="mt-2">
-              {product.originalPrice > product.price && (
-                <div className="flex items-center gap-1">
-                  <span className="text-sm text-muted-foreground line-through">
-                    List Price: ${product.originalPrice}
-                  </span>
-                </div>
-              )}
-              <div className="flex items-baseline gap-2">
-                <span className="text-xl font-medium text-blue-600 dark:text-blue-400" aria-label={`Price: $${product.price}`}>
-                  <span className="text-sm">$</span>
-                  <span>{Math.floor(product.price)}</span>
-                  <span className="text-sm">.{(product.price % 1).toFixed(2).slice(2)}</span>
+            {/* Product name - mobile responsive sizing */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 leading-tight">
+              {currentProduct.name}
+            </h1>
+
+            {/* Product info row - mobile stacked */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 mb-6">
+              {/* Rating */}
+              <div className="flex items-center gap-2">
+                					<Star className="w-4 h-4 sm:w-5 sm:h-5 text-primary fill-current" />
+                <span className="text-white font-semibold text-base sm:text-lg">
+                  {currentProduct.rating}
                 </span>
-                {product.originalPrice > product.price && (
-                  <span className="text-sm text-red-600 font-medium">
-                    Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% 
-                    (${(product.originalPrice - product.price).toFixed(2)})
+                <span className="text-muted-foreground text-xs sm:text-sm">
+                  ({currentProduct.reviews} reviews)
+                </span>
+              </div>
+
+              {/* Price */}
+              <div className="flex items-center gap-2">
+                					<span className="text-primary font-bold text-lg sm:text-xl">
+                  ${currentProduct.price}
+                </span>
+                {currentProduct.originalPrice > currentProduct.price && (
+                  <span className="text-muted-foreground text-sm line-through">
+                    ${currentProduct.originalPrice}
                   </span>
                 )}
               </div>
-            </div>
 
-            {/* Availability & Shipping */}
-            <div className="space-y-1.5 mt-2">
-              <div className="flex items-center justify-between">
-                <span className={`text-sm font-medium ${product.inStock ? 'text-green-600' : 'text-red-600'}`}>
-                  {product.inStock ? 'Available' : 'Out of Stock'}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {product.inStock ? 'In Stock' : 'Unavailable'}
-                </span>
-              </div>
-              {product.inStock && (
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-blue-600">FREE Shipping</span>
-                  <span className="text-xs text-muted-foreground">Ships within 1-2 business days</span>
+              {/* Features */}
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  {(currentProduct.features || []).slice(0, 2).map((feature, index) => (
+                    <span key={index} className="text-muted-foreground text-xs sm:text-sm">
+                      {feature}
+                      {index < 1 && (currentProduct.features || []).length > 1 && " • "}
+                    </span>
+                  ))}
                 </div>
-              )}
-            </div>
-          </Link>
-
-          {/* Add to Cart Button */}
-          <div className="flex items-stretch gap-2 mt-3">
-            <Button 
-              className="h-9 w-full bg-blue-600 hover:bg-blue-700 text-white border border-foreground/10 hover:border-foreground/20"
-              disabled={!product.inStock}
-            >
-              <div className="flex items-center justify-center w-full">
-                <ShoppingCart className="h-4 w-4 mr-2" />
-                <span>Add to Cart</span>
               </div>
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Category section component
-function CategorySection({ category }) {
-  const IconComponent = category.icon;
-  
-  return (
-    <section className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div className="space-y-2">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-xl flex items-center justify-center">
-              <IconComponent className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {category.name}
-            </h2>
+
+            {/* Description - hidden on small mobile */}
+            <p className="hidden sm:block text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 max-w-xl">
+              {currentProduct.description}
+            </p>
+
+            {/* Mobile short description */}
+            <p className="block sm:hidden text-muted-foreground text-sm leading-relaxed mb-6">
+              {currentProduct.description.split('.')[0]}.
+            </p>
+
+            {/* Action buttons with Thorbis design system */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+              <Link href={`/store/product/${currentProduct.id}`} className="flex-1 sm:flex-none">
+                					<button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-base sm:text-lg hover:bg-primary/90 transition-colors duration-200">
+                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+                  Add to Cart
+                </button>
+              </Link>
+              
+              <button className="flex items-center justify-center gap-3 bg-white/10 text-white px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-base sm:text-lg hover:bg-white/20 transition-colors duration-200 backdrop-blur-sm border border-white/20">
+                <Info className="w-4 h-4 sm:w-5 sm:h-5" />
+                Learn More
+              </button>
+            </div>
           </div>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
-            {category.description}
-          </p>
         </div>
-        
-        <Button variant="outline" asChild>
-          <Link href={`/store/category/${category.id}`}>
-            View All
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Link>
-        </Button>
       </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {category.products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+
+      {/* Progress indicators with Thorbis colors */}
+      <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 flex gap-2">
+        {(sliderProducts || []).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={`w-2 sm:w-3 h-1 rounded-full transition-all duration-300 ${
+              					index === currentIndex ? 'bg-primary' : 'bg-white/30'
+            }`}
+          />
         ))}
       </div>
+
+      {/* Fade gradient at bottom for seamless transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
     </section>
   );
 }
 
-// Hero section component - Redesigned with product focus
-function StoreHero() {
-  const featuredProducts = [
-    {
-      id: "thorbis-pos-pro",
-      name: "Thorbis POS Pro",
-      image: "/placeholder-business.svg",
-      price: "$1,299",
-      badge: "Best Seller",
-      description: "Complete POS solution"
-    },
-    {
-      id: "thorbis-fleet-tracker",
-      name: "Fleet Tracker",
-      image: "/placeholder-business.svg",
-      price: "$299",
-      badge: "Top Rated",
-      description: "Real-time GPS tracking"
-    },
-    {
-      id: "payment-terminal",
-      name: "Payment Terminal",
-      image: "/placeholder-business.svg",
-      price: "$199",
-      badge: "New",
-      description: "Secure payments"
-    }
-  ];
-
+function FeaturedProductsSection() {
   return (
-    <section className="relative bg-white dark:bg-gray-950 overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      
-      <div className="relative">
-        {/* Main Hero Content */}
-        <div className="container mx-auto px-4 pt-16 pb-8">
-          <div className="text-center space-y-8 max-w-5xl mx-auto">
-            
-            {/* Header Badge */}
-            <div className="flex justify-center">
-              <Badge className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 text-sm font-medium">
-                <Package className="mr-2 w-4 h-4" />
-                Our Complete Product Range
-              </Badge>
-            </div>
-            
-            {/* Main Headline */}
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white leading-tight tracking-tight">
-                Transform Your Business
-                <span className="block text-blue-600 dark:text-blue-400 mt-2">
-                  With Our Products
-                </span>
-              </h1>
-              
-                          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              From cutting-edge POS systems to fleet management solutions, discover 
-              professional-grade equipment that powers successful businesses worldwide.
-            </p>
-            </div>
-
-            {/* Quick Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 text-lg font-semibold">
-                <ShoppingCart className="mr-3 w-5 h-5" />
-                Shop All Products
-              </Button>
-              <Button size="lg" variant="outline" className="px-10 py-4 text-lg font-semibold border-2">
-                <BarChart3 className="mr-3 w-5 h-5" />
-                Compare Solutions
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Featured Products Showcase */}
-        <div className="container mx-auto px-4 pb-16">
-          <div className="max-w-6xl mx-auto">
-            
-            {/* Section Header */}
-            <div className="text-center mb-12">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                Bestselling Products
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-lg">
-                Discover why thousands of businesses choose these solutions
-              </p>
-            </div>
-
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {featuredProducts.map((product, index) => (
-                <div key={product.id} className="group relative">
-                  <div className="group relative h-full flex flex-col border border-foreground/10 hover:border-foreground/20 transition-colors duration-200 rounded-lg my-0.5">
-                    
-                    {/* Wishlist Button */}
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="absolute z-[1] right-2 top-2 h-9 w-9"
-                    >
-                      <Heart className="h-5 w-5 transition-colors duration-200 fill-secondary stroke-foreground/60 group-hover:stroke-foreground/80" />
-                    </Button>
-
-                    {/* Product Image */}
-                    <Link href={`/store/product/${product.id}`} className="block shrink-0 w-full">
-                      <div className="relative bg-neutral-100 dark:bg-neutral-800 overflow-hidden border border-foreground/10 hover:border-foreground/20 transition-colors border-0 aspect-square w-full rounded-t-lg">
-                        <Image
-                          alt={product.name}
-                          loading="eager"
-                          fill
-                          className="object-cover hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          src={product.image}
-                        />
-                        {/* Badge Overlay */}
-                        <div className="absolute top-3 left-3 z-10">
-                          <Badge className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 text-xs font-medium">
-                            {product.badge}
-                          </Badge>
-                        </div>
-                      </div>
-                    </Link>
-
-                    {/* Product Info */}
-                    <div className="flex flex-col mt-3 flex-1 p-3">
-                      <Link href={`/store/product/${product.id}`} className="flex-1">
-                        <p className="text-sm text-muted-foreground mb-1">Thorbis</p>
-                        <h2 className="font-medium text-base group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">
-                          {product.name}
-                        </h2>
-                        
-                        {/* Rating */}
-                        <div className="mt-1">
-                          <div className="flex items-center gap-1">
-                            {[...Array(5)].map((_, i) => (
-                              <Star 
-                                key={i} 
-                                className="w-3 h-3 fill-yellow-400 text-yellow-400" 
-                              />
-                            ))}
-                            <span className="text-sm text-muted-foreground ml-1">
-                              (127 reviews)
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Price */}
-                        <div className="mt-2">
-                          <div className="flex items-baseline gap-2">
-                            <span className="text-xl font-medium text-blue-600 dark:text-blue-400" aria-label={`Price: ${product.price}`}>
-                              {product.price}
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Availability & Shipping */}
-                        <div className="space-y-1.5 mt-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-green-600">Available</span>
-                            <span className="text-xs text-muted-foreground">In Stock</span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-sm text-blue-600">FREE Shipping</span>
-                            <span className="text-xs text-muted-foreground">Ships within 1-2 business days</span>
-                          </div>
-                        </div>
-                      </Link>
-
-                      {/* Add to Cart Button */}
-                      <div className="flex items-stretch gap-2 mt-3">
-                        <Button className="h-9 w-full bg-blue-600 hover:bg-blue-700 text-white border border-foreground/10 hover:border-foreground/20">
-                          <div className="flex items-center justify-center w-full">
-                            <ShoppingCart className="h-4 w-4 mr-2" />
-                            <span>Add to Cart</span>
-                          </div>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Trust Indicators */}
-        <div className="bg-gray-50 dark:bg-gray-900 py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div className="space-y-2">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">10K+</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">Satisfied Customers</div>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">24/7</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">Expert Support</div>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">99.9%</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">System Uptime</div>
-                </div>
-                <div className="space-y-2">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">30-Day</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">Money Back</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Call-to-Action Strip */}
-        <div className="bg-blue-600 dark:bg-blue-700 py-8">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between max-w-4xl mx-auto gap-6">
-              <div className="text-center md:text-left">
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Ready to upgrade your business?
-                </h3>
-                <p className="text-blue-100">
-                  Join 10,000+ businesses already using our solutions
-                </p>
-              </div>
-              <div className="flex gap-4">
-                <Button 
-                  size="lg" 
-                  variant="secondary" 
-                  className="bg-white text-blue-600 hover:bg-blue-50 px-6 py-3 font-semibold"
-                >
-                  <Users className="mr-2 w-5 h-5" />
-                  Contact Sales
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// Features section component
-function StoreFeatures() {
-  const features = [
-    {
-      icon: Shield,
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime guarantee"
-    },
-    {
-      icon: Zap,
-      title: "Fast Setup",
-      description: "Get up and running in minutes with our plug-and-play solutions"
-    },
-    {
-      icon: Users,
-      title: "Expert Support",
-      description: "24/7 customer support with dedicated account managers"
-    },
-    {
-      icon: TrendingUp,
-      title: "Scalable Growth",
-      description: "Solutions that grow with your business needs"
-    }
-  ];
-  
-  return (
-    <section className="py-16 bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4">
+    <section className="py-16 bg-black">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-            Why Choose Thorbis?
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+            Featured Products
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Our solutions are built with modern businesses in mind, providing 
-            the tools you need to succeed in today's competitive market.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Handpicked solutions to elevate your business operations
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <div key={index} className="text-center space-y-4">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-2xl flex items-center justify-center mx-auto">
-                <feature.icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                {feature.description}
-              </p>
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>
@@ -692,247 +238,353 @@ function StoreFeatures() {
   );
 }
 
-// Latest Products Section with modern ecommerce design
-function LatestProducts() {
-  const latestProducts = [
-    {
-      id: "thorbis-pos-pro",
-      name: "Thorbis POS Pro",
-      brand: "Thorbis",
-      price: 1299.00,
-      originalPrice: 1599.00,
-      image: "/placeholder-business.svg",
-      rating: 4.8,
-      reviewCount: 127,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    },
-    {
-      id: "professional-camera-kit",
-      name: "Professional 4K Business Camera Kit",
-      brand: "ProVision",
-      price: 899.00,
-      originalPrice: 1299.00,
-      image: "/placeholder-camera.svg",
-      rating: 4.7,
-      reviewCount: 156,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    },
-    {
-      id: "smart-inventory-scanner",
-      name: "AI-Powered Smart Inventory Scanner",
-      brand: "ScanTech",
-      price: 249.00,
-      originalPrice: 349.00,
-      image: "/placeholder-scanner.svg",
-      rating: 4.8,
-      reviewCount: 203,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    },
-    {
-      id: "wireless-payment-terminal",
-      name: "Wireless Payment Terminal with NFC",
-      brand: "PayTech",
-      price: 149.00,
-      originalPrice: 199.00,
-      image: "/placeholder-terminal.svg",
-      rating: 4.5,
-      reviewCount: 298,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    },
-    {
-      id: "professional-headset",
-      name: "Professional Wireless Business Headset",
-      brand: "AudioPro",
-      price: 89.00,
-      originalPrice: 129.00,
-      image: "/placeholder-headset.svg",
-      rating: 4.7,
-      reviewCount: 567,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    },
-    {
-      id: "premium-label-printer",
-      name: "Premium Thermal Label Printer Pro",
-      brand: "LabelPro",
-      price: 179.00,
-      originalPrice: 249.00,
-      image: "/placeholder-printer.svg",
-      rating: 4.6,
-      reviewCount: 432,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    },
-    {
-      id: "digital-signage-display",
-      name: "4K Digital Signage Display 43\"",
-      brand: "DisplayTech",
-      price: 599.00,
-      originalPrice: 799.00,
-      image: "/placeholder-display.svg",
-      rating: 4.4,
-      reviewCount: 189,
-      availability: "Available (Limited Stock)",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 2-3 business days"
-    },
-    {
-      id: "thorbis-fleet-tracker",
-      name: "Thorbis Fleet Tracker",
-      brand: "Thorbis",
-      price: 299.00,
-      originalPrice: 399.00,
-      image: "/placeholder-business.svg",
-      rating: 4.6,
-      reviewCount: 89,
-      availability: "Available",
-      shipping: "FREE Shipping",
-      shippingTime: "Ships within 1-2 business days"
-    }
-  ];
-
+function StatsSection() {
   return (
-    <section className="py-16 bg-white dark:bg-neutral-900">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl">
-              Latest Products
-            </h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-300">
-              Check out our newest business technology and equipment
-            </p>
+    				<section className="py-16 bg-background">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center">
+            					<div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+						<Users className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-white mb-2">10,000+</div>
+            <div className="text-sm font-medium text-muted-foreground">Happy Customers</div>
           </div>
-          <Button 
-            asChild 
-            variant="outline" 
-            className="hidden sm:flex border-gray-200 dark:border-gray-800"
-          >
-            <Link href="/store">View All Products</Link>
-          </Button>
+          <div className="text-center">
+            					<div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+						<BarChart3 className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-white mb-2">99.9%</div>
+            <div className="text-sm font-medium text-muted-foreground">Uptime Guarantee</div>
+          </div>
+          <div className="text-center">
+            					<div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+						<Headphones className="w-6 h-6 text-primary" />
+            </div>
+            <div className="text-2xl font-bold text-white mb-2">24/7</div>
+            <div className="text-sm font-medium text-muted-foreground">Expert Support</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// Categorize products by type for different sections
+function categorizeProducts(products) {
+  const categories = {
+    posSystems: [],
+    fleetManagement: [],
+    securitySystems: [],
+    kitchenSystems: [],
+    inventoryManagement: [],
+    selfService: [],
+    digitalSignage: [],
+    iotSensors: [],
+    tradesEquipment: [],
+    infrastructure: [],
+    safetyCompliance: [],
+    customerExperience: [],
+    developmentTools: [],
+    computerVision: [],
+    trainingAR: [],
+    serviceSolutions: [],
+    outdoorSystems: [],
+    edgeComputing: [],
+    supplyHouse: [],
+    clothing: [],
+    officeSupplies: [],
+    drinkware: [],
+    bagsAccessories: [],
+    safetyPPE: [],
+    techElectronics: [],
+    promotional: [],
+  };
+
+  products.forEach((product) => {
+    const categoryName = product.category?.toLowerCase() || "";
+    
+    if (categoryName.includes("pos systems")) {
+      categories.posSystems.push(product);
+    } else if (categoryName.includes("fleet management")) {
+      categories.fleetManagement.push(product);
+    } else if (categoryName.includes("security systems")) {
+      categories.securitySystems.push(product);
+    } else if (categoryName.includes("kitchen systems")) {
+      categories.kitchenSystems.push(product);
+    } else if (categoryName.includes("inventory management")) {
+      categories.inventoryManagement.push(product);
+    } else if (categoryName.includes("self-service") || categoryName.includes("self service")) {
+      categories.selfService.push(product);
+    } else if (categoryName.includes("digital signage")) {
+      categories.digitalSignage.push(product);
+    } else if (categoryName.includes("iot sensors")) {
+      categories.iotSensors.push(product);
+    } else if (categoryName.includes("trades equipment")) {
+      categories.tradesEquipment.push(product);
+    } else if (categoryName.includes("infrastructure")) {
+      categories.infrastructure.push(product);
+    } else if (categoryName.includes("safety & compliance")) {
+      categories.safetyCompliance.push(product);
+    } else if (categoryName.includes("customer experience")) {
+      categories.customerExperience.push(product);
+    } else if (categoryName.includes("development tools")) {
+      categories.developmentTools.push(product);
+    } else if (categoryName.includes("computer vision")) {
+      categories.computerVision.push(product);
+    } else if (categoryName.includes("training & ar")) {
+      categories.trainingAR.push(product);
+    } else if (categoryName.includes("service solutions")) {
+      categories.serviceSolutions.push(product);
+    } else if (categoryName.includes("outdoor systems")) {
+      categories.outdoorSystems.push(product);
+    } else if (categoryName.includes("edge computing")) {
+      categories.edgeComputing.push(product);
+    } else if (categoryName.includes("supply house")) {
+      categories.supplyHouse.push(product);
+    } else if (categoryName.includes("clothing")) {
+      categories.clothing.push(product);
+    } else if (categoryName.includes("office supplies")) {
+      categories.officeSupplies.push(product);
+    } else if (categoryName.includes("drinkware")) {
+      categories.drinkware.push(product);
+    } else if (categoryName.includes("bags & accessories")) {
+      categories.bagsAccessories.push(product);
+    } else if (categoryName.includes("warehouse systems")) {
+      // Add warehouse systems to infrastructure
+      categories.infrastructure.push(product);
+    } else {
+      // Distribute remaining products across categories deterministically
+      const keys = Object.keys(categories);
+      const productHash = product.id.split('').reduce((a, b) => {
+        a = ((a << 5) - a) + b.charCodeAt(0);
+        return a & a;
+      }, 0);
+      const selectedKey = keys[Math.abs(productHash) % keys.length];
+      categories[selectedKey].push(product);
+    }
+  });
+
+  return categories;
+}
+
+// Product sections with real data - similar to home page business sections
+function ProductSections({ categories }) {
+  return (
+    <>
+      {/* POS & PAYMENT SYSTEMS SECTION */}
+      {categories.posSystems.length > 0 && (
+        <div className="space-y-12 animate-fade-in-up mb-20" data-section="pos-systems">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left">POS & Payment Systems</h2>
+            					<Link href="/store/categories/pos-systems" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-200">
+              See all
+            </Link>
+          </div>
+
+          {/* Best Sellers - POS Systems */}
+          <ScrollSection title="Best Sellers" subtitle="Most popular POS solutions" link="/store/categories/pos-systems?sort=popular">
+            {(categories.posSystems || []).slice(0, 10).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ScrollSection>
+
+          {/* New Arrivals - POS Systems */}
+          {(categories.posSystems || []).length > 10 && (
+            <ScrollSection title="New Arrivals" subtitle="Latest POS innovations" link="/store/categories/pos-systems?sort=newest">
+              {(categories.posSystems || []).slice(10, 20).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </ScrollSection>
+          )}
+        </div>
+      )}
+
+      {/* FLEET MANAGEMENT SECTION */}
+      {categories.fleetManagement.length > 0 && (
+        <div className="space-y-12 animate-fade-in-up animate-delay-100 mb-20" data-section="fleet-management">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-100">Fleet Management</h2>
+            					<Link href="/store/categories/fleet-management" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-300">
+              See all
+            </Link>
+          </div>
+
+          {/* GPS Tracking Solutions */}
+          <ScrollSection title="GPS Tracking Solutions" subtitle="Real-time fleet monitoring" link="/store/categories/fleet-management?type=gps">
+            {(categories.fleetManagement || []).slice(0, 10).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ScrollSection>
+
+          {/* Fleet Accessories */}
+          {(categories.fleetManagement || []).length > 10 && (
+            <ScrollSection title="Fleet Accessories" subtitle="Essential fleet equipment" link="/store/categories/fleet-management?type=accessories">
+              {(categories.fleetManagement || []).slice(10, 20).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </ScrollSection>
+          )}
+        </div>
+      )}
+
+      {/* SECURITY SYSTEMS SECTION */}
+      {categories.securitySystems.length > 0 && (
+        <div className="space-y-12 animate-fade-in-up animate-delay-200 mb-20" data-section="security-systems">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-200">Security & Monitoring</h2>
+            					<Link href="/store/categories/security-systems" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-400">
+              See all
+            </Link>
+          </div>
+
+          {/* Surveillance Cameras */}
+          <ScrollSection title="Surveillance Cameras" subtitle="Professional security monitoring" link="/store/categories/security-systems?type=cameras">
+            {(categories.securitySystems || []).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ScrollSection>
+        </div>
+      )}
+
+      {/* KITCHEN SYSTEMS SECTION */}
+      {categories.kitchenSystems.length > 0 && (
+        <div className="space-y-12 animate-fade-in-up animate-delay-300 mb-20" data-section="kitchen-systems">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-300">Kitchen & Back-of-House</h2>
+            					<Link href="/store/categories/kitchen-systems" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-500">
+              See all
+            </Link>
+          </div>
+
+          {/* Kitchen Display Systems */}
+          <ScrollSection title="Kitchen Display Systems" subtitle="Streamline kitchen operations" link="/store/categories/kitchen-systems?type=kds">
+            {(categories.kitchenSystems || []).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ScrollSection>
+        </div>
+      )}
+
+      {/* INVENTORY MANAGEMENT SECTION */}
+      {categories.inventoryManagement.length > 0 && (
+        <div className="space-y-12 animate-fade-in-up animate-delay-400 mb-20" data-section="inventory-management">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-400">Inventory Management</h2>
+            					<Link href="/store/categories/inventory-management" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-500">
+              See all
+            </Link>
+          </div>
+
+          {/* Smart Inventory Solutions */}
+          <ScrollSection title="Smart Inventory Solutions" subtitle="Automated inventory tracking" link="/store/categories/inventory-management?type=smart">
+            {categories.inventoryManagement.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ScrollSection>
+        </div>
+      )}
+
+      {/* MERCHANDISE SECTION */}
+      {(categories.clothing.length > 0 || categories.officeSupplies.length > 0 || categories.drinkware.length > 0) && (
+        <div className="space-y-12 animate-fade-in-up animate-delay-500 mb-20" data-section="merchandise">
+          <div className="flex justify-between items-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-500">Thorbis Merchandise</h2>
+            					<Link href="/store/categories/merchandise" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-600">
+              See all
+            </Link>
+          </div>
+
+          {/* Clothing & Apparel */}
+          {categories.clothing.length > 0 && (
+            <ScrollSection title="Clothing & Apparel" subtitle="Professional Thorbis branded clothing" link="/store/categories/merchandise?type=clothing">
+              {categories.clothing.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </ScrollSection>
+          )}
+
+          {/* Office Supplies */}
+          {categories.officeSupplies.length > 0 && (
+            <ScrollSection title="Office Supplies" subtitle="Essential office accessories" link="/store/categories/merchandise?type=office">
+              {categories.officeSupplies.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </ScrollSection>
+          )}
+
+          {/* Drinkware */}
+          {categories.drinkware.length > 0 && (
+            <ScrollSection title="Drinkware" subtitle="Stay hydrated with Thorbis style" link="/store/categories/merchandise?type=drinkware">
+              {categories.drinkware.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </ScrollSection>
+          )}
+        </div>
+      )}
+
+      {/* TRENDING & NEW SECTION */}
+      <div className="space-y-12 animate-fade-in-up animate-delay-600 mb-20" data-section="trending">
+        <div className="flex justify-between items-center">
+          <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-600">Trending & New</h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {latestProducts.map((product) => (
-            <div key={product.id} className="group relative">
-              <div className="group relative h-full flex flex-col border border-foreground/10 hover:border-foreground/20 transition-colors duration-200 rounded-lg my-0.5">
-                
-                {/* Wishlist Button */}
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="absolute z-[1] right-2 top-2 h-9 w-9"
-                >
-                  <Heart className="h-5 w-5 transition-colors duration-200 fill-secondary stroke-foreground/60 group-hover:stroke-foreground/80" />
-                </Button>
+        {/* Trending This Week */}
+        <ScrollSection title="Trending This Week" subtitle="Most viewed products" link="/store/trending">
+          {(allProducts || []).slice(0, 20).map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </ScrollSection>
 
-                {/* Product Image */}
-                <Link href={`/store/product/${product.id}`} className="block shrink-0 w-full">
-                  <div className="relative bg-neutral-100 dark:bg-neutral-800 overflow-hidden border border-foreground/10 hover:border-foreground/20 transition-colors border-0 aspect-square w-full rounded-t-lg">
-                    <Image
-                      alt={product.name}
-                      loading="eager"
-                      fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                      src={product.image}
-                    />
-                  </div>
-                </Link>
+        {/* Recently Added */}
+        {(allProducts || []).length > 20 && (
+          <ScrollSection title="New Arrivals" subtitle="Recently added to our catalog" link="/store/search?sort=newest">
+            {(allProducts || []).slice(-20).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </ScrollSection>
+        )}
+      </div>
+    </>
+  );
+}
 
-                {/* Product Info */}
-                <div className="flex flex-col mt-3 flex-1 p-3">
-                  <Link href={`/store/product/${product.id}`} className="flex-1">
-                    <p className="text-sm text-muted-foreground mb-1">{product.brand}</p>
-                    <h2 className="font-medium text-base group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">
-                      {product.name}
-                    </h2>
-                    
-                    {/* Rating */}
-                    <div className="mt-1">
-                      <div className="flex items-center gap-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
-                          />
-                        ))}
-                        <span className="text-sm text-muted-foreground ml-1">
-                          ({product.reviewCount} reviews)
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Price */}
-                    <div className="mt-2">
-                      {product.originalPrice && (
-                        <div className="flex items-center gap-1">
-                          <span className="text-sm text-muted-foreground line-through">
-                            List Price: ${product.originalPrice.toFixed(2)}
-                          </span>
-                        </div>
-                      )}
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-medium text-blue-600 dark:text-blue-400" aria-label={`Price: $${product.price.toFixed(2)}`}>
-                          <span className="text-sm">$</span>
-                          <span>{Math.floor(product.price)}</span>
-                          <span className="text-sm">.{(product.price % 1).toFixed(2).slice(2)}</span>
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-sm text-red-600 font-medium">
-                            Save {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% 
-                            (${(product.originalPrice - product.price).toFixed(2)})
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Availability & Shipping */}
-                    <div className="space-y-1.5 mt-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-medium text-green-600">Available</span>
-                        <span className="text-xs text-muted-foreground">{product.availability}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-blue-600">{product.shipping}</span>
-                        <span className="text-xs text-muted-foreground">{product.shippingTime}</span>
-                      </div>
-                    </div>
-                  </Link>
-
-                  {/* Add to Cart Button */}
-                  <div className="flex items-stretch gap-2 mt-3">
-                    <Button className="h-9 w-full bg-blue-600 hover:bg-blue-700 text-white border border-foreground/10 hover:border-foreground/20">
-                      <div className="flex items-center justify-center w-full">
-                        <ShoppingCart className="h-4 w-4 mr-2" />
-                        <span>Add to Cart</span>
-                      </div>
-                    </Button>
-                  </div>
+function TestimonialsSection() {
+  return (
+    <section className="py-16 bg-black">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+            What Our Customers Say
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Real feedback from businesses that trust Thorbis
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((testimonial, index) => (
+            					<div key={index} className="bg-background rounded-xl p-6 shadow-lg border border-border">
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  					<Star key={i} className="w-4 h-4 fill-muted-foreground text-muted-foreground" />
+                ))}
+              </div>
+              <p className="text-base leading-relaxed text-muted-foreground mb-4">
+                &ldquo;{testimonial.content}&rdquo;
+              </p>
+              <div>
+                <div className="font-semibold text-base text-white">
+                  {testimonial.name}
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {testimonial.role}
                 </div>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Mobile View All Button */}
-        <Button 
-          asChild 
-          variant="outline" 
-          className="w-full mt-8 sm:hidden border-gray-200 dark:border-gray-800"
-        >
-          <Link href="/store">View All Products</Link>
-        </Button>
       </div>
     </section>
   );
@@ -940,50 +592,58 @@ function LatestProducts() {
 
 // Main store page component
 export default function StorePage() {
+  // Categorize all products with safety check
+  const categories = categorizeProducts(allProducts || []);
+  
+  // Check if we have any products to display
+  const hasAnyCategories = Object.values(categories || {}).some(category => (category || []).length > 0);
+
   return (
-    <div className="min-h-screen bg-white dark:bg-neutral-900">
-      {/* Hero Section */}
-      <StoreHero />
-      
-      {/* Features Section */}
-      <StoreFeatures />
-      
-      {/* Latest Products Section */}
-      <LatestProducts />
-      
-      {/* Product Categories */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="space-y-16">
-          <Suspense fallback={<StoreSectionSkeleton />}>
-            {storeCategories.map((category) => (
-              <CategorySection key={category.id} category={category} />
-            ))}
-          </Suspense>
-        </div>
-      </div>
-      
-      {/* CTA Section */}
-      <section className="bg-blue-600 dark:bg-blue-800 py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Ready to Transform Your Business?
-          </h2>
-          <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of businesses that trust Thorbis for their technology needs. 
-            Get started today with our risk-free 30-day trial.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="px-8 py-3">
-              <ShoppingCart className="mr-2 w-5 h-5" />
-              Start Shopping
-            </Button>
-            <Button size="lg" variant="outline" className="px-8 py-3 border-white text-white hover:bg-white hover:text-blue-600">
-              <Users className="mr-2 w-5 h-5" />
-              Contact Sales
-            </Button>
-          </div>
+    <div className="min-h-screen bg-black">
+      {/* Thorbis-style Product Slider */}
+      <ProductSlider />
+
+      {/* Featured Products Section */}
+      <FeaturedProductsSection />
+
+      {/* Stats Section */}
+      <StatsSection />
+
+      {/* Main Content with Categorized Product Sections */}
+      				<section className="py-24 bg-background">
+        <div className="max-w-screen-2xl mx-auto px-6 space-y-24">
+          {hasAnyCategories ? (
+            <ProductSections categories={categories} />
+          ) : (
+            <div className="text-center py-24 space-y-6">
+                              <div className="mx-auto w-20 h-20 bg-muted rounded-full flex items-center justify-center">
+                <ShoppingCart className="w-10 h-10 text-muted-foreground" />
+              </div>
+              
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-white">
+                  No Products Found
+                </h3>
+                <p className="text-muted-foreground max-w-sm mx-auto">
+                  We're working on adding products to our catalog. Check back soon!
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+                <button className="px-6 py-2 border border-border text-foreground hover:bg-muted transition-colors rounded">
+                  <Link href="/store/categories">Browse Categories</Link>
+                </button>
+                					<button className="px-6 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded">
+                  <Link href="/contact">Contact Sales</Link>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
     </div>
   );
 }

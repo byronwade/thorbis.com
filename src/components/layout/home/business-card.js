@@ -19,7 +19,14 @@ export default function BusinessCard({ business, disabled }) {
 			<div className="w-full">
 				{/* Image - Better aspect ratio */}
 				<div className="relative aspect-[4/3] overflow-hidden rounded-xl mb-3">
-					<Image className="object-cover w-full h-full transition-transform duration-300 hover:scale-105" src={business.image} alt={business.name} width={350} height={260} />
+					<Image 
+						className="object-cover w-full h-full transition-transform duration-300 hover:scale-105" 
+						src={business.image} 
+						alt={business.name} 
+						width={350} 
+						height={260}
+						sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+					/>
 				</div>
 
 				{/* Business Info - Improved spacing and typography */}

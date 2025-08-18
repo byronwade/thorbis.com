@@ -1,0 +1,87 @@
+# ================================
+# DEVELOPMENT DOCKER COMPOSE CONFIGURATION
+# Hot-reload enabled, development-friendly setup
+# ================================
+
+version: '3.8'
+
+services:
+  # ================================
+  # Next.js Application (Development)
+  # ================================
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      target: development
+    
+    container_name: local-byronwade-dev
+    
+    # Development: Run with more privileges for debugging
+    user: "1001:1001"
+    
+    # Development: Allow filesystem writes
+    read_only: false
+    
+    # Resource limits (more generous for development)
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 512M
+    
+    # Port mapping with hot-reload
+    ports:
+      - "3000:3000"
+      - "3001:3001" # For debugging tools
+    
+    # Development environment variables
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - NEXT_TELEMETRY_DISABLED=1
+      - WATCHPACK_POLLING=true
+    
+    # Volume mounts for hot-reload
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    
+    # Health check (simpler for dev)
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 60s
+      timeout: 10s
+      retries: 2
+      start_period: 60s
+    
+    # Restart policy for development
+    restart: unless-stopped
+    
+    # Logging (more verbose for development)
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "3"
+    
+    # Network
+    networks:
+      - dev-network
+    
+    # Development: Allow terminal interaction
+    stdin_open: true
+    tty: true
+
+# ================================
+# Development Network
+# ================================
+networks:
+  dev-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-local-byronwade-dev

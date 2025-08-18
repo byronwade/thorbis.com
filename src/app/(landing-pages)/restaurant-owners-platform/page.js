@@ -1,37 +1,18 @@
-export const metadata = {
-	title: "Restaurant Management Platform – POS, Online Ordering, Table Management | Thorbis",
-	description: "Complete restaurant management platform with POS, online ordering, table management, inventory tracking, and marketing tools. Grow your restaurant business with our all-in-one solution.",
-	keywords: ["restaurant management platform", "restaurant POS system", "online ordering platform", "table management software", "restaurant inventory", "food service management"],
-	alternates: { canonical: "https://thorbis.com/restaurant-owners-platform" },
-	openGraph: {
-		title: "Restaurant Management Platform – Complete Solutions for Restaurant Owners",
-		description: "POS, online ordering, table management, inventory tracking, and marketing tools for restaurant success.",
-		type: "website",
-		url: "https://thorbis.com/restaurant-owners-platform",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Restaurant Management Platform")}&description=${encodeURIComponent("POS, online ordering, table management, and marketing tools.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Restaurant Management Platform",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Restaurant Management Platform – Complete Solutions for Restaurant Owners",
-		description: "POS, online ordering, table management, inventory tracking, and marketing tools for restaurant success.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Restaurant Management Platform")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Restaurant Management Platform – POS, Online Ordering, Table Management | Thorbis",
+		description: "Complete restaurant management platform with POS, online ordering, table management, inventory tracking, and marketing tools. Grow your restaurant business with our all-in-one solution.",
+		path: "/restaurant-owners-platform",
+		keywords: ["restaurant management platform", "restaurant POS system", "online ordering platform", "table management software", "restaurant inventory", "food service management"],
+	});
+}
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { generateStaticPageMetadata } from "@utils/server-seo";
+
 import { 
   Utensils, 
   Users, 
@@ -232,12 +213,12 @@ export default function RestaurantOwnersPlatform() {
             Restaurant Management Platform
           </Badge>
           
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
             Everything Your Restaurant Needs to{" "}
-            <span className="text-orange-600">Succeed</span>
+            <span className="text-primary">Succeed</span>
           </h1>
           
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
             Complete restaurant management platform with POS, online ordering, table management, 
             and marketing tools. Join thousands of successful restaurant owners growing their business.
           </p>
@@ -263,7 +244,7 @@ export default function RestaurantOwnersPlatform() {
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl font-bold text-orange-600">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-muted-foreground">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -274,10 +255,10 @@ export default function RestaurantOwnersPlatform() {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
               Complete Restaurant Management Suite
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               Everything you need to run and grow your restaurant business
             </p>
           </div>
@@ -293,7 +274,7 @@ export default function RestaurantOwnersPlatform() {
                 <CardContent>
                   <ul className="space-y-2">
                     {feature.benefits.map((benefit, idx) => (
-                      <li key={idx} className="flex items-center text-sm text-gray-600">
+                      <li key={idx} className="flex items-center text-sm text-muted-foreground">
                         <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
                         {benefit}
                       </li>
@@ -307,13 +288,13 @@ export default function RestaurantOwnersPlatform() {
       </section>
 
       {/* Success Stories */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-muted/30">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
               Restaurant Success Stories
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               See how restaurant owners are growing their business with our platform
             </p>
           </div>
@@ -333,12 +314,12 @@ export default function RestaurantOwnersPlatform() {
                 </CardHeader>
                 <CardContent>
                   <div className="text-3xl font-bold text-green-600 mb-2">{story.growth}</div>
-                  <p className="text-gray-600 mb-4">{story.story}</p>
+                  <p className="text-muted-foreground mb-4">{story.story}</p>
                   <div className="flex items-center justify-center">
                     <div className="flex items-center">
                       <Star className="w-4 h-4 text-yellow-400 fill-current" />
                       <span className="text-sm font-medium ml-1">{story.rating}</span>
-                      <span className="text-sm text-gray-500 ml-2">({story.reviews} reviews)</span>
+                      <span className="text-sm text-muted-foreground ml-2">({story.reviews} reviews)</span>
                     </div>
                   </div>
                 </CardContent>
@@ -352,10 +333,10 @@ export default function RestaurantOwnersPlatform() {
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
               Simple, Transparent Pricing
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               Choose the plan that fits your restaurant&apos;s needs
             </p>
           </div>
@@ -372,7 +353,7 @@ export default function RestaurantOwnersPlatform() {
                   <CardTitle className="text-2xl">{plan.name}</CardTitle>
                   <div className="text-4xl font-bold">
                     <span className="text-lg">$</span>{plan.price}
-                    <span className="text-lg text-gray-500">/{plan.period}</span>
+                    <span className="text-lg text-muted-foreground">/{plan.period}</span>
                   </div>
                   <CardDescription>{plan.description}</CardDescription>
                 </CardHeader>
@@ -408,7 +389,7 @@ export default function RestaurantOwnersPlatform() {
             Join thousands of successful restaurant owners. Start your free trial today.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-orange-600 hover:bg-gray-100">
+            <Button size="lg" className="bg-card text-primary hover:bg-accent">
               Start Free Trial
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>

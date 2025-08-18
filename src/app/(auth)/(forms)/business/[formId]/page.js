@@ -53,18 +53,18 @@ export default function FormPage() {
 	// Show loading state while params are being resolved
 	if (!formType) {
 		return (
-			<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+			<div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
 				<div className="text-center">
-					<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-					<p className="text-gray-600 dark:text-gray-400">Loading form...</p>
+					<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+					<p className="text-muted-foreground">Loading form...</p>
 				</div>
 			</div>
 		);
 	}
 
-	return (
-		<div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
-			<BusinessForm formType={formType} />
-		</div>
+		return (
+		<div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
+		<BusinessForm formType={formType} />
+	</div>
 	);
 }

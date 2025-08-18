@@ -57,73 +57,76 @@ export default function ScrollSection({ title, link, children, subtitle, categor
 	const getScrollDistance = () => {
 		const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 		// Adjust for new larger card sizes
-		return vw < 640 ? 320 : vw < 768 ? 350 : vw < 1024 ? 380 : 400;
+		return vw < 640 ? 280 : vw < 768 ? 340 : vw < 1024 ? 400 : 420;
 	};
 
 	return (
 		<div className="w-full">
 			<div className="relative w-full overflow-hidden group">
 				{(title || link || category) && (
-					<div className="flex flex-col space-y-4 py-4 sm:py-6 lg:py-8">
+					<div className="flex flex-col space-y-4 py-4 sm:py-6">
 						{category && (
-							<div className="flex items-center space-x-2">
-								<span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-primary bg-primary/10 rounded-full border border-primary/20">
-									<div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+							<div className="flex items-center space-x-2 animate-fade-in-scale">
+								<span className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-blue-600 bg-blue-600/10 rounded-full">
+									<div className="w-2 h-2 bg-blue-600 rounded-full"></div>
 									{category}
 								</span>
 							</div>
 						)}
 						<div className="flex items-start justify-between">
 							<div className="flex flex-col space-y-2 flex-1">
-								{title && <h3 className="text-xl font-bold text-foreground tracking-tight hover:text-primary transition-colors duration-200 sm:text-2xl lg:text-3xl group-hover:text-primary">{title}</h3>}
-								{subtitle && <p className="text-base text-muted-foreground max-w-2xl leading-relaxed sm:text-lg">{subtitle}</p>}
+								{title && <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight hover:text-blue-600 transition-colors duration-200 animate-fade-in-up">{title}</h3>}
+								{subtitle && <p className="text-base text-gray-400 max-w-2xl animate-fade-in-up animate-delay-100">{subtitle}</p>}
 							</div>
 							{link && (
-								<Button variant="ghost" size="sm" className="text-primary hover:text-primary-foreground hover:bg-primary/90 transition-all duration-300 group flex-shrink-0 rounded-xl px-4 py-2" asChild>
-									<a href={link} className="flex items-center gap-2">
-										<span className="text-sm font-medium">View all</span>
-										<ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-									</a>
-								</Button>
+								<a href={link} className="text-sm text-gray-400 hover:text-blue-600 transition-colors duration-200 animate-fade-in-scale animate-delay-200 font-medium">
+									View all
+								</a>
 							)}
 						</div>
 					</div>
 				)}
 				<div className="relative">
 					{/* Scroll indicators */}
-					{canScrollLeft && <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-40 pointer-events-none" />}
-					{canScrollRight && <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent z-40 pointer-events-none" />}
+					{canScrollLeft && <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-gray-900 to-transparent z-40 pointer-events-none" />}
+					{canScrollRight && <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-gray-900 to-transparent z-40 pointer-events-none" />}
 
-					<div ref={scrollContainerRef} onScroll={handleScroll} className="flex flex-row gap-4 sm:gap-5 lg:gap-6 py-4 overflow-x-auto scrollbar-hide scroll-smooth" style={{ scrollBehavior: "smooth" }}>
+					<div ref={scrollContainerRef} onScroll={handleScroll} className="flex flex-row gap-4 sm:gap-6 py-4 overflow-x-auto scrollbar-hide scroll-smooth" style={{ scrollBehavior: "smooth" }}>
 						{React.Children.map(children, (child, idx) => (
-							<div key={idx} className="flex-none relative w-[280px] sm:w-[300px] md:w-[320px] lg:w-[340px]">
+							<div 
+								key={idx} 
+								className={`flex-none relative w-[260px] sm:w-[320px] md:w-[380px] animate-fade-in-scale animate-delay-${Math.min(idx * 100, 500)}`}
+								style={{
+									animationDelay: `${Math.min(idx * 0.1, 0.5)}s`
+								}}
+							>
 								{React.cloneElement(child, { disabled: partiallyVisibleIndices[idx] })}
 							</div>
 						))}
 					</div>
 
-					{/* Enhanced Navigation Arrows - Always visible when needed */}
+					{/* Navigation Arrows with Thorbis Design System */}
 					{canScrollLeft && (
-						<button onClick={() => scrollBy(-getScrollDistance())} className="absolute inset-y-0 left-0 z-50 items-center justify-center flex px-2 lg:px-3 text-foreground hover:text-foreground transition-all duration-300 bg-gradient-to-r from-background/95 via-background/80 to-transparent" style={{ pointerEvents: "auto" }}>
-							<div className="p-2 lg:p-3 rounded-full bg-white dark:bg-neutral-900 backdrop-blur-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all duration-300 shadow-lg hover:shadow-xl border border-neutral-200 dark:border-neutral-700 hover:scale-105">
-								<ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-neutral-700 dark:text-neutral-300" />
+						<button onClick={() => scrollBy(-getScrollDistance())} className="absolute inset-y-0 left-0 z-50 items-center justify-center flex px-2 lg:px-3 text-white hover:text-blue-600 transition-all duration-300 bg-gradient-to-r from-gray-900/95 via-gray-900/80 to-transparent opacity-0 group-hover:opacity-100" style={{ pointerEvents: "auto" }}>
+							<div className="p-2 lg:p-3 rounded-full bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-700 hover:scale-105">
+								<ChevronLeft className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
 							</div>
 						</button>
 					)}
 					{canScrollRight && (
-						<button onClick={() => scrollBy(getScrollDistance())} className="absolute inset-y-0 right-0 z-50 items-center justify-center flex px-2 lg:px-3 text-foreground hover:text-foreground transition-all duration-300 bg-gradient-to-l from-background/95 via-background/80 to-transparent" style={{ pointerEvents: "auto" }}>
-							<div className="p-2 lg:p-3 rounded-full bg-white dark:bg-neutral-900 backdrop-blur-sm hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all duration-300 shadow-lg hover:shadow-xl border border-neutral-200 dark:border-neutral-700 hover:scale-105">
-								<ChevronRight className="w-4 h-4 lg:w-5 lg:h-5 text-neutral-700 dark:text-neutral-300" />
+						<button onClick={() => scrollBy(getScrollDistance())} className="absolute inset-y-0 right-0 z-50 items-center justify-center flex px-2 lg:px-3 text-white hover:text-blue-600 transition-all duration-300 bg-gradient-to-l from-gray-900/95 via-gray-900/80 to-transparent opacity-0 group-hover:opacity-100" style={{ pointerEvents: "auto" }}>
+							<div className="p-2 lg:p-3 rounded-full bg-gray-800/90 backdrop-blur-sm hover:bg-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-700 hover:scale-105">
+								<ChevronRight className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
 							</div>
 						</button>
 					)}
 
-					{/* Mobile scroll indicators */}
+					{/* Mobile indicators with Thorbis colors */}
 					{children.length > 2 && (
 						<div className="flex justify-center mt-3 md:hidden">
 							<div className="flex gap-1">
 								{Array.from({ length: Math.min(5, children.length) }).map((_, idx) => (
-									<div key={idx} className={`w-2 h-2 rounded-full transition-colors duration-200 ${idx === 0 ? "bg-primary" : "bg-neutral-300 dark:bg-neutral-600"}`} />
+									<div key={idx} className={`w-2 h-2 rounded-full transition-colors duration-200 ${idx === 0 ? "bg-blue-600" : "bg-gray-600"}`} />
 								))}
 							</div>
 						</div>

@@ -358,7 +358,7 @@ const RealTimeSearch = ({ onSearchResults, onLocationChange, placeholder = "Sear
 															<div className="flex items-center gap-2 mt-1">
 																{business.rating && (
 																	<div className="flex items-center gap-1">
-																		<Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+																		<Star className="w-3 h-3 fill-muted-foreground text-muted-foreground" />
 																		<span className="text-xs">{business.rating}</span>
 																	</div>
 																)}

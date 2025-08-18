@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Real Estate Agency Software – CRM, Listings, Transaction Management | Thorbis",
-	description: "Complete real estate agency management software with client CRM, listing management, transaction tracking, and commission calculations.",
-	keywords: ["real estate agency software", "real estate CRM", "listing management software", "real estate transaction management", "commission tracking"],
-	alternates: { canonical: "https://thorbis.com/real-estate-agency-software" },
-	openGraph: {
-		title: "Real Estate Agency Software – Complete Agency Management",
-		description: "CRM, listings, transactions, and commission tracking for real estate agencies.",
-		type: "website",
-		url: "https://thorbis.com/real-estate-agency-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Real Estate Agency Software")}&description=${encodeURIComponent("CRM, listings, transactions, and commission tracking.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Real Estate Agency Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Real Estate Agency Software – Complete Agency Management",
-		description: "CRM, listings, transactions, and commission tracking for real estate agencies.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Real Estate Agency Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Real Estate Agency Software – CRM, Listings, Transaction Management | Thorbis",
+		description: "Complete real estate agency management software with client CRM, listing management, transaction tracking, and commission calculations.",
+		path: "/real-estate-agency-software",
+		keywords: ["real estate agency software", "real estate CRM", "listing management software", "real estate transaction management", "commission tracking"],
+	});
+}
 
 import { Star, Users, Home, Calculator } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -119,7 +100,7 @@ export default function RealEstateAgencySoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-purple-600 px-6 py-3 text-white font-semibold hover:bg-purple-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Book Demo
 					</a>
 				</div>
@@ -191,7 +172,7 @@ export default function RealEstateAgencySoftware() {
 				<h2 className="text-3xl font-bold mb-4">Ready to Scale Your Real Estate Agency?</h2>
 				<p className="text-lg mb-6 opacity-90">Join thousands of successful agents and brokers using Thorbis to grow their business.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-purple-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

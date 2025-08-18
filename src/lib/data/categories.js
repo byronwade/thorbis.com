@@ -24,25 +24,25 @@ export const urgencyLevels = [
 		value: "low",
 		label: "Low Priority",
 		description: "Within 2-4 weeks",
-		color: "bg-green-500/10 text-green-600 dark:text-green-400",
+		color: "bg-primary/10 text-primary dark:text-primary",
 	},
 	{
 		value: "medium",
 		label: "Medium Priority",
 		description: "Within 1-2 weeks",
-		color: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400",
+		color: "bg-muted-foreground/10 text-muted-foreground dark:text-muted-foreground",
 	},
 	{
 		value: "high",
 		label: "High Priority",
 		description: "Within 2-7 days",
-		color: "bg-orange-500/10 text-orange-600 dark:text-orange-400",
+		color: "bg-muted-foreground/20 text-muted-foreground dark:text-muted-foreground",
 	},
 	{
 		value: "urgent",
 		label: "Urgent",
 		description: "ASAP - Same day/Next day",
-		color: "bg-red-500/10 text-red-600 dark:text-red-400",
+		color: "bg-destructive/10 text-destructive dark:text-destructive",
 	},
 ];
 

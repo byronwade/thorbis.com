@@ -65,8 +65,45 @@ const createSupabaseConfig = (anonKey: string) => ({
 		autoRefreshToken: true,
 		persistSession: true,
 		detectSessionInUrl: true,
-		// Optimize storage for performance
-		storage: typeof window !== "undefined" ? window.localStorage : undefined,
+		// CRITICAL: Use cookies for SSR compatibility
+		storage: typeof window !== "undefined" ? {
+			getItem: (key: string) => {
+				// Try localStorage first, then cookies
+				const localValue = window.localStorage.getItem(key);
+				if (localValue) return localValue;
+				
+				// Fallback to cookies for SSR compatibility
+				const cookies = document.cookie.split(';');
+				for (const cookie of cookies) {
+					const [name, value] = cookie.trim().split('=');
+					if (name === key) {
+						return decodeURIComponent(value);
+					}
+				}
+				return null;
+			},
+			setItem: (key: string, value: string) => {
+				// Set both localStorage and cookies for SSR compatibility
+				window.localStorage.setItem(key, value);
+				
+				// Set secure cookie for server-side access
+				const isSecure = window.location.protocol === 'https:';
+				const cookieOptions = [
+					`${key}=${encodeURIComponent(value)}`,
+					'Path=/',
+					'SameSite=Lax',
+					'Max-Age=604800', // 7 days
+					isSecure ? 'Secure' : ''
+				].filter(Boolean).join('; ');
+				
+				document.cookie = cookieOptions;
+			},
+			removeItem: (key: string) => {
+				window.localStorage.removeItem(key);
+				// Remove cookie by setting expired date
+				document.cookie = `${key}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+			}
+		} : undefined,
 	},
 	db: {
 		// Connection pooling configuration

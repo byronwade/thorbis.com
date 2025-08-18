@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Hotel Management Software – Reservations, Guest Services, Revenue Management | Thorbis",
-	description: "Complete hotel management system with reservation management, guest services, housekeeping coordination, and revenue optimization tools.",
-	keywords: ["hotel management software", "hotel reservation system", "guest management software", "hotel PMS", "hospitality management"],
-	alternates: { canonical: "https://thorbis.com/hotel-management-software" },
-	openGraph: {
-		title: "Hotel Management Software – Complete Hospitality Operations",
-		description: "Reservations, guest services, housekeeping, and revenue optimization.",
-		type: "website",
-		url: "https://thorbis.com/hotel-management-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Hotel Management Software")}&description=${encodeURIComponent("Reservations, guest services, and revenue optimization.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Hotel Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Hotel Management Software – Complete Hospitality Operations",
-		description: "Reservations, guest services, housekeeping, and revenue optimization.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Hotel Management Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Hotel Management Software – Reservations, Guest Services, Revenue Management | Thorbis",
+		description: "Complete hotel management system with reservation management, guest services, housekeeping coordination, and revenue optimization tools.",
+		path: "/hotel-management-software",
+		keywords: ["hotel management software", "hotel reservation system", "guest management software", "hotel PMS", "hospitality management"],
+	});
+}
 
 import { Star, Bed, Users, TrendingUp, Calendar, CreditCard, Shield } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -167,7 +148,7 @@ export default function HotelManagementSoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-cyan-600 px-6 py-3 text-white font-semibold hover:bg-cyan-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -262,7 +243,7 @@ export default function HotelManagementSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Maximize Your Hotel's Performance</h2>
 				<p className="text-lg mb-6 opacity-90">Join hoteliers worldwide using Thorbis to optimize operations and increase revenue.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-cyan-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

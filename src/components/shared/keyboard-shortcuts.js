@@ -326,7 +326,7 @@ export default function KeyboardShortcuts({
         });
 
         // Log usage
-        logger.user({
+        logger.debug('Keyboard shortcut used', {
           action: 'keyboard_shortcut',
           shortcutId: matchedShortcut.id,
           keys: matchedShortcut.keys,
@@ -384,10 +384,10 @@ export default function KeyboardShortcuts({
           <Button 
             variant="ghost" 
             size="sm" 
-            className={`h-9 w-9 p-0 ${className}`}
+            className={`h-7 w-7 rounded-md p-0 bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 ${className}`}
             title="Keyboard shortcuts"
           >
-            <Keyboard className="w-4 h-4" />
+            <Keyboard className="w-3.5 h-3.5 text-neutral-600 dark:text-neutral-400" />
           </Button>
         </DialogTrigger>
         

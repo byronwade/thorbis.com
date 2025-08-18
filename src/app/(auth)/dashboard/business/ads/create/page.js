@@ -19,7 +19,7 @@ function MapPlaceholder({ location, radius, isValid }) {
 	return (
 		<div className={`w-full h-32 rounded-lg bg-gradient-to-r from-gray-900/40 dark:to-gray-800/30 border-neutral-800 dark:border-neutral-700"} flex items-center justify-center mb-6`}>
 			<div className="text-center">
-				<MapPin className={`w-12 h-12 mx-auto mb-3 ${isValid ? "text-green-600 dark:text-green-400" : "text-gray-400 dark:text-gray-500"}`} />
+				<MapPin className={`w-12 h-12 mx-auto mb-3 ${isValid ? "text-green-600 dark:text-green-400" : "text-muted-foreground"}`} />
 				<p className="font-semibold text-lg text-foreground mb-1">Target Area Preview</p>
 				<p className="text-sm text-muted-foreground">
 					{location ? (
@@ -456,7 +456,7 @@ export default function CreateAdPage() {
 				{/* Search Results Preview */}
 				<div className="rounded-lg border border-blue-200 dark:border-blue-700 bg-blue-50/60 dark:bg-blue-900/30 p-4">
 					<div className="flex items-start gap-3">
-						<div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
+						<div className="w-12 h-12 bg-muted rounded-lg flex-shrink-0"></div>
 						<div className="flex-1">
 							<div className="flex items-center gap-2 mb-1">
 								<h4 className="font-medium text-blue-600 dark:text-blue-300">{adData.headline || "Your Ad Headline"}</h4>
@@ -476,7 +476,7 @@ export default function CreateAdPage() {
 				{/* Business Card Preview */}
 				<div className="rounded-lg border border-border bg-background/80 dark:bg-background/40 p-4">
 					<div className="flex items-start gap-3">
-						<div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-lg flex-shrink-0"></div>
+						<div className="w-16 h-16 bg-muted rounded-lg flex-shrink-0"></div>
 						<div className="flex-1">
 							<h4 className="font-semibold">{adData.headline || "Your Business Name"}</h4>
 							<p className="text-sm text-muted-foreground mb-2">{adData.description || "Your business description..."}</p>

@@ -3,37 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import Link from "next/link";
 import { Eye, Star, ListChecks, ShieldCheck, GitBranch, FileText, ExternalLink, TrendingUp, Users, Code, Shield, Activity, CheckCircle, Clock, BarChart3, Lock, Search, Zap } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Transparency & Review Algorithm | Thorbis",
-	description: "A founder&apos;s essay and full technical transparency on Thorbis&apos;s review algorithm, changelogs, audits, and open-source code. Radical trust, open data, and community accountability.",
-	keywords: ["review algorithm", "transparency", "open source", "trust", "moderation", "star rating", "Thorbis", "changelog", "audit"],
-	alternates: { canonical: "https://thorbis.com/transparency" },
-	openGraph: {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 		title: "Transparency & Review Algorithm | Thorbis",
-		description: "Radical transparency: algorithm, moderation, audits, and open-source code.",
-		type: "website",
-		url: "https://thorbis.com/transparency",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Transparency at Thorbis")}&description=${encodeURIComponent("Algorithm, moderation, audits, and open-source code.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Transparency",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Transparency & Review Algorithm | Thorbis",
-		description: "Radical transparency: algorithm, moderation, audits, and open-source code.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Transparency at Thorbis")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+		description: "A founder's essay and full technical transparency on Thorbis's review algorithm, changelogs, audits, and open-source code. Radical trust, open data, and community accountability.",
+		path: "/transparency",
+		keywords: ["review algorithm", "transparency", "open source", "trust", "moderation", "star rating", "Thorbis", "changelog", "audit"],
+	});
+}
 
 const GITHUB_REPO = "https://github.com/your-org/thorbis";
 const CHANGELOG_URL = "https://github.com/your-org/thorbis/commits/main";

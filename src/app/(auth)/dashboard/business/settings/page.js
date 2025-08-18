@@ -21,6 +21,16 @@ import {
   Phone,
   Ticket,
   DollarSign,
+  Truck,
+  Search,
+  ExternalLink,
+  Star,
+  CheckCircle,
+  AlertCircle,
+  ChevronRight,
+  Wrench,
+  Zap,
+  Grid3X3,
 } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
@@ -31,6 +41,388 @@ import { Switch } from "@components/ui/switch";
 import { Textarea } from "@components/ui/textarea";
 import { Badge } from "@components/ui/badge";
 import { useIntegrations } from "@lib/hooks/business/use-integrations";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import IntegrationMarketplace from "@components/dashboard/business/integrations/IntegrationMarketplace";
+
+function IntegrationCard({ integration, onToggle }) {
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'active': return 'bg-green-100 text-green-800 border-green-200';
+      case 'setup': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'inactive': return 'bg-gray-100 text-gray-800 border-gray-200';
+      default: return 'bg-blue-100 text-blue-800 border-blue-200';
+    }
+  };
+
+  const getIcon = (type) => {
+    const iconMap = {
+      field_management: Wrench,
+      fleet_management: Truck,
+      voip: Phone,
+      crm: Users,
+      analytics: BarChart3,
+      payment: CreditCard,
+      inventory: Grid3X3,
+      accounting: FileText,
+      marketing: Zap
+    };
+    const IconComponent = iconMap[type] || Plug;
+    return <IconComponent className="h-5 w-5" />;
+  };
+
+  return (
+    <Card className="group hover:shadow-md transition-all duration-200 border-2 hover:border-primary/20">
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start space-x-4 flex-1">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+              {getIcon(integration.type)}
+            </div>
+            <div className="flex-1 space-y-2">
+              <div className="flex items-center space-x-2">
+                <h3 className="font-semibold text-lg">{integration.name}</h3>
+                {integration.featured && (
+                  <Badge variant="secondary" className="text-xs">
+                    <Star className="h-3 w-3 mr-1" />
+                    Featured
+                  </Badge>
+                )}
+                {integration.new && (
+                  <Badge className="text-xs bg-green-500">New</Badge>
+                )}
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {integration.description}
+              </p>
+              <div className="flex items-center space-x-4 text-xs text-muted-foreground">
+                <span>Provider: {integration.provider}</span>
+                <span>•</span>
+                <span>Version: {integration.version}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col items-end space-y-3">
+            <Badge className={`text-xs ${getStatusColor(integration.status)}`}>
+              {integration.status === 'active' && <CheckCircle className="h-3 w-3 mr-1" />}
+              {integration.status === 'setup' && <AlertCircle className="h-3 w-3 mr-1" />}
+              {integration.status.charAt(0).toUpperCase() + integration.status.slice(1)}
+            </Badge>
+            <Switch 
+              checked={integration.enabled} 
+              onCheckedChange={() => onToggle(integration.id)}
+              className="data-[state=checked]:bg-primary"
+            />
+          </div>
+        </div>
+        
+        {integration.enabled && (
+          <div className="mt-4 pt-4 border-t">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                <span>Last sync: {integration.lastSync || 'Never'}</span>
+                {integration.health && (
+                  <span className={`flex items-center ${
+                    integration.health === 'healthy' ? 'text-green-600' : 'text-yellow-600'
+                  }`}>
+                    <div className={`h-2 w-2 rounded-full mr-1 ${
+                      integration.health === 'healthy' ? 'bg-green-500' : 'bg-yellow-500'
+                    }`} />
+                    {integration.health}
+                  </span>
+                )}
+              </div>
+              <div className="flex space-x-2">
+                <Button variant="outline" size="sm">
+                  Configure
+                </Button>
+                {integration.setupRequired && (
+                  <Button size="sm">
+                    Complete Setup
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function IntegrationCenter() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [activeCategory, setActiveCategory] = useState("operations");
+
+  // Enhanced integrations data with new fleet management and field management
+  const [integrations, setIntegrations] = useState({
+    // Business Operations (Primary)
+    field_management: {
+      id: 'field_management',
+      name: 'Field Service Management',
+      description: 'Complete field service operations with job scheduling, technician dispatch, and mobile workforce management',
+      provider: 'Thorbis',
+      version: '2.0.0',
+      type: 'field_management',
+      category: 'operations',
+      enabled: true,
+      status: 'active',
+      featured: true,
+      new: false,
+      lastSync: '2 minutes ago',
+      health: 'healthy',
+      setupRequired: false
+    },
+    fleet_management: {
+      id: 'fleet_management',
+      name: 'Fleet Management',
+      description: 'Advanced vehicle tracking, maintenance scheduling, fuel monitoring, and driver management system',
+      provider: 'Thorbis',
+      version: '1.0.0',
+      type: 'fleet_management',
+      category: 'operations',
+      enabled: false,
+      status: 'setup',
+      featured: true,
+      new: true,
+      lastSync: null,
+      health: null,
+      setupRequired: true
+    },
+    
+    // Communication
+    voip: {
+      id: 'voip',
+      name: 'VoIP Phone System',
+      description: 'Unified calling, recordings, and call routing integrated with CRM and job management',
+      provider: 'Generic',
+      version: '1.5.0',
+      type: 'voip',
+      category: 'communication',
+      enabled: true,
+      status: 'active',
+      featured: false,
+      new: false,
+      lastSync: '1 hour ago',
+      health: 'healthy',
+      setupRequired: false
+    },
+    
+    // Business Management
+    crm: {
+      id: 'crm',
+      name: 'Customer Relationship Management',
+      description: 'Complete customer lifecycle management with contact management and communication history',
+      provider: 'HubSpot',
+      version: '3.2.1',
+      type: 'crm',
+      category: 'business',
+      enabled: true,
+      status: 'active',
+      featured: false,
+      new: false,
+      lastSync: '30 minutes ago',
+      health: 'healthy',
+      setupRequired: false
+    },
+    
+    // Analytics & Reporting
+    analytics: {
+      id: 'analytics',
+      name: 'Advanced Analytics',
+      description: 'Comprehensive business analytics with custom dashboards and automated reporting',
+      provider: 'Google Analytics',
+      version: '4.0.0',
+      type: 'analytics',
+      category: 'analytics',
+      enabled: false,
+      status: 'inactive',
+      featured: false,
+      new: false,
+      lastSync: null,
+      health: null,
+      setupRequired: true
+    },
+    
+    // Financial
+    payment: {
+      id: 'payment',
+      name: 'Payment Processing',
+      description: 'Secure payment processing with subscription management and automated billing',
+      provider: 'Stripe',
+      version: '2.1.0',
+      type: 'payment',
+      category: 'financial',
+      enabled: true,
+      status: 'active',
+      featured: false,
+      new: false,
+      lastSync: '5 minutes ago',
+      health: 'healthy',
+      setupRequired: false
+    }
+  });
+
+  const toggleIntegration = (integrationId) => {
+    setIntegrations(prev => ({
+      ...prev,
+      [integrationId]: {
+        ...prev[integrationId],
+        enabled: !prev[integrationId].enabled,
+        status: !prev[integrationId].enabled ? 'setup' : 'inactive'
+      }
+    }));
+  };
+
+  const categories = {
+    operations: { name: 'Operations', icon: Wrench },
+    communication: { name: 'Communication', icon: Phone },
+    business: { name: 'Business Management', icon: Building2 },
+    financial: { name: 'Financial', icon: DollarSign },
+    analytics: { name: 'Analytics', icon: BarChart3 }
+  };
+
+  const filteredIntegrations = Object.values(integrations).filter(integration => {
+    const matchesSearch = integration.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         integration.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = integration.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const enabledCount = Object.values(integrations).filter(i => i.enabled).length;
+  const totalCount = Object.values(integrations).length;
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="space-y-4">
+        <div className="hidden lg:block">
+          <h2 className="text-2xl lg:text-3xl font-bold mb-2">Integration Center</h2>
+          <div className="flex items-center justify-between">
+            <p className="text-muted-foreground">
+              Connect and manage your business tools and services
+            </p>
+            <Badge variant="outline" className="text-sm">
+              {enabledCount} of {totalCount} enabled
+            </Badge>
+          </div>
+        </div>
+
+        {/* Search */}
+        <Card>
+          <CardContent className="p-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 text-muted-foreground transform -translate-y-1/2" />
+              <Input
+                placeholder="Search integrations..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Category Tabs */}
+      <Tabs value={activeCategory} onValueChange={setActiveCategory} className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-5 rounded-lg border bg-muted/30">
+          {Object.entries(categories).map(([key, category]) => {
+            const Icon = category.icon;
+            return (
+              <TabsTrigger key={key} value={key} className="flex items-center space-x-2">
+                <Icon className="h-4 w-4" />
+                <span className="hidden sm:inline">{category.name}</span>
+              </TabsTrigger>
+            );
+          })}
+        </TabsList>
+
+        {Object.entries(categories).map(([key, category]) => (
+          <TabsContent key={key} value={key} className="space-y-4">
+            <div className="grid gap-6 lg:grid-cols-1">
+              {filteredIntegrations.map((integration) => (
+                <IntegrationCard 
+                  key={integration.id} 
+                  integration={integration} 
+                  onToggle={toggleIntegration}
+                />
+              ))}
+            </div>
+            
+            {filteredIntegrations.length === 0 && (
+              <Card className="border-dashed">
+                <CardContent className="flex flex-col items-center justify-center py-12">
+                  <category.icon className="h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="font-semibold mb-2">No {category.name} integrations</h3>
+                  <p className="text-sm text-muted-foreground text-center mb-4">
+                    {searchTerm 
+                      ? `No integrations match "${searchTerm}" in this category.`
+                      : `Browse our marketplace to find ${category.name.toLowerCase()} integrations.`
+                    }
+                  </p>
+                  <Button>
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    Browse Marketplace
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+        ))}
+      </Tabs>
+
+      {/* Quick Stats */}
+      <div className="grid gap-6 md:grid-cols-3">
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
+                <CheckCircle className="h-5 w-5 text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Active Integrations</p>
+                <p className="text-2xl font-bold">{enabledCount}</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-100">
+                <AlertCircle className="h-5 w-5 text-yellow-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Setup Required</p>
+                <p className="text-2xl font-bold">
+                  {Object.values(integrations).filter(i => i.setupRequired).length}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100">
+                <Star className="h-5 w-5 text-purple-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium">Featured</p>
+                <p className="text-2xl font-bold">
+                  {Object.values(integrations).filter(i => i.featured).length}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -55,7 +447,10 @@ export default function SettingsPage() {
 
   const sections = [
     { id: "business", label: "Business Profile", icon: Building2 },
+    { id: "integrations", label: "Integration Center", icon: Plug },
+    { id: "marketplace", label: "Integration Marketplace", icon: Zap, new: true },
     { id: "field-service", label: "Field Service", icon: MapPin },
+    { id: "fleet-management", label: "Fleet Management", icon: Truck, new: true },
     { id: "communications", label: "Communications", icon: Phone },
     { id: "ticketing", label: "Ticketing System", icon: Ticket },
     { id: "invoicing", label: "Invoicing & Estimates", icon: FileText },
@@ -63,7 +458,6 @@ export default function SettingsPage() {
     { id: "payroll", label: "Payroll & Commissions", icon: DollarSign },
     { id: "time-tracking", label: "Time Tracking", icon: Clock },
     { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "integrations", label: "Integrations", icon: Plug },
     { id: "security", label: "Security & Privacy", icon: Shield },
     { id: "billing", label: "Billing & Payments", icon: CreditCard },
     { id: "team", label: "Team Management", icon: Users },
@@ -116,12 +510,17 @@ export default function SettingsPage() {
                     }}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors ${
                       activeSection === section.id
-                        ? "bg-primary text-primary-foreground"
+                        ? "bg-muted/60 text-foreground border border-primary/30"
                         : "hover:bg-muted text-muted-foreground hover:text-foreground"
                     }`}
                   >
-                    <Icon className="h-4 w-4 lg:h-5 lg:w-5 flex-shrink-0" />
-                    <span className="font-medium text-sm lg:text-base">{section.label}</span>
+                    <Icon className="h-5 w-5 flex-shrink-0" />
+                    <div className="flex items-center justify-between flex-1">
+                      <span className="font-medium text-sm lg:text-base">{section.label}</span>
+                      {section.new && (
+                        <Badge className="text-xs bg-green-500 ml-2">New</Badge>
+                      )}
+                    </div>
                   </button>
                 );
               })}
@@ -162,11 +561,11 @@ export default function SettingsPage() {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="company-name">Company Name *</Label>
-                          <Input id="company-name" placeholder="Acme Corporation" />
+                          <Input id="company-name" placeholder="Acme Corporation" className="h-10" />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="legal-name">Legal Business Name</Label>
-                          <Input id="legal-name" placeholder="Acme Corporation LLC" />
+                          <Input id="legal-name" placeholder="Acme Corporation LLC" className="h-10" />
                         </div>
                       </div>
 
@@ -174,7 +573,7 @@ export default function SettingsPage() {
                         <div className="space-y-2">
                           <Label htmlFor="industry">Industry *</Label>
                           <Select>
-                            <SelectTrigger>
+                            <SelectTrigger className="h-10">
                               <SelectValue placeholder="Select industry" />
                             </SelectTrigger>
                             <SelectContent>
@@ -194,7 +593,7 @@ export default function SettingsPage() {
                         <div className="space-y-2">
                           <Label htmlFor="company-size">Company Size</Label>
                           <Select>
-                            <SelectTrigger>
+                            <SelectTrigger className="h-10">
                               <SelectValue placeholder="Select size" />
                             </SelectTrigger>
                             <SelectContent>
@@ -220,22 +619,22 @@ export default function SettingsPage() {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="phone">Primary Phone *</Label>
-                          <Input id="phone" placeholder="+1 (555) 123-4567" />
+                          <Input id="phone" placeholder="+1 (555) 123-4567" className="h-10" />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="email">Business Email *</Label>
-                          <Input id="email" type="email" placeholder="contact@company.com" />
+                          <Input id="email" type="email" placeholder="contact@company.com" className="h-10" />
                         </div>
                       </div>
 
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="website">Website</Label>
-                          <Input id="website" placeholder="https://www.company.com" />
+                          <Input id="website" placeholder="https://www.company.com" className="h-10" />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="tax-id">Tax ID / EIN</Label>
-                          <Input id="tax-id" placeholder="12-3456789" />
+                          <Input id="tax-id" placeholder="12-3456789" className="h-10" />
                         </div>
                       </div>
 
@@ -356,11 +755,11 @@ export default function SettingsPage() {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="current-password">Current Password</Label>
-                          <Input id="current-password" type="password" placeholder="Enter current password" />
+                          <Input id="current-password" type="password" placeholder="Enter current password" className="h-10" />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="new-password">New Password</Label>
-                          <Input id="new-password" type="password" placeholder="Enter new password" />
+                          <Input id="new-password" type="password" placeholder="Enter new password" className="h-10" />
                         </div>
                       </div>
 
@@ -386,44 +785,109 @@ export default function SettingsPage() {
                 </div>
               )}
 
-              {/* Integrations Section */}
+              {/* Enhanced Integration Center */}
               {activeSection === "integrations" && (
+                <IntegrationCenter />
+              )}
+
+              {/* Integration Marketplace */}
+              {activeSection === "marketplace" && (
                 <div className="space-y-4 lg:space-y-6">
                   <div className="hidden lg:block">
-                    <h2 className="text-2xl lg:text-3xl font-bold mb-2">Integrations</h2>
-                    <p className="text-muted-foreground">Connect and manage third-party integrations.</p>
+                    <h2 className="text-2xl lg:text-3xl font-bold mb-2">
+                      Integration Marketplace
+                      <Badge className="ml-3 bg-green-500">New</Badge>
+                    </h2>
+                    <p className="text-muted-foreground">Discover and install powerful integrations to supercharge your business</p>
+                  </div>
+                  <IntegrationMarketplace />
+                </div>
+              )}
+
+              {/* Fleet Management Section */}
+              {activeSection === "fleet-management" && (
+                <div className="space-y-4 lg:space-y-6">
+                  <div className="hidden lg:block">
+                    <h2 className="text-2xl lg:text-3xl font-bold mb-2">
+                      Fleet Management
+                      <Badge className="ml-3 bg-green-500">New</Badge>
+                    </h2>
+                    <p className="text-muted-foreground">Configure your fleet operations, vehicle tracking, and driver management.</p>
                   </div>
 
                   <Card>
                     <CardHeader className="pb-4">
                       <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
-                        <Plug className="h-5 w-5" />
-                        Third-Party Integrations
+                        <Truck className="h-5 w-5" />
+                        Vehicle Management
                       </CardTitle>
-                      <CardDescription>Connect your business tools and services</CardDescription>
+                      <CardDescription>Manage your fleet vehicles and tracking settings</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4 lg:space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {Object.entries(integrations).map(([key, enabled]) => (
-                          <div key={key} className="flex items-center justify-between p-4 border border-border rounded-lg">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>GPS Tracking Interval</Label>
+                          <Select defaultValue="60">
+                            <SelectTrigger className="h-10">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="30">Every 30 seconds</SelectItem>
+                              <SelectItem value="60">Every 1 minute</SelectItem>
+                              <SelectItem value="120">Every 2 minutes</SelectItem>
+                              <SelectItem value="300">Every 5 minutes</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Speed Limit Threshold (mph)</Label>
+                          <Input type="number" defaultValue="80" min="1" max="200" className="h-10" />
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>Idle Time Alert (minutes)</Label>
+                          <Input type="number" defaultValue="15" min="5" max="60" className="h-10" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Geofence Radius (meters)</Label>
+                          <Input type="number" defaultValue="500" min="50" max="5000" className="h-10" />
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium">Fleet Features</h4>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                             <div className="space-y-1">
-                              <div className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1')}</div>
-                              <div className="text-sm text-muted-foreground">
-                                {key === 'voip' && 'Voice over IP calling system'}
-                                {key === 'email' && 'Email marketing and automation'}
-                                {key === 'sms' && 'SMS messaging and notifications'}
-                                {key === 'crm' && 'Customer relationship management'}
-                                {key === 'analytics' && 'Advanced analytics and reporting'}
-                                {key === 'payment' && 'Payment processing and billing'}
-                                {key === 'inventory' && 'Inventory management system'}
-                                {key === 'shipping' && 'Shipping and logistics'}
-                                {key === 'accounting' && 'Accounting and bookkeeping'}
-                                {key === 'marketing' && 'Marketing automation tools'}
-                              </div>
+                              <div className="font-medium">Maintenance Alerts</div>
+                              <div className="text-sm text-muted-foreground">Get notified about scheduled maintenance</div>
                             </div>
-                            <Switch checked={enabled} onCheckedChange={() => toggleIntegration(key)} />
+                            <Switch defaultChecked />
                           </div>
-                        ))}
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Fuel Tracking</div>
+                              <div className="text-sm text-muted-foreground">Monitor fuel consumption and costs</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Driver Scorecards</div>
+                              <div className="text-sm text-muted-foreground">Track driver performance metrics</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Real-time Tracking</div>
+                              <div className="text-sm text-muted-foreground">Live GPS tracking for all vehicles</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -431,28 +895,115 @@ export default function SettingsPage() {
                   <Card>
                     <CardHeader className="pb-4">
                       <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
-                        <Plug className="h-5 w-5" />
-                        Legacy Integrations
+                        <Users className="h-5 w-5" />
+                        Driver Management
                       </CardTitle>
-                      <CardDescription>Enable or disable modular capabilities for your dashboard</CardDescription>
+                      <CardDescription>Configure driver settings and permissions</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4 lg:space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {filteredFeatures.map(([key, feature]) => {
-                          const status = getFeatureStatus(key);
-                          return (
-                            <div key={key} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-medium">{feature.title}</span>
-                                  {feature.beta && <Badge variant="secondary">Beta</Badge>}
-                                </div>
-                                <p className="text-sm text-muted-foreground">{feature.description}</p>
-                              </div>
-                              <Switch checked={status.enabled} onCheckedChange={() => handleFeatureToggle(key)} />
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>License Expiry Reminders (days before)</Label>
+                          <Input type="number" defaultValue="30" min="1" max="365" className="h-10" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Performance Review Frequency</Label>
+                          <Select defaultValue="monthly">
+                            <SelectTrigger className="h-10">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="weekly">Weekly</SelectItem>
+                              <SelectItem value="monthly">Monthly</SelectItem>
+                              <SelectItem value="quarterly">Quarterly</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <h4 className="font-medium">Driver Features</h4>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Mobile App Access</div>
+                              <div className="text-sm text-muted-foreground">Allow drivers to use mobile app</div>
                             </div>
-                          );
-                        })}
+                            <Switch defaultChecked />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Route Optimization</div>
+                              <div className="text-sm text-muted-foreground">Automatic route optimization</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Emergency Alerts</div>
+                              <div className="text-sm text-muted-foreground">Panic button and emergency notifications</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Time Tracking</div>
+                              <div className="text-sm text-muted-foreground">Automatic time tracking for payroll</div>
+                            </div>
+                            <Switch />
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-4">
+                      <CardTitle className="flex items-center gap-2 text-lg lg:text-xl">
+                        <Settings className="h-5 w-5" />
+                        Fleet Settings
+                      </CardTitle>
+                      <CardDescription>Advanced fleet management configuration</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4 lg:space-y-6">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="font-medium">Integration Settings</h4>
+                          <Button variant="outline" size="sm">
+                            Configure API
+                          </Button>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Field Service Integration</div>
+                              <div className="text-sm text-muted-foreground">Link vehicles to field service jobs</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Payroll Integration</div>
+                              <div className="text-sm text-muted-foreground">Sync driving hours with payroll</div>
+                            </div>
+                            <Switch />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Fuel Card Integration</div>
+                              <div className="text-sm text-muted-foreground">Connect with fuel card providers</div>
+                            </div>
+                            <Switch />
+                          </div>
+                          <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                            <div className="space-y-1">
+                              <div className="font-medium">Maintenance Scheduling</div>
+                              <div className="text-sm text-muted-foreground">Automated maintenance scheduling</div>
+                            </div>
+                            <Switch defaultChecked />
+                          </div>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>

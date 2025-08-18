@@ -1,4 +1,8 @@
-export const metadata = {
+import { generateStaticPageMetadata } from "@utils/server-seo";
+
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 	title: "Academy Learning Platform – Courses, Quizzes, Certificates | Thorbis",
 	description: "Professional learning for contractors and teams: curated courses, practice quizzes, progress tracking, and completion certificates.",
 	keywords: ["contractor training", "online courses", "trade certifications", "practice quizzes", "progress tracking", "learning platform"],
@@ -30,7 +34,7 @@ export const metadata = {
 };
 
 import { Star } from "lucide-react";
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
 
 function JsonLd() {
 	const data = {

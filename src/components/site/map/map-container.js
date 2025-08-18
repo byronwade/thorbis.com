@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useCallback, useMemo, Suspense, useState } from "react";
+import React, { useRef, useEffect, useCallback, useMemo, useState } from "react";
 import { Button } from "@components/ui/button";
 import { Minus, Plus, MapPin, Search, Target, ExternalLink, RefreshCw } from "lucide-react";
 import BusinessInfoPanel from "@components/site/map/business-info-panel";
@@ -21,6 +21,16 @@ const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 if (typeof window !== "undefined" && !MAPBOX_TOKEN) {
 	console.warn("⚠️ Missing Mapbox access token. Please add NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN to your .env.local file.");
 	console.info("Get your token at: https://account.mapbox.com/access-tokens/");
+}
+
+// Add debugging for token validation
+if (typeof window !== "undefined") {
+	console.log("🔍 Mapbox token check:", {
+		tokenExists: !!MAPBOX_TOKEN,
+		tokenLength: MAPBOX_TOKEN ? MAPBOX_TOKEN.length : 0,
+		tokenPrefix: MAPBOX_TOKEN ? MAPBOX_TOKEN.substring(0, 10) + "..." : "none",
+		env: process.env.NODE_ENV
+	});
 }
 
 const MapContainer = React.forwardRef((props, ref) => {
@@ -172,51 +182,21 @@ const MapContainer = React.forwardRef((props, ref) => {
 	}, [handleMapMoveEnd]);
 
 	const handleMapLoad = useCallback(async () => {
+		console.log("🗺️ Map load started");
 		if (mapRef.current) {
 			const map = mapRef.current.getMap();
+			console.log("🗺️ Map instance obtained:", !!map);
 			setMapRef(map);
 
-			// Wait for map to be fully loaded and styled before adding event listeners
+			// Wait for map to be fully loaded
 			map.once("styledata", () => {
-				// Additional wait to ensure transformation matrices are initialized
+				console.log("🗺️ Map style loaded");
 				map.once("idle", () => {
-					// Verify map is ready for coordinate transformations
-					try {
-						// Test coordinate transformation to ensure it's working
-						const testPoint = map.project([0, 0]);
-						const testUnproject = map.unproject(testPoint);
-						if (!testUnproject || isNaN(testUnproject.lat) || isNaN(testUnproject.lng)) {
-							console.warn("Map coordinate transformation not ready");
-							return;
-						}
-					} catch (error) {
-						console.warn("Map transformation test failed:", error);
-						return;
-					}
-
-					// Optimize map performance
-					map.on("sourcedata", (e) => {
-						if (e.isSourceLoaded) {
-							// Source has finished loading
-							map.getCanvas().style.cursor = "";
-						}
-					});
-
-					// Add custom controls and interactions with enhanced safety checks
+					console.log("🗺️ Map is idle and ready");
+					
+					// Add basic event listeners
 					map.on("click", (e) => {
 						try {
-							// Validate map state before processing coordinates
-							if (!map.isStyleLoaded() || !map.loaded()) {
-								console.warn("Map not fully loaded during click");
-								return;
-							}
-
-							// Validate click coordinates before processing
-							if (!e.lngLat || isNaN(e.lngLat.lng) || isNaN(e.lngLat.lat)) {
-								console.warn("Invalid click coordinates:", e.lngLat);
-								return;
-							}
-
 							// Clear active business when clicking empty area
 							if (!e.originalEvent.target.closest(".mapboxgl-marker")) {
 								setActiveBusinessId(null);
@@ -225,95 +205,6 @@ const MapContainer = React.forwardRef((props, ref) => {
 							console.warn("Map click handler error:", error);
 						}
 					});
-
-					// Add mouse event handlers with transformation matrix safety checks
-					const safeMouseHandler = (eventName) => (e) => {
-						try {
-							// Check if map is ready for coordinate transformations
-							if (!map.isStyleLoaded() || !map.loaded()) {
-								return;
-							}
-
-							// Validate that transformation matrices are available
-							if (!map.transform || !map.transform.cameraToCenterDistance) {
-								return;
-							}
-
-							// Test unprojection safety before processing
-							if (e.point && typeof e.point.x === "number" && typeof e.point.y === "number") {
-								const testUnproject = map.unproject(e.point);
-								if (!testUnproject || isNaN(testUnproject.lat) || isNaN(testUnproject.lng)) {
-									return;
-								}
-							}
-						} catch (error) {
-							// Silently handle transformation errors to prevent console spam
-							return;
-						}
-					};
-
-					// COMPLETELY DISABLE mouse event handlers to prevent transformation matrix errors
-					// Override Mapbox's internal event system
-					const canvas = map.getCanvas();
-					if (canvas) {
-						// Disable all mouse events on the canvas to prevent transformation matrix issues
-						canvas.style.pointerEvents = "none";
-
-						// Add a transparent overlay to capture events instead
-						const overlay = document.createElement("div");
-						overlay.style.position = "absolute";
-						overlay.style.top = "0";
-						overlay.style.left = "0";
-						overlay.style.width = "100%";
-						overlay.style.height = "100%";
-						overlay.style.zIndex = "1";
-						overlay.style.pointerEvents = "auto";
-						overlay.style.background = "transparent";
-
-						// Add basic pan and zoom via overlay
-						let isDragging = false;
-						let startX = 0;
-						let startY = 0;
-
-						overlay.addEventListener("mousedown", (e) => {
-							isDragging = true;
-							startX = e.clientX;
-							startY = e.clientY;
-							e.preventDefault();
-						});
-
-						overlay.addEventListener("mousemove", (e) => {
-							if (isDragging) {
-								const deltaX = e.clientX - startX;
-								const deltaY = e.clientY - startY;
-
-								// Simple pan implementation without transformation matrices
-								const center = map.getCenter();
-								const zoom = map.getZoom();
-								const scale = 1 / Math.pow(2, zoom);
-
-								map.setCenter([center.lng - deltaX * scale * 0.01, center.lat + deltaY * scale * 0.01]);
-
-								startX = e.clientX;
-								startY = e.clientY;
-							}
-							e.preventDefault();
-						});
-
-						overlay.addEventListener("mouseup", () => {
-							isDragging = false;
-						});
-
-						overlay.addEventListener("wheel", (e) => {
-							const zoom = map.getZoom();
-							const delta = e.deltaY > 0 ? -0.5 : 0.5;
-							map.setZoom(Math.max(1, Math.min(20, zoom + delta)));
-							e.preventDefault();
-						});
-
-						// Add overlay to map container
-						map.getContainer().appendChild(overlay);
-					}
 
 					map.on("movestart", handleMoveStart);
 					map.on("moveend", handleMapMoveEnd);
@@ -452,83 +343,37 @@ const MapContainer = React.forwardRef((props, ref) => {
 
 	return (
 		<div className="map-container relative w-full h-full overflow-hidden" ref={containerRef}>
-			<Suspense fallback={<FullScreenMapSkeleton />}>
-				<Map
-					ref={mapRef}
-					{...viewState}
-					onMove={handleViewStateChange}
-					mapStyle={mapStyle}
-					mapboxAccessToken={MAPBOX_TOKEN}
-					attributionControl={false}
-					onLoad={handleMapLoad}
-					interactiveLayerIds={[]}
-					cursor="default"
-					style={{
-						width: "100%",
-						height: "100%",
-						marginLeft: isBusinessDetailsOpen ? "384px" : "0",
-						transition: "margin-left 300ms ease-in-out",
-					}}
-					{...mapSettings}
-					// Performance optimizations
-					reuseMaps={true}
-					maxZoom={20}
-					minZoom={1}
-					maxBounds={[
-						[-180, -85],
-						[180, 85],
-					]}
-					// Additional safety options to prevent transformation matrix errors
-					cooperativeGestures={false}
-					preventStyleDiffing={true}
-					optimizeForTerrain={false}
-					antialias={false}
-					preserveDrawingBuffer={false}
-					refreshExpiredTiles={false}
-					transformRequest={(url, resourceType) => {
-						// Prevent problematic resource requests that could corrupt transformation matrices
-						if (resourceType === "Style" || resourceType === "Source") {
-							return { url };
-						}
-						return { url };
-					}}
-					onError={(error) => {
-						console.warn("Map error:", error);
-						// Attempt to recover from transformation matrix errors
-						if (error.message?.includes("transformMat4") || error.message?.includes("matrix")) {
-							console.warn("Transformation matrix error detected, attempting recovery");
-							setTimeout(() => {
-								try {
-									if (mapRef.current) {
-										const map = mapRef.current.getMap();
-										if (map && map.loaded()) {
-											map.resize();
-										}
-									}
-								} catch (recoveryError) {
-									console.warn("Map recovery failed:", recoveryError);
-								}
-							}, 100);
-						}
-					}}
-					onStyleData={(e) => {
-						// Ensure style is fully loaded before enabling interactions
-						if (e.dataType === "style") {
-							const map = e.target;
-							if (map && map.isStyleLoaded()) {
-								// Style is ready, transformation matrices should be initialized
-								map.resize(); // Ensure proper matrix initialization
-							}
-						}
-					}}
-				>
-					{/* Built-in Controls */}
-					<ScaleControl position="bottom-left" />
+			<Map
+				ref={mapRef}
+				{...viewState}
+				onMove={handleViewStateChange}
+				mapStyle={mapStyle}
+				mapboxAccessToken={MAPBOX_TOKEN}
+				attributionControl={false}
+				onLoad={handleMapLoad}
+				interactiveLayerIds={[]}
+				cursor="default"
+				style={{
+					width: "100%",
+					height: "100%",
+					marginLeft: isBusinessDetailsOpen ? "384px" : "0",
+					transition: "margin-left 300ms ease-in-out",
+				}}
+				{...mapSettings}
+				// Basic performance settings
+				reuseMaps={true}
+				maxZoom={20}
+				minZoom={1}
+				onError={(error) => {
+					console.error("Map error:", error);
+				}}
+			>
+				{/* Built-in Controls */}
+				<ScaleControl position="bottom-left" />
 
-					<ServiceArea />
-					<BusinessMarkers />
-				</Map>
-			</Suspense>
+				<ServiceArea />
+				<BusinessMarkers />
+			</Map>
 
 			<BusinessInfoPanel />
 

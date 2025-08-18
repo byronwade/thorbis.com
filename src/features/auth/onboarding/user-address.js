@@ -22,7 +22,7 @@ export default function UserAddress() {
 					render={({ field, fieldState }) => (
 						<FormItem>
 							<FormLabel>
-								Street <span className="text-red-500">*</span>
+								Street <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormControl>
 								<Input {...field} />
@@ -37,7 +37,7 @@ export default function UserAddress() {
 					render={({ field, fieldState }) => (
 						<FormItem>
 							<FormLabel>
-								City <span className="text-red-500">*</span>
+								City <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormControl>
 								<Input {...field} />
@@ -53,7 +53,7 @@ export default function UserAddress() {
 						render={({ field, fieldState }) => (
 							<FormItem className="flex-1">
 								<FormLabel>
-									State <span className="text-red-500">*</span>
+									State <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormControl>
 									<Input {...field} />
@@ -68,7 +68,7 @@ export default function UserAddress() {
 						render={({ field, fieldState }) => (
 							<FormItem className="flex-1">
 								<FormLabel>
-									ZIP Code <span className="text-red-500">*</span>
+									ZIP Code <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormControl>
 									<Input {...field} />
@@ -87,7 +87,7 @@ export default function UserAddress() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										Street <span className="text-red-500">*</span>
+										Street <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input {...field} />
@@ -102,7 +102,7 @@ export default function UserAddress() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										City <span className="text-red-500">*</span>
+										City <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input {...field} />
@@ -118,7 +118,7 @@ export default function UserAddress() {
 								render={({ field, fieldState }) => (
 									<FormItem className="flex-1">
 										<FormLabel>
-											State <span className="text-red-500">*</span>
+											State <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Input {...field} />
@@ -133,7 +133,7 @@ export default function UserAddress() {
 								render={({ field, fieldState }) => (
 									<FormItem className="flex-1">
 										<FormLabel>
-											ZIP Code <span className="text-red-500">*</span>
+											ZIP Code <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Input {...field} />

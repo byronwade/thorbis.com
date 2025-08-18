@@ -47,6 +47,103 @@ img {
   image-rendering: -webkit-optimize-contrast;
 }
 
+/* Netflix-style shimmer animation */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Subtle fade-in animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+  /* Hidden by default */
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.5s ease-out forwards;
+  opacity: 0;
+  /* Hidden by default */
+}
+
+.animate-slide-in-left {
+  animation: slideInFromLeft 0.7s ease-out forwards;
+  opacity: 0;
+  /* Hidden by default */
+}
+
+/* Staggered animation delays */
+.animate-delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animate-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.animate-delay-500 {
+  animation-delay: 0.5s;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition-duration: 150ms;
+}
 /* Optimize animations for performance */
 @media (prefers-reduced-motion: reduce) {
 
@@ -290,66 +387,100 @@ img {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 220 14.3% 95.9%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 217 91% 60%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    /* Thorbis Light Theme - Clean Black, White, Blue, and Neutral Colors */
+      --background: 0 0% 100%;
+      /* Pure white */
+      --foreground: 0 0% 0%;
+      /* Pure black */
+      --card: 0 0% 100%;
+      /* Pure white */
+      --card-foreground: 0 0% 0%;
+      /* Pure black */
+      --popover: 0 0% 100%;
+      /* Pure white */
+      --popover-foreground: 0 0% 0%;
+      /* Pure black */
+      --primary: 217 91% 60%;
+      /* Thorbis blue (#3B82F6) */
+      --primary-foreground: 0 0% 100%;
+      /* White text on blue */
+      --secondary: 0 0% 96%;
+      /* Light neutral gray */
+      --secondary-foreground: 0 0% 0%;
+      /* Black text */
+      --muted: 0 0% 96%;
+      /* Light neutral gray */
+      --muted-foreground: 0 0% 45%;
+      /* Medium neutral gray */
+      --accent: 217 91% 60%;
+      /* Thorbis blue accent */
+      --accent-foreground: 0 0% 100%;
+      /* White text on blue */
+      --destructive: 0 0% 45%;
+      /* Neutral gray for destructive */
+      --destructive-foreground: 0 0% 100%;
+      /* White text */
+      --border: 0 0% 90%;
+      /* Light neutral border */
+      --input: 0 0% 96%;
+      /* Light neutral input */
+      --ring: 217 91% 60%;
+      /* Thorbis blue ring */
+      --chart-1: 217 91% 60%;
+      /* Thorbis blue */
+      --chart-2: 0 0% 45%;
+      /* Neutral gray */
+      --chart-3: 0 0% 70%;
+      /* Light neutral gray */
+      --chart-4: 0 0% 85%;
+      /* Very light neutral gray */
+      --chart-5: 0 0% 60%;
+      /* Medium neutral gray */
     --radius: 0.5rem;
-    --sidebar-background: 220 14.3% 95.9%;
-    --sidebar-foreground: 222.2 84% 4.9%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 210 40% 98%;
-    --sidebar-accent: 0 0% 100%;
-    --sidebar-accent-foreground: 222.2 84% 4.9%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-background: 0 0% 96%;
+      /* Light neutral gray */
+      --sidebar-foreground: 0 0% 0%;
+      /* Black text */
+      --sidebar-primary: 217 91% 60%;
+      /* Thorbis blue */
+      --sidebar-primary-foreground: 0 0% 100%;
+      /* White text */
+      --sidebar-accent: 0 0% 100%;
+      /* White */
+      --sidebar-accent-foreground: 0 0% 0%;
+      /* Black text */
+      --sidebar-border: 0 0% 90%;
+      /* Light neutral border */
+      --sidebar-ring: 217 91% 60%;
+      /* Thorbis blue ring */
   }
 
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 210 40% 98%;
-    --card: 0 0% 6.7%;
-    --card-foreground: 210 40% 98%;
-    --popover: 0 0% 6.7%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217 91% 60%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 217 91% 60%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    /* Thorbis Dark Theme - Clean Black, White, Blue, and Neutral Colors */
+    --background: 0 0% 0%; /* Pure black */
+    --foreground: 0 0% 100%; /* Pure white */
+    --card: 0 0% 4%; /* Very dark neutral */
+    --card-foreground: 0 0% 100%; /* Pure white */
+    --popover: 0 0% 4%; /* Very dark neutral */
+    --popover-foreground: 0 0% 100%; /* Pure white */
+    --primary: 217 91% 60%; /* Thorbis blue (#3B82F6) */
+    --primary-foreground: 0 0% 100%; /* White text on blue */
+    --secondary: 0 0% 8%; /* Dark neutral gray */
+    --secondary-foreground: 0 0% 100%; /* White text */
+    --muted: 0 0% 8%; /* Dark neutral gray */
+    --muted-foreground: 0 0% 65%; /* Light neutral gray */
+    --accent: 217 91% 60%; /* Thorbis blue accent */
+    --accent-foreground: 0 0% 100%; /* White text on blue */
+    --destructive: 0 0% 65%; /* Light neutral gray for destructive */
+    --destructive-foreground: 0 0% 0%; /* Black text */
+    --border: 0 0% 12%; /* Medium dark neutral border */
+    --input: 0 0% 8%; /* Dark neutral input */
+    --ring: 217 91% 60%; /* Thorbis blue ring */
+    --chart-1: 217 91% 60%; /* Thorbis blue */
+    --chart-2: 0 0% 65%; /* Light neutral gray */
+    --chart-3: 0 0% 45%; /* Medium neutral gray */
+    --chart-4: 0 0% 25%; /* Dark neutral gray */
+    --chart-5: 0 0% 55%; /* Medium light neutral gray */
   }
 
   * {
@@ -366,14 +497,15 @@ img {
   }
 
   .dark {
-    --sidebar-background: 0 0% 3.9%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
-    --sidebar-accent: 217.2 32.6% 17.5%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 217 91% 60%;
+    /* Thorbis Dark Theme Sidebar - Clean Black, White, Blue, and Neutral Colors */
+    --sidebar-background: 0 0% 4%; /* Very dark neutral */
+    --sidebar-foreground: 0 0% 100%; /* Pure white */
+    --sidebar-primary: 217 91% 60%; /* Thorbis blue */
+    --sidebar-primary-foreground: 0 0% 100%; /* White text */
+    --sidebar-accent: 0 0% 8%; /* Dark neutral gray */
+    --sidebar-accent-foreground: 0 0% 100%; /* White text */
+    --sidebar-border: 0 0% 12%; /* Medium dark neutral border */
+    --sidebar-ring: 217 91% 60%; /* Thorbis blue ring */
   }
 }
 
@@ -399,23 +531,23 @@ img {
   box-sizing: border-box;
 }
 .theme-default {
-  --primary: 220 90% 46%;
-  --primary-foreground: 210 20% 98%;
+  --primary: 217 91% 60%; /* Thorbis blue */
+  --primary-foreground: 0 0% 100%; /* White text */
 }
 
 .theme-green {
-  --primary: 142.1 70.6% 45.3%;
-  --primary-foreground: 144.9 80.4% 10%;
+  --primary: 0 0% 45%; /* Neutral gray */
+  --primary-foreground: 0 0% 100%; /* White text */
 }
 
 .theme-blue {
-  --primary: 197 100% 47%;
-  --primary-foreground: 0 0% 7%;
+  --primary: 217 91% 60%; /* Thorbis blue */
+  --primary-foreground: 0 0% 100%; /* White text */
 }
 
 .theme-red {
-  --primary: 0 78.8% 54%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 0 0% 65%; /* Light neutral gray */
+  --primary-foreground: 0 0% 0%; /* Black text */
 }
 
 input,
@@ -704,7 +836,7 @@ select {
 }
 
 .composer-btn:hover {
-  @apply bg-opacity-80;
+  @apply opacity-90;
 }
 
 .composer-btn:disabled {
@@ -1220,4 +1352,82 @@ select {
 
 .scrollbar-hidden::-webkit-scrollbar {
   display: none;
+}
+/* Fleet-specific styling */
+.vehicle-card {
+  @apply border-l-4 border-l-transparent;
+}
+
+.vehicle-card.selected {
+  @apply bg-primary/5;
+}
+
+.vehicle-card:hover {
+  @apply border-l-accent;
+}
+
+/* Map container */
+.map-container {
+  @apply relative overflow-hidden rounded-lg;
+}
+
+/* Status-based styling */
+.status-active {
+  @apply bg-primary/10 text-primary border-primary/20;
+}
+
+.status-idle {
+  @apply bg-accent/10 text-accent-foreground border-accent/20;
+}
+
+.status-maintenance {
+  @apply bg-destructive/10 text-destructive-foreground border-destructive/20;
+}
+
+/* Added route animation for GPS-style dashed lines */
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -24;
+  }
+}
+
+/* Status indicator animations */
+.status-indicator {
+  position: relative;
+}
+
+.status-indicator::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: inherit;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.3s ease;
+  pointer-events: none;
+}
+
+.status-indicator.active::before {
+  background: rgba(212, 175, 55, 0.2);
+  transform: translate(-50%, -50%) scale(1.5);
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
 }

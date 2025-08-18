@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, Suspense } from "react";
 import ErrorBoundary from "@components/shared/error-boundary";
-import { ArrowLeft, Share, Heart, Star, MapPin, CheckCircle, Shield, Award, Users, MessageCircle, Car, DollarSign, Building, Eye, Target, Settings, Handshake, Utensils, Phone, Globe, Clock, Calendar, Camera, ChevronRight, TrendingUp, MessageSquare, Video, Navigation, Verified, ExternalLink, Briefcase } from "lucide-react";
+import { ArrowLeft, Share, Heart, Star, MapPin, CheckCircle, Shield, Award, Users, MessageCircle, Car, DollarSign, Building, Eye, Target, Settings, Handshake, Utensils, Phone, Globe, Clock, Calendar, Camera, ChevronRight, TrendingUp, MessageSquare, Video, Navigation, Verified, ExternalLink, Briefcase, Menu, ChevronDown } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
@@ -714,7 +714,7 @@ export default function BizProfileClient({ businessId, initialBusiness, seoData 
 	}
 
 	return (
-		<div className="min-h-screen bg-background">
+		<div className="min-h-screen bg-[#121212]">
 			{/* Enhanced Mobile-First Business Profile Toolbar */}
 			<header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-md shadow-sm">
 				<div className="px-3 sm:px-4 mx-auto max-w-screen-2xl lg:px-8">
@@ -944,43 +944,250 @@ export default function BizProfileClient({ businessId, initialBusiness, seoData 
 				</div>
 			</header>
 
-			{/* Amazon-Style Product Section */}
-			<div className="px-4 pt-6 mx-auto max-w-screen-2xl lg:px-8">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-					{/* Left Column - Image Gallery (Amazon Style) */}
-					<div className="lg:col-span-5">
-						<div className="sticky top-20">
-							{/* Main Image */}
-							<div className="aspect-square mb-4 bg-white rounded-lg border shadow-sm overflow-hidden">
-								<img src={business.photos?.[selectedImageIndex] || business.photos?.[0] || "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=600&fit=crop"} alt={`${business.name} main image`} className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform duration-300" onClick={() => setShowAllPhotos(true)} />
-							</div>
-
-							{/* Thumbnail Gallery */}
-							{business.photos && business.photos.length > 1 && (
-								<div className="grid grid-cols-5 gap-2">
-									{business.photos.slice(0, 5).map((photo, index) => (
-										<div key={index} className={cn("aspect-square bg-white rounded border cursor-pointer overflow-hidden transition-all", selectedImageIndex === index ? "ring-2 ring-primary" : "hover:ring-1 hover:ring-gray-300")} onClick={() => setSelectedImageIndex(index)}>
-											<img src={photo} alt={`${business.name} thumbnail ${index + 1}`} className="w-full h-full object-cover" />
-										</div>
+			{/* Enhanced Business Hero Section - Vercel Style */}
+			<section className="bg-[#0a0a0a] border-b border-gray-800/30">
+				<div className="max-w-6xl mx-auto px-6 py-12">
+					<div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
+						{/* Left Column - Comprehensive Business Information */}
+						<div className="space-y-8">
+							{/* Business Identity */}
+							<div className="space-y-4">
+								<div className="flex flex-wrap items-center gap-2">
+									{business.categories?.slice(0, 3).map((category, index) => (
+										<span key={index} className="text-gray-400 text-sm bg-gray-800/40 px-2 py-1 rounded-md">
+											{category}
+										</span>
 									))}
-									{business.photos.length > 5 && (
-										<div className="aspect-square bg-muted rounded border cursor-pointer overflow-hidden flex items-center justify-center" onClick={() => setShowAllPhotos(true)}>
-											<div className="text-center">
-												<Camera className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
-												<span className="text-xs text-muted-foreground">+{business.photos.length - 5}</span>
-											</div>
+									{business.verified && (
+										<div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 px-2 py-1 rounded-md text-sm font-medium">
+											<CheckCircle className="w-3 h-3" />
+											Verified Business
 										</div>
 									)}
+									{business.isOpenNow && (
+										<div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 px-2 py-1 rounded-md text-sm font-medium">
+											<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+											Open Now
+										</div>
+									)}
+								</div>
+
+								<h1 className="text-3xl lg:text-4xl font-semibold text-[#EAEAEA] tracking-tight leading-tight">
+									{business.name}
+								</h1>
+
+								<p className="text-gray-400 leading-relaxed text-lg">
+									{business.description || "Professional services you can trust"}
+								</p>
+							</div>
+
+							{/* Rating & Social Proof */}
+							<div className="flex items-center gap-6 py-4 border-b border-gray-800/20">
+								<div className="flex items-center gap-2">
+									<div className="flex items-center gap-1">
+										{[...Array(5)].map((_, i) => (
+											<Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+										))}
+									</div>
+									<span className="text-[#EAEAEA] font-medium text-lg">{business.ratings?.overall || 4.5}</span>
+								</div>
+								<Button variant="link" className="p-0 h-auto text-sm text-gray-400 hover:text-gray-300 underline underline-offset-4" onClick={() => setActiveTab("reviews")}>
+									{business.reviewCount || 0} customer reviews
+								</Button>
+								<div className="text-sm text-gray-400">
+									{business.trustScore || 95}% satisfaction rate
+								</div>
+							</div>
+
+							{/* Key Business Information Grid */}
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{/* Location & Service */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<MapPin className="w-4 h-4" />
+										Location & Service Area
+									</h3>
+									<div className="space-y-2 text-sm">
+										{business.address && (
+											<div className="text-gray-400">{business.address}</div>
+										)}
+										<div className="text-gray-400">Service Area: {business?.serviceArea?.primary || 'Local area'}</div>
+										{business?.serviceArea?.radius && (
+											<div className="text-gray-500">Up to {business.serviceArea.radius} mile radius</div>
+										)}
+									</div>
+								</div>
+
+								{/* Hours & Availability */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<Calendar className="w-4 h-4" />
+										Hours & Availability
+									</h3>
+									<div className="space-y-2 text-sm">
+										<div className={`font-medium ${business.isOpenNow ? 'text-green-400' : 'text-orange-400'}`}>
+											{business.isOpenNow ? 'Open Now' : 'Currently Closed'}
+										</div>
+										<div className="text-gray-400">Today: {business.hours?.today || "9:00 AM - 6:00 PM"}</div>
+									</div>
+								</div>
+
+								{/* Communication */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<Zap className="w-4 h-4" />
+										Response & Communication
+									</h3>
+									<div className="space-y-2 text-sm">
+										<div className="text-gray-400">Response: {business.responseTime || "2 hours"}</div>
+										{business.phone && <div className="text-gray-400">Phone: {business.phone}</div>}
+										<div className="text-gray-400">Email quotes available</div>
+									</div>
+								</div>
+
+								{/* Credentials */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<Shield className="w-4 h-4" />
+										Professional Status
+									</h3>
+									<div className="space-y-2 text-sm">
+										<div className="flex items-center gap-2 text-gray-400">
+											<CheckCircle className="w-3 h-3 text-green-500" />
+											Licensed & Insured
+										</div>
+										{business.yearsInBusiness && (
+											<div className="flex items-center gap-2 text-gray-400">
+												<Building className="w-3 h-3 text-blue-500" />
+												{business.yearsInBusiness} years experience
+											</div>
+										)}
+									</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Right Column - Gallery & Actions */}
+						<div className="space-y-6">
+							{/* Business Gallery */}
+							<div className="space-y-3">
+								<div className="flex items-center justify-between">
+									<h3 className="text-sm font-medium text-[#EAEAEA]">Gallery</h3>
+									<button onClick={() => setShowAllPhotos(true)} className="text-xs text-gray-400 hover:text-gray-300">
+										View All
+									</button>
+								</div>
+								
+								{/* Featured Image */}
+								<div className="aspect-[4/3] bg-gray-900/20 border border-gray-800/20 rounded-lg overflow-hidden group relative">
+									{business.photos?.[selectedImageIndex] || business.photos?.[0] ? (
+										<img
+											src={business.photos?.[selectedImageIndex] || business.photos?.[0]}
+											alt={`${business.name} - Professional Image`}
+											className="w-full h-full object-cover"
+										/>
+									) : (
+										<div className="w-full h-full flex items-center justify-center">
+											<Building className="w-8 h-8 text-gray-500" />
+										</div>
+									)}
+								</div>
+							</div>
+
+							{/* Primary Actions */}
+							<div className="space-y-3">
+								<button className="w-full h-11 bg-white text-black font-medium rounded-md hover:bg-gray-100 transition-colors text-sm flex items-center justify-center gap-2">
+									<MessageCircle className="w-4 h-4" />
+									Get Free Quote
+								</button>
+								
+								<div className="grid grid-cols-3 gap-2">
+									<button className="h-10 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors text-xs font-medium flex items-center justify-center gap-1" onClick={() => business.phone && window.open(`tel:${business.phone}`)}>
+										<Phone className="h-3 w-3" />
+										Call
+									</button>
+									<button className="h-10 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors text-xs font-medium flex items-center justify-center gap-1">
+										<Navigation className="h-3 w-3" />
+										Directions
+									</button>
+									<button className="h-10 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors text-xs font-medium flex items-center justify-center gap-1">
+										<Share2 className="h-3 w-3" />
+										Share
+									</button>
+								</div>
+								
+								<div className="grid grid-cols-2 gap-3">
+									<button onClick={() => setActiveTab('reviews')} className="h-10 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2">
+										<Calendar className="h-4 w-4" />
+										Book Service
+									</button>
+									<button className="h-10 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors text-sm font-medium flex items-center justify-center gap-2">
+										<ExternalLink className="h-4 w-4" />
+										Website
+									</button>
+								</div>
+							</div>
+
+							{/* Status & Availability */}
+							{business.isOpenNow && (
+								<div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+									<div className="flex items-center gap-2 text-green-400 text-sm font-medium mb-2">
+										<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+										Available Now
+									</div>
+									<div className="text-xs text-gray-400">
+										Quick response guaranteed
+									</div>
 								</div>
 							)}
 						</div>
 					</div>
+				</div>
+			</section>
 
-					{/* Right Column - Business Information Panel */}
-					<div className="lg:col-span-7">
-						<div className="space-y-6">
-							{/* Business Title & Basic Info */}
-							<div className="space-y-2">
+			{/* Quick Decision Strip */}
+			<section className="bg-gray-900/10 border-b border-gray-800/20">
+				<div className="max-w-6xl mx-auto px-6 py-4">
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+						<div className="p-3">
+							<div className="text-sm font-medium text-[#EAEAEA]">{business.startingPrice || business.pricing?.hourlyRate || 'Call for quote'}</div>
+							<div className="text-xs text-gray-500">Starting price</div>
+						</div>
+						<div className="p-3">
+							<div className="text-sm font-medium text-[#EAEAEA]">{business.responseTime || '2 hours'}</div>
+							<div className="text-xs text-gray-500">Response time</div>
+						</div>
+						<div className="p-3">
+							<div className="text-sm font-medium text-[#EAEAEA]">{business?.serviceArea?.primary || 'Local area'}</div>
+							<div className="text-xs text-gray-500">Service area</div>
+						</div>
+						<div className="p-3">
+							<div className={`text-sm font-medium ${business.isOpenNow ? 'text-green-400' : 'text-gray-400'}`}>
+								{business.isOpenNow ? 'Open now' : 'Closed'}
+							</div>
+							<div className="text-xs text-gray-500">Status</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Main Tabbed Content */}
+			<div className="px-6 pt-8 mx-auto max-w-6xl">
+				<div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+					{/* Left Sidebar Navigation */}
+					<aside className="space-y-1">
+						<nav aria-label="Profile sections" className="space-y-1">
+							{businessTabs.map((tab) => (
+								<button key={tab.id} onClick={() => setActiveTab(tab.id)} aria-current={activeTab === tab.id ? "page" : undefined} className={cn("w-full text-left flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors", activeTab === tab.id ? "bg-gray-800/50 text-[#EAEAEA] border-l-2 border-gray-500" : "text-gray-400 hover:text-gray-300 hover:bg-gray-900/20")}>
+									<tab.icon className="w-4 h-4" />
+									<span>{tab.label}</span>
+								</button>
+							))}
+						</nav>
+					</aside>
+
+					{/* Right Content Area */}
+					<div className="space-y-6">
 								<div className="flex items-center space-x-2 text-sm text-muted-foreground">
 									{business.categories?.slice(0, 2).map((category, index) => (
 										<span key={index}>{category}</span>
@@ -1101,16 +1308,16 @@ export default function BizProfileClient({ businessId, initialBusiness, seoData 
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
 
-			{/* Detailed Content Sections with Left Sidebar Navigation */}
-			<div className="px-4 py-8 mx-auto max-w-screen-2xl lg:px-8">
-				<div className="grid grid-cols-12 gap-8">
-					{/* Minimal Left Sidebar Navigation (full-width section below hero) */}
-					<aside className="col-span-12 lg:col-span-3">
+			{/* Tab Content */}
+			<div className="px-6 pt-8 mx-auto max-w-6xl">
+				<div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+					{/* Left Sidebar Navigation */}
+					<aside className="space-y-1">
 						<nav aria-label="Profile sections" className="space-y-1">
 							{businessTabs.map((tab) => (
-								<button key={tab.id} onClick={() => setActiveTab(tab.id)} aria-current={activeTab === tab.id ? "page" : undefined} className={cn("w-full text-left flex items-center gap-2 px-2 py-2 text-sm rounded-md transition-colors", activeTab === tab.id ? "text-foreground bg-muted/40" : "text-muted-foreground hover:text-foreground hover:bg-muted/30")}>
+								<button key={tab.id} onClick={() => setActiveTab(tab.id)} aria-current={activeTab === tab.id ? "page" : undefined} className={cn("w-full text-left flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors", activeTab === tab.id ? "bg-gray-800/50 text-[#EAEAEA] border-l-2 border-gray-500" : "text-gray-400 hover:text-gray-300 hover:bg-gray-900/20")}>
 									<tab.icon className="w-4 h-4" />
 									<span>{tab.label}</span>
 								</button>
@@ -1118,8 +1325,8 @@ export default function BizProfileClient({ businessId, initialBusiness, seoData 
 						</nav>
 					</aside>
 
-					{/* Right content area */}
-					<div className="col-span-12 lg:col-span-9">
+					{/* Right Content Area */}
+					<div className="space-y-6">
 						{/* Tab Content */}
 						{activeTab === "overview" && (
 							<div className="space-y-8">

@@ -51,12 +51,12 @@ export default function BusinessVerification() {
 					<FormItem>
 						<FormLabel className="flex items-center gap-2">
 							<Icon className="w-4 h-4" />
-							{label} {required && <span className="text-red-500">*</span>}
+							{label} {required && <span className="text-destructive">*</span>}
 						</FormLabel>
 						<FormDescription>{description}</FormDescription>
 
 						{!hasFiles ? (
-							<Card className={`border-2 border-dashed transition-colors ${isDraggingOver ? "border-blue-500 bg-blue-50/50 dark:bg-blue-900/10" : "border-muted-foreground/25 hover:border-primary/50"}`} {...dragHandlers}>
+							<Card className={`border-2 border-dashed transition-colors ${isDraggingOver ? "border-primary bg-primary/10 dark:bg-primary/10" : "border-muted-foreground/25 hover:border-primary/50"}`} {...dragHandlers}>
 								<CardContent className="p-6">
 									<div className="text-center space-y-3">
 										<Upload className="w-8 h-8 mx-auto text-muted-foreground" />
@@ -145,15 +145,15 @@ export default function BusinessVerification() {
 				<FileUploadField fieldName="ownerID" label="Owner Identification" description="Government-issued ID of the business owner" icon={User} />
 			</div>
 
-			<div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
-				<div className="flex items-center gap-3">
-					<CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-					<div>
-						<p className="font-medium text-blue-900 dark:text-blue-100">Verification Status</p>
-						<p className="text-sm text-blue-700 dark:text-blue-300">Documents will be reviewed within 2-3 business days</p>
+							<div className="flex items-center justify-between p-4 bg-primary/10 dark:bg-primary/10 rounded-lg">
+					<div className="flex items-center gap-3">
+						<CheckCircle className="w-5 h-5 text-primary dark:text-primary" />
+						<div>
+							<p className="font-medium text-primary dark:text-primary">Verification Status</p>
+							<p className="text-sm text-primary/80 dark:text-primary/80">Documents will be reviewed within 2-3 business days</p>
+						</div>
 					</div>
-				</div>
-				<Badge variant="secondary" className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+					<Badge variant="secondary" className="bg-primary/20 dark:bg-primary/20 text-primary dark:text-primary">
 					Pending Review
 				</Badge>
 			</div>

@@ -8,10 +8,12 @@
 
 import React from "react";
 import { StatsOverviewSection, RecentActivitySection, QuickActionsSection, SystemUpdatesSection } from "./sections";
+import { MyReviewsSection, SavedBusinessesSection } from "./sections";
 import { useUserDashboard } from "@lib/hooks/dashboard/use-user-dashboard";
 import { Button } from "@components/ui/button";
-import { Skeleton } from "@components/ui/skeleton";
+
 import { RefreshCw } from "lucide-react";
+import WeatherWidget from "@components/shared/weather-widget";
 
 /**
  * User Dashboard Page Component
@@ -19,153 +21,64 @@ import { RefreshCw } from "lucide-react";
  * @description Main dashboard component for authenticated users
  * @returns React functional component displaying user dashboard
  */
-const UserDashboardPage: React.FC = () => {
-	const { dashboardData, isLoading, refreshing, user, refreshDashboard } = useUserDashboard();
-
-	if (isLoading) {
-		return <UserDashboardSkeleton />;
-	}
-
-	return (
-		<div className="container mx-auto p-6 space-y-8">
-			{/* Dashboard Header */}
-			<div className="flex items-center justify-between">
-				<div>
-					<h1 className="text-3xl font-bold tracking-tight">Welcome back, {user?.firstName || "User"}!</h1>
-					<p className="text-muted-foreground">Here's what's happening with your account today.</p>
-				</div>
-				<Button variant="outline" onClick={refreshDashboard} disabled={refreshing}>
-					<RefreshCw className={`mr-2 h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
-					Refresh
-				</Button>
-			</div>
-
-			{/* Dashboard Content */}
-			<div className="grid gap-8 lg:grid-cols-3">
-				{/* Left Column - Main Content */}
-				<div className="lg:col-span-2 space-y-8">
-					<StatsOverviewSection user={user} />
-					<RecentActivitySection />
-				</div>
-
-				{/* Right Column - Sidebar */}
-				<div className="space-y-8">
-					<QuickActionsSection />
-					<SystemUpdatesSection />
-				</div>
-			</div>
-		</div>
-	);
+type ServerData = {
+    stats?: any;
+    recentActivity?: any[];
+    reviews?: any[];
+    savedBusinesses?: any[];
+    user?: { id: string };
 };
 
-/**
- * Loading skeleton component for the user dashboard
- *
- * @description Displays loading placeholders while dashboard data is being fetched
- * @returns React functional component with skeleton layout
- */
-const UserDashboardSkeleton: React.FC = () => {
-	return (
-		<div className="container mx-auto p-6 space-y-8">
-			{/* Header Skeleton */}
-			<div className="flex items-center justify-between">
-				<div className="space-y-2">
-					<Skeleton className="h-8 w-64" />
-					<Skeleton className="h-4 w-96" />
-				</div>
-				<Skeleton className="h-10 w-24" />
-			</div>
+const UserDashboardPage: React.FC<{ serverData?: ServerData }> = ({ serverData }) => {
+    const { dashboardData, isLoading, refreshing, user, refreshDashboard } = useUserDashboard();
 
-			{/* Content Skeleton */}
-			<div className="grid gap-8 lg:grid-cols-3">
-				{/* Left Column */}
-				<div className="lg:col-span-2 space-y-8">
-					{/* Stats Grid Skeleton */}
-					<div className="space-y-6">
-						<div className="space-y-2">
-							<Skeleton className="h-6 w-32" />
-							<Skeleton className="h-4 w-64" />
-						</div>
-						<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-							{Array.from({ length: 4 }).map((_, i) => (
-								<div key={i} className="p-6 border rounded-lg space-y-3">
-									<div className="flex items-center justify-between">
-										<Skeleton className="h-4 w-20" />
-										<Skeleton className="h-4 w-4" />
-									</div>
-									<Skeleton className="h-8 w-16" />
-									<Skeleton className="h-3 w-24" />
-								</div>
-							))}
-						</div>
-					</div>
+    const effectiveUser = user || serverData?.user;
+    const activity = serverData?.recentActivity || dashboardData.recentActivity;
+    const reviews = serverData?.reviews || [];
+    const savedBusinesses = serverData?.savedBusinesses || [];
 
-					{/* Recent Activity Skeleton */}
-					<div className="p-6 border rounded-lg space-y-4">
-						<div className="space-y-2">
-							<Skeleton className="h-6 w-32" />
-							<Skeleton className="h-4 w-64" />
-						</div>
-						{Array.from({ length: 3 }).map((_, i) => (
-							<div key={i} className="flex items-start gap-4 p-4 border rounded-lg">
-								<Skeleton className="h-10 w-10 rounded-full" />
-								<div className="flex-1 space-y-2">
-									<Skeleton className="h-4 w-64" />
-									<Skeleton className="h-3 w-48" />
-									<Skeleton className="h-3 w-20" />
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
 
-				{/* Right Column */}
-				<div className="space-y-8">
-					{/* Quick Actions Skeleton */}
-					<div className="p-6 border rounded-lg space-y-4">
-						<div className="space-y-2">
-							<Skeleton className="h-6 w-32" />
-							<Skeleton className="h-4 w-48" />
-						</div>
-						<div className="grid gap-4 md:grid-cols-2">
-							{Array.from({ length: 4 }).map((_, i) => (
-								<div key={i} className="p-6 border rounded-lg space-y-3">
-									<div className="flex items-start gap-4">
-										<Skeleton className="h-12 w-12 rounded-lg" />
-										<div className="flex-1 space-y-2">
-											<Skeleton className="h-4 w-24" />
-											<Skeleton className="h-3 w-32" />
-										</div>
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
 
-					{/* System Updates Skeleton */}
-					<div className="p-6 border rounded-lg space-y-4">
-						<div className="space-y-2">
-							<Skeleton className="h-6 w-32" />
-							<Skeleton className="h-4 w-48" />
-						</div>
-						{Array.from({ length: 3 }).map((_, i) => (
-							<div key={i} className="flex items-start gap-4 p-4 border rounded-lg">
-								<Skeleton className="h-10 w-10 rounded-full" />
-								<div className="flex-1 space-y-2">
-									<div className="flex items-center gap-2">
-										<Skeleton className="h-4 w-32" />
-										<Skeleton className="h-5 w-12 rounded-full" />
-									</div>
-									<Skeleton className="h-3 w-48" />
-									<Skeleton className="h-3 w-16" />
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+    return (
+        <div className="container mx-auto p-6 space-y-8">
+            {/* Dashboard Header */}
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user?.firstName || "User"}!</h1>
+                    <p className="text-muted-foreground">Here's what's happening with your account today.</p>
+                </div>
+                <Button variant="outline" onClick={refreshDashboard} disabled={refreshing}>
+                    <RefreshCw className={`mr-2 h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
+                    Refresh
+                </Button>
+            </div>
+
+            {/* Dashboard Content */}
+            <div className="space-y-8">
+                {/* Weather Widget - Full Width */}
+                <WeatherWidget showBusinessImpact={false} />
+                
+                {/* Main Content Grid */}
+                <div className="grid gap-8 lg:grid-cols-3">
+                    {/* Left Column - Main Content */}
+                    <div className="lg:col-span-2 space-y-8">
+                        <StatsOverviewSection user={effectiveUser as any} />
+                        <RecentActivitySection activities={activity as any} />
+                        <MyReviewsSection reviews={reviews as any} />
+                    </div>
+
+                    {/* Right Column - Sidebar */}
+                    <div className="space-y-8">
+                        <QuickActionsSection />
+                        <SystemUpdatesSection />
+                        <SavedBusinessesSection items={savedBusinesses as any} />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 };
+
+
 
 export default UserDashboardPage;

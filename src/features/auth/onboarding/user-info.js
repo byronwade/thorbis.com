@@ -18,7 +18,7 @@ export default function UserInfo() {
 					render={({ field, fieldState }) => (
 						<FormItem>
 							<FormLabel>
-								First name <span className="text-red-500">*</span>
+								First name <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormControl>
 								<Input {...field} />
@@ -33,7 +33,7 @@ export default function UserInfo() {
 					render={({ field, fieldState }) => (
 						<FormItem>
 							<FormLabel>
-								Last name <span className="text-red-500">*</span>
+								Last name <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormControl>
 								<Input {...field} />
@@ -48,7 +48,7 @@ export default function UserInfo() {
 					render={({ field, fieldState }) => (
 						<FormItem>
 							<FormLabel>
-								Phone Number <span className="text-red-500">*</span>
+								Phone Number <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormDescription>We use your phone number for account authentication</FormDescription>
 							<FormControl>
@@ -64,7 +64,7 @@ export default function UserInfo() {
 					render={({ field, fieldState }) => (
 						<FormItem>
 							<FormLabel>
-								Email <span className="text-red-500">*</span>
+								Email <span className="text-destructive">*</span>
 							</FormLabel>
 							<FormDescription>We don&apos;t use your email for marketing</FormDescription>
 							<FormControl>

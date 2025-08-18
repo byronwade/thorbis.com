@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Auto Repair Shop Software – Service Management, Inventory, Customer Tracking | Thorbis",
-	description: "Complete auto repair shop management software with service scheduling, inventory tracking, customer history, and digital inspections.",
-	keywords: ["auto repair shop software", "automotive service management", "car repair software", "auto shop management", "vehicle service tracking"],
-	alternates: { canonical: "https://thorbis.com/auto-repair-shop-software" },
-	openGraph: {
-		title: "Auto Repair Shop Software – Complete Service Management",
-		description: "Service scheduling, inventory tracking, customer history, and digital inspections.",
-		type: "website",
-		url: "https://thorbis.com/auto-repair-shop-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Auto Repair Shop Software")}&description=${encodeURIComponent("Service scheduling, inventory tracking, and customer history.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Auto Repair Shop Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Auto Repair Shop Software – Complete Service Management",
-		description: "Service scheduling, inventory tracking, customer history, and digital inspections.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Auto Repair Shop Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Auto Repair Shop Software – Service Management, Inventory, Customer Tracking | Thorbis",
+		description: "Complete auto repair shop management software with service scheduling, inventory tracking, customer history, and digital inspections.",
+		path: "/auto-repair-shop-software",
+		keywords: ["auto repair shop software", "automotive service management", "car repair software", "auto shop management", "vehicle service tracking"],
+	});
+}
 
 import { Star, Wrench, Package, Users } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -103,7 +84,7 @@ export default function AutoRepairShopSoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-red-600 px-6 py-3 text-white font-semibold hover:bg-red-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -134,7 +115,7 @@ export default function AutoRepairShopSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Boost Your Shop's Efficiency</h2>
 				<p className="text-lg mb-6 opacity-90">Join thousands of auto repair shops using Thorbis to increase productivity and customer satisfaction.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-red-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 				</div>

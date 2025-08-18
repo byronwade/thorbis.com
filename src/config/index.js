@@ -376,11 +376,12 @@ export const security = {
 		reportOnly: process.env.CSP_REPORT_ONLY === "true",
 		directives: {
 			defaultSrc: ["'self'"],
-			scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+			scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://va.vercel-scripts.com", "https://*.vercel-scripts.com"],
+			scriptSrcElem: ["'self'", "'unsafe-inline'", "https://va.vercel-scripts.com", "https://*.vercel-scripts.com"],
 			styleSrc: ["'self'", "'unsafe-inline'"],
 			imgSrc: ["'self'", "data:", "https:"],
 			fontSrc: ["'self'", "https:"],
-			connectSrc: ["'self'", "https:"],
+			connectSrc: ["'self'", "https:", "https://va.vercel-scripts.com", "https://*.vercel-scripts.com"],
 		},
 	},
 

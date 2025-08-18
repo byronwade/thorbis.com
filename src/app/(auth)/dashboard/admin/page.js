@@ -3,11 +3,18 @@ import { ProtectedRoute } from "@features/auth";
 import { DashboardStats } from "@components/dashboard/dashboard-layout";
 import PermissionManager from "@components/admin/permission-manager";
 import { PERMISSIONS } from "@lib/auth/roles";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Admin Dashboard - Thorbis",
-	description: "Administrative overview for managing users, content, billing, and platform settings.",
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Admin Dashboard - Thorbis",
+		description: "Administrative overview for managing users, content, billing, and platform settings.",
+		path: "/dashboard/admin",
+		keywords: ["admin dashboard", "user management", "platform settings"],
+		robots: { index: false, follow: false }
+	});
+}
 
 /**
  * Admin dashboard page with system management features

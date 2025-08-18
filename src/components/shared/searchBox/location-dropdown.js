@@ -1,22 +1,46 @@
 "use client";
-import React, { useEffect, Suspense, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@components/ui/dropdown-menu";
-import { X, ChevronDown, MapPin, Navigation, Globe, Home } from "react-feather";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuGroup } from "@components/ui/dropdown-menu";
+import { X, ChevronDown, MapPin, Navigation, Globe, Home, Heart, Clock, Star, Target, Crosshair, Settings } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import { Badge } from "@components/ui/badge";
 import { Loader2 } from "lucide-react";
 import { useSearchStore } from "@store/search";
 import { useMapStore } from "@store/map";
 import { useBusinessStore } from "@store/business";
+import { useLocationStore, locationUtils } from "@lib/location/enhanced-location-service";
+import { cn } from "@lib/utils";
 import { debounce } from "lodash";
 
 const LocationDropdown = ({ className, size = "default" }) => {
 	const router = useRouter();
 	const inputRef = useRef(null);
 	const { setActiveBusinessId } = useBusinessStore();
-	const { location, setLocation, fetchCurrentLocation, fetchAutocompleteSuggestions, fetchPlaceDetails, fetchCoordinatesFromCityAndState, fetchCityAndStateFromCoordinates, activeDropdown, setActiveDropdown } = useSearchStore();
+	
+	// Enhanced location store
+	const {
+		currentLocation,
+		isGettingLocation,
+		locationError,
+		recentLocations,
+		favoriteLocations,
+		searchSuggestions,
+		isLoadingSuggestions,
+		getCurrentLocation,
+		getLocationSuggestions,
+		addToFavorites,
+		removeFromFavorites,
+		addToRecentLocations
+	} = useLocationStore();
+	
+	// Legacy compatibility with search store
+	const { location, setLocation, activeDropdown, setActiveDropdown } = useSearchStore();
 	const { centerOn, isMapAvailable } = useMapStore();
+	
+	// Component state
+	const [searchQuery, setSearchQuery] = useState('');
 
 	// Size variants for different contexts
 	const sizeVariants = {
@@ -368,9 +392,7 @@ const LocationDropdown = ({ className, size = "default" }) => {
 };
 
 const LocationDropdownWithSuspense = ({ size, className }) => (
-	<Suspense fallback={<Loader2 className="w-6 h-6 animate-spin" />}>
-		<LocationDropdown size={size} className={className} />
-	</Suspense>
+	<LocationDropdown size={size} className={className} />
 );
 
 export default LocationDropdownWithSuspense;

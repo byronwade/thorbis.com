@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Commercial Property Management Software – Leasing, Maintenance, Financials | Thorbis",
-	description: "Streamline commercial property operations with lease management, tenant portals, maintenance tracking, and financial reporting software.",
-	keywords: ["commercial property management", "lease management software", "tenant portal", "commercial real estate software", "property maintenance tracking"],
-	alternates: { canonical: "https://thorbis.com/commercial-property-management" },
-	openGraph: {
-		title: "Commercial Property Management Software – Complete Operations",
-		description: "Lease management, tenant portals, maintenance tracking, and financial reporting.",
-		type: "website",
-		url: "https://thorbis.com/commercial-property-management",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Commercial Property Management")}&description=${encodeURIComponent("Lease management, tenant portals, and maintenance tracking.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Commercial Property Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Commercial Property Management Software – Complete Operations",
-		description: "Lease management, tenant portals, maintenance tracking, and financial reporting.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Commercial Property Management")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Commercial Property Management Software – Leasing, Maintenance, Financials | Thorbis",
+		description: "Streamline commercial property operations with lease management, tenant portals, maintenance tracking, and financial reporting software.",
+		path: "/commercial-property-management",
+		keywords: ["commercial property management", "lease management software", "tenant portal", "commercial real estate software", "property maintenance tracking"],
+	});
+}
 
 import { Star, Building, Users, Wrench } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -105,7 +86,7 @@ export default function CommercialPropertyManagement() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-indigo-600 px-6 py-3 text-white font-semibold hover:bg-indigo-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Request Demo
 					</a>
 				</div>
@@ -136,7 +117,7 @@ export default function CommercialPropertyManagement() {
 				<h2 className="text-3xl font-bold mb-4">Optimize Your Commercial Portfolio</h2>
 				<p className="text-lg mb-6 opacity-90">Streamline operations and maximize NOI with our comprehensive property management platform.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-indigo-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

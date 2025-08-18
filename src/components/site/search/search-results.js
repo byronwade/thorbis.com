@@ -89,7 +89,7 @@ export default function SearchResults() {
 						<div className="flex items-center gap-2 mt-1">
 							{business.rating && (
 								<div className="flex items-center gap-1">
-									<Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+									<Star className="w-4 h-4 fill-muted-foreground text-muted-foreground" />
 									<span className="text-sm font-medium text-foreground">{business.rating}</span>
 									<span className="text-sm text-muted-foreground">({business.reviewCount || 0})</span>
 								</div>
@@ -160,7 +160,7 @@ export default function SearchResults() {
 							</h3>
 							{business.rating && (
 								<div className="flex items-center gap-1">
-									<Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+									<Star className="w-4 h-4 fill-muted-foreground text-muted-foreground" />
 									<span className="text-sm font-medium text-foreground">{business.rating}</span>
 								</div>
 							)}

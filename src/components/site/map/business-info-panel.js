@@ -7,6 +7,7 @@ import { X, Star, Phone, MapPin, Clock, Share2, Heart, ExternalLink, Navigation,
 import { useBusinessStore } from "@store/business";
 import { useMapStore } from "@store/map";
 import { logger } from "@utils/logger";
+import { getReliableImageUrl, generateReliableBusinessPhotos } from "@utils/reliable-image-service";
 
 const BusinessInfoPanel = () => {
 	const { activeBusinessId, filteredBusinesses, setActiveBusinessId } = useBusinessStore();
@@ -35,7 +36,20 @@ const BusinessInfoPanel = () => {
 		}
 	}, [activeBusinessId, business, filteredBusinesses]);
 
-	const allImages = [business?.image || "https://picsum.photos/400/300", "https://picsum.photos/400/301", "https://picsum.photos/400/302", "https://picsum.photos/400/303"];
+	// Use reliable image service to avoid timeout issues
+	const businessPhotos = business?.photos?.length > 0 
+		? business.photos
+		: generateReliableBusinessPhotos(business?.id || 'default', business?.category || 'default', 4);
+	
+	const allImages = [
+		business?.image || getReliableImageUrl({ 
+			category: business?.category || 'default', 
+			businessId: business?.id || 'default',
+			width: 400, 
+			height: 300 
+		}),
+		...businessPhotos.slice(0, 3)
+	];
 
 	// Center map on business when panel opens (only if map is available)
 	useEffect(() => {

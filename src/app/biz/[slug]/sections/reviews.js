@@ -75,20 +75,20 @@ export default function Reviews({ business, setShowReviewModal }) {
 
 							{/* Right: Quick Stats */}
 							<div className="grid grid-cols-2 gap-4">
-								<div className="p-4 border rounded-xl backdrop-blur-sm bg-white/60 dark:bg-gray-800/60 border-white/20">
+								<div className="p-4 border rounded-xl backdrop-blur-sm bg-card/60 border-border/20">
 									<div className="text-2xl font-bold text-primary">{trustScore}%</div>
 									<div className="text-sm text-muted-foreground">Trust Score</div>
 								</div>
-								<div className="p-4 border rounded-xl backdrop-blur-sm bg-white/60 dark:bg-gray-800/60 border-white/20">
-									<div className="text-2xl font-bold text-emerald-600">{peerRecommendations.length}</div>
+								<div className="p-4 border rounded-xl backdrop-blur-sm bg-card/60 border-border/20">
+									<div className="text-2xl font-bold text-primary">{peerRecommendations.length}</div>
 									<div className="text-sm text-muted-foreground">Local Reviews</div>
 								</div>
-								<div className="p-4 border rounded-xl backdrop-blur-sm bg-white/60 dark:bg-gray-800/60 border-white/20">
-									<div className="text-2xl font-bold text-blue-600">24h</div>
+								<div className="p-4 border rounded-xl backdrop-blur-sm bg-card/60 border-border/20">
+									<div className="text-2xl font-bold text-primary">24h</div>
 									<div className="text-sm text-muted-foreground">Avg Response</div>
 								</div>
-								<div className="p-4 border rounded-xl backdrop-blur-sm bg-white/60 dark:bg-gray-800/60 border-white/20">
-									<div className="text-2xl font-bold text-purple-600">98%</div>
+								<div className="p-4 border rounded-xl backdrop-blur-sm bg-card/60 border-border/20">
+									<div className="text-2xl font-bold text-primary">98%</div>
 									<div className="text-sm text-muted-foreground">Satisfaction</div>
 								</div>
 							</div>

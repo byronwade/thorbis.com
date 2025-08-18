@@ -3,6 +3,8 @@ import { Target, Users, TrendingUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+import { generateStaticPageMetadata } from "@utils/server-seo";
+
 const advertisingBenefits = [
 	{
 		icon: <Target className="w-8 h-8 text-primary" />,
@@ -21,36 +23,15 @@ const advertisingBenefits = [
 	},
 ];
 
-export const metadata = {
-	title: "Advertise on Thorbis - Reach Millions of Local Customers",
-	description: "Grow your business with Thorbis advertising. Get your business in front of millions of people ready to buy, visit, and hire. Target by location and track results.",
-	keywords: ["advertise on thorbis", "local advertising", "business promotion", "sponsored listings", "targeted advertising", "local marketing"],
-	openGraph: {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 		title: "Advertise on Thorbis - Reach Millions of Local Customers",
 		description: "Grow your business with Thorbis advertising. Get your business in front of millions of people ready to buy, visit, and hire. Target by location and track results.",
-		url: "https://thorbis.com/advertise",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Advertise on Thorbis")}&description=${encodeURIComponent("Reach local customers with targeted ads and measurable results.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Advertising Platform",
-			},
-		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Advertise on Thorbis - Reach Local Customers",
-		description: "Grow your business with targeted local advertising on Thorbis.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Advertise on Thorbis")}`],
-	},
-	alternates: {
-		canonical: "https://thorbis.com/advertise",
-	},
-};
+		path: "/advertise",
+		keywords: ["advertise on thorbis", "local advertising", "business promotion", "sponsored listings", "targeted advertising", "local marketing"],
+	});
+}
 
 export default function AdvertisePage() {
 	const jsonLd = {

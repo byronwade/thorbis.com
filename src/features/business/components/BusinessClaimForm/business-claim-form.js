@@ -199,7 +199,7 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 			<Card className="max-w-2xl mx-auto">
 				<CardHeader>
 					<CardTitle className="flex items-center gap-2">
-						{claimStatus === "approved" ? <CheckCircle className="h-5 w-5 text-green-600" /> : claimStatus === "pending" ? <Clock className="h-5 w-5 text-yellow-600" /> : <AlertCircle className="h-5 w-5 text-red-600" />}
+						{claimStatus === "approved" ? <CheckCircle className="h-5 w-5 text-primary" /> : claimStatus === "pending" ? <Clock className="h-5 w-5 text-muted-foreground" /> : <AlertCircle className="h-5 w-5 text-destructive" />}
 						Claim Status: {claimStatus.charAt(0).toUpperCase() + claimStatus.slice(1)}
 					</CardTitle>
 					<CardDescription>
@@ -244,7 +244,7 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 							{business.website && (
 								<div className="flex items-center gap-2 text-sm text-gray-600">
 									<Globe className="h-4 w-4" />
-									<a href={business.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+									<a href={business.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
 										{business.website}
 									</a>
 								</div>
@@ -253,7 +253,7 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 						<div className="space-y-2">
 							{business.rating && (
 								<div className="flex items-center gap-2 text-sm text-gray-600">
-									<Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+									<Star className="h-4 w-4 fill-muted-foreground text-muted-foreground" />
 									{business.rating} ({business.reviewCount} reviews)
 								</div>
 							)}

@@ -1,6 +1,30 @@
 import { Button } from "@components/ui/button";
 import { CheckCircle, BarChart, MessageSquare, Megaphone } from "lucide-react";
 import Link from "next/link";
+import { generateStaticPageMetadata } from "@utils/server-seo";
+
+// Example of advanced metadata generation with parent inheritance
+export async function generateMetadata(params, parent) {
+	// This demonstrates the new Next.js 15 best practices
+	return await generateStaticPageMetadata({
+		title: "Business Owners - Grow Your Local Business | Thorbis",
+		description: "Join thousands of business owners using Thorbis to manage their online presence, respond to reviews, and attract more customers. Free business listing and powerful tools.",
+		path: "/business",
+		keywords: [
+			"business owners",
+			"local business",
+			"business listing",
+			"online presence",
+			"customer reviews",
+			"business management",
+			"local marketing"
+		],
+		robots: {
+			index: true,
+			follow: true
+		}
+	}, parent); // Parent metadata inheritance for consistent branding
+}
 
 const features = [
 	{
@@ -25,36 +49,7 @@ const features = [
 	},
 ];
 
-export const metadata = {
-	title: "Grow Your Business with Thorbis - Free Business Listings & Marketing Tools",
-	description: "Claim your free business page on Thorbis and connect with millions of potential customers. Manage reviews, track analytics, and grow your local business.",
-	keywords: ["business listings", "free business page", "local business marketing", "customer reviews", "business analytics", "claim business"],
-	openGraph: {
-		title: "Grow Your Business with Thorbis - Free Business Listings & Marketing Tools",
-		description: "Claim your free business page on Thorbis and connect with millions of potential customers. Manage reviews, track analytics, and grow your local business.",
-		url: "https://thorbis.com/business",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Thorbis Business Solutions")}&description=${encodeURIComponent("Claim your page, manage reviews, track analytics, advertise.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Business Solutions",
-			},
-		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Grow Your Business with Thorbis",
-		description: "Claim your free business page and connect with millions of potential customers.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Thorbis Business Solutions")}`],
-	},
-	alternates: {
-		canonical: "https://thorbis.com/business",
-	},
-};
+
 
 export default function BusinessPage() {
 	const jsonLd = {

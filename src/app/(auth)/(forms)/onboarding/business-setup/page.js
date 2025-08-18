@@ -314,7 +314,7 @@ export default function BusinessSetupPage() {
             <div>
               <label className="text-sm font-medium mb-2 block">Starting Hourly Rate</label>
               <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                 <Input
                   type="number"
                   value={formData.hourlyRate}
@@ -392,7 +392,7 @@ export default function BusinessSetupPage() {
                       />
                     </>
                   )}
-                  {hours.closed && <span className="text-gray-500">Closed</span>}
+                  {hours.closed && <span className="text-muted-foreground">Closed</span>}
                 </div>
               ))}
             </div>
@@ -422,24 +422,24 @@ export default function BusinessSetupPage() {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-4">Business Verification</h3>
-        <p className="text-gray-600 mb-6">Upload your business documents to get verified and build customer trust</p>
+                    <p className="text-muted-foreground mb-6">Upload your business documents to get verified and build customer trust</p>
         
         <div className="space-y-4">
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-            <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm text-gray-600 mb-2">Business License</p>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+              <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground mb-2">Business License</p>
             <Button variant="outline" size="sm">Upload License</Button>
           </div>
           
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-            <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm text-gray-600 mb-2">Insurance Certificate</p>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+              <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground mb-2">Insurance Certificate</p>
             <Button variant="outline" size="sm">Upload Insurance</Button>
           </div>
           
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-            <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-            <p className="text-sm text-gray-600 mb-2">Professional Certifications</p>
+                      <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+              <Upload className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground mb-2">Professional Certifications</p>
             <Button variant="outline" size="sm">Upload Certifications</Button>
           </div>
         </div>
@@ -463,7 +463,7 @@ export default function BusinessSetupPage() {
     <div className="space-y-6">
       <div>
         <h3 className="text-lg font-semibold mb-4">Platform Features</h3>
-        <p className="text-gray-600 mb-6">Choose which Thorbis features to enable for your business</p>
+                    <p className="text-muted-foreground mb-6">Choose which Thorbis features to enable for your business</p>
         
         <div className="space-y-4">
           <Card className={formData.enableBooking ? "border-blue-500 bg-blue-50" : ""}>
@@ -473,7 +473,7 @@ export default function BusinessSetupPage() {
                   <Calendar className="w-5 h-5 text-blue-600" />
                   <div>
                     <h4 className="font-medium">Online Booking</h4>
-                    <p className="text-sm text-gray-600">Let customers book services directly</p>
+                    <p className="text-sm text-muted-foreground">Let customers book services directly</p>
                   </div>
                 </div>
                 <Checkbox
@@ -491,7 +491,7 @@ export default function BusinessSetupPage() {
                   <DollarSign className="w-5 h-5 text-green-600" />
                   <div>
                     <h4 className="font-medium">Digital Quotes</h4>
-                    <p className="text-sm text-gray-600">Send professional quotes instantly</p>
+                    <p className="text-sm text-muted-foreground">Send professional quotes instantly</p>
                   </div>
                 </div>
                 <Checkbox
@@ -509,7 +509,7 @@ export default function BusinessSetupPage() {
                   <CheckCircle className="w-5 h-5 text-purple-600" />
                   <div>
                     <h4 className="font-medium">Payment Processing</h4>
-                    <p className="text-sm text-gray-600">Accept payments online securely</p>
+                    <p className="text-sm text-muted-foreground">Accept payments online securely</p>
                   </div>
                 </div>
                 <Checkbox
@@ -527,7 +527,7 @@ export default function BusinessSetupPage() {
                   <Users className="w-5 h-5 text-orange-600" />
                   <div>
                     <h4 className="font-medium">Team Scheduling</h4>
-                    <p className="text-sm text-gray-600">Manage team schedules and dispatch</p>
+                    <p className="text-sm text-muted-foreground">Manage team schedules and dispatch</p>
                   </div>
                 </div>
                 <Checkbox
@@ -556,7 +556,7 @@ export default function BusinessSetupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-muted/30 py-12">
       <div className="max-w-4xl mx-auto px-4">
         {/* Progress Header */}
         <div className="mb-8">
@@ -581,17 +581,17 @@ export default function BusinessSetupPage() {
                     flex items-center justify-center w-10 h-10 rounded-full border-2 
                     ${isActive ? 'border-blue-500 bg-blue-500 text-white' : 
                       isCompleted ? 'border-green-500 bg-green-500 text-white' : 
-                      'border-gray-300 bg-white text-gray-400'}
+                      'border-border bg-card text-muted-foreground'}
                   `}>
                     {isCompleted ? <CheckCircle className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
                   </div>
                   <div className="ml-2 hidden sm:block">
-                    <p className={`text-sm font-medium ${isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-500'}`}>
+                    <p className={`text-sm font-medium ${isActive ? 'text-primary' : isCompleted ? 'text-primary' : 'text-muted-foreground'}`}>
                       {step.title}
                     </p>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`ml-4 w-8 h-0.5 ${isCompleted ? 'bg-green-500' : 'bg-gray-300'}`} />
+                    <div className={`ml-4 w-8 h-0.5 ${isCompleted ? 'bg-primary' : 'bg-border'}`} />
                   )}
                 </div>
               );

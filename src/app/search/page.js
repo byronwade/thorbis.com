@@ -1,9 +1,9 @@
 import React from "react";
 import Script from "next/script";
-import NextGenSearchExperience from "@components/site/search/next-gen-search-experience";
+import ModernSearchExperience from "@components/site/search/google-maps-style-search";
 import { BusinessDataFetchers } from "@lib/database/supabase/server";
 import { getSearchFlags } from "@/lib/flags/server";
-import "mapbox-gl/dist/mapbox-gl.css";
+// Google Maps doesn't require additional CSS imports
 
 // Generate dynamic metadata based on search context
 export async function generateMetadata({ searchParams }) {
@@ -185,68 +185,126 @@ async function getEnhancedSearchData(searchParams, flags) {
 	try {
 		// If no search parameters, get intelligent featured businesses
 		if (!params.query && !params.location && !params.category) {
-			const { data: businesses, error } = await BusinessDataFetchers.searchBusinesses({
-				limit: 50,
-				offset: 0,
-				// Use AI to get contextually relevant featured businesses
-				intelligent: flags.aiRecommendations,
-				includeRealtimeStatus: flags.realTimeUpdates,
-			});
+			try {
+				const businessData = await BusinessDataFetchers.searchBusinesses({
+					limit: 50,
+					offset: 0,
+					featured: true,
+					// Use AI to get contextually relevant featured businesses
+					intelligent: flags.aiRecommendations,
+					includeRealtimeStatus: flags.realTimeUpdates,
+				});
 
-			if (error) {
-				console.error("Failed to fetch featured business listing:", error);
+				// Validate the response structure
+				if (!businessData) {
+					console.error("BusinessDataFetchers.searchBusinesses returned null/undefined");
+					return {
+						businesses: [],
+						total: 0,
+						hasMore: false,
+						searchTime: performance.now() - startTime,
+						source: "fallback",
+						error: "No data returned from search function"
+					};
+				}
+
+				if (businessData.error) {
+					console.error("Failed to fetch featured business listing:", businessData.error);
+					return {
+						businesses: [],
+						total: 0,
+						hasMore: false,
+						searchTime: performance.now() - startTime,
+						source: "fallback",
+						error: businessData.error
+					};
+				}
+
+				// Ensure businesses is an array
+				const businesses = Array.isArray(businessData.businesses) ? businessData.businesses : [];
+
+				return {
+					businesses: businesses,
+					total: businessData.total || 0,
+					hasMore: businessData.hasMore || false,
+					searchTime: performance.now() - startTime,
+					source: "featured",
+					aiEnhanced: flags.aiRecommendations,
+				};
+			} catch (searchError) {
+				console.error("Error in featured business search:", searchError);
 				return {
 					businesses: [],
 					total: 0,
 					hasMore: false,
 					searchTime: performance.now() - startTime,
 					source: "fallback",
+					error: searchError.message
 				};
 			}
-
-			return {
-				businesses: businesses?.businesses || [],
-				total: businesses?.total || 0,
-				hasMore: businesses?.hasMore || false,
-				searchTime: performance.now() - startTime,
-				source: "featured",
-				aiEnhanced: flags.aiRecommendations,
-			};
 		}
 
 		// Perform enhanced search with AI capabilities
-		const { data: searchResults, error } = await BusinessDataFetchers.searchBusinesses({
-			...params,
-			// Enhanced search features
-			semanticSearch: flags.smartSearch,
-			personalizedRanking: flags.aiRecommendations,
-			realTimeFiltering: flags.realTimeUpdates,
-			contextualSuggestions: flags.contextualFilters,
-		});
+		try {
+			const searchResults = await BusinessDataFetchers.searchBusinesses({
+				...params,
+				// Enhanced search features
+				semanticSearch: flags.smartSearch,
+				personalizedRanking: flags.aiRecommendations,
+				realTimeFiltering: flags.realTimeUpdates,
+				contextualSuggestions: flags.contextualFilters,
+			});
 
-		if (error) {
-			console.error("Failed to search businesses:", error);
+			// Validate the response structure
+			if (!searchResults) {
+				console.error("BusinessDataFetchers.searchBusinesses returned null/undefined for search");
+				return {
+					businesses: [],
+					total: 0,
+					hasMore: false,
+					searchTime: performance.now() - startTime,
+					source: "fallback",
+					error: "No data returned from search function"
+				};
+			}
+
+			if (searchResults.error) {
+				console.error("Failed to fetch search results:", searchResults.error);
+				return {
+					businesses: [],
+					total: 0,
+					hasMore: false,
+					searchTime: performance.now() - startTime,
+					source: "fallback",
+					error: searchResults.error
+				};
+			}
+
+			// Ensure businesses is an array
+			const businesses = Array.isArray(searchResults.businesses) ? searchResults.businesses : [];
+
+			return {
+				businesses: businesses,
+				total: searchResults.total || 0,
+				hasMore: searchResults.hasMore || false,
+				searchTime: performance.now() - startTime,
+				source: "search",
+				aiEnhanced: flags.aiRecommendations,
+			};
+		} catch (searchError) {
+			console.error("Error in business search:", searchError);
 			return {
 				businesses: [],
 				total: 0,
 				hasMore: false,
 				searchTime: performance.now() - startTime,
-				source: "error",
+				source: "fallback",
+				error: searchError.message
 			};
 		}
 
-		return {
-			businesses: searchResults?.businesses || [],
-			total: searchResults?.total || 0,
-			hasMore: searchResults?.hasMore || false,
-			searchTime: performance.now() - startTime,
-			source: "search",
-			aiEnhanced: flags.aiRecommendations,
-			suggestions: searchResults?.suggestions || [],
-			relatedSearches: searchResults?.relatedSearches || [],
-		};
 	} catch (error) {
-		console.error("Search error:", error);
+		console.error("Error in enhanced search data fetching:", error);
 		return {
 			businesses: [],
 			total: 0,
@@ -376,8 +434,8 @@ export default async function Search({ searchParams }) {
 
 	return (
 		<>
-			{/* Next-generation search experience */}
-			<NextGenSearchExperience
+			{/* Modern search experience matching Thorbis design system */}
+			<ModernSearchExperience
 				searchParams={awaitedSearchParams}
 				initialBusinesses={transformedBusinesses}
 				searchMetadata={{

@@ -1,4 +1,8 @@
-export const metadata = {
+import { generateStaticPageMetadata } from "@utils/server-seo";
+
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 	title: "Automotive Shop Software – Service Bay, POS, CRM | Thorbis",
 	description: "Run your auto shop with scheduling, POS, work orders, inspections, CRM, and analytics in one fast platform.",
 	keywords: ["auto repair software", "automotive shop POS", "work order management", "service bay scheduling", "auto shop CRM", "digital inspections", "garage management software"],

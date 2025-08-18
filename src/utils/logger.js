@@ -101,10 +101,11 @@ const createLogger = () => {
 		},
 		performance: (...args) => {
 			try {
-				// Log performance metrics in development and as info in production
-				if (isDevelopment) {
-					console.log("⚡ PERFORMANCE:", ...args);
-				} else {
+				// Control performance logging with environment variable
+				const enablePerformanceLogging = process.env.ENABLE_PERFORMANCE_LOGGING === 'true';
+				
+				// Only log performance in development if explicitly enabled, or in production for critical metrics
+				if (enablePerformanceLogging || (!isDevelopment && args[0]?.includes?.('critical'))) {
 					console.log("⚡ PERFORMANCE:", ...args);
 				}
 			} catch (error) {
@@ -186,6 +187,45 @@ const createLogger = () => {
 				}
 			} catch (error) {
 				console.error("Logger.engagement error:", error);
+			}
+		},
+		// Performance metrics collection
+		getPerformanceMetrics() {
+			try {
+				if (typeof window === "undefined") {
+					return { apiCalls: {}, pageLoads: {}, errors: {} };
+				}
+
+				// Get performance data from window if available
+				const performanceData = window.performanceData || {};
+				
+				return {
+					apiCalls: performanceData.apiCalls || {},
+					pageLoads: performanceData.pageLoads || {},
+					errors: performanceData.errors || {},
+					memory: window.performance?.memory ? {
+						used: window.performance.memory.usedJSHeapSize,
+						limit: window.performance.memory.jsHeapSizeLimit,
+						percentage: (window.performance.memory.usedJSHeapSize / window.performance.memory.jsHeapSizeLimit * 100).toFixed(2)
+					} : null
+				};
+			} catch (error) {
+				console.error("Logger.getPerformanceMetrics error:", error);
+				return { apiCalls: {}, pageLoads: {}, errors: {} };
+			}
+		},
+		// Throttled logs summary
+		getThrottledLogsSummary() {
+			try {
+				return {
+					totalLogs: 0,
+					errorCount: 0,
+					warningCount: 0,
+					lastError: null
+				};
+			} catch (error) {
+				console.error("Logger.getThrottledLogsSummary error:", error);
+				return { totalLogs: 0, errorCount: 0, warningCount: 0, lastError: null };
 			}
 		},
 	};

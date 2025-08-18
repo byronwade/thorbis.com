@@ -1,11 +1,16 @@
-export const metadata = {
-	title: "Financial Services Platform – Client Management, Compliance, Portfolio Tracking | Thorbis",
-	description: "Comprehensive financial services management with client relationship management, compliance tracking, and portfolio analysis tools.",
-	keywords: ["financial services software", "wealth management platform", "financial advisor tools", "compliance management", "portfolio tracking"],
-	alternates: { canonical: "https://thorbis.com/financial-services-platform" },
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Financial Services Platform – Client Management, Compliance, Portfolio Tracking | Thorbis",
+		description: "Comprehensive financial services management with client relationship management, compliance tracking, and portfolio analysis tools.",
+		path: "/financial-services-platform",
+		keywords: ["financial services software", "wealth management platform", "financial advisor tools", "compliance management", "portfolio tracking"],
+	});
+}
 
 import { DollarSign, Shield, TrendingUp } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 export default function FinancialServicesPlatform() {
 	const features = [

@@ -4,37 +4,60 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, Globe, MessageSquare, Calendar, BarChart3, Settings, ArrowRight, Star, DollarSign, TrendingUp, Shield, Clock, Target, Award, Phone, Mail, Zap, Building, MapPin, Play } from "lucide-react";
+import { getDictionary, languages } from '@lib/i18n/dictionaries';
 
-export const metadata = {
-	title: "Google Business Alternative – Thorbis vs GBP | Thorbis",
-	description: "See why Thorbis is a modern alternative to Google Business Profile: AI analytics, lead generation, multi‑platform sync, and full customization.",
-	keywords: ["Google Business alternative", "Google Business vs Thorbis", "GBP alternative", "lead generation", "business analytics"],
-	alternates: { canonical: "https://thorbis.com/google-business-alternative" },
-	openGraph: {
-		title: "Google Business Alternative – Thorbis vs GBP",
-		description: "Modern alternative to Google Business Profile with AI analytics, lead generation, multi‑platform sync, and full customization.",
-		type: "website",
-		url: "https://thorbis.com/google-business-alternative",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Google Business Alternative")}&description=${encodeURIComponent("Thorbis vs GBP – AI analytics, lead generation, multi‑platform sync, customization.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis vs Google Business",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Google Business Alternative – Thorbis vs GBP",
-		description: "Modern alternative to Google Business Profile with AI analytics, lead generation, multi‑platform sync, and full customization.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Google Business Alternative")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate internationalized metadata
+export async function generateMetadata({ params, searchParams }) {
+	const locale = 'en'; // Default to English for now
+	const dict = await getDictionary(locale);
+	
+	// Get landing pages translations with fallbacks
+	const landingTranslations = dict.landingPages?.alternatives?.google || {};
+	const commonTranslations = dict.landingPages?.common || {};
+	
+	const title = landingTranslations.hero?.title || "Google Business Alternative – Thorbis vs GBP";
+	const description = landingTranslations.hero?.subtitle || "See why Thorbis is a modern alternative to Google Business Profile: AI analytics, lead generation, multi‑platform sync, and full customization.";
+	
+	// Generate alternate language URLs
+	const alternateLanguages = {};
+	Object.keys(languages).forEach(lang => {
+		alternateLanguages[`${lang}-${lang.toUpperCase()}`] = `https://thorbis.com/${lang}/google-business-alternative`;
+	});
+
+	return {
+		title: `${title} | Thorbis`,
+		description: description,
+		keywords: ["Google Business alternative", "Google Business vs Thorbis", "GBP alternative", "lead generation", "business analytics"],
+		alternates: { 
+			canonical: `https://thorbis.com/${locale}/google-business-alternative`,
+			languages: alternateLanguages,
+		},
+		openGraph: {
+			title: title,
+			description: description,
+			type: "website",
+			url: `https://thorbis.com/${locale}/google-business-alternative`,
+			siteName: "Thorbis",
+			images: [
+				{
+					url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`,
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+			locale: `${locale}_${locale.toUpperCase()}`,
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: title,
+			description: description,
+			images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent(title)}`],
+			creator: "@thorbis",
+			site: "@thorbis",
+		},
+	};
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {

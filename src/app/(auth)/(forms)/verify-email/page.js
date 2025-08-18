@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -293,18 +293,7 @@ export default function VerifyEmailPage() {
 				<h1 className="text-2xl font-bold">Email Verification</h1>
 			</div>
 
-			<Suspense
-				fallback={
-					<div className="flex items-center justify-center min-h-[400px]">
-						<div className="flex flex-col items-center space-y-4">
-							<Loader2 className="w-8 h-8 animate-spin" />
-							<p className="text-sm text-muted-foreground">Loading...</p>
-						</div>
-					</div>
-				}
-			>
-				<VerifyEmailContent />
-			</Suspense>
+			<VerifyEmailContent />
 		</div>
 	);
 }

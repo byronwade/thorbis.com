@@ -5,6 +5,13 @@ alwaysApply: false
 ---
 # UI Components and Styling
 
+## 🚨 CRITICAL: ALWAYS EDIT EXISTING COMPONENTS FIRST
+**Before creating any UI component:**
+1. Search for existing similar components in `src/components/ui/` and `src/components/shared/`
+2. Check if existing components can be extended or modified
+3. Only create new components when absolutely no existing component can serve the purpose
+4. Use composition and props to customize existing components instead of duplicating
+
 ## UI Framework
 - Use Shadcn UI and Tailwind for components and styling
 - Implement responsive design with Tailwind CSS using a mobile-first approach

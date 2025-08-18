@@ -50,8 +50,8 @@ export default function AccountingModule() {
 			{/* Page Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h1 className="text-3xl font-bold text-gray-900 dark:text-white">Accounting</h1>
-					<p className="text-gray-600 dark:text-gray-400 mt-1">Manage your finances, track expenses, and monitor cash flow</p>
+					<h1 className="text-3xl font-bold text-foreground">Accounting</h1>
+					<p className="text-muted-foreground mt-1">Manage your finances, track expenses, and monitor cash flow</p>
 				</div>
 				<div className="flex space-x-2">
 					<Button variant="outline" size="sm">
@@ -125,10 +125,10 @@ export default function AccountingModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Accounts Payable</CardTitle>
-						<FileText className="h-4 w-4 text-gray-600" />
+						<FileText className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-gray-600">{formatCurrency(accountingData.overview.accountsPayable)}</div>
+						<div className="text-2xl font-bold text-muted-foreground">{formatCurrency(accountingData.overview.accountsPayable)}</div>
 						<p className="text-xs text-muted-foreground">2 bills due soon</p>
 					</CardContent>
 				</Card>
@@ -181,10 +181,10 @@ export default function AccountingModule() {
 								<CardDescription>Monthly income vs expenses</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+								<div className="h-64 flex items-center justify-center bg-muted rounded-lg">
 									<div className="text-center">
-										<PieChart className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-										<p className="text-gray-500">Cash flow chart coming soon</p>
+										<PieChart className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+										<p className="text-muted-foreground">Cash flow chart coming soon</p>
 									</div>
 								</div>
 							</CardContent>
@@ -201,7 +201,7 @@ export default function AccountingModule() {
 						<CardContent>
 							<div className="space-y-3">
 								{accountingData.recentTransactions.map((transaction) => (
-									<div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+									<div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted transition-colors">
 										<div className="flex items-center space-x-4">
 											<div className={cn("h-10 w-10 rounded-full flex items-center justify-center", transaction.type === "income" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600")}>
 												{transaction.type === "income" ? <TrendingUp className="h-5 w-5" /> : <BarChart3 className="h-5 w-5" />}

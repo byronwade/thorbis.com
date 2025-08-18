@@ -1,0 +1,283 @@
+---
+description: File organization and naming standards to maintain clean project structure
+alwaysApply: true
+---
+
+# File Organization & Naming Standards
+
+## 🎯 ZERO TOLERANCE FOR DISORGANIZATION
+
+**ALL FILES MUST FOLLOW STRICT NAMING AND ORGANIZATION RULES**
+
+### Core Principles
+
+1. **EDIT EXISTING FILES FIRST**: Always prefer modifying existing files over creating new ones
+2. **One File, One Purpose**: No duplicate files with different extensions
+3. **No Backup Files**: Use git for version control, not backup file copies
+4. **No Example Files**: Remove development examples before production
+5. **Consistent Extensions**: Use appropriate file extensions consistently
+6. **Clean Directory Structure**: Organize files logically by feature/purpose
+
+## 🚨 CRITICAL: EDIT BEFORE CREATE
+
+**ALWAYS look for existing files to modify before creating new ones**
+
+### File Modification Priority (STRICTLY ENFORCED)
+1. **First**: Search for existing files that serve similar purpose
+2. **Second**: Extend or modify existing functionality in place
+3. **Third**: Only create new files when absolutely no existing file can be adapted
+4. **Never**: Create duplicate files or similar functionality elsewhere
+
+## 📁 Required File Extension Standards
+
+### React Components
+```
+✅ CORRECT:
+- ComponentName.tsx (for TypeScript React components)
+- ComponentName.jsx (for JavaScript React components, only if no TS)
+
+❌ WRONG:
+- ComponentName.js (should be .tsx/.jsx for React)
+- ComponentName.backup.tsx
+- ComponentName-copy.tsx
+- ComponentName-example.tsx
+```
+
+### Pages (Next.js App Router)
+```
+✅ CORRECT:
+- page.tsx (TypeScript page)
+- page.js (JavaScript page, only if no TS needed)
+- layout.tsx (TypeScript layout)
+- loading.tsx (TypeScript loading)
+- error.tsx (TypeScript error)
+
+❌ WRONG:
+- page-example.js
+- page-demo.js
+- page-backup.js
+- page-i18n-example.js
+```
+
+### API Routes
+```
+✅ CORRECT:
+- route.ts (TypeScript API route)
+- route.js (JavaScript API route, only if no TS needed)
+
+❌ WRONG:
+- route-example.js
+- route-backup.ts
+```
+
+### Utilities & Libraries
+```
+✅ CORRECT:
+- utility-name.ts (TypeScript utilities)
+- utility-name.js (JavaScript utilities, only if no TS needed)
+
+❌ WRONG:
+- utility-name-backup.ts
+- utility-name-example.js
+```
+
+## 🚨 Forbidden File Patterns
+
+### NEVER Create Files With These Patterns:
+- `*-backup.*`
+- `*-copy.*` 
+- `*-example.*`
+- `*-demo.*`
+- `*-test.*` (unless actual tests in `/tests` directory)
+- `*.backup.*`
+- `*-old.*`
+
+### NEVER Have Duplicate Extensions:
+- `component.js` AND `component.tsx`
+- `component.ts` AND `component.js`
+- `page.js` AND `page.tsx`
+
+## 📂 Directory Organization Standards
+
+### Component Structure (STRICTLY ENFORCED)
+```
+src/components/
+├── ui/                    # Reusable UI components (.tsx)
+├── shared/               # Shared business components (.tsx)
+├── dashboard/           # Dashboard-specific components
+│   ├── business/        # Business dashboard components
+│   │   ├── profile/     # Business profile components
+│   │   ├── sections/    # Dashboard section components
+│   │   └── integrations/ # Integration components
+│   ├── user/           # User dashboard components  
+│   └── admin/          # Admin dashboard components
+├── site/               # Public site components
+├── layout/             # Layout components
+└── business/           # Business-specific components
+```
+
+### ⛔ FORBIDDEN Component Locations
+**NEVER place components in these locations:**
+- `src/app/` (except page.js, layout.js, loading.js, error.js, route.js)
+- `src/app/(auth)/dashboard/*/components/` 
+- `src/app/(landing-pages)/*/components/`
+- Any subdirectory under `src/app/` that isn't a standard Next.js file
+
+### Page Structure
+```
+src/app/
+├── (auth)/             # Protected routes
+├── (landing-pages)/    # Marketing pages
+├── api/               # API routes (.ts)
+└── globals.css        # Global styles
+```
+
+### Utility Structure
+```
+src/lib/
+├── utils/             # General utilities (.ts)
+├── hooks/             # Custom React hooks (.ts)
+├── supabase/         # Supabase integration (.ts)
+└── auth/             # Authentication utilities (.ts)
+```
+
+## 🧹 Required Cleanup Actions
+
+### Immediate Actions Required:
+1. **Remove Duplicate Files**: Keep only the most recent/complete version
+2. **Remove Example Files**: Delete all *-example.*, *-demo.*, *-backup.* files  
+3. **Standardize Extensions**: Convert .js React components to .tsx
+4. **Clean Example Pages**: Remove demo pages that serve no production purpose
+
+### File Extension Migration Rules:
+1. **React Components**: `.js` → `.tsx` (with proper TypeScript types)
+2. **Pages with JSX**: `.js` → `.tsx` 
+3. **API Routes**: `.js` → `.ts` (unless JSX needed)
+4. **Utilities**: `.js` → `.ts`
+
+### Duplicate Resolution Priority:
+1. **Keep**: `.tsx` over `.js`
+2. **Keep**: More recent file (check git history)
+3. **Keep**: File with more complete implementation
+4. **Delete**: Backup, example, demo, or copy files
+
+### Module Consolidation Rules:
+1. **Pro Versions**: Consolidate advanced features into main modules as sub-pages
+2. **Standalone Modules**: Move to appropriate parent categories based on functionality
+3. **Empty Directories**: Remove after consolidation is complete
+
+## 🔧 Implementation Checklist
+
+### For Every New File:
+- [ ] Uses appropriate file extension (.tsx for React, .ts for utilities)
+- [ ] Follows naming convention (kebab-case for files, PascalCase for components)
+- [ ] Placed in correct directory based on purpose
+- [ ] No duplicate versions exist
+- [ ] Not an example/demo/backup file
+- [ ] Components are in `src/components/` directory ONLY
+
+### For Every Code Review:
+- [ ] Check for duplicate file extensions
+- [ ] Verify proper file organization
+- [ ] Ensure no backup/example files added
+- [ ] Confirm TypeScript usage where appropriate
+- [ ] **CRITICAL**: Verify no components in `src/app/` directories
+
+### Component Placement Validation:
+- [ ] React components (.tsx/.jsx) MUST be in `src/components/` 
+- [ ] Dashboard components MUST be in `src/components/dashboard/`
+- [ ] Shared components MUST be in `src/components/shared/`
+- [ ] NO components allowed in `src/app/` except standard Next.js files
+
+### Automated Checks:
+- [ ] Pre-commit hook to prevent duplicate extensions
+- [ ] Lint rules to enforce file naming
+- [ ] CI check for forbidden file patterns
+- [ ] **NEW**: Component location validation script
+
+## 🚨 Critical Cleanup Targets
+
+### Immediate Cleanup Required:
+```
+# Duplicate Extensions (Keep .tsx, remove .js):
+src/components/dashboard/localhub/sections/local-hub-business-management-section.js ❌
+src/components/dashboard/localhub/sections/local-hub-growth-analytics-section.js ❌  
+src/components/dashboard/localhub/sections/local-hub-performance-insights-section.js ❌
+src/components/dashboard/user/sections/system-updates-section.js ❌
+src/components/dashboard/user/sections/stats-overview-section.js ❌
+src/components/dashboard/user/sections/recent-activity-section.js ❌
+src/components/dashboard/user/sections/quick-actions-section.js ❌
+
+# Example/Demo Files (Delete):
+src/app/(auth)/(forms)/login/page-i18n-example.js ❌
+src/app/(auth)/(forms)/login-demo/page.js ❌
+src/features/auth/components/LoginForm/login-i18n-example.js ❌
+```
+
+## 💡 Best Practices
+
+### DO:
+- Use descriptive, clear file names
+- Follow consistent naming conventions
+- Organize files by feature/domain
+- Use TypeScript for new files
+- Keep directory structure shallow but logical
+
+### DON'T:
+- Create backup files (use git)
+- Leave example/demo files in production
+- Mix file extensions for same content type
+- Create deeply nested directory structures
+- Use abbreviations in file names
+
+### File Naming Examples:
+```
+✅ GOOD:
+- user-profile-section.tsx
+- business-dashboard-page.tsx
+- auth-middleware.ts
+- user-settings-form.tsx
+
+❌ BAD:
+- UserProfSection.js
+- biz-dash-pg.tsx
+- authMW.ts
+- settings_form_backup.tsx
+```
+
+## 🔍 Component Organization Detection & Enforcement
+
+### Detection Commands (Run Regularly)
+```bash
+# Find misplaced React components in app directory
+find src/app -name "*.tsx" -o -name "*.jsx" | grep -v "page\|layout\|loading\|error\|not-found\|route\|middleware"
+
+# Find components directories in wrong locations
+find src/app -type d -name "components"
+
+# Validate component imports are using correct paths
+grep -r "from.*app.*components" src/ || echo "No invalid imports found"
+
+# Check for components not in components directory
+find src -name "*.tsx" -o -name "*.jsx" | grep -v "src/components" | grep -v "page\|layout\|loading\|error\|not-found\|route\|middleware"
+```
+
+### Enforcement Rules
+1. **Automatic Detection**: Run component validation in CI/CD
+2. **Pre-commit Hooks**: Block commits with misplaced components  
+3. **Code Review Gates**: Require component location validation
+4. **Regular Audits**: Monthly organizational health checks
+
+### Quick Fix Commands
+```bash
+# Move misplaced dashboard components
+find src/app -path "*/dashboard/*/components/*.tsx" -exec mv {} src/components/dashboard/ \;
+
+# Remove empty component directories
+find src/app -type d -name "components" -empty -delete
+
+# Update imports after moving components
+grep -r "from.*app.*components" src/ --include="*.js" --include="*.tsx" --include="*.jsx" | cut -d: -f1 | xargs sed -i 's/from ".*app.*components/from "@components/g'
+```
+
+**Remember: A clean, organized codebase is easier to maintain, debug, and scale. Components belong in `src/components/` - ALWAYS.**

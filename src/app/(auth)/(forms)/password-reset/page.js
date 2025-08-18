@@ -1,35 +1,15 @@
 import { PasswordReset } from "@features/auth";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Reset Password - Thorbis",
-	description: "Reset your Thorbis account password securely. Enter your email to receive password reset instructions.",
-	keywords: ["password reset", "forgot password", "account recovery", "security"],
-	openGraph: {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 		title: "Reset Password - Thorbis",
 		description: "Reset your Thorbis account password securely. Enter your email to receive password reset instructions.",
-		url: "https://thorbis.com/password-reset",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: "https://thorbis.com/og-password-reset.jpg",
-				width: 800,
-				height: 600,
-				alt: "Reset Password",
-			},
-		],
-		locale: "en_US",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Reset Password - Thorbis",
-		description: "Reset your Thorbis account password securely. Enter your email to receive password reset instructions.",
-		images: ["https://thorbis.com/twitter-password-reset.jpg"],
-	},
-	alternates: {
-		canonical: "https://thorbis.com/password-reset",
-	},
-};
+		path: "/password-reset",
+		keywords: ["password reset", "forgot password", "account recovery", "security"],
+	});
+}
 
 const jsonLdData = {
 	"@context": "http://schema.org",

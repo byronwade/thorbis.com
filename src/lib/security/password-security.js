@@ -112,15 +112,86 @@ export class PasswordSecurity {
 				return result;
 			} catch (fetchError) {
 				clearTimeout(timeoutId);
+				
+				// Enhanced fetch error handling
 				if (fetchError.name === "AbortError") {
 					logger.warn("Password breach check timed out");
 					return { isBreached: false, count: 0, error: "TIMEOUT" };
 				}
-				throw fetchError;
+				
+				// Handle empty object errors
+				if (!fetchError || (typeof fetchError === 'object' && Object.keys(fetchError).length === 0)) {
+					logger.warn("Password breach check failed with empty error object");
+					return { isBreached: false, count: 0, error: "EMPTY_FETCH_ERROR" };
+				}
+				
+				// Handle other fetch errors
+				const errorMessage = fetchError?.message || "Unknown fetch error";
+				const errorName = fetchError?.name || "FetchError";
+				
+				logger.warn("Password breach check fetch failed:", {
+					message: errorMessage,
+					name: errorName,
+					error: fetchError
+				});
+				
+				return { isBreached: false, count: 0, error: "FETCH_ERROR" };
 			}
 		} catch (error) {
-			logger.error("Password breach check failed:", error);
-			return { isBreached: false, count: 0, error: "CHECK_FAILED" };
+			// Enhanced error handling with better debugging
+			let errorMessage = "CHECK_FAILED";
+			let errorDetails = "Unknown error";
+			let errorStack = null;
+
+			// Enhanced error analysis
+			if (!error) {
+				errorMessage = "NULL_ERROR";
+				errorDetails = "Error object is null or undefined";
+			} else if (typeof error === 'object') {
+				if (Object.keys(error).length === 0) {
+					errorMessage = "EMPTY_OBJECT_ERROR";
+					errorDetails = "Empty error object caught - this indicates a silent failure";
+				} else {
+					// Analyze the error object
+					errorMessage = error.name || error.code || "OBJECT_ERROR";
+					errorDetails = error.message || error.toString() || "Object error without message";
+					errorStack = error.stack;
+					
+					// Log additional error properties for debugging
+					if (process.env.NODE_ENV === "development") {
+						console.error("🔍 Error object analysis:", {
+							keys: Object.keys(error),
+							constructor: error.constructor?.name,
+							prototype: Object.getPrototypeOf(error)?.constructor?.name,
+							hasMessage: 'message' in error,
+							hasName: 'name' in error,
+							hasStack: 'stack' in error,
+							hasCode: 'code' in error,
+						});
+					}
+				}
+			} else if (typeof error === 'string') {
+				errorMessage = "STRING_ERROR";
+				errorDetails = error;
+			} else {
+				errorMessage = "UNKNOWN_TYPE_ERROR";
+				errorDetails = `Error of type: ${typeof error}`;
+			}
+
+			// Enhanced logging with more context
+			logger.error("Password breach check failed:", { 
+				errorMessage, 
+				errorDetails, 
+				errorType: typeof error,
+				errorKeys: error && typeof error === 'object' ? Object.keys(error) : 'N/A',
+				errorStack: errorStack ? errorStack.substring(0, 200) + '...' : null,
+				timestamp: Date.now(),
+				environment: process.env.NODE_ENV,
+				userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server',
+			});
+
+			// Always return a consistent error response
+			return { isBreached: false, count: 0, error: errorMessage };
 		}
 	}
 
@@ -168,10 +239,20 @@ export class PasswordSecurity {
 				}
 			}
 		} catch (webCryptoError) {
+			// Enhanced error handling for Web Crypto API
+			const errorMessage = webCryptoError?.message || "Unknown Web Crypto error";
+			const errorName = webCryptoError?.name || "WebCryptoError";
+			
 			if (process.env.NODE_ENV === "development") {
-				console.warn("❌ Web Crypto API failed:", webCryptoError.message);
+				console.warn("❌ Web Crypto API failed:", errorMessage);
 			}
-			logger.warn("Web Crypto API failed:", webCryptoError.message);
+			logger.warn("Web Crypto API failed:", { 
+				message: errorMessage, 
+				name: errorName,
+				error: webCryptoError 
+			});
+			
+			// Don't re-throw - let it fall through to next method
 		}
 
 		// Method 2: Node.js crypto (server-side)
@@ -196,10 +277,20 @@ export class PasswordSecurity {
 				}
 			}
 		} catch (nodeCryptoError) {
+			// Enhanced error handling for Node.js crypto
+			const errorMessage = nodeCryptoError?.message || "Unknown Node.js crypto error";
+			const errorName = nodeCryptoError?.name || "NodeCryptoError";
+			
 			if (process.env.NODE_ENV === "development") {
-				console.warn("❌ Node.js crypto failed:", nodeCryptoError.message);
+				console.warn("❌ Node.js crypto failed:", errorMessage);
 			}
-			logger.warn("Node.js crypto failed:", nodeCryptoError.message);
+			logger.warn("Node.js crypto failed:", { 
+				message: errorMessage, 
+				name: errorName,
+				error: nodeCryptoError 
+			});
+			
+			// Don't re-throw - let it fall through to next method
 		}
 
 		// Method 3: Pure JavaScript SHA-1 implementation (universal fallback)
@@ -218,18 +309,39 @@ export class PasswordSecurity {
 				throw new Error("Pure JavaScript SHA-1 returned null");
 			}
 		} catch (jsError) {
+			// Enhanced error handling for pure JavaScript SHA-1
+			const errorMessage = jsError?.message || "Unknown pure JavaScript SHA-1 error";
+			const errorName = jsError?.name || "PureJSSHA1Error";
+			
 			if (process.env.NODE_ENV === "development") {
-				console.error("❌ Pure JavaScript SHA-1 failed:", jsError.message);
+				console.error("❌ Pure JavaScript SHA-1 failed:", errorMessage);
 			}
-			logger.error("Pure JavaScript SHA-1 failed:", jsError.message);
+			logger.error("Pure JavaScript SHA-1 failed:", { 
+				message: errorMessage, 
+				name: errorName,
+				error: jsError 
+			});
+			
+			// Don't re-throw - let it fall through to final error
 		}
 
-		// All methods failed
-		logger.error("All SHA-1 hash generation methods failed");
+		// All methods failed - throw a proper error instead of returning null
+		const error = new Error("All SHA-1 hash generation methods failed");
+		error.name = "HashGenerationError";
+		error.code = "ALL_METHODS_FAILED";
+		error.message = "All SHA-1 hash generation methods failed";
+		
+		logger.error("All SHA-1 hash generation methods failed", { 
+			error: error.message,
+			name: error.name,
+			code: error.code
+		});
+		
 		if (process.env.NODE_ENV === "development") {
 			console.error("💥 All SHA-1 hash generation methods failed");
 		}
-		return null;
+		
+		throw error; // Throw proper error instead of returning null
 	}
 
 	/**
@@ -239,10 +351,14 @@ export class PasswordSecurity {
 	 */
 	static sha1PureJS(str) {
 		if (!str || typeof str !== "string") {
+			const error = new Error("Invalid input - not a string");
+			error.name = "InvalidInputError";
+			error.code = "INVALID_INPUT";
+			
 			if (process.env.NODE_ENV === "development") {
 				console.error("❌ SHA-1 Pure JS: Invalid input - not a string");
 			}
-			return null;
+			throw error; // Throw proper error instead of returning null
 		}
 
 		try {
@@ -281,20 +397,29 @@ export class PasswordSecurity {
 					}
 					return bytes;
 				} catch (encodeError) {
+					const error = new Error(`UTF-8 encoding failed: ${encodeError.message || "Unknown error"}`);
+					error.name = "UTF8EncodingError";
+					error.code = "UTF8_ENCODING_FAILED";
+					error.originalError = encodeError;
+					
 					if (process.env.NODE_ENV === "development") {
-						console.error("❌ UTF-8 encoding failed:", encodeError.message);
+						console.error("❌ UTF-8 encoding failed:", encodeError.message || "Unknown error");
 					}
-					throw encodeError;
+					throw error;
 				}
 			};
 
 			const bytes = utf8Encode(str);
 
 			if (!bytes || !Array.isArray(bytes) || bytes.length === 0) {
+				const error = new Error("UTF-8 encoding returned invalid result");
+				error.name = "InvalidEncodingError";
+				error.code = "INVALID_ENCODING_RESULT";
+				
 				if (process.env.NODE_ENV === "development") {
 					console.error("❌ SHA-1 Pure JS: UTF-8 encoding returned invalid result");
 				}
-				return null;
+				throw error;
 			}
 
 			// SHA-1 algorithm implementation (RFC 3174)
@@ -329,10 +454,14 @@ export class PasswordSecurity {
 				for (let i = 0; i < 16; i++) {
 					const offset = chunk + i * 4;
 					if (offset + 3 >= bytes.length) {
+						const error = new Error("Invalid byte array bounds");
+						error.name = "BoundsError";
+						error.code = "INVALID_BYTE_BOUNDS";
+						
 						if (process.env.NODE_ENV === "development") {
 							console.error("❌ SHA-1 Pure JS: Invalid byte array bounds");
 						}
-						return null;
+						throw error;
 					}
 					w[i] = (bytes[offset] << 24) | (bytes[offset + 1] << 16) | (bytes[offset + 2] << 8) | bytes[offset + 3];
 				}
@@ -394,10 +523,16 @@ export class PasswordSecurity {
 
 			// Validate result format
 			if (!result || result.length !== 40 || !/^[0-9A-F]{40}$/.test(result)) {
+				const error = new Error(`Invalid hash result format: ${result?.substring(0, 10)}...`);
+				error.name = "InvalidHashError";
+				error.code = "INVALID_HASH_FORMAT";
+				error.hashLength = result?.length;
+				error.hashPreview = result?.substring(0, 10);
+				
 				if (process.env.NODE_ENV === "development") {
 					console.error("❌ SHA-1 Pure JS: Invalid hash result format", { result, length: result?.length });
 				}
-				return null;
+				throw error;
 			}
 
 			if (process.env.NODE_ENV === "development") {
@@ -406,11 +541,24 @@ export class PasswordSecurity {
 
 			return result;
 		} catch (error) {
-			if (process.env.NODE_ENV === "development") {
-				console.error("❌ Pure JavaScript SHA-1 implementation failed:", error);
+			// Ensure we always throw a proper error object
+			if (!error || typeof error !== 'object') {
+				const newError = new Error("Pure JavaScript SHA-1 implementation failed");
+				newError.name = "SHA1ImplementationError";
+				newError.code = "IMPLEMENTATION_FAILED";
+				newError.originalError = error;
+				throw newError;
 			}
-			logger.error("Pure JavaScript SHA-1 implementation failed:", error);
-			return null;
+			
+			// Add additional context to existing error
+			if (!error.name) error.name = "SHA1ImplementationError";
+			if (!error.code) error.code = "IMPLEMENTATION_FAILED";
+			
+			if (process.env.NODE_ENV === "development") {
+				console.error("❌ Pure JavaScript SHA-1 implementation failed:", error.message || "Unknown error");
+			}
+			logger.error("Pure JavaScript SHA-1 implementation failed:", error.message || "Unknown error");
+			throw error; // Re-throw the enhanced error
 		}
 	}
 
@@ -419,6 +567,31 @@ export class PasswordSecurity {
 	 */
 	static rotateLeft(n, b) {
 		return ((n << b) | (n >>> (32 - b))) & 0xffffffff;
+	}
+
+	/**
+	 * Test the password breach check system
+	 * Used for development testing and debugging
+	 */
+	static async testPasswordBreachCheck() {
+		try {
+			console.log("🧪 Testing password breach check system...");
+			
+			// Test with a known breached password
+			const testPassword = "password123";
+			const result = await this.checkBreachedPassword(testPassword);
+			
+			console.log("✅ Password breach check test completed:", {
+				isBreached: result.isBreached,
+				count: result.count,
+				error: result.error
+			});
+			
+			return result;
+		} catch (error) {
+			console.error("❌ Password breach check test failed:", error);
+			return { isBreached: false, count: 0, error: error.message };
+		}
 	}
 
 	/**
@@ -474,6 +647,80 @@ export class PasswordSecurity {
 			}
 			return false;
 		}
+	}
+
+	/**
+	 * Comprehensive test function for debugging password breach check issues
+	 * Tests all components of the password security system
+	 */
+	static async debugPasswordBreachCheck() {
+		console.group("🔍 Password Breach Check Debug Test");
+		
+		try {
+			const testPassword = "test123";
+			console.log("Testing with password:", testPassword);
+			
+			// Test 1: Environment detection
+			console.log("Environment check:", {
+				isWindow: typeof window !== "undefined",
+				hasCrypto: typeof crypto !== "undefined",
+				hasCryptoSubtle: typeof crypto !== "undefined" && typeof crypto.subtle !== "undefined",
+				hasRequire: typeof require !== "undefined",
+				nodeEnv: process.env.NODE_ENV,
+			});
+			
+			// Test 2: SHA-1 hash generation
+			console.log("Testing SHA-1 hash generation...");
+			try {
+				const hash = await this.generateSHA1Hash(testPassword);
+				console.log("✅ SHA-1 hash generated:", hash ? hash.substring(0, 10) + "..." : "null");
+			} catch (hashError) {
+				console.error("❌ SHA-1 hash generation failed:", {
+					error: hashError.message,
+					name: hashError.name,
+					code: hashError.code,
+					stack: hashError.stack?.substring(0, 200),
+				});
+			}
+			
+			// Test 3: Full breach check
+			console.log("Testing full breach check...");
+			try {
+				const result = await this.checkBreachedPassword(testPassword);
+				console.log("✅ Breach check completed:", result);
+			} catch (breachError) {
+				console.error("❌ Breach check failed:", {
+					error: breachError.message,
+					name: breachError.name,
+					code: breachError.code,
+					stack: breachError.stack?.substring(0, 200),
+				});
+			}
+			
+			// Test 4: Pure JavaScript SHA-1
+			console.log("Testing pure JavaScript SHA-1...");
+			try {
+				const pureHash = this.sha1PureJS(testPassword);
+				console.log("✅ Pure JS SHA-1:", pureHash ? pureHash.substring(0, 10) + "..." : "null");
+			} catch (pureError) {
+				console.error("❌ Pure JS SHA-1 failed:", {
+					error: pureError.message,
+					name: pureError.name,
+					code: pureError.code,
+					stack: pureError.stack?.substring(0, 200),
+				});
+			}
+			
+		} catch (error) {
+			console.error("❌ Debug test failed:", {
+				error: error.message,
+				name: error.name,
+				code: error.code,
+				stack: error.stack?.substring(0, 200),
+			});
+		}
+		
+		console.groupEnd();
 	}
 
 	/**

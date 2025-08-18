@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Law Firm Management Software – Case Management, Time Tracking, Billing | Thorbis",
-	description: "Complete law firm management software with case tracking, time & billing, client communication, and document management for legal practices.",
-	keywords: ["law firm management software", "legal case management", "attorney time tracking", "legal billing software", "law practice management"],
-	alternates: { canonical: "https://thorbis.com/law-firm-management-software" },
-	openGraph: {
-		title: "Law Firm Management Software – Complete Legal Practice Management",
-		description: "Case management, time tracking, billing, and client communication for law firms.",
-		type: "website",
-		url: "https://thorbis.com/law-firm-management-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Law Firm Management Software")}&description=${encodeURIComponent("Case management, time tracking, billing, and client communication.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Law Firm Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Law Firm Management Software – Complete Legal Practice Management",
-		description: "Case management, time tracking, billing, and client communication for law firms.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Law Firm Management Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Law Firm Management Software – Case Management, Time Tracking, Billing | Thorbis",
+		description: "Complete law firm management software with case tracking, time & billing, client communication, and document management for legal practices.",
+		path: "/law-firm-management-software",
+		keywords: ["law firm management software", "legal case management", "attorney time tracking", "legal billing software", "law practice management"],
+	});
+}
 
 import { Star, Scale, Clock, FileText } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -105,7 +86,7 @@ export default function LawFirmManagementSoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-amber-600 px-6 py-3 text-white font-semibold hover:bg-amber-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -136,7 +117,7 @@ export default function LawFirmManagementSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Transform Your Legal Practice</h2>
 				<p className="text-lg mb-6 opacity-90">Join hundreds of law firms using Thorbis to improve efficiency and client service.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-amber-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

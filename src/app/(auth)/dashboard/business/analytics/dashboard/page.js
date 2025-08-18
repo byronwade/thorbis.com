@@ -115,7 +115,7 @@ export default function AnalyticsDashboard() {
 			case "down":
 				return <TrendingDown className="w-4 h-4 text-red-600" />;
 			default:
-				return <Minus className="w-4 h-4 text-gray-600" />;
+				return <Minus className="w-4 h-4 text-muted-foreground" />;
 		}
 	};
 
@@ -126,7 +126,7 @@ export default function AnalyticsDashboard() {
 			case "down":
 				return "text-red-600";
 			default:
-				return "text-gray-600";
+				return "text-muted-foreground";
 		}
 	};
 
@@ -391,7 +391,7 @@ export default function AnalyticsDashboard() {
 										<div key={area.area} className="space-y-2">
 											<div className="flex items-center justify-between">
 												<div className="flex items-center gap-2">
-													<MapPin className="w-4 h-4 text-gray-500" />
+													<MapPin className="w-4 h-4 text-muted-foreground" />
 													<span className="font-medium">{area.area}</span>
 												</div>
 												<div className="text-right">
@@ -474,7 +474,7 @@ export default function AnalyticsDashboard() {
 												<div className="flex items-center gap-2">
 													<div className="flex items-center gap-1">
 														{Array.from({ length: 5 }, (_, i) => (
-															<Star key={i} className={`w-3 h-3 ${i < Math.floor(week.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`} />
+															<Star key={i} className={`w-3 h-3 ${i < Math.floor(week.rating) ? "text-yellow-400 fill-current" : "text-muted-foreground/30"}`} />
 														))}
 													</div>
 													<span className="font-medium">{week.rating}</span>

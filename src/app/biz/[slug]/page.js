@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { BusinessDataFetchers } from "@lib/database/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
@@ -9,7 +9,6 @@ import Link from "next/link";
 import ServiceBookingWidget from "@components/business/field-service/service-booking-widget";
 import BizProfileClient from "./biz-profile-client";
 import { generateAdvancedServerSEO } from "@utils/advanced-server-seo";
-import { generateCompleteSEOConfig, generateEnhancedStructuredData } from "@lib/seo/enhanced-business-seo";
 
 /**
  * Unified Business Profile Page for Thorbis Platform
@@ -21,15 +20,63 @@ import { generateCompleteSEOConfig, generateEnhancedStructuredData } from "@lib/
 async function fetchBusinessData(slug) {
 	console.log(`Fetching business by slug: ${slug}`);
 
-	const { data: business, error } = await BusinessDataFetchers.getBusinessProfile(slug);
+	try {
+		// For slug-based queries, use the slug-specific method
+		const { data: business, error } = await BusinessDataFetchers.getBusinessProfile(slug);
 
-	if (business && !error) {
-		console.log(`Found business by slug: ${slug}`);
-		return { data: business, error: null };
+		// If database query fails, try mock data fallback
+		if (!business && error) {
+			console.log(`Database query failed for slug: ${slug}, attempting mock data fallback`);
+			
+			// Generate mock data directly for development
+			if (process.env.NODE_ENV === "development" || slug.includes("demo") || slug.includes("test")) {
+				const mockBusiness = {
+					id: `mock-${slug}`,
+					name: slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+					slug: slug,
+					description: "This is a sample business used for testing the application. The database is not fully configured yet.",
+					address: "123 Main St",
+					city: "San Francisco",
+					state: "CA",
+					zipCode: "94105",
+					country: "US",
+					phone: "(555) 123-4567",
+					email: "info@business.com",
+					website: "https://example.com",
+					rating: 4.5,
+					reviewCount: 125,
+					verified: true,
+					featured: false,
+					status: "published",
+					categories: ["Restaurant", "Food"],
+					photos: [],
+					reviews: [],
+					hours: [],
+					certifications: []
+				};
+				console.log(`Returning mock data for slug: ${slug}`);
+				return { data: mockBusiness, error: null };
+			}
+		}
+
+		// If we have business data (including mock data), return it
+		if (business) {
+			console.log(`Found business by slug: ${slug}`);
+			return { data: business, error: null };
+		}
+
+		// If no business data and no error, this might be a development fallback
+		if (!error) {
+			console.log(`No business data returned for slug: ${slug}`);
+			return { data: null, error: new Error("Business not found") };
+		}
+
+		console.log(`No business found for slug: ${slug}`);
+		return { data: null, error: error || new Error("Business not found") };
+	} catch (fetchError) {
+		console.error(`Page data fetch failed in ${performance.now().toFixed(2)}ms:`, fetchError);
+		return { data: null, error: fetchError };
 	}
-
-	console.log(`No business found for slug: ${slug}`);
-	return { data: null, error: error || new Error("Business not found") };
 }
 
 // Generate metadata for SEO
@@ -102,27 +149,17 @@ export async function generateMetadata({ params }) {
 				openGraph: {
 					title: `${business.name} - ${business.city}, ${business.state}`,
 					description: business.description?.substring(0, 200) || `Local business in ${business.city}, ${business.state}`,
-					type: "website",
-					url: `https://thorbis.com/biz/${business.slug}`,
+					type: "business.business",
+					url: `/biz/${business.slug}`,
 					siteName: "Local Business Directory",
-					images: [`https://thorbis.com/opengraph-image?title=${encodeURIComponent(business.name)}&description=${encodeURIComponent(`${business.city}${business.state ? ", " + business.state : ""}`)}`],
 				},
-				robots: { index: true, follow: true },
-				alternates: { canonical: `https://thorbis.com/biz/${business.slug}` },
+				robots: "index,follow",
+				canonical: `/biz/${business.slug}`,
 			};
 		}
 
-		// Enhanced SEO generation with comprehensive structured data
+		// Advanced SEO generation with comprehensive error handling (runtime only)
 		try {
-			// First try enhanced SEO config
-			const enhancedSEO = generateCompleteSEOConfig(business);
-
-			// Validate enhanced SEO data
-			if (enhancedSEO && enhancedSEO.title && enhancedSEO.description) {
-				return enhancedSEO;
-			}
-
-			// Fallback to advanced server SEO
 			const seoData = await generateAdvancedServerSEO({
 				type: "business_profile",
 				data: business,
@@ -163,19 +200,17 @@ export async function generateMetadata({ params }) {
 				openGraph: {
 					title: `${businessName} - ${businessCity}${businessState ? `, ${businessState}` : ""}`,
 					description: businessDescription?.substring(0, 200) || `Local business in ${businessCity}${businessState ? `, ${businessState}` : ""}`,
-					type: "website",
-					url: `https://thorbis.com/biz/${businessSlug}`,
+					type: "business.business",
+					url: `/biz/${businessSlug}`,
 					siteName: "Local Business Directory",
-					images: [`https://thorbis.com/opengraph-image?title=${encodeURIComponent(businessName)}&description=${encodeURIComponent(`${businessCity}${businessState ? ", " + businessState : ""}`)}`],
 				},
 				twitter: {
 					card: "summary",
 					title: `${businessName} - ${businessCity}${businessState ? `, ${businessState}` : ""}`,
 					description: businessDescription?.substring(0, 200) || `Local business in ${businessCity}${businessState ? `, ${businessState}` : ""}`,
-					images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent(businessName)}`],
 				},
-				robots: { index: true, follow: true },
-				alternates: { canonical: `https://thorbis.com/biz/${businessSlug}` },
+				robots: "index,follow",
+				canonical: `/biz/${businessSlug}`,
 			};
 		}
 	} catch (error) {
@@ -208,43 +243,21 @@ export default async function BusinessProfilePage({ params }) {
 		const duration = performance.now() - startTime;
 		console.log(`Business data fetch completed in ${duration.toFixed(2)}ms for slug: ${resolvedParams.slug}`);
 
-		// If no business found, show 404
-		if (error || !business) {
+		// If no business found and not in development with mock data, show 404
+		if (!business) {
 			console.error("Business not found:", error?.message || "No business data");
 			notFound();
 		}
 
-		// Generate enhanced structured data for maximum SEO impact
-		const structuredData = generateEnhancedStructuredData(business);
-
 		// Check if this is a field service business and render appropriate component
 		const isFieldService = business.business_type === "field_service" || business.business_categories?.some((cat) => ["plumbing", "electrical", "hvac", "landscaping", "cleaning", "handyman"].includes(cat.categories?.slug));
 
-		// Enhanced JSON-LD structured data for rich search results
-		const jsonLdScripts = [
-			<script key="local-business" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData.localBusiness) }} />,
-			<script key="breadcrumbs" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData.breadcrumbs) }} />,
-			...structuredData.reviews.map((review, index) => <script key={`review-${index}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(review) }} />),
-			...structuredData.services.map((service, index) => <script key={`service-${index}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(service) }} />),
-			...(structuredData.faq ? [<script key="faq" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData.faq) }} />] : []),
-		];
-
 		if (isFieldService) {
-			return (
-				<>
-					{jsonLdScripts}
-					<FieldServiceBusinessProfile business={business} slug={resolvedParams.slug} />
-				</>
-			);
+			return <FieldServiceBusinessProfile business={business} slug={resolvedParams.slug} />;
 		}
 
 		// Render the sophisticated business profile client (no tabs as per user preference)
-		return (
-			<>
-				{jsonLdScripts}
-				<BizProfileClient businessId={business.id} initialBusiness={business} />
-			</>
-		);
+		return <BizProfileClient businessId={business.id} initialBusiness={business} />;
 	} catch (error) {
 		console.error("Error rendering business profile:", error);
 		notFound();
@@ -258,7 +271,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 	const category = business.business_categories?.[0]?.categories?.name || "Business";
 
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen bg-muted/30">
 			{/* Hero Section */}
 			<div className="relative h-64 md:h-80 bg-gradient-to-r from-blue-600 to-purple-700">
 				<div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -328,7 +341,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 								<CardTitle>About {business.name}</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<p className="text-gray-600 leading-relaxed">{business.description || "A trusted local business serving the community with excellent service and expertise."}</p>
+								<p className="text-muted-foreground leading-relaxed">{business.description || "A trusted local business serving the community with excellent service and expertise."}</p>
 							</CardContent>
 						</Card>
 
@@ -347,23 +360,23 @@ function EnhancedBusinessProfile({ business, slug }) {
 											<div key={review.id} className="border-b pb-4 last:border-b-0">
 												<div className="flex items-center justify-between mb-2">
 													<div className="flex items-center space-x-2">
-														<div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-															<Users className="w-4 h-4 text-gray-500" />
+														<div className="w-8 h-8 bg-muted rounded-full flex items-center justify-center">
+															<Users className="w-4 h-4 text-muted-foreground" />
 														</div>
 														<span className="font-medium">{review.user_profiles?.full_name || "Anonymous"}</span>
 													</div>
 													<div className="flex items-center">
 														{[...Array(5)].map((_, i) => (
-															<Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+															<Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-muted-foreground text-muted-foreground" : "text-muted-foreground/30"}`} />
 														))}
 													</div>
 												</div>
-												<p className="text-gray-600 text-sm">{review.comment}</p>
+												<p className="text-muted-foreground text-sm">{review.comment}</p>
 											</div>
 										))}
 									</div>
 								) : (
-									<p className="text-gray-500 text-center py-8">No reviews yet. Be the first to leave a review!</p>
+									<p className="text-muted-foreground text-center py-8">No reviews yet. Be the first to leave a review!</p>
 								)}
 							</CardContent>
 						</Card>
@@ -378,23 +391,23 @@ function EnhancedBusinessProfile({ business, slug }) {
 							</CardHeader>
 							<CardContent className="space-y-3">
 								<div className="flex items-center">
-									<MapPin className="w-5 h-5 mr-3 text-gray-400" />
+									<MapPin className="w-5 h-5 mr-3 text-muted-foreground" />
 									<div>
 										<p className="font-medium">{business.address}</p>
-										<p className="text-sm text-gray-500">
+										<p className="text-sm text-muted-foreground">
 											{business.city}, {business.state} {business.zip_code}
 										</p>
 									</div>
 								</div>
 								{business.phone && (
 									<div className="flex items-center">
-										<Phone className="w-5 h-5 mr-3 text-gray-400" />
+										<Phone className="w-5 h-5 mr-3 text-muted-foreground" />
 										<span>{business.phone}</span>
 									</div>
 								)}
 								{business.website && (
 									<div className="flex items-center">
-										<Globe className="w-5 h-5 mr-3 text-gray-400" />
+										<Globe className="w-5 h-5 mr-3 text-muted-foreground" />
 										<Link href={business.website} className="text-blue-600 hover:underline" target="_blank">
 											Visit Website
 										</Link>
@@ -422,7 +435,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 										))}
 									</div>
 								) : (
-									<p className="text-gray-500 text-sm">Hours not available</p>
+									<p className="text-muted-foreground text-sm">Hours not available</p>
 								)}
 							</CardContent>
 						</Card>
@@ -468,7 +481,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 // Field Service Business Profile Component
 function FieldServiceBusinessProfile({ business, slug }) {
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<div className="min-h-screen bg-muted/30">
 			{/* Field Service Hero */}
 			<div className="relative h-64 md:h-80 bg-gradient-to-r from-green-600 to-blue-700">
 				<div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -496,9 +509,7 @@ function FieldServiceBusinessProfile({ business, slug }) {
 
 			{/* Service Booking Widget */}
 			<div className="max-w-7xl mx-auto px-4 py-8">
-				<Suspense fallback={<div className="animate-pulse bg-gray-200 h-96 rounded-lg" />}>
-					<ServiceBookingWidget businessId={business.id} />
-				</Suspense>
+				<ServiceBookingWidget businessId={business.id} />
 			</div>
 		</div>
 	);

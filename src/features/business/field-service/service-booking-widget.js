@@ -270,7 +270,7 @@ export default function ServiceBookingWidget({
 
   const renderConfirmation = () => (
     <div className="text-center space-y-4">
-      <CheckCircle className="w-16 h-16 text-green-500 mx-auto" />
+      <CheckCircle className="w-16 h-16 text-primary mx-auto" />
       <div>
         <h3 className="text-lg font-semibold">Booking Request Submitted!</h3>
         <p className="text-muted-foreground">
@@ -326,7 +326,7 @@ export default function ServiceBookingWidget({
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Book Service</CardTitle>
           <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <Star className="w-4 h-4 fill-muted-foreground text-muted-foreground" />
             <span className="text-sm font-medium">{business.rating}</span>
           </div>
         </div>
@@ -342,7 +342,7 @@ export default function ServiceBookingWidget({
             <span>{business.phone}</span>
           </div>
           {business.verified && (
-            <div className="flex items-center gap-2 text-sm text-green-600">
+            <div className="flex items-center gap-2 text-sm text-primary">
               <Shield className="w-4 h-4" />
               <span>Verified Business</span>
             </div>

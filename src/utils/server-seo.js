@@ -3,16 +3,33 @@
  * Generate metadata for Next.js generateMetadata function
  *
  * Features:
- * - Server-side metadata generation
- * - Performance-optimized with caching
- * - Type-safe metadata generation
+ * - Server-side metadata generation with Next.js 15 best practices
+ * - Performance-optimized with caching and memoization
+ * - Type-safe metadata generation with proper TypeScript support
+ * - Parent metadata inheritance for consistent SEO hierarchy
  * - Comprehensive structured data injection
  * - Industry-expert SEO best practices
+ * - Automatic fetch memoization across components
  */
 
 import { EnterpriseSEOManager } from "./enterprise-seo";
 import { StructuredDataGenerator } from "./structured-data-schemas";
 import { cache } from "react";
+
+// TypeScript types for better development experience
+/**
+ * @typedef {Object} MetadataParams
+ * @property {Object} params - Route parameters
+ * @property {Object} searchParams - URL search parameters
+ */
+
+/**
+ * @typedef {Object} ResolvingMetadata
+ * @property {Object} openGraph - Parent OpenGraph metadata
+ * @property {Array} openGraph.images - Parent OpenGraph images
+ * @property {string} title - Parent title
+ * @property {string} description - Parent description
+ */
 
 // Initialize SEO managers
 const seoManager = new EnterpriseSEOManager({
@@ -245,21 +262,202 @@ export async function generateFAQMetadata(faqData) {
 }
 
 /**
- * Generate metadata for static pages
+ * Generate metadata for static pages with performance monitoring
+ * Supports parent metadata inheritance following Next.js 15 best practices
  */
-export async function generateStaticPageMetadata({ title, description, path, keywords = [] }) {
-	return generateServerSEO({
-		type: "static",
-		data: { keywords },
-		title,
-		description,
-		path,
-		breadcrumbs: [
-			{ name: "Home", url: "https://thorbis.com" },
-			{ name: title, url: `https://thorbis.com${path}` },
-		],
-	});
+export async function generateStaticPageMetadata({ title, description, path, keywords = [], robots }, parent = null) {
+	const startTime = performance.now();
+	
+	try {
+		// Get parent metadata if available (Next.js pattern)
+		let parentMetadata = {};
+		if (parent) {
+			try {
+				parentMetadata = await parent;
+			} catch (error) {
+				console.warn('Failed to resolve parent metadata:', error);
+			}
+		}
+
+		// Generate base metadata
+		const metadata = await generateServerSEO({
+			type: "static",
+			data: { keywords },
+			title,
+			description,
+			path,
+			robots,
+			breadcrumbs: [
+				{ name: "Home", url: "https://thorbis.com" },
+				{ name: title, url: `https://thorbis.com${path}` },
+			],
+		});
+
+		// Inherit and extend parent OpenGraph images if available
+		const previousImages = parentMetadata?.openGraph?.images || [];
+		const enhancedMetadata = {
+			...metadata,
+			openGraph: {
+				...metadata.openGraph,
+				images: [
+					...(metadata.openGraph?.images || []),
+					...previousImages,
+				],
+			},
+		};
+
+		const duration = performance.now() - startTime;
+		
+		// Log performance for monitoring
+		if (typeof console !== 'undefined' && process.env.NODE_ENV === 'development') {
+			console.log(`🚀 SEO generated for "${title}" in ${duration.toFixed(2)}ms`);
+		}
+		
+		// Alert if generation is slow (over 100ms)
+		if (duration > 100) {
+			console.warn(`⚠️ Slow SEO generation: "${title}" took ${duration.toFixed(2)}ms`);
+		}
+
+		return enhancedMetadata;
+	} catch (error) {
+		const duration = performance.now() - startTime;
+		console.error(`❌ SEO generation failed for "${title}" after ${duration.toFixed(2)}ms:`, error);
+		
+		// Return minimal fallback metadata
+		return {
+			title,
+			description,
+			openGraph: {
+				title,
+				description,
+				type: 'website',
+			},
+			twitter: {
+				card: 'summary_large_image',
+				title,
+				description,
+			},
+		};
+	}
 }
+
+/**
+ * Advanced generateMetadata function for dynamic pages
+ * Follows Next.js 15 best practices with proper typing and memoization
+ * 
+ * @param {MetadataParams} params - Route and search parameters
+ * @param {ResolvingMetadata} parent - Parent metadata for inheritance
+ * @returns {Promise<Object>} Generated metadata object
+ */
+export async function generateAdvancedPageMetadata(
+	{ params, searchParams },
+	parent
+) {
+	const startTime = performance.now();
+	
+	try {
+		// Extract route parameters
+		const { slug, id, category } = params || {};
+		
+		// Use memoized fetch for data retrieval (Next.js automatically memoizes)
+		const pageData = await fetchPageData(slug || id, { searchParams });
+		
+		// Resolve parent metadata
+		const parentMetadata = await parent;
+		const previousImages = parentMetadata?.openGraph?.images || [];
+		
+		// Generate dynamic metadata based on fetched data
+		const metadata = await generateServerSEO({
+			type: pageData.type || "dynamic",
+			data: pageData,
+			title: pageData.title,
+			description: pageData.description,
+			path: pageData.path,
+			breadcrumbs: [
+				{ name: "Home", url: "https://thorbis.com" },
+				...(pageData.breadcrumbs || []),
+			],
+		});
+
+		// Enhance with parent metadata
+		const enhancedMetadata = {
+			...metadata,
+			openGraph: {
+				...metadata.openGraph,
+				images: [
+					...(pageData.images || []),
+					...previousImages,
+				],
+			},
+		};
+
+		const duration = performance.now() - startTime;
+		
+		if (process.env.NODE_ENV === 'development') {
+			console.log(`🚀 Advanced SEO generated for "${pageData.title}" in ${duration.toFixed(2)}ms`);
+		}
+
+		return enhancedMetadata;
+		
+	} catch (error) {
+		const duration = performance.now() - startTime;
+		console.error(`❌ Advanced SEO generation failed after ${duration.toFixed(2)}ms:`, error);
+		
+		// Fallback metadata
+		return {
+			title: 'Thorbis - Local Business Directory',
+			description: 'Discover local businesses and community resources',
+			openGraph: {
+				title: 'Thorbis - Local Business Directory',
+				description: 'Discover local businesses and community resources',
+				type: 'website',
+			},
+		};
+	}
+}
+
+/**
+ * Memoized data fetching function for SEO generation
+ * Leverages Next.js automatic fetch memoization
+ */
+const fetchPageData = cache(async (identifier, options = {}) => {
+	const startTime = performance.now();
+	
+	try {
+		// Simulate data fetching - replace with actual API calls
+		const data = {
+			title: `Page ${identifier}`,
+			description: `Dynamic page description for ${identifier}`,
+			type: 'page',
+			path: `/${identifier}`,
+			images: [`https://thorbis.com/api/og/${identifier}`],
+			breadcrumbs: [
+				{ name: identifier, url: `https://thorbis.com/${identifier}` },
+			],
+		};
+		
+		const duration = performance.now() - startTime;
+		
+		if (process.env.NODE_ENV === 'development') {
+			console.log(`📊 Data fetched for "${identifier}" in ${duration.toFixed(2)}ms`);
+		}
+		
+		return data;
+		
+	} catch (error) {
+		console.error(`Failed to fetch data for ${identifier}:`, error);
+		
+		// Return fallback data
+		return {
+			title: 'Thorbis',
+			description: 'Local business directory',
+			type: 'fallback',
+			path: '/',
+			images: [],
+			breadcrumbs: [],
+		};
+	}
+});
 
 /**
  * Generate metadata for product pages
@@ -337,8 +535,10 @@ export async function generateEnhancedMetadata(pageConfig, options = {}) {
 		baseMetadata.manifest = "/manifest.json";
 	}
 
+	// Note: customViewport should be handled via the viewport export in layout files
+	// Viewport configuration in metadata is deprecated in Next.js 14+
 	if (customViewport) {
-		baseMetadata.viewport = customViewport;
+		console.warn('customViewport should be configured via the viewport export, not in metadata. See: https://nextjs.org/docs/app/api-reference/functions/generate-viewport');
 	}
 
 	// Add performance optimizations
@@ -347,7 +547,7 @@ export async function generateEnhancedMetadata(pageConfig, options = {}) {
 		"msapplication-TileColor": "#000000",
 		"theme-color": "#000000",
 		"format-detection": "telephone=no",
-		"apple-mobile-web-app-capable": "yes",
+		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
 	};
 

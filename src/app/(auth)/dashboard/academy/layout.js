@@ -1,5 +1,5 @@
 "use client";
-import Header from "@components/business/header";
+import UnifiedHeader from "@components/shared/unified-header";
 import { useAuth } from "@context/auth-context";
 
 export default function AcademyRootLayout({ children }) {
@@ -22,8 +22,8 @@ export default function AcademyRootLayout({ children }) {
 
     return (
         <div className="bg-background min-h-screen">
-            <Header dashboardType="academy" />
-            <main className="flex flex-col min-h-screen">{children}</main>
+            <UnifiedHeader dashboardType="academy" />
+            <main className="flex flex-col">{children}</main>
         </div>
     );
 }

@@ -1,0 +1,50 @@
+# ================================
+# DEVELOPMENT DOCKERFILE
+# Hot-reload enabled for rapid development
+# ================================
+
+FROM node:20-alpine AS development
+
+# Install security updates and development tools
+RUN apk update && apk upgrade && apk add --no-cache \
+    libc6-compat \
+    curl \
+    git \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --ingroup nodejs nextjs
+
+# Set working directory
+WORKDIR /app
+
+# Install Bun for faster package management
+RUN npm install -g bun@latest
+
+# Copy package files
+COPY package.json bun.lock* ./
+
+# Install dependencies (including dev dependencies)
+RUN bun install
+
+# Change ownership of app directory
+RUN chown -R nextjs:nodejs /app
+
+# Switch to non-root user
+USER nextjs
+
+# Development environment
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV WATCHPACK_POLLING=true
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=60s --timeout=10s --start-period=60s --retries=2 \
+    CMD curl -f http://localhost:3000/api/health || exit 1
+
+# Development start command with hot-reload
+CMD ["bun", "dev"]

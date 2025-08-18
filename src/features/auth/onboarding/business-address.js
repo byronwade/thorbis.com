@@ -108,11 +108,11 @@ export default function BusinessAddress() {
 				</div>
 
 				{/* Address Autocomplete */}
-				<Card className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/20">
+				<Card className="border-primary/20 bg-primary/10 dark:border-primary/20 dark:bg-primary/10">
 					<CardContent className="p-4">
 						<div className="space-y-3">
 							<div className="flex items-center gap-2">
-								<Search className="w-4 h-4 text-blue-600" />
+								<Search className="w-4 h-4 text-primary" />
 								<h3 className="text-sm font-medium">Quick Address Lookup</h3>
 							</div>
 							<div className="relative">
@@ -149,14 +149,14 @@ export default function BusinessAddress() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<MapPin className="w-4 h-4" />
-									Street <span className="text-red-500">*</span>
+									Street <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Enter the complete street address including number and street name.</FormDescription>
 								<FormControl>
 									<Input {...field} placeholder="123 Main Street" className={fieldState.error ? "border-red-500" : ""} />
 								</FormControl>
 								{validationTips.street && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.street.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.street.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.street.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.street.replace("✓ ", "")}
 									</div>
@@ -173,13 +173,13 @@ export default function BusinessAddress() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										City <span className="text-red-500">*</span>
+										City <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input {...field} placeholder="San Francisco" className={fieldState.error ? "border-red-500" : ""} />
 									</FormControl>
 									{validationTips.city && (
-										<div className={`flex items-center gap-1 text-sm ${validationTips.city.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+										<div className={`flex items-center gap-1 text-sm ${validationTips.city.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 											{validationTips.city.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 											{validationTips.city.replace("✓ ", "")}
 										</div>
@@ -195,7 +195,7 @@ export default function BusinessAddress() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										State <span className="text-red-500">*</span>
+										State <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input
@@ -210,7 +210,7 @@ export default function BusinessAddress() {
 										/>
 									</FormControl>
 									{validationTips.state && (
-										<div className={`flex items-center gap-1 text-sm ${validationTips.state.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+										<div className={`flex items-center gap-1 text-sm ${validationTips.state.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 											{validationTips.state.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 											{validationTips.state.replace("✓ ", "")}
 										</div>
@@ -226,13 +226,13 @@ export default function BusinessAddress() {
 							render={({ field, fieldState }) => (
 								<FormItem>
 									<FormLabel>
-										ZIP Code <span className="text-red-500">*</span>
+										ZIP Code <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
 										<Input {...field} placeholder="94102" maxLength={5} className={fieldState.error ? "border-red-500" : ""} />
 									</FormControl>
 									{validationTips.zip && (
-										<div className={`flex items-center gap-1 text-sm ${validationTips.zip.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+										<div className={`flex items-center gap-1 text-sm ${validationTips.zip.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 											{validationTips.zip.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 											{validationTips.zip.replace("✓ ", "")}
 										</div>

@@ -5,6 +5,12 @@ alwaysApply: false
 ---
 # GET API Route Guidelines
 
+## 🚨 CRITICAL: EDIT EXISTING API ROUTES FIRST
+**Before creating new API routes:**
+1. Search for existing similar API routes in `src/app/api/`
+2. Check if existing routes can be extended with new parameters or functionality
+3. Only create new API routes when no existing ones can be modified
+
 Guidelines for implementing GET API routes in Next.js App Router:
 
 Basic Structure. Note how we auto generate the response type for use on the client:

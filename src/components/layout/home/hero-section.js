@@ -847,10 +847,10 @@ export default function HeroSection() {
 									}`}
 									disabled={loading}
 								>
-									<div className="flex items-center space-x-2">
+									<div className="flex items-center justify-center gap-2">
 										{loading ? (
 											<>
-												<Loader2 className="w-5 h-5 animate-spin" />
+												<div className="w-5 h-5 border-2 border-current border-r-transparent rounded-full animate-spin" />
 												<span className="hidden sm:inline">Searching...</span>
 											</>
 										) : (

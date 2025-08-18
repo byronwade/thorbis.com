@@ -13,10 +13,10 @@ const BusinessSubmissionForm = () => {
 	const { form, errors, isValid, specialtyFields, addSpecialtyItem, removeSpecialtyItem, uploadedImages, handleImageUpload, removeImage, selectedAmenities, selectedPaymentMethods, toggleAmenity, togglePaymentMethod, isSubmitting, progress, validateSection, onSubmit, constants } = useBusinessSubmission();
 
 	const getProgressColor = () => {
-		if (progress < 25) return "bg-red-500";
-		if (progress < 50) return "bg-orange-500";
-		if (progress < 75) return "bg-yellow-500";
-		return "bg-green-500";
+		if (progress < 25) return "bg-destructive";
+		if (progress < 50) return "bg-muted-foreground";
+		if (progress < 75) return "bg-accent";
+		return "bg-primary";
 	};
 
 	const getProgressStatus = () => {
@@ -45,7 +45,7 @@ const BusinessSubmissionForm = () => {
 								<div className={`h-2 rounded-full transition-all duration-300 ${getProgressColor()}`} style={{ width: `${progress}%` }} />
 							</div>
 							{progress === 100 && (
-								<div className="flex items-center justify-center text-green-600 mt-2">
+								<div className="flex items-center justify-center text-primary mt-2">
 									<CheckCircle className="h-4 w-4 mr-1" />
 									<span className="text-sm font-medium">Ready to submit!</span>
 								</div>
@@ -82,9 +82,9 @@ const BusinessSubmissionForm = () => {
 							<div className="space-y-4">
 								{/* Validation Summary */}
 								{Object.keys(errors).length > 0 && (
-									<div className="p-4 border-l-4 border-red-500 bg-red-50">
-										<h4 className="font-medium text-red-800">Please fix the following errors:</h4>
-										<ul className="mt-2 text-sm text-red-700 list-disc list-inside">
+									<div className="p-4 border-l-4 border-destructive bg-destructive/10">
+										<h4 className="font-medium text-destructive">Please fix the following errors:</h4>
+										<ul className="mt-2 text-sm text-destructive/80 list-disc list-inside">
 											{Object.entries(errors).map(([field, error]) => (
 												<li key={field}>
 													{field}: {error?.message}
@@ -97,7 +97,7 @@ const BusinessSubmissionForm = () => {
 								{/* Submission Progress */}
 								{isSubmitting && (
 									<div className="space-y-2">
-										<div className="flex items-center justify-center text-blue-600">
+										<div className="flex items-center justify-center text-primary">
 											<Loader2 className="h-5 w-5 animate-spin mr-2" />
 											<span>Submitting your business...</span>
 										</div>

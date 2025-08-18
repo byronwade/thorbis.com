@@ -89,9 +89,9 @@ const BusinessImagesSection = ({ uploadedImages, handleImageUpload, removeImage,
 				)}
 
 				{/* Upload Tips */}
-				<div className="bg-blue-50 rounded-lg p-4">
-					<h4 className="font-medium text-blue-900 mb-2">Photo Tips</h4>
-					<ul className="text-sm text-blue-800 space-y-1">
+				<div className="bg-primary/10 rounded-lg p-4">
+					<h4 className="font-medium text-primary mb-2">Photo Tips</h4>
+					<ul className="text-sm text-primary/80 space-y-1">
 						<li>• Include photos of your storefront, interior, and products/services</li>
 						<li>• Use good lighting and avoid blurry images</li>
 						<li>• Show your business at its best - clean and well-organized</li>

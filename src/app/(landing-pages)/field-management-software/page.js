@@ -1,33 +1,58 @@
-export const metadata = {
-	title: "Field Management Software – Scheduling, Invoicing, CRM, Automations",
-	description: "All‑in‑one field service platform: real‑time scheduling, dispatch, mobile app, proposals, invoicing, payments, CRM, memberships, inventory, analytics, automations.",
-	keywords: ["field management software", "field service management", "FSM platform", "scheduling and dispatch", "job management", "invoicing and payments", "CRM for contractors", "service business software"],
-	alternates: { canonical: "https://thorbis.com/field-management-software" },
-	openGraph: {
-		title: "Field Management Software – Complete Platform",
-		description: "Replace point tools with one fast platform for jobs, teams, customers, and cash flow.",
-		type: "website",
-		url: "https://thorbis.com/field-management-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Field Management Software")}&description=${encodeURIComponent("Jobs, teams, customers, and cash flow in one fast platform.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Field Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Field Management Software – Complete Platform",
-		description: "Replace point tools with one fast platform for jobs, teams, customers, and cash flow.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Field Management Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+import { getDictionary, languages } from '@lib/i18n/dictionaries';
+
+// Generate internationalized metadata
+export async function generateMetadata({ params, searchParams }) {
+	const locale = 'en'; // Default to English for now
+	const dict = await getDictionary(locale);
+	
+	// Get landing pages translations with fallbacks
+	const fieldTranslations = dict.landingPages?.fieldManagement || {};
+	const commonTranslations = dict.landingPages?.common || {};
+	
+	const title = fieldTranslations.hero?.title || "Field Management Software – Scheduling, Invoicing, CRM, Automations";
+	const description = fieldTranslations.hero?.subtitle || "All‑in‑one field service platform: real‑time scheduling, dispatch, mobile app, proposals, invoicing, payments, CRM, memberships, inventory, analytics, automations.";
+	const shortDescription = fieldTranslations.hero?.description || "Replace point tools with one fast platform for jobs, teams, customers, and cash flow.";
+	
+	// Generate alternate language URLs
+	const alternateLanguages = {};
+	Object.keys(languages).forEach(lang => {
+		alternateLanguages[`${lang}-${lang.toUpperCase()}`] = `https://thorbis.com/${lang}/field-management-software`;
+	});
+
+	return {
+		title: title,
+		description: description,
+		keywords: ["field management software", "field service management", "FSM platform", "scheduling and dispatch", "job management", "invoicing and payments", "CRM for contractors", "service business software"],
+		alternates: { 
+			canonical: `https://thorbis.com/${locale}/field-management-software`,
+			languages: alternateLanguages,
+		},
+		openGraph: {
+			title: title,
+			description: shortDescription,
+			type: "website",
+			url: `https://thorbis.com/${locale}/field-management-software`,
+			siteName: "Thorbis",
+			images: [
+				{
+					url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent(title)}&description=${encodeURIComponent(shortDescription)}`,
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+			locale: `${locale}_${locale.toUpperCase()}`,
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: title,
+			description: shortDescription,
+			images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent(title)}`],
+			creator: "@thorbis",
+			site: "@thorbis",
+		},
+	};
+}
 
 function JsonLd() {
 	const data = {

@@ -125,7 +125,7 @@ export default function MicroInteractions({
     setIsHovered(true);
     
     // Log hover interactions for analytics
-    logger.user({
+    logger.debug('Micro interaction hover', {
       action: 'micro_interaction_hover',
       type,
       pathname,
@@ -167,7 +167,7 @@ export default function MicroInteractions({
     }
 
     // Log interaction
-    logger.user({
+    logger.debug('Micro interaction click', {
       action: 'micro_interaction_click',
       type,
       pathname,
@@ -219,7 +219,7 @@ export default function MicroInteractions({
             exit={{ opacity: 0 }}
             className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm rounded"
           >
-            <Loader2 className="w-4 h-4 animate-spin text-primary" />
+            <div className="w-4 h-4 border-2 border-primary border-r-transparent rounded-full animate-spin" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -341,9 +341,9 @@ export function InteractiveButton({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex items-center space-x-2"
+              className="flex items-center gap-2"
             >
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <div className="w-4 h-4 border-2 border-current border-r-transparent rounded-full animate-spin" />
               <span>Loading...</span>
             </motion.div>
           ) : success ? (
@@ -352,7 +352,7 @@ export function InteractiveButton({
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center space-x-2"
+              className="flex items-center gap-2"
             >
               <CheckCircle className="w-4 h-4" />
               <span>Success!</span>

@@ -400,16 +400,16 @@ function redirectToUnauthorized(url) {
  * Add comprehensive security headers
  */
 function addSecurityHeaders(response) {
-	// Content Security Policy
+	// Content Security Policy with Vercel Analytics and Mapbox Maps support
 	const csp = [
 		"default-src 'self'",
-		"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com",
-		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+		"script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://vercel.live https://*.supabase.co https://cdn.jsdelivr.net https://unpkg.com https://va.vercel-scripts.com https://api.mapbox.com",
+		"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.mapbox.com",
 		"font-src 'self' https://fonts.gstatic.com",
-		"img-src 'self' data: https: blob:",
-		"connect-src 'self' https://*.supabase.co https://api.resend.com",
+		"img-src 'self' data: https: blob: https://*.tiles.mapbox.com https://api.mapbox.com",
+		"connect-src 'self' https://*.supabase.co https://api.resend.com https://api.pwnedpasswords.com https://va.vercel-scripts.com https://vercel.live https://api.mapbox.com https://*.tiles.mapbox.com https://events.mapbox.com",
 		"media-src 'self' https:",
-		"worker-src 'self' blob:",
+		"worker-src 'self' blob: https://api.mapbox.com",
 		"object-src 'none'",
 		"base-uri 'self'",
 		"form-action 'self'",

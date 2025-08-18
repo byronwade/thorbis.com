@@ -1,11 +1,16 @@
-export const metadata = {
-	title: "Logistics Fleet Management Software – Tracking, Maintenance, Optimization | Thorbis",
-	description: "Advanced fleet management platform with real-time vehicle tracking, maintenance scheduling, driver management, and route optimization for logistics operations.",
-	keywords: ["logistics fleet management", "vehicle tracking software", "fleet optimization", "logistics software", "delivery management"],
-	alternates: { canonical: "https://thorbis.com/logistics-fleet-management" },
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Logistics Fleet Management Software – Tracking, Maintenance, Optimization | Thorbis",
+		description: "Advanced fleet management platform with real-time vehicle tracking, maintenance scheduling, driver management, and route optimization for logistics operations.",
+		path: "/logistics-fleet-management",
+		keywords: ["logistics fleet management", "vehicle tracking software", "fleet optimization", "logistics software", "delivery management"],
+	});
+}
 
 import { Truck, Settings, BarChart3 } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 export default function LogisticsFleetManagement() {
 	const features = [

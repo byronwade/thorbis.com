@@ -4,8 +4,11 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, MessageSquare, Calendar, BarChart3, MapPin, Clock, ArrowRight, Star, DollarSign, TrendingUp, Target, Building, Award, Play, AlertTriangle, Heart, Plane, Hotel, Globe } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
 	title: "Expedia Alternative – Thorbis vs Expedia | Thorbis",
 	description: "See why Thorbis is a modern alternative to Expedia: fixed pricing, direct customer relationships, full data access, and multi‑platform sync.",
 	keywords: ["Expedia alternative", "Expedia vs Thorbis", "travel booking alternative", "commission free booking", "direct bookings platform"],

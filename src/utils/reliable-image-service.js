@@ -6,8 +6,9 @@
  */
 
 const RELIABLE_PLACEHOLDER_SERVICES = [
-	"https://picsum.photos", // More reliable than LoremFlickr
-	"https://via.placeholder.com",
+	"https://images.unsplash.com", // Most reliable
+	"https://via.placeholder.com", // Very reliable
+	"https://dummyimage.com", // Backup option
 ];
 
 // Local placeholder images by category (now with specific category placeholders)
@@ -99,9 +100,14 @@ export function getReliableImageUrl({ category = "default", originalUrl = null, 
 		return `https://images.unsplash.com/${photoId}?w=${width}&h=${height}&fit=crop&auto=format`;
 	}
 
-	// Fallback to Picsum (more reliable than LoremFlickr)
-	const seed = businessId ? businessId.slice(-6) : Math.floor(Math.random() * 1000);
-	return `https://picsum.photos/${width}/${height}?random=${seed}`;
+	// Fallback to reliable placeholder services (avoid picsum.photos due to timeouts)
+	// Try via.placeholder.com first as it's very reliable
+	if (width && height) {
+		return `https://via.placeholder.com/${width}x${height}/1f2937/ffffff?text=Business+Image`;
+	}
+	
+	// Final fallback to local SVG placeholder
+	return getLocalPlaceholder(category);
 }
 
 /**

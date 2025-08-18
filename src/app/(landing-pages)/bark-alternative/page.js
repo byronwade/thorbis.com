@@ -4,38 +4,18 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, MessageSquare, Calendar, BarChart3, Wrench, Home, ArrowRight, Star, DollarSign, Clock, Target, Building, Award, FileText, Truck, Settings, AlertTriangle, Heart, Briefcase } from "lucide-react";
-import { isEnabled } from "@lib/flags/server";
+import { isEnabled } from "@/lib/flags/server";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Bark Alternative – Thorbis vs Bark | Thorbis",
-	description: "See why Thorbis is a modern alternative to Bark: AI‑verified leads, multi‑platform sync, unlimited lead volume, and 24/7 priority support.",
-	keywords: ["Bark alternative", "Bark vs Thorbis", "lead marketplace alternative", "service business leads", "local directory alternative"],
-	alternates: { canonical: "https://thorbis.com/bark-alternative" },
-	openGraph: {
-		title: "Bark Alternative – Thorbis vs Bark",
-		description: "Modern alternative to Bark with AI‑verified leads, multi‑platform sync, unlimited lead volume, and 24/7 support.",
-		type: "website",
-		url: "https://thorbis.com/bark-alternative",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Bark Alternative – Thorbis vs Bark")}&description=${encodeURIComponent("AI‑verified leads, multi‑platform sync, unlimited lead volume, and 24/7 support.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis vs Bark",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Bark Alternative – Thorbis vs Bark",
-		description: "Modern alternative to Bark with AI‑verified leads, multi‑platform sync, unlimited lead volume, and 24/7 support.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Bark Alternative – Thorbis vs Bark")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Bark Alternative – Thorbis vs Bark | Thorbis",
+		description: "See why Thorbis is a modern alternative to Bark: AI‑verified leads, multi‑platform sync, unlimited lead volume, and 24/7 priority support.",
+		path: "/bark-alternative",
+		keywords: ["Bark alternative", "Bark vs Thorbis", "lead marketplace alternative", "service business leads", "local directory alternative"],
+	});
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {

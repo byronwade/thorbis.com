@@ -13,7 +13,38 @@
  */
 
 import { logger } from "./logger";
-import { CacheManager } from "./cache-manager";
+
+/**
+ * Simple in-memory cache for SEO metadata
+ * Server-safe implementation without external dependencies
+ */
+class SimpleCache {
+	constructor() {
+		this.cache = new Map();
+	}
+
+	get(key) {
+		const item = this.cache.get(key);
+		if (item && item.expiry > Date.now()) {
+			return item.value;
+		}
+		if (item) {
+			this.cache.delete(key);
+		}
+		return null;
+	}
+
+	set(key, value, ttl = 30 * 60 * 1000) {
+		this.cache.set(key, {
+			value,
+			expiry: Date.now() + ttl
+		});
+	}
+
+	clear() {
+		this.cache.clear();
+	}
+}
 
 /**
  * Enterprise SEO Manager Class
@@ -41,6 +72,9 @@ export class EnterpriseSEOManager {
 			seoAnalysisTTL: 24 * 60 * 60 * 1000, // 24 hours
 		};
 
+		// Initialize simple cache for server-side safety
+		this.cache = new SimpleCache();
+
 		// Initialize performance tracking
 		this.performanceMetrics = new Map();
 	}
@@ -55,7 +89,7 @@ export class EnterpriseSEOManager {
 
 		try {
 			// Check cache first for performance
-			const cached = CacheManager.memory.get(cacheKey);
+			const cached = this.cache.get(cacheKey);
 			if (cached) {
 				logger.performance(`SEO metadata cache hit: ${cacheKey}`);
 				return cached;
@@ -97,7 +131,7 @@ export class EnterpriseSEOManager {
 			}
 
 			// Cache the result
-			CacheManager.memory.set(cacheKey, finalMetadata, this.cacheConfig.metadataTTL);
+			this.cache.set(cacheKey, finalMetadata, this.cacheConfig.metadataTTL);
 
 			// Track performance
 			const duration = performance.now() - startTime;
@@ -602,19 +636,15 @@ export class EnterpriseSEOManager {
 			},
 		};
 
-		// Add viewport optimization
-		metadata.viewport = {
-			width: "device-width",
-			initialScale: 1,
-			maximumScale: 5,
-			userScalable: true,
-		};
+		// Viewport optimization should be handled via the viewport export in layout files
+		// Viewport configuration in metadata is deprecated in Next.js 14+
+		// Use: export const viewport = { width: "device-width", initialScale: 1, ... } in layout files
 
 		// Add additional performance headers
 		metadata.other = {
 			...metadata.other,
 			"format-detection": "telephone=no",
-			"apple-mobile-web-app-capable": "yes",
+			"mobile-web-app-capable": "yes",
 			"apple-mobile-web-app-status-bar-style": "default",
 			"theme-color": "#000000",
 		};

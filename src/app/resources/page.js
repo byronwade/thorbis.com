@@ -4,29 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookOpen, Newspaper, GraduationCap, Calendar, Search, Clock, User, MapPin, Star, ArrowRight, ExternalLink, Filter, Tag, Users, Award, Shield, TrendingUp, CheckCircle, BarChart3 } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Resources Hub - Blog, Tools, Learning & Certification | Local Business Directory",
-	description: "Comprehensive resources for business owners: insights, tools, certification programs, learning courses, and events. Everything you need to grow your business.",
-	keywords: "business blog, business tools, certification programs, learning resources, business events, education, industry insights, marketing tips, growth strategies",
-	openGraph: {
-		title: "Resources Hub - Blog, Tools, Learning & Certification",
-		description: "Comprehensive resources for business owners: insights, tools, certification programs, learning courses, and events.",
-		type: "website",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Resources Hub - Blog, Tools, Learning & Certification",
-		description: "Comprehensive resources for business owners: insights, tools, certification programs, learning courses, and events.",
-	},
-	robots: {
-		index: true,
-		follow: true,
-	},
-	alternates: {
-		canonical: "/resources",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Resources Hub - Blog, Tools, Learning & Certification | Local Business Directory",
+		description: "Comprehensive resources for business owners: insights, tools, certification programs, learning courses, and events. Everything you need to grow your business.",
+		path: "/resources",
+		keywords: ["business blog", "business tools", "certification programs", "learning resources", "business events", "education", "industry insights", "marketing tips", "growth strategies"],
+	});
+}
 
 const featuredContent = [
 	{
@@ -285,8 +273,8 @@ function ResourcesHero() {
 				<h1 className="text-4xl md:text-5xl font-bold mb-4">Resources Hub</h1>
 				<p className="text-xl mb-8 max-w-3xl mx-auto">Everything you need to grow your local business: expert insights, business tools, certification programs, learning courses, and networking events.</p>
 				<div className="max-w-md mx-auto relative">
-					<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-					<Input placeholder="Search resources..." className="pl-10 py-3 text-gray-900" />
+					<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
+					<Input placeholder="Search resources..." className="pl-10 py-3 text-foreground" />
 				</div>
 			</div>
 		</div>
@@ -301,7 +289,7 @@ function FeaturedContent() {
 				<div className="grid lg:grid-cols-3 gap-8">
 					{featuredContent.map((content, index) => (
 						<Card key={index} className={`hover:shadow-lg transition-shadow ${content.featured ? "ring-2 ring-green-500" : ""}`}>
-							<div className="aspect-video bg-gray-200 rounded-t-lg"></div>
+							<div className="aspect-video bg-muted rounded-t-lg"></div>
 							<CardHeader>
 								<div className="flex items-center justify-between mb-2">
 									<Badge variant="secondary">
@@ -316,7 +304,7 @@ function FeaturedContent() {
 								<CardDescription>{content.excerpt}</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+								<div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
 									<div className="flex items-center space-x-2">
 										<User className="h-4 w-4" />
 										<span>{content.author}</span>
@@ -343,7 +331,7 @@ function FeaturedContent() {
 
 function ResourcesContent() {
 	return (
-		<section className="py-16 bg-gray-50">
+		<section className="py-16 bg-muted/30">
 			<div className="container mx-auto px-4">
 				<div className="max-w-6xl mx-auto">
 					<Tabs defaultValue="blog" className="w-full">
@@ -358,47 +346,37 @@ function ResourcesContent() {
 
 						<TabsContent value="blog" className="mt-8">
 							<div className="space-y-8">
-								{/* Filters */}
-								<div className="flex flex-wrap items-center gap-4">
-									<Button variant="outline" size="sm">
-										<Filter className="h-4 w-4 mr-2" />
-										Filter
-									</Button>
-									<div className="flex flex-wrap gap-2">
-										{categories.slice(0, 6).map((category, index) => (
-											<Badge key={index} variant="outline" className="cursor-pointer hover:bg-gray-100">
-												{category}
-											</Badge>
-										))}
-									</div>
+								<div className="text-center mb-8">
+									<h3 className="text-2xl font-bold mb-4">Business Blog</h3>
+									<p className="text-muted-foreground max-w-2xl mx-auto">Expert insights, strategies, and tips to help your local business grow and succeed in today's competitive market.</p>
 								</div>
 
-								{/* Blog Posts */}
+								{/* Featured Blog Posts Preview */}
 								<div className="grid lg:grid-cols-2 gap-6">
-									{blogPosts.map((post, index) => (
+									{blogPosts.slice(0, 4).map((post, index) => (
 										<Card key={index} className="hover:shadow-md transition-shadow">
 											<CardHeader>
 												<div className="flex items-center justify-between mb-2">
 													<Badge variant="secondary">{post.category}</Badge>
-													<span className="text-sm text-gray-500">{post.date}</span>
+													<span className="text-sm text-muted-foreground">{post.date}</span>
 												</div>
 												<CardTitle className="text-lg">{post.title}</CardTitle>
 												<CardDescription>{post.excerpt}</CardDescription>
 											</CardHeader>
 											<CardContent>
 												<div className="flex items-center justify-between mb-4">
-													<div className="flex items-center space-x-2 text-sm text-gray-500">
+													<div className="flex items-center space-x-2 text-sm text-muted-foreground">
 														<User className="h-4 w-4" />
 														<span>{post.author}</span>
 													</div>
-													<div className="flex items-center space-x-1 text-sm text-gray-500">
+													<div className="flex items-center space-x-1 text-sm text-muted-foreground">
 														<Clock className="h-4 w-4" />
 														<span>{post.readTime}</span>
 													</div>
 												</div>
 
 												<div className="flex flex-wrap gap-2 mb-4">
-													{post.tags.map((tag, tagIndex) => (
+													{post.tags.slice(0, 2).map((tag, tagIndex) => (
 														<Badge key={tagIndex} variant="outline" className="text-xs">
 															<Tag className="h-3 w-3 mr-1" />
 															{tag}
@@ -415,7 +393,9 @@ function ResourcesContent() {
 								</div>
 
 								<div className="text-center">
-									<Button size="lg">Load More Articles</Button>
+									<Button size="lg" asChild>
+										<a href="/blog">View All Articles</a>
+									</Button>
 								</div>
 							</div>
 						</TabsContent>
@@ -424,7 +404,7 @@ function ResourcesContent() {
 							<div className="space-y-6">
 								<div className="text-center mb-8">
 									<h3 className="text-2xl font-bold mb-4">Industry News & Updates</h3>
-									<p className="text-gray-600 max-w-2xl mx-auto">Stay informed with the latest trends, policy changes, and market insights affecting local businesses.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto">Stay informed with the latest trends, policy changes, and market insights affecting local businesses.</p>
 								</div>
 
 								<div className="space-y-4">
@@ -435,11 +415,11 @@ function ResourcesContent() {
 													<div className="flex-1">
 														<div className="flex items-center space-x-3 mb-2">
 															<Badge variant="secondary">{article.category}</Badge>
-															<span className="text-sm text-gray-500">{article.date}</span>
+															<span className="text-sm text-muted-foreground">{article.date}</span>
 														</div>
 														<h4 className="text-lg font-semibold mb-2">{article.title}</h4>
-														<p className="text-gray-600 mb-3">{article.excerpt}</p>
-														<div className="flex items-center space-x-2 text-sm text-gray-500">
+														<p className="text-muted-foreground mb-3">{article.excerpt}</p>
+														<div className="flex items-center space-x-2 text-sm text-muted-foreground">
 															<Newspaper className="h-4 w-4" />
 															<span>{article.source}</span>
 														</div>
@@ -459,7 +439,7 @@ function ResourcesContent() {
 							<div className="space-y-8">
 								<div className="text-center mb-8">
 									<h3 className="text-2xl font-bold mb-4">Learning Center</h3>
-									<p className="text-gray-600 max-w-2xl mx-auto">Comprehensive courses and tutorials to help you master every aspect of running a successful local business.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto">Comprehensive courses and tutorials to help you master every aspect of running a successful local business.</p>
 								</div>
 
 								<div className="grid lg:grid-cols-2 gap-6">
@@ -480,15 +460,15 @@ function ResourcesContent() {
 												<div className="grid grid-cols-3 gap-4 mb-4 text-center">
 													<div>
 														<div className="text-lg font-semibold text-blue-600">{module.duration}</div>
-														<div className="text-xs text-gray-500">Duration</div>
+														<div className="text-xs text-muted-foreground">Duration</div>
 													</div>
 													<div>
-														<div className="text-lg font-semibold text-green-600">{module.modules}</div>
-														<div className="text-xs text-gray-500">Modules</div>
+														<div className="text-lg font-semibold text-primary">{module.modules}</div>
+														<div className="text-xs text-muted-foreground">Modules</div>
 													</div>
 													<div>
-														<div className="text-lg font-semibold text-purple-600">{module.students}</div>
-														<div className="text-xs text-gray-500">Students</div>
+														<div className="text-lg font-semibold text-primary">{module.students}</div>
+														<div className="text-xs text-muted-foreground">Students</div>
 													</div>
 												</div>
 
@@ -517,7 +497,7 @@ function ResourcesContent() {
 							<div className="space-y-8">
 								<div className="text-center mb-8">
 									<h3 className="text-2xl font-bold mb-4">Upcoming Events</h3>
-									<p className="text-gray-600 max-w-2xl mx-auto">Connect with other business owners, learn from experts, and grow your network at our events and workshops.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto">Connect with other business owners, learn from experts, and grow your network at our events and workshops.</p>
 								</div>
 
 								<div className="space-y-6">
@@ -533,7 +513,7 @@ function ResourcesContent() {
 															</Badge>
 														</div>
 														<h4 className="text-xl font-semibold mb-2">{event.title}</h4>
-														<p className="text-gray-600 mb-4">{event.description}</p>
+														<p className="text-muted-foreground mb-4">{event.description}</p>
 
 														<div className="grid md:grid-cols-2 gap-4 text-sm">
 															<div className="flex items-center space-x-2">
@@ -581,7 +561,7 @@ function ResourcesContent() {
 							<div className="space-y-8">
 								<div className="text-center mb-8">
 									<h3 className="text-2xl font-bold mb-4">Business Management Tools</h3>
-									<p className="text-gray-600 max-w-2xl mx-auto">Comprehensive suite of tools to manage and grow your business online presence effectively.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto">Comprehensive suite of tools to manage and grow your business online presence effectively.</p>
 								</div>
 
 								<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -616,7 +596,7 @@ function ResourcesContent() {
 							<div className="space-y-8">
 								<div className="text-center mb-8">
 									<h3 className="text-2xl font-bold mb-4">Business Certification Programs</h3>
-									<p className="text-gray-600 max-w-2xl mx-auto">Build customer trust and stand out from competitors with our official certification programs.</p>
+									<p className="text-muted-foreground max-w-2xl mx-auto">Build customer trust and stand out from competitors with our official certification programs.</p>
 								</div>
 								
 								<div className="grid md:grid-cols-3 gap-8">

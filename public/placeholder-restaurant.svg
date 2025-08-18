@@ -1,7 +1,14 @@
 <svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="300" fill="#f1f5f9"/>
-  <circle cx="200" cy="130" r="40" fill="#cbd5e1"/>
-  <path d="M185 120c0-8.284 6.716-15 15-15s15 6.716 15 15v20c0 8.284-6.716 15-15 15s-15-6.716-15-15v-20z" fill="#64748b"/>
-  <rect x="190" y="140" width="20" height="30" fill="#64748b"/>
-  <text x="200" y="200" text-anchor="middle" fill="#64748b" font-family="system-ui" font-size="14">Restaurant</text>
+  <rect width="400" height="300" fill="#fef3c7"/>
+  <g opacity="0.7">
+    <circle cx="150" cy="120" r="30" fill="#f59e0b"/>
+    <rect x="130" y="140" width="40" height="4" rx="2" fill="#d97706"/>
+    <circle cx="250" cy="120" r="30" fill="#f59e0b"/>
+    <rect x="230" y="140" width="40" height="4" rx="2" fill="#d97706"/>
+    <rect x="175" y="80" width="50" height="30" rx="15" fill="#92400e"/>
+    <path d="M190 100 L200 110 L210 100" stroke="#92400e" stroke-width="2" fill="none"/>
+  </g>
+  <text x="200" y="220" text-anchor="middle" fill="#92400e" font-family="system-ui, sans-serif" font-size="14" font-weight="600">
+    Restaurant Image
+  </text>
 </svg>

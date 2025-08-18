@@ -1,0 +1,1206 @@
+"use client";
+
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import ErrorBoundary from "@components/shared/error-boundary";
+import { ArrowLeft, Share, Heart, Star, MapPin, CheckCircle, Shield, Award, Users, MessageCircle, Car, DollarSign, Building, Eye, Target, Zap, ClipboardCheck, Settings, Handshake, Utensils, Share2, Phone, Calendar, Menu, ChevronDown } from "lucide-react";
+import { Button } from "@components/ui/button";
+// Removed mock data generator imports - now using real Supabase data
+
+// Direct imports instead of lazy loading - Fixed file extensions
+import BusinessOverview from "./sections/business-overview.js";
+import CertifiedElite from "./sections/certified-elite.js";
+import Reviews from "./sections/reviews.js";
+import Credentials from "./sections/credentials.js";
+import Availability from "./sections/availability.js";
+import Services from "./sections/services.js";
+import Expertise from "./sections/expertise.js";
+import Pricing from "./sections/pricing.js";
+import BusinessOperations from "./sections/business-operations.js";
+import WarrantyTracker from "./sections/warranty-tracker.js";
+import FAQ from "./sections/faq.js";
+import Careers from "./sections/careers.js";
+import Partnerships from "./sections/partnerships.js";
+import MenuSection from "./sections/menu-section.js";
+import AutomotiveServices from "./sections/automotive-services.js";
+
+// Performance optimization: Memoized loading component
+const LoadingSpinner = () => (
+	<div className="flex items-center justify-center p-8">
+		<div className="w-8 h-8 border-b-2 rounded-full animate-spin border-primary"></div>
+	</div>
+);
+
+// Section wrapper with Suspense and Error Boundary
+const SectionWrapper = React.memo(({ children, ref }) => (
+	<div ref={ref} className="performance-container">
+		<ErrorBoundary>{children}</ErrorBoundary>
+	</div>
+));
+
+SectionWrapper.displayName = "SectionWrapper";
+
+export default function BizProfileClient({ businessId, initialBusiness, seoData }) {
+	const [business, setBusiness] = useState(initialBusiness || null);
+	const [showAllPhotos, setShowAllPhotos] = useState(false);
+	const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+	const [activeSection, setActiveSection] = useState("reviews"); // Start with reviews - what users need most
+	const [showScrollSpy, setShowScrollSpy] = useState(true); // Always show scroll spy
+	const [showHeaderSection, setShowHeaderSection] = useState(false); // Controls sticky header section
+	const [showMobileNav, setShowMobileNav] = useState(false);
+	const [showReviewModal, setShowReviewModal] = useState(false);
+	const [isTransitioning, setIsTransitioning] = useState(false);
+	const [scrollSpyScrollPosition, setScrollSpyScrollPosition] = useState(0);
+	const [headerHeight, setHeaderHeight] = useState(64);
+	const [shouldShowArrows, setShouldShowArrows] = useState(false);
+	const [scrollSpyContainerHeight, setScrollSpyContainerHeight] = useState(400);
+	const [actualContentHeight, setActualContentHeight] = useState(null);
+
+	// Enhanced scroll spy state
+	const [scrollSpyReady, setScrollSpyReady] = useState(false);
+	const [scrollSpyError, setScrollSpyError] = useState(null);
+
+	const [newReview, setNewReview] = useState({
+		rating: 5,
+		title: "",
+		text: "",
+		author: "",
+	});
+
+	// Intelligently combine all images for photo navigation with rich portfolio data
+	const allImages = business
+		? [
+				...(business.photos || []).map((photo) => ({
+					src: photo,
+					title: "Business Photo",
+					type: "business",
+					category: "Business Photos",
+				})),
+				...(business.portfolio || []).map((project) => ({
+					src: project.image,
+					title: project.title,
+					description: project.description,
+					type: "portfolio",
+					category: "Project Gallery",
+				})),
+				...(business.beforeAfterGallery || []).flatMap((project) => [
+					{
+						src: project.beforeImage,
+						title: `${project.title} - Before`,
+						description: project.description,
+						type: "before",
+						category: "Before & After",
+					},
+					{
+						src: project.afterImage,
+						title: `${project.title} - After`,
+						description: project.description,
+						type: "after",
+						category: "Before & After",
+					},
+				]),
+			]
+		: [];
+
+	// Ensure we have at least one image
+	const safeImages =
+		allImages.length > 0
+			? allImages
+			: [
+					{
+						src: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
+						title: "Business Photo",
+						type: "business",
+						category: "Business Photos",
+					},
+				];
+
+	// Refs for scroll spy
+	const scrollSpyContainerRef = useRef(null);
+	const scrollSpyContentRef = useRef(null);
+	const scrollSpyRef = useRef(null);
+	const navigationTimeoutRef = useRef(null);
+	const intersectionObserverRef = useRef(null);
+
+	// Section navigation items - memoized to avoid re-creation
+	const navigationItems = useMemo(
+		() => [
+			// Critical priority - what users need most
+			{ id: "reviews", label: "Reviews & Ratings", icon: Star, priority: "critical", description: "Customer experiences & social proof" },
+			{ id: "services", label: "Services & Pricing", icon: Settings, priority: "critical", description: "What we offer & costs" },
+			{ id: "availability", label: "Book Now", icon: Zap, priority: "critical", description: "Check availability & schedule" },
+			
+			// High priority - important decision factors
+			{ id: "overview", label: "About Business", icon: Building, priority: "high", description: "Company background & highlights" },
+			{ id: "credentials", label: "Credentials", icon: Shield, priority: "high", description: "Licenses & certifications" },
+			{ id: "pricing", label: "Pricing Details", icon: DollarSign, priority: "high", description: "Detailed cost breakdown" },
+			
+			// Medium priority - additional trust signals
+			{ id: "certification", label: "Elite Status", icon: Award, priority: "medium", description: "Premium business verification" },
+			{ id: "expertise", label: "Our Expertise", icon: Target, priority: "medium", description: "Specializations & team" },
+			{ id: "warrantyTracker", label: "Guarantees", icon: ClipboardCheck, priority: "medium", description: "Service warranties & guarantees" },
+			
+			// Lower priority - supplementary information
+			{ id: "businessTransparency", label: "Operations", icon: Eye, priority: "low", description: "How we work" },
+			{ id: "faq", label: "FAQ", icon: MessageCircle, priority: "low", description: "Common questions" },
+			{ id: "careers", label: "Careers", icon: Users, priority: "low", description: "Join our team" },
+			{ id: "partnerships", label: "Partners", icon: Handshake, priority: "low", description: "Business partnerships" },
+			
+			// Industry-specific sections (always high priority when relevant)
+			{ id: "menu", label: "Menu & Dining", icon: Utensils, industry: "restaurant", priority: "critical", description: "Food & beverage offerings" },
+			{ id: "automotive", label: "Auto Services", icon: Car, industry: "automotive", priority: "critical", description: "Vehicle service options" },
+		],
+		[]
+	);
+
+	// No refs needed for tab-based navigation
+
+	// Transform real Supabase business data to match component expectations
+	const transformRealBusinessData = (realBusiness) => {
+		// Determine industry based on categories
+		const primaryCategory = realBusiness.categories?.[0]?.name?.toLowerCase() || "";
+		let industry = "general";
+		if (primaryCategory.includes("restaurant") || primaryCategory.includes("food")) {
+			industry = "restaurant";
+		} else if (primaryCategory.includes("automotive") || primaryCategory.includes("auto")) {
+			industry = "automotive";
+		}
+
+		return {
+			...realBusiness,
+			// Map real data to component expected format
+			ratings: {
+				overall: realBusiness.rating || 4.5,
+				quality: realBusiness.rating || 4.5,
+				communication: realBusiness.rating || 4.5,
+				timeliness: realBusiness.rating || 4.5,
+				value: realBusiness.rating || 4.5,
+			},
+			industry,
+			trustScore: Math.floor((realBusiness.rating || 4.5) * 20),
+			responseRate: 95, // Default high response rate
+			responseTime: "within 2 hours",
+			detailedServices: realBusiness.categories?.map((c) => c.name) || [],
+			businessHighlights: [...(realBusiness.verified ? ["✓ Verified Business"] : []), ...(realBusiness.amenities || []).slice(0, 2), "✓ Licensed & Insured", "✓ Customer Satisfaction Guaranteed", "✓ Free Estimates", "✓ Emergency Services Available", "✓ 5+ Years Experience", "✓ Professional Team", "✓ Quality Materials", "✓ Timely Service"],
+			portfolioPhotos: [...(realBusiness.photos || []), "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop", "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop", "https://images.unsplash.com/photo-1554774853-719586f82d77?w=600&h=400&fit=crop"].slice(0, 6),
+			// Enhanced photo gallery
+			photos: [
+				...(realBusiness.photos || []),
+				"https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop",
+				"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&h=600&fit=crop",
+				"https://images.unsplash.com/photo-1554774853-719586f82d77?w=800&h=600&fit=crop",
+				"https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=600&fit=crop",
+				"https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&h=600&fit=crop",
+				"https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
+			],
+			// Transform reviews to match component format
+			reviews:
+				realBusiness.reviews?.map((review) => ({
+					id: review.id,
+					author: review.user?.name || "Anonymous",
+					avatar: review.user?.avatar_url || `https://i.pravatar.cc/150?u=${review.id}`,
+					rating: review.rating,
+					date: new Date(review.created_at).toLocaleDateString(),
+					text: review.text,
+					title: review.title,
+					helpful: review.helpful_count || 0,
+					verified: true,
+					photos: review.photos?.length || 0,
+					response: review.response,
+					responseDate: review.response_date ? new Date(review.response_date).toLocaleDateString() : null,
+				})) || [],
+			// Enhanced demo content for investor showcase
+			peerRecommendations: [
+				{
+					recommenderName: "Sarah Johnson",
+					recommenderAddress: "Downtown District",
+					relationship: "Repeat Customer",
+					serviceUsed: realBusiness.categories?.[0]?.name || "Service",
+					rating: realBusiness.rating || 5,
+					comment: "Outstanding service quality and professionalism. They exceeded my expectations and delivered exactly what they promised.",
+					verificationStatus: "Verified Customer",
+					date: "2 weeks ago",
+				},
+				{
+					recommenderName: "Michael Chen",
+					recommenderAddress: "Business District",
+					relationship: "Business Client",
+					serviceUsed: "Commercial Services",
+					rating: 5,
+					comment: "Reliable partner for our business needs. Quick response times and excellent communication throughout the project.",
+					verificationStatus: "Verified Business",
+					date: "1 month ago",
+				},
+			],
+			// Enhanced services data
+			detailedServices: [...(realBusiness.categories?.map((c) => c.name) || []), "Emergency Services", "Consultation", "Maintenance", "Installation", "Repairs"],
+			// Rich expertise data
+			expertise: [
+				{
+					area: realBusiness.categories?.[0]?.name || "Primary Service",
+					yearsExperience: "5+",
+					certifications: ["Licensed", "Insured"],
+					specializations: ["Commercial", "Residential", "Emergency"],
+				},
+				{
+					area: "Customer Service",
+					yearsExperience: "5+",
+					certifications: ["Customer Excellence"],
+					specializations: ["24/7 Support", "Multilingual"],
+				},
+			],
+			// Enhanced pricing structure
+			pricing: {
+				consultationFee: "$0",
+				hourlyRate: "$85-125",
+				emergencyRate: "$150",
+				minimumCharge: "$95",
+				paymentMethods: ["Cash", "Credit/Debit", "Digital Payments", "Financing Available"],
+				estimates: "Free estimates available",
+			},
+			// FAQ data
+			faq: [
+				{
+					question: "What areas do you serve?",
+					answer: `We serve ${realBusiness.city} and surrounding areas within a 25-mile radius.`,
+					category: "Service Area",
+				},
+				{
+					question: "Do you offer emergency services?",
+					answer: "Yes, we provide 24/7 emergency services with rapid response times.",
+					category: "Availability",
+				},
+				{
+					question: "Are you licensed and insured?",
+					answer: "Yes, we are fully licensed and insured for your protection and peace of mind.",
+					category: "Credentials",
+				},
+				{
+					question: "What payment methods do you accept?",
+					answer: "We accept cash, all major credit cards, and offer financing options for larger projects.",
+					category: "Payment",
+				},
+			],
+			// Career opportunities
+			careers: [
+				{
+					title: "Service Technician",
+					type: "Full-time",
+					location: realBusiness.city,
+					description: "Join our growing team of professional service technicians.",
+					requirements: ["Experience in field", "Valid driver's license", "Professional demeanor"],
+					benefits: ["Health insurance", "Paid time off", "Training provided"],
+				},
+			],
+			// Business partnerships
+			partnerships: [
+				{
+					name: "Local Supply Partners",
+					type: "Supplier",
+					description: "We work with trusted local suppliers to ensure quality materials and quick service.",
+					logo: null,
+				},
+				{
+					name: "Professional Networks",
+					type: "Professional",
+					description: "Member of local business associations and professional networks.",
+					logo: null,
+				},
+			],
+			amenities: (realBusiness.amenities || []).map((amenity) => ({
+				name: amenity,
+				icon: CheckCircle,
+				available: true,
+			})),
+			serviceArea: {
+				primary: `${realBusiness.city}, ${realBusiness.state}`,
+				coverage: "Local area",
+				cities: [realBusiness.city],
+			},
+			license: {
+				number: `LIC-${realBusiness.id.slice(0, 8)}`,
+				state: realBusiness.state,
+				verified: realBusiness.verified,
+				expires: "12/31/2025",
+			},
+			realTimeAvailability: {
+				currentStatus: "Available Now",
+				nextAvailable: "Today 2:00 PM",
+				emergencyAvailable: true,
+				avgResponseTime: "45 minutes",
+				todaySlots: [
+					{ time: "2:00 PM", available: true, type: "standard" },
+					{ time: "3:30 PM", available: true, type: "standard" },
+					{ time: "5:00 PM", available: false, type: "standard" },
+					{ time: "Emergency", available: true, type: "emergency" },
+				],
+			},
+			videoConsultation: {
+				available: true,
+				pricePerSession: "$25",
+				duration: "30 minutes",
+				languages: ["English"],
+				nextSlot: "Today 3:00 PM",
+				specialties: ["Initial Assessment", "Quote Estimation"],
+			},
+			warranties: [],
+			warrantyTracker: {
+				warranties: [
+					{
+						type: "Workmanship",
+						duration: "2 Years",
+						coverage: "Full coverage for defects",
+					},
+				],
+				activeWarranties: [],
+				claims: [],
+			},
+			multiLanguage: {
+				supportedLanguages: [{ code: "en", name: "English", flag: "🇺🇸", native: "English" }],
+				staffLanguages: ["English"],
+				translationQuality: "Professional",
+			},
+			insuranceBilling: {
+				acceptedInsurance: [],
+				directBilling: false,
+				paymentPlans: true,
+			},
+			// Enhanced work gallery for investor showcase
+			workGallery: {
+				beforeAfter: [
+					{
+						before: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop",
+						after: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
+						title: "Complete Service Transform",
+						description: "Professional results that exceed expectations",
+					},
+					{
+						before: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&h=300&fit=crop",
+						after: "https://images.unsplash.com/photo-1554774853-719586f82d77?w=400&h=300&fit=crop",
+						title: "Quality Workmanship",
+						description: "Attention to detail in every project",
+					},
+				],
+				portfolio: [
+					{
+						image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&h=400&fit=crop",
+						title: "Professional Installation",
+						description: "High-quality work with attention to detail",
+						category: "Commercial",
+					},
+					{
+						image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600&h=400&fit=crop",
+						title: "Residential Service",
+						description: "Reliable service for homeowners",
+						category: "Residential",
+					},
+					{
+						image: "https://images.unsplash.com/photo-1554774853-719586f82d77?w=600&h=400&fit=crop",
+						title: "Emergency Repair",
+						description: "Quick response for urgent needs",
+						category: "Emergency",
+					},
+				],
+			},
+			certifications: realBusiness.verified
+				? [
+						{
+							name: "Business Verification",
+							issuer: "Thorbis",
+							date: "2024",
+							verified: true,
+						},
+					]
+				: [],
+			// Add any other fields the component expects...
+		};
+	};
+
+	// Load business data using the centralized business data generator
+	useEffect(() => {
+		const loadBusinessData = () => {
+			try {
+				// If we already have initial business data from SSR, use it
+				if (initialBusiness) {
+					try {
+						// Transform the real business data to match component expectations
+						const transformedBusiness = transformRealBusinessData(initialBusiness);
+						setBusiness(transformedBusiness);
+						return;
+					} catch (transformError) {
+						console.error("Business data transformation failed:", transformError);
+						console.log("Original business data:", initialBusiness);
+						
+						// Use the initial business data directly with safe defaults
+						const safeBusiness = {
+							...initialBusiness,
+							// Ensure required fields exist
+							name: initialBusiness.name || "Business Name",
+							description: initialBusiness.description || "Professional services you can trust",
+							categories: initialBusiness.categories || ["Business"],
+							industry: initialBusiness.industry || "general",
+							ratings: initialBusiness.ratings || { overall: initialBusiness.rating || 4.5 },
+							reviewCount: initialBusiness.reviewCount || 0,
+							isOpenNow: initialBusiness.isOpenNow !== undefined ? initialBusiness.isOpenNow : true,
+							trustScore: initialBusiness.trustScore || 95,
+							responseTime: initialBusiness.responseTime || "Within 2 hours",
+							businessHighlights: initialBusiness.businessHighlights || [
+								"✓ Professional Service",
+								"✓ Licensed & Insured", 
+								"✓ Customer Satisfaction",
+								"✓ Free Estimates"
+							],
+							serviceArea: initialBusiness.serviceArea || {
+								primary: initialBusiness.address || initialBusiness.city || "Location",
+								coverage: "Local area",
+								cities: [initialBusiness.city || "City"]
+							}
+						};
+						setBusiness(safeBusiness);
+						return;
+					}
+				}
+
+				// No initial business data provided - this indicates an error in the parent component
+				console.error("No initial business data provided to BizProfileClient");
+
+				// Create a minimal fallback business structure to prevent crashes
+				const fallbackBusiness = {
+					id: businessId || "fallback",
+					name: "Business Not Found",
+					slug: businessId || "not-found",
+					description: "This business could not be loaded. Please try again later.",
+					address: "Address not available",
+					phone: "Phone not available",
+					website: null,
+					categories: ["Business"],
+					industry: "general",
+					ratings: { overall: 0 },
+					reviewCount: 0,
+					hours: "Hours not available",
+					coordinates: { lat: 0, lng: 0 },
+					isOpenNow: false,
+					price: "N/A",
+					statusMessage: "Business not found",
+					isSponsored: false,
+					logo: null,
+					photos: [],
+					trustScore: 0,
+					responseRate: 0,
+					responseTime: "N/A",
+					detailedServices: [],
+					businessHighlights: [],
+					portfolioPhotos: [],
+					reviews: [],
+					peerRecommendations: [],
+					amenities: [],
+					serviceArea: {
+						primary: "Not available",
+						coverage: "Unknown",
+						cities: ["Not available"],
+					},
+					license: {
+						number: "Not available",
+						state: "Not available",
+						verified: false,
+						expires: "Unknown",
+					},
+					realTimeAvailability: {
+						currentStatus: "Not available",
+						nextAvailable: "Unknown",
+						emergencyAvailable: false,
+						avgResponseTime: "Unknown",
+						todaySlots: [],
+					},
+					videoConsultation: null,
+					warranties: [],
+					warrantyTracker: { warranties: [], activeWarranties: [], claims: [] },
+					menu: null,
+					automotive: null,
+				};
+
+				setBusiness(fallbackBusiness);
+			} catch (error) {
+				console.error("Error in BizProfileClient initialization:", error);
+				// Final fallback - minimal business object
+				setBusiness({
+					id: businessId || "error",
+					name: "Error Loading Business",
+					description: "An error occurred while loading business information.",
+					industry: "general",
+					ratings: { overall: 0 },
+					reviewCount: 0,
+				});
+			}
+		};
+
+		loadBusinessData();
+	}, [businessId, initialBusiness]);
+
+	// Show loading state while business data is being generated
+	if (!business) {
+		return (
+			<div className="flex justify-center items-center min-h-screen bg-background">
+				<div className="w-12 h-12 rounded-full border-b-2 animate-spin border-primary"></div>
+			</div>
+		);
+	}
+
+	// Add safety check for business data integrity
+	if (!business.name) {
+		console.error("Business data is incomplete:", business);
+		return (
+			<div className="min-h-screen bg-black flex items-center justify-center">
+				<div className="text-center space-y-4">
+					<div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto">
+						<Shield className="w-8 h-8 text-red-400" />
+					</div>
+					<h2 className="text-xl font-bold text-white">Business Not Available</h2>
+					<p className="text-gray-400">This business profile could not be loaded. Please try again later.</p>
+					<Button onClick={() => window.location.reload()} className="bg-primary hover:bg-primary/90 text-primary-foreground">
+						Retry
+					</Button>
+				</div>
+			</div>
+		);
+	}
+
+	// Enhanced tab switching with smooth transitions
+	const handleSectionChange = (sectionId) => {
+		if (sectionId === activeSection) return;
+		
+		setIsTransitioning(true);
+		
+		// Small delay for smooth visual transition
+		setTimeout(() => {
+			setActiveSection(sectionId);
+			setShowMobileNav(false); // Close mobile nav after selection
+			setIsTransitioning(false);
+		}, 150);
+	};
+
+	// Filter navigation items based on business industry
+	const visibleNavigationItems = navigationItems.filter(item => {
+		if (!item.industry) return true; // Show all non-industry specific items
+		return business.industry === item.industry;
+	});
+
+	return (
+		<div className="min-h-screen bg-[#121212]" suppressHydrationWarning>
+			{/* Clean Business Header - Vercel Style */}
+			<section className="bg-[#0a0a0a] border-b border-gray-800/30">
+				<div className="max-w-6xl mx-auto px-6 py-12">
+					<div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
+						{/* Left Column - Complete Business Information */}
+						<div className="space-y-8">
+							{/* Business Identity */}
+							<div className="space-y-4">
+								<div className="flex flex-wrap items-center gap-2">
+									{business.categories?.slice(0, 3).map((category, index) => (
+										<span key={index} className="text-gray-400 text-sm bg-gray-800/40 px-2 py-1 rounded-md">
+											{category}
+										</span>
+									))}
+									{business.verified && (
+										<div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 px-2 py-1 rounded-md text-sm font-medium">
+											<CheckCircle className="w-3 h-3" />
+											Verified Business
+										</div>
+									)}
+									{business.isOpenNow && (
+										<div className="inline-flex items-center gap-1.5 bg-green-500/10 text-green-400 px-2 py-1 rounded-md text-sm font-medium">
+											<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+											Open Now
+										</div>
+									)}
+								</div>
+
+								<h1 className="text-3xl lg:text-4xl font-semibold text-[#EAEAEA] tracking-tight leading-tight">
+									{business.name}
+								</h1>
+
+								<p className="text-gray-400 leading-relaxed text-lg">
+									{business.description || "Professional services you can trust"}
+								</p>
+							</div>
+
+							{/* Rating & Social Proof */}
+							<div className="flex items-center gap-6 py-4 border-b border-gray-800/20">
+								<div className="flex items-center gap-2">
+									<div className="flex items-center gap-1">
+										{[...Array(5)].map((_, i) => (
+											<Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+										))}
+									</div>
+									<span className="text-[#EAEAEA] font-medium text-lg">{business.ratings?.overall || 4.5}</span>
+								</div>
+								<button 
+									onClick={() => handleSectionChange('reviews')} 
+									className="text-gray-400 hover:text-gray-300 text-sm underline underline-offset-4"
+								>
+									{business.reviewCount || 0} customer reviews
+								</button>
+								<div className="text-sm text-gray-400">
+									{business.trustScore || 95}% satisfaction rate
+								</div>
+							</div>
+
+							{/* Key Business Information Grid */}
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+								{/* Location & Service Area */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<MapPin className="w-4 h-4" />
+										Location & Service Area
+									</h3>
+									<div className="space-y-2 text-sm">
+										{business.address && (
+											<div className="text-gray-400">{business.address}</div>
+										)}
+										<div className="text-gray-400">
+											Service Area: {business?.serviceArea?.primary || business?.address?.split(',')[1] || 'Local area'}
+										</div>
+										{business?.serviceArea?.radius && (
+											<div className="text-gray-500">
+												Up to {business.serviceArea.radius} mile radius
+											</div>
+										)}
+									</div>
+								</div>
+
+								{/* Hours & Availability */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<Calendar className="w-4 h-4" />
+										Hours & Availability
+									</h3>
+									<div className="space-y-2 text-sm">
+										<div className={`font-medium ${business.isOpenNow ? 'text-green-400' : 'text-orange-400'}`}>
+											{business.isOpenNow ? 'Open Now' : 'Currently Closed'}
+										</div>
+										<div className="text-gray-400">
+											Today: {business.hours?.today || "9:00 AM - 6:00 PM"}
+										</div>
+										<button 
+											onClick={() => handleSectionChange('availability')} 
+											className="text-gray-500 hover:text-gray-400 text-xs underline underline-offset-2"
+										>
+											View all hours →
+										</button>
+									</div>
+								</div>
+
+								{/* Response & Communication */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<Zap className="w-4 h-4" />
+										Response & Communication
+									</h3>
+									<div className="space-y-2 text-sm">
+										<div className="text-gray-400">
+											Typical response: {business.responseTime || "2 hours"}
+										</div>
+										{business.phone && (
+											<div className="text-gray-400">
+												Phone: {business.phone}
+											</div>
+										)}
+										<div className="text-gray-400">
+											Email quotes available
+										</div>
+									</div>
+								</div>
+
+								{/* Professional Credentials */}
+								<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+									<h3 className="text-sm font-medium text-[#EAEAEA] mb-3 flex items-center gap-2">
+										<Shield className="w-4 h-4" />
+										Professional Status
+									</h3>
+									<div className="space-y-2 text-sm">
+										<div className="flex items-center gap-2 text-gray-400">
+											<CheckCircle className="w-3 h-3 text-green-500" />
+											Licensed & Insured
+										</div>
+										{business.yearsInBusiness && (
+											<div className="flex items-center gap-2 text-gray-400">
+												<Building className="w-3 h-3 text-blue-500" />
+												{business.yearsInBusiness} years experience
+											</div>
+										)}
+										<div className="flex items-center gap-2 text-gray-400">
+											<Award className="w-3 h-3 text-purple-500" />
+											Top-rated professional
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+							{/* Business Gallery - App-like Design */}
+							<div className="space-y-4">
+								<div className="flex items-center justify-between">
+									<h3 className="text-lg font-semibold text-white">Business Gallery</h3>
+									<button className="text-sm text-primary hover:text-primary/80 font-medium">
+										View All ({safeImages.length})
+									</button>
+								</div>
+								
+								{/* Main Featured Image */}
+								<div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-background border border-border">
+									<div 
+										className="absolute inset-0 bg-cover bg-center transition-all duration-500 hover:scale-105"
+										style={{ backgroundImage: `url(${safeImages[selectedImageIndex]?.src})` }}
+									/>
+									<div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+									
+									{/* Image Counter */}
+									<div className="absolute top-4 right-4 bg-black/80 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-sm font-medium">
+										{selectedImageIndex + 1} / {safeImages.length}
+									</div>
+									
+									{/* Navigation Arrows */}
+									{safeImages.length > 1 && (
+										<>
+											<button 
+												onClick={() => setSelectedImageIndex(selectedImageIndex === 0 ? safeImages.length - 1 : selectedImageIndex - 1)}
+												className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/80 backdrop-blur-sm hover:bg-black text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+											>
+												<ArrowLeft className="w-5 h-5" />
+											</button>
+											<button 
+												onClick={() => setSelectedImageIndex(selectedImageIndex === safeImages.length - 1 ? 0 : selectedImageIndex + 1)}
+												className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/80 backdrop-blur-sm hover:bg-black text-white rounded-full flex items-center justify-center transition-all duration-200 hover:scale-110"
+											>
+												<ArrowLeft className="w-5 h-5 rotate-180" />
+											</button>
+										</>
+									)}
+								</div>
+								
+								{/* Thumbnail Navigation */}
+								<div className="grid grid-cols-6 gap-2">
+									{safeImages.slice(0, 6).map((image, index) => (
+										<button
+											key={index}
+											onClick={() => setSelectedImageIndex(index)}
+											className={`relative aspect-square rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 ${
+												selectedImageIndex === index 
+													? "ring-2 ring-primary shadow-lg shadow-primary/30" 
+													: "hover:ring-1 hover:ring-border"
+											}`}
+										>
+											<div 
+												className="absolute inset-0 bg-cover bg-center"
+												style={{ backgroundImage: `url(${image.src})` }}
+											/>
+											<div className={`absolute inset-0 transition-opacity duration-300 ${
+												selectedImageIndex === index ? 'bg-primary/20' : 'bg-black/0 hover:bg-black/20'
+											}`} />
+										</button>
+									))}
+								</div>
+							</div>
+
+							{/* Key Performance Metrics - App-style Cards */}
+							<div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+								<div className="text-center p-5 bg-gradient-to-br from-background/80 to-background/40 rounded-2xl border border-border/50 shadow-xl backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+									<div className="flex items-center justify-center gap-2 mb-3">
+										<div className="w-8 h-8 bg-yellow-400/20 rounded-lg flex items-center justify-center">
+											<Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+										</div>
+									</div>
+									<div className="text-2xl font-bold text-white mb-1">{business.ratings?.overall || 4.5}</div>
+									<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Overall Rating</div>
+								</div>
+								<div className="text-center p-5 bg-gradient-to-br from-background/80 to-background/40 rounded-2xl border border-border/50 shadow-xl backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+									<div className="flex items-center justify-center gap-2 mb-3">
+										<div className="w-8 h-8 bg-blue-400/20 rounded-lg flex items-center justify-center">
+											<Users className="w-4 h-4 text-blue-400" />
+										</div>
+									</div>
+									<div className="text-2xl font-bold text-white mb-1">{business.reviewCount || 0}</div>
+									<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Reviews</div>
+								</div>
+								<div className="text-center p-5 bg-gradient-to-br from-background/80 to-background/40 rounded-2xl border border-border/50 shadow-xl backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+									<div className="flex items-center justify-center gap-2 mb-3">
+										<div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
+											<Shield className="w-4 h-4 text-primary" />
+										</div>
+									</div>
+									<div className="text-2xl font-bold text-primary mb-1">{business.trustScore || 95}%</div>
+									<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Trust Score</div>
+								</div>
+								<div className="text-center p-5 bg-gradient-to-br from-background/80 to-background/40 rounded-2xl border border-border/50 shadow-xl backdrop-blur-sm hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+									<div className="flex items-center justify-center gap-2 mb-3">
+										<div className={`w-8 h-8 rounded-lg flex items-center justify-center ${business.isOpenNow ? 'bg-green-400/20' : 'bg-red-400/20'}`}>
+											<div className={`w-3 h-3 rounded-full ${business.isOpenNow ? 'bg-green-400' : 'bg-red-400'} animate-pulse`}></div>
+										</div>
+									</div>
+									<div className={`text-lg font-bold mb-1 ${business.isOpenNow ? 'text-green-400' : 'text-red-400'}`}>
+										{business.isOpenNow ? 'Open Now' : 'Closed'}
+									</div>
+									<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide">Current Status</div>
+								</div>
+							</div>
+						</div>
+
+						{/* Right Column - Contact & Quick Actions */}
+						<div className="space-y-6">
+							{/* Contact Information Card - Enhanced */}
+							<div className="bg-gradient-to-br from-background/80 to-background/40 rounded-2xl p-6 border border-border/50 shadow-xl backdrop-blur-sm">
+								<h2 className="text-lg font-bold text-white mb-5 flex items-center gap-3">
+									<div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
+										<MapPin className="w-4 h-4 text-primary" />
+									</div>
+									Contact Details
+								</h2>
+								<div className="space-y-4">
+									<div className="flex items-start gap-3 p-3 bg-muted/30 rounded-xl">
+										<div className="w-6 h-6 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+											<MapPin className="w-3 h-3 text-primary" />
+										</div>
+										<div className="flex-1">
+											<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">Location</div>
+											<div className="text-white font-medium">{business?.serviceArea?.primary || business?.address || "Location not specified"}</div>
+										</div>
+									</div>
+									
+									{business.phone && (
+										<div className="flex items-start gap-3 p-3 bg-muted/30 rounded-xl">
+											<div className="w-6 h-6 bg-green-400/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+												<div className="w-3 h-3 bg-green-400 rounded-full"></div>
+											</div>
+											<div className="flex-1">
+												<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">Phone</div>
+												<div className="text-white font-mono font-medium">{business.phone}</div>
+											</div>
+										</div>
+									)}
+									
+									{business.website && (
+										<div className="flex items-start gap-3 p-3 bg-muted/30 rounded-xl">
+											<div className="w-6 h-6 bg-blue-400/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+												<div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+											</div>
+											<div className="flex-1">
+												<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">Website</div>
+												<div className="text-primary hover:text-primary/80 cursor-pointer font-medium">Visit Website</div>
+											</div>
+										</div>
+									)}
+									
+									<div className="flex items-start gap-3 p-3 bg-muted/30 rounded-xl">
+										<div className="w-6 h-6 bg-orange-400/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+											<Zap className="w-3 h-3 text-orange-400" />
+										</div>
+										<div className="flex-1">
+											<div className="text-xs text-muted-foreground font-medium uppercase tracking-wide mb-1">Response Time</div>
+											<div className="text-white font-medium">{business.responseTime || "Within 2 hours"}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							{/* Vercel-Style Key Features */}
+							<div className="bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+								<h3 className="text-sm font-medium text-[#EAEAEA] mb-3">Key Features</h3>
+								<div className="space-y-2">
+									<div className="flex items-center gap-2 text-sm text-gray-400">
+										<CheckCircle className="w-4 h-4 text-green-500" />
+										{business.reviewCount || 0}+ satisfied customers
+									</div>
+									<div className="flex items-center gap-2 text-sm text-gray-400">
+										<Shield className="w-4 h-4 text-blue-500" />
+										{business.verified ? 'Verified & Licensed' : 'Licensed business'}
+									</div>
+									<div className="flex items-center gap-2 text-sm text-gray-400">
+										<Zap className="w-4 h-4 text-yellow-500" />
+										{business.responseTime || '2 hour'} response time
+									</div>
+									<div className="flex items-center gap-2 text-sm text-gray-400">
+										<Award className="w-4 h-4 text-purple-500" />
+										{business.trustScore || 95}% satisfaction rate
+									</div>
+								</div>
+								
+								{/* Pricing Preview */}
+								{business.startingPrice && (
+									<div className="mt-4 pt-3 border-t border-gray-800/30">
+										<div className="flex items-center justify-between text-sm">
+											<span className="text-gray-500">Starting from</span>
+											<span className="text-[#EAEAEA] font-medium">{business.startingPrice}</span>
+										</div>
+									</div>
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Vercel-Style Info Strip */}
+			<section className="bg-gray-900/10 border-y border-gray-800/20">
+				<div className="max-w-6xl mx-auto px-6 py-4">
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+						<div className="p-3">
+							<div className="text-sm font-medium text-[#EAEAEA]">{business.startingPrice || 'Call for quote'}</div>
+							<div className="text-xs text-gray-500">Starting price</div>
+						</div>
+						<div className="p-3">
+							<div className="text-sm font-medium text-[#EAEAEA]">{business.responseTime || '2 hours'}</div>
+							<div className="text-xs text-gray-500">Response time</div>
+						</div>
+						<div className="p-3">
+							<div className="text-sm font-medium text-[#EAEAEA]">{business?.serviceArea?.primary || 'Local area'}</div>
+							<div className="text-xs text-gray-500">Service area</div>
+						</div>
+						<div className="p-3">
+							<div className={`text-sm font-medium ${business.isOpenNow ? 'text-green-400' : 'text-gray-400'}`}>
+								{business.isOpenNow ? 'Open now' : 'Closed'}
+							</div>
+							<div className="text-xs text-gray-500">Status</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Main Content - Vercel Layout */}
+			<section className="max-w-6xl mx-auto px-6 py-8">
+				<div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8">
+					{/* Left Column - Navigation Tabs */}
+					<div className="space-y-6">
+						{/* Mobile Navigation Toggle - App Design */}
+						<div className="lg:hidden">
+							<Button
+								onClick={() => setShowMobileNav(!showMobileNav)}
+								className="w-full h-14 bg-gradient-to-r from-gray-900/90 to-gray-900/70 hover:from-gray-800 hover:to-gray-800/80 border border-gray-700/60 text-white justify-between rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-sm"
+							>
+								<div className="flex items-center gap-3">
+									<div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center">
+										<Building className="h-4 w-4 text-primary" />
+									</div>
+									<span className="font-bold">Browse Sections</span>
+								</div>
+								<div className={`transition-transform duration-300 ${showMobileNav ? 'rotate-180' : ''}`}>
+									<ArrowLeft className="h-5 w-5 rotate-90" />
+								</div>
+							</Button>
+						</div>
+
+						{/* Navigation Tabs - Vercel Style */}
+						<nav className={`space-y-1 ${showMobileNav ? 'block' : 'hidden lg:block'}`}>
+							{visibleNavigationItems.map((item) => {
+								const IconComponent = item.icon;
+								const isActive = activeSection === item.id;
+								
+								return (
+									<button
+										key={item.id}
+										onClick={() => handleSectionChange(item.id)}
+										className={`w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-left text-sm ${
+											isActive
+												? "bg-gray-800/50 text-[#EAEAEA] border-l-2 border-gray-500"
+												: "text-gray-400 hover:text-gray-300 hover:bg-gray-900/20"
+										}`}
+									>
+										<IconComponent className="h-4 w-4 shrink-0" />
+										<div className="flex-1">
+											<span className="font-medium">{item.label}</span>
+											{item.priority === 'critical' && (
+												<span className="ml-2 text-xs bg-gray-700 text-gray-300 px-1 rounded">Essential</span>
+											)}
+										</div>
+									</button>
+								);
+							})}
+						</nav>
+
+						{/* Contact Card - Vercel Style */}
+						<div className="hidden lg:block bg-gray-900/20 border border-gray-800/20 rounded-lg p-4">
+							<h3 className="text-sm font-medium text-[#EAEAEA] mb-3">Get in Touch</h3>
+							
+							{business.isOpenNow && (
+								<div className="mb-4 p-2 bg-green-500/10 border border-green-500/20 rounded-md">
+									<div className="flex items-center gap-2 text-green-400 text-sm">
+										<div className="w-2 h-2 bg-green-400 rounded-full"></div>
+										Available now
+									</div>
+								</div>
+							)}
+							
+							<div className="space-y-2">
+								<button className="w-full h-9 bg-white text-black font-medium rounded-md hover:bg-gray-100 transition-colors text-sm">
+									Get Quote
+								</button>
+								<button className="w-full h-9 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-md transition-colors text-sm">
+									Call {business.phone ? business.phone.slice(-4) : 'Now'}
+								</button>
+							</div>
+							
+							<div className="mt-4 pt-3 border-t border-gray-800/30 text-center">
+								<div className="text-xs text-gray-500">
+									{business.trustScore || 95}% satisfaction • {business.reviewCount || 0} reviews
+								</div>
+							</div>
+						</div>
+					</div>
+
+					{/* Right Column - Tab Content */}
+					<div className="min-h-[600px] relative">
+						{/* Content Header - Vercel Style */}
+						<div className="mb-6 pb-4 border-b border-gray-800/20">
+							<div className="flex items-center gap-3">
+								{(() => {
+									const activeItem = visibleNavigationItems.find(item => item.id === activeSection);
+									const IconComponent = activeItem?.icon || Building;
+									return <IconComponent className="h-5 w-5 text-gray-400" />;
+								})()}
+								<h2 className="text-xl font-semibold text-[#EAEAEA]">
+									{visibleNavigationItems.find(item => item.id === activeSection)?.label || 'Reviews & Ratings'}
+								</h2>
+								{visibleNavigationItems.find(item => item.id === activeSection)?.priority === 'critical' && (
+									<span className="bg-gray-700 text-gray-300 px-2 py-0.5 rounded text-xs">Essential</span>
+								)}
+							</div>
+							<p className="text-gray-500 text-sm mt-2">
+								{visibleNavigationItems.find(item => item.id === activeSection)?.description || 'Essential business information'}
+							</p>
+						</div>
+						
+						{/* Dynamic Content with Smooth Transitions */}
+						<div className={`transition-all duration-500 ease-in-out ${isTransitioning ? 'opacity-50 translate-y-2' : 'opacity-100 translate-y-0'}`}>
+						{isTransitioning && (
+							<div className="flex items-center justify-center py-12">
+								<div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin"></div>
+							</div>
+						)}
+						
+						{!isTransitioning && activeSection === 'overview' && (
+							<SectionWrapper>
+								<BusinessOverview business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'certification' && (
+							<SectionWrapper>
+								<CertifiedElite business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'reviews' && (
+							<SectionWrapper>
+								<ErrorBoundary
+									fallback={(error) => (
+										<div className="p-6 border border-orange-500/20 rounded-xl bg-orange-900/10 backdrop-blur-sm">
+											<div className="flex items-center gap-2 mb-3">
+												<Star className="w-5 h-5 text-orange-400" />
+												<h3 className="text-lg font-semibold text-orange-200">Reviews & Testimonials</h3>
+											</div>
+											<p className="text-sm text-orange-300/80 mb-4">Reviews are temporarily unavailable. Please check back later.</p>
+											<Button variant="outline" size="sm" className="border-orange-400/30 text-orange-300 hover:bg-orange-900/20">
+												Try Again
+											</Button>
+										</div>
+									)}
+								>
+									<Reviews business={business} setShowReviewModal={setShowReviewModal} />
+								</ErrorBoundary>
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'credentials' && (
+							<SectionWrapper>
+								<Credentials business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'availability' && (
+							<SectionWrapper>
+								<Availability business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'services' && (
+							<SectionWrapper>
+								<Services business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'expertise' && (
+							<SectionWrapper>
+								<Expertise business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'pricing' && (
+							<SectionWrapper>
+								<Pricing business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'businessTransparency' && (
+							<SectionWrapper>
+								<BusinessOperations business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'warrantyTracker' && (
+							<SectionWrapper>
+								<WarrantyTracker business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'faq' && (
+							<SectionWrapper>
+								<FAQ business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'careers' && (
+							<SectionWrapper>
+								<Careers business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'partnerships' && (
+							<SectionWrapper>
+								<Partnerships business={business} />
+							</SectionWrapper>
+						)}
+
+						{/* Industry-specific sections */}
+						{!isTransitioning && activeSection === 'menu' && business.industry === "restaurant" && (
+							<SectionWrapper>
+								<MenuSection business={business} />
+							</SectionWrapper>
+						)}
+
+						{!isTransitioning && activeSection === 'automotive' && business.industry === "automotive" && (
+							<SectionWrapper>
+								<AutomotiveServices business={business} />
+							</SectionWrapper>
+						)}
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Mobile Actions - Vercel Style */}
+			<div className="lg:hidden fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+				<button className="w-12 h-12 bg-white text-black rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center">
+					<MessageCircle className="h-5 w-5" />
+				</button>
+				<button className="w-12 h-12 bg-gray-800 border border-gray-700 text-gray-300 hover:bg-gray-700 hover:text-white rounded-lg transition-colors flex items-center justify-center">
+					<Phone className="h-5 w-5" />
+				</button>
+			</div>
+
+			{/* Mobile Tab Indicator - Vercel Style */}
+			<div className="lg:hidden fixed bottom-[90px] left-1/2 -translate-x-1/2 z-40">
+				<div className="bg-gray-900/90 border border-gray-800/30 text-[#EAEAEA] px-3 py-1.5 rounded-md text-sm shadow-lg">
+					<span>{visibleNavigationItems.find(item => item.id === activeSection)?.label || 'Reviews & Ratings'}</span>
+				</div>
+			</div>
+		</div>
+	);
+}

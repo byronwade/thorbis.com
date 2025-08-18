@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Nonprofit Management Software – Donor Management, Fundraising, Volunteers | Thorbis",
-	description: "Complete nonprofit management platform with donor relationship management, fundraising tools, volunteer coordination, and grant tracking for charitable organizations.",
-	keywords: ["nonprofit management software", "donor management system", "fundraising software", "volunteer management", "nonprofit CRM", "charity software"],
-	alternates: { canonical: "https://thorbis.com/nonprofit-management-software" },
-	openGraph: {
-		title: "Nonprofit Management Software – Amplify Your Mission",
-		description: "Donor management, fundraising tools, volunteer coordination, and impact tracking.",
-		type: "website",
-		url: "https://thorbis.com/nonprofit-management-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Nonprofit Management Software")}&description=${encodeURIComponent("Donor management, fundraising, and volunteer coordination.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Nonprofit Management Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Nonprofit Management Software – Amplify Your Mission",
-		description: "Donor management, fundraising tools, volunteer coordination, and impact tracking.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Nonprofit Management Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Nonprofit Management Software – Donor Management, Fundraising, Volunteers | Thorbis",
+		description: "Complete nonprofit management platform with donor relationship management, fundraising tools, volunteer coordination, and grant tracking for charitable organizations.",
+		path: "/nonprofit-management-software",
+		keywords: ["nonprofit management software", "donor management system", "fundraising software", "volunteer management", "nonprofit CRM", "charity software"],
+	});
+}
 
 import { Star, Heart, Users, Target, DollarSign, BarChart3, Shield } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -158,7 +139,7 @@ export default function NonprofitManagementSoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-rose-600 px-6 py-3 text-white font-semibold hover:bg-rose-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -238,7 +219,7 @@ export default function NonprofitManagementSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Amplify Your Mission</h2>
 				<p className="text-lg mb-6 opacity-90">Join nonprofits worldwide using Thorbis to increase donations and maximize their impact.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-rose-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

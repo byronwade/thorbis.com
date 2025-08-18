@@ -4,37 +4,17 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, Users, MessageSquare, Calendar, BarChart3, MapPin, Clock, ArrowRight, Star, DollarSign, Target, Building, Award, Play, AlertTriangle, Heart, CreditCard, Plane, Home, Hotel } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "Booking.com Alternative – Thorbis vs Booking | Thorbis",
-	description: "See why Thorbis is a modern alternative to Booking.com: fixed pricing, direct customer relationships, full data access, and multi‑platform sync.",
-	keywords: ["Booking alternative", "Booking.com vs Thorbis", "hotel booking alternative", "direct bookings platform", "commission free booking"],
-	alternates: { canonical: "https://thorbis.com/booking-alternative" },
-	openGraph: {
-		title: "Booking.com Alternative – Thorbis vs Booking",
-		description: "Modern alternative to Booking.com with fixed pricing, direct relationships, full data access, and multi‑platform sync.",
-		type: "website",
-		url: "https://thorbis.com/booking-alternative",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Booking.com Alternative")}&description=${encodeURIComponent("Fixed pricing, direct relationships, data access, and multi‑platform sync.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis vs Booking.com",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Booking.com Alternative – Thorbis vs Booking",
-		description: "Modern alternative to Booking.com with fixed pricing, direct relationships, full data access, and multi‑platform sync.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Booking.com Alternative")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Booking.com Alternative – Thorbis vs Booking | Thorbis",
+		description: "See why Thorbis is a modern alternative to Booking.com: fixed pricing, direct customer relationships, full data access, and multi‑platform sync.",
+		path: "/booking-alternative",
+		keywords: ["Booking alternative", "Booking.com vs Thorbis", "hotel booking alternative", "direct bookings platform", "commission free booking"],
+	});
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {

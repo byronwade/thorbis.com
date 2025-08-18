@@ -282,7 +282,7 @@ export default function ThorbisSlideshowApp() {
         {isPlaying && (
           <div className="px-3 md:px-4 pb-1 flex-shrink-0">
             <div className="w-full bg-slate-900 rounded-full h-0.5">
-              <div className="bg-blue-500 h-0.5 rounded-full transition-all duration-100" style={{ width: `${progress}%` }} />
+              				<div className="bg-primary h-0.5 rounded-full transition-all duration-100" style={{ width: `${progress}%` }} />
             </div>
           </div>
         )}
@@ -301,7 +301,7 @@ export default function ThorbisSlideshowApp() {
             </button>
             <div className="flex gap-1 overflow-x-auto max-w-xs md:max-w-none">
               {slides.map((_, index) => (
-                <button key={index} onClick={() => goToSlide(index)} className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-colors flex-shrink-0 ${index === currentSlide ? "bg-blue-500" : "bg-slate-700 hover:bg-slate-600"}`} aria-label={`Go to slide ${index + 1}`} />
+                <button key={index} onClick={() => goToSlide(index)} className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-colors flex-shrink-0 ${index === currentSlide ? "bg-primary" : "bg-slate-700 hover:bg-slate-600"}`} aria-label={`Go to slide ${index + 1}`} />
               ))}
             </div>
             <button onClick={nextSlide} className="text-slate-500 hover:text-white transition-colors p-1 md:p-2" aria-label="Next slide">

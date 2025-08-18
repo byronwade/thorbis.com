@@ -126,12 +126,25 @@ function addSecurityHeaders(response) {
 	// Permissions Policy
 	response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()");
 
+	// Content Security Policy with Vercel Analytics and Google Maps support (both dev and production)
+	const csp = [
+		"default-src 'self'",
+		"script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.supabase.co https://va.vercel-scripts.com https://*.vercel-scripts.com https://maps.googleapis.com",
+		"script-src-elem 'self' 'unsafe-inline' https://vercel.live https://*.supabase.co https://va.vercel-scripts.com https://*.vercel-scripts.com https://maps.googleapis.com",
+		        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com",
+		"font-src 'self' https://fonts.gstatic.com",
+		"img-src 'self' data: https: blob: https://maps.googleapis.com https://maps.gstatic.com",
+		"connect-src 'self' https: https://*.supabase.co https://api.pwnedpasswords.com https://va.vercel-scripts.com https://vercel.live https://*.vercel-scripts.com https://maps.googleapis.com https://maps.gstatic.com",
+		"media-src 'self' https:",
+		"worker-src 'self' blob:",
+		"object-src 'none'",
+		"frame-ancestors 'none'",
+	].join("; ");
+	response.headers.set("Content-Security-Policy", csp);
+
 	// HTTPS enforcement in production
 	if (process.env.NODE_ENV === "production") {
 		response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-
-		// Content Security Policy
-		response.headers.set("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:;");
 	}
 }
 

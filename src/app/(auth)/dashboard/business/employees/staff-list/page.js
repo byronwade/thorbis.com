@@ -345,13 +345,13 @@ export default function StaffList() {
 			case "active":
 				return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300";
 			case "inactive":
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 			case "on_leave":
 				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300";
 			case "terminated":
 				return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 		}
 	};
 
@@ -364,12 +364,12 @@ export default function StaffList() {
 			case "expired":
 				return "bg-red-100 text-red-800";
 			default:
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-muted-foreground";
 		}
 	};
 
 	const getRatingStars = (rating) => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < Math.floor(rating) ? "text-yellow-400 fill-current" : "text-gray-300"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < Math.floor(rating) ? "text-yellow-400 fill-current" : "text-muted-foreground/30"}`} />);
 	};
 
 	const getExperienceYears = (hireDate) => {
@@ -494,7 +494,7 @@ export default function StaffList() {
 					<CardContent className="p-4">
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
 							<div className="relative">
-								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
 								<Input placeholder="Search staff..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10" />
 							</div>
 							<Select value={roleFilter} onValueChange={setRoleFilter}>
@@ -742,7 +742,7 @@ export default function StaffList() {
 						</div>
 					) : (
 						<div className="text-center py-12">
-							<Users className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+							<Users className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
 							<h3 className="text-lg font-medium mb-2">No employees found</h3>
 							<p className="text-muted-foreground mb-4">No employees match your current filters. Try adjusting your search criteria.</p>
 							<Button>

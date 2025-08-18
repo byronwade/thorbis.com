@@ -62,36 +62,115 @@ class PerformanceSystem {
 	}
 
 	/**
-	 * Internal initialization logic
+	 * Internal initialization logic with time-slicing to prevent long tasks
 	 */
 	async _performInitialization() {
 		const startTime = performance.now();
 		logger.info("🎯 Initializing Performance System...");
 
 		try {
-			// Phase 1: Core Performance Infrastructure (parallel)
-			await this._initializePhase1();
+			// Phase 1: Critical Performance Infrastructure (immediate)
+			await this._initializeCriticalPhase();
+			
+			// Yield control to prevent long tasks
+			await this._yieldToMainThread();
 
-			// Phase 2: Search and Navigation Systems (parallel)
-			await this._initializePhase2();
-
-			// Phase 3: Advanced Features (sequential)
-			await this._initializePhase3();
-
-			// Phase 4: Service Worker and Monitoring
-			await this._initializePhase4();
+			// Phase 2: Important Systems (deferred with idle callback)
+			this._deferredInitialization();
 
 			const initTime = performance.now() - startTime;
 			this.isInitialized = true;
 
-			logger.performance(`✅ Performance System initialized in ${initTime.toFixed(1)}ms`);
-			this._logSystemStatus();
+			logger.performance(`✅ Performance System (critical) initialized in ${initTime.toFixed(1)}ms`);
 
 			return true;
 		} catch (error) {
 			logger.error("❌ Performance System initialization failed:", error);
 			throw error;
 		}
+	}
+
+	/**
+	 * Critical phase - only essential performance systems
+	 */
+	async _initializeCriticalPhase() {
+		logger.debug("📊 Critical Phase: Essential Performance Systems");
+
+		// Only initialize critical systems that affect LCP/FCP
+		const criticalPromises = [
+			this._initPerformanceOrchestrator(),
+			this._initWebVitals(),
+		];
+
+		await Promise.allSettled(criticalPromises);
+	}
+
+	/**
+	 * Deferred initialization using requestIdleCallback to prevent blocking
+	 */
+	_deferredInitialization() {
+		const deferredTasks = [
+			() => this._initInstantPreloader(),
+			() => this._initInstantPageLoader(),
+			() => this._initStreamingSearch(),
+			() => this._initCompressedIndex(),
+			() => this._initImageHoverPrefetcher(),
+			() => this._initAdvancedPrefetcher(),
+			() => this._initUltraAggressivePrefetcher(),
+			() => this._initEdgeStreaming(),
+			() => this._initPartialPrerendering(),
+			() => this._initServiceWorker(),
+		];
+
+		// Process tasks during idle time to prevent blocking
+		this._processTasksInIdle(deferredTasks);
+	}
+
+	/**
+	 * Process tasks during idle periods to prevent long tasks
+	 */
+	async _processTasksInIdle(tasks) {
+		const processTask = async (taskFn) => {
+			try {
+				await taskFn();
+			} catch (error) {
+				logger.warn('Deferred performance task failed:', error);
+			}
+		};
+
+		// Use requestIdleCallback if available, otherwise setTimeout
+		const scheduleTask = (taskFn) => {
+			if (typeof requestIdleCallback !== 'undefined') {
+				requestIdleCallback(async (deadline) => {
+					if (deadline.timeRemaining() > 5) {
+						await processTask(taskFn);
+					} else {
+						// Reschedule if not enough idle time
+						scheduleTask(taskFn);
+					}
+				});
+			} else {
+				setTimeout(() => processTask(taskFn), 0);
+			}
+		};
+
+		// Schedule all tasks
+		tasks.forEach(scheduleTask);
+	}
+
+	/**
+	 * Yield control to main thread to prevent long tasks
+	 */
+	async _yieldToMainThread() {
+		return new Promise(resolve => {
+			if (typeof MessageChannel !== 'undefined') {
+				const channel = new MessageChannel();
+				channel.port2.onmessage = () => resolve();
+				channel.port1.postMessage(null);
+			} else {
+				setTimeout(resolve, 0);
+			}
+		});
 	}
 
 	/**

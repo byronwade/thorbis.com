@@ -1,81 +1,50 @@
 "use client";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@components/ui/button";
-import { ArrowLeft } from "react-feather";
-import DarkModeToggle from "@components/ui/dark-mode-toggle";
-
-function DevAuthTools() {
-	const [enabled, setEnabled] = useState(false);
-	const [mounted, setMounted] = useState(false);
-
-	useEffect(() => {
-		setMounted(true);
-		if (process.env.NODE_ENV === "development") {
-			setEnabled(localStorage.getItem("thorbis_auth_dev_disabled") === "1");
-		}
-	}, []);
-
-	if (!mounted || process.env.NODE_ENV !== "development") return null;
-
-	const toggle = () => {
-		const now = localStorage.getItem("thorbis_auth_dev_disabled") === "1";
-		if (now) {
-			localStorage.removeItem("thorbis_auth_dev_disabled");
-			document.cookie = "dev_auth_off=; Max-Age=0; path=/";
-		} else {
-			localStorage.setItem("thorbis_auth_dev_disabled", "1");
-			document.cookie = "dev_auth_off=1; Max-Age=31536000; path=/";
-		}
-		window.location.reload();
-	};
-
-	return (
-		<button onClick={toggle} className="text-xs px-2 py-1 rounded border border-border text-muted-foreground hover:text-foreground">
-			{enabled ? "Auth OFF" : "Auth ON"}
-		</button>
-	);
-}
+import { Shield } from "react-feather";
+import UnifiedHeader from "@components/shared/unified-header";
 
 export default function AuthFormsLayoutClient({ children }) {
 	return (
-		<div className="min-h-screen bg-background relative">
-			{/* Header with Logo and Theme Toggle */}
-			<header className="absolute top-0 left-0 right-0 z-50 flex justify-between items-center p-6">
-				<Link href="/" className="flex items-center space-x-3 group">
-					<Image src="/logos/ThorbisLogo.webp" alt="Thorbis Logo" width={40} height={40} className="w-10 h-10 transition-transform group-hover:scale-110" />
-					<span className="text-xl font-bold text-foreground hidden sm:block">Thorbis</span>
-				</Link>
-				<div className="flex items-center space-x-4">
-					<Link href="/">
-						<Button variant="ghost" size="sm" className="flex gap-2 items-center text-muted-foreground hover:text-foreground">
-							<ArrowLeft className="w-4 h-4" />
-							<span className="hidden sm:inline">Back to Thorbis</span>
-						</Button>
-					</Link>
-					<DevAuthTools />
-					<DarkModeToggle />
-				</div>
-			</header>
+		<div className="min-h-screen bg-background">
+			{/* Unified Auth Header */}
+			<UnifiedHeader
+				dashboardType="auth"
+				customTitle="Thorbis"
+				backHref="/"
+				showCompanySelector={false}
+				showSearch={false}
+				showCart={false}
+			/>
 
-			{/* Main Content Area */}
-			<main className="flex flex-col items-center justify-center min-h-screen px-4 py-20">
-				{/* Welcome Section */}
-				<div className="text-center mb-8 max-w-md">
-					<div className="mb-4">
-						<h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Welcome Back</h1>
+			{/* Main Content Area - Clean and Spacious */}
+			<main className="flex flex-col items-center justify-center flex-1 px-4 py-12 sm:py-16">
+				{/* Simplified Welcome Section */}
+				<div className="text-center mb-12">
+					<h1 className="text-2xl sm:text-3xl font-medium text-foreground mb-3">
+						Welcome back
+					</h1>
+					<p className="text-muted-foreground text-sm">
+						Sign in to your account to continue
+					</p>
+				</div>
+
+				{/* Clean Form Container */}
+				<div className="w-full max-w-sm">
+					{/* Banner will be rendered here by the LoginPage component */}
+					<div className="bg-card border border-border/60 rounded-2xl p-6 sm:p-8">
+						{children}
 					</div>
 				</div>
 
-				{/* Form Container */}
-				<div className="w-full max-w-xl">
-					<div className="bg-card border border-border rounded-xl shadow-sm p-8 sm:p-10">{children}</div>
-				</div>
-
-				{/* Reassurance (condensed) */}
-				<div className="mt-4 w-full max-w-xl text-center">
-					<p className="text-xs text-muted-foreground">Secure • Private • SSO options</p>
+				{/* Minimal Trust Indicators */}
+				<div className="mt-8 flex items-center justify-center space-x-4 text-xs text-muted-foreground">
+					<span className="flex items-center">
+						<Shield className="w-3 h-3 mr-1" />
+						Secure
+					</span>
+					<span>•</span>
+					<span>Private</span>
+					<span>•</span>
+					<span>Fast</span>
 				</div>
 			</main>
 		</div>

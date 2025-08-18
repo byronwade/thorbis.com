@@ -1,35 +1,16 @@
-export const metadata = {
-	title: "Automotive Dealership Software – Sales, Service, Inventory Management | Thorbis",
-	description: "Complete automotive dealership management with vehicle sales tracking, service scheduling, inventory management, and customer relationship tools for car dealerships.",
-	keywords: ["automotive dealership software", "car dealership management", "vehicle inventory software", "auto sales management", "dealership CRM", "dealer management system"],
-	alternates: { canonical: "https://thorbis.com/automotive-dealership-software" },
-	openGraph: {
-		title: "Automotive Dealership Software – Complete Dealership Management",
-		description: "Vehicle sales tracking, service scheduling, inventory management, and customer relationship tools.",
-		type: "website",
-		url: "https://thorbis.com/automotive-dealership-software",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("Automotive Dealership Software")}&description=${encodeURIComponent("Vehicle sales, service scheduling, and inventory management.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis Automotive Dealership Software",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "Automotive Dealership Software – Complete Dealership Management",
-		description: "Vehicle sales tracking, service scheduling, inventory management, and customer relationship tools.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("Automotive Dealership Software")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Automotive Dealership Software – Sales, Service, Inventory Management | Thorbis",
+		description: "Complete automotive dealership management with vehicle sales tracking, service scheduling, inventory management, and customer relationship tools for car dealerships.",
+		path: "/automotive-dealership-software",
+		keywords: ["automotive dealership software", "car dealership management", "vehicle inventory software", "auto sales management", "dealership CRM", "dealer management system"],
+	});
+}
 
 import { Star, Car, Wrench, Users, BarChart3, DollarSign, Shield } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 function JsonLd() {
 	const data = {
@@ -158,7 +139,7 @@ export default function AutomotiveDealershipSoftware() {
 					<a href="/signup" className="inline-flex items-center rounded-md bg-blue-600 px-6 py-3 text-white font-semibold hover:bg-blue-700 transition-colors">
 						Start Free Trial
 					</a>
-					<a href="/contact" className="inline-flex items-center rounded-md border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors">
+					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Schedule Demo
 					</a>
 				</div>
@@ -238,7 +219,7 @@ export default function AutomotiveDealershipSoftware() {
 				<h2 className="text-3xl font-bold mb-4">Ready to Transform Your Dealership?</h2>
 				<p className="text-lg mb-6 opacity-90">Join hundreds of successful dealerships using Thorbis to increase sales and improve operations.</p>
 				<div className="flex items-center justify-center gap-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-white text-blue-600 px-6 py-3 font-semibold hover:bg-gray-100 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-card text-primary px-6 py-3 font-semibold hover:bg-accent transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-white/30 px-6 py-3 font-semibold hover:bg-white/10 transition-colors">

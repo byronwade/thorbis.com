@@ -12,16 +12,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 // Common business categories
 const businessCategories = ["Restaurants & Food", "Healthcare & Medical", "Home & Garden", "Automotive", "Professional Services", "Retail & Shopping", "Beauty & Wellness", "Education & Training", "Real Estate", "Entertainment & Recreation", "Financial Services", "Technology", "Construction & Contractors", "Travel & Hospitality", "Pet Services", "Legal Services", "Fitness & Sports", "Arts & Culture", "Non-Profit", "Other Services"];
 
-// Color options
+// Color options - Updated to Thorbis theme (Blue + Neutral variations)
 const colorOptions = [
-	{ name: "Blue", value: "#3B82F6", class: "bg-blue-500" },
-	{ name: "Purple", value: "#8B5CF6", class: "bg-purple-500" },
-	{ name: "Green", value: "#10B981", class: "bg-green-500" },
-	{ name: "Red", value: "#EF4444", class: "bg-red-500" },
-	{ name: "Orange", value: "#F97316", class: "bg-orange-500" },
-	{ name: "Pink", value: "#EC4899", class: "bg-pink-500" },
-	{ name: "Indigo", value: "#6366F1", class: "bg-indigo-500" },
-	{ name: "Teal", value: "#14B8A6", class: "bg-teal-500" },
+	{ name: "Thorbis Blue", value: "#3B82F6", class: "bg-primary" },
+	{ name: "Dark Blue", value: "#1E40AF", class: "bg-primary/80" },
+	{ name: "Light Blue", value: "#60A5FA", class: "bg-primary/60" },
+	{ name: "Neutral Gray", value: "#6B7280", class: "bg-muted-foreground" },
+	{ name: "Dark Gray", value: "#374151", class: "bg-muted-foreground/80" },
+	{ name: "Light Gray", value: "#9CA3AF", class: "bg-muted-foreground/60" },
+	{ name: "White", value: "#FFFFFF", class: "bg-background" },
+	{ name: "Black", value: "#000000", class: "bg-foreground" },
 ];
 
 export default function DirectoryCustomization() {
@@ -142,7 +142,7 @@ export default function DirectoryCustomization() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Globe className="w-4 h-4" />
-									Subdomain <span className="text-red-500">*</span>
+									Subdomain <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Your directory will be accessible at this URL. Choose something memorable and relevant to your location.</FormDescription>
 								<FormControl>
@@ -160,7 +160,7 @@ export default function DirectoryCustomization() {
 									</div>
 								</FormControl>
 								{validationTips.subdomain && (
-									<div className={`flex items-center gap-1 text-sm ${validationTips.subdomain.startsWith("✓") ? "text-green-600" : "text-amber-600"}`}>
+									<div className={`flex items-center gap-1 text-sm ${validationTips.subdomain.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
 										{validationTips.subdomain.startsWith("✓") ? <CheckCircle className="w-3 h-3" /> : <AlertCircle className="w-3 h-3" />}
 										{validationTips.subdomain.replace("✓ ", "")}
 									</div>
@@ -203,7 +203,7 @@ export default function DirectoryCustomization() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Tags className="w-4 h-4" />
-									Business Categories <span className="text-red-500">*</span>
+									Business Categories <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Select the types of businesses you want in your directory. You can add more categories later.</FormDescription>
 								<FormControl>
@@ -251,10 +251,10 @@ export default function DirectoryCustomization() {
 				</div>
 
 				{/* Preview Alert */}
-				<Alert className="border-purple-200 bg-purple-50 dark:border-purple-800 dark:bg-purple-950/20">
-					<AlertCircle className="h-4 w-4 text-purple-600" />
-					<AlertDescription className="text-purple-800 dark:text-purple-200">
-						<strong>Preview:</strong> Your directory will be available at <code className="bg-purple-100 dark:bg-purple-900 px-1 rounded text-xs">{subdomain || "your-subdomain"}.localhub.com</code> with your chosen color scheme and categories.
+									<Alert className="border-primary/20 bg-primary/10 dark:border-primary/20 dark:bg-primary/10">
+						<AlertCircle className="h-4 w-4 text-primary" />
+						<AlertDescription className="text-primary dark:text-primary">
+							<strong>Preview:</strong> Your directory will be available at <code className="bg-primary/20 dark:bg-primary/20 px-1 rounded text-xs">{subdomain || "your-subdomain"}.localhub.com</code> with your chosen color scheme and categories.
 					</AlertDescription>
 				</Alert>
 			</div>

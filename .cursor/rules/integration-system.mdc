@@ -1,0 +1,739 @@
+---
+description: Integration system architecture, permissions, and business owner control patterns
+---
+
+# Integration System Architecture & Permissions
+
+## 🎯 CORE PRINCIPLES
+
+**Every integration must be secure, intuitive, and provide granular business owner control over employee access.**
+
+### Integration System Philosophy
+1. **Zero Trust Architecture**: Never trust, always verify - continuous authentication and authorization
+2. **Principle of Least Privilege**: Users get minimum access needed for their role
+3. **Business Owner Control**: Comprehensive permission management for business owners
+4. **Intuitive Design**: Clean, consistent UI/UX across all integrations
+5. **Audit Trail**: Complete logging of all permission changes and access
+
+## 🏗️ Integration Structure Standards
+
+### Required Integration Architecture
+```typescript
+// REQUIRED: Every integration must follow this structure
+interface Integration {
+  id: string;
+  name: string;
+  description: string;
+  category: IntegrationCategory;
+  
+  // Core Configuration
+  config: {
+    enabled: boolean;
+    defaultEnabled: boolean; // New integrations default to true
+    apiEndpoint: string;
+    version: string;
+    lastSync: Date;
+  };
+  
+  // Permission System
+  permissions: IntegrationPermissions;
+  
+  // UI Configuration
+  ui: {
+    icon: string;
+    color: string;
+    headerVisible: boolean; // Show in header by default
+    position: number; // Header order
+  };
+  
+  // Business Logic
+  handlers: {
+    onEnable: () => Promise<void>;
+    onDisable: () => Promise<void>;
+    onPermissionChange: (permissions: PermissionChange[]) => Promise<void>;
+  };
+}
+```
+
+### Integration Categories
+```typescript
+enum IntegrationCategory {
+  COMMUNICATION = 'communication',      // Email, SMS, Chat
+  ANALYTICS = 'analytics',             // Data analysis, reporting
+  PAYMENT = 'payment',                // Payment processing
+  SCHEDULING = 'scheduling',          // Appointments, calendar
+  MARKETING = 'marketing',            // Email campaigns, social
+  CUSTOMER_SERVICE = 'customer_service', // Support, tickets
+  INVENTORY = 'inventory',            // Stock management
+  DELIVERY = 'delivery',              // Shipping, logistics
+  FIELD_SERVICE = 'field_service',    // On-site services
+  SOCIAL_MEDIA = 'social_media',      // Social platforms
+}
+```
+
+## 🔐 Advanced Permission System (RBAC + ABAC)
+
+### Role-Based Access Control Structure
+```typescript
+interface IntegrationPermissions {
+  // Core access levels
+  roles: {
+    admin: RolePermissions;     // Full access
+    manager: RolePermissions;   // Most access, limited admin
+    employee: RolePermissions;  // Basic operational access
+    viewer: RolePermissions;    // Read-only access
+    custom: CustomRolePermissions[]; // Business-defined roles
+  };
+  
+  // Granular permissions
+  actions: {
+    // Data permissions
+    canView: PermissionRule;
+    canCreate: PermissionRule;
+    canEdit: PermissionRule;
+    canDelete: PermissionRule;
+    canExport: PermissionRule;
+    canImport: PermissionRule;
+    
+    // Administrative permissions
+    canManageSettings: PermissionRule;
+    canManageUsers: PermissionRule;
+    canViewReports: PermissionRule;
+    canManageBilling: PermissionRule;
+    
+    // Integration-specific permissions
+    customPermissions: Record<string, PermissionRule>;
+  };
+  
+  // Attribute-based controls
+  attributes: {
+    timeRestrictions: TimeRestriction[];
+    locationRestrictions: LocationRestriction[];
+    deviceRestrictions: DeviceRestriction[];
+    dataTypeRestrictions: DataTypeRestriction[];
+  };
+}
+
+interface PermissionRule {
+  enabled: boolean;
+  conditions?: PermissionCondition[];
+  auditLevel: 'none' | 'basic' | 'detailed';
+  description: string;
+}
+
+interface PermissionCondition {
+  type: 'time' | 'location' | 'device' | 'data_type' | 'approval_required';
+  rule: string;
+  metadata?: Record<string, any>;
+}
+```
+
+### Detailed Permission Categories
+
+#### Communication Integrations (Email, SMS, Chat)
+```typescript
+const communicationPermissions = {
+  // Email permissions
+  email: {
+    canSendEmails: PermissionRule;
+    canViewAllEmails: PermissionRule;
+    canViewOwnEmails: PermissionRule;
+    canDeleteEmails: PermissionRule;
+    canManageTemplates: PermissionRule;
+    canManageSignatures: PermissionRule;
+    canAccessSharedInbox: PermissionRule;
+    canCreateCampaigns: PermissionRule;
+    canViewAnalytics: PermissionRule;
+    canManageAutoResponders: PermissionRule;
+  },
+  
+  // SMS permissions
+  sms: {
+    canSendSMS: PermissionRule;
+    canSendBulkSMS: PermissionRule;
+    canViewSMSHistory: PermissionRule;
+    canManageSMSTemplates: PermissionRule;
+    canViewSMSAnalytics: PermissionRule;
+  },
+  
+  // Chat permissions
+  chat: {
+    canInitiateChats: PermissionRule;
+    canViewAllChats: PermissionRule;
+    canTransferChats: PermissionRule;
+    canViewChatHistory: PermissionRule;
+    canManageChatBots: PermissionRule;
+  }
+};
+```
+
+#### Analytics & Reporting Integrations
+```typescript
+const analyticsPermissions = {
+  reporting: {
+    canViewBasicReports: PermissionRule;
+    canViewAdvancedReports: PermissionRule;
+    canCreateReports: PermissionRule;
+    canEditReports: PermissionRule;
+    canDeleteReports: PermissionRule;
+    canScheduleReports: PermissionRule;
+    canExportReports: PermissionRule;
+    canShareReports: PermissionRule;
+  },
+  
+  analytics: {
+    canViewCustomerAnalytics: PermissionRule;
+    canViewRevenueAnalytics: PermissionRule;
+    canViewPerformanceMetrics: PermissionRule;
+    canViewCompetitorAnalysis: PermissionRule;
+    canAccessRealTimeData: PermissionRule;
+    canManageDashboards: PermissionRule;
+  }
+};
+```
+
+#### Payment & Financial Integrations
+```typescript
+const paymentPermissions = {
+  transactions: {
+    canProcessPayments: PermissionRule;
+    canViewAllTransactions: PermissionRule;
+    canViewOwnTransactions: PermissionRule;
+    canRefundPayments: PermissionRule;
+    canVoidTransactions: PermissionRule;
+    canViewPaymentMethods: PermissionRule;
+    canManagePaymentMethods: PermissionRule;
+  },
+  
+  financial: {
+    canViewFinancialReports: PermissionRule;
+    canManageTaxSettings: PermissionRule;
+    canViewProfitLoss: PermissionRule;
+    canManageInvoicing: PermissionRule;
+    canAccessBankingInfo: PermissionRule; // Highest security level
+  }
+};
+```
+
+## 🎨 UI/UX Integration Standards
+
+### Header Integration Display
+```typescript
+// REQUIRED: All integrations must appear in header when enabled
+interface HeaderIntegration {
+  id: string;
+  name: string;
+  icon: React.ComponentType;
+  badgeCount?: number;
+  isActive: boolean;
+  dropdownActions?: HeaderAction[];
+  quickToggle: boolean; // Allow quick enable/disable from header
+  position: number; // Order in header (1-100)
+}
+
+// Header integration component
+const IntegrationHeader: React.FC<{ integration: HeaderIntegration }> = ({
+  integration
+}) => {
+  return (
+    <div className="integration-header-item">
+      <div className="integration-icon">
+        <integration.icon />
+        {integration.badgeCount > 0 && (
+          <Badge count={integration.badgeCount} />
+        )}
+      </div>
+      
+      <div className="integration-controls">
+        <QuickToggle 
+          enabled={integration.isActive}
+          onToggle={handleQuickToggle}
+        />
+        
+        <DropdownMenu actions={integration.dropdownActions} />
+      </div>
+    </div>
+  );
+};
+```
+
+### Integration Dashboard UI
+```typescript
+// REQUIRED: Consistent integration management interface
+const IntegrationDashboard: React.FC = () => {
+  return (
+    <div className="integration-dashboard">
+      {/* Overview Section */}
+      <IntegrationOverview />
+      
+      {/* Category Tabs */}
+      <IntegrationCategories />
+      
+      {/* Permission Management */}
+      <PermissionManagement />
+      
+      {/* Employee Access Control */}
+      <EmployeeAccessControl />
+      
+      {/* Audit Logs */}
+      <AuditLogs />
+    </div>
+  );
+};
+```
+
+### Default UI Behavior
+```typescript
+// REQUIRED: Default integration states
+const integrationDefaults = {
+  // New integrations are enabled by default
+  defaultEnabled: true,
+  
+  // Show in header by default
+  headerVisible: true,
+  
+  // Default permission set (most restrictive)
+  defaultPermissions: {
+    admin: 'full_access',
+    manager: 'limited_admin',
+    employee: 'basic_operations',
+    viewer: 'read_only'
+  },
+  
+  // UI defaults
+  ui: {
+    showOnboarding: true,
+    highlightNewFeatures: true,
+    enableQuickActions: true,
+    showPermissionHints: true
+  }
+};
+```
+
+## 👔 Business Owner Control Interface
+
+### Comprehensive Permission Management
+```typescript
+// REQUIRED: Business owner control panel
+const BusinessOwnerControls: React.FC = () => {
+  return (
+    <div className="business-owner-controls">
+      {/* Employee Management */}
+      <section className="employee-management">
+        <h2>Employee Access Control</h2>
+        
+        {/* Role Assignment */}
+        <RoleAssignmentMatrix />
+        
+        {/* Individual Permissions */}
+        <IndividualPermissionOverrides />
+        
+        {/* Bulk Permission Changes */}
+        <BulkPermissionActions />
+      </section>
+      
+      {/* Integration Settings */}
+      <section className="integration-settings">
+        <h2>Integration Configuration</h2>
+        
+        {/* Per-Integration Controls */}
+        <IntegrationSpecificControls />
+        
+        {/* Global Integration Policies */}
+        <GlobalIntegrationPolicies />
+      </section>
+      
+      {/* Security & Compliance */}
+      <section className="security-compliance">
+        <h2>Security & Compliance</h2>
+        
+        {/* Access Audit Trail */}
+        <AccessAuditTrail />
+        
+        {/* Permission Change History */}
+        <PermissionChangeHistory />
+        
+        {/* Compliance Reports */}
+        <ComplianceReports />
+      </section>
+    </div>
+  );
+};
+```
+
+### Role Assignment Matrix
+```typescript
+const RoleAssignmentMatrix: React.FC = () => {
+  const [employees] = useEmployees();
+  const [integrations] = useIntegrations();
+  
+  return (
+    <div className="role-assignment-matrix">
+      <table className="permission-matrix">
+        <thead>
+          <tr>
+            <th>Employee</th>
+            {integrations.map(integration => (
+              <th key={integration.id}>{integration.name}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {employees.map(employee => (
+            <tr key={employee.id}>
+              <td className="employee-info">
+                <div className="employee-name">{employee.name}</div>
+                <div className="employee-role">{employee.role}</div>
+              </td>
+              {integrations.map(integration => (
+                <td key={integration.id}>
+                  <PermissionSelector
+                    employee={employee}
+                    integration={integration}
+                    onChange={handlePermissionChange}
+                  />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+```
+
+### Granular Permission Controls
+```typescript
+const GranularPermissionControls: React.FC<{
+  integration: Integration;
+  employee: Employee;
+}> = ({ integration, employee }) => {
+  return (
+    <div className="granular-permissions">
+      {/* Core Actions */}
+      <PermissionCategory title="Core Actions">
+        <PermissionToggle 
+          permission="canView"
+          label="View Data"
+          description="Can view integration data"
+        />
+        <PermissionToggle 
+          permission="canCreate"
+          label="Create Records"
+          description="Can create new records"
+        />
+        <PermissionToggle 
+          permission="canEdit"
+          label="Edit Records"
+          description="Can modify existing records"
+        />
+        <PermissionToggle 
+          permission="canDelete"
+          label="Delete Records"
+          description="Can delete records"
+        />
+      </PermissionCategory>
+      
+      {/* Time Restrictions */}
+      <PermissionCategory title="Time Restrictions">
+        <TimeRestrictionSelector
+          onUpdate={handleTimeRestrictionUpdate}
+        />
+      </PermissionCategory>
+      
+      {/* Data Type Restrictions */}
+      <PermissionCategory title="Data Access">
+        <DataTypePermissions 
+          integration={integration}
+          onUpdate={handleDataTypeUpdate}
+        />
+      </PermissionCategory>
+      
+      {/* Approval Workflows */}
+      <PermissionCategory title="Approval Requirements">
+        <ApprovalWorkflowSettings
+          onUpdate={handleApprovalUpdate}
+        />
+      </PermissionCategory>
+    </div>
+  );
+};
+```
+
+## 🔒 Security Implementation
+
+### Zero Trust Permission Validation
+```typescript
+// REQUIRED: Permission validation middleware
+export class IntegrationPermissionValidator {
+  static async validateAccess(
+    userId: string,
+    integrationId: string,
+    action: string,
+    context: AccessContext
+  ): Promise<AccessResult> {
+    const startTime = performance.now();
+    
+    try {
+      // 1. Get user and integration details
+      const user = await getUserById(userId);
+      const integration = await getIntegrationById(integrationId);
+      
+      if (!user || !integration) {
+        return { allowed: false, reason: 'User or integration not found' };
+      }
+      
+      // 2. Check integration is enabled
+      if (!integration.config.enabled) {
+        return { allowed: false, reason: 'Integration disabled' };
+      }
+      
+      // 3. Get user's permissions for this integration
+      const permissions = await getUserIntegrationPermissions(userId, integrationId);
+      
+      // 4. Validate specific action
+      const actionPermission = permissions.actions[action];
+      if (!actionPermission?.enabled) {
+        return { allowed: false, reason: 'Action not permitted' };
+      }
+      
+      // 5. Check attribute-based conditions
+      const attributeCheck = await validateAttributeConditions(
+        actionPermission.conditions || [],
+        context
+      );
+      
+      if (!attributeCheck.allowed) {
+        return attributeCheck;
+      }
+      
+      // 6. Log access attempt
+      await logAccessAttempt({
+        userId,
+        integrationId,
+        action,
+        allowed: true,
+        context,
+        timestamp: new Date(),
+        responseTime: performance.now() - startTime
+      });
+      
+      return { allowed: true, permissions: actionPermission };
+      
+    } catch (error) {
+      logger.error('Permission validation error:', error);
+      return { allowed: false, reason: 'Validation error' };
+    }
+  }
+}
+```
+
+### Audit Trail System
+```typescript
+// REQUIRED: Comprehensive audit logging
+interface AuditLog {
+  id: string;
+  timestamp: Date;
+  userId: string;
+  integrationId: string;
+  action: string;
+  result: 'success' | 'denied' | 'error';
+  reason?: string;
+  context: {
+    ipAddress: string;
+    userAgent: string;
+    location?: string;
+    device?: string;
+  };
+  dataAccessed?: {
+    type: string;
+    recordIds: string[];
+    fieldsAccessed: string[];
+  };
+}
+
+export class AuditLogger {
+  static async logPermissionChange(change: PermissionChange): Promise<void> {
+    await supabase.from('audit_logs').insert({
+      type: 'permission_change',
+      user_id: change.changedBy,
+      target_user_id: change.targetUserId,
+      integration_id: change.integrationId,
+      old_permissions: change.oldPermissions,
+      new_permissions: change.newPermissions,
+      reason: change.reason,
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  static async logAccessAttempt(attempt: AccessAttempt): Promise<void> {
+    await supabase.from('audit_logs').insert({
+      type: 'access_attempt',
+      user_id: attempt.userId,
+      integration_id: attempt.integrationId,
+      action: attempt.action,
+      result: attempt.allowed ? 'success' : 'denied',
+      context: attempt.context,
+      timestamp: new Date().toISOString()
+    });
+  }
+}
+```
+
+## 📋 Implementation Checklist
+
+### For Every New Integration:
+
+#### Structure Requirements:
+- [ ] Follows standard integration interface
+- [ ] Implements all required permission categories
+- [ ] Has proper error handling and rollback
+- [ ] Includes comprehensive documentation
+- [ ] Has header visibility configured
+
+#### Permission Requirements:
+- [ ] Implements RBAC with at least 4 role levels
+- [ ] Has granular action permissions
+- [ ] Includes attribute-based restrictions
+- [ ] Has audit logging for all actions
+- [ ] Business owner can control all permissions
+
+#### UI Requirements:
+- [ ] Appears in header when enabled (default: true)
+- [ ] Has intuitive permission management interface
+- [ ] Shows clear permission descriptions
+- [ ] Has quick toggle functionality
+- [ ] Provides permission change notifications
+
+#### Security Requirements:
+- [ ] Implements zero trust validation
+- [ ] Has proper input sanitization
+- [ ] Includes rate limiting
+- [ ] Has secure credential storage
+- [ ] Logs all security events
+
+#### Business Owner Controls:
+- [ ] Role assignment matrix
+- [ ] Individual permission overrides
+- [ ] Bulk permission management
+- [ ] Permission change history
+- [ ] Compliance reporting
+
+### Required Database Schema:
+```sql
+-- Integration permissions table
+CREATE TABLE integration_permissions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    business_id UUID NOT NULL REFERENCES businesses(id),
+    user_id UUID NOT NULL REFERENCES users(id),
+    integration_id TEXT NOT NULL,
+    role TEXT NOT NULL,
+    permissions JSONB NOT NULL,
+    restrictions JSONB DEFAULT '{}',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+    created_by UUID REFERENCES users(id),
+    
+    UNIQUE(business_id, user_id, integration_id)
+);
+
+-- Permission audit log
+CREATE TABLE permission_audit_log (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    business_id UUID NOT NULL REFERENCES businesses(id),
+    user_id UUID REFERENCES users(id),
+    target_user_id UUID REFERENCES users(id),
+    integration_id TEXT NOT NULL,
+    action TEXT NOT NULL,
+    old_permissions JSONB,
+    new_permissions JSONB,
+    context JSONB DEFAULT '{}',
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Access attempt log
+CREATE TABLE access_audit_log (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id),
+    integration_id TEXT NOT NULL,
+    action TEXT NOT NULL,
+    result TEXT NOT NULL CHECK (result IN ('success', 'denied', 'error')),
+    context JSONB DEFAULT '{}',
+    data_accessed JSONB,
+    timestamp TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+## 🚀 Integration Development Template
+
+```typescript
+// Template for creating new integrations
+export class NewIntegrationTemplate implements Integration {
+  id = 'new-integration-id';
+  name = 'Integration Name';
+  description = 'Integration description';
+  category = IntegrationCategory.COMMUNICATION;
+  
+  config = {
+    enabled: true,
+    defaultEnabled: true,
+    apiEndpoint: process.env.INTEGRATION_API_ENDPOINT,
+    version: '1.0.0',
+    lastSync: new Date()
+  };
+  
+  permissions = {
+    roles: {
+      admin: { /* full permissions */ },
+      manager: { /* limited admin */ },
+      employee: { /* basic operations */ },
+      viewer: { /* read-only */ },
+      custom: []
+    },
+    actions: {
+      canView: { enabled: true, auditLevel: 'basic', description: 'View integration data' },
+      canCreate: { enabled: false, auditLevel: 'detailed', description: 'Create new records' },
+      // ... other permissions
+    },
+    attributes: {
+      timeRestrictions: [],
+      locationRestrictions: [],
+      deviceRestrictions: [],
+      dataTypeRestrictions: []
+    }
+  };
+  
+  ui = {
+    icon: 'integration-icon',
+    color: '#007bff',
+    headerVisible: true,
+    position: 10
+  };
+  
+  handlers = {
+    onEnable: async () => {
+      // Enable integration logic
+      await this.validateConfiguration();
+      await this.initializeConnection();
+      await AuditLogger.logIntegrationChange('enabled', this.id);
+    },
+    
+    onDisable: async () => {
+      // Disable integration logic
+      await this.cleanupConnections();
+      await AuditLogger.logIntegrationChange('disabled', this.id);
+    },
+    
+    onPermissionChange: async (changes: PermissionChange[]) => {
+      // Handle permission changes
+      for (const change of changes) {
+        await this.updateUserPermissions(change);
+        await AuditLogger.logPermissionChange(change);
+      }
+    }
+  };
+}
+```
+
+**Remember: Every integration must prioritize security, provide granular business owner control, and maintain an intuitive user experience.**

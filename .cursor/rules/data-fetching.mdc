@@ -5,6 +5,12 @@ alwaysApply: false
 ---
 # Data Fetching
 
+## 🚨 CRITICAL: EDIT EXISTING API/DATA FILES FIRST
+**Before creating new data fetching code:**
+1. Search for existing API routes and data fetching hooks
+2. Extend existing fetch functions or hooks rather than duplicating
+3. Only create new data fetching utilities when no existing ones can be modified
+
 There are two ways we fetch data in the app:
 1. SWR (default)
 2. Server Components

@@ -1,11 +1,16 @@
-export const metadata = {
-	title: "Farm Management Platform – Crop Planning, Livestock, Equipment Tracking | Thorbis",
-	description: "Complete farm management software with crop planning, livestock tracking, equipment maintenance, and agricultural financial management for modern farms.",
-	keywords: ["farm management software", "agricultural management platform", "crop planning software", "livestock management", "farm operations"],
-	alternates: { canonical: "https://thorbis.com/farm-management-platform" },
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "Farm Management Platform – Crop Planning, Livestock, Equipment Tracking | Thorbis",
+		description: "Complete farm management software with crop planning, livestock tracking, equipment maintenance, and agricultural financial management for modern farms.",
+		path: "/farm-management-platform",
+		keywords: ["farm management software", "agricultural management platform", "crop planning software", "livestock management", "farm operations"],
+	});
+}
 
 import { Leaf, Truck, BarChart3 } from "lucide-react";
+
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
 export default function FarmManagementPlatform() {
 	const features = [

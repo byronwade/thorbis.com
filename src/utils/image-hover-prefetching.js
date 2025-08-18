@@ -1,6 +1,6 @@
 // lib/utils/imageHoverPrefetching.js - NextFaster-Style Image Prefetching on Hover
 import { logger } from "./logger";
-import { CacheManager } from "./cache-manager";
+import cacheManager from "./cache-manager";
 
 /**
  * Image Hover Prefetching System
@@ -448,7 +448,11 @@ class ImageHoverPrefetcher {
 		this.currentCacheSize += estimatedSize;
 
 		// Also cache in browser cache
-		CacheManager.memory.set(`image:${url}`, url, 300000); // 5 minutes TTL
+		try {
+			cacheManager.memory?.set?.(`image:${url}`, url, 300000); // 5 minutes TTL
+		} catch (error) {
+			console.warn('Cache manager not available, skipping cache set:', error.message);
+		}
 	}
 
 	/**

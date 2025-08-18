@@ -4,37 +4,17 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { CheckCircle, XCircle, MessageSquare, Calendar, BarChart3, MapPin, Clock, Utensils, ArrowRight, Star, DollarSign, TrendingUp, Target, Building, Globe, Award, CreditCard, Truck, FileText } from "lucide-react";
+import { generateStaticPageMetadata } from "@utils/server-seo";
 
-export const metadata = {
-	title: "TripAdvisor Alternative – Thorbis vs TripAdvisor | Thorbis",
-	description: "See why Thorbis is a modern alternative to TripAdvisor: advanced review management, reservation integration, lead generation, and analytics.",
-	keywords: ["TripAdvisor alternative", "TripAdvisor vs Thorbis", "restaurant reviews platform", "reservation system integration", "lead generation"],
-	alternates: { canonical: "https://thorbis.com/tripadvisor-alternative" },
-	openGraph: {
-		title: "TripAdvisor Alternative – Thorbis vs TripAdvisor",
-		description: "Modern alternative to TripAdvisor with advanced reviews, reservation integration, lead generation, and analytics.",
-		type: "website",
-		url: "https://thorbis.com/tripadvisor-alternative",
-		siteName: "Thorbis",
-		images: [
-			{
-				url: `https://thorbis.com/opengraph-image?title=${encodeURIComponent("TripAdvisor Alternative")}&description=${encodeURIComponent("Thorbis vs TripAdvisor – reviews, reservation integration, lead generation, analytics.")}`,
-				width: 1200,
-				height: 630,
-				alt: "Thorbis vs TripAdvisor",
-			},
-		],
-		locale: "en_US",
-	},
-	twitter: {
-		card: "summary_large_image",
-		title: "TripAdvisor Alternative – Thorbis vs TripAdvisor",
-		description: "Modern alternative to TripAdvisor with advanced reviews, reservation integration, lead generation, and analytics.",
-		images: [`https://thorbis.com/twitter-image?title=${encodeURIComponent("TripAdvisor Alternative")}`],
-		creator: "@thorbis",
-		site: "@thorbis",
-	},
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+	return await generateStaticPageMetadata({
+		title: "TripAdvisor Alternative – Thorbis vs TripAdvisor | Thorbis",
+		description: "See why Thorbis is a modern alternative to TripAdvisor: advanced review management, reservation integration, lead generation, and analytics.",
+		path: "/tripadvisor-alternative",
+		keywords: ["TripAdvisor alternative", "TripAdvisor vs Thorbis", "restaurant reviews platform", "reservation system integration", "lead generation"],
+	});
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {

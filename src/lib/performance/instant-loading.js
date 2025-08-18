@@ -225,7 +225,7 @@ export function useInstantContent(key, loader, options = {}) {
 
 	return {
 		data: content,
-		loading: loading && !content, // Don't show loading if we have cached content
+		loading: false, // Never show loading states
 		error,
 		refresh,
 		isStale: isStale(),
@@ -244,31 +244,19 @@ export function OptimisticWrapper({ children, fallback = null, errorFallback = n
  */
 export function withInstantLoading(Component, options = {}) {
 	return function InstantLoadingComponent(props) {
-		const [isReady, setIsReady] = useState(false);
 		const [content, setContent] = useState(null);
 
 		useEffect(() => {
-			// Simulate instant loading by using cached content
+			// Use cached content if available
 			const cacheKey = `component:${Component.name}:${JSON.stringify(props)}`;
 			const cached = instantCache.get(cacheKey);
 
 			if (cached) {
 				setContent(cached);
-				setIsReady(true);
-			} else {
-				// Load component content
-				const timer = setTimeout(() => {
-					setIsReady(true);
-				}, 0); // Immediate rendering
-
-				return () => clearTimeout(timer);
 			}
 		}, [props]);
 
-		if (!isReady && options.showFallback) {
-			return options.fallback || <div>Loading...</div>;
-		}
-
+		// Always render component immediately - no loading states
 		return <Component {...props} />;
 	};
 }
@@ -548,8 +536,8 @@ export function initializeInstantLoading() {
 		backgroundPreloader.preload(key, loader, "high");
 	});
 
-	// Prepare common page transitions
-	const commonPages = ["/dashboard/user", "/categories", "/search", "/jobs"];
+	// Prepare common page transitions (exclude auth-protected routes by default)
+	const commonPages = ["/categories", "/search", "/jobs"];
 
 	commonPages.forEach((href) => {
 		instantTransitions.prepareTransition(href);

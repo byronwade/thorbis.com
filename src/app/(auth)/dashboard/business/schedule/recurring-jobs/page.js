@@ -196,7 +196,7 @@ export default function RecurringJobs() {
 			case "completed":
 				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
 	};
 
@@ -209,7 +209,7 @@ export default function RecurringJobs() {
 			case "low":
 				return "text-green-600 dark:text-green-400";
 			default:
-				return "text-gray-600 dark:text-gray-400";
+				return "text-muted-foreground dark:text-muted-foreground";
 		}
 	};
 

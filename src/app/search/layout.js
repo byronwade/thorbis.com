@@ -77,18 +77,7 @@ export default async function SearchLayout({ children }) {
 					<div className="relative z-10 w-full h-full">{children}</div>
 				</div>
 
-				{/* Development feature flag indicator */}
-				{process.env.NODE_ENV === "development" && (
-					<div className="fixed top-4 right-4 z-50 bg-black/90 text-white text-xs p-2 rounded-lg font-mono opacity-75 pointer-events-none">
-						<div className="font-bold mb-1">🚀 Search Flags</div>
-						<div>Smart: {searchFlags.smartSearch ? "✅" : "❌"}</div>
-						<div>AI: {searchFlags.aiRecommendations ? "✅" : "❌"}</div>
-						<div>Visual: {searchFlags.visualSearch ? "✅" : "❌"}</div>
-						<div>Voice: {searchFlags.voiceSearch ? "✅" : "❌"}</div>
-						<div>Contextual: {searchFlags.contextualFilters ? "✅" : "❌"}</div>
-						<div>Real-time: {searchFlags.realTimeUpdates ? "✅" : "❌"}</div>
-					</div>
-				)}
+
 			</div>
 		</>
 	);

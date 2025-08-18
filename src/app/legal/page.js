@@ -14,29 +14,17 @@ import {
   Clock,
   Mail
 } from 'lucide-react';
+import { generateStaticPageMetadata } from '@utils/server-seo';
 
-export const metadata = {
-  title: 'Legal Information - Terms, Privacy & Community Guidelines | Local Business Directory',
-  description: 'Complete legal information including terms of service, privacy policy, community guidelines, content policies, and trust & safety measures.',
-  keywords: 'terms of service, privacy policy, community guidelines, content guidelines, trust safety, legal information, user agreement',
-  openGraph: {
-    title: 'Legal Information - Terms, Privacy & Community Guidelines',
-    description: 'Complete legal information including terms of service, privacy policy, community guidelines, and safety measures.',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Legal Information - Terms, Privacy & Community Guidelines',
-    description: 'Complete legal information including terms of service, privacy policy, and community guidelines.',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: '/legal',
-  },
-};
+// Generate dynamic metadata using server-side SEO generator
+export async function generateMetadata() {
+  return await generateStaticPageMetadata({
+    title: 'Legal Information - Terms, Privacy & Community Guidelines | Local Business Directory',
+    description: 'Complete legal information including terms of service, privacy policy, community guidelines, content policies, and trust & safety measures.',
+    path: '/legal',
+    keywords: ['terms of service', 'privacy policy', 'community guidelines', 'content guidelines', 'trust safety', 'legal information', 'user agreement'],
+  });
+}
 
 const lastUpdated = {
   terms: "December 15, 2024",
@@ -208,25 +196,25 @@ const trustMeasures = [
 
 function LegalHero() {
   return (
-    <div className="bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 transition-colors duration-200">
+    <div className="bg-background border-b border-border transition-colors duration-200">
       <div className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full mb-6">
             <Scale className="h-4 w-4" />
             Legal Center
           </div>
-          <h1 className="text-3xl md:text-5xl font-semibold text-gray-900 dark:text-white mb-4 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-semibold text-foreground mb-4 tracking-tight">
             Legal Information
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl leading-relaxed">
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl leading-relaxed">
             Transparency is important to us. Find all our legal documents, policies, and guidelines in one place.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-100 font-medium px-6 py-2.5 transition-all duration-200">
+            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-medium px-6 py-2.5 transition-all duration-200">
               <FileText className="h-4 w-4 mr-2" />
               Download PDF
             </Button>
-            <Button variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 font-medium px-6 py-2.5 transition-all duration-200">
+            <Button variant="outline" className="border-border text-foreground hover:bg-accent font-medium px-6 py-2.5 transition-all duration-200">
               <Mail className="h-4 w-4 mr-2" />
               Contact Legal Team
             </Button>
@@ -239,26 +227,26 @@ function LegalHero() {
 
 function QuickNavigation() {
   return (
-    <section className="py-12 bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+    <section className="py-12 bg-muted/30 transition-colors duration-200">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2 tracking-tight">Quick Navigation</h2>
-            <p className="text-gray-600 dark:text-gray-400">Jump to specific legal documents and policies</p>
+            <h2 className="text-2xl font-semibold text-foreground mb-2 tracking-tight">Quick Navigation</h2>
+            <p className="text-muted-foreground">Jump to specific legal documents and policies</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {quickLinks.map((link, index) => (
-              <Card key={index} className="p-4 hover:shadow-md transition-all duration-200 cursor-pointer bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 group hover:border-gray-300 dark:hover:border-gray-600">
+              <Card key={index} className="p-4 hover:shadow-md transition-all duration-200 cursor-pointer bg-card border border-border group hover:border-primary/30">
                 <div className="flex flex-col items-center text-center gap-3">
-                  <div className="flex items-center justify-center w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg group-hover:bg-blue-50 dark:group-hover:bg-blue-950/50 transition-colors duration-200">
-                    <link.icon className="h-5 w-5 text-gray-600 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400" />
+                  <div className="flex items-center justify-center w-10 h-10 bg-muted rounded-lg group-hover:bg-primary/20 transition-colors duration-200">
+                    <link.icon className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="font-medium text-sm text-gray-900 dark:text-white">{link.title}</h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{link.description}</p>
+                    <h3 className="font-medium text-sm text-foreground">{link.title}</h3>
+                    <p className="text-xs text-muted-foreground line-clamp-2">{link.description}</p>
                   </div>
-                  <div className="w-full pt-2 border-t border-gray-100 dark:border-gray-700">
-                    <span className="text-xs text-gray-400 dark:text-gray-500">Updated {link.lastUpdated}</span>
+                  <div className="w-full pt-2 border-t border-border">
+                    <span className="text-xs text-muted-foreground/60">Updated {link.lastUpdated}</span>
                   </div>
                 </div>
               </Card>
@@ -272,34 +260,34 @@ function QuickNavigation() {
 
 function LegalContent() {
   return (
-    <section className="py-16 bg-white dark:bg-gray-950 transition-colors duration-200">
+    <section className="py-16 bg-background transition-colors duration-200">
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto">
           <Tabs defaultValue="terms" className="w-full">
-            <TabsList className="inline-flex h-auto p-1 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 w-auto">
-              <TabsTrigger value="terms" className="data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Terms</TabsTrigger>
-              <TabsTrigger value="privacy" className="data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Privacy</TabsTrigger>
-              <TabsTrigger value="community" className="data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Community</TabsTrigger>
-              <TabsTrigger value="content" className="data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Content</TabsTrigger>
-              <TabsTrigger value="trust" className="data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-400 px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Trust & Safety</TabsTrigger>
+            <TabsList className="inline-flex h-auto p-1 bg-muted rounded-lg border border-border w-auto">
+              <TabsTrigger value="terms" className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Terms</TabsTrigger>
+                              <TabsTrigger value="privacy" className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Privacy</TabsTrigger>
+                <TabsTrigger value="community" className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Community</TabsTrigger>
+                <TabsTrigger value="content" className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Content</TabsTrigger>
+                <TabsTrigger value="trust" className="data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground px-3 py-2 text-sm font-medium rounded-md transition-all duration-200">Trust & Safety</TabsTrigger>
             </TabsList>
             
             <TabsContent value="terms" className="mt-6">
-              <Card className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm">
-                <CardHeader className="border-b border-gray-100 dark:border-gray-800 pb-4">
+              <Card className="bg-card border border-border shadow-sm">
+                <CardHeader className="border-b border-border pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="flex items-center justify-center w-8 h-8 bg-blue-50 dark:bg-blue-950/50 rounded-lg">
                         <Scale className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white">Terms of Service</CardTitle>
-                        <CardDescription className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        <CardTitle className="text-lg font-semibold text-foreground">Terms of Service</CardTitle>
+                        <CardDescription className="text-sm text-muted-foreground mt-1">
                           These terms govern your use of our platform and services.
                         </CardDescription>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-0">
+                    <Badge variant="secondary" className="bg-muted text-muted-foreground border-0">
                       <Clock className="h-3 w-3 mr-1" />
                       {lastUpdated.terms}
                     </Badge>
@@ -308,30 +296,30 @@ function LegalContent() {
                 <CardContent className="pt-6">
                   <div className="space-y-4">
                     {termsHighlights.map((section, index) => (
-                      <div key={index} className="p-4 border border-gray-100 dark:border-gray-800 rounded-lg hover:border-gray-200 dark:hover:border-gray-700 transition-colors duration-200">
-                        <h3 className="font-medium text-gray-900 dark:text-white mb-2">{section.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{section.content}</p>
+                      <div key={index} className="p-4 border border-border rounded-lg hover:border-primary/30 transition-colors duration-200">
+                        <h3 className="font-medium text-foreground mb-2">{section.title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{section.content}</p>
                       </div>
                     ))}
                     
-                    <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-800">
-                      <h3 className="font-medium text-gray-900 dark:text-white mb-3">Key Points</h3>
+                    <div className="mt-6 p-4 bg-muted/30 rounded-lg border border-border">
+                      <h3 className="font-medium text-foreground mb-3">Key Points</h3>
                       <div className="grid gap-2">
                         <div className="flex items-start gap-2">
                           <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">You must be 18 or older to use our services</span>
+                          <span className="text-sm text-muted-foreground">You must be 18 or older to use our services</span>
                         </div>
                         <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">Business information must be accurate and current</span>
+                          <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-muted-foreground">Business information must be accurate and current</span>
                         </div>
                         <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">We reserve the right to terminate accounts for violations</span>
+                          <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-muted-foreground">We reserve the right to terminate accounts for violations</span>
                         </div>
                         <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm text-gray-700 dark:text-gray-300">Terms may be updated with 30 days notice</span>
+                          <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-muted-foreground">Terms may be updated with 30 days notice</span>
                         </div>
                       </div>
                     </div>
@@ -341,19 +329,19 @@ function LegalContent() {
             </TabsContent>
             
             <TabsContent value="privacy" className="mt-8">
-              <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 shadow-lg">
+              <Card className="bg-card border-border shadow-lg">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-white">
-                      <Shield className="h-6 w-6 text-green-600 dark:text-green-400" />
+                    <CardTitle className="flex items-center space-x-2 text-foreground">
+                      <Shield className="h-6 w-6 text-primary" />
                       <span>Privacy Policy</span>
                     </CardTitle>
-                    <Badge variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                    <Badge variant="outline" className="border-border text-foreground">
                       <Clock className="h-3 w-3 mr-1" />
                       Updated {lastUpdated.privacy}
                     </Badge>
                   </div>
-                  <CardDescription className="text-gray-600 dark:text-gray-400">
+                  <CardDescription className="text-muted-foreground">
                     Learn how we collect, use, and protect your personal information.
                   </CardDescription>
                 </CardHeader>
@@ -361,8 +349,8 @@ function LegalContent() {
                   <div className="space-y-6">
                     {privacyHighlights.map((section, index) => (
                       <div key={index} className="border-l-4 border-green-500 dark:border-green-400 pl-4 hover:bg-green-50 dark:hover:bg-green-900/10 rounded-r-lg transition-colors duration-200 p-3">
-                        <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{section.title}</h3>
-                        <p className="text-gray-600 dark:text-gray-400 leading-relaxed">{section.content}</p>
+                        <h3 className="font-semibold mb-2 text-foreground">{section.title}</h3>
+                        <p className="text-muted-foreground leading-relaxed">{section.content}</p>
                       </div>
                     ))}
                     
@@ -393,32 +381,32 @@ function LegalContent() {
             </TabsContent>
             
             <TabsContent value="community" className="mt-8">
-              <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 shadow-lg">
+              <Card className="bg-card border-border shadow-lg">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-white">
-                      <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                    <CardTitle className="flex items-center space-x-2 text-foreground">
+                      <Users className="h-6 w-6 text-primary" />
                       <span>Community Guidelines</span>
                     </CardTitle>
-                    <Badge variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                    <Badge variant="outline" className="border-border text-foreground">
                       <Clock className="h-3 w-3 mr-1" />
                       Updated {lastUpdated.community}
                     </Badge>
                   </div>
-                  <CardDescription className="text-gray-600 dark:text-gray-400">
+                  <CardDescription className="text-muted-foreground">
                     Guidelines for creating a positive and respectful community environment.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-6 mb-8">
                     {communityRules.map((rule, index) => (
-                      <Card key={index} className="border-l-4 border-purple-500 dark:border-purple-400 bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-200">
+                      <Card key={index} className="border-l-4 border-primary bg-card hover:shadow-lg transition-all duration-200">
                         <CardContent className="p-4">
                           <div className="flex items-start space-x-3">
-                            <rule.icon className="h-6 w-6 text-purple-600 dark:text-purple-400 mt-1" />
+                            <rule.icon className="h-6 w-6 text-primary mt-1" />
                             <div>
-                              <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{rule.title}</h3>
-                              <p className="text-gray-600 dark:text-gray-400 text-sm">{rule.description}</p>
+                              <h3 className="font-semibold mb-2 text-foreground">{rule.title}</h3>
+                              <p className="text-muted-foreground text-sm">{rule.description}</p>
                             </div>
                           </div>
                         </CardContent>
@@ -443,19 +431,19 @@ function LegalContent() {
             </TabsContent>
             
             <TabsContent value="content" className="mt-8">
-              <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 shadow-lg">
+              <Card className="bg-card border-border shadow-lg">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-white">
-                      <FileText className="h-6 w-6 text-orange-600 dark:text-orange-400" />
+                    <CardTitle className="flex items-center space-x-2 text-foreground">
+                      <FileText className="h-6 w-6 text-primary" />
                       <span>Content Guidelines</span>
                     </CardTitle>
-                    <Badge variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                    <Badge variant="outline" className="border-border text-foreground">
                       <Clock className="h-3 w-3 mr-1" />
                       Updated {lastUpdated.content}
                     </Badge>
                   </div>
-                  <CardDescription className="text-gray-600 dark:text-gray-400">
+                  <CardDescription className="text-muted-foreground">
                     Standards and requirements for all user-generated content on our platform.
                   </CardDescription>
                 </CardHeader>
@@ -470,7 +458,7 @@ function LegalContent() {
                           {category.standards.map((standard, i) => (
                             <div key={i} className="flex items-center space-x-3 p-2 rounded hover:bg-orange-50 dark:hover:bg-orange-900/10 transition-colors duration-200">
                               <CheckCircle className="h-4 w-4 text-green-500 dark:text-green-400 flex-shrink-0" />
-                              <span className="text-sm text-gray-700 dark:text-gray-300">{standard}</span>
+                              <span className="text-sm text-muted-foreground">{standard}</span>
                             </div>
                           ))}
                         </div>
@@ -494,32 +482,32 @@ function LegalContent() {
             </TabsContent>
             
             <TabsContent value="trust" className="mt-8">
-              <Card className="bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 shadow-lg">
+              <Card className="bg-card border-border shadow-lg">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-white">
-                      <Lock className="h-6 w-6 text-red-600 dark:text-red-400" />
+                    <CardTitle className="flex items-center space-x-2 text-foreground">
+                      <Lock className="h-6 w-6 text-primary" />
                       <span>Trust & Safety</span>
                     </CardTitle>
-                    <Badge variant="outline" className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300">
+                    <Badge variant="outline" className="border-border text-foreground">
                       <Clock className="h-3 w-3 mr-1" />
                       Updated {lastUpdated.trust}
                     </Badge>
                   </div>
-                  <CardDescription className="text-gray-600 dark:text-gray-400">
+                  <CardDescription className="text-muted-foreground">
                     Our comprehensive approach to ensuring user safety and platform integrity.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-6 mb-8">
                     {trustMeasures.map((measure, index) => (
-                      <Card key={index} className="border-l-4 border-red-500 dark:border-red-400 bg-white dark:bg-gray-800 hover:shadow-lg transition-all duration-200">
+                      <Card key={index} className="border-l-4 border-primary bg-card hover:shadow-lg transition-all duration-200">
                         <CardContent className="p-4">
                           <div className="flex items-start space-x-3">
-                            <measure.icon className="h-6 w-6 text-red-600 dark:text-red-400 mt-1" />
+                            <measure.icon className="h-6 w-6 text-primary mt-1" />
                             <div>
-                              <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{measure.title}</h3>
-                              <p className="text-gray-600 dark:text-gray-400 text-sm">{measure.description}</p>
+                              <h3 className="font-semibold mb-2 text-foreground">{measure.title}</h3>
+                              <p className="text-muted-foreground text-sm">{measure.description}</p>
                             </div>
                           </div>
                         </CardContent>
@@ -556,7 +544,7 @@ function LegalContent() {
 
 export default function LegalPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
+    		<div className="min-h-screen bg-muted/30 transition-colors duration-200">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

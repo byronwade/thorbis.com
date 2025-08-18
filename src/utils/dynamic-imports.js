@@ -83,9 +83,9 @@ export const createDynamicImport = (importFunction, options = {}) => {
 		if (hasError) {
 			return (
 				errorFallback || (
-					<div className="p-4 text-center text-red-600">
-						<p>Failed to load component</p>
-						<button onClick={() => setHasError(false)} className="mt-2 px-4 py-2 bg-red-100 rounded hover:bg-red-200">
+									<div className="p-4 text-center text-destructive">
+					<p>Failed to load component</p>
+					<button onClick={() => setHasError(false)} className="mt-2 px-4 py-2 bg-destructive/20 rounded hover:bg-destructive/30">
 							Retry
 						</button>
 					</div>
@@ -160,7 +160,7 @@ class ErrorBoundary extends React.Component {
 export const createRouteComponent = (importFunction, routeName) => {
 	return createDynamicImport(importFunction, {
 		chunkName: `route-${routeName}`,
-		fallback: <RouteLoader routeName={routeName} />,
+		fallback: null, // No loading state
 		errorFallback: <RouteError routeName={routeName} />,
 		preload: false, // Routes are loaded on demand
 	});
@@ -172,7 +172,7 @@ export const createRouteComponent = (importFunction, routeName) => {
 export const createModalComponent = (importFunction, modalName) => {
 	return createDynamicImport(importFunction, {
 		chunkName: `modal-${modalName}`,
-		fallback: <ModalLoader />,
+		fallback: null, // No loading state
 		errorFallback: <ModalError />,
 		preload: false,
 	});
@@ -184,7 +184,7 @@ export const createModalComponent = (importFunction, modalName) => {
 export const createCriticalComponent = (importFunction, componentName) => {
 	return createDynamicImport(importFunction, {
 		chunkName: `critical-${componentName}`,
-		fallback: <CriticalComponentLoader />,
+		fallback: null, // No loading state
 		preload: true, // Preload critical components
 		retries: 5, // More retries for critical components
 	});
@@ -196,7 +196,7 @@ export const createCriticalComponent = (importFunction, componentName) => {
 export const createHeavyComponent = (importFunction, componentName) => {
 	return createDynamicImport(importFunction, {
 		chunkName: `heavy-${componentName}`,
-		fallback: <HeavyComponentLoader componentName={componentName} />,
+		fallback: null, // No loading state
 		errorFallback: <HeavyComponentError componentName={componentName} />,
 		preload: false,
 	});
@@ -301,47 +301,14 @@ export const analyzeBundleSize = async (componentName, importFunction) => {
 	}
 };
 
-// Loading components
-const RouteLoader = ({ routeName }) => (
-	<div className="min-h-screen flex items-center justify-center">
-		<div className="text-center">
-			<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-			<p className="text-gray-600">Loading {routeName}...</p>
-		</div>
-	</div>
-);
-
-const ModalLoader = () => (
-	<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-		<div className="bg-white rounded-lg p-6">
-			<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
-		</div>
-	</div>
-);
-
-const CriticalComponentLoader = () => (
-	<div className="flex items-center justify-center p-4">
-		<div className="animate-pulse bg-gray-200 rounded h-8 w-32"></div>
-	</div>
-);
-
-const HeavyComponentLoader = ({ componentName }) => (
-	<div className="border border-gray-200 rounded-lg p-6">
-		<div className="animate-pulse space-y-4">
-			<div className="h-4 bg-gray-200 rounded w-3/4"></div>
-			<div className="h-4 bg-gray-200 rounded w-1/2"></div>
-			<div className="h-8 bg-gray-200 rounded"></div>
-		</div>
-		<p className="text-xs text-gray-500 mt-4">Loading {componentName}...</p>
-	</div>
-);
+// No loading components - render immediately
 
 // Error components
 const RouteError = ({ routeName }) => (
 	<div className="min-h-screen flex items-center justify-center">
 		<div className="text-center">
-			<p className="text-red-600 mb-4">Failed to load {routeName}</p>
-			<button onClick={() => window.location.reload()} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+								<p className="text-destructive mb-4">Failed to load {routeName}</p>
+					<button onClick={() => window.location.reload()} className="px-4 py-2 bg-primary text-primary-foreground rounded hover:bg-primary/90">
 				Refresh Page
 			</button>
 		</div>
@@ -351,7 +318,7 @@ const RouteError = ({ routeName }) => (
 const ModalError = () => (
 	<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 		<div className="bg-white rounded-lg p-6 text-center">
-			<p className="text-red-600 mb-4">Failed to load modal</p>
+								<p className="text-destructive mb-4">Failed to load modal</p>
 			<button onClick={() => window.history.back()} className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
 				Go Back
 			</button>
@@ -361,8 +328,8 @@ const ModalError = () => (
 
 const HeavyComponentError = ({ componentName }) => (
 	<div className="border border-red-200 rounded-lg p-6 text-center">
-		<p className="text-red-600">Failed to load {componentName}</p>
-		<button onClick={() => window.location.reload()} className="mt-2 px-3 py-1 text-sm bg-red-100 text-red-700 rounded hover:bg-red-200">
+							<p className="text-destructive">Failed to load {componentName}</p>
+					<button onClick={() => window.location.reload()} className="mt-2 px-3 py-1 text-sm bg-destructive/20 text-destructive rounded hover:bg-destructive/30">
 			Retry
 		</button>
 	</div>
