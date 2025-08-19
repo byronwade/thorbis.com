@@ -71,33 +71,33 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 	const getGrowthIcon = (trend: "up" | "down" | "stable") => {
 		switch (trend) {
 			case "up":
-				return <ArrowUp className="h-4 w-4 text-green-500" />;
+				return <ArrowUp className="h-4 w-4 text-success" />;
 			case "down":
-				return <ArrowDown className="h-4 w-4 text-red-500" />;
+				return <ArrowDown className="h-4 w-4 text-destructive" />;
 			default:
-				return <Minus className="h-4 w-4 text-gray-500" />;
+				return <Minus className="h-4 w-4 text-muted-foreground" />;
 		}
 	};
 
 	const getGrowthColor = (trend: "up" | "down" | "stable") => {
 		switch (trend) {
 			case "up":
-				return "text-green-600";
+				return "text-success";
 			case "down":
-				return "text-red-600";
+				return "text-destructive";
 			default:
-				return "text-gray-600";
+				return "text-muted-foreground";
 		}
 	};
 
 	const getTrendBadge = (trend: "up" | "down" | "stable") => {
 		switch (trend) {
 			case "up":
-				return "bg-green-100 text-green-800";
+				return "bg-success/10 text-success";
 			case "down":
-				return "bg-red-100 text-red-800";
+				return "bg-destructive/10 text-destructive";
 			default:
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-foreground";
 		}
 	};
 
@@ -123,12 +123,12 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 							<div>
 								<p className="text-sm font-medium text-muted-foreground">Monthly Growth</p>
 								<div className="flex items-center space-x-2">
-									<div className="text-2xl font-bold text-green-600">+{analytics.monthlyGrowthRate}%</div>
-									<TrendingUp className="h-4 w-4 text-green-500" />
+									<div className="text-2xl font-bold text-success">+{analytics.monthlyGrowthRate}%</div>
+									<TrendingUp className="h-4 w-4 text-success" />
 								</div>
 							</div>
-							<div className="p-3 bg-green-100 rounded-full">
-								<BarChart3 className="h-6 w-6 text-green-600" />
+							<div className="p-3 bg-success/10 rounded-full">
+								<BarChart3 className="h-6 w-6 text-success" />
 							</div>
 						</div>
 						<p className="text-xs text-muted-foreground mt-2">vs. last month</p>
@@ -141,12 +141,12 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 							<div>
 								<p className="text-sm font-medium text-muted-foreground">Quarterly Growth</p>
 								<div className="flex items-center space-x-2">
-									<div className="text-2xl font-bold text-blue-600">+{analytics.quarterlyGrowthRate}%</div>
-									<TrendingUp className="h-4 w-4 text-blue-500" />
+									<div className="text-2xl font-bold text-primary">+{analytics.quarterlyGrowthRate}%</div>
+									<TrendingUp className="h-4 w-4 text-primary" />
 								</div>
 							</div>
-							<div className="p-3 bg-blue-100 rounded-full">
-								<Target className="h-6 w-6 text-blue-600" />
+							<div className="p-3 bg-primary/10 rounded-full">
+								<Target className="h-6 w-6 text-primary" />
 							</div>
 						</div>
 						<p className="text-xs text-muted-foreground mt-2">vs. last quarter</p>
@@ -177,12 +177,12 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 							<div>
 								<p className="text-sm font-medium text-muted-foreground">YoY Growth</p>
 								<div className="flex items-center space-x-2">
-									<div className="text-2xl font-bold text-orange-600">+{analytics.yearOverYearGrowth}%</div>
-									<TrendingUp className="h-4 w-4 text-orange-500" />
+									<div className="text-2xl font-bold text-warning">+{analytics.yearOverYearGrowth}%</div>
+									<TrendingUp className="h-4 w-4 text-warning" />
 								</div>
 							</div>
-							<div className="p-3 bg-orange-100 rounded-full">
-								<Calendar className="h-6 w-6 text-orange-600" />
+							<div className="p-3 bg-warning/10 rounded-full">
+								<Calendar className="h-6 w-6 text-warning" />
 							</div>
 						</div>
 						<p className="text-xs text-muted-foreground mt-2">year over year</p>
@@ -246,7 +246,7 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 										</div>
 										{item.actual && (
 											<div className={`flex items-center space-x-1 text-sm ${
-												item.actual >= item.projected ? 'text-green-600' : 'text-red-600'
+												item.actual >= item.projected ? 'text-success' : 'text-destructive'
 											}`}>
 												{item.actual >= item.projected ? (
 													<TrendingUp className="h-4 w-4" />
@@ -267,11 +267,11 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 							<div className="mt-6 pt-6 border-t">
 								<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 									<div className="text-center p-4 bg-muted rounded-lg">
-										<div className="text-2xl font-bold text-green-600">${nextMonthProjection.toLocaleString()}</div>
+										<div className="text-2xl font-bold text-success">${nextMonthProjection.toLocaleString()}</div>
 										<div className="text-sm text-muted-foreground">Next Month Projection</div>
 									</div>
 									<div className="text-center p-4 bg-muted rounded-lg">
-										<div className="text-2xl font-bold text-blue-600">${totalProjectedRevenue.toLocaleString()}</div>
+										<div className="text-2xl font-bold text-primary">${totalProjectedRevenue.toLocaleString()}</div>
 										<div className="text-sm text-muted-foreground">6-Month Projection</div>
 									</div>
 									<div className="text-center p-4 bg-muted rounded-lg">
@@ -327,20 +327,20 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 									<div className="p-4 bg-green-50 rounded-lg">
 										<div className="flex items-center space-x-2 mb-2">
-											<Star className="h-4 w-4 text-green-600" />
-											<span className="font-medium text-green-800">Top Performer</span>
+											<Star className="h-4 w-4 text-success" />
+											<span className="font-medium text-success">Top Performer</span>
 										</div>
-										<p className="text-sm text-green-700">
+										<p className="text-sm text-success">
 											Premium plan upgrades are driving 35.2% of your growth. 
 											Consider promoting premium features to accelerate this trend.
 										</p>
 									</div>
 									<div className="p-4 bg-blue-50 rounded-lg">
 										<div className="flex items-center space-x-2 mb-2">
-											<Activity className="h-4 w-4 text-blue-600" />
-											<span className="font-medium text-blue-800">Growth Opportunity</span>
+											<Activity className="h-4 w-4 text-primary" />
+											<span className="font-medium text-primary">Growth Opportunity</span>
 										</div>
-										<p className="text-sm text-blue-700">
+										<p className="text-sm text-primary">
 											Your referral program has potential for improvement. 
 											Consider implementing incentives to boost referral rates.
 										</p>
@@ -365,10 +365,10 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 							<CardContent className="space-y-4">
 								<div className="p-4 bg-green-50 rounded-lg">
 									<div className="flex items-center space-x-2 mb-2">
-										<TrendingUp className="h-4 w-4 text-green-600" />
-										<span className="font-medium text-green-800">Strong Growth Momentum</span>
+										<TrendingUp className="h-4 w-4 text-success" />
+										<span className="font-medium text-success">Strong Growth Momentum</span>
 									</div>
-									<p className="text-sm text-green-700">
+									<p className="text-sm text-success">
 										Your directory is experiencing 12.5% month-over-month growth, 
 										significantly above the industry average of 8%.
 									</p>
@@ -376,10 +376,10 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 
 								<div className="p-4 bg-blue-50 rounded-lg">
 									<div className="flex items-center space-x-2 mb-2">
-										<Users className="h-4 w-4 text-blue-600" />
-										<span className="font-medium text-blue-800">Excellent Retention</span>
+										<Users className="h-4 w-4 text-primary" />
+										<span className="font-medium text-primary">Excellent Retention</span>
 									</div>
-									<p className="text-sm text-blue-700">
+									<p className="text-sm text-primary">
 										94.2% business retention rate indicates high satisfaction 
 										and strong value proposition for your directory services.
 									</p>
@@ -408,8 +408,8 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 							</CardHeader>
 							<CardContent className="space-y-4">
 								<div className="p-4 border-l-4 border-green-500 bg-green-50">
-									<h4 className="font-medium text-green-800 mb-2">High Priority</h4>
-									<ul className="text-sm text-green-700 space-y-1">
+									<h4 className="font-medium text-success mb-2">High Priority</h4>
+									<ul className="text-sm text-success space-y-1">
 										<li>• Expand premium features to capture more upgrades</li>
 										<li>• Target high-value business categories</li>
 										<li>• Implement success stories in marketing</li>
@@ -417,17 +417,17 @@ const LocalHubGrowthAnalyticsSection: React.FC<LocalHubGrowthAnalyticsSectionPro
 								</div>
 
 								<div className="p-4 border-l-4 border-yellow-500 bg-yellow-50">
-									<h4 className="font-medium text-yellow-800 mb-2">Medium Priority</h4>
-									<ul className="text-sm text-yellow-700 space-y-1">
+									<h4 className="font-medium text-warning mb-2">Medium Priority</h4>
+									<ul className="text-sm text-warning space-y-1">
 										<li>• Improve referral program incentives</li>
 										<li>• Enhance onboarding for new businesses</li>
 										<li>• Add advanced analytics features</li>
 									</ul>
 								</div>
 
-								<div className="p-4 border-l-4 border-blue-500 bg-blue-50">
-									<h4 className="font-medium text-blue-800 mb-2">Strategic Focus</h4>
-									<ul className="text-sm text-blue-700 space-y-1">
+								<div className="p-4 border-l-4 border-primary bg-blue-50">
+									<h4 className="font-medium text-primary mb-2">Strategic Focus</h4>
+									<ul className="text-sm text-primary space-y-1">
 										<li>• Develop enterprise-tier offerings</li>
 										<li>• Consider geographic expansion</li>
 										<li>• Build strategic partnerships</li>

@@ -146,9 +146,9 @@ export default function JobDetailPage({ params }) {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "active":
-				return "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20";
+				return "bg-success/10 text-success dark:text-success border-green-500/20";
 			case "in-progress":
-				return "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20";
+				return "bg-primary/10 text-primary dark:text-primary border-primary/20";
 			case "completed":
 				return "bg-muted text-muted-foreground border-border";
 			default:
@@ -159,11 +159,11 @@ export default function JobDetailPage({ params }) {
 	const getUrgencyColor = (urgency) => {
 		switch (urgency) {
 			case "high":
-				return "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20";
+				return "bg-destructive/10 text-destructive dark:text-destructive border-red-500/20";
 			case "medium":
-				return "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20";
+				return "bg-warning/10 text-warning dark:text-warning border-yellow-500/20";
 			case "low":
-				return "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20";
+				return "bg-success/10 text-success dark:text-success border-green-500/20";
 			default:
 				return "bg-muted text-muted-foreground border-border";
 		}
@@ -172,11 +172,11 @@ export default function JobDetailPage({ params }) {
 	const getBoostTypeColor = (type) => {
 		switch (type) {
 			case "standard":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary dark:text-primary/90";
 			case "premium":
 				return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
 			case "maximum":
-				return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
@@ -185,11 +185,11 @@ export default function JobDetailPage({ params }) {
 	const getBoostStatusColor = (status) => {
 		switch (status) {
 			case "active":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "completed":
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 			case "paused":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
@@ -261,7 +261,7 @@ export default function JobDetailPage({ params }) {
 						<Card>
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
-									<Zap className="w-5 h-5 text-yellow-600" />
+									<Zap className="w-5 h-5 text-warning" />
 									Boost Management
 								</CardTitle>
 								<CardDescription>Manage your job boost and track performance</CardDescription>
@@ -528,9 +528,9 @@ export default function JobDetailPage({ params }) {
 					</Card>
 
 					{/* Boost Warning */}
-					<Alert className="border-orange-500/20 bg-orange-500/5">
-						<Zap className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-						<AlertDescription className="text-orange-800 dark:text-orange-200">
+					<Alert className="border-orange-500/20 bg-warning/5">
+						<Zap className="w-4 h-4 text-warning dark:text-warning" />
+						<AlertDescription className="text-warning dark:text-warning/80">
 							<strong>Boost Warning:</strong> Boosted jobs can generate 5-10x more responses. Be prepared for many contacts and have your availability ready to discuss your project.
 						</AlertDescription>
 					</Alert>
@@ -609,7 +609,7 @@ export default function JobDetailPage({ params }) {
 									<div className="space-y-2 mb-4">
 										{type.features.map((feature, index) => (
 											<div key={index} className="flex items-center gap-2 text-sm">
-												<CheckCircle className="w-4 h-4 text-green-500" />
+												<CheckCircle className="w-4 h-4 text-success" />
 												{feature}
 											</div>
 										))}

@@ -138,11 +138,11 @@ export default function Reviews() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "verified":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "pending_verification":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "failed_verification":
-				return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/90";
 			default:
 				return "bg-muted text-muted-foreground";
 		}
@@ -423,7 +423,7 @@ export default function Reviews() {
 																			photos: editForm.photos.filter((_, i) => i !== index),
 																		})
 																	}
-																	className="absolute top-0 right-0 h-6 w-6 p-0 bg-red-500 text-white hover:bg-red-600"
+																	className="absolute top-0 right-0 h-6 w-6 p-0 bg-destructive text-white hover:bg-destructive"
 																>
 																	×
 																</Button>
@@ -435,11 +435,11 @@ export default function Reviews() {
 
 											{/* Blockchain Verification */}
 											{review.blockchainHash && (
-												<div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-md">
+												<div className="mb-4 p-3 bg-green-50 dark:bg-success/20 rounded-md">
 													<div className="flex items-center justify-between">
 														<div className="flex items-center space-x-2">
-															<Shield className="w-4 h-4 text-green-600 dark:text-green-400" />
-															<span className="text-sm font-medium text-green-700 dark:text-green-300">Blockchain Verified</span>
+															<Shield className="w-4 h-4 text-success dark:text-success" />
+															<span className="text-sm font-medium text-success dark:text-success/90">Blockchain Verified</span>
 														</div>
 														<div className="flex items-center space-x-2">
 															<Button variant="ghost" size="sm" onClick={() => copyToClipboard(review.blockchainHash)} className="h-6 px-2 text-xs">
@@ -452,7 +452,7 @@ export default function Reviews() {
 															</Button>
 														</div>
 													</div>
-													<div className="mt-2 text-xs text-green-600 dark:text-green-400 font-mono">{review.blockchainHash}</div>
+													<div className="mt-2 text-xs text-success dark:text-success font-mono">{review.blockchainHash}</div>
 													<div className="text-xs text-muted-foreground">Verified on {formatDate(review.verifiedAt)}</div>
 												</div>
 											)}
@@ -526,7 +526,7 @@ export default function Reviews() {
 													photos: editForm.photos.filter((_, i) => i !== index),
 												})
 											}
-											className="absolute top-0 right-0 h-6 w-6 p-0 bg-red-500 text-white hover:bg-red-600"
+											className="absolute top-0 right-0 h-6 w-6 p-0 bg-destructive text-white hover:bg-destructive"
 										>
 											×
 										</Button>

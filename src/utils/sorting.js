@@ -1,4 +1,4 @@
-import { logger } from "./logger";
+import logger from "./logger.js";
 import { validateBusinessData } from "./business-data-safety-wrapper";
 
 // Sort options configuration

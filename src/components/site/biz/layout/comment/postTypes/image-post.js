@@ -34,10 +34,10 @@ const ImagePost = ({ post }) => {
 				{/* Two Images */}
 				{imageCount === 2 && (
 					<div className="grid grid-cols-2 gap-0">
-						<div className="relative border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[0] || "/placeholder.svg"} alt="Post media 1" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-l border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-l border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[1] || "/placeholder.svg"} alt="Post media 2" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
 					</div>
@@ -47,15 +47,15 @@ const ImagePost = ({ post }) => {
 				{imageCount === 3 && (
 					<div>
 						{/* Main Image */}
-						<div className="relative w-full aspect-[16/8] border-b border-gray-300">
+						<div className="relative w-full aspect-[16/8] border-b border-border">
 							<Image src={allImages[0] || "/placeholder.svg"} alt="Main post media" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
 						{/* Additional Images */}
 						<div className="grid grid-cols-2 gap-0">
-							<div className="relative border-r-0 border-gray-300 aspect-w-1 aspect-h-1">
+							<div className="relative border-r-0 border-border aspect-w-1 aspect-h-1">
 								<Image src={allImages[1] || "/placeholder.svg"} alt="Post media 2" width={1920} height={1020} priority className="object-cover w-full h-full" />
 							</div>
-							<div className="relative border-l border-gray-300 aspect-w-1 aspect-h-1">
+							<div className="relative border-l border-border aspect-w-1 aspect-h-1">
 								<Image src={allImages[2] || "/placeholder.svg"} alt="Post media 3" width={1920} height={1020} priority className="object-cover w-full h-full" />
 							</div>
 						</div>
@@ -65,16 +65,16 @@ const ImagePost = ({ post }) => {
 				{/* Four Images */}
 				{imageCount === 4 && (
 					<div className="grid grid-cols-2 gap-0">
-						<div className="relative border-b border-r border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-b border-r border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[0] || "/placeholder.svg"} alt="Post media 1" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-b border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-b border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[1] || "/placeholder.svg"} alt="Post media 2" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-r border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-r border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[2] || "/placeholder.svg"} alt="Post media 3" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[3] || "/placeholder.svg"} alt="Post media 4" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
 					</div>
@@ -83,20 +83,20 @@ const ImagePost = ({ post }) => {
 				{/* Five Images */}
 				{imageCount === 5 && (
 					<div className="flex">
-						<div className="relative w-1/2 border-b border-r border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative w-1/2 border-b border-r border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[0] || "/placeholder.svg"} alt="Post media 1" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
 						<div className="grid w-1/2 grid-cols-2 grid-rows-2 gap-0">
-							<div className="relative border-b border-gray-300 aspect-w-1 aspect-h-1">
+							<div className="relative border-b border-border aspect-w-1 aspect-h-1">
 								<Image src={allImages[1] || "/placeholder.svg"} alt="Post media 2" width={1920} height={1020} priority className="object-cover w-full h-full" />
 							</div>
-							<div className="relative border-b border-l border-gray-300 aspect-w-1 aspect-h-1">
+							<div className="relative border-b border-l border-border aspect-w-1 aspect-h-1">
 								<Image src={allImages[2] || "/placeholder.svg"} alt="Post media 3" width={1920} height={1020} priority className="object-cover w-full h-full" />
 							</div>
-							<div className="relative border-gray-300 aspect-w-1 aspect-h-1">
+							<div className="relative border-border aspect-w-1 aspect-h-1">
 								<Image src={allImages[3] || "/placeholder.svg"} alt="Post media 4" width={1920} height={1020} priority className="object-cover w-full h-full" />
 							</div>
-							<div className="relative border-l border-gray-300 aspect-w-1 aspect-h-1">
+							<div className="relative border-l border-border aspect-w-1 aspect-h-1">
 								<Image src={allImages[4] || "/placeholder.svg"} alt="Post media 5" width={1920} height={1020} priority className="object-cover w-full h-full" />
 							</div>
 						</div>
@@ -106,22 +106,22 @@ const ImagePost = ({ post }) => {
 				{/* Six Images */}
 				{imageCount === 6 && (
 					<div className="grid grid-cols-3 grid-rows-2 gap-0">
-						<div className="relative border-b border-r border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-b border-r border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[0] || "/placeholder.svg"} alt="Post media 1" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-b border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-b border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[1] || "/placeholder.svg"} alt="Post media 2" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-b border-l border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-b border-l border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[2] || "/placeholder.svg"} alt="Post media 3" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-r border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-r border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[3] || "/placeholder.svg"} alt="Post media 4" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[4] || "/placeholder.svg"} alt="Post media 5" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
-						<div className="relative border-l border-gray-300 aspect-w-1 aspect-h-1">
+						<div className="relative border-l border-border aspect-w-1 aspect-h-1">
 							<Image src={allImages[5] || "/placeholder.svg"} alt="Post media 6" width={1920} height={1020} priority className="object-cover w-full h-full" />
 						</div>
 					</div>
@@ -129,8 +129,8 @@ const ImagePost = ({ post }) => {
 
 				{/* More than Six Images */}
 				{imageCount > 6 && (
-					<div className="flex items-center justify-center h-24 bg-gray-200 cursor-pointer hover:bg-gray-300">
-						<span className="text-gray-700">View More</span>
+					<div className="flex items-center justify-center h-24 bg-muted cursor-pointer hover:bg-muted">
+						<span className="text-muted-foreground">View More</span>
 					</div>
 				)}
 			</div>

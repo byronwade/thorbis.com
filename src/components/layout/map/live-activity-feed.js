@@ -18,29 +18,29 @@ const LiveActivityFeed = ({ isOpen, onClose }) => {
 			{
 				type: "review",
 				icon: Star,
-				color: "text-yellow-500",
-				bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
+				color: "text-warning",
+				bgColor: "bg-yellow-50 dark:bg-warning/20",
 				templates: ["left a 5-star review for", "reviewed", "gave 4 stars to"],
 			},
 			{
 				type: "view",
 				icon: Eye,
-				color: "text-blue-500",
-				bgColor: "bg-blue-50 dark:bg-blue-900/20",
+				color: "text-primary",
+				bgColor: "bg-blue-50 dark:bg-primary/20",
 				templates: ["viewed", "checked out", "looked at"],
 			},
 			{
 				type: "share",
 				icon: Share2,
-				color: "text-green-500",
-				bgColor: "bg-green-50 dark:bg-green-900/20",
+				color: "text-success",
+				bgColor: "bg-green-50 dark:bg-success/20",
 				templates: ["shared", "recommended"],
 			},
 			{
 				type: "favorite",
 				icon: Heart,
-				color: "text-red-500",
-				bgColor: "bg-red-50 dark:bg-red-900/20",
+				color: "text-destructive",
+				bgColor: "bg-red-50 dark:bg-destructive/20",
 				templates: ["favorited", "saved"],
 			},
 		];
@@ -132,7 +132,7 @@ const LiveActivityFeed = ({ isOpen, onClose }) => {
 					<div className="flex items-center space-x-2">
 						<div className="relative">
 							<Activity className="w-5 h-5 text-primary" />
-							<div className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+							<div className="absolute -top-1 -right-1 w-2 h-2 bg-success rounded-full animate-pulse"></div>
 						</div>
 						<CardTitle className="text-lg">Live Activity</CardTitle>
 					</div>
@@ -140,7 +140,7 @@ const LiveActivityFeed = ({ isOpen, onClose }) => {
 						<X className="w-4 h-4" />
 					</Button>
 				</div>
-				<div className="flex items-center space-x-2 text-sm text-gray-500">
+				<div className="flex items-center space-x-2 text-sm text-muted-foreground">
 					<Zap className="w-4 h-4" />
 					<span>Real-time updates</span>
 				</div>
@@ -156,7 +156,7 @@ const LiveActivityFeed = ({ isOpen, onClose }) => {
 							activities.map((activity) => {
 								const Icon = activity.icon;
 								return (
-									<div key={activity.id} className={`flex items-start space-x-3 p-3 rounded-lg transition-all duration-500 ${activity.isNew ? "bg-primary/10 border border-primary/20 shadow-sm" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
+									<div key={activity.id} className={`flex items-start space-x-3 p-3 rounded-lg transition-all duration-500 ${activity.isNew ? "bg-primary/10 border border-primary/20 shadow-sm" : "hover:bg-gray-50 dark:hover:bg-card"}`}>
 										<Avatar className="w-8 h-8">
 											<AvatarImage src={activity.user.avatar} />
 											<AvatarFallback className="text-xs">
@@ -173,12 +173,12 @@ const LiveActivityFeed = ({ isOpen, onClose }) => {
 													<Icon className={`w-3 h-3 ${activity.color}`} />
 												</div>
 											</div>
-											<p className="text-sm text-gray-600 dark:text-gray-300 leading-tight">
+											<p className="text-sm text-muted-foreground dark:text-muted-foreground leading-tight">
 												{activity.action} <span className="font-medium">{activity.business}</span>
 											</p>
 											<div className="flex items-center space-x-2 mt-2">
-												<Clock className="w-3 h-3 text-gray-400" />
-												<span className="text-xs text-gray-400">{formatTimeAgo(activity.timestamp)}</span>
+												<Clock className="w-3 h-3 text-muted-foreground" />
+												<span className="text-xs text-muted-foreground">{formatTimeAgo(activity.timestamp)}</span>
 												{activity.isNew && (
 													<Badge variant="secondary" className="text-xs px-1 py-0">
 														New
@@ -190,8 +190,8 @@ const LiveActivityFeed = ({ isOpen, onClose }) => {
 								);
 							})
 						) : (
-							<div className="text-center py-8 text-gray-500">
-								<Activity className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+							<div className="text-center py-8 text-muted-foreground">
+								<Activity className="w-12 h-12 mx-auto mb-3 text-muted-foreground" />
 								<p className="text-sm">No recent activity</p>
 							</div>
 						)}

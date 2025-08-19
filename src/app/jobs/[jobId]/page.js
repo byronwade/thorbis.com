@@ -258,7 +258,7 @@ async function JobDetails({ params }) {
 								<ul className="space-y-2">
 									{job.benefits.map((benefit, index) => (
 										<li key={index} className="flex items-start gap-2">
-											<span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2 flex-shrink-0"></span>
+											<span className="w-1.5 h-1.5 bg-success rounded-full mt-2 flex-shrink-0"></span>
 											<span>{benefit}</span>
 										</li>
 									))}

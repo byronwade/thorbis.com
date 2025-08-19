@@ -5,7 +5,7 @@
  */
 
 import { supabase } from "@lib/database/supabase/client";
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 export class UserBehaviorTracker {
 	constructor() {

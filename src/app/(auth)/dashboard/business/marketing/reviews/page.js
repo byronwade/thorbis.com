@@ -194,24 +194,24 @@ const mockReviews = [
 ];
 
 const platforms = {
-	google: { name: "Google", color: "bg-blue-100 text-blue-800" },
-	yelp: { name: "Yelp", color: "bg-red-100 text-red-800" },
+	google: { name: "Google", color: "bg-primary/10 text-primary" },
+	yelp: { name: "Yelp", color: "bg-destructive/10 text-destructive" },
 	facebook: { name: "Facebook", color: "bg-indigo-100 text-indigo-800" },
-	angie: { name: "Angie's List", color: "bg-green-100 text-green-800" },
+	angie: { name: "Angie's List", color: "bg-success/10 text-success" },
 	bbb: { name: "Better Business Bureau", color: "bg-purple-100 text-purple-800" },
 };
 
 const statusColors = {
-	published: "bg-green-100 text-green-800",
-	pending_response: "bg-orange-100 text-orange-800",
-	flagged: "bg-red-100 text-red-800",
-	draft: "bg-gray-100 text-gray-800",
+	published: "bg-success/10 text-success",
+	pending_response: "bg-warning/10 text-warning",
+	flagged: "bg-destructive/10 text-destructive",
+	draft: "bg-muted text-muted-foreground",
 };
 
 const sentimentColors = {
-	positive: "bg-green-100 text-green-800",
-	neutral: "bg-yellow-100 text-yellow-800",
-	negative: "bg-red-100 text-red-800",
+	positive: "bg-success/10 text-success",
+	neutral: "bg-warning/10 text-warning",
+	negative: "bg-destructive/10 text-destructive",
 };
 
 export default function ReviewsManagement() {
@@ -318,7 +318,7 @@ export default function ReviewsManagement() {
 	};
 
 	const renderStars = (rating, size = "w-4 h-4") => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`${size} ${i < rating ? "text-yellow-400 fill-current" : "text-gray-300"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`${size} ${i < rating ? "text-warning fill-current" : "text-muted-foreground/30"}`} />);
 	};
 
 	const formatDate = (date) => new Date(date).toLocaleDateString();
@@ -356,7 +356,7 @@ export default function ReviewsManagement() {
 								<p className="text-sm text-muted-foreground">Total Reviews</p>
 								<p className="text-2xl font-bold">{stats.total}</p>
 							</div>
-							<MessageSquare className="w-8 h-8 text-blue-500" />
+							<MessageSquare className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -371,7 +371,7 @@ export default function ReviewsManagement() {
 									<div className="flex">{renderStars(Math.round(stats.averageRating))}</div>
 								</div>
 							</div>
-							<Star className="w-8 h-8 text-yellow-500" />
+							<Star className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -381,9 +381,9 @@ export default function ReviewsManagement() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Pending Response</p>
-								<p className="text-2xl font-bold text-orange-600">{stats.pending}</p>
+								<p className="text-2xl font-bold text-warning">{stats.pending}</p>
 							</div>
-							<Clock className="w-8 h-8 text-orange-500" />
+							<Clock className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -393,9 +393,9 @@ export default function ReviewsManagement() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Flagged</p>
-								<p className="text-2xl font-bold text-red-600">{stats.flagged}</p>
+								<p className="text-2xl font-bold text-destructive">{stats.flagged}</p>
 							</div>
-							<Flag className="w-8 h-8 text-red-500" />
+							<Flag className="w-8 h-8 text-destructive" />
 						</div>
 					</CardContent>
 				</Card>
@@ -405,13 +405,13 @@ export default function ReviewsManagement() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Positive</p>
-								<p className="text-2xl font-bold text-green-600">{stats.positive}</p>
+								<p className="text-2xl font-bold text-success">{stats.positive}</p>
 								<div className="flex items-center gap-1">
-									<TrendingUp className="w-3 h-3 text-green-500" />
-									<span className="text-xs text-green-600">{((stats.positive / stats.total) * 100).toFixed(0)}%</span>
+									<TrendingUp className="w-3 h-3 text-success" />
+									<span className="text-xs text-success">{((stats.positive / stats.total) * 100).toFixed(0)}%</span>
 								</div>
 							</div>
-							<ThumbsUp className="w-8 h-8 text-green-500" />
+							<ThumbsUp className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -423,7 +423,7 @@ export default function ReviewsManagement() {
 								<p className="text-sm text-muted-foreground">Response Rate</p>
 								<p className="text-2xl font-bold">{stats.responseRate.toFixed(0)}%</p>
 							</div>
-							<Reply className="w-8 h-8 text-blue-500" />
+							<Reply className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -443,7 +443,7 @@ export default function ReviewsManagement() {
 									<div key={rating} className="flex items-center gap-3">
 										<div className="flex items-center gap-1 w-16">
 											<span className="text-sm font-medium">{rating}</span>
-											<Star className="w-3 h-3 text-yellow-400 fill-current" />
+											<Star className="w-3 h-3 text-warning fill-current" />
 										</div>
 										<div className="flex-1">
 											<Progress value={(count / stats.total) * 100} className="h-2" />
@@ -565,7 +565,7 @@ export default function ReviewsManagement() {
 												<Badge className={statusColors[review.status]}>{review.status.replace("_", " ")}</Badge>
 												<Badge className={sentimentColors[review.sentiment]}>{review.sentiment}</Badge>
 												{review.verified && (
-													<Badge variant="outline" className="text-green-600">
+													<Badge variant="outline" className="text-success">
 														<CheckCircle className="w-3 h-3 mr-1" />
 														Verified
 													</Badge>
@@ -630,7 +630,7 @@ export default function ReviewsManagement() {
 									</div>
 
 									{/* Review Text */}
-									<p className="text-sm text-gray-700 mb-4">{review.text}</p>
+									<p className="text-sm text-muted-foreground mb-4">{review.text}</p>
 
 									{/* Tags */}
 									{review.tags.length > 0 && (
@@ -645,13 +645,13 @@ export default function ReviewsManagement() {
 
 									{/* Response */}
 									{review.response && (
-										<div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+										<div className="bg-blue-50 border border-primary/30 rounded-lg p-4 mb-4">
 											<div className="flex items-center gap-2 mb-2">
-												<Reply className="w-4 h-4 text-blue-600" />
-												<span className="font-medium text-blue-900">Response from {review.response.author}</span>
-												<span className="text-xs text-blue-700">{formatDate(review.response.date)}</span>
+												<Reply className="w-4 h-4 text-primary" />
+												<span className="font-medium text-primary">Response from {review.response.author}</span>
+												<span className="text-xs text-primary">{formatDate(review.response.date)}</span>
 											</div>
-											<p className="text-sm text-blue-800">{review.response.text}</p>
+											<p className="text-sm text-primary">{review.response.text}</p>
 										</div>
 									)}
 
@@ -678,7 +678,7 @@ export default function ReviewsManagement() {
 												</Button>
 											)}
 											{review.status === "pending_response" && (
-												<Badge className="bg-orange-100 text-orange-800">
+												<Badge className="bg-warning/10 text-warning">
 													<Clock className="w-3 h-3 mr-1" />
 													Needs Response
 												</Badge>
@@ -794,12 +794,12 @@ export default function ReviewsManagement() {
 							{selectedReview.response && (
 								<div>
 									<h4 className="font-medium mb-2">Your Response</h4>
-									<div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+									<div className="bg-blue-50 border border-primary/30 rounded-lg p-4">
 										<div className="flex items-center gap-2 mb-2">
-											<span className="font-medium text-blue-900">{selectedReview.response.author}</span>
-											<span className="text-xs text-blue-700">{formatDate(selectedReview.response.date)}</span>
+											<span className="font-medium text-primary">{selectedReview.response.author}</span>
+											<span className="text-xs text-primary">{formatDate(selectedReview.response.date)}</span>
 										</div>
-										<p className="text-sm text-blue-800">{selectedReview.response.text}</p>
+										<p className="text-sm text-primary">{selectedReview.response.text}</p>
 									</div>
 								</div>
 							)}

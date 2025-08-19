@@ -82,7 +82,7 @@ export function SentenceOrderingRenderer({ question, onAnswer, isAnswered, userA
 
 	const getSentenceStyle = (sentenceId: string, index: number) => {
 		if (!showFeedback || !isAnswered) {
-			return "border-gray-200 bg-white hover:border-gray-300";
+			return "border-border bg-white hover:border-border";
 		}
 
 		const correctIndex = question.correctOrder.indexOf(sentenceId);
@@ -100,7 +100,7 @@ export function SentenceOrderingRenderer({ question, onAnswer, isAnswered, userA
 			{/* Instructions */}
 			<Card>
 				<CardContent className="p-4">
-					<p className="text-gray-700">Drag and drop the sentences below to arrange them in the correct order, or use the arrow buttons to move them up and down.</p>
+					<p className="text-muted-foreground">Drag and drop the sentences below to arrange them in the correct order, or use the arrow buttons to move them up and down.</p>
 				</CardContent>
 			</Card>
 
@@ -115,16 +115,16 @@ export function SentenceOrderingRenderer({ question, onAnswer, isAnswered, userA
 							<CardContent className="p-4">
 								<div className="flex items-center space-x-4">
 									{/* Order Number */}
-									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-semibold flex items-center justify-center text-sm">{index + 1}</div>
+									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 text-primary font-semibold flex items-center justify-center text-sm">{index + 1}</div>
 
 									{/* Drag Handle */}
 									<div className="flex-shrink-0">
-										<GripVertical className="w-5 h-5 text-gray-400" />
+										<GripVertical className="w-5 h-5 text-muted-foreground" />
 									</div>
 
 									{/* Sentence Text */}
 									<div className="flex-1">
-										<p className="text-gray-800">{sentence.text}</p>
+										<p className="text-foreground">{sentence.text}</p>
 									</div>
 
 									{/* Movement Buttons */}
@@ -140,7 +140,7 @@ export function SentenceOrderingRenderer({ question, onAnswer, isAnswered, userA
 									)}
 
 									{/* Feedback Icons */}
-									{showFeedback && isAnswered && <div className="flex-shrink-0">{question.correctOrder.indexOf(sentenceId) === index ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}</div>}
+									{showFeedback && isAnswered && <div className="flex-shrink-0">{question.correctOrder.indexOf(sentenceId) === index ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}</div>}
 								</div>
 							</CardContent>
 						</Card>
@@ -163,26 +163,26 @@ export function SentenceOrderingRenderer({ question, onAnswer, isAnswered, userA
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{JSON.stringify(orderedSentences) === JSON.stringify(question.correctOrder) ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${JSON.stringify(orderedSentences) === JSON.stringify(question.correctOrder) ? "text-green-700" : "text-red-700"}`}>{JSON.stringify(orderedSentences) === JSON.stringify(question.correctOrder) ? "Perfect Order!" : "Incorrect Order"}</span>
+								{JSON.stringify(orderedSentences) === JSON.stringify(question.correctOrder) ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${JSON.stringify(orderedSentences) === JSON.stringify(question.correctOrder) ? "text-success" : "text-destructive"}`}>{JSON.stringify(orderedSentences) === JSON.stringify(question.correctOrder) ? "Perfect Order!" : "Incorrect Order"}</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show correct order if incorrect */}
 							{JSON.stringify(orderedSentences) !== JSON.stringify(question.correctOrder) && (
 								<div className="p-4 rounded-lg bg-green-50 border border-green-200">
-									<p className="text-green-800 font-medium">Correct Order:</p>
+									<p className="text-success font-medium">Correct Order:</p>
 									<ol className="list-decimal list-inside space-y-1 mt-2">
 										{question.correctOrder.map((sentenceId, index) => {
 											const sentence = getSentenceById(sentenceId);
 											return (
-												<li key={sentenceId} className="text-green-700">
+												<li key={sentenceId} className="text-success">
 													{sentence?.text}
 												</li>
 											);

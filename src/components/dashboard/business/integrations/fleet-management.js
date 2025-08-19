@@ -51,18 +51,18 @@ export function FleetManagementWidget() {
 
 	const getAlertIcon = (type) => {
 		switch (type) {
-			case 'maintenance': return <AlertTriangle className="h-3 w-3 text-orange-500" />;
-			case 'fuel': return <Fuel className="h-3 w-3 text-red-500" />;
-			default: return <AlertTriangle className="h-3 w-3 text-yellow-500" />;
+			case 'maintenance': return <AlertTriangle className="h-3 w-3 text-warning" />;
+			case 'fuel': return <Fuel className="h-3 w-3 text-destructive" />;
+			default: return <AlertTriangle className="h-3 w-3 text-warning" />;
 		}
 	};
 
 	const getStatusColor = (status) => {
 		switch (status) {
-			case 'en_route': return 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200';
-			case 'loading': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-200';
-			case 'delivered': return 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200';
-			default: return 'bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-200';
+			case 'en_route': return 'bg-primary/10 text-primary dark:bg-primary dark:text-primary/80';
+			case 'loading': return 'bg-warning/10 text-warning dark:bg-warning dark:text-warning/80';
+			case 'delivered': return 'bg-success/10 text-success dark:bg-success dark:text-success/80';
+			default: return 'bg-muted text-foreground dark:bg-card dark:text-muted-foreground';
 		}
 	};
 
@@ -71,8 +71,8 @@ export function FleetManagementWidget() {
 			<CardHeader className="pb-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center space-x-2">
-						<div className="p-2 bg-blue-100 dark:bg-blue-950 rounded-lg">
-							<Truck className="h-4 w-4 text-blue-600" />
+						<div className="p-2 bg-primary/10 dark:bg-primary rounded-lg">
+							<Truck className="h-4 w-4 text-primary" />
 						</div>
 						<div>
 							<CardTitle className="text-sm">Fleet Management</CardTitle>
@@ -89,28 +89,28 @@ export function FleetManagementWidget() {
 				<div className="grid grid-cols-2 gap-3">
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<Truck className="h-3 w-3 text-blue-600" />
+							<Truck className="h-3 w-3 text-primary" />
 							<span className="text-xs text-muted-foreground">Active</span>
 						</div>
-						<p className="font-semibold text-sm text-blue-600">{fleetData.activeVehicles}</p>
+						<p className="font-semibold text-sm text-primary">{fleetData.activeVehicles}</p>
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<Clock className="h-3 w-3 text-gray-600" />
+							<Clock className="h-3 w-3 text-muted-foreground" />
 							<span className="text-xs text-muted-foreground">Idle</span>
 						</div>
 						<p className="font-semibold text-sm">{fleetData.idleVehicles}</p>
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<TrendingUp className="h-3 w-3 text-green-600" />
+							<TrendingUp className="h-3 w-3 text-success" />
 							<span className="text-xs text-muted-foreground">Mileage</span>
 						</div>
 						<p className="font-semibold text-sm">{fleetData.totalMileage}</p>
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<Fuel className="h-3 w-3 text-orange-600" />
+							<Fuel className="h-3 w-3 text-warning" />
 							<span className="text-xs text-muted-foreground">Efficiency</span>
 						</div>
 						<p className="font-semibold text-sm">{fleetData.fuelEfficiency}</p>

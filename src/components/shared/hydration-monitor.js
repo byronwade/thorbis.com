@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * HydrationMonitor - Monitors and logs hydration mismatches for debugging

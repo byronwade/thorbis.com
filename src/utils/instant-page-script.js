@@ -4,7 +4,7 @@
  * Makes page navigation faster than instant
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Configuration optimized for business directory
 const INSTANT_CONFIG = {

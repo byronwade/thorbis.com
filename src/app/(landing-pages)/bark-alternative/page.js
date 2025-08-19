@@ -143,17 +143,17 @@ export default async function BarkAlternative() {
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Monthly Cost</td>
 									<td className="px-6 py-4 font-semibold text-center text-destructive">$250+</td>
-									<td className="px-6 py-4 font-bold text-center text-green-600 dark:text-green-400">$29</td>
+									<td className="px-6 py-4 font-bold text-center text-success dark:text-success">$29</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Lead Quality</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Variable</td>
-									<td className="px-6 py-4 font-bold text-center text-green-600 dark:text-green-400">AI-Verified</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Variable</td>
+									<td className="px-6 py-4 font-bold text-center text-success dark:text-success">AI-Verified</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Lead Volume</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 font-bold text-center text-green-600 dark:text-green-400">High Volume</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 font-bold text-center text-success dark:text-success">High Volume</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Sync</td>
@@ -161,13 +161,13 @@ export default async function BarkAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 font-bold text-center text-green-600 dark:text-green-400">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 font-bold text-center text-success dark:text-success">24/7 Priority</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Business Growth Tools</td>
@@ -175,18 +175,18 @@ export default async function BarkAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Review Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 font-bold text-center text-green-600 dark:text-green-400">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 font-bold text-center text-success dark:text-success">Advanced AI</td>
 								</tr>
 								<tr className="transition-colors hover:bg-muted/50">
 									<td className="px-6 py-4 font-medium text-foreground">Service Categories</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 font-bold text-center text-green-600 dark:text-green-400">Comprehensive</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 font-bold text-center text-success dark:text-success">Comprehensive</td>
 								</tr>
 							</tbody>
 						</table>
@@ -247,27 +247,27 @@ export default async function BarkAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Affordable Pricing</h4>
+								<h4 className="font-semibold text-success dark:text-success">Affordable Pricing</h4>
 								<p className="text-sm text-muted-foreground">Simple $29/month pricing with comprehensive features and no hidden fees.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">AI-Verified Leads</h4>
+								<h4 className="font-semibold text-success dark:text-success">AI-Verified Leads</h4>
 								<p className="text-sm text-muted-foreground">Advanced lead qualification system that ensures high-quality, ready-to-buy customers.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Unlimited Lead Volume</h4>
+								<h4 className="font-semibold text-success dark:text-success">Unlimited Lead Volume</h4>
 								<p className="text-sm text-muted-foreground">No limits on lead volume with automated scaling based on your capacity.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Sync across Google, Facebook, Yelp, Bark, and other major platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">24/7 Priority Support</h4>
+								<h4 className="font-semibold text-success dark:text-success">24/7 Priority Support</h4>
 								<p className="text-sm text-muted-foreground">Dedicated support team with quick response times and personalized solutions.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Growth & Marketing Tools</h4>
+								<h4 className="font-semibold text-success dark:text-success">Growth & Marketing Tools</h4>
 								<p className="text-sm text-muted-foreground">Email campaigns, social media integration, and marketing automation.</p>
 							</div>
 						</CardContent>
@@ -451,35 +451,35 @@ export default async function BarkAlternative() {
 						<CardContent>
 							<ul className="space-y-3 text-sm">
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">Multi-platform management</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">AI-verified leads</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">Unlimited lead volume</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">Comprehensive platform reach</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">Growth automation tools</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">Advanced analytics</span>
 								</li>
 								<li className="flex gap-3 items-center">
-									<CheckCircle className="flex-shrink-0 w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="flex-shrink-0 w-4 h-4 text-success dark:text-success" />
 									<span className="text-muted-foreground">Appointment booking</span>
 								</li>
 							</ul>
@@ -502,7 +502,7 @@ export default async function BarkAlternative() {
 								<span className="text-sm font-medium text-primary">HVAC Contractor</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+234%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+234%</div>
 								<div className="text-sm text-muted-foreground">Qualified Lead Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Bark leads were terrible - price shoppers and tire kickers. Thorbis's AI qualification means I only get serious customers ready to book. My close rate went from 15% to 68%."</blockquote>
@@ -525,7 +525,7 @@ export default async function BarkAlternative() {
 								<span className="text-sm font-medium text-primary">General Contractor</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$180K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$180K</div>
 								<div className="text-sm text-muted-foreground">Annual Revenue Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"I was spending $400/month on Bark with poor results. Thorbis costs $29 and brought me $180K more revenue this year. The lead quality is night and day better."</blockquote>
@@ -548,7 +548,7 @@ export default async function BarkAlternative() {
 								<span className="text-sm font-medium text-primary">Plumbing Services</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">-85%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">-85%</div>
 								<div className="text-sm text-muted-foreground">Time Wasted on Bad Leads</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Bark sent me 20 leads that went nowhere. Thorbis sends me 5 leads and I book 4 jobs. I'm making more money working fewer hours. This is how business should be."</blockquote>
@@ -620,7 +620,7 @@ export default async function BarkAlternative() {
 						<CardContent className="px-0 space-y-6">
 							<div className="space-y-4">
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">AI-Verified Information</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">AI-Verified Information</h4>
 									<p className="text-sm text-muted-foreground mb-3">"Every lead is verified before I get it. Real phone numbers, real emails, real projects. No more wasted calls."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -628,7 +628,7 @@ export default async function BarkAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Budget-Qualified Customers</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Budget-Qualified Customers</h4>
 									<p className="text-sm text-muted-foreground mb-3">"Thorbis pre-qualifies customers based on budget and timeline. I only speak to people ready to hire quality professionals."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -636,7 +636,7 @@ export default async function BarkAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Intelligent Matching</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Intelligent Matching</h4>
 									<p className="text-sm text-muted-foreground mb-3">"AI matches me with perfect-fit customers in my service area with exactly the services I offer. Every lead is relevant."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -708,24 +708,24 @@ export default async function BarkAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Time saved with qualified leads (2hr/week)</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$1,300</span>
+									<span className="font-semibold text-success dark:text-success">+$1,300</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Increased revenue from 68% conversion</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$8,500</span>
+									<span className="font-semibold text-success dark:text-success">+$8,500</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Premium pricing with quality customers</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$2,200</span>
+									<span className="font-semibold text-success dark:text-success">+$2,200</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Multi-platform presence included</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$200</span>
+									<span className="font-semibold text-success dark:text-success">+$200</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Monthly Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$17,721</span>
+										<span className="text-success dark:text-success">+$17,721</span>
 									</div>
 								</div>
 							</CardContent>

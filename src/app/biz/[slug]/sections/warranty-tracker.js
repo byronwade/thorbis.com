@@ -67,7 +67,7 @@ export default function WarrantyTracker({ business }) {
 											<span>Expires: {warranty.expiryDate}</span>
 										</div>
 									</div>
-									<Badge variant="outline" className={`text-xs ${warranty.status === "Active" ? "border-green-200 text-green-600 bg-green-50" : "border-yellow-200 text-yellow-600 bg-yellow-50"}`}>
+									<Badge variant="outline" className={`text-xs ${warranty.status === "Active" ? "border-success text-success bg-success/20" : "border-warning text-warning bg-warning/20"}`}>
 										{warranty.status}
 									</Badge>
 								</div>
@@ -91,7 +91,7 @@ export default function WarrantyTracker({ business }) {
 											<span>Resolved: {claim.resolvedDate}</span>
 										</div>
 									</div>
-									<Badge variant="outline" className={`text-xs ${claim.status === "Resolved" ? "border-green-200 text-green-600 bg-green-50" : claim.status === "In Progress" ? "border-blue-200 text-blue-600 bg-blue-50" : "border-red-200 text-red-600 bg-red-50"}`}>
+									<Badge variant="outline" className={`text-xs ${claim.status === "Resolved" ? "border-success text-success bg-success/20" : claim.status === "In Progress" ? "border-primary text-primary bg-primary/20" : "border-destructive text-destructive bg-destructive/20"}`}>
 										{claim.status}
 									</Badge>
 								</div>

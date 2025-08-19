@@ -285,7 +285,7 @@ const AdsCreatePage: React.FC<AdsCreatePageProps> = ({ initialData, onSuccess, o
 				<div className="flex items-center justify-between">
 					{STEPS.map((step) => (
 						<div key={step.id} className="flex flex-col items-center text-center flex-1">
-							<div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium mb-2 ${currentStep === step.id ? "bg-primary text-primary-foreground" : currentStep > step.id ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"}`}>{step.id}</div>
+							<div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium mb-2 ${currentStep === step.id ? "bg-primary text-primary-foreground" : currentStep > step.id ? "bg-success text-white" : "bg-muted text-muted-foreground"}`}>{step.id}</div>
 							<div className="text-xs">
 								<div className="font-medium">{step.title}</div>
 								<div className="text-muted-foreground hidden sm:block">{step.description}</div>
@@ -302,7 +302,7 @@ const AdsCreatePage: React.FC<AdsCreatePageProps> = ({ initialData, onSuccess, o
 			<div className="flex items-center justify-between pt-6 border-t">
 				<div className="flex items-center gap-2">
 					{isDirty && (
-						<Badge variant="outline" className="text-orange-600">
+						<Badge variant="outline" className="text-warning">
 							Unsaved Changes
 						</Badge>
 					)}

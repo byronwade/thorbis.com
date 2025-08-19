@@ -9,7 +9,7 @@ import { Card, CardContent } from "@components/ui/card";
 import { CheckCircle2, Mail, AlertCircle, Loader2, ArrowRight } from "lucide-react";
 import { useAuth } from "@context/auth-context";
 import { toast } from "sonner";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { supabase } from "@lib/database/supabase/client";
 
 // Component that uses useSearchParams
@@ -179,8 +179,8 @@ function VerifyEmailContent() {
 				<Card>
 					<CardContent className="pt-6">
 						<div className="text-center space-y-4">
-							<div className="mx-auto w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-								<Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
+							<div className="mx-auto w-12 h-12 bg-primary/10 dark:bg-primary rounded-full flex items-center justify-center">
+								<Loader2 className="w-6 h-6 text-primary animate-spin" />
 							</div>
 							<div>
 								<h2 className="text-xl font-semibold">Checking verification status...</h2>
@@ -195,11 +195,11 @@ function VerifyEmailContent() {
 				<Card>
 					<CardContent className="pt-6">
 						<div className="text-center space-y-4">
-							<div className="mx-auto w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-								<CheckCircle2 className="w-6 h-6 text-green-600" />
+							<div className="mx-auto w-12 h-12 bg-success/10 dark:bg-success rounded-full flex items-center justify-center">
+								<CheckCircle2 className="w-6 h-6 text-success" />
 							</div>
 							<div>
-								<h2 className="text-xl font-semibold text-green-700 dark:text-green-400">Email Verified Successfully!</h2>
+								<h2 className="text-xl font-semibold text-success dark:text-success">Email Verified Successfully!</h2>
 								<p className="text-sm text-muted-foreground mt-2">Your email has been verified. You can now access your account.</p>
 							</div>
 							<Button onClick={handleGoToDashboard} className="w-full">
@@ -260,11 +260,11 @@ function VerifyEmailContent() {
 				<Card>
 					<CardContent className="pt-6">
 						<div className="text-center space-y-4">
-							<div className="mx-auto w-12 h-12 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center">
-								<AlertCircle className="w-6 h-6 text-red-600" />
+							<div className="mx-auto w-12 h-12 bg-destructive/10 dark:bg-destructive rounded-full flex items-center justify-center">
+								<AlertCircle className="w-6 h-6 text-destructive" />
 							</div>
 							<div>
-								<h2 className="text-xl font-semibold text-red-700 dark:text-red-400">Verification Error</h2>
+								<h2 className="text-xl font-semibold text-destructive dark:text-destructive">Verification Error</h2>
 								<p className="text-sm text-muted-foreground mt-2">{error || "We encountered an error while verifying your email."}</p>
 							</div>
 							<div className="space-y-3">

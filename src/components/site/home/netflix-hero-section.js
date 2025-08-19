@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Play, Info, Star, MapPin, Clock } from "lucide-react";
+import { Play, Info, Star, MapPin, Clock, Heart, Share2 } from "lucide-react";
 
 export default function NetflixHeroSection() {
 	// Netflix-style featured business data (normally from API)
@@ -58,6 +58,7 @@ export default function NetflixHeroSection() {
 	];
 
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [isLiked, setIsLiked] = useState(false);
 
 	// Auto-rotate featured business
 	useEffect(() => {
@@ -74,8 +75,8 @@ export default function NetflixHeroSection() {
 	}, [currentIndex]);
 
 	return (
-		<section className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-background">
-			{/* Netflix-style hero background image */}
+		<section className="relative h-[85vh] sm:h-[90vh] lg:h-screen overflow-hidden bg-background">
+			{/* Netflix-style full-screen background image */}
 			<div className="absolute inset-0">
 				<Image
 					src={featuredBusiness.image}
@@ -88,103 +89,207 @@ export default function NetflixHeroSection() {
 					}}
 				/>
 				
-				{/* Gradient overlays with design system colors */}
-				<div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20 md:to-transparent" />
-				<div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
+				{/* Netflix-style gradient overlays */}
+				<div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent lg:to-background/20" />
+				<div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
 			</div>
 
-			{/* Netflix-style content overlay - mobile responsive */}
+			{/* Netflix-style content overlay - responsive layout */}
 			<div className="relative z-10 h-full flex items-center">
-				<div className="px-4 md:px-6 lg:px-12 max-w-screen-2xl mx-auto w-full">
-					<div className="max-w-full md:max-w-2xl">
-											{/* Business category badge - mobile responsive */}
-					<div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mb-4">
-						<div className="bg-primary text-primary-foreground px-3 py-1 rounded text-xs sm:text-sm font-semibold">
-							FEATURED
+				<div className="px-4 sm:px-6 lg:px-12 xl:px-16 max-w-screen-2xl mx-auto w-full">
+					{/* Mobile app-style layout for small screens */}
+					<div className="block lg:hidden">
+						<div className="flex flex-col justify-end h-full pb-8 sm:pb-12">
+							{/* Top action buttons - mobile app style */}
+							<div className="flex items-center justify-between mb-6">
+								<div className="flex items-center gap-2">
+									<div className="bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary px-3 py-1.5 rounded-full text-xs font-semibold">
+										FEATURED
+									</div>
+									<span className="text-muted-foreground/80 text-sm font-medium">
+										{featuredBusiness.category}
+									</span>
+								</div>
+								
+								{/* Mobile app-style action buttons */}
+								<div className="flex items-center gap-3">
+									<button 
+										onClick={() => setIsLiked(!isLiked)}
+										className={`p-2.5 rounded-full backdrop-blur-sm border transition-all duration-200 ${
+											isLiked 
+												? 'bg-primary/20 border-primary/30 text-primary' 
+												: 'bg-background/20 border-border/50 text-muted-foreground hover:text-foreground'
+										}`}
+									>
+										<Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} />
+									</button>
+									<button className="p-2.5 rounded-full bg-background/20 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground transition-all duration-200">
+										<Share2 className="w-5 h-5" />
+									</button>
+								</div>
+							</div>
+
+							{/* Business name - mobile app typography */}
+							<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 leading-tight">
+								{featuredBusiness.name}
+							</h1>
+
+							{/* Business info - mobile app layout */}
+							<div className="flex flex-col gap-3 mb-6">
+								{/* Rating and reviews */}
+								<div className="flex items-center gap-3">
+									<div className="flex items-center gap-2">
+										<Star className="w-4 h-4 text-primary fill-current" />
+										<span className="text-foreground font-semibold text-base">
+											{featuredBusiness.rating}
+										</span>
+										<span className="text-muted-foreground text-sm">
+											({featuredBusiness.reviews} reviews)
+										</span>
+									</div>
+								</div>
+
+								{/* Location and hours */}
+								<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+									<div className="flex items-center gap-2">
+										<MapPin className="w-4 h-4 text-muted-foreground" />
+										<span className="text-muted-foreground text-sm">
+											{featuredBusiness.location}
+										</span>
+									</div>
+									<div className="flex items-center gap-2">
+										<Clock className="w-4 h-4 text-primary" />
+										<span className="text-primary text-sm font-medium">
+											{featuredBusiness.hours}
+										</span>
+									</div>
+								</div>
+							</div>
+
+							{/* Description - mobile app style */}
+							<p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-6 max-w-lg">
+								{featuredBusiness.description}
+							</p>
+
+							{/* Mobile app-style action buttons */}
+							<div className="flex flex-col sm:flex-row gap-3">
+								<Link href={`/biz/${featuredBusiness.slug}`} className="flex-1">
+									<button className="w-full flex items-center justify-center gap-3 bg-primary text-primary-foreground px-6 py-4 rounded-xl font-semibold text-base hover:bg-primary/90 transition-all duration-200 active:scale-95 touch-manipulation">
+										<Play className="w-5 h-5 fill-current" />
+										View Business
+									</button>
+								</Link>
+								
+								<button className="flex items-center justify-center gap-3 bg-background/20 backdrop-blur-sm border border-border/50 text-foreground px-6 py-4 rounded-xl font-semibold text-base hover:bg-background/30 transition-all duration-200 active:scale-95 touch-manipulation">
+									<Info className="w-5 h-5" />
+									More Info
+								</button>
+							</div>
 						</div>
-						<span className="text-muted-foreground text-sm font-medium">
-							{featuredBusiness.category}
-						</span>
 					</div>
 
-					{/* Business name - mobile responsive sizing */}
-					<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-4 leading-tight">
-						{featuredBusiness.name}
-					</h1>
-
-						{/* Business info row - mobile stacked */}
-						<div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 mb-6">
-							{/* Rating */}
-							<div className="flex items-center gap-2">
-								<Star className="w-4 h-4 sm:w-5 sm:h-5 text-primary fill-current" />
-								<span className="text-foreground font-semibold text-base sm:text-lg">
-									{featuredBusiness.rating}
-								</span>
-								<span className="text-muted-foreground text-xs sm:text-sm">
-									({featuredBusiness.reviews} reviews)
+					{/* Netflix-style desktop layout for larger screens */}
+					<div className="hidden lg:block">
+						<div className="max-w-2xl xl:max-w-3xl">
+							{/* Netflix-style category badge */}
+							<div className="flex items-center gap-3 mb-4">
+								<div className="bg-primary text-primary-foreground px-4 py-2 rounded text-sm font-semibold">
+									FEATURED
+								</div>
+								<span className="text-muted-foreground text-lg font-medium">
+									{featuredBusiness.category}
 								</span>
 							</div>
 
-							{/* Location */}
-							<div className="flex items-center gap-2">
-								<MapPin className="w-4 h-4 text-muted-foreground" />
-								<span className="text-muted-foreground text-xs sm:text-sm">
-									{featuredBusiness.location}
-								</span>
+							{/* Netflix-style prominent title */}
+							<h1 className="text-5xl xl:text-6xl 2xl:text-7xl font-bold text-foreground mb-6 leading-tight">
+								{featuredBusiness.name}
+							</h1>
+
+							{/* Netflix-style business info */}
+							<div className="flex items-center gap-6 mb-6">
+								{/* Rating */}
+								<div className="flex items-center gap-2">
+									<Star className="w-5 h-5 text-primary fill-current" />
+									<span className="text-foreground font-semibold text-lg">
+										{featuredBusiness.rating}
+									</span>
+									<span className="text-muted-foreground text-base">
+										({featuredBusiness.reviews} reviews)
+									</span>
+								</div>
+
+								{/* Location */}
+								<div className="flex items-center gap-2">
+									<MapPin className="w-5 h-5 text-muted-foreground" />
+									<span className="text-muted-foreground text-base">
+										{featuredBusiness.location}
+									</span>
+								</div>
+
+								{/* Hours */}
+								<div className="flex items-center gap-2">
+									<Clock className="w-5 h-5 text-primary" />
+									<span className="text-primary text-base font-medium">
+										{featuredBusiness.hours}
+									</span>
+								</div>
 							</div>
 
-							{/* Hours */}
-							<div className="flex items-center gap-2">
-								<Clock className="w-4 h-4 text-primary" />
-								<span className="text-primary text-xs sm:text-sm font-medium">
-									{featuredBusiness.hours}
-								</span>
-							</div>
-						</div>
+							{/* Netflix-style description */}
+							<p className="text-muted-foreground text-lg xl:text-xl leading-relaxed mb-8 max-w-2xl">
+								{featuredBusiness.description}
+							</p>
 
-						{/* Description - hidden on small mobile */}
-						<p className="hidden sm:block text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 max-w-xl">
-							{featuredBusiness.description}
-						</p>
-
-						{/* Mobile short description */}
-						<p className="block sm:hidden text-muted-foreground text-sm leading-relaxed mb-6">
-							{featuredBusiness.description.split('.')[0]}.
-						</p>
-
-						{/* Action buttons with Thorbis design system */}
-						<div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-							<Link href={`/biz/${featuredBusiness.slug}`} className="flex-1 sm:flex-none">
-								<button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-base sm:text-lg hover:bg-primary/90 transition-colors duration-200">
-									<Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
-									View Business
+							{/* Netflix-style action buttons */}
+							<div className="flex items-center gap-4">
+								<Link href={`/biz/${featuredBusiness.slug}`}>
+									<button className="flex items-center justify-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-200">
+										<Play className="w-6 h-6 fill-current" />
+										View Business
+									</button>
+								</Link>
+								
+								<button className="flex items-center justify-center gap-3 bg-background/20 backdrop-blur-sm border border-border/50 text-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-background/30 transition-all duration-200">
+									<Info className="w-6 h-6" />
+									More Info
 								</button>
-							</Link>
-							
-							<button className="flex items-center justify-center gap-3 bg-accent/80 text-accent-foreground px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-base sm:text-lg hover:bg-accent transition-colors duration-200 backdrop-blur-sm border border-border">
-								<Info className="w-4 h-4 sm:w-5 sm:h-5" />
-								More Info
-							</button>
+
+								{/* Desktop action buttons */}
+								<button 
+									onClick={() => setIsLiked(!isLiked)}
+									className={`p-3 rounded-full backdrop-blur-sm border transition-all duration-200 ${
+										isLiked 
+											? 'bg-primary/20 border-primary/30 text-primary' 
+											: 'bg-background/20 border-border/50 text-muted-foreground hover:text-foreground'
+									}`}
+								>
+									<Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
+								</button>
+								<button className="p-3 rounded-full bg-background/20 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground transition-all duration-200">
+									<Share2 className="w-6 h-6" />
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			{/* Progress indicators with Thorbis colors */}
-			<div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 flex gap-2">
+			{/* Netflix-style progress indicators */}
+			<div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
 				{featuredBusinesses.map((_, index) => (
 					<button
 						key={index}
 						onClick={() => setCurrentIndex(index)}
-						className={`w-2 sm:w-3 h-1 rounded-full transition-all duration-300 ${
-							index === currentIndex ? 'bg-primary' : 'bg-border'
+						className={`w-2 h-2 rounded-full transition-all duration-300 ${
+							index === currentIndex ? 'bg-primary' : 'bg-muted-foreground/30'
 						}`}
 					/>
 				))}
 			</div>
 
-			{/* Fade gradient at bottom for seamless transition */}
-			<div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+			{/* Netflix-style fade gradient */}
+			<div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
 		</section>
 	);
 }

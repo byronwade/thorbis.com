@@ -85,8 +85,8 @@ export default function VoipRedirectPage() {
       <Card className="w-full max-w-2xl shadow-xl">
         <CardContent className="p-8">
           <div className="text-center space-y-6">
-            <div className="flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mx-auto">
-              <Phone className="h-10 w-10 text-blue-600" />
+            <div className="flex items-center justify-center w-20 h-20 bg-primary/10 rounded-full mx-auto">
+              <Phone className="h-10 w-10 text-primary" />
             </div>
             
             <div>
@@ -97,8 +97,8 @@ export default function VoipRedirectPage() {
                 Launching comprehensive call management interface
               </p>
               {callData && (
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <div className="text-sm text-blue-800">
+                <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-primary/30">
+                  <div className="text-sm text-primary">
                     <strong>Customer:</strong> {callData.customer?.name || 'Unknown'}
                     {callData.customer?.company && (
                       <span className="block">
@@ -120,7 +120,7 @@ export default function VoipRedirectPage() {
                 <Button
                   onClick={redirectToVoipSystem}
                   disabled={isRedirecting}
-                  className="h-16 flex flex-col items-center justify-center gap-2 bg-green-600 hover:bg-green-700"
+                  className="h-16 flex flex-col items-center justify-center gap-2 bg-success hover:bg-success"
                 >
                   {isRedirecting ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
@@ -134,7 +134,7 @@ export default function VoipRedirectPage() {
                   onClick={redirectToCallSystem}
                   disabled={isRedirecting}
                   variant="outline"
-                  className="h-16 flex flex-col items-center justify-center gap-2 border-blue-200 hover:bg-blue-50"
+                  className="h-16 flex flex-col items-center justify-center gap-2 border-primary/30 hover:bg-blue-50"
                 >
                   {isRedirecting ? (
                     <Loader2 className="h-6 w-6 animate-spin" />
@@ -150,37 +150,37 @@ export default function VoipRedirectPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-600">
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-success rounded-full"></div>
                       <span>Real-time call transcription</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-success rounded-full"></div>
                       <span>Customer intelligence & insights</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-success rounded-full"></div>
                       <span>Service catalog & quote builder</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-success rounded-full"></div>
                       <span>Dispatch & scheduling tools</span>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       <span>AI-powered assistance</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       <span>Advanced call controls</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       <span>Multi-user collaboration</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full"></div>
                       <span>Performance analytics</span>
                     </div>
                   </div>

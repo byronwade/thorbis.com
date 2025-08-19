@@ -111,9 +111,9 @@ export default function AdsPage() {
 					{/* Ad Status Header */}
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-3">
-							<CheckCircle className="w-6 h-6 text-green-500" />
+							<CheckCircle className="w-6 h-6 text-success" />
 							<h2 className="text-2xl font-semibold">Your ad is up and running!</h2>
-							<Badge variant="outline" className="text-green-600 border-green-600">
+							<Badge variant="outline" className="text-success border-green-600">
 								Sponsored Results
 							</Badge>
 						</div>
@@ -157,7 +157,7 @@ export default function AdsPage() {
 								</div>
 								<div className="text-right">
 									<div className="flex items-center gap-1 text-sm text-muted-foreground">
-										<Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+										<Star className="w-4 h-4 fill-yellow-400 text-warning" />
 										<span>4.8 (127 reviews)</span>
 									</div>
 								</div>
@@ -230,11 +230,11 @@ export default function AdsPage() {
 									<span className="text-sm font-medium">Ad Spend (Jun 1-20)</span>
 									<span className="text-lg font-bold">{formatCurrency(ad.performance.spend)}</span>
 								</div>
-								<div className="flex items-center justify-between text-green-600">
+								<div className="flex items-center justify-between text-success">
 									<span className="text-sm font-medium">Bonus Applied</span>
 									<span className="text-lg font-bold">{formatCurrency(ad.performance.bonusApplied)}</span>
 								</div>
-								<div className="flex items-center justify-between text-blue-600">
+								<div className="flex items-center justify-between text-primary">
 									<span className="text-sm font-medium">Bonus Remaining</span>
 									<span className="text-lg font-bold">{formatCurrency(ad.budget.bonusRemaining)}</span>
 								</div>
@@ -276,7 +276,7 @@ export default function AdsPage() {
 							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 								<div className="p-4 border rounded-lg">
 									<div className="flex items-center gap-2 mb-2">
-										<Settings className="w-4 h-4 text-blue-500" />
+										<Settings className="w-4 h-4 text-primary" />
 										<h4 className="font-medium">Ad Photo</h4>
 									</div>
 									<p className="text-sm text-muted-foreground mb-3">We&apos;ll find a photo that can get you more clicks.</p>
@@ -287,7 +287,7 @@ export default function AdsPage() {
 
 								<div className="p-4 border rounded-lg">
 									<div className="flex items-center gap-2 mb-2">
-										<Target className="w-4 h-4 text-green-500" />
+										<Target className="w-4 h-4 text-success" />
 										<h4 className="font-medium">Keywords</h4>
 									</div>
 									<p className="text-sm text-muted-foreground mb-3">Your ads can be shown in search results for these keywords.</p>

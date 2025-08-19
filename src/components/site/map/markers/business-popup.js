@@ -45,7 +45,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 			}}
 		>
 			<div
-				className="bg-white dark:bg-gray-800 rounded-lg shadow-2xl border border-gray-200 dark:border-gray-700 p-4 max-w-sm"
+				className="bg-white dark:bg-card rounded-lg shadow-2xl border border-border dark:border-border p-4 max-w-sm"
 				style={{
 					// Optimized rendering
 					fontFamily: "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
@@ -75,7 +75,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 					<div className="flex items-start justify-between">
 						<div className="flex-1">
 							<h3
-								className="font-bold text-lg leading-tight text-gray-900 dark:text-white"
+								className="font-bold text-lg leading-tight text-foreground dark:text-white"
 								style={{
 									fontFamily: "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
 									fontSize: "16px",
@@ -94,11 +94,11 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 									<div className="flex items-center gap-1">
 										<div className="flex">
 											{[...Array(5)].map((_, i) => (
-												<Star key={i} className={`w-4 h-4 ${i < Math.floor(business.ratings.overall) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+												<Star key={i} className={`w-4 h-4 ${i < Math.floor(business.ratings.overall) ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />
 											))}
 										</div>
 										<span
-											className="text-sm font-semibold text-gray-900 dark:text-white"
+											className="text-sm font-semibold text-foreground dark:text-white"
 											style={{
 												fontFamily: "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
 												fontSize: "13px",
@@ -110,7 +110,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 											{business.ratings.overall.toFixed(1)}
 										</span>
 										<span
-											className="text-xs text-gray-500"
+											className="text-xs text-muted-foreground"
 											style={{
 												fontFamily: "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
 												fontSize: "12px",
@@ -127,7 +127,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 						</div>
 						<div className="flex flex-col items-end gap-1">
 							<div
-								className={`px-2 py-1 rounded-full text-xs font-medium ${business.isOpenNow ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200" : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"}`}
+								className={`px-2 py-1 rounded-full text-xs font-medium ${business.isOpenNow ? "bg-success/10 text-success dark:bg-success dark:text-success/80" : "bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/80"}`}
 								style={{
 									fontFamily: "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
 									fontSize: "11px",
@@ -181,7 +181,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 					{/* Details */}
 					<div className="space-y-2 text-sm">
 						{business.address && (
-							<div className="flex items-start gap-2 text-gray-600 dark:text-gray-300">
+							<div className="flex items-start gap-2 text-muted-foreground dark:text-muted-foreground">
 								<MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
 								<span
 									className="text-sm"
@@ -199,7 +199,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 							</div>
 						)}
 						{business.phone && (
-							<div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+							<div className="flex items-center gap-2 text-muted-foreground dark:text-muted-foreground">
 								<Phone className="w-4 h-4 flex-shrink-0" />
 								<span
 									className="text-sm"
@@ -216,7 +216,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 							</div>
 						)}
 						{business.hours && (
-							<div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
+							<div className="flex items-center gap-2 text-muted-foreground dark:text-muted-foreground">
 								<Clock className="w-4 h-4 flex-shrink-0" />
 								<span
 									className="text-sm"
@@ -235,7 +235,7 @@ const BusinessPopup = memo(({ business, showPopup, onClose, onBusinessClick, onH
 					</div>
 
 					{/* Action button */}
-					<div className="pt-2 border-t border-gray-200 dark:border-gray-600">
+					<div className="pt-2 border-t border-border dark:border-border">
 						<Button onClick={handleViewBusiness} className="w-full flex items-center justify-center gap-2 text-sm" size="sm">
 							<ExternalLink className="w-4 h-4" />
 							<span>View Business</span>

@@ -2,6 +2,7 @@
 import React from "react";
 import { Star, MapPin } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { buildBusinessUrlFrom } from "@utils";
 
 const BusinessCard = ({ business, onClick }) => {
 	const router = useRouter();
@@ -19,7 +20,11 @@ const BusinessCard = ({ business, onClick }) => {
 				.replace(/\s+/g, "-")
 				.replace(/-+/g, "-")
 				.trim();
-		router.push(`/biz/${slug}`);
+		try {
+			router.push(buildBusinessUrlFrom(business));
+		} catch {
+			router.push(`/us/${(business.state||'').toLowerCase()}/${(business.city||'').toLowerCase()}/${(business.name||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')}-${business.short_id || business.shortId || ''}`);
+		}
 	};
 
 	const formatRating = (rating) => {
@@ -68,8 +73,8 @@ const BusinessCard = ({ business, onClick }) => {
 				<div className="flex items-center gap-2 mb-1">
 					<h3 className="font-semibold text-sm truncate text-foreground tracking-tight">{business.name}</h3>
 					{business.ratings?.overall > 0 && (
-						<div className="flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/20 px-2 py-1 rounded-md">
-							<Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+						<div className="flex items-center gap-1 bg-yellow-50 dark:bg-warning/20 px-2 py-1 rounded-md">
+							<Star className="w-3.5 h-3.5 text-warning fill-yellow-500" />
 							<span className="font-semibold text-sm">{formatRating(business.ratings.overall)}</span>
 						</div>
 					)}
@@ -90,7 +95,7 @@ const BusinessCard = ({ business, onClick }) => {
 			{/* Status Indicator - Better visibility */}
 			{business.isOpenNow !== undefined && (
 				<div className="flex-shrink-0">
-					<div className={`w-2 h-2 rounded-full ${business.isOpenNow ? "bg-green-500" : "bg-red-500"}`} />
+					<div className={`w-2 h-2 rounded-full ${business.isOpenNow ? "bg-success" : "bg-destructive"}`} />
 				</div>
 			)}
 		</div>

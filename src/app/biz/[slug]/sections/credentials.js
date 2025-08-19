@@ -36,13 +36,13 @@ export default function Credentials({ business }) {
 						<h3 className="text-lg font-semibold text-foreground">Certifications & Licenses</h3>
 						<div className="p-6 border rounded-xl bg-card/30 border-border">
 							<div className="flex items-start space-x-3">
-								<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10">
-									<Shield className="w-4 h-4 text-blue-400" />
+								<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-primary/10">
+									<Shield className="w-4 h-4 text-primary" />
 								</div>
 								<div className="space-y-2">
 									<h4 className="flex items-center font-semibold text-foreground">
 										Professional License
-										<Badge variant="secondary" className="ml-2 text-blue-400 bg-blue-500/10 border-blue-500/20">
+										<Badge variant="secondary" className="ml-2 text-primary bg-primary/10 border-primary/20">
 											<Verified className="w-3 h-3 mr-1" />
 											Verified
 										</Badge>
@@ -74,8 +74,8 @@ export default function Credentials({ business }) {
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 							<div className="p-4 border rounded-lg bg-card/30 border-border">
 								<div className="flex items-start space-x-3">
-									<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-green-500/10">
-										<Shield className="w-4 h-4 text-green-400" />
+									<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-success/10">
+										<Shield className="w-4 h-4 text-success" />
 									</div>
 									<div className="space-y-1">
 										<h4 className="font-medium text-foreground">General Liability Insurance</h4>
@@ -86,8 +86,8 @@ export default function Credentials({ business }) {
 							</div>
 							<div className="p-4 border rounded-lg bg-card/30 border-border">
 								<div className="flex items-start space-x-3">
-									<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10">
-										<Shield className="w-4 h-4 text-blue-400" />
+									<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-primary/10">
+										<Shield className="w-4 h-4 text-primary" />
 									</div>
 									<div className="space-y-1">
 										<h4 className="font-medium text-foreground">Workers Compensation</h4>
@@ -132,8 +132,8 @@ export default function Credentials({ business }) {
 							{business.awards.map((award, index) => (
 								<div key={index} className="p-4 border rounded-lg bg-card/30 border-border">
 									<div className="flex items-start space-x-3">
-										<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-yellow-500/10">
-											<Award className="w-4 h-4 text-yellow-400" />
+										<div className="flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-full bg-warning/10">
+											<Award className="w-4 h-4 text-warning" />
 										</div>
 										<div className="space-y-1">
 											<h4 className="font-medium text-foreground">{award.name}</h4>

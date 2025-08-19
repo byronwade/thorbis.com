@@ -175,9 +175,9 @@ export function BusinessHeader({ user }) {
   const subNavigationItems = getSubNavigationItems();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-sm">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-card shadow-sm">
       {/* Main Header Bar */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b border-border dark:border-border">
         <div className="flex items-center justify-between px-4 lg:px-6 h-16">
           {/* Left side - Business branding */}
           <div className="flex items-center space-x-4">
@@ -195,10 +195,10 @@ export function BusinessHeader({ user }) {
             <div className="flex items-center space-x-3">
               <span className="text-2xl">🏢</span>
               <div className="hidden sm:block">
-                <h1 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h1 className="text-lg font-semibold text-foreground dark:text-white">
                   Business Dashboard
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                   Comprehensive management platform
                 </p>
               </div>
@@ -214,14 +214,14 @@ export function BusinessHeader({ user }) {
                   href={item.href}
                   className={cn(
                     item.current
-                      ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700',
+                      ? 'bg-blue-50 text-primary border-primary/30 dark:bg-primary/20 dark:text-primary/90 dark:border-primary'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-gray-50 dark:text-muted-foreground dark:hover:text-white dark:hover:bg-muted',
                     'px-3 py-2 rounded-md text-sm font-medium border border-transparent transition-all duration-200 relative'
                   )}
                 >
                   {item.name}
                   {item.badge && (
-                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
+                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success dark:bg-success/20 dark:text-success/90">
                       {item.badge}
                     </span>
                   )}
@@ -231,7 +231,7 @@ export function BusinessHeader({ user }) {
               {mainNavigationItems.length > 6 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="text-gray-600 dark:text-gray-300">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground dark:text-muted-foreground">
                       More
                     </Button>
                   </DropdownMenuTrigger>
@@ -244,7 +244,7 @@ export function BusinessHeader({ user }) {
                             {item.name}
                           </div>
                           {item.badge && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success dark:bg-success/20 dark:text-success/90">
                               {item.badge}
                             </span>
                           )}
@@ -260,10 +260,10 @@ export function BusinessHeader({ user }) {
           {/* Center - Search (Large screens) */}
           <div className="hidden lg:flex xl:hidden flex-1 max-w-md mx-8">
             <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search customers, projects, invoices..."
-                className="pl-10 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
+                className="pl-10 bg-gray-50 dark:bg-muted border-border dark:border-border"
               />
             </div>
           </div>
@@ -288,7 +288,7 @@ export function BusinessHeader({ user }) {
               aria-label="View notifications"
             >
               <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
+              <span className="absolute -top-1 -right-1 h-3 w-3 bg-destructive rounded-full text-xs"></span>
             </Button>
 
             {/* User menu */}
@@ -333,7 +333,7 @@ export function BusinessHeader({ user }) {
       </div>
 
       {/* Sub Header Bar - Secondary Navigation */}
-      <div className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+      <div className="bg-gray-50 dark:bg-card border-b border-border dark:border-border">
         <div className="px-4 lg:px-6 py-3">
           {/* Desktop Sub Navigation */}
           <nav className="hidden md:flex">
@@ -344,8 +344,8 @@ export function BusinessHeader({ user }) {
                   href={item.href}
                   className={cn(
                     item.current
-                      ? 'bg-white text-gray-900 shadow-sm border border-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800/50',
+                      ? 'bg-white text-foreground shadow-sm border border-border dark:bg-card dark:text-white dark:border-border'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-white/50 dark:text-muted-foreground dark:hover:text-white dark:hover:bg-card/50',
                     'px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 flex items-center space-x-2'
                   )}
                 >
@@ -365,8 +365,8 @@ export function BusinessHeader({ user }) {
                   href={item.href}
                   className={cn(
                     item.current
-                      ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50',
+                      ? 'bg-white text-foreground shadow-sm border border-border'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-white/50',
                     'px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-all duration-200 flex items-center space-x-2'
                   )}
                 >
@@ -380,7 +380,7 @@ export function BusinessHeader({ user }) {
       </div>
 
       {/* Mobile Main Navigation - Collapsible */}
-      <div className="xl:hidden border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div className="xl:hidden border-b border-border dark:border-border bg-white dark:bg-card">
         <nav className="px-4 py-2">
           <div className="flex space-x-1 overflow-x-auto">
             {mainNavigationItems.map((item) => (
@@ -389,14 +389,14 @@ export function BusinessHeader({ user }) {
                 href={item.href}
                 className={cn(
                   item.current
-                    ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700',
+                    ? 'bg-blue-50 text-primary border-primary/30 dark:bg-primary/20 dark:text-primary/90 dark:border-primary'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-gray-50 dark:text-muted-foreground dark:hover:text-white dark:hover:bg-muted',
                   'px-3 py-2 rounded-md text-sm font-medium border border-transparent whitespace-nowrap transition-all duration-200 relative flex items-center'
                 )}
               >
                 {item.name}
                 {item.badge && (
-                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
+                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-success/10 text-success dark:bg-success/20 dark:text-success/90">
                     {item.badge}
                   </span>
                 )}
@@ -407,12 +407,12 @@ export function BusinessHeader({ user }) {
       </div>
 
       {/* Mobile Search Bar */}
-      <div className="lg:hidden xl:block border-t border-gray-200 dark:border-gray-700 px-4 py-2 bg-white dark:bg-gray-800">
+      <div className="lg:hidden xl:block border-t border-border dark:border-border px-4 py-2 bg-white dark:bg-card">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search customers, projects, invoices..."
-            className="pl-10 bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600"
+            className="pl-10 bg-gray-50 dark:bg-muted border-border dark:border-border"
           />
         </div>
       </div>

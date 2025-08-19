@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useStatsig } from "@context/statsig-context";
 import { useAuth } from "@context/auth-context";
 import { UnifiedAnalytics } from "@utils/statsig-analytics";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Analytics Initializer Component

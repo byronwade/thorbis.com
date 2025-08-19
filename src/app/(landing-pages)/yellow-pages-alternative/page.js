@@ -82,7 +82,7 @@ export default function YellowPagesAlternative() {
 								<span className="text-sm font-medium text-primary">Local Restaurant</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+425%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+425%</div>
 								<div className="text-sm text-muted-foreground">Online Visibility Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Yellow Pages charged $600/month for a tiny print ad. Thorbis is free and brings customers directly to my restaurant. We've tripled our delivery orders this year."</blockquote>
@@ -105,7 +105,7 @@ export default function YellowPagesAlternative() {
 								<span className="text-sm font-medium text-primary">Local Services</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$145K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$145K</div>
 								<div className="text-sm text-muted-foreground">Additional Annual Revenue</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Print Yellow Pages was dead weight. Thorbis connects me with customers who actually need my services. I book jobs directly through the platform now."</blockquote>
@@ -128,7 +128,7 @@ export default function YellowPagesAlternative() {
 								<span className="text-sm font-medium text-primary">Retail Store</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">-89%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">-89%</div>
 								<div className="text-sm text-muted-foreground">Marketing Costs Reduced</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"We spent thousands on Yellow Pages ads that nobody saw. Thorbis gives us everything for free - online presence, customer reviews, and direct bookings."</blockquote>
@@ -200,7 +200,7 @@ export default function YellowPagesAlternative() {
 						<CardContent className="px-0 space-y-6">
 							<div className="space-y-4">
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">AI-Powered Discovery</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">AI-Powered Discovery</h4>
 									<p className="text-sm text-muted-foreground mb-3">"Customers find me when they need exactly what I offer. The AI matches my services with their needs perfectly. No more wasted leads."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -208,7 +208,7 @@ export default function YellowPagesAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Free Complete Platform</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Free Complete Platform</h4>
 									<p className="text-sm text-muted-foreground mb-3">"Everything I need is free - listings, reviews, booking system, customer messaging. I save $800/month and get 10x better results."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -216,7 +216,7 @@ export default function YellowPagesAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Complete Digital Ecosystem</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Complete Digital Ecosystem</h4>
 									<p className="text-sm text-muted-foreground mb-3">"Portfolio showcase, online booking, customer reviews, and direct payments. It's like having a full digital marketing team for free."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -288,24 +288,24 @@ export default function YellowPagesAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Increased revenue from digital presence</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$36,000</span>
+									<span className="font-semibold text-success dark:text-success">+$36,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Direct booking system revenue</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$18,000</span>
+									<span className="font-semibold text-success dark:text-success">+$18,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Review-driven customer acquisition</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$12,000</span>
+									<span className="font-semibold text-success dark:text-success">+$12,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Eliminated traditional marketing costs</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$7,200</span>
+									<span className="font-semibold text-success dark:text-success">+$7,200</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Annual Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$112,800</span>
+										<span className="text-success dark:text-success">+$112,800</span>
 									</div>
 								</div>
 							</CardContent>
@@ -339,12 +339,12 @@ export default function YellowPagesAlternative() {
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Annual Cost</td>
 									<td className="px-6 py-4 text-center text-destructive font-semibold">$7,200+</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Free</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Free</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Digital Presence</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Reviews</td>
@@ -352,7 +352,7 @@ export default function YellowPagesAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
@@ -361,7 +361,7 @@ export default function YellowPagesAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
@@ -370,7 +370,7 @@ export default function YellowPagesAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
@@ -379,7 +379,7 @@ export default function YellowPagesAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
@@ -388,13 +388,13 @@ export default function YellowPagesAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Mobile Optimization</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Native App</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Native App</td>
 								</tr>
 							</tbody>
 						</table>

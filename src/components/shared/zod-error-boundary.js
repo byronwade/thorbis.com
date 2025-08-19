@@ -1,5 +1,5 @@
 import React from "react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Error Boundary specifically designed to catch and handle ZodError instances

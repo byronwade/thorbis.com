@@ -64,12 +64,12 @@ export const BusinessHoursSection = ({
 						<Clock className="w-5 h-5" />
 						<span>Business Hours</span>
 						{isCurrentlyOpen() ? (
-							<Badge className="bg-green-100 text-green-800">
+							<Badge className="bg-success/10 text-success">
 								<Sun className="w-3 h-3 mr-1" />
 								Open Now
 							</Badge>
 						) : (
-							<Badge variant="secondary" className="bg-gray-100 text-gray-700">
+							<Badge variant="secondary" className="bg-muted text-muted-foreground">
 								<Moon className="w-3 h-3 mr-1" />
 								Closed
 							</Badge>
@@ -143,7 +143,7 @@ export const BusinessHoursSection = ({
 					<div className="text-center">
 						<div className="mb-2">
 							{isCurrentlyOpen() ? (
-								<div className="text-green-600">
+								<div className="text-success">
 									<Sun className="w-8 h-8 mx-auto mb-2" />
 									<h3 className="text-lg font-semibold">Currently Open</h3>
 									<p className="text-sm text-muted-foreground">
@@ -151,7 +151,7 @@ export const BusinessHoursSection = ({
 									</p>
 								</div>
 							) : (
-								<div className="text-gray-600">
+								<div className="text-muted-foreground">
 									<Moon className="w-8 h-8 mx-auto mb-2" />
 									<h3 className="text-lg font-semibold">Currently Closed</h3>
 									<p className="text-sm text-muted-foreground">

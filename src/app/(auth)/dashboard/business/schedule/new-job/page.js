@@ -286,7 +286,7 @@ export default function NewJob() {
 										))}
 									</SelectContent>
 								</Select>
-								{errors.customerId && <p className="text-sm text-red-500 mt-1">{errors.customerId}</p>}
+								{errors.customerId && <p className="text-sm text-destructive mt-1">{errors.customerId}</p>}
 
 								{getSelectedCustomer() && (
 									<Card className="mt-4">
@@ -314,12 +314,12 @@ export default function NewJob() {
 								<div>
 									<Label htmlFor="customerName">Customer Name *</Label>
 									<Input id="customerName" value={jobData.customerName} onChange={(e) => updateJobData("customerName", e.target.value)} placeholder="Enter customer name" className={errors.customerName ? "border-red-500" : ""} />
-									{errors.customerName && <p className="text-sm text-red-500 mt-1">{errors.customerName}</p>}
+									{errors.customerName && <p className="text-sm text-destructive mt-1">{errors.customerName}</p>}
 								</div>
 								<div>
 									<Label htmlFor="customerPhone">Phone Number *</Label>
 									<Input id="customerPhone" value={jobData.customerPhone} onChange={(e) => updateJobData("customerPhone", e.target.value)} placeholder="(555) 123-4567" className={errors.customerPhone ? "border-red-500" : ""} />
-									{errors.customerPhone && <p className="text-sm text-red-500 mt-1">{errors.customerPhone}</p>}
+									{errors.customerPhone && <p className="text-sm text-destructive mt-1">{errors.customerPhone}</p>}
 								</div>
 								<div>
 									<Label htmlFor="customerEmail">Email Address</Label>
@@ -328,7 +328,7 @@ export default function NewJob() {
 								<div>
 									<Label htmlFor="customerAddress">Address *</Label>
 									<Input id="customerAddress" value={jobData.customerAddress} onChange={(e) => updateJobData("customerAddress", e.target.value)} placeholder="123 Main St, City, State" className={errors.customerAddress ? "border-red-500" : ""} />
-									{errors.customerAddress && <p className="text-sm text-red-500 mt-1">{errors.customerAddress}</p>}
+									{errors.customerAddress && <p className="text-sm text-destructive mt-1">{errors.customerAddress}</p>}
 								</div>
 								<div className="md:col-span-2">
 									<Label htmlFor="customerNotes">Customer Notes</Label>
@@ -345,7 +345,7 @@ export default function NewJob() {
 						<div>
 							<Label htmlFor="title">Job Title *</Label>
 							<Input id="title" value={jobData.title} onChange={(e) => updateJobData("title", e.target.value)} placeholder="e.g., HVAC System Maintenance" className={errors.title ? "border-red-500" : ""} />
-							{errors.title && <p className="text-sm text-red-500 mt-1">{errors.title}</p>}
+							{errors.title && <p className="text-sm text-destructive mt-1">{errors.title}</p>}
 						</div>
 
 						<div>
@@ -377,7 +377,7 @@ export default function NewJob() {
 									))}
 								</SelectContent>
 							</Select>
-							{errors.serviceType && <p className="text-sm text-red-500 mt-1">{errors.serviceType}</p>}
+							{errors.serviceType && <p className="text-sm text-destructive mt-1">{errors.serviceType}</p>}
 						</div>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -404,7 +404,7 @@ export default function NewJob() {
 						<div>
 							<Label htmlFor="description">Job Description *</Label>
 							<Textarea id="description" value={jobData.description} onChange={(e) => updateJobData("description", e.target.value)} placeholder="Describe what needs to be done..." rows={4} className={errors.description ? "border-red-500" : ""} />
-							{errors.description && <p className="text-sm text-red-500 mt-1">{errors.description}</p>}
+							{errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
 						</div>
 
 						<div>
@@ -421,12 +421,12 @@ export default function NewJob() {
 							<div>
 								<Label htmlFor="scheduledDate">Date *</Label>
 								<Input id="scheduledDate" type="date" value={jobData.scheduledDate} onChange={(e) => updateJobData("scheduledDate", e.target.value)} className={errors.scheduledDate ? "border-red-500" : ""} />
-								{errors.scheduledDate && <p className="text-sm text-red-500 mt-1">{errors.scheduledDate}</p>}
+								{errors.scheduledDate && <p className="text-sm text-destructive mt-1">{errors.scheduledDate}</p>}
 							</div>
 							<div>
 								<Label htmlFor="scheduledTime">Time *</Label>
 								<Input id="scheduledTime" type="time" value={jobData.scheduledTime} onChange={(e) => updateJobData("scheduledTime", e.target.value)} className={errors.scheduledTime ? "border-red-500" : ""} />
-								{errors.scheduledTime && <p className="text-sm text-red-500 mt-1">{errors.scheduledTime}</p>}
+								{errors.scheduledTime && <p className="text-sm text-destructive mt-1">{errors.scheduledTime}</p>}
 							</div>
 						</div>
 
@@ -459,7 +459,7 @@ export default function NewJob() {
 									{technicians.map((tech) => (
 										<SelectItem key={tech.id} value={tech.id}>
 											<div className="flex items-center gap-3">
-												<div className={`w-3 h-3 rounded-full ${tech.availability === "available" ? "bg-green-500" : tech.availability === "busy" ? "bg-yellow-500" : "bg-red-500"}`}></div>
+												<div className={`w-3 h-3 rounded-full ${tech.availability === "available" ? "bg-success" : tech.availability === "busy" ? "bg-warning" : "bg-destructive"}`}></div>
 												<div>
 													<p className="font-medium">{tech.name}</p>
 													<p className="text-xs text-muted-foreground">
@@ -471,7 +471,7 @@ export default function NewJob() {
 									))}
 								</SelectContent>
 							</Select>
-							{errors.assignedTechnician && <p className="text-sm text-red-500 mt-1">{errors.assignedTechnician}</p>}
+							{errors.assignedTechnician && <p className="text-sm text-destructive mt-1">{errors.assignedTechnician}</p>}
 						</div>
 
 						<div>
@@ -511,7 +511,7 @@ export default function NewJob() {
 						<Card>
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
-									<CheckCircle className="w-5 h-5 text-green-600" />
+									<CheckCircle className="w-5 h-5 text-success" />
 									Review Job Details
 								</CardTitle>
 							</CardHeader>
@@ -586,12 +586,12 @@ export default function NewJob() {
 						{steps.map((step, index) => (
 							<div key={step.number} className="flex items-center">
 								<div className="flex items-center">
-									<div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-200 ${step.completed ? "bg-green-600 border-green-600 text-white" : currentStep === step.number ? "bg-blue-600 border-blue-600 text-white" : "border-gray-300 text-gray-500"}`}>{step.completed ? <CheckCircle className="w-5 h-5" /> : <span className="text-sm font-medium">{step.number}</span>}</div>
+									<div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-200 ${step.completed ? "bg-success border-green-600 text-white" : currentStep === step.number ? "bg-primary border-primary text-white" : "border-muted-foreground text-muted-foreground"}`}>{step.completed ? <CheckCircle className="w-5 h-5" /> : <span className="text-sm font-medium">{step.number}</span>}</div>
 									<div className="ml-3">
-										<p className={`text-sm font-medium ${currentStep >= step.number ? "text-gray-900 dark:text-gray-100" : "text-gray-500"}`}>{step.title}</p>
+										<p className={`text-sm font-medium ${currentStep >= step.number ? "text-foreground" : "text-muted-foreground"}`}>{step.title}</p>
 									</div>
 								</div>
-								{index < steps.length - 1 && <div className={`flex-1 h-0.5 mx-4 transition-all duration-500 ${step.completed ? "bg-green-600" : "bg-gray-300"}`} />}
+								{index < steps.length - 1 && <div className={`flex-1 h-0.5 mx-4 transition-all duration-500 ${step.completed ? "bg-success" : "bg-muted-foreground"}`} />}
 							</div>
 						))}
 					</div>

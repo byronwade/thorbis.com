@@ -117,9 +117,9 @@ const BusinessCardList = ({ businesses, activeBusinessId, activeCardRef, onAICli
 
 						{/* Mobile: Enhanced Loading Indicator */}
 						{isLoadingMore && (
-							<div className="flex items-center justify-center py-8 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
-								<ReloadIcon className="mr-3 h-5 w-5 animate-spin text-blue-600 dark:text-blue-400" />
-								<span className="text-sm font-medium text-gray-900 dark:text-white">Loading more businesses...</span>
+							<div className="flex items-center justify-center py-8 bg-gray-50 dark:bg-card/50 rounded-xl border border-border dark:border-border">
+								<ReloadIcon className="mr-3 h-5 w-5 animate-spin text-primary dark:text-primary" />
+								<span className="text-sm font-medium text-foreground dark:text-white">Loading more businesses...</span>
 							</div>
 						)}
 
@@ -129,7 +129,7 @@ const BusinessCardList = ({ businesses, activeBusinessId, activeCardRef, onAICli
 						{/* Mobile: Touch-Friendly Load More Button */}
 						{!isLoadingMore && itemsToShow < filteredBusinesses.length && (
 							<div className="flex justify-center py-2">
-								<Button variant="outline" onClick={() => setVisibleStartIndex((prev) => prev + 20)} className="flex items-center gap-3 h-14 px-6 text-base font-medium border-2 border-blue-200 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/30 hover:bg-blue-100 dark:hover:bg-blue-950/50 text-blue-700 dark:text-blue-300 active:scale-95 transition-all duration-200 rounded-xl">
+								<Button variant="outline" onClick={() => setVisibleStartIndex((prev) => prev + 20)} className="flex items-center gap-3 h-14 px-6 text-base font-medium border-2 border-primary/30 dark:border-primary bg-blue-50 dark:bg-primary/30 hover:bg-primary/10 dark:hover:bg-primary/50 text-primary dark:text-primary/90 active:scale-95 transition-all duration-200 rounded-xl">
 									<ArrowUp className="w-5 h-5 rotate-180" />
 									<span>Show {Math.min(20, filteredBusinesses.length - itemsToShow)} More</span>
 								</Button>
@@ -179,7 +179,7 @@ const BusinessCardList = ({ businesses, activeBusinessId, activeCardRef, onAICli
 					{isLoadingMore && (
 						<div className="flex items-center justify-center py-4">
 							<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-							<span className="text-sm text-gray-600 dark:text-gray-300">Loading more results...</span>
+							<span className="text-sm text-muted-foreground dark:text-muted-foreground">Loading more results...</span>
 						</div>
 					)}
 

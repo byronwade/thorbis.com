@@ -213,26 +213,26 @@ const mockCampaigns = [
 ];
 
 const campaignTypes = {
-	promotional: { label: "Promotional", color: "bg-green-100 text-green-800" },
-	awareness: { label: "Awareness", color: "bg-blue-100 text-blue-800" },
+	promotional: { label: "Promotional", color: "bg-success/10 text-success" },
+	awareness: { label: "Awareness", color: "bg-primary/10 text-primary" },
 	conversion: { label: "Conversion", color: "bg-purple-100 text-purple-800" },
-	referral: { label: "Referral", color: "bg-orange-100 text-orange-800" },
+	referral: { label: "Referral", color: "bg-warning/10 text-warning" },
 	educational: { label: "Educational", color: "bg-teal-100 text-teal-800" },
 };
 
 const campaignChannels = {
-	email: { label: "Email", icon: Mail, color: "bg-red-100 text-red-800" },
-	social: { label: "Social Media", icon: MessageSquare, color: "bg-blue-100 text-blue-800" },
+	email: { label: "Email", icon: Mail, color: "bg-destructive/10 text-destructive" },
+	social: { label: "Social Media", icon: MessageSquare, color: "bg-primary/10 text-primary" },
 	direct_mail: { label: "Direct Mail", icon: FileText, color: "bg-purple-100 text-purple-800" },
-	phone: { label: "Phone", icon: Phone, color: "bg-green-100 text-green-800" },
+	phone: { label: "Phone", icon: Phone, color: "bg-success/10 text-success" },
 };
 
 const statusColors = {
-	active: "bg-green-100 text-green-800",
-	scheduled: "bg-orange-100 text-orange-800",
-	paused: "bg-yellow-100 text-yellow-800",
-	completed: "bg-gray-100 text-gray-800",
-	draft: "bg-gray-100 text-gray-800",
+	active: "bg-success/10 text-success",
+	scheduled: "bg-warning/10 text-warning",
+	paused: "bg-warning/10 text-warning",
+	completed: "bg-muted text-muted-foreground",
+	draft: "bg-muted text-muted-foreground",
 };
 
 export default function MarketingCampaigns() {
@@ -348,7 +348,7 @@ export default function MarketingCampaigns() {
 								<p className="text-sm text-muted-foreground">Total Campaigns</p>
 								<p className="text-2xl font-bold">{stats.total}</p>
 							</div>
-							<Target className="w-8 h-8 text-blue-500" />
+							<Target className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -358,9 +358,9 @@ export default function MarketingCampaigns() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Active</p>
-								<p className="text-2xl font-bold text-green-600">{stats.active}</p>
+								<p className="text-2xl font-bold text-success">{stats.active}</p>
 							</div>
-							<Play className="w-8 h-8 text-green-500" />
+							<Play className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -384,7 +384,7 @@ export default function MarketingCampaigns() {
 								<p className="text-sm text-muted-foreground">Spent</p>
 								<p className="text-2xl font-bold">{formatCurrency(stats.totalSpent)}</p>
 							</div>
-							<TrendingUp className="w-8 h-8 text-orange-500" />
+							<TrendingUp className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -394,9 +394,9 @@ export default function MarketingCampaigns() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Revenue</p>
-								<p className="text-2xl font-bold text-green-600">{formatCurrency(stats.totalRevenue)}</p>
+								<p className="text-2xl font-bold text-success">{formatCurrency(stats.totalRevenue)}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -408,7 +408,7 @@ export default function MarketingCampaigns() {
 								<p className="text-sm text-muted-foreground">Avg ROI</p>
 								<p className="text-2xl font-bold">{formatPercentage(stats.avgROI)}</p>
 							</div>
-							<TrendingUp className="w-8 h-8 text-blue-500" />
+							<TrendingUp className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -534,7 +534,7 @@ export default function MarketingCampaigns() {
 												<Copy className="w-4 h-4 mr-2" />
 												Duplicate
 											</DropdownMenuItem>
-											<DropdownMenuItem onClick={() => handleAction(campaign, "delete")} className="text-red-600">
+											<DropdownMenuItem onClick={() => handleAction(campaign, "delete")} className="text-destructive">
 												<Trash2 className="w-4 h-4 mr-2" />
 												Delete
 											</DropdownMenuItem>
@@ -552,7 +552,7 @@ export default function MarketingCampaigns() {
 										</div>
 										<div>
 											<span className="text-muted-foreground">ROI</span>
-											<p className={`font-medium ${campaign.results.roi > 200 ? "text-green-600" : campaign.results.roi > 100 ? "text-orange-600" : "text-red-600"}`}>
+											<p className={`font-medium ${campaign.results.roi > 200 ? "text-success" : campaign.results.roi > 100 ? "text-warning" : "text-destructive"}`}>
 												{formatPercentage(campaign.results.roi)}
 												{campaign.results.roi > 200 ? <ArrowUpRight className="w-3 h-3 inline ml-1" /> : campaign.results.roi < 100 ? <ArrowDownRight className="w-3 h-3 inline ml-1" /> : null}
 											</p>
@@ -606,7 +606,7 @@ export default function MarketingCampaigns() {
 										</div>
 										<div>
 											<span className="text-muted-foreground">Revenue</span>
-											<p className="font-medium text-green-600">{formatCurrency(campaign.results.revenue)}</p>
+											<p className="font-medium text-success">{formatCurrency(campaign.results.revenue)}</p>
 										</div>
 									</div>
 
@@ -707,7 +707,7 @@ export default function MarketingCampaigns() {
 											<div className="space-y-2 text-sm">
 												<div className="flex justify-between">
 													<span className="text-muted-foreground">Total Revenue</span>
-													<span className="font-medium text-green-600">{formatCurrency(selectedCampaign.results.revenue)}</span>
+													<span className="font-medium text-success">{formatCurrency(selectedCampaign.results.revenue)}</span>
 												</div>
 												<div className="flex justify-between">
 													<span className="text-muted-foreground">Conversions</span>
@@ -720,7 +720,7 @@ export default function MarketingCampaigns() {
 												<Separator />
 												<div className="flex justify-between">
 													<span className="font-medium">ROI</span>
-													<span className={`font-medium ${selectedCampaign.results.roi > 200 ? "text-green-600" : selectedCampaign.results.roi > 100 ? "text-orange-600" : "text-red-600"}`}>{formatPercentage(selectedCampaign.results.roi)}</span>
+													<span className={`font-medium ${selectedCampaign.results.roi > 200 ? "text-success" : selectedCampaign.results.roi > 100 ? "text-warning" : "text-destructive"}`}>{formatPercentage(selectedCampaign.results.roi)}</span>
 												</div>
 											</div>
 										</div>
@@ -833,7 +833,7 @@ export default function MarketingCampaigns() {
 										<div className="space-y-3">
 											<div className="flex justify-between">
 												<span className="text-sm text-muted-foreground">Revenue Generated</span>
-												<span className="font-medium text-green-600">{formatCurrency(selectedCampaign.results.revenue)}</span>
+												<span className="font-medium text-success">{formatCurrency(selectedCampaign.results.revenue)}</span>
 											</div>
 											<div className="flex justify-between">
 												<span className="text-sm text-muted-foreground">Amount Spent</span>
@@ -842,11 +842,11 @@ export default function MarketingCampaigns() {
 											<Separator />
 											<div className="flex justify-between">
 												<span className="text-sm text-muted-foreground">Net Profit</span>
-												<span className={`font-medium ${selectedCampaign.results.revenue - selectedCampaign.spent > 0 ? "text-green-600" : "text-red-600"}`}>{formatCurrency(selectedCampaign.results.revenue - selectedCampaign.spent)}</span>
+												<span className={`font-medium ${selectedCampaign.results.revenue - selectedCampaign.spent > 0 ? "text-success" : "text-destructive"}`}>{formatCurrency(selectedCampaign.results.revenue - selectedCampaign.spent)}</span>
 											</div>
 											<div className="flex justify-between">
 												<span className="font-medium">ROI</span>
-												<span className={`font-bold ${selectedCampaign.results.roi > 200 ? "text-green-600" : selectedCampaign.results.roi > 100 ? "text-orange-600" : "text-red-600"}`}>{formatPercentage(selectedCampaign.results.roi)}</span>
+												<span className={`font-bold ${selectedCampaign.results.roi > 200 ? "text-success" : selectedCampaign.results.roi > 100 ? "text-warning" : "text-destructive"}`}>{formatPercentage(selectedCampaign.results.roi)}</span>
 											</div>
 										</div>
 									</div>
@@ -867,7 +867,7 @@ export default function MarketingCampaigns() {
 
 										<div>
 											<h5 className="font-medium mb-2">Audience Size</h5>
-											<div className="text-3xl font-bold text-blue-600 mb-2">{selectedCampaign.target.size.toLocaleString()}</div>
+											<div className="text-3xl font-bold text-primary mb-2">{selectedCampaign.target.size.toLocaleString()}</div>
 											<p className="text-sm text-muted-foreground">Total targeted customers</p>
 										</div>
 									</div>

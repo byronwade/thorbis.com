@@ -47,10 +47,10 @@ import IntegrationMarketplace from "@components/dashboard/business/integrations/
 function IntegrationCard({ integration, onToggle }) {
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'setup': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'inactive': return 'bg-gray-100 text-gray-800 border-gray-200';
-      default: return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'active': return 'bg-success/10 text-success border-green-200';
+      case 'setup': return 'bg-warning/10 text-warning border-yellow-200';
+      case 'inactive': return 'bg-muted text-muted-foreground border-border';
+      default: return 'bg-primary/10 text-primary border-primary/30';
     }
   };
 
@@ -88,7 +88,7 @@ function IntegrationCard({ integration, onToggle }) {
                   </Badge>
                 )}
                 {integration.new && (
-                  <Badge className="text-xs bg-green-500">New</Badge>
+                  <Badge className="text-xs bg-success">New</Badge>
                 )}
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -122,10 +122,10 @@ function IntegrationCard({ integration, onToggle }) {
                 <span>Last sync: {integration.lastSync || 'Never'}</span>
                 {integration.health && (
                   <span className={`flex items-center ${
-                    integration.health === 'healthy' ? 'text-green-600' : 'text-yellow-600'
+                    integration.health === 'healthy' ? 'text-success' : 'text-warning'
                   }`}>
                     <div className={`h-2 w-2 rounded-full mr-1 ${
-                      integration.health === 'healthy' ? 'bg-green-500' : 'bg-yellow-500'
+                      integration.health === 'healthy' ? 'bg-success' : 'bg-warning'
                     }`} />
                     {integration.health}
                   </span>
@@ -377,8 +377,8 @@ function IntegrationCenter() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-success/10">
+                <CheckCircle className="h-5 w-5 text-success" />
               </div>
               <div>
                 <p className="text-sm font-medium">Active Integrations</p>
@@ -391,8 +391,8 @@ function IntegrationCenter() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-100">
-                <AlertCircle className="h-5 w-5 text-yellow-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning/10">
+                <AlertCircle className="h-5 w-5 text-warning" />
               </div>
               <div>
                 <p className="text-sm font-medium">Setup Required</p>
@@ -518,7 +518,7 @@ export default function SettingsPage() {
                     <div className="flex items-center justify-between flex-1">
                       <span className="font-medium text-sm lg:text-base">{section.label}</span>
                       {section.new && (
-                        <Badge className="text-xs bg-green-500 ml-2">New</Badge>
+                        <Badge className="text-xs bg-success ml-2">New</Badge>
                       )}
                     </div>
                   </button>
@@ -796,7 +796,7 @@ export default function SettingsPage() {
                   <div className="hidden lg:block">
                     <h2 className="text-2xl lg:text-3xl font-bold mb-2">
                       Integration Marketplace
-                      <Badge className="ml-3 bg-green-500">New</Badge>
+                      <Badge className="ml-3 bg-success">New</Badge>
                     </h2>
                     <p className="text-muted-foreground">Discover and install powerful integrations to supercharge your business</p>
                   </div>
@@ -810,7 +810,7 @@ export default function SettingsPage() {
                   <div className="hidden lg:block">
                     <h2 className="text-2xl lg:text-3xl font-bold mb-2">
                       Fleet Management
-                      <Badge className="ml-3 bg-green-500">New</Badge>
+                      <Badge className="ml-3 bg-success">New</Badge>
                     </h2>
                     <p className="text-muted-foreground">Configure your fleet operations, vehicle tracking, and driver management.</p>
                   </div>
@@ -1038,7 +1038,7 @@ export default function SettingsPage() {
                         <div className="space-y-3">
                           <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-6 bg-blue-600 rounded flex items-center justify-center text-white text-xs font-bold">
+                              <div className="w-10 h-6 bg-primary rounded flex items-center justify-center text-white text-xs font-bold">
                                 VISA
                               </div>
                               <div>
@@ -1056,7 +1056,7 @@ export default function SettingsPage() {
 
                           <div className="flex items-center justify-between p-4 border border-border rounded-lg">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-6 bg-red-600 rounded flex items-center justify-center text-white text-xs font-bold">
+                              <div className="w-10 h-6 bg-destructive rounded flex items-center justify-center text-white text-xs font-bold">
                                 MC
                               </div>
                               <div>

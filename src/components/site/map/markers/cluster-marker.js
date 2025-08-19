@@ -21,20 +21,20 @@ const ClusterMarker = memo(({ cluster, handleClusterClick }) => {
 		>
 			{/* Modern cluster design */}
 			<div
-				className="flex items-center justify-center w-14 h-14 bg-white text-gray-800 rounded-full border-4 border-blue-500 shadow-xl"
+				className="flex items-center justify-center w-14 h-14 bg-white text-foreground rounded-full border-4 border-primary shadow-xl"
 				style={{
 					// Google Maps style font rendering for clusters
 					fontFamily: "'Roboto', 'Helvetica Neue', 'Arial', sans-serif",
 					fontSize: "16px",
 					fontWeight: "600",
-					color: "#202124",
+					color: "hsl(var(--foreground))",
 					// Anti-aliasing and smoothing
 					fontSmooth: "always",
 					WebkitFontSmoothing: "antialiased",
 					MozOsxFontSmoothing: "grayscale",
 					textRendering: "optimizeLegibility",
 					// Enhanced shadow
-					boxShadow: "0 6px 20px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1)",
+					boxShadow: "0 6px 20px hsl(var(--foreground) / 0.15), 0 3px 6px hsl(var(--foreground) / 0.1)",
 					// GPU acceleration for smooth rendering
 					transform: "translateZ(0)",
 					backfaceVisibility: "hidden",
@@ -60,7 +60,7 @@ const ClusterMarker = memo(({ cluster, handleClusterClick }) => {
 			</div>
 
 			{/* Cluster expansion indicator */}
-			<div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
+			<div className="absolute -top-1 -right-1 w-5 h-5 bg-primary rounded-full flex items-center justify-center shadow-lg">
 				<span
 					className="text-xs text-white font-bold"
 					style={{

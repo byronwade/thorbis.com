@@ -173,17 +173,17 @@ export default function InvoicesList() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "paid":
-				return "bg-green-500";
+				return "bg-success";
 			case "sent":
-				return "bg-blue-500";
+				return "bg-primary";
 			case "partial":
-				return "bg-yellow-500";
+				return "bg-warning";
 			case "overdue":
-				return "bg-red-500";
+				return "bg-destructive";
 			case "draft":
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 			default:
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 		}
 	};
 
@@ -258,7 +258,7 @@ export default function InvoicesList() {
 								<p className="text-2xl font-bold">{invoiceStats.total.count}</p>
 								<p className="text-xs text-muted-foreground">${invoiceStats.total.amount.toLocaleString()}</p>
 							</div>
-							<FileText className="w-8 h-8 text-blue-500" />
+							<FileText className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -268,10 +268,10 @@ export default function InvoicesList() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Paid</p>
-								<p className="text-2xl font-bold text-green-600">{invoiceStats.paid.count}</p>
+								<p className="text-2xl font-bold text-success">{invoiceStats.paid.count}</p>
 								<p className="text-xs text-muted-foreground">${invoiceStats.paid.amount.toLocaleString()}</p>
 							</div>
-							<CheckCircle className="w-8 h-8 text-green-500" />
+							<CheckCircle className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -281,10 +281,10 @@ export default function InvoicesList() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Outstanding</p>
-								<p className="text-2xl font-bold text-orange-600">{invoiceStats.outstanding.count}</p>
+								<p className="text-2xl font-bold text-warning">{invoiceStats.outstanding.count}</p>
 								<p className="text-xs text-muted-foreground">${invoiceStats.outstanding.amount.toLocaleString()}</p>
 							</div>
-							<Clock className="w-8 h-8 text-orange-500" />
+							<Clock className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -294,10 +294,10 @@ export default function InvoicesList() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Overdue</p>
-								<p className="text-2xl font-bold text-red-600">{invoiceStats.overdue.count}</p>
+								<p className="text-2xl font-bold text-destructive">{invoiceStats.overdue.count}</p>
 								<p className="text-xs text-muted-foreground">${invoiceStats.overdue.amount.toLocaleString()}</p>
 							</div>
-							<AlertTriangle className="w-8 h-8 text-red-500" />
+							<AlertTriangle className="w-8 h-8 text-destructive" />
 						</div>
 					</CardContent>
 				</Card>
@@ -355,7 +355,7 @@ export default function InvoicesList() {
 									Download PDFs
 								</DropdownMenuItem>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem onClick={() => handleBulkAction("delete")} className="text-red-600">
+								<DropdownMenuItem onClick={() => handleBulkAction("delete")} className="text-destructive">
 									<Trash2 className="w-4 h-4 mr-2" />
 									Delete Invoices
 								</DropdownMenuItem>
@@ -401,7 +401,7 @@ export default function InvoicesList() {
 							<thead className="border-b bg-muted/50">
 								<tr className="text-left">
 									<th className="p-4">
-										<input type="checkbox" checked={selectedInvoices.length === sortedInvoices.length && sortedInvoices.length > 0} onChange={selectAllInvoices} className="rounded border-gray-300" />
+										<input type="checkbox" checked={selectedInvoices.length === sortedInvoices.length && sortedInvoices.length > 0} onChange={selectAllInvoices} className="rounded border-border" />
 									</th>
 									<th className="p-4 font-medium">Invoice</th>
 									<th className="p-4 font-medium">Customer</th>
@@ -418,7 +418,7 @@ export default function InvoicesList() {
 									return (
 										<tr key={invoice.id} className="border-b hover:bg-muted/50">
 											<td className="p-4">
-												<input type="checkbox" checked={selectedInvoices.includes(invoice.id)} onChange={() => toggleInvoiceSelection(invoice.id)} className="rounded border-gray-300" />
+												<input type="checkbox" checked={selectedInvoices.includes(invoice.id)} onChange={() => toggleInvoiceSelection(invoice.id)} className="rounded border-border" />
 											</td>
 
 											<td className="p-4">
@@ -431,7 +431,7 @@ export default function InvoicesList() {
 
 											<td className="p-4">
 												<div className="flex items-center gap-2">
-													{invoice.customer.type === "commercial" ? <Building className="w-4 h-4 text-blue-500" /> : <User className="w-4 h-4 text-green-500" />}
+													{invoice.customer.type === "commercial" ? <Building className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-success" />}
 													<div>
 														<p className="font-medium">{invoice.customer.name}</p>
 														<p className="text-xs text-muted-foreground">{invoice.customer.email}</p>
@@ -446,7 +446,7 @@ export default function InvoicesList() {
 											<td className="p-4">
 												<div>
 													<p className="text-sm">{format(parseISO(invoice.dueDate), "MMM d, yyyy")}</p>
-													{invoice.status !== "paid" && <p className={`text-xs ${daysUntilDue < 0 ? "text-red-600" : daysUntilDue < 7 ? "text-orange-600" : "text-muted-foreground"}`}>{daysUntilDue < 0 ? `${Math.abs(daysUntilDue)} days overdue` : daysUntilDue === 0 ? "Due today" : `${daysUntilDue} days left`}</p>}
+													{invoice.status !== "paid" && <p className={`text-xs ${daysUntilDue < 0 ? "text-destructive" : daysUntilDue < 7 ? "text-warning" : "text-muted-foreground"}`}>{daysUntilDue < 0 ? `${Math.abs(daysUntilDue)} days overdue` : daysUntilDue === 0 ? "Due today" : `${daysUntilDue} days left`}</p>}
 												</div>
 											</td>
 
@@ -500,7 +500,7 @@ export default function InvoicesList() {
 															Download PDF
 														</DropdownMenuItem>
 														<DropdownMenuSeparator />
-														<DropdownMenuItem className="text-red-600">
+														<DropdownMenuItem className="text-destructive">
 															<Trash2 className="w-4 h-4 mr-2" />
 															Delete Invoice
 														</DropdownMenuItem>
@@ -516,9 +516,9 @@ export default function InvoicesList() {
 
 					{sortedInvoices.length === 0 && (
 						<div className="text-center py-12">
-							<FileText className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-							<h3 className="text-lg font-medium text-gray-900 mb-2">No invoices found</h3>
-							<p className="text-gray-500 mb-4">{searchQuery || statusFilter !== "all" || customerFilter !== "all" ? "Try adjusting your search criteria" : "Get started by creating your first invoice"}</p>
+							<FileText className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+							<h3 className="text-lg font-medium text-foreground mb-2">No invoices found</h3>
+							<p className="text-muted-foreground mb-4">{searchQuery || statusFilter !== "all" || customerFilter !== "all" ? "Try adjusting your search criteria" : "Get started by creating your first invoice"}</p>
 							{!searchQuery && statusFilter === "all" && customerFilter === "all" && (
 								<Button>
 									<Plus className="w-4 h-4 mr-2" />

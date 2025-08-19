@@ -193,28 +193,28 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 	const getStatusIcon = (status: BusinessStatus) => {
 		switch (status) {
 			case "active":
-				return <CheckCircle className="h-4 w-4 text-green-500" />;
+				return <CheckCircle className="h-4 w-4 text-success" />;
 			case "pending":
-				return <Clock className="h-4 w-4 text-yellow-500" />;
+				return <Clock className="h-4 w-4 text-warning" />;
 			case "suspended":
-				return <XCircle className="h-4 w-4 text-red-500" />;
+				return <XCircle className="h-4 w-4 text-destructive" />;
 			default:
-				return <AlertCircle className="h-4 w-4 text-gray-500" />;
+				return <AlertCircle className="h-4 w-4 text-muted-foreground" />;
 		}
 	};
 
 	const getPlanBadgeColor = (plan: SubscriptionPlan) => {
 		switch (plan) {
 			case "basic":
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-foreground";
 			case "pro":
-				return "bg-blue-100 text-blue-800";
+				return "bg-primary/10 text-primary";
 			case "premium":
 				return "bg-purple-100 text-purple-800";
 			case "enterprise":
-				return "bg-orange-100 text-orange-800";
+				return "bg-warning/10 text-warning";
 			default:
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-foreground";
 		}
 	};
 
@@ -232,8 +232,8 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 						<div className="flex-1">
 							<div className="flex items-center gap-2 mb-2">
 								<CardTitle className="text-lg">{business.name}</CardTitle>
-								{business.verified && <CheckCircle className="h-4 w-4 text-green-500" />}
-								{business.featured && <Star className="h-4 w-4 text-yellow-500 fill-current" />}
+								{business.verified && <CheckCircle className="h-4 w-4 text-success" />}
+								{business.featured && <Star className="h-4 w-4 text-warning fill-current" />}
 							</div>
 							<div className="flex items-center gap-2 text-sm text-muted-foreground">
 								<span>{business.category}</span>
@@ -248,7 +248,7 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 						</div>
 					</div>
 					<div className="text-right">
-						<div className="text-lg font-bold text-green-600">${business.monthlyRevenue}/mo</div>
+						<div className="text-lg font-bold text-success">${business.monthlyRevenue}/mo</div>
 						<div className="text-xs text-muted-foreground">Monthly Revenue</div>
 					</div>
 				</div>
@@ -280,7 +280,7 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 					<div className="space-y-2">
 						{business.rating && (
 							<div className="flex items-center gap-2 text-sm">
-								<Star className="h-4 w-4 text-yellow-500 fill-current" />
+								<Star className="h-4 w-4 text-warning fill-current" />
 								<span>{business.rating} ({business.reviewCount} reviews)</span>
 							</div>
 						)}
@@ -323,7 +323,7 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 				<Card>
 					<CardContent className="p-4">
 						<div className="flex items-center space-x-2">
-							<Building2 className="h-8 w-8 text-blue-600" />
+							<Building2 className="h-8 w-8 text-primary" />
 							<div>
 								<div className="text-2xl font-bold">{businessStats.total}</div>
 								<p className="text-xs text-muted-foreground">Total Businesses</p>
@@ -334,7 +334,7 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 				<Card>
 					<CardContent className="p-4">
 						<div className="flex items-center space-x-2">
-							<CheckCircle className="h-8 w-8 text-green-600" />
+							<CheckCircle className="h-8 w-8 text-success" />
 							<div>
 								<div className="text-2xl font-bold">{businessStats.active}</div>
 								<p className="text-xs text-muted-foreground">Active</p>
@@ -345,7 +345,7 @@ const LocalHubBusinessManagementSection: React.FC<LocalHubBusinessManagementSect
 				<Card>
 					<CardContent className="p-4">
 						<div className="flex items-center space-x-2">
-							<DollarSign className="h-8 w-8 text-green-600" />
+							<DollarSign className="h-8 w-8 text-success" />
 							<div>
 								<div className="text-2xl font-bold">${businessStats.totalRevenue}</div>
 								<p className="text-xs text-muted-foreground">Total Revenue</p>

@@ -50,21 +50,21 @@ function Interactive3DObject({ object, onClick, isFound, isHighlighted, showFeed
 	});
 
 	const material = useMemo(() => {
-		const baseColor = object.material.color || "#ffffff";
-		const emissive = object.material.emissive || "#000000";
+		const baseColor = object.material.color || "hsl(var(--background))";
+		const emissive = object.material.emissive || "hsl(var(--background))";
 
 		if (isHighlighted) {
 			return new THREE.MeshStandardMaterial({
-				color: "#4F46E5",
-				emissive: "#1E40AF",
+				color: "hsl(var(--primary))",
+emissive: "hsl(var(--primary))",
 				emissiveIntensity: 0.3,
 			});
 		}
 
 		if (isFound && showFeedback) {
 			return new THREE.MeshStandardMaterial({
-				color: "#22C55E",
-				emissive: "#16A34A",
+				color: "hsl(var(--success))",
+emissive: "hsl(var(--success))",
 				emissiveIntensity: 0.2,
 			});
 		}
@@ -120,14 +120,14 @@ function Interactive3DObject({ object, onClick, isFound, isHighlighted, showFeed
 			{/* Object label */}
 			{(isFound || isHighlighted) && (
 				<Html position={[object.position.x, object.position.y + 2, object.position.z]}>
-					<div className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${isFound ? "bg-green-500 text-white" : "bg-blue-500 text-white"}`}>{object.name}</div>
+					<div className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${isFound ? "bg-success text-white" : "bg-primary text-white"}`}>{object.name}</div>
 				</Html>
 			)}
 
 			{/* Found indicator */}
 			{isFound && showFeedback && (
 				<Html position={[object.position.x, object.position.y + 1.5, object.position.z]}>
-					<CheckCircle className="w-6 h-6 text-green-500" />
+					<CheckCircle className="w-6 h-6 text-success" />
 				</Html>
 			)}
 		</group>
@@ -150,7 +150,7 @@ function ExplorationScene({ question, onObjectClick, foundTargets, highlightedOb
 
 			{/* Ground */}
 			<Plane rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} args={[50, 50]}>
-				<meshStandardMaterial color="#f0f0f0" />
+				<meshStandardMaterial color="hsl(var(--muted))" />
 			</Plane>
 
 			{/* Objects */}
@@ -299,13 +299,13 @@ export function Scene3DExplorationRenderer({ question, onAnswer, isAnswered, use
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">Explore the 3D scene and find all {question.findTargets.length} target objects. Click on objects to interact with them.</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Explore the 3D scene and find all {question.findTargets.length} target objects. Click on objects to interact with them.</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>
 									Found: {foundTargets.length} / {question.findTargets.length}
 								</span>
 								<span>Time: {formatTime(timeElapsed)}</span>
-								{question.timeLimit && <span className={getRemainingTime()! < 30 ? "text-red-600 font-bold" : ""}>Remaining: {formatTime(getRemainingTime()!)}</span>}
+								{question.timeLimit && <span className={getRemainingTime()! < 30 ? "text-destructive font-bold" : ""}>Remaining: {formatTime(getRemainingTime()!)}</span>}
 								{question.hintSystem?.enabled && (
 									<span>
 										Hints: {hintsUsed} / {question.hintSystem.maxHints}
@@ -344,8 +344,8 @@ export function Scene3DExplorationRenderer({ question, onAnswer, isAnswered, use
 				<Card className="border-yellow-500 bg-yellow-50">
 					<CardContent className="p-4">
 						<div className="flex items-center space-x-2">
-							<HelpCircle className="w-5 h-5 text-yellow-600" />
-							<span className="text-yellow-800 font-medium">Hint: Look for "{question.objects.find((obj) => obj.id === highlightedObject)?.name}" - it's highlighted in blue!</span>
+							<HelpCircle className="w-5 h-5 text-warning" />
+							<span className="text-warning font-medium">Hint: Look for "{question.objects.find((obj) => obj.id === highlightedObject)?.name}" - it's highlighted in blue!</span>
 						</div>
 					</CardContent>
 				</Card>
@@ -381,12 +381,12 @@ export function Scene3DExplorationRenderer({ question, onAnswer, isAnswered, use
 							const isFound = foundTargets.includes(targetId);
 
 							return (
-								<div key={targetId} className={`p-3 rounded-lg border-2 transition-all duration-200 ${isFound ? "border-green-500 bg-green-50" : "border-gray-200 bg-gray-50"}`}>
+								<div key={targetId} className={`p-3 rounded-lg border-2 transition-all duration-200 ${isFound ? "border-green-500 bg-green-50" : "border-border bg-gray-50"}`}>
 									<div className="flex items-center space-x-3">
-										{isFound ? <CheckCircle className="w-5 h-5 text-green-500" /> : <div className="w-5 h-5 rounded-full border-2 border-gray-400" />}
+										{isFound ? <CheckCircle className="w-5 h-5 text-success" /> : <div className="w-5 h-5 rounded-full border-2 border-border" />}
 										<div>
 											<p className="font-medium">{targetObject?.name}</p>
-											<p className="text-sm text-gray-600">{targetObject?.description}</p>
+											<p className="text-sm text-muted-foreground">{targetObject?.description}</p>
 										</div>
 									</div>
 								</div>
@@ -407,8 +407,8 @@ export function Scene3DExplorationRenderer({ question, onAnswer, isAnswered, use
 									{foundTargets.length} / {question.findTargets.length} found
 								</span>
 							</div>
-							<div className="w-full bg-gray-200 rounded-full h-2">
-								<div className="bg-blue-500 h-2 rounded-full transition-all duration-300" style={{ width: `${(foundTargets.length / question.findTargets.length) * 100}%` }} />
+							<div className="w-full bg-muted rounded-full h-2">
+								<div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${(foundTargets.length / question.findTargets.length) * 100}%` }} />
 							</div>
 						</div>
 					</CardContent>
@@ -421,24 +421,24 @@ export function Scene3DExplorationRenderer({ question, onAnswer, isAnswered, use
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{foundTargets.length === question.findTargets.length ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${foundTargets.length === question.findTargets.length ? "text-green-700" : "text-red-700"}`}>{foundTargets.length === question.findTargets.length ? "Excellent Exploration!" : "Exploration Incomplete"}</span>
-								<span className="text-sm text-gray-600">
+								{foundTargets.length === question.findTargets.length ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${foundTargets.length === question.findTargets.length ? "text-success" : "text-destructive"}`}>{foundTargets.length === question.findTargets.length ? "Excellent Exploration!" : "Exploration Incomplete"}</span>
+								<span className="text-sm text-muted-foreground">
 									({foundTargets.length} / {question.findTargets.length} found in {formatTime(timeElapsed)})
 								</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Performance metrics */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Exploration Results:</p>
-								<ul className="list-disc list-inside space-y-1 text-gray-700">
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Exploration Results:</p>
+								<ul className="list-disc list-inside space-y-1 text-muted-foreground">
 									<li>
 										Objects found: {foundTargets.length} / {question.findTargets.length}
 									</li>

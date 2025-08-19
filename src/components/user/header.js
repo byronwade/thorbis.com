@@ -7,7 +7,7 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuGroup, DropdownMenuRadioGroup, DropdownMenuRadioItem } from "@components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@components/ui/sheet";
+import EnhancedMobileMenu from "../shared/enhanced-mobile-menu";
 import { ChevronDown, Menu, Bell, Settings, Briefcase, CreditCard, HelpCircle, Users, Activity, Star } from "react-feather";
 import { BarChart3, Building2, Plus } from "lucide-react";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
@@ -147,7 +147,7 @@ export default function Header() {
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="sm" className="relative p-2 w-9 h-9 text-muted-foreground hover:text-foreground hover:bg-accent">
 								<Bell className="w-5 h-5" />
-								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-white dark:border-gray-800"></span>
+								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-white dark:border-border"></span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="w-80 z-[80] bg-neutral-950/95 backdrop-blur-md border border-neutral-900">
@@ -159,7 +159,7 @@ export default function Header() {
 							</div>
 							<div className="overflow-y-auto max-h-96">
 								<DropdownMenuItem className="flex items-start p-4 space-x-3">
-									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-blue-500 rounded-full"></div>
+									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-primary rounded-full"></div>
 									<div className="flex-1 min-w-0">
 										<p className="text-sm font-medium text-foreground">New application received</p>
 										<p className="mt-1 text-xs text-muted-foreground">John D. applied for your web design request</p>
@@ -167,7 +167,7 @@ export default function Header() {
 									</div>
 								</DropdownMenuItem>
 								<DropdownMenuItem className="flex items-start p-4 space-x-3">
-									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-green-500 rounded-full"></div>
+									<div className="flex-shrink-0 mt-2 w-2 h-2 bg-success rounded-full"></div>
 									<div className="flex-1 min-w-0">
 										<p className="text-sm font-medium text-foreground">Job completed</p>
 										<p className="mt-1 text-xs text-muted-foreground">Your plumbing repair has been completed</p>
@@ -223,11 +223,11 @@ export default function Header() {
 							<DropdownMenuGroup>
 								<DropdownMenuLabel>Theme</DropdownMenuLabel>
 								<DropdownMenuItem onClick={() => setTheme("light")}>
-									<SunIcon className="mr-2 w-4 h-4 text-yellow-500" />
+									<SunIcon className="mr-2 w-4 h-4 text-warning" />
 									Light
 								</DropdownMenuItem>
 								<DropdownMenuItem onClick={() => setTheme("dark")}>
-									<MoonIcon className="mr-2 w-4 h-4 text-indigo-500" />
+									<MoonIcon className="mr-2 w-4 h-4 text-primary" />
 									Dark
 								</DropdownMenuItem>
 								<DropdownMenuItem onClick={() => setTheme("system")}>
@@ -252,41 +252,36 @@ export default function Header() {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
+							<DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
 								<span>Logout</span>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 
 					{/* Mobile Menu */}
-					<Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-						<SheetTrigger asChild>
-							<Button variant="outline" size="icon" className="flex lg:hidden">
-								<Menu className="w-4 h-4" />
-							</Button>
-						</SheetTrigger>
-						<SheetContent className="backdrop-blur-md bg-card/95">
-							<SheetHeader>
-								<SheetTitle>User Menu</SheetTitle>
-							</SheetHeader>
-							<nav className="mt-6">
-								<ul className="space-y-2">
-									{userNavItems.map((item) => {
-										const isActive = pathname === item.href || (item.href !== "/dashboard/user" && pathname.startsWith(item.href));
-										return (
-											<li key={item.href}>
-												<Link href={item.href} onClick={() => setMobileMenuOpen(false)}>
-													<Button variant={isActive ? "default" : "ghost"} className={`w-full justify-start ${isActive ? "bg-primary/5 text-primary border border-primary/20 hover:text-white" : "hover:text-white"}`}>
-														{item.text}
-													</Button>
-												</Link>
-											</li>
-										);
-									})}
-								</ul>
-							</nav>
-						</SheetContent>
-					</Sheet>
+					<Button 
+						variant="outline" 
+						size="icon" 
+						className="flex lg:hidden"
+						onClick={() => setMobileMenuOpen(true)}
+					>
+						<Menu className="w-4 h-4" />
+					</Button>
+					
+					<EnhancedMobileMenu
+						isOpen={mobileMenuOpen}
+						onClose={() => setMobileMenuOpen(false)}
+						dashboardType="user"
+						navigationItems={userNavItems.map(item => ({
+							key: item.text.toLowerCase().replace(/\s+/g, '-'),
+							text: item.text,
+							href: item.href,
+							icon: item.icon
+						}))}
+						activeNavKey={userNavItems.find(item => pathname === item.href || (item.href !== "/dashboard/user" && pathname.startsWith(item.href)))?.text.toLowerCase().replace(/\s+/g, '-') || ""}
+						config={{ title: "User Menu" }}
+						businessSubNavItems={{}}
+					/>
 				</div>
 			</div>
 		</div>

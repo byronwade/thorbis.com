@@ -4,7 +4,7 @@
 
 import { getPooledClient, Tables } from "../client";
 import { CacheManager } from "@utils/cache-manager";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 type BusinessHours = Tables<"business_hours">;
 type SpecialHours = Tables<"special_hours">;

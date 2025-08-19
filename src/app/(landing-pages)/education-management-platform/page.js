@@ -204,10 +204,10 @@ export default function EducationManagementPlatform() {
 							</div>
 							<h3 className="font-bold text-lg mb-1">{story.name}</h3>
 							<p className="text-sm text-muted-foreground mb-3">{story.location}</p>
-							<div className="text-2xl font-bold text-green-600 mb-2">{story.growth}</div>
+							<div className="text-2xl font-bold text-success mb-2">{story.growth}</div>
 							<p className="text-sm text-muted-foreground mb-4">{story.story}</p>
 							<div className="flex items-center justify-center gap-1">
-								<Star className="w-4 h-4 text-yellow-400 fill-current" />
+								<Star className="w-4 h-4 text-warning fill-current" />
 								<span className="text-sm font-medium">{story.rating}</span>
 								<span className="text-sm text-muted-foreground ml-1">({story.reviews} reviews)</span>
 							</div>

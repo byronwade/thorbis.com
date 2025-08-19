@@ -70,10 +70,10 @@ export default function AccountingModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-						<TrendingUp className="h-4 w-4 text-green-600" />
+						<TrendingUp className="h-4 w-4 text-success" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-green-600">{formatCurrency(accountingData.overview.totalRevenue)}</div>
+						<div className="text-2xl font-bold text-success">{formatCurrency(accountingData.overview.totalRevenue)}</div>
 						<p className="text-xs text-muted-foreground">+12% from last month</p>
 					</CardContent>
 				</Card>
@@ -81,10 +81,10 @@ export default function AccountingModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
-						<BarChart3 className="h-4 w-4 text-red-600" />
+						<BarChart3 className="h-4 w-4 text-destructive" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-red-600">{formatCurrency(accountingData.overview.totalExpenses)}</div>
+						<div className="text-2xl font-bold text-destructive">{formatCurrency(accountingData.overview.totalExpenses)}</div>
 						<p className="text-xs text-muted-foreground">+3% from last month</p>
 					</CardContent>
 				</Card>
@@ -92,10 +92,10 @@ export default function AccountingModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Net Income</CardTitle>
-						<DollarSign className="h-4 w-4 text-blue-600" />
+						<DollarSign className="h-4 w-4 text-primary" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-blue-600">{formatCurrency(accountingData.overview.netIncome)}</div>
+						<div className="text-2xl font-bold text-primary">{formatCurrency(accountingData.overview.netIncome)}</div>
 						<p className="text-xs text-muted-foreground">+15% from last month</p>
 					</CardContent>
 				</Card>
@@ -103,10 +103,10 @@ export default function AccountingModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Outstanding Invoices</CardTitle>
-						<Receipt className="h-4 w-4 text-orange-600" />
+						<Receipt className="h-4 w-4 text-warning" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-orange-600">{formatCurrency(accountingData.overview.outstandingInvoices)}</div>
+						<div className="text-2xl font-bold text-warning">{formatCurrency(accountingData.overview.outstandingInvoices)}</div>
 						<p className="text-xs text-muted-foreground">3 invoices pending</p>
 					</CardContent>
 				</Card>
@@ -156,7 +156,7 @@ export default function AccountingModule() {
 									{accountingData.recentTransactions.map((transaction) => (
 										<div key={transaction.id} className="flex items-center justify-between p-3 border rounded-lg">
 											<div className="flex items-center space-x-3">
-												<div className={cn("h-8 w-8 rounded-full flex items-center justify-center", transaction.type === "income" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600")}>
+												<div className={cn("h-8 w-8 rounded-full flex items-center justify-center", transaction.type === "income" ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive")}>
 													{transaction.type === "income" ? <TrendingUp className="h-4 w-4" /> : <BarChart3 className="h-4 w-4" />}
 												</div>
 												<div>
@@ -165,7 +165,7 @@ export default function AccountingModule() {
 												</div>
 											</div>
 											<div className="text-right">
-												<p className={cn("font-medium", transaction.type === "income" ? "text-green-600" : "text-red-600")}>{formatCurrency(Math.abs(transaction.amount))}</p>
+												<p className={cn("font-medium", transaction.type === "income" ? "text-success" : "text-destructive")}>{formatCurrency(Math.abs(transaction.amount))}</p>
 												<Badge variant={transaction.status === "paid" ? "default" : "secondary"}>{transaction.status}</Badge>
 											</div>
 										</div>
@@ -203,7 +203,7 @@ export default function AccountingModule() {
 								{accountingData.recentTransactions.map((transaction) => (
 									<div key={transaction.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted transition-colors">
 										<div className="flex items-center space-x-4">
-											<div className={cn("h-10 w-10 rounded-full flex items-center justify-center", transaction.type === "income" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600")}>
+											<div className={cn("h-10 w-10 rounded-full flex items-center justify-center", transaction.type === "income" ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive")}>
 												{transaction.type === "income" ? <TrendingUp className="h-5 w-5" /> : <BarChart3 className="h-5 w-5" />}
 											</div>
 											<div>
@@ -212,7 +212,7 @@ export default function AccountingModule() {
 											</div>
 										</div>
 										<div className="text-right">
-											<p className={cn("text-xl font-semibold", transaction.type === "income" ? "text-green-600" : "text-red-600")}>
+											<p className={cn("text-xl font-semibold", transaction.type === "income" ? "text-success" : "text-destructive")}>
 												{transaction.type === "income" ? "+" : "-"}
 												{formatCurrency(Math.abs(transaction.amount))}
 											</p>
@@ -236,7 +236,7 @@ export default function AccountingModule() {
 								{accountingData.accountsReceivable.map((receivable) => (
 									<div key={receivable.id} className="flex items-center justify-between p-4 border rounded-lg">
 										<div className="flex items-center space-x-4">
-											<div className={cn("h-10 w-10 rounded-full flex items-center justify-center", receivable.status === "overdue" ? "bg-red-100 text-red-600" : receivable.status === "due" ? "bg-orange-100 text-orange-600" : "bg-blue-100 text-blue-600")}>
+											<div className={cn("h-10 w-10 rounded-full flex items-center justify-center", receivable.status === "overdue" ? "bg-destructive/10 text-destructive" : receivable.status === "due" ? "bg-warning/10 text-warning" : "bg-primary/10 text-primary")}>
 												{receivable.status === "overdue" ? <AlertCircle className="h-5 w-5" /> : receivable.status === "due" ? <Clock className="h-5 w-5" /> : <CheckCircle className="h-5 w-5" />}
 											</div>
 											<div>

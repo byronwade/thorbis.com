@@ -1,7 +1,7 @@
 // REQUIRED: Secure local storage utilities with encryption and performance monitoring
 // Based on OWASP security guidelines for client-side storage
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Secure storage utility class with encryption and proper error handling

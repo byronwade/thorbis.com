@@ -176,7 +176,7 @@ export default function PricingCalculator() {
 		<div className="max-w-6xl mx-auto">
 			<div className="bg-white dark:bg-neutral-800 rounded-2xl border p-8 shadow-sm">
 				<div className="flex items-center gap-3 mb-8">
-					<Calculator className="w-8 h-8 text-blue-600" />
+					<Calculator className="w-8 h-8 text-primary" />
 					<div>
 						<h3 className="text-2xl font-bold">Usage Cost Calculator</h3>
 						<p className="text-muted-foreground">
@@ -190,7 +190,7 @@ export default function PricingCalculator() {
 					<div className="space-y-6">
 						<div>
 							<h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-								<Zap className="w-5 h-5 text-blue-600" />
+								<Zap className="w-5 h-5 text-primary" />
 								Enter Your Monthly Activity
 							</h4>
 							<div className="space-y-4">
@@ -205,7 +205,7 @@ export default function PricingCalculator() {
 											min="0"
 											value={usage[field.key]}
 											onChange={(e) => handleInputChange(field.key, e.target.value)}
-											className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600"
+											className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600"
 										/>
 										<p className="text-xs text-muted-foreground">{field.description}</p>
 									</div>
@@ -230,7 +230,7 @@ export default function PricingCalculator() {
 											min="0"
 											value={usage[field.key]}
 											onChange={(e) => handleInputChange(field.key, e.target.value)}
-											className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600"
+											className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-neutral-700 dark:border-neutral-600"
 										/>
 										<p className="text-xs text-muted-foreground">{field.description}</p>
 									</div>
@@ -243,7 +243,7 @@ export default function PricingCalculator() {
 					<div className="space-y-6">
 						<div>
 							<h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-								<TrendingUp className="w-5 h-5 text-green-600" />
+								<TrendingUp className="w-5 h-5 text-success" />
 								Your Usage Breakdown
 							</h4>
 							<div className="space-y-3 text-sm">
@@ -264,9 +264,9 @@ export default function PricingCalculator() {
 							</div>
 						</div>
 
-						<div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-6">
+						<div className="bg-blue-50 dark:bg-primary/20 rounded-lg p-6">
 							<h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-								<DollarSign className="w-5 h-5 text-blue-600" />
+								<DollarSign className="w-5 h-5 text-primary" />
 								Cost Breakdown
 							</h4>
 							<div className="space-y-3">
@@ -293,18 +293,18 @@ export default function PricingCalculator() {
 								<div className="border-t pt-3 mt-3">
 									<div className="flex justify-between items-center text-lg font-bold">
 										<span>Total Monthly Cost:</span>
-										<span className="text-blue-600">${calculations.totalCost.toFixed(2)}</span>
+										<span className="text-primary">${calculations.totalCost.toFixed(2)}</span>
 									</div>
 								</div>
 							</div>
 						</div>
 
 						{calculations.totalCost === 0 && (
-							<div className="bg-green-50 dark:bg-green-950/20 rounded-lg p-4 text-center">
-								<p className="text-green-700 dark:text-green-300 font-medium">
+							<div className="bg-green-50 dark:bg-success/20 rounded-lg p-4 text-center">
+								<p className="text-success dark:text-success/90 font-medium">
 									🎉 Your usage is within our free tier!
 								</p>
-								<p className="text-sm text-green-600 dark:text-green-400 mt-1">
+								<p className="text-sm text-success dark:text-success mt-1">
 									No charges for this level of usage.
 								</p>
 							</div>
@@ -330,13 +330,13 @@ export default function PricingCalculator() {
 					<div className="flex items-center justify-center gap-4">
 						<a 
 							href="/signup" 
-							className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 transition-colors"
+							className="inline-flex items-center rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary transition-colors"
 						>
 							Start Free Account
 						</a>
 						<a 
 							href="/contact" 
-							className="inline-flex items-center rounded-lg border border-gray-300 px-6 py-3 font-semibold hover:bg-gray-50 transition-colors"
+							className="inline-flex items-center rounded-lg border border-border px-6 py-3 font-semibold hover:bg-gray-50 transition-colors"
 						>
 							Contact Sales
 						</a>

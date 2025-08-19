@@ -6,7 +6,7 @@
 
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 // Search store with advanced state management
 export const useEnhancedSearchStore = create(

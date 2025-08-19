@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import debounce from "lodash/debounce";
 import useMapStore from "./use-map-store";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Removed mock data generation - now using real Supabase data
 

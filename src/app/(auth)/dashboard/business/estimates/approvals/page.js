@@ -259,11 +259,11 @@ export default function EstimateApprovals() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "pending_approval":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "approved":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "rejected":
-				return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
@@ -285,22 +285,22 @@ export default function EstimateApprovals() {
 	const getPriorityColor = (priority) => {
 		switch (priority) {
 			case "urgent":
-				return "text-red-600 dark:text-red-400";
+				return "text-destructive dark:text-destructive";
 			case "high":
-				return "text-orange-600 dark:text-orange-400";
+				return "text-warning dark:text-warning";
 			case "medium":
-				return "text-yellow-600 dark:text-yellow-400";
+				return "text-warning dark:text-warning";
 			case "low":
-				return "text-green-600 dark:text-green-400";
+				return "text-success dark:text-success";
 			default:
 				return "text-muted-foreground dark:text-muted-foreground";
 		}
 	};
 
 	const getConversionColor = (probability) => {
-		if (probability >= 80) return "text-green-600 dark:text-green-400";
-		if (probability >= 60) return "text-yellow-600 dark:text-yellow-400";
-		return "text-red-600 dark:text-red-400";
+		if (probability >= 80) return "text-success dark:text-success";
+		if (probability >= 60) return "text-warning dark:text-warning";
+		return "text-destructive dark:text-destructive";
 	};
 
 	const getDaysOverdue = (validUntil) => {
@@ -412,7 +412,7 @@ export default function EstimateApprovals() {
 								<p className="text-sm text-muted-foreground">Total Estimates</p>
 								<p className="text-2xl font-bold">{dashboardStats.total}</p>
 							</div>
-							<FileText className="w-8 h-8 text-blue-600" />
+							<FileText className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -422,9 +422,9 @@ export default function EstimateApprovals() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Pending Approval</p>
-								<p className="text-2xl font-bold text-yellow-600">{dashboardStats.pending}</p>
+								<p className="text-2xl font-bold text-warning">{dashboardStats.pending}</p>
 							</div>
-							<Clock className="w-8 h-8 text-yellow-600" />
+							<Clock className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -434,9 +434,9 @@ export default function EstimateApprovals() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Approval Rate</p>
-								<p className="text-2xl font-bold text-green-600">{dashboardStats.approvalRate}%</p>
+								<p className="text-2xl font-bold text-success">{dashboardStats.approvalRate}%</p>
 							</div>
-							<Target className="w-8 h-8 text-green-600" />
+							<Target className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -448,7 +448,7 @@ export default function EstimateApprovals() {
 								<p className="text-sm text-muted-foreground">Total Value</p>
 								<p className="text-2xl font-bold">{formatCurrency(dashboardStats.totalValue)}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-600" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -589,13 +589,13 @@ export default function EstimateApprovals() {
 													{estimate.approvalRequest.approvedAt && (
 														<div>
 															<p className="text-xs text-muted-foreground">Approved</p>
-															<p className="text-sm font-medium text-green-600">{formatDateTime(estimate.approvalRequest.approvedAt)}</p>
+															<p className="text-sm font-medium text-success">{formatDateTime(estimate.approvalRequest.approvedAt)}</p>
 														</div>
 													)}
 													{estimate.approvalRequest.rejectedAt && (
 														<div>
 															<p className="text-xs text-muted-foreground">Rejected</p>
-															<p className="text-sm font-medium text-red-600">{formatDateTime(estimate.approvalRequest.rejectedAt)}</p>
+															<p className="text-sm font-medium text-destructive">{formatDateTime(estimate.approvalRequest.rejectedAt)}</p>
 														</div>
 													)}
 												</div>
@@ -608,8 +608,8 @@ export default function EstimateApprovals() {
 														</p>
 														{getDaysOverdue(estimate.validUntil) > 0 && (
 															<div className="flex gap-2 items-center mt-2">
-																<AlertTriangle className="w-4 h-4 text-red-500" />
-																<span className="text-red-600 font-medium">Overdue by {getDaysOverdue(estimate.validUntil)} days</span>
+																<AlertTriangle className="w-4 h-4 text-destructive" />
+																<span className="text-destructive font-medium">Overdue by {getDaysOverdue(estimate.validUntil)} days</span>
 															</div>
 														)}
 													</div>
@@ -618,7 +618,7 @@ export default function EstimateApprovals() {
 												{estimate.approvalRequest.rejectionReason && (
 													<div className="mt-3">
 														<p className="text-xs text-muted-foreground">Rejection Reason</p>
-														<p className="text-sm text-red-600">{estimate.approvalRequest.rejectionReason}</p>
+														<p className="text-sm text-destructive">{estimate.approvalRequest.rejectionReason}</p>
 													</div>
 												)}
 											</div>
@@ -641,11 +641,11 @@ export default function EstimateApprovals() {
 
 											{/* Follow-up Notes */}
 											{estimate.followUpNotes && (
-												<div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
+												<div className="p-3 bg-blue-50 dark:bg-primary rounded-lg">
 													<div className="flex gap-2 items-start">
-														<MessageSquare className="w-4 h-4 text-blue-600 mt-0.5" />
+														<MessageSquare className="w-4 h-4 text-primary mt-0.5" />
 														<div>
-															<p className="text-xs text-blue-600 font-medium">Follow-up Notes</p>
+															<p className="text-xs text-primary font-medium">Follow-up Notes</p>
 															<p className="text-sm">{estimate.followUpNotes}</p>
 														</div>
 													</div>

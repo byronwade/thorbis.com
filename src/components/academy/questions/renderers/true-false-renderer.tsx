@@ -31,19 +31,19 @@ export function TrueFalseRenderer({ question, onAnswer, isAnswered, userAnswer, 
 
 	const getButtonStyle = (buttonValue: boolean) => {
 		if (!isAnswered && selectedAnswer === buttonValue) {
-			return "border-blue-500 bg-blue-50 text-blue-700";
+			return "border-primary bg-blue-50 text-primary";
 		}
 
 		if (showFeedback && isAnswered) {
 			if (buttonValue === question.correctAnswer) {
-				return "border-green-500 bg-green-50 text-green-700";
+				return "border-green-500 bg-green-50 text-success";
 			}
 			if (selectedAnswer === buttonValue && buttonValue !== question.correctAnswer) {
-				return "border-red-500 bg-red-50 text-red-700";
+				return "border-red-500 bg-red-50 text-destructive";
 			}
 		}
 
-		return "border-gray-200 hover:border-gray-300 hover:bg-gray-50";
+		return "border-border hover:border-border hover:bg-gray-50";
 	};
 
 	const getIcon = (buttonValue: boolean) => {
@@ -64,7 +64,7 @@ export function TrueFalseRenderer({ question, onAnswer, isAnswered, userAnswer, 
 			{/* Statement */}
 			<Card>
 				<CardContent className="p-6">
-					<p className="text-lg font-medium text-gray-800 leading-relaxed">{question.statement}</p>
+					<p className="text-lg font-medium text-foreground leading-relaxed">{question.statement}</p>
 				</CardContent>
 			</Card>
 
@@ -91,18 +91,18 @@ export function TrueFalseRenderer({ question, onAnswer, isAnswered, userAnswer, 
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{selectedAnswer === question.correctAnswer ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${selectedAnswer === question.correctAnswer ? "text-green-700" : "text-red-700"}`}>{selectedAnswer === question.correctAnswer ? "Correct!" : "Incorrect"}</span>
+								{selectedAnswer === question.correctAnswer ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${selectedAnswer === question.correctAnswer ? "text-success" : "text-destructive"}`}>{selectedAnswer === question.correctAnswer ? "Correct!" : "Incorrect"}</span>
 							</div>
 
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-700">{selectedAnswer === true ? question.trueExplanation : question.falseExplanation}</p>
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-muted-foreground">{selectedAnswer === true ? question.trueExplanation : question.falseExplanation}</p>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Additional Information:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Additional Information:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 						</div>

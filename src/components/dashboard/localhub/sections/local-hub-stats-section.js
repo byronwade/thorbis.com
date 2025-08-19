@@ -86,7 +86,7 @@ const LocalHubStatsSection = ({ stats }) => {
 		: defaultStats;
 
 	const getChangeColor = (changeType) => {
-		return changeType === "positive" ? "text-green-600" : "text-red-600";
+		return changeType === "positive" ? "text-success" : "text-destructive";
 	};
 
 	const getTrendIcon = (changeType) => {
@@ -128,7 +128,7 @@ const LocalHubStatsSection = ({ stats }) => {
 			<Card>
 				<CardHeader>
 					<CardTitle className="flex items-center gap-2">
-						<TrendingUp className="h-5 w-5 text-green-600" />
+						<TrendingUp className="h-5 w-5 text-success" />
 						Revenue Growth
 					</CardTitle>
 					<CardDescription>80% revenue share from business subscriptions</CardDescription>
@@ -141,11 +141,11 @@ const LocalHubStatsSection = ({ stats }) => {
 						</div>
 						<div className="text-right">
 							<div className="text-sm text-muted-foreground">Your Earnings (80%)</div>
-							<div className="text-lg font-bold text-green-600">$2,172</div>
+							<div className="text-lg font-bold text-success">$2,172</div>
 						</div>
 					</div>
-					<div className="mt-4 p-4 bg-green-50 dark:bg-green-950 rounded-lg">
-						<div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-300">
+					<div className="mt-4 p-4 bg-green-50 dark:bg-success rounded-lg">
+						<div className="flex items-center gap-2 text-sm text-success dark:text-success/90">
 							<TrendingUp className="h-4 w-4" />
 							<span className="font-medium">Growth Trend:</span>
 							<span>+12.5% month-over-month</span>

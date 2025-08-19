@@ -298,7 +298,7 @@ function FeaturedContent() {
 										{content.type === "learn" && <GraduationCap className="h-3 w-3 mr-1" />}
 										{content.category}
 									</Badge>
-									{content.featured && <Badge className="bg-green-500">Featured</Badge>}
+									{content.featured && <Badge className="bg-success">Featured</Badge>}
 								</div>
 								<CardTitle className="text-lg line-clamp-2">{content.title}</CardTitle>
 								<CardDescription>{content.excerpt}</CardDescription>
@@ -449,7 +449,7 @@ function ResourcesContent() {
 												<div className="flex items-center justify-between mb-2">
 													<Badge variant="secondary">{module.level}</Badge>
 													<div className="flex items-center space-x-1">
-														<Star className="h-4 w-4 text-yellow-500 fill-current" />
+														<Star className="h-4 w-4 text-warning fill-current" />
 														<span className="text-sm font-medium">{module.rating}</span>
 													</div>
 												</div>
@@ -459,7 +459,7 @@ function ResourcesContent() {
 											<CardContent>
 												<div className="grid grid-cols-3 gap-4 mb-4 text-center">
 													<div>
-														<div className="text-lg font-semibold text-blue-600">{module.duration}</div>
+														<div className="text-lg font-semibold text-primary">{module.duration}</div>
 														<div className="text-xs text-muted-foreground">Duration</div>
 													</div>
 													<div>
@@ -508,7 +508,7 @@ function ResourcesContent() {
 													<div className="lg:col-span-3">
 														<div className="flex items-center space-x-3 mb-3">
 															<Badge variant="secondary">{event.type}</Badge>
-															<Badge variant="outline" className="text-green-600 border-green-600">
+															<Badge variant="outline" className="text-success border-success">
 																{event.price}
 															</Badge>
 														</div>
@@ -517,21 +517,21 @@ function ResourcesContent() {
 
 														<div className="grid md:grid-cols-2 gap-4 text-sm">
 															<div className="flex items-center space-x-2">
-																<Calendar className="h-4 w-4 text-blue-600" />
+																<Calendar className="h-4 w-4 text-primary" />
 																<span>
 																	<strong>{event.date}</strong> at {event.time}
 																</span>
 															</div>
 															<div className="flex items-center space-x-2">
-																<MapPin className="h-4 w-4 text-green-600" />
+																<MapPin className="h-4 w-4 text-success" />
 																<span>{event.location}</span>
 															</div>
 															<div className="flex items-center space-x-2">
-																<Users className="h-4 w-4 text-purple-600" />
+																<Users className="h-4 w-4 text-muted-foreground" />
 																<span>{event.attendees} attendees expected</span>
 															</div>
 															<div className="flex items-center space-x-2">
-																<User className="h-4 w-4 text-orange-600" />
+																<User className="h-4 w-4 text-warning" />
 																<span>Speakers: {event.speakers.join(", ")}</span>
 															</div>
 														</div>
@@ -568,7 +568,7 @@ function ResourcesContent() {
 									{businessTools.map((tool, index) => (
 										<Card key={index} className="hover:shadow-md transition-shadow">
 											<CardHeader className="text-center">
-												<tool.icon className="h-12 w-12 text-blue-600 mx-auto mb-3" />
+												<tool.icon className="h-12 w-12 text-primary mx-auto mb-3" />
 												<CardTitle className="text-lg">{tool.title}</CardTitle>
 												<CardDescription>{tool.description}</CardDescription>
 											</CardHeader>
@@ -576,7 +576,7 @@ function ResourcesContent() {
 												<ul className="space-y-2">
 													{tool.features.map((feature, i) => (
 														<li key={i} className="flex items-center space-x-2 text-sm">
-															<CheckCircle className="h-3 w-3 text-green-500" />
+															<CheckCircle className="h-3 w-3 text-success" />
 															<span>{feature}</span>
 														</li>
 													))}
@@ -604,7 +604,7 @@ function ResourcesContent() {
 										<Card key={index} className="hover:shadow-lg transition-shadow">
 											<CardHeader>
 												<div className="flex items-center space-x-3 mb-2">
-													<program.icon className="h-8 w-8 text-green-600" />
+													<program.icon className="h-8 w-8 text-success" />
 													<CardTitle>{program.title}</CardTitle>
 												</div>
 												<CardDescription>{program.description}</CardDescription>
@@ -616,7 +616,7 @@ function ResourcesContent() {
 														<ul className="space-y-1">
 															{program.benefits.map((benefit, i) => (
 																<li key={i} className="flex items-center space-x-2 text-sm">
-																	<CheckCircle className="h-4 w-4 text-green-500" />
+																	<CheckCircle className="h-4 w-4 text-success" />
 																	<span>{benefit}</span>
 																</li>
 															))}

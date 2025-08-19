@@ -92,7 +92,7 @@ const VerificationOverview = ({ partnerships }) => {
 			<div className="space-y-3">
 				{verificationScores.slice(0, 5).map((partnership) => {
 					const StatusIcon = partnership.status === "verified" ? CheckCircle : partnership.status === "in_progress" ? Clock : AlertCircle;
-					const statusColor = partnership.status === "verified" ? "text-green-600" : partnership.status === "in_progress" ? "text-blue-600" : "text-gray-400";
+					const statusColor = partnership.status === "verified" ? "text-success" : partnership.status === "in_progress" ? "text-primary" : "text-muted-foreground";
 
 					return (
 						<div key={partnership.name} className="space-y-2">
@@ -159,15 +159,15 @@ const PartnershipsOverview = ({ partnerships }) => {
 				<CardContent>
 					<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div className="text-center">
-							<div className="text-2xl font-bold text-green-600">{stats.verified}</div>
+							<div className="text-2xl font-bold text-success">{stats.verified}</div>
 							<p className="text-xs text-muted-foreground">Verified</p>
 						</div>
 						<div className="text-center">
-							<div className="text-2xl font-bold text-blue-600">{stats.active}</div>
+							<div className="text-2xl font-bold text-primary">{stats.active}</div>
 							<p className="text-xs text-muted-foreground">Active</p>
 						</div>
 						<div className="text-center">
-							<div className="text-2xl font-bold text-yellow-600">{stats.pending}</div>
+							<div className="text-2xl font-bold text-warning">{stats.pending}</div>
 							<p className="text-xs text-muted-foreground">Pending</p>
 						</div>
 						<div className="text-center">

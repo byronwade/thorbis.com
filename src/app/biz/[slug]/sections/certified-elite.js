@@ -17,8 +17,8 @@ export default function CertifiedElite({ business }) {
 						<circle r={512} cx={512} cy={512} fill="url(#cert-gradient)" fillOpacity="0.3" />
 						<defs>
 							<radialGradient id="cert-gradient">
-								<stop stopColor="#10B981" />
-								<stop offset={1} stopColor="#06B6D4" />
+								<stop stopColor="hsl(var(--muted-foreground))" />
+								<stop offset={1} stopColor="hsl(var(--primary))" />
 							</radialGradient>
 						</defs>
 					</svg>
@@ -29,7 +29,7 @@ export default function CertifiedElite({ business }) {
 								<div className="space-y-4">
 									<h3 className="text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">Certified Elite Business</h3>
 									<p className="text-lg leading-relaxed text-white/90 sm:text-xl">
-										This business has achieved our highest certification level - earned by fewer than <span className="font-bold text-yellow-300">1 in 125,000 businesses</span>. Like a Michelin star for service excellence.
+										This business has achieved our highest certification level - earned by fewer than <span className="font-bold text-warning/90">1 in 125,000 businesses</span>. Like a Michelin star for service excellence.
 									</p>
 								</div>
 								<div className="flex gap-3 items-center p-4 rounded-xl border backdrop-blur-sm bg-white/10 border-white/20">
@@ -61,7 +61,7 @@ export default function CertifiedElite({ business }) {
 								<div className="p-4 text-center rounded-xl border backdrop-blur-sm bg-white/10 border-white/20 lg:p-6">
 									<div className="text-2xl font-bold text-white lg:text-3xl">100%</div>
 									<div className="text-sm text-white/80">Satisfaction</div>
-									<div className="mt-1 text-xs text-yellow-200">Performance guarantee</div>
+									<div className="mt-1 text-xs text-warning/80">Performance guarantee</div>
 								</div>
 							</div>
 						</div>
@@ -88,16 +88,16 @@ export default function CertifiedElite({ business }) {
 					</div>
 					<div className="p-6 rounded-xl border bg-card border-border sm:p-8">
 						<div className="flex items-start space-x-4">
-							<div className="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-blue-100 rounded-full dark:bg-blue-900/30">
-								<Award className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+							<div className="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-primary/10 rounded-full dark:bg-primary/30">
+								<Award className="w-5 h-5 text-primary dark:text-primary" />
 							</div>
 							<div className="space-y-3">
 								<h3 className="text-lg font-semibold text-foreground">The Elite Vetting Process</h3>
 								<div className="space-y-2">
 									{["Comprehensive 400+ customer interviews", "Independent financial stability assessment", "Rigorous background and licensing verification", "Technical expertise evaluation", "On-site inspection and equipment review", "Ongoing annual re-certification requirements"].map((requirement, index) => (
 										<div key={index} className="flex items-start space-x-2">
-											<div className="flex flex-shrink-0 justify-center items-center mt-0.5 w-4 h-4 rounded-full bg-blue-500/20 dark:bg-blue-400/20">
-												<div className="w-2 h-2 bg-blue-500 rounded-full dark:bg-blue-400"></div>
+											<div className="flex flex-shrink-0 justify-center items-center mt-0.5 w-4 h-4 rounded-full bg-primary/20 dark:bg-primary/40/20">
+												<div className="w-2 h-2 bg-primary rounded-full dark:bg-primary/40"></div>
 											</div>
 											<span className="text-sm text-muted-foreground">{requirement}</span>
 										</div>

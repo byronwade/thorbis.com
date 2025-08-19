@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuGroup } from "@components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@components/ui/sheet";
+import EnhancedMobileMenu from "../shared/enhanced-mobile-menu";
 import { Users, Bell, Menu, Settings } from "lucide-react";
 import { Badge } from "@components/ui/badge";
 
@@ -66,34 +66,29 @@ export function AppHeader() {
 					<UserMenu />
 
 					{/* Mobile Menu */}
-					<Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-						<SheetTrigger asChild>
-							<Button variant="outline" size="icon" className="flex lg:hidden">
-								<Menu className="w-4 h-4" />
-							</Button>
-						</SheetTrigger>
-						<SheetContent className="bg-card/95 backdrop-blur-md">
-							<SheetHeader>
-								<SheetTitle>Menu</SheetTitle>
-							</SheetHeader>
-							<nav className="mt-6">
-								<ul className="space-y-2">
-									{navItems.map((item) => {
-										const isActive = pathname === item.href;
-										return (
-											<li key={item.text}>
-												<Link href={item.href} onClick={() => setMobileMenuOpen(false)}>
-													<Button variant={isActive ? "default" : "ghost"} className={`w-full justify-start ${isActive ? "bg-primary/5 text-primary border border-primary/20" : ""}`}>
-														{item.text}
-													</Button>
-												</Link>
-											</li>
-										);
-									})}
-								</ul>
-							</nav>
-						</SheetContent>
-					</Sheet>
+					<Button 
+						variant="outline" 
+						size="icon" 
+						className="flex lg:hidden"
+						onClick={() => setMobileMenuOpen(true)}
+					>
+						<Menu className="w-4 h-4" />
+					</Button>
+					
+					<EnhancedMobileMenu
+						isOpen={mobileMenuOpen}
+						onClose={() => setMobileMenuOpen(false)}
+						dashboardType="network"
+						navigationItems={navItems.map(item => ({
+							key: item.text.toLowerCase().replace(/\s+/g, '-'),
+							text: item.text,
+							href: item.href,
+							icon: null
+						}))}
+						activeNavKey={navItems.find(item => pathname === item.href)?.text.toLowerCase().replace(/\s+/g, '-') || ""}
+						config={{ title: "Network Menu" }}
+						businessSubNavItems={{}}
+					/>
 				</div>
 			</div>
 		</div>
@@ -105,7 +100,7 @@ const NotificationMenu = () => (
 		<DropdownMenuTrigger asChild>
 			<Button variant="ghost" size="sm" className="relative p-2 h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-accent">
 				<Bell className="w-5 h-5" />
-				<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 border-2 border-card rounded-full"></span>
+				<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-destructive border-2 border-card rounded-full"></span>
 			</Button>
 		</DropdownMenuTrigger>
 		<DropdownMenuContent align="end" className="w-80 z-[80] bg-card/95 backdrop-blur-md border border-border/50">
@@ -179,7 +174,7 @@ const UserMenu = () => (
 				</DropdownMenuItem>
 			</DropdownMenuGroup>
 			<DropdownMenuSeparator />
-			<DropdownMenuItem className="text-red-600 focus:text-red-600">
+			<DropdownMenuItem className="text-destructive focus:text-destructive">
 				<span>Logout</span>
 			</DropdownMenuItem>
 		</DropdownMenuContent>

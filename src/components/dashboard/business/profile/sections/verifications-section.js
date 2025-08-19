@@ -7,11 +7,11 @@ export default function VerificationsSection({ profile, setProfile, isEditing, s
 	const getVerificationIcon = (status) => {
 		switch (status) {
 			case "verified":
-				return <CheckCircle className="w-5 h-5 text-green-500" />;
+				return <CheckCircle className="w-5 h-5 text-success" />;
 			case "pending":
-				return <Clock className="w-5 h-5 text-yellow-500" />;
+				return <Clock className="w-5 h-5 text-warning" />;
 			default:
-				return <XCircle className="w-5 h-5 text-red-500" />;
+				return <XCircle className="w-5 h-5 text-destructive" />;
 		}
 	};
 
@@ -29,11 +29,11 @@ export default function VerificationsSection({ profile, setProfile, isEditing, s
 	const getVerificationColor = (verification) => {
 		switch (verification.status) {
 			case "verified":
-				return "text-green-600";
+				return "text-success";
 			case "pending":
-				return "text-yellow-600";
+				return "text-warning";
 			default:
-				return "text-red-600";
+				return "text-destructive";
 		}
 	};
 
@@ -79,7 +79,7 @@ export default function VerificationsSection({ profile, setProfile, isEditing, s
 											<Download className="w-4 h-4 mr-1" />
 											View
 										</Button>
-										<Badge variant={getVerificationBadgeVariant(verification)} className="text-green-600">
+										<Badge variant={getVerificationBadgeVariant(verification)} className="text-success">
 											<CheckCircle className="w-3 h-3 mr-1" />
 											Verified
 										</Badge>

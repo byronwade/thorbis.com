@@ -81,7 +81,7 @@ export default function ProfessionalServicesPlatform() {
 				<h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">Professional Services Platform</h1>
 				<p className="mx-auto max-w-3xl text-muted-foreground">Deliver excellent client work and get paid faster.</p>
 				<div className="flex gap-3 justify-center items-center">
-					<a href="/signup" className="inline-flex items-center px-5 py-3 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700">
+					<a href="/signup" className="inline-flex items-center px-5 py-3 font-semibold text-white bg-primary rounded-md hover:bg-primary">
 						Start free
 					</a>
 					<a href="/contact" className="inline-flex items-center px-5 py-3 font-semibold rounded-md border hover:bg-accent">

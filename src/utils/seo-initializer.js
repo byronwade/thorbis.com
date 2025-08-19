@@ -6,7 +6,7 @@
 
 import { seoPerformanceOptimizer } from "./seo-performance-optimizer";
 import { seoDataIntegration } from "./seo-data-integration";
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * SEO System Initializer Class

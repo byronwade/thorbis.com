@@ -544,8 +544,8 @@ export async function generateEnhancedMetadata(pageConfig, options = {}) {
 	// Add performance optimizations
 	baseMetadata.other = {
 		...baseMetadata.other,
-		"msapplication-TileColor": "#000000",
-		"theme-color": "#000000",
+		"msapplication-TileColor": "hsl(var(--background))",
+		"theme-color": "hsl(var(--background))",
 		"format-detection": "telephone=no",
 		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",

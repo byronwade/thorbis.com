@@ -122,7 +122,7 @@ export default function LocalHubPage() {
 						<h1 className="text-6xl md:text-7xl lg:text-8xl font-black leading-tight mb-8 text-white">
 							Launch your local
 							<br />
-							<span className="text-blue-500">business directory</span>
+							<span className="text-primary">business directory</span>
 						</h1>
 
 						{/* Large Subheadline */}
@@ -133,7 +133,7 @@ export default function LocalHubPage() {
 
 						{/* Large CTA */}
 						<div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
-							<MotionButton href="/signup" className="inline-flex items-center gap-3 rounded-2xl bg-blue-500 text-white px-12 py-6 font-bold text-xl hover:bg-blue-600 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
+							<MotionButton href="/signup" className="inline-flex items-center gap-3 rounded-2xl bg-primary text-white px-12 py-6 font-bold text-xl hover:bg-primary transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
 								Start building for free
 								<ArrowRight className="h-6 w-6" />
 							</MotionButton>
@@ -182,7 +182,7 @@ export default function LocalHubPage() {
 					<div className="flex flex-wrap items-center justify-center gap-12 opacity-80">
 						{["Austin Local Hub", "Miami Business Connect", "Seattle Small Biz", "Denver Directory Pro"].map((name, idx) => (
 							<div key={idx} className="flex items-center gap-3 text-muted-foreground">
-								<Building2 className="h-6 w-6 text-blue-500" />
+								<Building2 className="h-6 w-6 text-primary" />
 								<span className="font-bold text-lg">{name}</span>
 							</div>
 						))}
@@ -196,12 +196,12 @@ export default function LocalHubPage() {
 					<div className="grid lg:grid-cols-2 gap-20 items-center">
 						{/* Left Content */}
 						<div>
-							<div className="inline-flex items-center gap-3 rounded-full bg-blue-500/20 px-6 py-3 text-lg font-bold text-blue-400 mb-8">
+							<div className="inline-flex items-center gap-3 rounded-full bg-primary/20 px-6 py-3 text-lg font-bold text-primary mb-8">
 								<BarChart3 className="h-6 w-6" />
 								Revenue Streams
 							</div>
 							<h2 className="text-5xl md:text-6xl font-black mb-8 text-white">
-								Turn your local knowledge into <span className="text-blue-500">recurring revenue</span>
+								Turn your local knowledge into <span className="text-primary">recurring revenue</span>
 							</h2>
 							<p className="text-2xl text-muted-foreground leading-relaxed mb-12">
 								LocalHub directory owners earn an average of <strong className="text-white">$8,500 per month</strong> through multiple proven monetization strategies.
@@ -215,21 +215,21 @@ export default function LocalHubPage() {
 										title: "Featured Listings",
 										description: "Businesses pay $50-$200/month for premium placement",
 										revenue: "$2,500/mo avg",
-										bg: "bg-blue-500",
+										bg: "bg-primary",
 									},
 									{
 										icon: Search,
 										title: "Category Sponsorships",
 										description: "Exclusive category rights for $300-$500/month",
 										revenue: "$3,200/mo avg",
-										bg: "bg-blue-500",
+										bg: "bg-primary",
 									},
 									{
 										icon: Route,
 										title: "Lead Generation",
 										description: "Qualified lead routing at $15-$50 per lead",
 										revenue: "$2,800/mo avg",
-										bg: "bg-blue-500",
+										bg: "bg-primary",
 									},
 								].map((stream, idx) => (
 									<div key={idx} className="flex items-start gap-6 p-8 rounded-3xl bg-white/5 border border-white/10 shadow-2xl backdrop-blur-sm">
@@ -239,7 +239,7 @@ export default function LocalHubPage() {
 										<div className="flex-1">
 											<div className="flex items-center justify-between mb-4">
 												<h4 className="text-2xl font-black text-white">{stream.title}</h4>
-												<span className="text-xl font-bold text-blue-400">{stream.revenue}</span>
+												<span className="text-xl font-bold text-primary">{stream.revenue}</span>
 											</div>
 											<p className="text-lg text-muted-foreground">{stream.description}</p>
 										</div>
@@ -248,7 +248,7 @@ export default function LocalHubPage() {
 							</div>
 
 							<div className="mt-12">
-								<MotionButton href="/revenue-calculator" className="inline-flex items-center gap-3 rounded-2xl bg-blue-500 text-white px-10 py-6 font-bold text-xl hover:bg-blue-600 transition-all duration-300 shadow-2xl">
+								<MotionButton href="/revenue-calculator" className="inline-flex items-center gap-3 rounded-2xl bg-primary text-white px-10 py-6 font-bold text-xl hover:bg-primary transition-all duration-300 shadow-2xl">
 									Calculate your revenue potential
 									<ArrowRight className="h-6 w-6" />
 								</MotionButton>
@@ -268,7 +268,7 @@ export default function LocalHubPage() {
 								<div className="flex items-end justify-between gap-2 h-40 mb-6">
 									{[20, 35, 45, 55, 70, 85, 95, 110, 125, 135, 150, 165].map((height, idx) => (
 										<div key={idx} className="flex-1 flex flex-col items-center gap-2">
-											<div className="w-full bg-green-600 rounded-t-sm" style={{ height: `${height}px` }} />
+											<div className="w-full bg-success rounded-t-sm" style={{ height: `${height}px` }} />
 											<div className="text-xs text-neutral-400 rotate-45 origin-bottom-left">{new Date(2024, idx).toLocaleDateString("en", { month: "short" })}</div>
 										</div>
 									))}
@@ -276,23 +276,23 @@ export default function LocalHubPage() {
 
 								{/* Revenue Breakdown */}
 								<div className="grid grid-cols-3 gap-4 text-center">
-									<div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/50">
-										<div className="text-lg font-bold text-blue-600">$4.2K</div>
+									<div className="p-3 rounded-xl bg-primary dark:bg-primary/50">
+										<div className="text-lg font-bold text-primary">$4.2K</div>
 										<div className="text-xs text-neutral-600 dark:text-neutral-400">Featured</div>
 									</div>
-									<div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/50">
-										<div className="text-lg font-bold text-purple-600">$3.8K</div>
+									<div className="p-3 rounded-xl bg-muted dark:bg-muted/50">
+										<div className="text-lg font-bold text-muted-foreground">$3.8K</div>
 										<div className="text-xs text-neutral-600 dark:text-neutral-400">Sponsors</div>
 									</div>
-									<div className="p-3 rounded-xl bg-orange-50 dark:bg-orange-950/50">
-										<div className="text-lg font-bold text-orange-600">$3.1K</div>
+									<div className="p-3 rounded-xl bg-warning dark:bg-warning/50">
+										<div className="text-lg font-bold text-warning">$3.1K</div>
 										<div className="text-xs text-neutral-600 dark:text-neutral-400">Leads</div>
 									</div>
 								</div>
 							</div>
 
 							{/* Floating Revenue Badge */}
-							<div className="absolute -top-4 -right-4 bg-yellow-400 text-black rounded-2xl p-4 shadow-lg rotate-12">
+							<div className="absolute -top-4 -right-4 bg-warning/40 text-black rounded-2xl p-4 shadow-lg rotate-12">
 								<div className="text-sm font-semibold">Total Revenue</div>
 								<div className="text-2xl font-bold">$11,100</div>
 								<div className="text-xs opacity-80">This month</div>
@@ -305,11 +305,11 @@ export default function LocalHubPage() {
 			{/* How It Works */}
 			<section className="py-32 bg-white">
 				<MotionSection className="w-full max-w-[1400px] mx-auto px-6 text-center mb-20">
-					<div className="inline-flex items-center gap-3 rounded-full bg-blue-500/20 px-6 py-3 text-lg font-bold text-blue-600 mb-8">
+					<div className="inline-flex items-center gap-3 rounded-full bg-primary/20 px-6 py-3 text-lg font-bold text-primary mb-8">
 						<Route className="h-6 w-6" />
 						How LocalHub Works
 					</div>
-					<h2 className="text-5xl md:text-6xl font-black mb-8 text-black">From zero to profitable in <span className="text-blue-500">3 steps</span></h2>
+					<h2 className="text-5xl md:text-6xl font-black mb-8 text-black">From zero to profitable in <span className="text-primary">3 steps</span></h2>
 					<p className="text-2xl text-muted-foreground max-w-3xl mx-auto">Launch your local directory in minutes and start earning revenue from day one</p>
 				</MotionSection>
 
@@ -320,21 +320,21 @@ export default function LocalHubPage() {
 							title: "Choose your city & setup",
 							description: "Pick your location, customize your brand, and go live instantly with our ready-to-use templates",
 							icon: Globe,
-							bg: "bg-blue-500",
+							bg: "bg-primary",
 						},
 						{
 							step: "02",
 							title: "Businesses find & join you",
 							description: "Our SEO-optimized platform attracts local businesses. They discover your directory and request premium features",
 							icon: Search,
-							bg: "bg-blue-500",
+							bg: "bg-primary",
 						},
 						{
 							step: "03",
 							title: "Collect revenue automatically",
 							description: "Get paid for featured listings, category sponsorships, and qualified leads. We handle billing, you keep 75%",
 							icon: BarChart3,
-							bg: "bg-blue-500",
+							bg: "bg-primary",
 						},
 					].map((item, idx) => (
 						<MotionGridItem key={idx}>
@@ -345,7 +345,7 @@ export default function LocalHubPage() {
 								{/* Content */}
 								<div className="flex-1 text-center lg:text-left">
 									<div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
-										<item.icon className="h-8 w-8 text-blue-500" />
+										<item.icon className="h-8 w-8 text-primary" />
 										<h3 className="text-3xl font-black text-black">{item.title}</h3>
 									</div>
 									<p className="text-xl text-muted-foreground leading-relaxed">{item.description}</p>
@@ -354,7 +354,7 @@ export default function LocalHubPage() {
 								{/* Arrow (except last item) */}
 								{idx < 2 && (
 									<div className="hidden lg:block">
-										<ArrowRight className="h-8 w-8 text-blue-500" />
+										<ArrowRight className="h-8 w-8 text-primary" />
 									</div>
 								)}
 							</div>
@@ -364,7 +364,7 @@ export default function LocalHubPage() {
 
 				{/* CTA */}
 				<MotionSection className="text-center mt-20 px-6">
-					<MotionButton href="/signup" className="inline-flex items-center gap-3 rounded-2xl bg-blue-500 text-white px-12 py-6 font-bold text-xl hover:bg-blue-600 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
+					<MotionButton href="/signup" className="inline-flex items-center gap-3 rounded-2xl bg-primary text-white px-12 py-6 font-bold text-xl hover:bg-primary transition-all duration-300 shadow-2xl hover:shadow-blue-500/25">
 						Start your directory now
 						<ArrowRight className="h-6 w-6" />
 					</MotionButton>
@@ -374,21 +374,21 @@ export default function LocalHubPage() {
 
 			{/* Large feature row */}
 			<section className="w-full mt-12 px-4 sm:px-8">
-				<div className="w-full max-w-[1400px] mx-auto rounded-3xl bg-[#f6f7fb] dark:bg-[#171717] p-10 grid md:grid-cols-2 gap-10 items-center">
+				<div className="w-full max-w-[1400px] mx-auto rounded-3xl bg-muted dark:bg-card p-10 grid md:grid-cols-2 gap-10 items-center">
 					<div className="space-y-4 order-2 md:order-1">
 						<h3 className="text-2xl md:text-3xl font-semibold">Flexible revenue streams</h3>
 						<ul className="space-y-2 text-foreground">
 							<li className="flex items-start gap-2">
-								<Check className="h-5 w-5 text-green-600" /> Featured listings with tiered placements
+								<Check className="h-5 w-5 text-success" /> Featured listings with tiered placements
 							</li>
 							<li className="flex items-start gap-2">
-								<Check className="h-5 w-5 text-green-600" /> Category sponsorships with caps and reporting
+								<Check className="h-5 w-5 text-success" /> Category sponsorships with caps and reporting
 							</li>
 							<li className="flex items-start gap-2">
-								<Check className="h-5 w-5 text-green-600" /> Qualified leads with audit logs and attribution
+								<Check className="h-5 w-5 text-success" /> Qualified leads with audit logs and attribution
 							</li>
 						</ul>
-						<a href="#pricing" className="inline-flex items-center gap-2 text-blue-600 font-medium">
+						<a href="#pricing" className="inline-flex items-center gap-2 text-primary font-medium">
 							See pricing <ArrowRight className="h-4 w-4" />
 						</a>
 					</div>
@@ -401,7 +401,7 @@ export default function LocalHubPage() {
 			{/* Why LocalHub */}
 			<section className="w-full mt-20 px-4 sm:px-8 bg-neutral-50 dark:bg-neutral-900 py-16">
 				<MotionSection className="w-full max-w-[1400px] mx-auto text-center">
-					<div className="inline-flex items-center gap-2 rounded-full bg-blue-50 dark:bg-blue-950 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 mb-6">
+					<div className="inline-flex items-center gap-2 rounded-full bg-primary dark:bg-primary px-4 py-2 text-sm font-medium text-primary dark:text-primary mb-6">
 						<Zap className="h-4 w-4" />
 						Platform Benefits
 					</div>
@@ -423,7 +423,7 @@ export default function LocalHubPage() {
 								<div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl bg-neutral-200 dark:bg-neutral-800 mb-6`}>
 									<Icon className="h-6 w-6 text-foreground" />
 								</div>
-								<h4 className="text-xl font-bold mb-3 group-hover:text-blue-600 transition-colors">{title}</h4>
+								<h4 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{title}</h4>
 								<p className="text-muted-foreground leading-relaxed">{desc}</p>
 
 								{/* Hover effect */}
@@ -440,7 +440,7 @@ export default function LocalHubPage() {
 					<div className="lg:max-w-[35%] flex flex-col items-start gap-6 p-4 mx-auto lg:mx-0 text-center lg:text-left">
 						<div className="lg:sticky top-40">
 							<h2 className="text-5xl md:text-6xl font-black text-white mb-8">Pre-built Directory Tools</h2>
-							<a href="/signup" className="mt-10 inline-flex items-center justify-center rounded-2xl bg-blue-500 text-white px-8 py-4 font-bold text-lg hover:bg-blue-600 transition-colors shadow-2xl">
+							<a href="/signup" className="mt-10 inline-flex items-center justify-center rounded-2xl bg-primary text-white px-8 py-4 font-bold text-lg hover:bg-primary transition-colors shadow-2xl">
 								Get Started
 							</a>
 						</div>
@@ -455,13 +455,13 @@ export default function LocalHubPage() {
 							{ Icon: Route, title: "Lead routing", desc: "Capture, qualify, and route leads with attribution." },
 						].map(({ Icon, title, desc }) => (
 							<a key={title} href="#" className="flex w-full gap-10 rounded-3xl hover:shadow-2xl transition-all duration-300 p-10 group bg-white/5 border border-white/10 backdrop-blur-sm">
-								<div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-blue-500 flex items-center justify-center">
+								<div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-primary flex items-center justify-center">
 									<Icon className="h-8 w-8 text-white" />
 								</div>
 								<div className="flex flex-col gap-6">
 									<h3 className="text-3xl font-black text-white">{title}</h3>
 									<p className="text-xl text-muted-foreground">{desc}</p>
-									<div className="mt-auto flex gap-3 text-blue-400 font-semibold text-lg">
+									<div className="mt-auto flex gap-3 text-primary font-semibold text-lg">
 										<span>Learn more</span>
 										<ArrowRight className="h-5 w-5" />
 									</div>
@@ -475,7 +475,7 @@ export default function LocalHubPage() {
 			{/* LocalHub vs Competitors */}
 			<section className="w-full mt-20 px-4 sm:px-8 py-16">
 				<MotionSection className="w-full max-w-[1400px] mx-auto text-center mb-16">
-					<div className="inline-flex items-center gap-2 rounded-full bg-orange-50 dark:bg-orange-950 px-4 py-2 text-sm font-medium text-orange-600 dark:text-orange-400 mb-6">
+					<div className="inline-flex items-center gap-2 rounded-full bg-warning dark:bg-warning px-4 py-2 text-sm font-medium text-warning dark:text-warning mb-6">
 						<Shield className="h-4 w-4" />
 						Why LocalHub Wins
 					</div>
@@ -486,13 +486,13 @@ export default function LocalHubPage() {
 				<MotionGrid className="w-full max-w-[1400px] mx-auto grid gap-8 lg:grid-cols-2">
 					{/* Traditional Approach */}
 					<MotionGridItem>
-						<div className="bg-red-50 dark:bg-red-950/20 rounded-3xl p-8 border-2 border-red-200 dark:border-red-800">
+						<div className="bg-destructive dark:bg-destructive/20 rounded-3xl p-8 border-2 border-destructive dark:border-destructive">
 							<div className="text-center mb-8">
-								<div className="w-16 h-16 bg-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+								<div className="w-16 h-16 bg-destructive rounded-2xl flex items-center justify-center mx-auto mb-4">
 									<span className="text-white font-bold text-xl">😵</span>
 								</div>
-								<h3 className="text-2xl font-bold text-red-700 dark:text-red-400 mb-2">Traditional Approach</h3>
-								<p className="text-red-600 dark:text-red-400">Expensive, fragmented, time-consuming</p>
+								<h3 className="text-2xl font-bold text-destructive dark:text-destructive mb-2">Traditional Approach</h3>
+								<p className="text-destructive dark:text-destructive">Expensive, fragmented, time-consuming</p>
 							</div>
 
 							<div className="space-y-4">
@@ -505,43 +505,43 @@ export default function LocalHubPage() {
 									{ tool: "Payment Processing", price: "$25/mo", limitations: "High transaction fees" },
 									{ tool: "Customer Support", price: "$79/mo", limitations: "Not directory-specific" },
 								].map((item, idx) => (
-									<div key={idx} className="flex items-center justify-between p-4 bg-white dark:bg-neutral-900 rounded-xl border border-red-200 dark:border-red-800">
+									<div key={idx} className="flex items-center justify-between p-4 bg-white dark:bg-neutral-900 rounded-xl border border-destructive dark:border-destructive">
 										<div>
 											<div className="font-medium text-neutral-900 dark:text-white">{item.tool}</div>
-											<div className="text-sm text-red-600 dark:text-red-400">{item.limitations}</div>
+											<div className="text-sm text-destructive dark:text-destructive">{item.limitations}</div>
 										</div>
-										<div className="text-lg font-bold text-red-600">{item.price}</div>
+										<div className="text-lg font-bold text-destructive">{item.price}</div>
 									</div>
 								))}
 							</div>
 
-							<div className="mt-6 p-4 bg-red-100 dark:bg-red-900/50 rounded-xl text-center">
-								<div className="text-3xl font-bold text-red-700 dark:text-red-400">$375/month</div>
-								<div className="text-sm text-red-600 dark:text-red-400">Plus setup fees, integration costs, and headaches</div>
+							<div className="mt-6 p-4 bg-destructive/10 dark:bg-destructive/50 rounded-xl text-center">
+								<div className="text-3xl font-bold text-destructive dark:text-destructive">$375/month</div>
+								<div className="text-sm text-destructive dark:text-destructive">Plus setup fees, integration costs, and headaches</div>
 							</div>
 						</div>
 					</MotionGridItem>
 
 					{/* LocalHub Approach */}
 					<MotionGridItem>
-						<div className="bg-green-50 dark:bg-green-950/20 rounded-3xl p-8 border-2 border-green-200 dark:border-green-800 relative">
+						<div className="bg-success dark:bg-success/20 rounded-3xl p-8 border-2 border-success dark:border-success relative">
 							{/* Popular Badge */}
 							<div className="absolute -top-4 left-1/2 -translate-x-1/2">
-								<span className="rounded-full bg-green-600 px-4 py-1 text-sm font-medium text-white">Recommended</span>
+								<span className="rounded-full bg-success px-4 py-1 text-sm font-medium text-white">Recommended</span>
 							</div>
 
 							<div className="text-center mb-8">
-								<div className="w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+								<div className="w-16 h-16 bg-success rounded-2xl flex items-center justify-center mx-auto mb-4">
 									<Zap className="h-8 w-8 text-white" />
 								</div>
-								<h3 className="text-2xl font-bold text-green-700 dark:text-green-400 mb-2">LocalHub All-in-One</h3>
-								<p className="text-green-600 dark:text-green-400">Complete, integrated, profitable</p>
+								<h3 className="text-2xl font-bold text-success dark:text-success mb-2">LocalHub All-in-One</h3>
+								<p className="text-success dark:text-success">Complete, integrated, profitable</p>
 							</div>
 
 							<div className="space-y-4">
 								{["Directory website builder with 50+ templates", "Managed hosting & automatic backups", "Local SEO optimization & schema markup", "Built-in lead capture & email automation", "Revenue analytics & business intelligence", "Integrated payment processing (2.9% only)", "Directory-specific customer support", "White-label branding & custom domains", "Review management & moderation tools", "Mobile app for business owners"].map((feature, idx) => (
-									<div key={idx} className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-xl border border-green-200 dark:border-green-800">
-										<div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+									<div key={idx} className="flex items-center gap-3 p-3 bg-white dark:bg-neutral-900 rounded-xl border border-success dark:border-success">
+										<div className="flex-shrink-0 w-6 h-6 bg-success rounded-full flex items-center justify-center">
 											<Check className="h-4 w-4 text-white" />
 										</div>
 										<span className="text-neutral-900 dark:text-white font-medium text-sm">{feature}</span>
@@ -549,9 +549,9 @@ export default function LocalHubPage() {
 								))}
 							</div>
 
-							<div className="mt-6 p-4 bg-green-100 dark:bg-green-900/50 rounded-xl text-center">
-								<div className="text-3xl font-bold text-green-700 dark:text-green-400">$79/month</div>
-								<div className="text-sm text-green-600 dark:text-green-400">Everything included, no hidden fees</div>
+							<div className="mt-6 p-4 bg-success/10 dark:bg-success/50 rounded-xl text-center">
+								<div className="text-3xl font-bold text-success dark:text-success">$79/month</div>
+								<div className="text-sm text-success dark:text-success">Everything included, no hidden fees</div>
 							</div>
 						</div>
 					</MotionGridItem>
@@ -559,10 +559,10 @@ export default function LocalHubPage() {
 
 				{/* Savings Calculator */}
 				<MotionSection className="w-full max-w-[1400px] mx-auto mt-16 text-center">
-					<div className="bg-green-700 rounded-3xl p-8 text-white">
+					<div className="bg-success rounded-3xl p-8 text-white">
 						<h3 className="text-3xl font-bold mb-4">No risk, all reward</h3>
-						<p className="text-xl text-green-100 mb-6">Start completely free and only pay when you earn. Zero upfront investment required.</p>
-						<MotionButton href="/signup" className="inline-flex items-center gap-2 rounded-xl bg-white text-green-700 px-8 py-4 font-bold text-lg hover:bg-green-50 transition-all duration-300">
+						<p className="text-xl text-success/70 mb-6">Start completely free and only pay when you earn. Zero upfront investment required.</p>
+						<MotionButton href="/signup" className="inline-flex items-center gap-2 rounded-xl bg-white text-success px-8 py-4 font-bold text-lg hover:bg-success transition-all duration-300">
 							Start earning today
 							<ArrowRight className="h-5 w-5" />
 						</MotionButton>
@@ -572,10 +572,10 @@ export default function LocalHubPage() {
 
 			{/* Access and compare */}
 			<section className="relative w-full px-4 sm:px-8 py-12">
-				<div className="w-full max-w-[1400px] mx-auto rounded-md bg-[#f6f7fb] dark:bg-[#171717] py-12 flex flex-col items-center gap-4 px-4">
+				<div className="w-full max-w-[1400px] mx-auto rounded-md bg-muted dark:bg-card py-12 flex flex-col items-center gap-4 px-4">
 					<h3 className="text-4xl md:text-5xl font-bold text-center text-neutral-900 dark:text-white">Access and compare neighborhoods & categories</h3>
 					<div className="mt-6">
-						<a href="/search" className="inline-flex items-center rounded-full px-6 py-3 font-semibold border bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+						<a href="/search" className="inline-flex items-center rounded-full px-6 py-3 font-semibold border bg-primary text-white hover:bg-primary transition-colors">
 							Launch Directory
 						</a>
 					</div>
@@ -585,7 +585,7 @@ export default function LocalHubPage() {
 			{/* Testimonials */}
 			<section className="w-full mt-20 px-4 sm:px-8">
 				<MotionSection className="w-full max-w-[1400px] mx-auto text-center mb-16">
-					<div className="inline-flex items-center gap-2 rounded-full bg-green-50 dark:bg-green-950 px-4 py-2 text-sm font-medium text-green-600 dark:text-green-400 mb-6">
+					<div className="inline-flex items-center gap-2 rounded-full bg-success dark:bg-success px-4 py-2 text-sm font-medium text-success dark:text-success mb-6">
 						<Star className="h-4 w-4" />
 						Success Stories
 					</div>
@@ -654,7 +654,7 @@ export default function LocalHubPage() {
 								{/* Star Rating */}
 								<div className="flex items-center gap-1 mb-4">
 									{[...Array(testimonial.rating)].map((_, i) => (
-										<Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+										<Star key={i} className="h-4 w-4 fill-yellow-400 text-warning" />
 									))}
 								</div>
 
@@ -683,17 +683,17 @@ export default function LocalHubPage() {
 				<MotionSection className="w-full max-w-[1400px] mx-auto mt-16 text-center">
 					<div className="inline-flex items-center gap-8 rounded-2xl bg-neutral-100 dark:bg-neutral-800 px-8 py-6">
 						<div className="text-center">
-							<div className="text-3xl font-bold text-blue-600">500+</div>
+							<div className="text-3xl font-bold text-primary">500+</div>
 							<div className="text-sm text-muted-foreground">Active Directories</div>
 						</div>
 						<div className="w-px h-12 bg-border" />
 						<div className="text-center">
-							<div className="text-3xl font-bold text-green-600">$2M+</div>
+							<div className="text-3xl font-bold text-success">$2M+</div>
 							<div className="text-sm text-muted-foreground">Revenue Generated</div>
 						</div>
 						<div className="w-px h-12 bg-border" />
 						<div className="text-center">
-							<div className="text-3xl font-bold text-purple-600">98%</div>
+							<div className="text-3xl font-bold text-muted-foreground">98%</div>
 							<div className="text-sm text-muted-foreground">Satisfaction Rate</div>
 						</div>
 					</div>
@@ -703,7 +703,7 @@ export default function LocalHubPage() {
 			{/* Pricing - Revenue Share Model */}
 			<section id="pricing" className="py-24 bg-white dark:bg-neutral-950">
 				<MotionSection className="w-full max-w-[1200px] mx-auto px-6 text-center">
-					<div className="inline-flex items-center gap-2 rounded-full bg-green-50 dark:bg-green-950 px-4 py-2 text-sm font-semibold text-green-600 dark:text-green-400 mb-6">
+					<div className="inline-flex items-center gap-2 rounded-full bg-success dark:bg-success px-4 py-2 text-sm font-semibold text-success dark:text-success mb-6">
 						<Briefcase className="h-4 w-4" />
 						Simple Pricing
 					</div>
@@ -712,18 +712,18 @@ export default function LocalHubPage() {
 
 					{/* Single Pricing Card */}
 					<MotionSection className="max-w-2xl mx-auto">
-						<div className="relative bg-blue-700 text-white rounded-3xl p-12 shadow-2xl">
+						<div className="relative bg-primary text-white rounded-3xl p-12 shadow-2xl">
 							<div className="absolute -top-4 left-1/2 -translate-x-1/2">
-								<span className="rounded-full bg-yellow-400 px-6 py-2 text-sm font-bold text-black">Revenue Share Model</span>
+								<span className="rounded-full bg-warning/40 px-6 py-2 text-sm font-bold text-black">Revenue Share Model</span>
 							</div>
 
 							<div className="text-center mb-8">
 								<h4 className="text-3xl font-bold mb-4">LocalHub Partnership</h4>
 								<div className="mb-6">
 									<span className="text-6xl font-bold">25%</span>
-									<span className="text-2xl text-blue-100 ml-2">revenue share</span>
+									<span className="text-2xl text-primary/70 ml-2">revenue share</span>
 								</div>
-								<p className="text-xl text-blue-100">We take 25% of what you earn, you keep 75%</p>
+								<p className="text-xl text-primary/70">We take 25% of what you earn, you keep 75%</p>
 							</div>
 
 							<div className="bg-white/10 rounded-2xl p-8 mb-8">
@@ -731,19 +731,19 @@ export default function LocalHubPage() {
 								<div className="grid md:grid-cols-2 gap-4">
 									{["Complete directory platform", "Unlimited business listings", "Advanced SEO optimization", "Payment processing built-in", "Mobile-responsive design", "Custom domain & branding", "Review management system", "Lead capture & routing", "Analytics & reporting", "Email marketing tools", "24/7 customer support", "Regular updates & new features"].map((feature, idx) => (
 										<div key={idx} className="flex items-center gap-3">
-											<Check className="h-5 w-5 text-green-300 flex-shrink-0" />
-											<span className="text-blue-100">{feature}</span>
+											<Check className="h-5 w-5 text-success/90 flex-shrink-0" />
+											<span className="text-primary/70">{feature}</span>
 										</div>
 									))}
 								</div>
 							</div>
 
 							<div className="text-center">
-								<MotionButton href="/signup" className="inline-flex items-center gap-2 bg-white text-blue-700 px-10 py-5 rounded-xl font-bold text-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+								<MotionButton href="/signup" className="inline-flex items-center gap-2 bg-white text-primary px-10 py-5 rounded-xl font-bold text-xl hover:bg-primary transition-all duration-300 shadow-lg hover:shadow-xl">
 									Start building for free
 									<ArrowRight className="h-6 w-6" />
 								</MotionButton>
-								<p className="text-blue-100 text-sm mt-4">No credit card required • Start earning immediately</p>
+								<p className="text-primary/70 text-sm mt-4">No credit card required • Start earning immediately</p>
 							</div>
 						</div>
 					</MotionSection>
@@ -765,11 +765,11 @@ export default function LocalHubPage() {
 										</div>
 										<div className="space-y-2">
 											<div className="flex justify-between">
-												<span className="text-green-600 font-medium">You keep:</span>
+												<span className="text-success font-medium">You keep:</span>
 												<span className="font-bold">{example.yours}</span>
 											</div>
 											<div className="flex justify-between">
-												<span className="text-blue-600 font-medium">LocalHub:</span>
+												<span className="text-primary font-medium">LocalHub:</span>
 												<span className="font-bold">{example.ours}</span>
 											</div>
 										</div>
@@ -805,7 +805,7 @@ export default function LocalHubPage() {
 			{/* FAQ (with JSON-LD) */}
 			<section className="py-24 bg-neutral-50 dark:bg-neutral-900">
 				<MotionSection className="w-full max-w-[1200px] mx-auto px-6 text-center mb-16">
-					<div className="inline-flex items-center gap-2 rounded-full bg-orange-50 dark:bg-orange-950 px-4 py-2 text-sm font-semibold text-orange-600 dark:text-orange-400 mb-6">
+					<div className="inline-flex items-center gap-2 rounded-full bg-warning dark:bg-warning px-4 py-2 text-sm font-semibold text-warning dark:text-warning mb-6">
 						<FileText className="h-4 w-4" />
 						Questions & Answers
 					</div>
@@ -818,9 +818,9 @@ export default function LocalHubPage() {
 						<MotionGridItem key={item.q}>
 							<div className="group p-8 rounded-2xl border bg-white dark:bg-neutral-950 hover:shadow-lg transition-all duration-300 h-full">
 								<div className="flex items-start gap-4">
-									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm">{String(idx + 1).padStart(2, "0")}</div>
+									<div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">{String(idx + 1).padStart(2, "0")}</div>
 									<div className="flex-1">
-										<h3 className="font-bold text-lg mb-3 text-neutral-900 dark:text-white group-hover:text-blue-600 transition-colors">{item.q}</h3>
+										<h3 className="font-bold text-lg mb-3 text-neutral-900 dark:text-white group-hover:text-primary transition-colors">{item.q}</h3>
 										<p className="text-neutral-600 dark:text-neutral-300 leading-relaxed">{item.a}</p>
 									</div>
 								</div>
@@ -833,7 +833,7 @@ export default function LocalHubPage() {
 				<MotionSection className="text-center mt-16">
 					<div className="bg-neutral-900 rounded-3xl p-8 text-white">
 						<h3 className="text-2xl font-bold mb-4">Still have questions?</h3>
-						<p className="text-blue-100 mb-6">Our LocalHub experts are here to help you succeed</p>
+						<p className="text-primary/70 mb-6">Our LocalHub experts are here to help you succeed</p>
 						<MotionButton href="/contact" className="inline-flex items-center gap-2 bg-white text-neutral-900 px-8 py-4 rounded-xl font-bold hover:bg-neutral-100 transition-all duration-300">
 							Get personalized help
 							<ArrowRight className="h-5 w-5" />
@@ -859,7 +859,7 @@ export default function LocalHubPage() {
 
 			{/* Newsletter CTA */}
 			<section className="w-full mt-16 px-4 sm:px-8">
-				<div className="w-full max-w-[1400px] mx-auto rounded-lg bg-[#F6F7FB] dark:bg-[#171717] p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+				<div className="w-full max-w-[1400px] mx-auto rounded-lg bg-muted dark:bg-card p-6 flex flex-col md:flex-row items-center justify-between gap-4">
 					<div className="flex flex-col gap-1 md:text-left text-center">
 						<h2 className="text-2xl text-foreground">Join our newsletter</h2>
 						<div className="text-muted-foreground">Get product insights and updates.</div>
@@ -889,7 +889,7 @@ export default function LocalHubPage() {
 								<br />
 								in minutes, not months
 							</h2>
-							<p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">Join hundreds of successful directory owners earning thousands monthly. Start free, scale fast, and keep 100% of your revenue.</p>
+							<p className="text-xl text-primary/70 mb-8 max-w-2xl mx-auto leading-relaxed">Join hundreds of successful directory owners earning thousands monthly. Start free, scale fast, and keep 100% of your revenue.</p>
 
 							{/* CTA Buttons */}
 							<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
@@ -903,19 +903,19 @@ export default function LocalHubPage() {
 							</div>
 
 							{/* Trust Indicators */}
-							<div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-blue-100 text-sm">
+							<div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-primary/70 text-sm">
 								<div className="flex items-center gap-2">
-									<Check className="h-4 w-4 text-green-300" />
+									<Check className="h-4 w-4 text-success/90" />
 									No credit card required
 								</div>
 								<div className="hidden sm:block w-px h-4 bg-white/30" />
 								<div className="flex items-center gap-2">
-									<Check className="h-4 w-4 text-green-300" />
+									<Check className="h-4 w-4 text-success/90" />
 									Setup in under 10 minutes
 								</div>
 								<div className="hidden sm:block w-px h-4 bg-white/30" />
 								<div className="flex items-center gap-2">
-									<Check className="h-4 w-4 text-green-300" />
+									<Check className="h-4 w-4 text-success/90" />
 									Cancel anytime
 								</div>
 							</div>

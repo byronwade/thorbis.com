@@ -31,18 +31,18 @@ export default function RoleDebugger() {
 	};
 
 	return (
-		<Card className="border-dashed border-orange-300 bg-orange-50/50 dark:bg-orange-950/20">
+		<Card className="border-dashed border-warning bg-warning/50 dark:bg-warning/20">
 			<CardHeader>
 				<div className="flex items-center space-x-2">
-					<Shield className="w-5 h-5 text-orange-600" />
-					<CardTitle className="text-lg text-orange-800 dark:text-orange-200">Role Debugger (Development Only)</CardTitle>
+					<Shield className="w-5 h-5 text-warning" />
+					<CardTitle className="text-lg text-warning dark:text-warning/80">Role Debugger (Development Only)</CardTitle>
 				</div>
-				<CardDescription className="text-orange-700 dark:text-orange-300">Debug information for role and permission troubleshooting</CardDescription>
+				<CardDescription className="text-warning dark:text-warning/90">Debug information for role and permission troubleshooting</CardDescription>
 			</CardHeader>
 			<CardContent className="space-y-4">
 				{/* User Info */}
 				<div className="space-y-2">
-					<h4 className="font-medium text-sm text-orange-800 dark:text-orange-200 flex items-center">
+					<h4 className="font-medium text-sm text-warning dark:text-warning/80 flex items-center">
 						<User className="w-4 h-4 mr-1" />
 						User Information
 					</h4>
@@ -58,14 +58,14 @@ export default function RoleDebugger() {
 						</div>
 						<div className="flex items-center space-x-1">
 							<span className="text-muted-foreground">Email Verified:</span>
-							{debugInfo.user.emailVerified ? <CheckCircle className="w-3 h-3 text-green-600" /> : <AlertTriangle className="w-3 h-3 text-red-600" />}
+							{debugInfo.user.emailVerified ? <CheckCircle className="w-3 h-3 text-success" /> : <AlertTriangle className="w-3 h-3 text-destructive" />}
 						</div>
 					</div>
 				</div>
 
 				{/* Permissions */}
 				<div className="space-y-2">
-					<h4 className="font-medium text-sm text-orange-800 dark:text-orange-200">Permissions</h4>
+					<h4 className="font-medium text-sm text-warning dark:text-warning/80">Permissions</h4>
 					<div className="flex flex-wrap gap-1">
 						{debugInfo.permissions.map((permission) => (
 							<Badge key={permission} variant="outline" className="text-xs">
@@ -77,7 +77,7 @@ export default function RoleDebugger() {
 
 				{/* Access Check */}
 				<div className="space-y-2">
-					<h4 className="font-medium text-sm text-orange-800 dark:text-orange-200">Access Check</h4>
+					<h4 className="font-medium text-sm text-warning dark:text-warning/80">Access Check</h4>
 					<div className="text-xs space-y-1">
 						<div>
 							<span className="text-muted-foreground">Required:</span> {debugInfo.requiredPermissions.join(", ")}

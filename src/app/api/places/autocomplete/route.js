@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 export async function GET(request) {
   const startTime = performance.now();

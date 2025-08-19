@@ -380,21 +380,21 @@ function UpdateNotification({ onUpdate }) {
 
 	return (
 		<div className="fixed bottom-4 left-4 z-50 max-w-sm">
-			<div className="bg-blue-600 text-white p-4 rounded-lg shadow-lg">
+			<div className="bg-primary text-white p-4 rounded-lg shadow-lg">
 				<div className="flex items-center justify-between">
 					<div>
 						<h4 className="font-medium">App Update Available</h4>
-						<p className="text-sm text-blue-100">A new version with performance improvements is ready.</p>
+						<p className="text-sm text-primary/70">A new version with performance improvements is ready.</p>
 					</div>
-					<button onClick={() => setIsVisible(false)} className="text-blue-100 hover:text-white ml-4">
+					<button onClick={() => setIsVisible(false)} className="text-primary/70 hover:text-white ml-4">
 						×
 					</button>
 				</div>
 				<div className="mt-3 flex gap-2">
-					<button onClick={onUpdate} className="bg-white text-blue-600 px-3 py-1 rounded text-sm font-medium hover:bg-blue-50">
+					<button onClick={onUpdate} className="bg-white text-primary px-3 py-1 rounded text-sm font-medium hover:bg-blue-50">
 						Update Now
 					</button>
-					<button onClick={() => setIsVisible(false)} className="text-blue-100 hover:text-white px-3 py-1 text-sm">
+					<button onClick={() => setIsVisible(false)} className="text-primary/70 hover:text-white px-3 py-1 text-sm">
 						Later
 					</button>
 				</div>

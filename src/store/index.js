@@ -22,6 +22,9 @@ export * from "./search";
 // Map Domain
 export * from "./map";
 
+// Cart Domain
+export * from "./cart";
+
 // UI Domain
 export * from "./ui";
 
@@ -55,6 +58,9 @@ export const storeUtils = {
 		},
 		ui: {
 			form: require("./ui").useFormStore.getState(),
+		},
+		cart: {
+			cart: require("./cart").useCartStore.getState(),
 		},
 	}),
 

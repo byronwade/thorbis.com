@@ -158,8 +158,8 @@ export default function QuestionRenderer({ question, onAnswer, isAnswered, userA
 		default:
 			return (
 				<div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center">
-					<p className="text-red-600 font-medium">Question type &quot;{(question as any).type}&quot; not yet implemented</p>
-					<p className="text-red-500 text-sm mt-2">This question type is supported but the renderer component needs to be created.</p>
+					<p className="text-destructive font-medium">Question type &quot;{(question as any).type}&quot; not yet implemented</p>
+					<p className="text-destructive text-sm mt-2">This question type is supported but the renderer component needs to be created.</p>
 				</div>
 			);
 	}

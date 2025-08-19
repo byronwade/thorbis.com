@@ -15,7 +15,7 @@ interface ColorPickerRendererProps {
 }
 
 export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer, showFeedback = false, disabled = false }: ColorPickerRendererProps) {
-	const [selectedColor, setSelectedColor] = useState<string>(userAnswer || "#ffffff");
+	const [selectedColor, setSelectedColor] = useState<string>(userAnswer || "hsl(var(--background))");
 	const [colorMode, setColorMode] = useState<"picker" | "input">("picker");
 
 	// Convert hex to RGB
@@ -114,7 +114,7 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 		};
 	};
 
-	const commonColors = ["#FF0000", "#FF8000", "#FFFF00", "#80FF00", "#00FF00", "#00FF80", "#00FFFF", "#0080FF", "#0000FF", "#8000FF", "#FF00FF", "#FF0080", "#000000", "#404040", "#808080", "#C0C0C0", "#FFFFFF", "#800000", "#808000", "#008000", "#008080", "#000080", "#800080", "#8B4513"];
+	const commonColors = ["hsl(var(--destructive))", "hsl(var(--warning))", "hsl(var(--primary))", "hsl(var(--success))", "hsl(var(--success))", "hsl(var(--success))", "hsl(var(--primary))", "hsl(var(--primary))", "hsl(var(--primary))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--background))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--foreground))", "hsl(var(--destructive))", "hsl(var(--warning))", "hsl(var(--success))", "hsl(var(--primary))", "hsl(var(--primary))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))"];
 
 	return (
 		<div className="space-y-6">
@@ -122,10 +122,10 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 			<Card>
 				<CardContent className="p-6">
 					<div className="flex items-start space-x-4">
-						<Palette className="w-6 h-6 text-blue-500 mt-1" />
+						<Palette className="w-6 h-6 text-primary mt-1" />
 						<div>
-							<p className="text-lg font-medium text-gray-800 mb-2">{question.scenario}</p>
-							<p className="text-sm text-gray-600">Select the color that best matches the requirement. Tolerance: ±{question.tolerance} color units.</p>
+							<p className="text-lg font-medium text-foreground mb-2">{question.scenario}</p>
+							<p className="text-sm text-muted-foreground">Select the color that best matches the requirement. Tolerance: ±{question.tolerance} color units.</p>
 						</div>
 					</div>
 				</CardContent>
@@ -151,14 +151,14 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 						{colorMode === "picker" ? (
 							<div className="space-y-4">
 								{/* HTML5 Color Picker */}
-								<input type="color" value={selectedColor} onChange={(e) => handleColorChange(e.target.value)} disabled={isAnswered || disabled} className="w-full h-20 border-2 border-gray-300 rounded-lg cursor-pointer disabled:cursor-not-allowed" />
+								<input type="color" value={selectedColor} onChange={(e) => handleColorChange(e.target.value)} disabled={isAnswered || disabled} className="w-full h-20 border-2 border-border rounded-lg cursor-pointer disabled:cursor-not-allowed" />
 
 								{/* Common Colors Palette */}
 								<div>
-									<p className="text-sm font-medium text-gray-700 mb-2">Quick Colors:</p>
+									<p className="text-sm font-medium text-muted-foreground mb-2">Quick Colors:</p>
 									<div className="grid grid-cols-6 gap-2">
 										{commonColors.map((color) => (
-											<button key={color} className={`w-8 h-8 rounded border-2 transition-all duration-200 ${selectedColor.toLowerCase() === color.toLowerCase() ? "border-blue-500 scale-110" : "border-gray-300 hover:border-gray-400"}`} style={{ backgroundColor: color }} onClick={() => handleColorChange(color)} disabled={isAnswered || disabled} title={color} />
+											<button key={color} className={`w-8 h-8 rounded border-2 transition-all duration-200 ${selectedColor.toLowerCase() === color.toLowerCase() ? "border-primary scale-110" : "border-border hover:border-border"}`} style={{ backgroundColor: color }} onClick={() => handleColorChange(color)} disabled={isAnswered || disabled} title={color} />
 										))}
 									</div>
 								</div>
@@ -167,7 +167,7 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 							<div className="space-y-4">
 								{/* Manual Input */}
 								<div>
-									<label className="block text-sm font-medium text-gray-700 mb-2">Hex Color Code:</label>
+									<label className="block text-sm font-medium text-muted-foreground mb-2">Hex Color Code:</label>
 									<input
 										type="text"
 										value={selectedColor}
@@ -176,9 +176,9 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 											if (!value.startsWith("#")) value = "#" + value;
 											handleColorChange(value);
 										}}
-										placeholder="#FFFFFF"
+										placeholder="hsl(var(--foreground))"
 										disabled={isAnswered || disabled}
-										className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100"
+										className="w-full px-3 py-2 border border-border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-primary disabled:bg-muted"
 									/>
 								</div>
 							</div>
@@ -193,7 +193,7 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 
 						{/* Color Swatch */}
 						<div className="space-y-4">
-							<div className="w-full h-32 border-2 border-gray-300 rounded-lg shadow-inner" style={{ backgroundColor: selectedColor }} />
+							<div className="w-full h-32 border-2 border-border rounded-lg shadow-inner" style={{ backgroundColor: selectedColor }} />
 
 							{/* Color Information */}
 							<div className="space-y-2 text-sm">
@@ -250,8 +250,8 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 									const isCorrect = colorDifference <= question.tolerance;
 									return (
 										<>
-											{isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isCorrect ? "text-green-700" : "text-red-700"}`}>{isCorrect ? "Excellent Color Match!" : "Color doesn't match closely enough"}</span>
+											{isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isCorrect ? "text-success" : "text-destructive"}`}>{isCorrect ? "Excellent Color Match!" : "Color doesn't match closely enough"}</span>
 										</>
 									);
 								})()}
@@ -260,21 +260,21 @@ export function ColorPickerRenderer({ question, onAnswer, isAnswered, userAnswer
 							{/* Color Comparison */}
 							<div className="grid grid-cols-2 gap-4">
 								<div>
-									<p className="text-sm font-medium text-gray-700 mb-2">Your Color:</p>
-									<div className="w-full h-16 border-2 border-gray-300 rounded-lg" style={{ backgroundColor: selectedColor }} />
-									<p className="text-sm text-gray-600 mt-1">{selectedColor.toUpperCase()}</p>
+									<p className="text-sm font-medium text-muted-foreground mb-2">Your Color:</p>
+									<div className="w-full h-16 border-2 border-border rounded-lg" style={{ backgroundColor: selectedColor }} />
+									<p className="text-sm text-muted-foreground mt-1">{selectedColor.toUpperCase()}</p>
 								</div>
 								<div>
-									<p className="text-sm font-medium text-gray-700 mb-2">Target Color:</p>
-									<div className="w-full h-16 border-2 border-gray-300 rounded-lg" style={{ backgroundColor: question.targetColor }} />
-									<p className="text-sm text-gray-600 mt-1">{question.targetColor.toUpperCase()}</p>
+									<p className="text-sm font-medium text-muted-foreground mb-2">Target Color:</p>
+									<div className="w-full h-16 border-2 border-border rounded-lg" style={{ backgroundColor: question.targetColor }} />
+									<p className="text-sm text-muted-foreground mt-1">{question.targetColor.toUpperCase()}</p>
 								</div>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 						</div>

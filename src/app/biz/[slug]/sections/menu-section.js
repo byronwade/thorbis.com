@@ -76,7 +76,7 @@ export default function MenuSection({ business }) {
 								{category.icon === "utensils" && <Utensils className="w-5 h-5 text-primary" />}
 								<h3 className="text-lg font-semibold text-foreground">{category.name}</h3>
 								{category.popular && (
-									<Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400">
+									<Badge variant="secondary" className="bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning">
 										Popular
 									</Badge>
 								)}
@@ -102,23 +102,23 @@ export default function MenuSection({ business }) {
 										{item.dietary && (
 											<div className="flex flex-wrap gap-1 mb-3">
 												{item.dietary.vegetarian && (
-													<Badge variant="secondary" className="text-xs bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+													<Badge variant="secondary" className="text-xs bg-success/10 text-success dark:bg-success/20 dark:text-success">
 														<Carrot className="w-3 h-3 mr-1" />
 														Vegetarian
 													</Badge>
 												)}
 												{item.dietary.vegan && (
-													<Badge variant="secondary" className="text-xs bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
+													<Badge variant="secondary" className="text-xs bg-success/10 text-success dark:bg-success/20 dark:text-success">
 														Vegan
 													</Badge>
 												)}
 												{item.dietary.glutenFree && (
-													<Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+													<Badge variant="secondary" className="text-xs bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary">
 														Gluten-Free
 													</Badge>
 												)}
 												{item.dietary.spicy && (
-													<Badge variant="secondary" className="text-xs bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">
+													<Badge variant="secondary" className="text-xs bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
 														Spicy
 													</Badge>
 												)}
@@ -138,7 +138,7 @@ export default function MenuSection({ business }) {
 											</div>
 											{item.rating && (
 												<div className="flex items-center">
-													<Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+													<Star className="w-3 h-3 mr-1 fill-yellow-400 text-warning" />
 													{item.rating}
 												</div>
 											)}
@@ -156,34 +156,34 @@ export default function MenuSection({ business }) {
 						<h3 className="text-lg font-semibold text-foreground">Dietary Information</h3>
 						<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
 							{dietaryInfo.vegetarian && (
-								<div className="p-3 border rounded-lg bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800/50">
+								<div className="p-3 border rounded-lg bg-success/20 border-success/30">
 									<div className="flex items-center space-x-2">
-										<Carrot className="w-4 h-4 text-green-600" />
-										<span className="text-sm font-medium text-green-800 dark:text-green-400">Vegetarian Options</span>
+										<Carrot className="w-4 h-4 text-success" />
+										<span className="text-sm font-medium text-success dark:text-success">Vegetarian Options</span>
 									</div>
 								</div>
 							)}
 							{dietaryInfo.vegan && (
-								<div className="p-3 border rounded-lg bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800/50">
+								<div className="p-3 border rounded-lg bg-success/20 border-success/30">
 									<div className="flex items-center space-x-2">
-										<Apple className="w-4 h-4 text-green-600" />
-										<span className="text-sm font-medium text-green-800 dark:text-green-400">Vegan Options</span>
+										<Apple className="w-4 h-4 text-success" />
+										<span className="text-sm font-medium text-success dark:text-success">Vegan Options</span>
 									</div>
 								</div>
 							)}
 							{dietaryInfo.glutenFree && (
-								<div className="p-3 border rounded-lg bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-800/50">
+								<div className="p-3 border rounded-lg bg-primary/20 border-primary/30">
 									<div className="flex items-center space-x-2">
-										<Cookie className="w-4 h-4 text-blue-600" />
-										<span className="text-sm font-medium text-blue-800 dark:text-blue-400">Gluten-Free</span>
+										<Cookie className="w-4 h-4 text-primary" />
+										<span className="text-sm font-medium text-primary dark:text-primary">Gluten-Free</span>
 									</div>
 								</div>
 							)}
 							{dietaryInfo.halal && (
-								<div className="p-3 border rounded-lg bg-purple-50 border-purple-200 dark:bg-purple-950/20 dark:border-purple-800/50">
+								<div className="p-3 border rounded-lg bg-muted/20 border-border/30">
 									<div className="flex items-center space-x-2">
-										<Star className="w-4 h-4 text-purple-600" />
-										<span className="text-sm font-medium text-purple-800 dark:text-purple-400">Halal</span>
+										<Star className="w-4 h-4 text-muted-foreground" />
+										<span className="text-sm font-medium text-muted-foreground">Halal</span>
 									</div>
 								</div>
 							)}

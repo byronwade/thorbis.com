@@ -115,7 +115,7 @@ export default function Footer() {
 						<div className="flex-shrink-0">
 							<div className="bg-neutral-900 rounded-xl p-6 border border-neutral-800 max-w-sm">
 								<div className="flex items-center gap-3 mb-4">
-									<Smartphone className="w-6 h-6 text-blue-400" />
+									<Smartphone className="w-6 h-6 text-primary" />
 									<h3 className="text-lg font-semibold text-white">Get the App</h3>
 								</div>
 								<p className="text-sm text-neutral-400 mb-6">Download our mobile app for the best experience on the go.</p>
@@ -214,7 +214,7 @@ export default function Footer() {
 					<div className="mb-16">
 						<div className="text-center mb-12">
 							<div className="flex items-center justify-center gap-3 mb-4">
-								<MdCompare className="w-6 h-6 text-blue-400" />
+								<MdCompare className="w-6 h-6 text-primary" />
 								<h3 className="text-2xl font-bold text-white">{footer.compareTitle}</h3>
 							</div>
 							<p className="text-neutral-400 max-w-2xl mx-auto">{footer.compareDescription}</p>

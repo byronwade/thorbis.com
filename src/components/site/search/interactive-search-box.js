@@ -9,6 +9,7 @@ import { Card, CardContent } from "@components/ui/card";
 import { Search, MapPin, X, History, Star, TrendingUp, SlidersHorizontal, Target } from "lucide-react";
 import { useSearchStore } from "@store/search";
 import { useBusinessStore } from "@store/business";
+import { buildBusinessUrlFrom } from "@utils";
 
 const InteractiveSearchBox = () => {
 	const router = useRouter();
@@ -191,7 +192,11 @@ const InteractiveSearchBox = () => {
 	const handleSuggestionClick = (suggestion) => {
 		if (suggestion.business) {
 			// Navigate to business page
-			router.push(`/biz/${suggestion.business.slug}`);
+						try {
+				router.push(buildBusinessUrlFrom(suggestion.business));
+			} catch {
+				router.push(`/us/${(suggestion.business.state||'').toLowerCase()}/${(suggestion.business.city||'').toLowerCase()}/${(suggestion.business.name||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')}-${suggestion.business.short_id || suggestion.business.shortId || ''}`);
+			}
 		} else if (suggestion.type === "recent") {
 			// Use the recent search query and location
 			setQuery(suggestion.name);
@@ -277,10 +282,10 @@ const InteractiveSearchBox = () => {
 						{/* Search Input */}
 						<div className="relative flex-1">
 							<div className="relative">
-								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
 								<Input ref={searchInputRef} type="text" placeholder="What are you looking for?" value={query} onChange={(e) => setQuery(e.target.value)} onFocus={() => setShowSuggestions(true)} onKeyDown={handleKeyDown} className="pl-12 pr-4 h-14 text-base font-medium border-0 focus:ring-2 focus:ring-primary/20" />
 								{query && (
-									<Button variant="ghost" size="sm" onClick={() => setQuery("")} className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100">
+									<Button variant="ghost" size="sm" onClick={() => setQuery("")} className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-muted">
 										<X className="w-4 h-4" />
 									</Button>
 								)}
@@ -290,7 +295,7 @@ const InteractiveSearchBox = () => {
 						{/* Location Input */}
 						<div className="relative flex-1 lg:max-w-sm">
 							<div className="relative">
-								<MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+								<MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
 								<Input ref={locationInputRef} type="text" placeholder="Where?" value={location} onChange={(e) => setLocation(e.target.value)} className="pl-12 pr-12 h-14 text-base font-medium border-0 focus:ring-2 focus:ring-primary/20" />
 								<Button variant="ghost" size="sm" onClick={handleLocationDetect} className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-neutral-800" title="Use current location">
 									<Target className="w-4 h-4" />
@@ -372,7 +377,7 @@ const InteractiveSearchBox = () => {
 						{isLoading ? (
 							<div className="p-6 text-center">
 								<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-								<p className="text-sm text-gray-500 mt-3">Searching...</p>
+								<p className="text-sm text-muted-foreground mt-3">Searching...</p>
 							</div>
 						) : (
 							<div className="py-2">
@@ -386,7 +391,7 @@ const InteractiveSearchBox = () => {
 												</div>
 												<div>
 													<span className="font-medium">Search for &quot;{query}&quot;</span>
-													<p className="text-sm text-gray-500">Press Enter or click to search</p>
+													<p className="text-sm text-muted-foreground">Press Enter or click to search</p>
 												</div>
 											</button>
 										</div>
@@ -398,22 +403,22 @@ const InteractiveSearchBox = () => {
 								{suggestions.length > 0 && (
 									<>
 										<div className="px-4 py-2">
-											<h4 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">Suggestions</h4>
+											<h4 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Suggestions</h4>
 											{suggestions.map((suggestion, index) => {
 												const Icon = suggestion.icon;
 												return (
 													<button key={index} onClick={() => handleSuggestionClick(suggestion)} className={`flex items-center gap-3 w-full text-left p-3 rounded-lg transition-all ${selectedSuggestionIndex === index ? "bg-primary/10 text-primary shadow-sm" : "hover:bg-neutral-800 dark:hover:bg-neutral-800"}`}>
-														<div className={`w-10 h-10 rounded-lg flex items-center justify-center ${suggestion.type === "business" ? "bg-green-100 dark:bg-green-900" : "bg-neutral-800 dark:bg-neutral-800"}`}>
-															<Icon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+														<div className={`w-10 h-10 rounded-lg flex items-center justify-center ${suggestion.type === "business" ? "bg-success/10 dark:bg-success" : "bg-neutral-800 dark:bg-neutral-800"}`}>
+															<Icon className="w-5 h-5 text-muted-foreground dark:text-muted-foreground" />
 														</div>
 														<div className="flex-1 min-w-0">
 															<span className="block font-medium truncate">{suggestion.name}</span>
-															{suggestion.category && <span className="text-sm text-gray-500">{suggestion.category}</span>}
-															{suggestion.address && <span className="text-xs text-gray-400">{suggestion.address}</span>}
+															{suggestion.category && <span className="text-sm text-muted-foreground">{suggestion.category}</span>}
+															{suggestion.address && <span className="text-xs text-muted-foreground">{suggestion.address}</span>}
 														</div>
 														{suggestion.rating && (
-															<div className="flex items-center gap-1 bg-yellow-50 dark:bg-yellow-900/20 px-2 py-1 rounded">
-																<Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+															<div className="flex items-center gap-1 bg-yellow-50 dark:bg-warning/20 px-2 py-1 rounded">
+																<Star className="w-3 h-3 fill-yellow-400 text-warning" />
 																<span className="text-sm font-medium">{suggestion.rating}</span>
 															</div>
 														)}
@@ -430,7 +435,7 @@ const InteractiveSearchBox = () => {
 									<>
 										<div className="px-4 py-2">
 											<div className="flex items-center justify-between mb-3">
-												<h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">Recent Searches</h4>
+												<h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Recent Searches</h4>
 												<Button variant="ghost" size="sm" onClick={clearRecentSearches} className="text-xs h-6 px-2">
 													Clear
 												</Button>
@@ -438,13 +443,13 @@ const InteractiveSearchBox = () => {
 											{recentSearches.slice(0, 5).map((search, index) => (
 												<button key={index} onClick={() => handleSearch(search.query, search.location)} className="flex items-center gap-3 w-full text-left hover:bg-neutral-800 dark:hover:bg-neutral-800 p-3 rounded-lg transition-colors">
 													<div className="w-10 h-10 bg-neutral-800 dark:bg-neutral-800 rounded-lg flex items-center justify-center">
-														<History className="w-5 h-5 text-gray-500" />
+														<History className="w-5 h-5 text-muted-foreground" />
 													</div>
 													<div className="flex-1 min-w-0">
 														<span className="block font-medium truncate">{search.query}</span>
-														{search.location && <span className="text-sm text-gray-500">{search.location}</span>}
+														{search.location && <span className="text-sm text-muted-foreground">{search.location}</span>}
 													</div>
-													<span className="text-xs text-gray-400">{new Date(search.timestamp).toLocaleDateString()}</span>
+													<span className="text-xs text-muted-foreground">{new Date(search.timestamp).toLocaleDateString()}</span>
 												</button>
 											))}
 										</div>
@@ -455,7 +460,7 @@ const InteractiveSearchBox = () => {
 								{/* Popular Categories */}
 								{!query && (
 									<div className="px-4 py-3">
-										<h4 className="text-sm font-semibold text-gray-500 mb-3 uppercase tracking-wide">Popular Categories</h4>
+										<h4 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">Popular Categories</h4>
 										<div className="grid grid-cols-2 gap-2">
 											{popularCategories.map((category) => (
 												<button
@@ -466,8 +471,8 @@ const InteractiveSearchBox = () => {
 													}}
 													className={`flex items-center gap-2 p-2 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-800 transition-colors text-left ${selectedSuggestionIndex === category ? "bg-primary/10 text-primary shadow-sm" : ""}`}
 												>
-													<TrendingUp className="w-4 h-4 text-gray-400" />
-													<span className={`text-sm font-medium ${selectedSuggestionIndex === category ? "text-primary" : "text-gray-400"}`}>{category}</span>
+													<TrendingUp className="w-4 h-4 text-muted-foreground" />
+													<span className={`text-sm font-medium ${selectedSuggestionIndex === category ? "text-primary" : "text-muted-foreground"}`}>{category}</span>
 												</button>
 											))}
 										</div>

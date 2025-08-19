@@ -21,6 +21,23 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(path)
   ) || pathname.includes('.');
 
+  // Normalize SEO-friendly location paths: lowercase, hyphen-collapsed
+  try {
+    const locationMatch = pathname.match(/^\/([a-z]{2})\/([^/]+)\/([^/]+)\/(.+)$/);
+    if (locationMatch) {
+      const [ , country, state, city, tail ] = locationMatch;
+      const normalize = (s: string) => s.toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9\-\s]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-');
+      const nCountry = normalize(country);
+      const nState = normalize(state);
+      const nCity = normalize(city);
+      const nTail = normalize(tail);
+      const normalized = `/${nCountry}/${nState}/${nCity}/${nTail}`;
+      if (normalized !== pathname) {
+        return NextResponse.rewrite(new URL(normalized + url.search, url.origin));
+      }
+    }
+  } catch {}
+
   let response: NextResponse;
 
   if (!skipI18n) {
@@ -104,6 +121,14 @@ export async function middleware(request: NextRequest) {
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+
+  // Temporary rewrites for product route cleanup during development
+  try {
+    if (/^\/store\/product\//.test(pathname)) {
+      const rewritten = pathname.replace(/^\/store\/product\//, '/store/');
+      return NextResponse.rewrite(new URL(rewritten + url.search, url.origin));
+    }
+  } catch {}
 
   return response;
 }

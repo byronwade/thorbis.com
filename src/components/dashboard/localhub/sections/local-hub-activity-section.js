@@ -23,11 +23,11 @@ const LocalHubActivitySection = ({ activities }) => {
 			description: "New $79/month Pro subscription activated",
 			time: "2 hours ago",
 			icon: CreditCard,
-			iconColor: "text-green-500",
+			iconColor: "text-success",
 			action: "View Business",
 			actionLink: "/dashboard/localhub/businesses",
 			badge: "Revenue +$79/mo",
-			badgeColor: "bg-green-100 text-green-800",
+			badgeColor: "bg-success/10 text-success",
 		},
 		{
 			id: 2,
@@ -36,11 +36,11 @@ const LocalHubActivitySection = ({ activities }) => {
 			description: "Monthly subscription payment processed",
 			time: "5 hours ago",
 			icon: DollarSign,
-			iconColor: "text-blue-500",
+			iconColor: "text-primary",
 			action: "View Payment",
 			actionLink: "/dashboard/localhub/analytics",
 			badge: "Payment $49",
-			badgeColor: "bg-blue-100 text-blue-800",
+			badgeColor: "bg-primary/10 text-primary",
 		},
 		{
 			id: 3,
@@ -62,11 +62,11 @@ const LocalHubActivitySection = ({ activities }) => {
 			description: "Upgraded from Basic to Premium plan",
 			time: "2 days ago",
 			icon: Star,
-			iconColor: "text-yellow-500",
+			iconColor: "text-warning",
 			action: "View Upgrade",
 			actionLink: "/dashboard/localhub/analytics",
 			badge: "Upgrade +$30/mo",
-			badgeColor: "bg-yellow-100 text-yellow-800",
+			badgeColor: "bg-warning/10 text-warning",
 		},
 		{
 			id: 5,
@@ -147,11 +147,11 @@ const LocalHubActivitySection = ({ activities }) => {
 				<div className="pt-4 border-t">
 					<div className="grid grid-cols-3 gap-4 text-center">
 						<div>
-							<div className="text-lg font-bold text-green-600">+3</div>
+							<div className="text-lg font-bold text-success">+3</div>
 							<div className="text-xs text-muted-foreground">New Businesses</div>
 						</div>
 						<div>
-							<div className="text-lg font-bold text-blue-600">$387</div>
+							<div className="text-lg font-bold text-primary">$387</div>
 							<div className="text-xs text-muted-foreground">This Week</div>
 						</div>
 						<div>

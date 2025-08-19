@@ -1,5 +1,5 @@
 // lib/utils/accessibilityUtils.js - Accessibility utilities and helpers
-import { logger } from "@utils/logger";
+import { logger } from "./logger.js";
 
 // Keyboard navigation constants
 export const KEYBOARD_KEYS = {
@@ -339,7 +339,7 @@ export const A11yTesting = {
 			const backgroundColor = styles.backgroundColor;
 
 			// Skip elements without text or transparent backgrounds
-			if (!element.textContent.trim() || backgroundColor === "rgba(0, 0, 0, 0)") {
+			if (!element.textContent.trim() || backgroundColor === "transparent") {
 				return;
 			}
 

@@ -187,7 +187,7 @@ export default function EmployeeManagement() {
                 <p className="text-sm text-muted-foreground">Total Employees</p>
                 <p className="text-2xl font-bold">{metrics.totalEmployees}</p>
               </div>
-              <Users className="h-8 w-8 text-blue-500" />
+              <Users className="h-8 w-8 text-primary" />
             </div>
           </CardContent>
         </Card>
@@ -197,9 +197,9 @@ export default function EmployeeManagement() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Active</p>
-                <p className="text-2xl font-bold text-green-600">{metrics.activeEmployees}</p>
+                <p className="text-2xl font-bold text-success">{metrics.activeEmployees}</p>
               </div>
-              <CheckCircle className="h-8 w-8 text-green-500" />
+              <CheckCircle className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -211,7 +211,7 @@ export default function EmployeeManagement() {
                 <p className="text-sm text-muted-foreground">Monthly Payroll</p>
                 <p className="text-2xl font-bold">${Math.floor(metrics.totalPayroll).toLocaleString()}</p>
               </div>
-              <DollarSign className="h-8 w-8 text-green-500" />
+              <DollarSign className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -290,7 +290,7 @@ export default function EmployeeManagement() {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm">Overtime Hours</span>
-                <span className="text-sm font-medium text-orange-600">{metrics.totalOvertimeHours} hrs</span>
+                <span className="text-sm font-medium text-warning">{metrics.totalOvertimeHours} hrs</span>
               </div>
             </div>
           </CardContent>
@@ -438,7 +438,7 @@ export default function EmployeeManagement() {
                 <p className="text-sm text-muted-foreground">Total Payroll</p>
                 <p className="text-2xl font-bold">${Math.floor(metrics.totalPayroll).toLocaleString()}</p>
               </div>
-              <DollarSign className="h-8 w-8 text-green-500" />
+              <DollarSign className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -448,9 +448,9 @@ export default function EmployeeManagement() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Pending Approvals</p>
-                <p className="text-2xl font-bold text-orange-600">{metrics.pendingPayroll}</p>
+                <p className="text-2xl font-bold text-warning">{metrics.pendingPayroll}</p>
               </div>
-              <AlertCircle className="h-8 w-8 text-orange-500" />
+              <AlertCircle className="h-8 w-8 text-warning" />
             </div>
           </CardContent>
         </Card>
@@ -462,7 +462,7 @@ export default function EmployeeManagement() {
                 <p className="text-sm text-muted-foreground">Total Hours</p>
                 <p className="text-2xl font-bold">{metrics.totalHoursWorked}</p>
               </div>
-              <Clock className="h-8 w-8 text-blue-500" />
+              <Clock className="h-8 w-8 text-primary" />
             </div>
           </CardContent>
         </Card>

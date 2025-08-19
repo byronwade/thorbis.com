@@ -111,9 +111,9 @@ export default function AnalyticsDashboard() {
 	const getTrendIcon = (trend) => {
 		switch (trend) {
 			case "up":
-				return <TrendingUp className="w-4 h-4 text-green-600" />;
+				return <TrendingUp className="w-4 h-4 text-success" />;
 			case "down":
-				return <TrendingDown className="w-4 h-4 text-red-600" />;
+				return <TrendingDown className="w-4 h-4 text-destructive" />;
 			default:
 				return <Minus className="w-4 h-4 text-muted-foreground" />;
 		}
@@ -122,9 +122,9 @@ export default function AnalyticsDashboard() {
 	const getTrendColor = (trend) => {
 		switch (trend) {
 			case "up":
-				return "text-green-600";
+				return "text-success";
 			case "down":
-				return "text-red-600";
+				return "text-destructive";
 			default:
 				return "text-muted-foreground";
 		}
@@ -202,7 +202,7 @@ export default function AnalyticsDashboard() {
 									<span className="text-sm text-muted-foreground">vs last period</span>
 								</div>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -219,7 +219,7 @@ export default function AnalyticsDashboard() {
 									<span className="text-sm text-muted-foreground">vs last period</span>
 								</div>
 							</div>
-							<Briefcase className="w-8 h-8 text-blue-500" />
+							<Briefcase className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -248,11 +248,11 @@ export default function AnalyticsDashboard() {
 								<p className="text-sm font-medium text-muted-foreground">Avg Job Value</p>
 								<p className="text-2xl font-bold">{formatCurrency(analyticsData.overview.avgJobValue)}</p>
 								<div className="flex items-center gap-1 mt-1">
-									<Target className="w-4 h-4 text-blue-600" />
+									<Target className="w-4 h-4 text-primary" />
 									<span className="text-sm text-muted-foreground">Target: $400</span>
 								</div>
 							</div>
-							<BarChart3 className="w-8 h-8 text-orange-500" />
+							<BarChart3 className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -307,10 +307,10 @@ export default function AnalyticsDashboard() {
 									{analyticsData.jobStatusBreakdown.map((status) => (
 										<div key={status.status} className="flex items-center justify-between">
 											<div className="flex items-center gap-2">
-												{status.status === "Completed" && <CheckCircle className="w-4 h-4 text-green-500" />}
-												{status.status === "Scheduled" && <Calendar className="w-4 h-4 text-blue-500" />}
-												{status.status === "In Progress" && <Clock className="w-4 h-4 text-yellow-500" />}
-												{status.status === "Overdue" && <AlertTriangle className="w-4 h-4 text-red-500" />}
+												{status.status === "Completed" && <CheckCircle className="w-4 h-4 text-success" />}
+												{status.status === "Scheduled" && <Calendar className="w-4 h-4 text-primary" />}
+												{status.status === "In Progress" && <Clock className="w-4 h-4 text-warning" />}
+												{status.status === "Overdue" && <AlertTriangle className="w-4 h-4 text-destructive" />}
 												<span className="font-medium">{status.status}</span>
 											</div>
 											<div className="text-right">
@@ -360,8 +360,8 @@ export default function AnalyticsDashboard() {
 									{analyticsData.topCustomers.map((customer, index) => (
 										<div key={customer.name} className="flex items-center justify-between p-3 border rounded-lg">
 											<div className="flex items-center gap-3">
-												<div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-													<span className="text-sm font-bold text-blue-600">#{index + 1}</span>
+												<div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+													<span className="text-sm font-bold text-primary">#{index + 1}</span>
 												</div>
 												<div>
 													<p className="font-medium">{customer.name}</p>
@@ -422,7 +422,7 @@ export default function AnalyticsDashboard() {
 											<div className="flex items-center justify-between mb-3">
 												<h4 className="font-medium">{tech.name}</h4>
 												<div className="flex items-center gap-1">
-													<Star className="w-4 h-4 text-yellow-400 fill-current" />
+													<Star className="w-4 h-4 text-warning fill-current" />
 													<span className="text-sm font-medium">{tech.customerRating}</span>
 												</div>
 											</div>
@@ -474,7 +474,7 @@ export default function AnalyticsDashboard() {
 												<div className="flex items-center gap-2">
 													<div className="flex items-center gap-1">
 														{Array.from({ length: 5 }, (_, i) => (
-															<Star key={i} className={`w-3 h-3 ${i < Math.floor(week.rating) ? "text-yellow-400 fill-current" : "text-muted-foreground/30"}`} />
+															<Star key={i} className={`w-3 h-3 ${i < Math.floor(week.rating) ? "text-warning fill-current" : "text-muted-foreground/30"}`} />
 														))}
 													</div>
 													<span className="font-medium">{week.rating}</span>
@@ -497,7 +497,7 @@ export default function AnalyticsDashboard() {
 										<p className="text-sm text-muted-foreground">Conversion Rate</p>
 										<p className="text-2xl font-bold">{analyticsData.overview.conversionRate}%</p>
 									</div>
-									<Target className="w-8 h-8 text-green-500" />
+									<Target className="w-8 h-8 text-success" />
 								</div>
 							</CardContent>
 						</Card>
@@ -508,7 +508,7 @@ export default function AnalyticsDashboard() {
 										<p className="text-sm text-muted-foreground">Repeat Customer Rate</p>
 										<p className="text-2xl font-bold">{analyticsData.overview.repeatCustomerRate}%</p>
 									</div>
-									<Users className="w-8 h-8 text-blue-500" />
+									<Users className="w-8 h-8 text-primary" />
 								</div>
 							</CardContent>
 						</Card>
@@ -519,7 +519,7 @@ export default function AnalyticsDashboard() {
 										<p className="text-sm text-muted-foreground">Customer Satisfaction</p>
 										<p className="text-2xl font-bold">{analyticsData.overview.customerSatisfaction}</p>
 									</div>
-									<Star className="w-8 h-8 text-yellow-500" />
+									<Star className="w-8 h-8 text-warning" />
 								</div>
 							</CardContent>
 						</Card>

@@ -99,7 +99,7 @@ export default function MedicalOfficeSoftware() {
 					Streamline your medical practice with all-in-one software for patient scheduling, electronic health records, and automated billing.
 				</p>
 				<div className="flex items-center justify-center gap-4 pt-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-green-600 px-6 py-3 text-white font-semibold hover:bg-green-700 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-success px-6 py-3 text-white font-semibold hover:bg-success transition-colors">
 						Try Free for 30 Days
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
@@ -113,13 +113,13 @@ export default function MedicalOfficeSoftware() {
 				{features.map((feature) => (
 					<div key={feature.title} className="rounded-xl border p-6 bg-card hover:shadow-lg transition-shadow">
 						<div className="flex items-center gap-3 mb-4">
-							<feature.icon className="w-8 h-8 text-green-600" />
+							<feature.icon className="w-8 h-8 text-success" />
 							<h3 className="font-bold text-lg">{feature.title}</h3>
 						</div>
 						<ul className="space-y-2 text-sm text-muted-foreground">
 							{feature.points.map((point) => (
 								<li key={point} className="flex items-start gap-2">
-									<span className="w-1.5 h-1.5 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
+									<span className="w-1.5 h-1.5 bg-success rounded-full mt-2 flex-shrink-0"></span>
 									{point}
 								</li>
 							))}
@@ -144,22 +144,22 @@ export default function MedicalOfficeSoftware() {
 			</section>
 
 			{/* Stats Section */}
-			<section className="max-w-6xl mx-auto mt-16 bg-green-50 dark:bg-green-950/20 rounded-2xl p-8">
+			<section className="max-w-6xl mx-auto mt-16 bg-success dark:bg-success/20 rounded-2xl p-8">
 				<div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">50%</div>
+						<div className="text-3xl font-bold text-success mb-2">50%</div>
 						<div className="text-sm text-muted-foreground">Reduction in no-shows</div>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">30%</div>
+						<div className="text-3xl font-bold text-success mb-2">30%</div>
 						<div className="text-sm text-muted-foreground">Faster claim processing</div>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">25%</div>
+						<div className="text-3xl font-bold text-success mb-2">25%</div>
 						<div className="text-sm text-muted-foreground">Time saved on admin</div>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">99.9%</div>
+						<div className="text-3xl font-bold text-success mb-2">99.9%</div>
 						<div className="text-sm text-muted-foreground">System uptime</div>
 					</div>
 				</div>

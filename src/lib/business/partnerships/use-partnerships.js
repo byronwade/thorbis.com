@@ -5,7 +5,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { toast } from "@components/ui/use-toast";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { useBusinessStore } from "@store/business";
 import { createPartnership, validatePartnership, canStartVerification, generateVerificationId, validateDocumentUpload } from "@lib/data/business/partnerships";
 import { SEARCH_CONFIG, DOCUMENT_UPLOAD_CONFIG, VERIFICATION_STATUS, PARTNERSHIP_STATUS } from "@lib/data/business/partnerships/constants";

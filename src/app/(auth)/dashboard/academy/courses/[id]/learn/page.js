@@ -244,7 +244,7 @@ function LearnInterface() {
 								return (
 									<div
 										key={i}
-										className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-200 hover:scale-110 ${i === currentQuestionIndex ? "bg-primary ring-2 ring-primary/50 ring-offset-1" : answered ? (answered.isCorrect ? "bg-green-500" : "bg-red-500") : "bg-muted hover:bg-muted-foreground/20"}`}
+										className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-200 hover:scale-110 ${i === currentQuestionIndex ? "bg-primary ring-2 ring-primary/50 ring-offset-1" : answered ? (answered.isCorrect ? "bg-success" : "bg-destructive") : "bg-muted hover:bg-muted-foreground/20"}`}
 										onClick={() => {
 											setCurrentQuestionIndex(i);
 											setShowExplanation(false);
@@ -269,7 +269,7 @@ function LearnInterface() {
 				<DialogContent className="sm:max-w-lg">
 					<DialogHeader className="text-center space-y-4">
 						<div className="mx-auto">
-							<CheckCircle className="h-16 w-16 text-green-500" />
+							<CheckCircle className="h-16 w-16 text-success" />
 						</div>
 						<DialogTitle className="text-2xl">Course Complete!</DialogTitle>
 						<DialogDescription className="text-lg">Congratulations! You&apos;ve completed {course.title}</DialogDescription>

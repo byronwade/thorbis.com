@@ -50,7 +50,7 @@ export default function AutomotiveServices({ business }) {
 								{service.icon === "car" && <Car className="w-5 h-5 text-primary" />}
 								<h3 className="text-lg font-semibold text-foreground">{service.name}</h3>
 								{service.emergency && (
-									<Badge variant="destructive" className="bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400">
+									<Badge variant="destructive" className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
 										Emergency
 									</Badge>
 								)}
@@ -87,7 +87,7 @@ export default function AutomotiveServices({ business }) {
 												</div>
 											)}
 											{item.urgent && (
-												<div className="flex items-center text-xs text-red-600">
+												<div className="flex items-center text-xs text-destructive">
 													<AlertTriangle className="w-3 h-3 mr-1" />
 													Urgent service available
 												</div>
@@ -106,10 +106,10 @@ export default function AutomotiveServices({ business }) {
 						<h3 className="text-lg font-semibold text-foreground">Special Offers</h3>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 							{specials.map((special, index) => (
-								<div key={index} className="p-4 border rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 dark:from-blue-950/20 dark:to-indigo-950/20 dark:border-blue-800/50">
+								<div key={index} className="p-4 border rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border-primary/30 dark:from-blue-950/20 dark:to-indigo-950/20 dark:border-primary/50">
 									<div className="flex items-start justify-between mb-2">
 										<h4 className="font-medium text-foreground">{special.name}</h4>
-										<Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+										<Badge variant="secondary" className="bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary">
 											{special.discount}
 										</Badge>
 									</div>
@@ -153,30 +153,30 @@ export default function AutomotiveServices({ business }) {
 						<h3 className="text-lg font-semibold text-foreground">Warranty Coverage</h3>
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 							{warranties.parts && (
-								<div className="p-4 border rounded-lg bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-800/50">
+								<div className="p-4 border rounded-lg bg-success/20 border-success/30">
 									<div className="flex items-center space-x-2 mb-2">
-										<CheckCircle className="w-4 h-4 text-green-600" />
-										<span className="font-medium text-green-800 dark:text-green-400">Parts Warranty</span>
+										<CheckCircle className="w-4 h-4 text-success" />
+										<span className="font-medium text-success dark:text-success">Parts Warranty</span>
 									</div>
-									<p className="text-sm text-green-700 dark:text-green-300">{warranties.parts}</p>
+									<p className="text-sm text-success dark:text-success/90">{warranties.parts}</p>
 								</div>
 							)}
 							{warranties.labor && (
-								<div className="p-4 border rounded-lg bg-blue-50 border-blue-200 dark:bg-blue-950/20 dark:border-blue-800/50">
+								<div className="p-4 border rounded-lg bg-primary/20 border-primary/30">
 									<div className="flex items-center space-x-2 mb-2">
-										<Wrench className="w-4 h-4 text-blue-600" />
-										<span className="font-medium text-blue-800 dark:text-blue-400">Labor Warranty</span>
+										<Wrench className="w-4 h-4 text-primary" />
+										<span className="font-medium text-primary dark:text-primary">Labor Warranty</span>
 									</div>
-									<p className="text-sm text-blue-700 dark:text-blue-300">{warranties.labor}</p>
+									<p className="text-sm text-primary dark:text-primary/90">{warranties.labor}</p>
 								</div>
 							)}
 							{warranties.roadside && (
-								<div className="p-4 border rounded-lg bg-purple-50 border-purple-200 dark:bg-purple-950/20 dark:border-purple-800/50">
+								<div className="p-4 border rounded-lg bg-muted/20 border-border/30">
 									<div className="flex items-center space-x-2 mb-2">
-										<Car className="w-4 h-4 text-purple-600" />
-										<span className="font-medium text-purple-800 dark:text-purple-400">Roadside Assistance</span>
+										<Car className="w-4 h-4 text-muted-foreground" />
+										<span className="font-medium text-muted-foreground">Roadside Assistance</span>
 									</div>
-									<p className="text-sm text-purple-700 dark:text-purple-300">{warranties.roadside}</p>
+									<p className="text-sm text-muted-foreground">{warranties.roadside}</p>
 								</div>
 							)}
 						</div>

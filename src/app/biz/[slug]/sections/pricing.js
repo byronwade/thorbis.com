@@ -40,10 +40,10 @@ export default function Pricing({ business }) {
 										</div>
 									</div>
 									{business.pricing?.emergencyRate && (
-										<div className="p-4 border rounded-lg bg-red-50/50 border-red-200/50 dark:bg-red-950/20 dark:border-red-900/30">
+										<div className="p-4 border rounded-lg bg-red-50/50 border-red-200/50 dark:bg-destructive/20 dark:border-red-900/30">
 											<div className="text-center">
-												<p className="text-sm text-red-600 dark:text-red-400">Emergency Rate</p>
-												<p className="text-lg font-bold text-red-700 dark:text-red-300">{business.pricing.emergencyRate}</p>
+												<p className="text-sm text-destructive dark:text-destructive">Emergency Rate</p>
+												<p className="text-lg font-bold text-destructive dark:text-destructive/90">{business.pricing.emergencyRate}</p>
 											</div>
 										</div>
 									)}
@@ -64,8 +64,8 @@ export default function Pricing({ business }) {
 									<h5 className="mb-3 font-medium text-foreground">Complimentary Services</h5>
 									<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
 										{business.pricing.freeServices.map((service, index) => (
-											<div key={index} className="flex items-start p-3 space-x-3 border rounded-lg bg-green-50/50 border-green-200/50 dark:bg-green-950/20 dark:border-green-900/30">
-												<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-green-500" />
+											<div key={index} className="flex items-start p-3 space-x-3 border rounded-lg bg-success/20 border-success/30">
+												<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-success" />
 												<div>
 													<p className="text-sm font-medium text-foreground">{service.service}</p>
 													<p className="text-xs text-muted-foreground">{service.description}</p>
@@ -78,29 +78,29 @@ export default function Pricing({ business }) {
 								<div>
 									<h5 className="mb-3 font-medium text-foreground">Complimentary Services</h5>
 									<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-green-50/50 border-green-200/50 dark:bg-green-950/20 dark:border-green-900/30">
-											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-green-500" />
+										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-success/20 border-success/30">
+											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-success" />
 											<div>
 												<p className="text-sm font-medium text-foreground">Initial Consultation</p>
 												<p className="text-xs text-muted-foreground">No-obligation assessment</p>
 											</div>
 										</div>
-										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-green-50/50 border-green-200/50 dark:bg-green-950/20 dark:border-green-900/30">
-											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-green-500" />
+										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-success/20 border-success/30">
+											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-success" />
 											<div>
 												<p className="text-sm font-medium text-foreground">Written Estimates</p>
 												<p className="text-xs text-muted-foreground">Detailed project quotes</p>
 											</div>
 										</div>
-										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-green-50/50 border-green-200/50 dark:bg-green-950/20 dark:border-green-900/30">
-											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-green-500" />
+										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-success/20 border-success/30">
+											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-success" />
 											<div>
 												<p className="text-sm font-medium text-foreground">Basic Diagnostics</p>
 												<p className="text-xs text-muted-foreground">Problem identification</p>
 											</div>
 										</div>
-										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-green-50/50 border-green-200/50 dark:bg-green-950/20 dark:border-green-900/30">
-											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-green-500" />
+										<div className="flex items-start p-3 space-x-3 border rounded-lg bg-success/20 border-success/30">
+											<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-success" />
 											<div>
 												<p className="text-sm font-medium text-foreground">Follow-up Inspection</p>
 												<p className="text-xs text-muted-foreground">30-day post-service check</p>
@@ -116,8 +116,8 @@ export default function Pricing({ business }) {
 									<h5 className="mb-3 font-medium text-foreground">Available Discounts</h5>
 									<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
 										{business.pricing.discounts.map((discount, index) => (
-											<div key={index} className="flex items-center p-3 space-x-3 border rounded-lg bg-blue-50/50 border-blue-200/50 dark:bg-blue-950/20 dark:border-blue-900/30">
-												<Badge variant="secondary" className="text-blue-700 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/50">
+											<div key={index} className="flex items-center p-3 space-x-3 border rounded-lg bg-primary/20 border-primary/30">
+												<Badge variant="secondary" className="text-primary bg-primary/10 dark:text-primary/90 dark:bg-primary/50">
 													{discount.amount}
 												</Badge>
 												<div className="flex-1">
@@ -132,8 +132,8 @@ export default function Pricing({ business }) {
 								<div>
 									<h5 className="mb-3 font-medium text-foreground">Available Discounts</h5>
 									<div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-blue-50/50 border-blue-200/50 dark:bg-blue-950/20 dark:border-blue-900/30">
-											<Badge variant="secondary" className="text-blue-700 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/50">
+										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-primary/20 border-primary/30">
+											<Badge variant="secondary" className="text-primary bg-primary/10 dark:text-primary/90 dark:bg-primary/50">
 												10%
 											</Badge>
 											<div className="flex-1">
@@ -141,8 +141,8 @@ export default function Pricing({ business }) {
 												<p className="text-xs text-muted-foreground">For customers 65+ years old</p>
 											</div>
 										</div>
-										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-blue-50/50 border-blue-200/50 dark:bg-blue-950/20 dark:border-blue-900/30">
-											<Badge variant="secondary" className="text-blue-700 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/50">
+										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-primary/20 border-primary/30">
+											<Badge variant="secondary" className="text-primary bg-primary/10 dark:text-primary/90 dark:bg-primary/50">
 												15%
 											</Badge>
 											<div className="flex-1">
@@ -150,8 +150,8 @@ export default function Pricing({ business }) {
 												<p className="text-xs text-muted-foreground">Active duty and veterans</p>
 											</div>
 										</div>
-										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-blue-50/50 border-blue-200/50 dark:bg-blue-950/20 dark:border-blue-900/30">
-											<Badge variant="secondary" className="text-blue-700 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/50">
+										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-primary/20 border-primary/30">
+											<Badge variant="secondary" className="text-primary bg-primary/10 dark:text-primary/90 dark:bg-primary/50">
 												5%
 											</Badge>
 											<div className="flex-1">
@@ -159,8 +159,8 @@ export default function Pricing({ business }) {
 												<p className="text-xs text-muted-foreground">New customers only</p>
 											</div>
 										</div>
-										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-blue-50/50 border-blue-200/50 dark:bg-blue-950/20 dark:border-blue-900/30">
-											<Badge variant="secondary" className="text-blue-700 bg-blue-100 dark:text-blue-300 dark:bg-blue-900/50">
+										<div className="flex items-center p-3 space-x-3 border rounded-lg bg-primary/20 border-primary/30">
+											<Badge variant="secondary" className="text-primary bg-primary/10 dark:text-primary/90 dark:bg-primary/50">
 												10%
 											</Badge>
 											<div className="flex-1">
@@ -174,7 +174,7 @@ export default function Pricing({ business }) {
 
 							{/* Payment Terms */}
 							{business.pricing?.paymentTerms && (
-								<div className="p-4 border rounded-lg bg-yellow-50/50 border-yellow-200/50 dark:bg-yellow-950/20 dark:border-yellow-900/30">
+								<div className="p-4 border rounded-lg bg-yellow-50/50 border-yellow-200/50 dark:bg-warning/20 dark:border-yellow-900/30">
 									<h5 className="mb-2 font-medium text-foreground">Payment Terms</h5>
 									<div className="space-y-1 text-sm text-muted-foreground">
 										<p>• {business.pricing.paymentTerms.deposit}</p>
@@ -186,9 +186,9 @@ export default function Pricing({ business }) {
 
 							{/* Financing Options */}
 							{business.pricing?.financing?.available && (
-								<div className="p-4 border rounded-lg bg-purple-50/50 border-purple-200/50 dark:bg-purple-950/20 dark:border-purple-900/30">
+								<div className="p-4 border rounded-lg bg-muted/20 border-border/30">
 									<div className="flex items-start space-x-3">
-										<CreditCard className="flex-shrink-0 w-5 h-5 mt-1 text-purple-600" />
+										<CreditCard className="flex-shrink-0 w-5 h-5 mt-1 text-muted-foreground" />
 										<div>
 											<h5 className="font-medium text-foreground">Financing Available</h5>
 											<div className="mt-2 space-y-1 text-sm text-muted-foreground">

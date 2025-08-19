@@ -4,7 +4,7 @@
 import { createServerClient, createBrowserClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 import { Database } from "./client";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Create Supabase client for Client Components

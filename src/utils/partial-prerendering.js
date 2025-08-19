@@ -1,5 +1,5 @@
 // lib/utils/partialPrerendering.js - Partial Prerendering (PPR) Implementation
-import { logger } from "./logger";
+import logger from "./logger.js";
 import cacheManager from "./cache-manager";
 import edgeStreamingManager from "./edge-streaming";
 import instantPageLoader from "./instant-page-loader";

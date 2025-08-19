@@ -25,7 +25,7 @@ import {
   UserCheck,
   Target
 } from 'lucide-react'
-import { VoipQuickActions, useVoip } from '@components/shared/voip/VoipSystem'
+import { VoipQuickActions, useVoip } from '@components/shared/voip/voip-system'
 
 export default function CSRConsolePage() {
   const { isCallActive, currentCall, currentCustomer } = useVoip()
@@ -86,10 +86,10 @@ export default function CSRConsolePage() {
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <UserCheck className="h-5 w-5 text-green-600" />
+                <div className="w-10 h-10 bg-success/10 rounded-full flex items-center justify-center">
+                  <UserCheck className="h-5 w-5 text-success" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-success rounded-full border-2 border-white"></div>
               </div>
               <div className="flex-1">
                 <div className="font-semibold text-sm">{agentStatus.name}</div>
@@ -115,7 +115,7 @@ export default function CSRConsolePage() {
                 <p className="text-sm font-medium text-muted-foreground">Total Calls</p>
                 <p className="text-2xl font-bold">{callStats.totalCalls}</p>
               </div>
-              <Phone className="h-8 w-8 text-blue-500" />
+              <Phone className="h-8 w-8 text-primary" />
             </div>
           </CardContent>
         </Card>
@@ -125,9 +125,9 @@ export default function CSRConsolePage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Answered</p>
-                <p className="text-2xl font-bold text-green-600">{callStats.answeredCalls}</p>
+                <p className="text-2xl font-bold text-success">{callStats.answeredCalls}</p>
               </div>
-              <PhoneCall className="h-8 w-8 text-green-500" />
+              <PhoneCall className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -164,14 +164,14 @@ export default function CSRConsolePage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <Phone className="h-6 w-6 text-green-600" />
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <Phone className="h-6 w-6 text-success" />
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-success rounded-full animate-pulse"></div>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-green-800">
+                  <h3 className="font-semibold text-success">
                     Active Call: {currentCustomer?.name || 'Unknown Caller'}
                   </h3>
-                  <p className="text-sm text-green-600">
+                  <p className="text-sm text-success">
                     {currentCustomer?.company} • {currentCustomer?.phone}
                   </p>
                 </div>
@@ -179,7 +179,7 @@ export default function CSRConsolePage() {
               <div className="flex gap-2">
                 <Button 
                   size="sm" 
-                  className="bg-green-600 hover:bg-green-700"
+                  className="bg-success hover:bg-success"
                   onClick={() => openCallInterface(currentCustomer?.id)}
                 >
                   <ExternalLink className="h-4 w-4 mr-2" />
@@ -192,14 +192,14 @@ export default function CSRConsolePage() {
       )}
 
       {/* VOIP Integration Section */}
-      <Card className="border-blue-200 bg-blue-50">
+      <Card className="border-primary/30 bg-blue-50">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Headphones className="h-5 w-5 text-blue-600" />
-              <CardTitle className="text-blue-800">Advanced VOIP System</CardTitle>
+              <Headphones className="h-5 w-5 text-primary" />
+              <CardTitle className="text-primary">Advanced VOIP System</CardTitle>
             </div>
-            <Badge className="bg-blue-600 text-white">
+            <Badge className="bg-primary text-white">
               <Zap className="h-3 w-3 mr-1" />
               Live System
             </Badge>
@@ -207,7 +207,7 @@ export default function CSRConsolePage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-blue-700">
+            <p className="text-sm text-primary">
               Complete call management with real-time transcription, AI assistance, and advanced customer insights.
             </p>
             
@@ -217,7 +217,7 @@ export default function CSRConsolePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <Button
                 variant="outline"
-                className="h-16 flex flex-col items-center justify-center gap-2 border-blue-200 hover:bg-blue-100"
+                className="h-16 flex flex-col items-center justify-center gap-2 border-primary/30 hover:bg-primary/10"
                 onClick={() => openVoipInterface('demo')}
               >
                 <Activity className="h-5 w-5" />
@@ -226,7 +226,7 @@ export default function CSRConsolePage() {
               
               <Button
                 variant="outline"
-                className="h-16 flex flex-col items-center justify-center gap-2 border-blue-200 hover:bg-blue-100"
+                className="h-16 flex flex-col items-center justify-center gap-2 border-primary/30 hover:bg-primary/10"
                 onClick={() => openCallInterface('demo')}
               >
                 <Phone className="h-5 w-5" />
@@ -235,7 +235,7 @@ export default function CSRConsolePage() {
               
               <Button
                 variant="outline"
-                className="h-16 flex flex-col items-center justify-center gap-2 border-blue-200 hover:bg-blue-100"
+                className="h-16 flex flex-col items-center justify-center gap-2 border-primary/30 hover:bg-primary/10"
               >
                 <BarChart3 className="h-5 w-5" />
                 <span className="text-sm">Analytics</span>
@@ -290,10 +290,10 @@ export default function CSRConsolePage() {
                         <Badge
                           className={`absolute -top-2 -right-2 text-xs ${
                             call.priority === 'high'
-                              ? 'bg-red-500'
+                              ? 'bg-destructive'
                               : call.priority === 'medium'
                                 ? 'bg-amber-500'
-                                : 'bg-green-500'
+                                : 'bg-success'
                           }`}
                         >
                           {call.priority}
@@ -309,7 +309,7 @@ export default function CSRConsolePage() {
                         <p className="text-sm text-muted-foreground">Waiting</p>
                         <p className="font-mono text-sm">{call.waitTime}</p>
                       </div>
-                      <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                      <Button size="sm" className="bg-success hover:bg-success">
                         <Phone className="h-4 w-4 mr-2" />
                         Answer
                       </Button>
@@ -345,11 +345,11 @@ export default function CSRConsolePage() {
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
                         {call.outcome === 'booked' ? (
-                          <CheckCircle className="h-5 w-5 text-green-600" />
+                          <CheckCircle className="h-5 w-5 text-success" />
                         ) : call.outcome === 'follow-up' ? (
                           <Clock className="h-5 w-5 text-amber-600" />
                         ) : (
-                          <PhoneMissed className="h-5 w-5 text-red-600" />
+                          <PhoneMissed className="h-5 w-5 text-destructive" />
                         )}
                       </div>
                       <div>
@@ -395,7 +395,7 @@ export default function CSRConsolePage() {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Jobs Booked</span>
-                    <span className="font-semibold text-green-600">{agentStatus.bookingsToday}</span>
+                    <span className="font-semibold text-success">{agentStatus.bookingsToday}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-muted-foreground">Conversion Rate</span>
@@ -418,15 +418,15 @@ export default function CSRConsolePage() {
               <CardContent>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-success rounded-full"></div>
                     <span className="text-sm">VOIP System Online</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-success rounded-full"></div>
                     <span className="text-sm">Call Queue Active</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="w-2 h-2 bg-success rounded-full"></div>
                     <span className="text-sm">Recording Service Ready</span>
                   </div>
                   <div className="flex items-center gap-3">

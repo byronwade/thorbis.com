@@ -7,7 +7,7 @@ import { useBusinessStore } from "@store/business";
 import { useSearchStore } from "@store/search";
 import UnifiedAIChat from "@components/shared/ai/unified-ai-chat";
 import { useSearchParams } from "next/navigation";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Lazy-load the heavy map to improve initial TTI and SEO (client-only)
 import GoogleMapsContainer from "@components/site/map/google-maps-container";
@@ -250,8 +250,8 @@ const SearchContainer = ({ searchParams: propSearchParams }) => {
 
 								{/* Mobile Floating Action Button */}
 								<div className="absolute bottom-4 right-4 z-30">
-									<button onClick={handleMapToggle} className="flex items-center justify-center w-14 h-14 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-600 hover:shadow-xl transition-all duration-200 active:scale-95">
-										<svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<button onClick={handleMapToggle} className="flex items-center justify-center w-14 h-14 bg-white dark:bg-card rounded-full shadow-lg border border-border dark:border-border hover:shadow-xl transition-all duration-200 active:scale-95">
+										<svg className="w-6 h-6 text-muted-foreground dark:text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
 										</svg>
 									</button>
@@ -259,10 +259,10 @@ const SearchContainer = ({ searchParams: propSearchParams }) => {
 							</div>
 
 							{/* Mobile Bottom Sheet - Business List */}
-							<div className="bg-white dark:bg-neutral-900 border-t border-gray-200 dark:border-gray-700 max-h-[60vh] min-h-[200px] overflow-hidden">
+							<div className="bg-white dark:bg-neutral-900 border-t border-border dark:border-border max-h-[60vh] min-h-[200px] overflow-hidden">
 								{/* Bottom Sheet Handle */}
-								<div className="flex justify-center py-2 bg-gray-50 dark:bg-gray-800">
-									<div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+								<div className="flex justify-center py-2 bg-gray-50 dark:bg-card">
+									<div className="w-12 h-1 bg-muted dark:bg-muted rounded-full"></div>
 								</div>
 
 								{/* Mobile Business List */}
@@ -293,9 +293,9 @@ const SearchContainer = ({ searchParams: propSearchParams }) => {
 			{/* Mobile-Optimized Loading Overlay */}
 			{loading && (
 				<div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-					<div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 shadow-2xl flex items-center gap-3 border border-gray-200 dark:border-gray-700 min-w-[280px]">
-						<div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-						<span className="text-sm font-medium text-gray-900 dark:text-white">Finding businesses near you...</span>
+					<div className="bg-white dark:bg-neutral-900 rounded-2xl p-6 shadow-2xl flex items-center gap-3 border border-border dark:border-border min-w-[280px]">
+						<div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+						<span className="text-sm font-medium text-foreground dark:text-white">Finding businesses near you...</span>
 					</div>
 				</div>
 			)}

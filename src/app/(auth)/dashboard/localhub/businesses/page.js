@@ -11,9 +11,9 @@ import { Plus, Search, MoreVertical, Edit, Trash2, Send, CheckCircle, DollarSign
 import { toast } from "@components/ui/use-toast";
 
 const subscriptionTiers = [
-	{ value: "basic", label: "Basic - $49/month", color: "bg-blue-100 text-blue-800 border-blue-200", monthlyFee: 49 },
+	{ value: "basic", label: "Basic - $49/month", color: "bg-primary/10 text-primary border-primary/30", monthlyFee: 49 },
 	{ value: "pro", label: "Pro - $79/month", color: "bg-purple-100 text-purple-800 border-purple-200", monthlyFee: 79 },
-	{ value: "premium", label: "Premium - $129/month", color: "bg-yellow-100 text-yellow-800 border-yellow-200", monthlyFee: 129 },
+	{ value: "premium", label: "Premium - $129/month", color: "bg-warning/10 text-warning border-yellow-200", monthlyFee: 129 },
 ];
 
 const businessCategories = ["Restaurants", "Healthcare", "Home Services", "Retail", "Professional Services", "Automotive", "Beauty & Wellness", "Education", "Entertainment", "Technology"];
@@ -163,9 +163,9 @@ export default function BusinessManagement() {
 
 	const getStatusBadge = (status) => {
 		const statusConfig = {
-			active: { color: "bg-green-100 text-green-800 border-green-200", label: "Active" },
-			pending: { color: "bg-yellow-100 text-yellow-800 border-yellow-200", label: "Pending Setup" },
-			overdue: { color: "bg-red-100 text-red-800 border-red-200", label: "Payment Overdue" },
+			active: { color: "bg-success/10 text-success border-green-200", label: "Active" },
+			pending: { color: "bg-warning/10 text-warning border-yellow-200", label: "Pending Setup" },
+			overdue: { color: "bg-destructive/10 text-destructive border-red-200", label: "Payment Overdue" },
 			suspended: { color: "bg-neutral-100 text-neutral-800 border-neutral-700", label: "Suspended" },
 		};
 
@@ -277,7 +277,7 @@ export default function BusinessManagement() {
 					</CardHeader>
 					<CardContent>
 						<div className="text-2xl font-bold">${totalMonthlyRevenue.toLocaleString()}</div>
-						<p className="text-xs text-green-600 flex items-center">
+						<p className="text-xs text-success flex items-center">
 							<ArrowUpRight className="w-3 h-3 mr-1" />
 							+18.2% from last month
 						</p>
@@ -289,7 +289,7 @@ export default function BusinessManagement() {
 						<TrendingUp className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-green-600">${hubMonthlyShare.toLocaleString()}</div>
+						<div className="text-2xl font-bold text-success">${hubMonthlyShare.toLocaleString()}</div>
 						<p className="text-xs text-muted-foreground">Next payout: March 31st</p>
 					</CardContent>
 				</Card>
@@ -309,7 +309,7 @@ export default function BusinessManagement() {
 						<AlertTriangle className="h-4 w-4 text-muted-foreground" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-red-600">{overdueCount + pendingCount}</div>
+						<div className="text-2xl font-bold text-destructive">{overdueCount + pendingCount}</div>
 						<p className="text-xs text-muted-foreground">
 							{overdueCount} overdue, {pendingCount} pending
 						</p>
@@ -379,7 +379,7 @@ export default function BusinessManagement() {
 												<div className="space-y-1">
 													<div className="flex items-center space-x-2">
 														<h3 className="font-semibold">{business.name}</h3>
-														{business.verified && <CheckCircle className="w-4 h-4 text-green-500" />}
+														{business.verified && <CheckCircle className="w-4 h-4 text-success" />}
 														{getStatusBadge(business.status)}
 														{getSubscriptionBadge(business.subscription)}
 													</div>
@@ -411,7 +411,7 @@ export default function BusinessManagement() {
 													<div className="text-sm text-muted-foreground">
 														{business.rating > 0 ? (
 															<span className="flex items-center">
-																<Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
+																<Star className="w-3 h-3 mr-1 fill-yellow-400 text-warning" />
 																{business.rating} ({business.reviews} reviews)
 															</span>
 														) : (
@@ -448,7 +448,7 @@ export default function BusinessManagement() {
 															<Edit className="w-4 h-4 mr-2" />
 															Edit Business
 														</DropdownMenuItem>
-														<DropdownMenuItem className="text-red-600">
+														<DropdownMenuItem className="text-destructive">
 															<Trash2 className="w-4 h-4 mr-2" />
 															Remove Business
 														</DropdownMenuItem>
@@ -488,7 +488,7 @@ export default function BusinessManagement() {
 											<div className="text-right space-y-1">
 												<div className="font-semibold">${business.monthlyFee}/month</div>
 												<div className="text-sm text-muted-foreground">Total Paid: ${business.totalPaid}</div>
-												<div className="text-xs text-green-600">Your Share: ${business.hubShare}</div>
+												<div className="text-xs text-success">Your Share: ${business.hubShare}</div>
 											</div>
 										</div>
 									))}
@@ -514,7 +514,7 @@ export default function BusinessManagement() {
 											</div>
 											<div className="text-right space-y-1">
 												<div className="font-semibold">${month.totalRevenue} Total</div>
-												<div className="text-sm text-green-600">${month.hubShare} Your Share</div>
+												<div className="text-sm text-success">${month.hubShare} Your Share</div>
 												<div className="text-xs text-muted-foreground">${month.platformFee} Platform Fee</div>
 											</div>
 										</div>

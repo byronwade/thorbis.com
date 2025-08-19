@@ -33,7 +33,7 @@ import {
   MapPin,
   Plus
 } from "lucide-react";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Advanced Search Component with Command Palette

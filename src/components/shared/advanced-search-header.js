@@ -11,7 +11,7 @@ import {
   Bot,
   Sparkles 
 } from "lucide-react";
-import { isSpeechRecognitionSupported, createSpeechRecognition } from "@lib/utils/speechRecognition";
+import { isSpeechRecognitionSupported, createSpeechRecognition } from "@lib/utils/speech-recognition";
 import EnhancedLocationSelector from "./enhanced-location-selector";
 
 const AdvancedSearchHeader = ({ 
@@ -133,7 +133,7 @@ const AdvancedSearchHeader = ({
           <form 
             ref={formRef}
             onSubmit={handleSubmit}
-            className="relative z-10 flex flex-col w-full h-full min-w-0 p-1.5 ml-3 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 focus-within:border-blue-500 focus-within:shadow-blue-500/20 focus-within:border-2"
+            className="relative z-10 flex flex-col w-full h-full min-w-0 p-1.5 ml-3 bg-neutral-800/50 backdrop-blur-sm border border-neutral-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 focus-within:border-primary focus-within:shadow-blue-500/20 focus-within:border-2"
           >
             <div className="relative flex items-center justify-between w-full">
               <div className="flex items-center justify-center flex-1">
@@ -147,8 +147,8 @@ const AdvancedSearchHeader = ({
                       onClick={toggleAiMode}
                       className={`inline-flex items-center justify-center whitespace-nowrap font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 rounded-md text-sm mr-2 h-6 px-2 py-0.5 transition-all duration-200 border ${
                         aiMode 
-                          					? "bg-blue-600 text-white border-blue-600 shadow-sm hover:bg-blue-700" 
-                          : "bg-neutral-700/50 text-neutral-300 border-neutral-600 hover:bg-neutral-700 hover:border-blue-500"
+                          					? "bg-primary text-white border-primary shadow-sm hover:bg-primary" 
+                          : "bg-neutral-700/50 text-neutral-300 border-neutral-600 hover:bg-neutral-700 hover:border-primary"
                       }`}
                       title={aiMode ? "AI Mode Active - Click to disable" : "Enter AI Search Mode"}
                     >
@@ -184,7 +184,7 @@ const AdvancedSearchHeader = ({
                       onClick={handleVoiceSearch}
                                              className={`ml-1 p-1.5 rounded-full transition-all duration-200 ${
                          isListening 
-                           					? "bg-red-500/20 text-red-400" 
+                           					? "bg-destructive/20 text-destructive" 
                            : "hover:bg-neutral-700 hover:text-white text-neutral-400"
                        }`}
                       aria-label="Start voice search"
@@ -229,7 +229,7 @@ const AdvancedSearchHeader = ({
                                      className={`inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 pointer-events-auto cursor-pointer h-6 px-2 shadow-sm ${
                      !query.trim() 
                        ? "bg-neutral-700/50 text-neutral-500 cursor-not-allowed"
-                       					: "bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg active:scale-95 transform"
+                       					: "bg-primary hover:bg-primary text-white shadow-md hover:shadow-lg active:scale-95 transform"
                    }`}
                   title={query.trim() ? "Search now" : "Enter a search term"}
                 >
@@ -243,10 +243,10 @@ const AdvancedSearchHeader = ({
 
             {/* Popular Searches Dropdown */}
             {showSuggestions && (
-                             <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-black border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg z-50 overflow-hidden max-h-96">
+                             <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-black border border-border dark:border-border rounded-lg shadow-lg z-50 overflow-hidden max-h-96">
                  <div className="p-4 space-y-4">
                    <div>
-                     <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                     <h4 className="text-sm font-medium text-foreground dark:text-white mb-2 flex items-center gap-2">
                        						<Sparkles className="w-4 h-4 text-primary dark:text-primary" aria-hidden="true" />
                        Popular Searches
                      </h4>
@@ -255,7 +255,7 @@ const AdvancedSearchHeader = ({
                          <Badge
                            key={index}
                            variant="secondary"
-                           className="cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 hover:border-blue-300 dark:hover:border-blue-600 transition-colors"
+                           className="cursor-pointer hover:bg-muted dark:hover:bg-card hover:border-primary/40 dark:hover:border-primary transition-colors"
                            onClick={() => handlePopularSearchClick(search)}
                          >
                            {search}

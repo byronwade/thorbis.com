@@ -81,7 +81,7 @@ export default function EnergyServicesSoftware() {
 				<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Energy Services Software</h1>
 				<p className="text-muted-foreground max-w-3xl mx-auto">Reliable field operations for energy and utilities.</p>
 				<div className="flex items-center justify-center gap-3">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-blue-600 px-5 py-3 text-white font-semibold hover:bg-blue-700">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-primary px-5 py-3 text-white font-semibold hover:bg-primary">
 						Start free
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border px-5 py-3 font-semibold hover:bg-accent">

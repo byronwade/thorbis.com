@@ -6,7 +6,7 @@
 
 import { supabase, getPooledClient, Tables } from "../../client";
 import { CacheManager } from "@utils/cache-manager";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 type Business = Tables<"businesses">;
 type BusinessProfile = Business & {

@@ -267,7 +267,7 @@ export default function PasswordReset() {
 														{...field} 
 														type={showNewPassword ? "text" : "password"} 
 														placeholder="••••••••" 
-														className={`pr-10 ${passwordResetForm.formState.errors.newPassword ? "border-red-500" : passwordResetForm.formState.touchedFields.newPassword ? "border-green-500" : ""}`}
+														className={`pr-10 ${passwordResetForm.formState.errors.newPassword ? "border-destructive" : passwordResetForm.formState.touchedFields.newPassword ? "border-success" : ""}`}
 														autoComplete="new-password"
 													/>
 													<button
@@ -276,9 +276,9 @@ export default function PasswordReset() {
 														onClick={() => setShowNewPassword(!showNewPassword)}
 													>
 														{showNewPassword ? (
-															<EyeOff className="w-4 h-4 text-gray-400" />
+															<EyeOff className="w-4 h-4 text-muted-foreground" />
 														) : (
-															<Eye className="w-4 h-4 text-gray-400" />
+															<Eye className="w-4 h-4 text-muted-foreground" />
 														)}
 													</button>
 												</div>
@@ -339,7 +339,7 @@ export default function PasswordReset() {
 														{...field} 
 														type={showConfirmPassword ? "text" : "password"} 
 														placeholder="••••••••" 
-														className={`pr-10 ${passwordResetForm.formState.errors.confirmPassword ? "border-red-500" : passwordResetForm.formState.touchedFields.confirmPassword ? "border-green-500" : ""}`}
+														className={`pr-10 ${passwordResetForm.formState.errors.confirmPassword ? "border-destructive" : passwordResetForm.formState.touchedFields.confirmPassword ? "border-success" : ""}`}
 														autoComplete="new-password"
 													/>
 													<button
@@ -348,9 +348,9 @@ export default function PasswordReset() {
 														onClick={() => setShowConfirmPassword(!showConfirmPassword)}
 													>
 														{showConfirmPassword ? (
-															<EyeOff className="w-4 h-4 text-gray-400" />
+															<EyeOff className="w-4 h-4 text-muted-foreground" />
 														) : (
-															<Eye className="w-4 h-4 text-gray-400" />
+															<Eye className="w-4 h-4 text-muted-foreground" />
 														)}
 													</button>
 												</div>
@@ -395,11 +395,11 @@ export default function PasswordReset() {
 			
 			{/* Display auth errors */}
 			{authError && (
-				<div className="p-3 mt-4 bg-red-50 rounded-md border border-red-200 dark:bg-red-900/20 dark:border-red-800">
+				<div className="p-3 mt-4 bg-destructive rounded-md border border-destructive dark:bg-destructive/20 dark:border-destructive">
 					<div className="flex">
-						<AlertCircle className="w-5 h-5 text-red-400" />
+						<AlertCircle className="w-5 h-5 text-destructive" />
 						<div className="ml-3">
-							<p className="text-sm text-red-800 dark:text-red-200">{authError.userMessage}</p>
+							<p className="text-sm text-destructive dark:text-destructive/80">{authError.userMessage}</p>
 						</div>
 					</div>
 				</div>
@@ -420,7 +420,7 @@ export default function PasswordReset() {
 												{...field} 
 												type="email" 
 												placeholder="your@email.com" 
-												className={`${resetRequestForm.formState.errors.email ? "border-red-500" : resetRequestForm.formState.touchedFields.email ? "border-green-500" : ""}`}
+												className={`${resetRequestForm.formState.errors.email ? "border-destructive" : resetRequestForm.formState.touchedFields.email ? "border-success" : ""}`}
 												autoComplete="email"
 											/>
 										</FormControl>

@@ -3,6 +3,7 @@ import Script from "next/script";
 import ModernSearchExperience from "@components/site/search/google-maps-style-search";
 import { BusinessDataFetchers } from "@lib/database/supabase/server";
 import { getSearchFlags } from "@/lib/flags/server";
+import { buildBusinessUrl } from "@utils";
 // Google Maps doesn't require additional CSS imports
 
 // Generate dynamic metadata based on search context
@@ -97,7 +98,7 @@ export async function generateMetadata({ searchParams }) {
 			type: "website",
 		},
 		other: {
-			"theme-color": "#ffffff",
+			"theme-color": "hsl(var(--background))",
 			"color-scheme": "light dark",
 			"format-detection": "telephone=yes, address=yes",
 		},
@@ -374,7 +375,13 @@ export default async function Search({ searchParams }) {
 				numberOfItems: searchData.total,
 				itemListElement: transformedBusinesses.slice(0, 10).map((business, index) => ({
 					"@type": "LocalBusiness",
-					"@id": `https://thorbis.com/biz/${business.slug}`,
+					"@id": buildBusinessUrl({ 
+						country: 'us', 
+						state: business.state || '', 
+						city: business.city || '', 
+						name: business.name, 
+						shortId: business.short_id || business.shortId || '' 
+					}),
 					position: index + 1,
 					name: business.name,
 					description: business.description,

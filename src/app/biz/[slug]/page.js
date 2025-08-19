@@ -8,6 +8,7 @@ import { MapPin, Phone, Globe, Clock, Star, Shield, CheckCircle, MessageSquare, 
 import Link from "next/link";
 import ServiceBookingWidget from "@components/business/field-service/service-booking-widget";
 import BizProfileClient from "./biz-profile-client";
+import { buildBusinessUrl, toKebabCase } from "@utils";
 import { generateAdvancedServerSEO } from "@utils/advanced-server-seo";
 
 /**
@@ -43,6 +44,7 @@ async function fetchBusinessData(slug) {
 					phone: "(555) 123-4567",
 					email: "info@business.com",
 					website: "https://example.com",
+					logo: slug.includes("bowling") ? "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop&crop=center" : null,
 					rating: 4.5,
 					reviewCount: 125,
 					verified: true,
@@ -93,23 +95,37 @@ export async function generateMetadata({ params }) {
 		// If database query fails, use mock data for metadata
 		if (error || !business) {
 			console.warn("Metadata generation using fallback data:", error?.message || "No business data");
+			
+			const mockBusinessName = resolvedParams.slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+			const mockLocation = "San Francisco, CA";
+			const mockCategory = "Professional Service";
 
-			// Return basic metadata for mock business
+			// Return comprehensive SEO-optimized metadata for mock business
 			return {
 				title: `Demo Local Business - San Francisco, CA | Thorbis`,
 				description: "This is a sample business used for testing the application. The database is not fully configured yet.",
 				keywords: ["Demo Local Business", "Restaurant", "San Francisco, CA", "reviews", "local business", "San Francisco", "CA"],
 				openGraph: {
-					title: `Demo Local Business - San Francisco, CA`,
-					description: "This is a sample business used for testing the application. The database is not fully configured yet.",
-					url: `https://thorbis.com/biz/demo-local-business`,
-					siteName: "Thorbis",
+					title: `${mockBusinessName} | Top-Rated ${mockCategory} in ${mockLocation}`,
+					description: `Professional ${mockCategory.toLowerCase()} with 4.5★ rating. Licensed, insured, free estimates. Serving ${mockLocation} with excellence.`,
+					url: (() => {
+						try {
+							return buildBusinessUrl({
+								country: 'us',
+								state: 'ga',
+								city: 'jasper',
+								name: resolvedParams.slug,
+							});
+						} catch { return `/biz/${resolvedParams.slug}`; }
+					})(),
+					siteName: "Local Business Directory | Thorbis",
 					images: [
 						{
-							url: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop",
-							width: 800,
-							height: 600,
-							alt: "Demo Local Business - Business exterior",
+							url: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&h=630&fit=crop",
+							width: 1200,
+							height: 630,
+							alt: `${mockBusinessName} - Professional ${mockCategory} in ${mockLocation}`,
+							type: "image/jpeg",
 						},
 					],
 					locale: "en_US",
@@ -117,12 +133,33 @@ export async function generateMetadata({ params }) {
 				},
 				twitter: {
 					card: "summary_large_image",
-					title: `Demo Local Business - San Francisco, CA`,
-					description: "This is a sample business used for testing the application. The database is not fully configured yet.",
-					images: ["https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop"],
+					title: `${mockBusinessName} | ${mockCategory} ${mockLocation}`,
+					description: `4.5★ rated ${mockCategory.toLowerCase()} • Professional service • Licensed & insured • Free estimates`,
+					images: ["https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&h=630&fit=crop"],
+					creator: "@thorbisplatform",
+					site: "@thorbisplatform",
+				},
+				robots: {
+					index: true,
+					follow: true,
+					googleBot: {
+						index: true,
+						follow: true,
+						"max-image-preview": "large",
+						"max-snippet": -1,
+					}
 				},
 				alternates: {
-					canonical: `https://thorbis.com/biz/demo-local-business`,
+					canonical: (() => {
+						try {
+							return buildBusinessUrl({
+								country: 'us',
+								state: 'ga',
+								city: 'jasper',
+								name: resolvedParams.slug,
+							});
+						} catch { return `/biz/${resolvedParams.slug}`; }
+					})(),
 				},
 			};
 		}
@@ -149,7 +186,7 @@ export async function generateMetadata({ params }) {
 				openGraph: {
 					title: `${business.name} - ${business.city}, ${business.state}`,
 					description: business.description?.substring(0, 200) || `Local business in ${business.city}, ${business.state}`,
-					type: "business.business",
+					type: "website",
 					url: `/biz/${business.slug}`,
 					siteName: "Local Business Directory",
 				},
@@ -158,61 +195,101 @@ export async function generateMetadata({ params }) {
 			};
 		}
 
-		// Advanced SEO generation with comprehensive error handling (runtime only)
-		try {
-			const seoData = await generateAdvancedServerSEO({
-				type: "business_profile",
-				data: business,
-				path: `/biz/${business.slug}`,
-				businessCategory: business.business_categories?.[0]?.categories?.name || "Business",
-				targetAudience: "customers",
-				localArea: business.city && business.state ? `${business.city}, ${business.state}` : null,
-			});
+		// Extract business data for comprehensive SEO optimization
+		const businessName = business.name;
+		const businessLocation = business.city && business.state ? `${business.city}, ${business.state}` : business.city || "Local Area";
+		const primaryCategory = business.business_categories?.[0]?.categories?.name || "Professional Service";
+		const businessPhone = business.phone || "";
+		const businessRating = business.rating || 4.5;
+		const businessReviews = business.review_count || 0;
+		const businessUrl = (() => {
+			try {
+				return buildBusinessUrl({
+					country: (business.country || 'US').toLowerCase(),
+					state: business.state,
+					city: business.city,
+					name: business.name,
+					shortId: business.short_id || business.shortId,
+				});
+			} catch { return `/biz/${business.slug}`; }
+		})();
+		const businessImage = business.photos?.[0] || business.logo || "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&h=630&fit=crop";
 
-			// Validate the returned SEO data
-			if (!seoData || typeof seoData !== "object") {
-				throw new Error("Invalid SEO data returned from generateAdvancedServerSEO");
+		// Enterprise-level SEO metadata with comprehensive optimization
+		return {
+			// Title optimized for local SEO and CTR (55-60 characters optimal)
+			title: `${businessName} - ${primaryCategory} in ${businessLocation} | ${businessRating}★ Rated`,
+			
+			// Description optimized for SERP display and local search (155-160 characters)
+			description: `${business.description?.substring(0, 100) || `Top-rated ${primaryCategory.toLowerCase()} serving ${businessLocation}`}. ${businessRating}★ rating, ${businessReviews} reviews. ${business.is_open_now ? "Open now" : "Call for hours"}. ${businessPhone ? `Call ${businessPhone}` : "Free estimates"}.`,
+			
+			// Comprehensive keywords for local SEO dominance
+			keywords: [
+				businessName,
+				`${businessName} ${business.city}`,
+				`${primaryCategory} ${business.city}`,
+				`${primaryCategory} near me`,
+				business.city, business.state,
+				"professional service", "licensed insured", "top rated",
+				"customer reviews", "free estimates"
+			].filter(Boolean).join(", "),
+			
+			// Enhanced Open Graph for social sharing
+			openGraph: {
+				title: `${businessName} | ${businessRating}★ ${primaryCategory} in ${businessLocation}`,
+				description: `${business.description?.substring(0, 160) || `Professional ${primaryCategory.toLowerCase()} with exceptional customer satisfaction`}. ${businessReviews} verified reviews. Licensed & insured.`,
+				type: "website",
+				locale: "en_US",
+				url: businessUrl,
+				siteName: "Local Business Directory | Thorbis Platform",
+				images: [
+					{
+						url: businessImage,
+						width: 1200,
+						height: 630,
+						alt: `${businessName} - Professional ${primaryCategory} in ${businessLocation}`,
+						type: "image/jpeg",
+					}
+				],
+			},
+			
+			// Optimized Twitter Card
+			twitter: {
+				card: "summary_large_image",
+				title: `${businessName} | ${primaryCategory} ${businessLocation}`,
+				description: `${businessRating}★ rated • ${businessReviews} reviews • ${business.is_open_now ? "Open now" : "Call for hours"} • Licensed & insured`,
+				images: [businessImage],
+				creator: "@thorbisplatform",
+				site: "@thorbisplatform",
+			},
+			
+			// Enhanced robots directives
+			robots: {
+				index: true,
+				follow: true,
+				googleBot: {
+					index: true,
+					follow: true,
+					"max-image-preview": "large",
+					"max-snippet": -1,
+				}
+			},
+			
+			// Canonical URL
+			alternates: {
+				canonical: businessUrl,
+			},
+			
+			// Local SEO signals
+			other: {
+				"geo.region": business.state || "",
+				"geo.placename": business.city || "",
+				"business:category": primaryCategory,
+				"business:rating:value": String(businessRating),
+				"business:rating:count": String(businessReviews),
+				"business:verified": business.verified ? "true" : "false"
 			}
-
-			// Ensure required fields are present
-			if (!seoData.title || !seoData.description) {
-				throw new Error("SEO data missing required title or description");
-			}
-
-			return seoData;
-		} catch (seoError) {
-			// Handle SEO generation errors with safe fallback
-			console.warn("SEO generation failed, using safe fallback:", seoError?.message || "Unknown SEO error");
-
-			// Safely extract business data for fallback
-			const businessName = business?.name || "Local Business";
-			const businessCity = business?.city || "Local Area";
-			const businessState = business?.state || "";
-			const businessDescription = business?.description || "";
-			const businessSlug = business?.slug || "business";
-			const businessCategory = business?.business_categories?.[0]?.categories?.name || "local business";
-
-			// Return comprehensive fallback SEO data that's guaranteed to work
-			return {
-				title: `${businessName} - ${businessCity}${businessState ? `, ${businessState}` : ""} | Local Business Directory`,
-				description: businessDescription ? `${businessDescription.substring(0, 155)}...` : `Find ${businessName} in ${businessCity}${businessState ? `, ${businessState}` : ""}. Local business with customer reviews and contact information.`,
-				keywords: [businessName, businessCity, businessState, businessCategory, "reviews", "contact"].filter(Boolean),
-				openGraph: {
-					title: `${businessName} - ${businessCity}${businessState ? `, ${businessState}` : ""}`,
-					description: businessDescription?.substring(0, 200) || `Local business in ${businessCity}${businessState ? `, ${businessState}` : ""}`,
-					type: "business.business",
-					url: `/biz/${businessSlug}`,
-					siteName: "Local Business Directory",
-				},
-				twitter: {
-					card: "summary",
-					title: `${businessName} - ${businessCity}${businessState ? `, ${businessState}` : ""}`,
-					description: businessDescription?.substring(0, 200) || `Local business in ${businessCity}${businessState ? `, ${businessState}` : ""}`,
-				},
-				robots: "index,follow",
-				canonical: `/biz/${businessSlug}`,
-			};
-		}
+		};
 	} catch (error) {
 		console.error("Error generating metadata:", error);
 
@@ -256,8 +333,74 @@ export default async function BusinessProfilePage({ params }) {
 			return <FieldServiceBusinessProfile business={business} slug={resolvedParams.slug} />;
 		}
 
-		// Render the sophisticated business profile client (no tabs as per user preference)
-		return <BizProfileClient businessId={business.id} initialBusiness={business} />;
+					// Generate comprehensive Schema.org structured data for SEO
+		const businessSchemas = [
+			// LocalBusiness Schema
+			{
+				"@context": "https://schema.org",
+				"@type": "LocalBusiness",
+				"@id": businessUrl,
+				name: business.name,
+				description: business.description || `Professional service provider in ${business.city || 'your area'}`,
+				telephone: business.phone || "",
+				address: {
+					"@type": "PostalAddress",
+					streetAddress: business.address || "",
+					addressLocality: business.city || "",
+					addressRegion: business.state || "",
+					postalCode: business.zip_code || "",
+					addressCountry: "US"
+				},
+				aggregateRating: {
+					"@type": "AggregateRating",
+					ratingValue: business.rating || 4.5,
+					reviewCount: business.review_count || 0,
+					bestRating: 5
+				},
+				priceRange: business.price_range || "$$",
+				image: business.photos || [],
+				url: `https://local.byronwade.com/biz/${business.slug}`
+			},
+			// Breadcrumb Schema
+			{
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				itemListElement: [
+					{
+						"@type": "ListItem",
+						position: 1,
+						name: "Home",
+						item: "https://thorbis.com"
+					},
+					{
+						"@type": "ListItem",
+						position: 2,
+						name: "Businesses",
+						item: "https://thorbis.com/search"
+					},
+					{
+						"@type": "ListItem",
+						position: 3,
+						name: business.name,
+						item: businessUrl
+					}
+				]
+			}
+		];
+
+		// Render with comprehensive SEO
+		return (
+			<>
+				{/* Schema.org Structured Data for Maximum SEO Impact */}
+				<script
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify(businessSchemas)
+					}}
+				/>
+				<BizProfileClient businessId={business.id} initialBusiness={business} />
+			</>
+		);
 	} catch (error) {
 		console.error("Error rendering business profile:", error);
 		notFound();
@@ -273,7 +416,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 	return (
 		<div className="min-h-screen bg-muted/30">
 			{/* Hero Section */}
-			<div className="relative h-64 md:h-80 bg-gradient-to-r from-blue-600 to-purple-700">
+			<div className="relative h-64 md:h-80 bg-primary">
 				<div className="absolute inset-0 bg-black bg-opacity-40" />
 				<div className="absolute bottom-0 left-0 right-0 p-6 text-white">
 					<div className="max-w-7xl mx-auto">
@@ -282,7 +425,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 								{category}
 							</Badge>
 							{business.verified && (
-								<Badge variant="secondary" className="bg-green-500/20 text-green-100 border-green-400/30">
+								<Badge variant="secondary" className="bg-success/20 text-success/70 border-success/30">
 									<CheckCircle className="w-3 h-3 mr-1" />
 									Verified
 								</Badge>
@@ -291,7 +434,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 						<h1 className="text-3xl md:text-4xl font-bold mb-2">{business.name}</h1>
 						<div className="flex items-center space-x-4 text-sm opacity-90">
 							<div className="flex items-center">
-								<Star className="w-4 h-4 mr-1 fill-yellow-400 text-yellow-400" />
+								<Star className="w-4 h-4 mr-1 fill-yellow-400 text-warning" />
 								<span className="font-medium">{rating.toFixed(1)}</span>
 								<span className="ml-1">({reviewCount} reviews)</span>
 							</div>
@@ -316,11 +459,11 @@ function EnhancedBusinessProfile({ business, slug }) {
 							<CardContent className="p-6">
 								<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 									<Button variant="outline" className="flex flex-col items-center p-4 h-auto">
-										<Phone className="w-6 h-6 mb-2 text-blue-600" />
+										<Phone className="w-6 h-6 mb-2 text-primary" />
 										<span className="text-sm">Call Now</span>
 									</Button>
 									<Button variant="outline" className="flex flex-col items-center p-4 h-auto">
-										<MessageSquare className="w-6 h-6 mb-2 text-green-600" />
+										<MessageSquare className="w-6 h-6 mb-2 text-success" />
 										<span className="text-sm">Message</span>
 									</Button>
 									<Button variant="outline" className="flex flex-col items-center p-4 h-auto">
@@ -328,7 +471,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 										<span className="text-sm">Share</span>
 									</Button>
 									<Button variant="outline" className="flex flex-col items-center p-4 h-auto">
-										<Heart className="w-6 h-6 mb-2 text-red-600" />
+										<Heart className="w-6 h-6 mb-2 text-destructive" />
 										<span className="text-sm">Save</span>
 									</Button>
 								</div>
@@ -408,7 +551,7 @@ function EnhancedBusinessProfile({ business, slug }) {
 								{business.website && (
 									<div className="flex items-center">
 										<Globe className="w-5 h-5 mr-3 text-muted-foreground" />
-										<Link href={business.website} className="text-blue-600 hover:underline" target="_blank">
+										<Link href={business.website} className="text-primary hover:underline" target="_blank">
 											Visit Website
 										</Link>
 									</div>
@@ -448,14 +591,14 @@ function EnhancedBusinessProfile({ business, slug }) {
 							<CardContent className="space-y-3">
 								<div className="flex items-center justify-between">
 									<div className="flex items-center">
-										<TrendingUp className="w-5 h-5 mr-2 text-green-600" />
+										<TrendingUp className="w-5 h-5 mr-2 text-success" />
 										<span className="text-sm">Rating</span>
 									</div>
 									<span className="font-medium">{rating.toFixed(1)}/5.0</span>
 								</div>
 								<div className="flex items-center justify-between">
 									<div className="flex items-center">
-										<Users className="w-5 h-5 mr-2 text-blue-600" />
+										<Users className="w-5 h-5 mr-2 text-primary" />
 										<span className="text-sm">Reviews</span>
 									</div>
 									<span className="font-medium">{reviewCount}</span>
@@ -463,10 +606,10 @@ function EnhancedBusinessProfile({ business, slug }) {
 								{business.verified && (
 									<div className="flex items-center justify-between">
 										<div className="flex items-center">
-											<Shield className="w-5 h-5 mr-2 text-green-600" />
+											<Shield className="w-5 h-5 mr-2 text-success" />
 											<span className="text-sm">Verified</span>
 										</div>
-										<CheckCircle className="w-5 h-5 text-green-600" />
+										<CheckCircle className="w-5 h-5 text-success" />
 									</div>
 								)}
 							</CardContent>
@@ -483,7 +626,7 @@ function FieldServiceBusinessProfile({ business, slug }) {
 	return (
 		<div className="min-h-screen bg-muted/30">
 			{/* Field Service Hero */}
-			<div className="relative h-64 md:h-80 bg-gradient-to-r from-green-600 to-blue-700">
+			<div className="relative h-64 md:h-80 bg-primary">
 				<div className="absolute inset-0 bg-black bg-opacity-40" />
 				<div className="absolute bottom-0 left-0 right-0 p-6 text-white">
 					<div className="max-w-7xl mx-auto">
@@ -493,7 +636,7 @@ function FieldServiceBusinessProfile({ business, slug }) {
 								Field Service
 							</Badge>
 							{business.verified && (
-								<Badge variant="secondary" className="bg-green-500/20 text-green-100 border-green-400/30">
+								<Badge variant="secondary" className="bg-success/20 text-success/70 border-success/30">
 									<CheckCircle className="w-3 h-3 mr-1" />
 									Verified Professional
 								</Badge>

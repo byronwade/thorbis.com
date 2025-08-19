@@ -49,7 +49,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center gap-2.5">
 							{/* Results Count - Smaller */}
-							<h2 className="text-base font-semibold text-gray-900 dark:text-white">{formatResultsText()}</h2>
+							<h2 className="text-base font-semibold text-foreground dark:text-white">{formatResultsText()}</h2>
 
 							{/* Open Count Badge - More Compact */}
 							{!loading && resultsCount > 0 && (
@@ -61,7 +61,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 						</div>
 
 						{/* Search Query - More Compact */}
-						{formatSearchText() && <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">{formatSearchText()}</p>}
+						{formatSearchText() && <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1 truncate">{formatSearchText()}</p>}
 					</div>
 				</div>
 
@@ -86,7 +86,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 						)}
 
 						{onAIClick && (
-							<Button variant="outline" size="sm" onClick={onAIClick} className="h-7 px-3 text-xs bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-950/50">
+							<Button variant="outline" size="sm" onClick={onAIClick} className="h-7 px-3 text-xs bg-blue-50 dark:bg-primary/30 text-primary dark:text-primary border-primary/30 dark:border-primary hover:bg-primary/10 dark:hover:bg-primary/50">
 								<Bot className="w-3 h-3 mr-1.5" />
 								AI
 							</Button>

@@ -1,5 +1,5 @@
 // lib/utils/seoUtils.js - SEO utilities
-import { logger } from "@utils/logger";
+import { logger } from "./logger.js";
 import { StructuredDataGenerator } from "./structured-data-schemas";
 
 // Canonical structured data generator (single source of truth)

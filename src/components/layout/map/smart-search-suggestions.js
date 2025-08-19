@@ -37,7 +37,7 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 				count: openCount,
 				priority: "high",
 				icon: Clock,
-				color: "bg-green-100 text-green-700 border-green-200",
+				color: "bg-success/10 text-success border-green-200",
 				socialProof: `${Math.floor(openCount * 1.3)} people called today`,
 			});
 		}
@@ -49,7 +49,7 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 				count: emergencyCount,
 				priority: "urgent",
 				icon: Zap,
-				color: "bg-red-100 text-red-700 border-red-200",
+				color: "bg-destructive/10 text-destructive border-red-200",
 				socialProof: `Available 24/7`,
 			});
 		}
@@ -61,7 +61,7 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 				count: freeQuoteCount,
 				priority: "medium",
 				icon: Target,
-				color: "bg-blue-100 text-blue-700 border-blue-200",
+				color: "bg-primary/10 text-primary border-primary/30",
 				socialProof: `No obligation estimates`,
 			});
 		}
@@ -113,16 +113,16 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 	return (
 		<div className="space-y-4">
 			{/* Social Proof Header */}
-			<Card className="border-blue-100 bg-gradient-to-r from-blue-50 to-purple-50">
+			<Card className="border-primary/20 bg-gradient-to-r from-blue-50 to-purple-50">
 				<CardContent className="p-3">
 					<div className="flex items-center justify-between text-xs">
 						<div className="flex items-center gap-4">
 							<div className="flex items-center gap-1">
-								<Eye className="w-3 h-3 text-blue-500" />
+								<Eye className="w-3 h-3 text-primary" />
 								<span className="font-medium">{socialProofData.activeUsers} people searching now</span>
 							</div>
 							<div className="flex items-center gap-1">
-								<Users className="w-3 h-3 text-green-500" />
+								<Users className="w-3 h-3 text-success" />
 								<span className="font-medium">{socialProofData.bookingsToday} bookings today</span>
 							</div>
 						</div>
@@ -139,9 +139,9 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 				<Card className={`border-l-4 ${timeBasedSuggestion.urgency === "high" ? "border-l-red-400 bg-red-50" : timeBasedSuggestion.urgency === "medium" ? "border-l-orange-400 bg-orange-50" : "border-l-blue-400 bg-blue-50"}`}>
 					<CardContent className="p-3">
 						<div className="flex items-start gap-3">
-							<timeBasedSuggestion.icon className="w-4 h-4 mt-0.5 text-gray-600" />
+							<timeBasedSuggestion.icon className="w-4 h-4 mt-0.5 text-muted-foreground" />
 							<div className="flex-1">
-								<p className="text-sm font-medium text-gray-800 mb-2">{timeBasedSuggestion.text}</p>
+								<p className="text-sm font-medium text-foreground mb-2">{timeBasedSuggestion.text}</p>
 								<div className="flex flex-wrap gap-2">
 									{timeBasedSuggestion.suggestions.map((suggestion, index) => (
 										<Button key={index} variant="outline" size="sm" className="text-xs h-6 bg-white/70 hover:bg-white hover:scale-105 transition-all" onClick={() => onSuggestionClick?.(suggestion)}>
@@ -160,8 +160,8 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 			{personalizedFilters.length > 0 && (
 				<div className="space-y-2">
 					<div className="flex items-center gap-2">
-						<Filter className="w-4 h-4 text-gray-500" />
-						<span className="text-sm font-medium text-gray-700">Smart filters for you:</span>
+						<Filter className="w-4 h-4 text-muted-foreground" />
+						<span className="text-sm font-medium text-muted-foreground">Smart filters for you:</span>
 					</div>
 					<div className="grid grid-cols-1 gap-2">
 						{personalizedFilters.map((filter) => {
@@ -174,17 +174,17 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 												<IconComponent className="w-4 h-4" />
 												<div>
 													<span className="text-sm font-medium">{filter.label}</span>
-													<p className="text-xs text-gray-500 mt-0.5">{filter.socialProof}</p>
+													<p className="text-xs text-muted-foreground mt-0.5">{filter.socialProof}</p>
 												</div>
 											</div>
 											<div className="flex items-center gap-2">
 												{filter.priority === "urgent" && (
-													<Badge variant="outline" className="text-xs bg-red-100 text-red-700">
+													<Badge variant="outline" className="text-xs bg-destructive/10 text-destructive">
 														<Timer className="w-3 h-3 mr-1" />
 														Urgent
 													</Badge>
 												)}
-												<ArrowRight className="w-4 h-4 text-gray-400" />
+												<ArrowRight className="w-4 h-4 text-muted-foreground" />
 											</div>
 										</div>
 									</CardContent>
@@ -198,12 +198,12 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 			{/* Trending Searches */}
 			<div className="space-y-2">
 				<div className="flex items-center gap-2">
-					<TrendingUp className="w-4 h-4 text-gray-500" />
-					<span className="text-sm font-medium text-gray-700">Trending searches:</span>
+					<TrendingUp className="w-4 h-4 text-muted-foreground" />
+					<span className="text-sm font-medium text-muted-foreground">Trending searches:</span>
 				</div>
 				<div className="flex flex-wrap gap-2">
 					{trendingSearches.slice(0, 4).map((trend, index) => (
-						<Button key={index} variant="ghost" size="sm" className={`flex items-center gap-2 p-2 rounded-lg transition-colors cursor-pointer ${trend.urgency === "high" ? "bg-red-50 hover:bg-red-100 text-red-700" : "bg-neutral-800 hover:bg-neutral-700"}`} onClick={() => onSuggestionClick?.(trend.query)}>
+						<Button key={index} variant="ghost" size="sm" className={`flex items-center gap-2 p-2 rounded-lg transition-colors cursor-pointer ${trend.urgency === "high" ? "bg-red-50 hover:bg-destructive/10 text-destructive" : "bg-neutral-800 hover:bg-neutral-700"}`} onClick={() => onSuggestionClick?.(trend.query)}>
 							<Search className="w-3 h-3 mr-1" />
 							{trend.query}
 							<Badge variant="outline" className="ml-2 text-xs">
@@ -219,12 +219,12 @@ const SmartSearchSuggestions = ({ businesses = [], searchQuery = "", onSuggestio
 				<Card className="border-green-100 bg-green-50">
 					<CardContent className="p-3">
 						<div className="flex items-center gap-2 mb-2">
-							<MapPin className="w-4 h-4 text-green-600" />
-							<span className="text-sm font-medium text-green-800">Popular in your area:</span>
+							<MapPin className="w-4 h-4 text-success" />
+							<span className="text-sm font-medium text-success">Popular in your area:</span>
 						</div>
 						<div className="flex flex-wrap gap-2">
 							{["licensed contractors", "emergency service", "home repair"].map((local, index) => (
-								<Button key={index} variant="outline" size="sm" className="text-xs h-6 bg-white/70 border-green-200 text-green-700 hover:bg-white" onClick={() => onSuggestionClick?.(local)}>
+								<Button key={index} variant="outline" size="sm" className="text-xs h-6 bg-white/70 border-green-200 text-success hover:bg-white" onClick={() => onSuggestionClick?.(local)}>
 									{local}
 								</Button>
 							))}

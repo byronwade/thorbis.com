@@ -34,7 +34,7 @@ const mockDirectories = [
 		totalReviews: 342,
 		activeSubscriptions: 45,
 		lastActivity: "2 hours ago",
-		primaryColor: "#3B82F6",
+		primaryColor: "hsl(var(--primary))",
 		logo: "/placeholder.svg",
 	},
 	{
@@ -58,7 +58,7 @@ const mockDirectories = [
 		totalReviews: 187,
 		activeSubscriptions: 32,
 		lastActivity: "1 day ago",
-		primaryColor: "#8B5CF6",
+		primaryColor: "hsl(var(--primary))",
 		logo: "/placeholder.svg",
 	},
 	{
@@ -82,7 +82,7 @@ const mockDirectories = [
 		totalReviews: 456,
 		activeSubscriptions: 67,
 		lastActivity: "30 minutes ago",
-		primaryColor: "#10B981",
+		primaryColor: "hsl(var(--muted-foreground))",
 		logo: "/placeholder.svg",
 	},
 ];
@@ -124,7 +124,7 @@ export default function ManageDirectories() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "active":
-				return "bg-green-500";
+				return "bg-success";
 			case "inactive":
 				return "bg-muted-foreground";
 			case "suspended":
@@ -307,7 +307,7 @@ export default function ManageDirectories() {
 											</Link>
 										</DropdownMenuItem>
 										<DropdownMenuSeparator />
-										<DropdownMenuItem asChild className="text-red-600 focus:text-red-600">
+										<DropdownMenuItem asChild className="text-destructive focus:text-destructive">
 											<Link href={`/dashboard/localhub/directories/delete/${directory.id}`}>
 												<Trash2 className="w-4 h-4 mr-2" />
 												Delete Directory
@@ -361,7 +361,7 @@ export default function ManageDirectories() {
 								<div>
 									<div className="text-lg font-semibold">{directory.averageRating}</div>
 									<div className="text-xs text-muted-foreground flex items-center justify-center">
-										<Star className="w-3 h-3 fill-yellow-400 text-yellow-400 mr-1" />
+										<Star className="w-3 h-3 fill-yellow-400 text-warning mr-1" />
 										{directory.totalReviews} reviews
 									</div>
 								</div>

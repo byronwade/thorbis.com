@@ -95,7 +95,7 @@ export default function ScrollSection({ title, link, children, subtitle, categor
 									aspectRatio: "1 / 1.18",
 								}}
 							>
-								{React.cloneElement(child, { disabled: partiallyVisibleIndices[idx] })}
+								{child && React.cloneElement(child, { disabled: partiallyVisibleIndices[idx] })}
 							</div>
 						))}
 					</div>

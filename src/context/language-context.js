@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { getDictionary, languages } from "@lib/i18n/dictionaries";
-import { detectLanguage, saveLanguagePreference } from "@lib/i18n/useTranslation";
+import { detectLanguage, saveLanguagePreference } from "@lib/i18n/use-translation";
 
 const LanguageContext = createContext();
 

@@ -3,7 +3,7 @@
  * Enterprise-grade provider management with security assessment
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // OAuth provider configurations with security metadata
 export const OAUTH_PROVIDERS = {
@@ -19,7 +19,7 @@ export const OAUTH_PROVIDERS = {
 		},
 		ui: {
 			icon: "google",
-			color: "#4285f4",
+			color: "hsl(var(--primary))",
 			description: "Sign in with your Google account",
 		},
 	},
@@ -35,7 +35,7 @@ export const OAUTH_PROVIDERS = {
 		},
 		ui: {
 			icon: "github",
-			color: "#333",
+			color: "hsl(var(--foreground))",
 			description: "Sign in with your GitHub account",
 		},
 	},

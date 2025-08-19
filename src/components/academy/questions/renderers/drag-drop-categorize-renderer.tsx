@@ -104,7 +104,7 @@ export function DragDropCategorizeRenderer({ question, onAnswer, isAnswered, use
 
 	const getCategoryStyle = (categoryId: string) => {
 		if (!showFeedback || !isAnswered) {
-			return "border-gray-300 bg-gray-50";
+			return "border-border bg-gray-50";
 		}
 
 		const itemsInCategory = getItemsInCategory(categoryId);
@@ -117,18 +117,18 @@ export function DragDropCategorizeRenderer({ question, onAnswer, isAnswered, use
 			return "border-green-300 bg-green-50";
 		}
 
-		return "border-gray-300 bg-gray-50";
+		return "border-border bg-gray-50";
 	};
 
 	const getItemStyle = (itemId: string) => {
 		if (!showFeedback || !isAnswered) {
-			return "border-blue-200 bg-blue-50 hover:bg-blue-100";
+			return "border-primary/30 bg-blue-50 hover:bg-primary/10";
 		}
 
 		if (isItemCorrectlyPlaced(itemId)) {
-			return "border-green-300 bg-green-100";
+			return "border-green-300 bg-success/10";
 		} else {
-			return "border-red-300 bg-red-100";
+			return "border-red-300 bg-destructive/10";
 		}
 	};
 
@@ -137,7 +137,7 @@ export function DragDropCategorizeRenderer({ question, onAnswer, isAnswered, use
 			{/* Instructions */}
 			<Card>
 				<CardContent className="p-4">
-					<p className="text-gray-700">Drag and drop the items below into the correct categories, or click on items and then click on a category.</p>
+					<p className="text-muted-foreground">Drag and drop the items below into the correct categories, or click on items and then click on a category.</p>
 				</CardContent>
 			</Card>
 
@@ -175,7 +175,7 @@ export function DragDropCategorizeRenderer({ question, onAnswer, isAnswered, use
 					<Card key={category.id} className={`min-h-40 transition-all duration-200 ${getCategoryStyle(category.id)}`}>
 						<CardHeader className="pb-3" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, category.id)} style={{ backgroundColor: category.color || undefined }}>
 							<CardTitle className="text-lg">{category.name}</CardTitle>
-							{category.description && <p className="text-sm text-gray-600">{category.description}</p>}
+							{category.description && <p className="text-sm text-muted-foreground">{category.description}</p>}
 						</CardHeader>
 						<CardContent className="space-y-2" onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, category.id)}>
 							{getItemsInCategory(category.id).map((itemId) => {
@@ -194,13 +194,13 @@ export function DragDropCategorizeRenderer({ question, onAnswer, isAnswered, use
 												<span className="text-sm font-medium">{item.content}</span>
 											)}
 
-											{showFeedback && isAnswered && <div className="flex-shrink-0">{isItemCorrectlyPlaced(itemId) ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}</div>}
+											{showFeedback && isAnswered && <div className="flex-shrink-0">{isItemCorrectlyPlaced(itemId) ? <CheckCircle className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-destructive" />}</div>}
 										</div>
 									</div>
 								);
 							})}
 
-							{getItemsInCategory(category.id).length === 0 && <div className="text-center py-8 text-gray-400 border-2 border-dashed border-gray-300 rounded-lg">Drop items here</div>}
+							{getItemsInCategory(category.id).length === 0 && <div className="text-center py-8 text-muted-foreground border-2 border-dashed border-border rounded-lg">Drop items here</div>}
 						</CardContent>
 					</Card>
 				))}
@@ -221,14 +221,14 @@ export function DragDropCategorizeRenderer({ question, onAnswer, isAnswered, use
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{question.correctCategorization.every((correct) => itemCategorization[correct.itemId] === correct.categoryId) ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${question.correctCategorization.every((correct) => itemCategorization[correct.itemId] === correct.categoryId) ? "text-green-700" : "text-red-700"}`}>{question.correctCategorization.every((correct) => itemCategorization[correct.itemId] === correct.categoryId) ? "Perfect Categorization!" : "Some items are misplaced"}</span>
+								{question.correctCategorization.every((correct) => itemCategorization[correct.itemId] === correct.categoryId) ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${question.correctCategorization.every((correct) => itemCategorization[correct.itemId] === correct.categoryId) ? "text-success" : "text-destructive"}`}>{question.correctCategorization.every((correct) => itemCategorization[correct.itemId] === correct.categoryId) ? "Perfect Categorization!" : "Some items are misplaced"}</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 						</div>

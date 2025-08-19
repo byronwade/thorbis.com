@@ -132,7 +132,7 @@ function No() {
 
 function ComparisonTable() {
 	const headers = [
-		{ key: "thorbis", label: "Thorbis", initials: "T", bgClass: "bg-blue-600", textClass: "text-white" },
+		{ key: "thorbis", label: "Thorbis", initials: "T", bgClass: "bg-primary", textClass: "text-white" },
 		{ key: "servicetitan", label: "ServiceTitan", initials: "ST", bgClass: "bg-neutral-800", textClass: "text-white" },
 		{ key: "housecallpro", label: "Housecall Pro", initials: "HP", bgClass: "bg-sky-600", textClass: "text-white" },
 		{ key: "jobber", label: "Jobber", initials: "J", bgClass: "bg-emerald-700", textClass: "text-white" },
@@ -264,7 +264,7 @@ export default function FieldManagementSoftware() {
 				<h1 className="text-4xl font-extrabold tracking-tight md:text-5xl">Field Management Software</h1>
 				<p className="mx-auto max-w-3xl text-muted-foreground">Run jobs, teams, and cash flow in one fast platform. Fewer tabs. Fewer clicks. More revenue.</p>
 				<div className="flex gap-3 justify-center items-center">
-					<a href="/signup" className="inline-flex items-center px-5 py-3 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700">
+					<a href="/signup" className="inline-flex items-center px-5 py-3 font-semibold text-white bg-primary rounded-md hover:bg-primary">
 						Start free
 					</a>
 					<a href="/contact" className="inline-flex items-center px-5 py-3 font-semibold rounded-md border hover:bg-accent">
@@ -416,7 +416,7 @@ export default function FieldManagementSoftware() {
 					</div>
 				</div>
 				<div className="flex gap-3 mt-6">
-					<a href="/contact" className="inline-flex items-center px-5 py-3 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700">
+					<a href="/contact" className="inline-flex items-center px-5 py-3 font-semibold text-white bg-primary rounded-md hover:bg-primary">
 						Talk to sales
 					</a>
 					<a href="/signup" className="inline-flex items-center px-5 py-3 font-semibold rounded-md border hover:bg-accent">

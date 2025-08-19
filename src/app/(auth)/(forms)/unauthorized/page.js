@@ -29,7 +29,7 @@ const UnauthorizedNotification = () => {
 
 	return (
 		<>
-			<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-red-700 dark:text-red-500">Unauthorized</h2>
+			<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-destructive dark:text-destructive">Unauthorized</h2>
 			<p className="text-sm leading-6 text-left text-muted-foreground"> You are not authorized to view this page. If you believe this is an error, please submit a request to our support page.</p>
 			<div className="flex flex-col mt-6">
 				<div className="flex flex-col space-y-4 w-full">

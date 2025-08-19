@@ -130,7 +130,7 @@ export default function YelpAlternative() {
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Monthly Cost</td>
 									<td className="px-6 py-4 text-center text-destructive font-semibold">$350+</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Review Filtering</td>
@@ -138,7 +138,7 @@ export default function YelpAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
@@ -147,18 +147,18 @@ export default function YelpAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Lead Generation</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">24/7 Priority</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Integration</td>
@@ -166,7 +166,7 @@ export default function YelpAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 							</tbody>
@@ -224,23 +224,23 @@ export default function YelpAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Transparent Pricing</h4>
+								<h4 className="font-semibold text-success dark:text-success">Transparent Pricing</h4>
 								<p className="text-sm text-muted-foreground">Simple $29/month pricing with no hidden fees or aggressive sales tactics.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Fair Review System</h4>
+								<h4 className="font-semibold text-success dark:text-success">Fair Review System</h4>
 								<p className="text-sm text-muted-foreground">AI-powered review verification ensures only legitimate reviews are displayed.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">24/7 Priority Support</h4>
+								<h4 className="font-semibold text-success dark:text-success">24/7 Priority Support</h4>
 								<p className="text-sm text-muted-foreground">Dedicated support team with quick response times and personalized solutions.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Advanced Analytics</h4>
+								<h4 className="font-semibold text-success dark:text-success">Advanced Analytics</h4>
 								<p className="text-sm text-muted-foreground">Comprehensive insights, lead tracking, and performance optimization tools.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Seamless integration with Google, Facebook, and other major platforms.</p>
 							</div>
 						</CardContent>
@@ -379,35 +379,35 @@ export default function YelpAlternative() {
 						<CardContent>
 							<ul className="space-y-3 text-sm">
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Advanced listing management</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">AI-powered analytics</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Lead generation tools</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Multi-platform integration</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Review management system</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Appointment booking</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Business certification</span>
 								</li>
 							</ul>
@@ -470,7 +470,7 @@ export default function YelpAlternative() {
 						<CardContent className="px-0 space-y-6">
 							<div className="space-y-4">
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Fair Review System</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Fair Review System</h4>
 									<p className="text-sm text-muted-foreground mb-3">"After switching to Thorbis, ALL our legitimate reviews are visible. Their AI only filters obvious fakes, not real customer feedback."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -478,7 +478,7 @@ export default function YelpAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Transparent Pricing</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Transparent Pricing</h4>
 									<p className="text-sm text-muted-foreground mb-3">"$29/month, no pressure, no games. The best customer service I've ever experienced from any platform."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -486,7 +486,7 @@ export default function YelpAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">24/7 Human Support</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">24/7 Human Support</h4>
 									<p className="text-sm text-muted-foreground mb-3">"When I had an issue, a real person called me back in 15 minutes. They solved it immediately and followed up the next day."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -513,7 +513,7 @@ export default function YelpAlternative() {
 								<span className="text-sm font-medium text-primary">Restaurant</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+89%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+89%</div>
 								<div className="text-sm text-muted-foreground">Reservation Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Yelp was costing us $500/month with terrible results. Thorbis costs $29 and increased our reservations by 89%. The multi-platform sync saved us 10 hours per week."</blockquote>
@@ -536,7 +536,7 @@ export default function YelpAlternative() {
 								<span className="text-sm font-medium text-primary">Professional Services</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$28K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$28K</div>
 								<div className="text-sm text-muted-foreground">Monthly Revenue Gain</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Yelp's review filtering killed our credibility. Since switching to Thorbis, our authentic reviews show and we gained $28K in monthly revenue from new client acquisition."</blockquote>
@@ -559,7 +559,7 @@ export default function YelpAlternative() {
 								<span className="text-sm font-medium text-primary">Home Services</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+156%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+156%</div>
 								<div className="text-sm text-muted-foreground">Lead Quality Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Yelp leads were terrible - mostly tire-kickers. Thorbis's AI qualification gives us 156% better lead quality. We book 3x more jobs now."</blockquote>
@@ -636,24 +636,24 @@ export default function YelpAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Multi-platform management</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">Included</span>
+									<span className="font-semibold text-success dark:text-success">Included</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Fair review system</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">Included</span>
+									<span className="font-semibold text-success dark:text-success">Included</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Additional revenue from all reviews shown</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$3,200</span>
+									<span className="font-semibold text-success dark:text-success">+$3,200</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Time saved with automation</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$1,200</span>
+									<span className="font-semibold text-success dark:text-success">+$1,200</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Monthly Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$8,146</span>
+										<span className="text-success dark:text-success">+$8,146</span>
 									</div>
 								</div>
 							</CardContent>
@@ -685,19 +685,19 @@ export default function YelpAlternative() {
 									<p className="text-muted-foreground mb-4">We analyze your Yelp presence and document all legitimate reviews that Yelp may be filtering. This creates a baseline for your reputation migration.</p>
 									<div className="grid grid-cols-2 gap-4 text-sm">
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Review history export</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Business info backup</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Photo collection</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Filtered review recovery</span>
 										</div>
 									</div>
@@ -715,19 +715,19 @@ export default function YelpAlternative() {
 									<p className="text-muted-foreground mb-4">We simultaneously set up and optimize your presence across Google, Facebook, Apple Maps, and 15+ other platforms while maintaining your Yelp presence during transition.</p>
 									<div className="grid grid-cols-2 gap-4 text-sm">
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Google Business optimization</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Facebook Business setup</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Apple Maps optimization</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>15+ directory listings</span>
 										</div>
 									</div>
@@ -745,19 +745,19 @@ export default function YelpAlternative() {
 									<p className="text-muted-foreground mb-4">We gradually shift your marketing focus from Yelp to other platforms while monitoring performance. Your Yelp presence stays active during the transition period.</p>
 									<div className="grid grid-cols-2 gap-4 text-sm">
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Performance monitoring</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Lead tracking setup</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Review management</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 											<span>Yelp ad optimization/cancellation</span>
 										</div>
 									</div>

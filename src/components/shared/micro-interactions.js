@@ -8,7 +8,7 @@ import {
   Sparkles,
   Loader2
 } from "lucide-react";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Micro-interactions System
@@ -41,7 +41,7 @@ export default function MicroInteractions({
     button: {
       hover: { 
         scale: 1.05, 
-        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+        boxShadow: "0 4px 12px hsl(var(--foreground) / 0.15)",
         transition: { duration: 0.2, ease: "easeOut" }
       },
       tap: { 
@@ -67,7 +67,7 @@ export default function MicroInteractions({
       hover: { 
         y: -4,
         scale: 1.02,
-        boxShadow: "0 8px 25px rgba(0,0,0,0.15)",
+        boxShadow: "0 8px 25px hsl(var(--foreground) / 0.15)",
         transition: { duration: 0.3, ease: "easeOut" }
       },
       tap: { 
@@ -237,7 +237,7 @@ export default function MicroInteractions({
               initial={{ scale: 0 }}
               animate={{ scale: [0, 1.2, 1] }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"
+              className="w-8 h-8 bg-success rounded-full flex items-center justify-center"
             >
               <CheckCircle className="w-5 h-5 text-white" />
             </motion.div>
@@ -269,7 +269,7 @@ export default function MicroInteractions({
             }}
             className="absolute top-1/2 left-1/2 pointer-events-none"
           >
-            <Sparkles className="w-3 h-3 text-yellow-400" />
+            <Sparkles className="w-3 h-3 text-warning" />
           </motion.div>
         ))}
       </AnimatePresence>
@@ -427,10 +427,10 @@ export function InteractiveNotification({
       <motion.div
         className={`
           p-4 rounded-lg border shadow-lg cursor-pointer
-          ${type === "success" ? "bg-green-50 border-green-200 text-green-800" : ""}
-          ${type === "error" ? "bg-red-50 border-red-200 text-red-800" : ""}
-          ${type === "warning" ? "bg-yellow-50 border-yellow-200 text-yellow-800" : ""}
-          ${type === "info" ? "bg-blue-50 border-blue-200 text-blue-800" : ""}
+          ${type === "success" ? "bg-green-50 border-green-200 text-success" : ""}
+          ${type === "error" ? "bg-red-50 border-red-200 text-destructive" : ""}
+          ${type === "warning" ? "bg-yellow-50 border-yellow-200 text-warning" : ""}
+          ${type === "info" ? "bg-blue-50 border-primary/30 text-primary" : ""}
         `}
         layout
       >

@@ -9,7 +9,7 @@ import { mapAuthError, validatePasswordStrength, validateEmail, checkRateLimit, 
 import { getEnabledProviders, createOAuthSignInOptions } from "@lib/database/supabase/auth/providers";
 import { supabase } from "@lib/database/supabase";
 import { toast } from "sonner";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 export const useSupabaseAuth = () => {
 	const authStore = useAuthStore();

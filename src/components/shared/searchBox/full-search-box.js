@@ -14,6 +14,7 @@ import { useSearchStore } from "@store/search";
 import { useBusinessStore } from "@store/business";
 import { useMapStore } from "@store/map";
 import debounce from "lodash/debounce";
+import { buildBusinessUrlFrom } from "@utils";
 
 const FullSearchBox = () => {
 	const { searchQuery, setSearchQuery, location, setLocation, errors, setErrors, touched, setTouched, suggestions, loading, fetchAutocompleteSuggestions } = useSearchStore();
@@ -246,8 +247,10 @@ const FullSearchBox = () => {
 
 	const handleSuggestionClick = (suggestion) => {
 		if (suggestion.business) {
-			// Navigate to business page
-			router.push(`/biz/${suggestion.business.slug}`);
+			try { router.push(buildBusinessUrlFrom(suggestion.business)); }
+			catch {
+				router.push(`/us/${(suggestion.business.state||'').toLowerCase()}/${(suggestion.business.city||'').toLowerCase()}/${(suggestion.business.name||'').toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')}-${suggestion.business.short_id || suggestion.business.shortId || ''}`);
+			}
 		} else {
 			setQuery(suggestion.name);
 			handleSearch(suggestion.name, location);
@@ -307,7 +310,7 @@ const FullSearchBox = () => {
 					<div className="flex items-center justify-center flex-1">
 						<div className="relative w-full">
 							<input
-								className={`bg-transparent w-full min-h-[1.5rem] resize-none border-0 text-sm leading-relaxed shadow-none outline-none ring-0 [scroll-padding-block:0.75rem] selection:bg-teal-300 selection:text-black disabled:bg-transparent disabled:opacity-80 pl-1 ${!errors.searchQuery ? "text-foreground placeholder:text-muted-foreground" : "text-red-500 placeholder:text-red-500"}`}
+								className={`bg-transparent w-full min-h-[1.5rem] resize-none border-0 text-sm leading-relaxed shadow-none outline-none ring-0 [scroll-padding-block:0.75rem] selection:bg-teal-300 selection:text-black disabled:bg-transparent disabled:opacity-80 pl-1 ${!errors.searchQuery ? "text-foreground placeholder:text-muted-foreground" : "text-destructive placeholder:text-destructive"}`}
 								id="search-input"
 								placeholder="Search for a category"
 								rows="1"
@@ -322,7 +325,7 @@ const FullSearchBox = () => {
 								}}
 								autoComplete="off"
 							/>
-							{errors.searchQuery && touched.searchQuery && <p className="text-sm text-red-500">{errors.searchQuery}</p>}
+							{errors.searchQuery && touched.searchQuery && <p className="text-sm text-destructive">{errors.searchQuery}</p>}
 						</div>
 					</div>
 					<div className="relative flex items-center ml-2 space-x-1">
@@ -346,7 +349,7 @@ const FullSearchBox = () => {
 						<LocationDropdown size="default" />
 					</div>
 				</div>
-				{errors.location && touched.location && <p className="text-sm text-red-500">{errors.location}</p>}
+				{errors.location && touched.location && <p className="text-sm text-destructive">{errors.location}</p>}
 			</div>
 		</div>
 	);

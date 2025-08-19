@@ -10,6 +10,7 @@ import { Search, MapPin, X, History, Star, TrendingUp, Target } from "lucide-rea
 import AiButton from "@components/shared/searchBox/ai-button";
 import { useSearchStore } from "@store/search";
 import { useBusinessStore } from "@store/business";
+import { buildBusinessUrlFrom } from "@utils";
 
 const EnhancedSearchBox = () => {
 	const router = useRouter();
@@ -184,7 +185,8 @@ const EnhancedSearchBox = () => {
 	const handleSuggestionClick = (suggestion) => {
 		if (suggestion.business) {
 			// Navigate to business page
-			router.push(`/biz/${suggestion.business.slug}`);
+			try { router.push(buildBusinessUrlFrom(suggestion.business)); }
+			catch { router.push(`/us/${(suggestion.business.state||'').toLowerCase()}/${(suggestion.business.city||'').toLowerCase()}/${(suggestion.business.name||'').toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')}-${suggestion.business.short_id || suggestion.business.shortId || ''}`); }
 		} else if (suggestion.type === "recent") {
 			// Use the recent search query and location
 			setQuery(suggestion.name);
@@ -246,16 +248,16 @@ const EnhancedSearchBox = () => {
 	return (
 		<div className="relative w-full">
 			{/* Main Search Bar */}
-			<Card className="border-2 border-gray-100 shadow-lg dark:border-gray-800">
+			<Card className="border-2 border-border shadow-lg dark:border-border">
 				<CardContent className="p-3">
 					<div className="flex flex-col gap-2 lg:flex-row">
 						{/* Search Input */}
 						<div className="relative flex-1">
 							<div className="relative">
-								<Search className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
+								<Search className="absolute w-4 h-4 text-muted-foreground transform -translate-y-1/2 left-3 top-1/2" />
 								<Input ref={searchInputRef} type="text" placeholder="What are you looking for?" value={query} onChange={(e) => setQuery(e.target.value)} onFocus={() => setShowSuggestions(true)} onKeyDown={handleKeyDown} className="h-12 pl-10 pr-4 text-base font-medium border-0 focus:ring-2 focus:ring-primary/20" />
 								{query && (
-									<Button variant="ghost" size="sm" onClick={() => setQuery("")} className="absolute w-6 h-6 p-0 transform -translate-y-1/2 right-2 top-1/2 hover:bg-gray-100">
+									<Button variant="ghost" size="sm" onClick={() => setQuery("")} className="absolute w-6 h-6 p-0 transform -translate-y-1/2 right-2 top-1/2 hover:bg-muted">
 										<X className="w-3 h-3" />
 									</Button>
 								)}
@@ -265,9 +267,9 @@ const EnhancedSearchBox = () => {
 						{/* Location Input */}
 						<div className="relative flex-1 lg:max-w-sm">
 							<div className="relative">
-								<MapPin className="absolute w-4 h-4 text-gray-400 transform -translate-y-1/2 left-3 top-1/2" />
+								<MapPin className="absolute w-4 h-4 text-muted-foreground transform -translate-y-1/2 left-3 top-1/2" />
 								<Input ref={locationInputRef} type="text" placeholder="Where?" value={location} onChange={(e) => setLocation(e.target.value)} className="h-12 pl-10 pr-10 text-base font-medium border-0 focus:ring-2 focus:ring-primary/20" />
-								<Button variant="ghost" size="sm" onClick={handleLocationDetect} className="absolute w-6 h-6 p-0 transform -translate-y-1/2 right-2 top-1/2 hover:bg-gray-100" title="Use current location">
+								<Button variant="ghost" size="sm" onClick={handleLocationDetect} className="absolute w-6 h-6 p-0 transform -translate-y-1/2 right-2 top-1/2 hover:bg-muted" title="Use current location">
 									<Target className="w-3 h-3" />
 								</Button>
 							</div>
@@ -287,12 +289,12 @@ const EnhancedSearchBox = () => {
 
 			{/* Suggestions Dropdown */}
 			{showSuggestions && (
-				<div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white border rounded-lg shadow-2xl top-full dark:bg-gray-900 max-h-96">
+				<div className="absolute left-0 right-0 z-50 mt-2 overflow-hidden bg-white border rounded-lg shadow-2xl top-full dark:bg-card max-h-96">
 					<ScrollArea className="max-h-96">
 						{isLoading ? (
 							<div className="p-6 text-center">
 								<div className="w-8 h-8 mx-auto border-b-2 rounded-full animate-spin border-primary"></div>
-								<p className="mt-3 text-sm text-gray-500">Searching...</p>
+								<p className="mt-3 text-sm text-muted-foreground">Searching...</p>
 							</div>
 						) : (
 							<div className="py-2">
@@ -300,13 +302,13 @@ const EnhancedSearchBox = () => {
 								{query && (
 									<>
 										<div className="px-4 py-2">
-											<button onClick={() => handleSearch()} className="flex items-center w-full gap-3 p-3 text-left transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
+											<button onClick={() => handleSearch()} className="flex items-center w-full gap-3 p-3 text-left transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-card">
 												<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10">
 													<Search className="w-4 h-4 text-primary" />
 												</div>
 												<div>
 													<span className="font-medium">Search for &quot;{query}&quot;</span>
-													<p className="text-sm text-gray-500">Press Enter or click to search</p>
+													<p className="text-sm text-muted-foreground">Press Enter or click to search</p>
 												</div>
 											</button>
 										</div>
@@ -318,18 +320,18 @@ const EnhancedSearchBox = () => {
 								{suggestions.length > 0 && (
 									<>
 										<div className="px-4 py-2">
-											<h4 className="mb-3 text-sm font-semibold tracking-wide text-gray-500 uppercase">{query ? "Suggestions" : "Popular & Recent"}</h4>
+											<h4 className="mb-3 text-sm font-semibold tracking-wide text-muted-foreground uppercase">{query ? "Suggestions" : "Popular & Recent"}</h4>
 											{suggestions.map((suggestion, index) => {
 												const Icon = suggestion.icon;
 												return (
-													<button key={index} onClick={() => handleSuggestionClick(suggestion)} className={`flex items-center gap-3 w-full text-left p-3 rounded-lg transition-all ${selectedSuggestionIndex === index ? "bg-primary/10 text-primary shadow-sm" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
-														<div className={`w-8 h-8 rounded-lg flex items-center justify-center ${suggestion.type === "business" ? "bg-primary/20 dark:bg-primary/20" : "bg-gray-100 dark:bg-gray-800"}`}>
-															<Icon className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+													<button key={index} onClick={() => handleSuggestionClick(suggestion)} className={`flex items-center gap-3 w-full text-left p-3 rounded-lg transition-all ${selectedSuggestionIndex === index ? "bg-primary/10 text-primary shadow-sm" : "hover:bg-gray-50 dark:hover:bg-card"}`}>
+														<div className={`w-8 h-8 rounded-lg flex items-center justify-center ${suggestion.type === "business" ? "bg-primary/20 dark:bg-primary/20" : "bg-muted dark:bg-card"}`}>
+															<Icon className="w-4 h-4 text-muted-foreground dark:text-muted-foreground" />
 														</div>
 														<div className="flex-1 min-w-0">
 															<span className="block font-medium truncate">{suggestion.name}</span>
-															{suggestion.category && <span className="text-sm text-gray-500">{suggestion.category}</span>}
-															{suggestion.address && <span className="text-xs text-gray-400">{suggestion.address}</span>}
+															{suggestion.category && <span className="text-sm text-muted-foreground">{suggestion.category}</span>}
+															{suggestion.address && <span className="text-xs text-muted-foreground">{suggestion.address}</span>}
 														</div>
 														{suggestion.rating && (
 																						<div className="flex items-center gap-1 px-2 py-1 rounded bg-muted-foreground/10 dark:bg-muted-foreground/20">
@@ -350,19 +352,19 @@ const EnhancedSearchBox = () => {
 										<Separator />
 										<div className="px-4 py-2">
 											<div className="flex items-center justify-between mb-3">
-												<h4 className="text-sm font-semibold tracking-wide text-gray-500 uppercase">Recent Searches</h4>
+												<h4 className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">Recent Searches</h4>
 												<Button variant="ghost" size="sm" onClick={clearRecentSearches} className="h-6 px-2 text-xs">
 													Clear
 												</Button>
 											</div>
 											{recentSearches.slice(0, 3).map((search, index) => (
-												<button key={index} onClick={() => handleSearch(search.query, search.location)} className="flex items-center w-full gap-3 p-2 text-left transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
-													<div className="flex items-center justify-center w-6 h-6 bg-gray-100 rounded dark:bg-gray-800">
-														<History className="w-3 h-3 text-gray-500" />
+												<button key={index} onClick={() => handleSearch(search.query, search.location)} className="flex items-center w-full gap-3 p-2 text-left transition-colors rounded-lg hover:bg-gray-50 dark:hover:bg-card">
+													<div className="flex items-center justify-center w-6 h-6 bg-muted rounded dark:bg-card">
+														<History className="w-3 h-3 text-muted-foreground" />
 													</div>
 													<div className="flex-1 min-w-0">
 														<span className="block text-sm font-medium truncate">{search.query}</span>
-														{search.location && <span className="text-xs text-gray-500">{search.location}</span>}
+														{search.location && <span className="text-xs text-muted-foreground">{search.location}</span>}
 													</div>
 												</button>
 											))}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 const DevDiagnostics = () => {
 	const [isVisible, setIsVisible] = useState(false);
@@ -136,15 +136,15 @@ const DevDiagnostics = () => {
 			{/* Diagnostics Panel */}
 			{isVisible && (
 				<div className="fixed bottom-16 right-4 z-50 bg-black text-white p-4 rounded-md shadow-lg max-w-md max-h-96 overflow-auto text-xs font-mono">
-					<h3 className="font-bold mb-2 text-green-400">🔧 Dev Diagnostics</h3>
+					<h3 className="font-bold mb-2 text-success">🔧 Dev Diagnostics</h3>
 					
 					{/* Performance Metrics */}
 					<div className="mb-4">
-						<h4 className="font-semibold text-blue-400 mb-1">⚡ Performance</h4>
+						<h4 className="font-semibold text-primary mb-1">⚡ Performance</h4>
 						{Object.entries(performanceMetrics.apiCalls || {}).map(([endpoint, metrics]) => (
 							<div key={endpoint} className="mb-1">
-								<div className="text-gray-300">{endpoint}</div>
-								<div className="text-gray-400 text-xs">
+								<div className="text-muted-foreground">{endpoint}</div>
+								<div className="text-muted-foreground text-xs">
 									Avg: {metrics.avgTime?.toFixed(2)}ms | Count: {metrics.count}
 								</div>
 							</div>
@@ -153,11 +153,11 @@ const DevDiagnostics = () => {
 
 					{/* Throttled Logs */}
 					<div className="mb-4">
-						<h4 className="font-semibold text-yellow-400 mb-1">⚠️ Throttled Logs</h4>
+						<h4 className="font-semibold text-warning mb-1">⚠️ Throttled Logs</h4>
 						{Object.entries(throttledLogs).map(([key, data]) => (
 							<div key={key} className="mb-1">
-								<div className="text-gray-300">{key}</div>
-								<div className="text-gray-400 text-xs">
+								<div className="text-muted-foreground">{key}</div>
+								<div className="text-muted-foreground text-xs">
 									Count: {data.count} | Last: {new Date(data.lastTimestamp).toLocaleTimeString()}
 								</div>
 							</div>
@@ -166,12 +166,12 @@ const DevDiagnostics = () => {
 
 					{/* Recent Logs */}
 					<div className="mb-4">
-						<h4 className="font-semibold text-purple-400 mb-1">📝 Recent Logs</h4>
+						<h4 className="font-semibold text-muted-foreground mb-1">📝 Recent Logs</h4>
 						<div className="max-h-32 overflow-auto">
 							{logs.slice(-10).map((log, index) => (
 								<div key={index} className={`mb-1 text-xs ${
-									log.type === 'error' ? 'text-red-400' : 
-									log.type === 'warn' ? 'text-yellow-400' : 'text-gray-300'
+									log.type === 'error' ? 'text-destructive' : 
+									log.type === 'warn' ? 'text-warning' : 'text-muted-foreground'
 								}`}>
 									{log.message.substring(0, 100)}...
 								</div>
@@ -183,13 +183,13 @@ const DevDiagnostics = () => {
 					<div className="flex gap-2">
 						<button
 							onClick={() => logger.clearPerformanceMetrics()}
-							className="bg-red-600 text-white px-2 py-1 rounded text-xs"
+							className="bg-destructive text-white px-2 py-1 rounded text-xs"
 						>
 							Clear Metrics
 						</button>
 						<button
 							onClick={() => setLogs([])}
-							className="bg-gray-600 text-white px-2 py-1 rounded text-xs"
+							className="bg-muted text-white px-2 py-1 rounded text-xs"
 						>
 							Clear Logs
 						</button>

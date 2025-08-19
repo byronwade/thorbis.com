@@ -73,7 +73,7 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 			// Add text before the blank
 			if (blank.position > lastIndex) {
 				parts.push(
-					<span key={`text-${blankIndex}`} className="text-gray-800">
+					<span key={`text-${blankIndex}`} className="text-foreground">
 						{question.text.substring(lastIndex, blank.position)}
 					</span>
 				);
@@ -92,10 +92,10 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 						onChange={(e) => handleInputChange(question.blanks.indexOf(blank), e.target.value)}
 						disabled={disabled || isAnswered}
 						placeholder={`Blank ${question.blanks.indexOf(blank) + 1}`}
-						className={`px-2 py-1 border-b-2 focus:outline-none focus:border-blue-500 bg-transparent text-center min-w-[100px] ${isCorrect ? "border-green-500 bg-green-50" : isIncorrect ? "border-red-500 bg-red-50" : "border-gray-300"}`}
+						className={`px-2 py-1 border-b-2 focus:outline-none focus:border-primary bg-transparent text-center min-w-[100px] ${isCorrect ? "border-green-500 bg-green-50" : isIncorrect ? "border-red-500 bg-red-50" : "border-border"}`}
 						style={{ width: `${Math.max(100, (inputValue.length + 5) * 8)}px` }}
 					/>
-					{showFeedback && isAnswered && <span className="ml-1">{isCorrect ? <CheckCircle className="w-4 h-4 text-green-500 inline" /> : <XCircle className="w-4 h-4 text-red-500 inline" />}</span>}
+					{showFeedback && isAnswered && <span className="ml-1">{isCorrect ? <CheckCircle className="w-4 h-4 text-success inline" /> : <XCircle className="w-4 h-4 text-destructive inline" />}</span>}
 				</span>
 			);
 
@@ -105,7 +105,7 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 		// Add remaining text after the last blank
 		if (lastIndex < question.text.length) {
 			parts.push(
-				<span key="text-end" className="text-gray-800">
+				<span key="text-end" className="text-foreground">
 					{question.text.substring(lastIndex)}
 				</span>
 			);
@@ -125,10 +125,10 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 
 		return (
 			<div className="mt-1 text-sm">
-				<span className="text-red-600">Expected: </span>
-				<span className="text-gray-700">{blank.acceptableAnswers.join(" or ")}</span>
+				<span className="text-destructive">Expected: </span>
+				<span className="text-muted-foreground">{blank.acceptableAnswers.join(" or ")}</span>
 				{blank.hint && (
-					<div className="text-blue-600 mt-1">
+					<div className="text-primary mt-1">
 						<span className="font-medium">Hint: </span>
 						{blank.hint}
 					</div>
@@ -143,11 +143,11 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 			<Card>
 				<CardContent className="p-4">
 					<div className="flex items-center space-x-2 mb-2">
-						<Edit3 className="w-5 h-5 text-blue-500" />
+						<Edit3 className="w-5 h-5 text-primary" />
 						<h3 className="text-lg font-semibold">Fill in the Blanks</h3>
 					</div>
-					<p className="text-gray-700 mb-4">Complete the text by filling in the missing words or phrases.</p>
-					<div className="flex items-center space-x-4 text-sm text-gray-600">
+					<p className="text-muted-foreground mb-4">Complete the text by filling in the missing words or phrases.</p>
+					<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 						<span>Blanks to fill: {question.blanks.length}</span>
 						{question.caseSensitive && <span>Case sensitive</span>}
 					</div>
@@ -170,9 +170,9 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 							<div key={index} className="p-3 rounded-lg border bg-gray-50">
 								<div className="flex items-center justify-between mb-2">
 									<span className="font-medium">Blank {index + 1}</span>
-									{showFeedback && isAnswered && userAnswer && <span>{question.blanks[index].acceptableAnswers.some((acceptable) => acceptable.toLowerCase() === userAnswer[index]?.toLowerCase()) ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}</span>}
+									{showFeedback && isAnswered && userAnswer && <span>{question.blanks[index].acceptableAnswers.some((acceptable) => acceptable.toLowerCase() === userAnswer[index]?.toLowerCase()) ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}</span>}
 								</div>
-								<input type="text" value={answers[index] || ""} onChange={(e) => handleInputChange(index, e.target.value)} disabled={disabled || isAnswered} placeholder="Enter your answer..." className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+								<input type="text" value={answers[index] || ""} onChange={(e) => handleInputChange(index, e.target.value)} disabled={disabled || isAnswered} placeholder="Enter your answer..." className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-primary" />
 								{getBlankFeedback(index)}
 							</div>
 						))}
@@ -204,9 +204,9 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 
 									return (
 										<>
-											{isAllCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isAllCorrect ? "text-green-700" : "text-red-700"}`}>{isAllCorrect ? "Perfect!" : "Some answers need correction"}</span>
-											<span className="text-sm text-gray-600">
+											{isAllCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isAllCorrect ? "text-success" : "text-destructive"}`}>{isAllCorrect ? "Perfect!" : "Some answers need correction"}</span>
+											<span className="text-sm text-muted-foreground">
 												({correctCount} / {question.blanks.length} correct)
 											</span>
 										</>
@@ -215,25 +215,25 @@ export function FillInBlankRenderer({ question, onAnswer, isAnswered, userAnswer
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Detailed results */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Answer Review:</p>
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Answer Review:</p>
 								{question.blanks.map((blank, index) => {
 									const userAnswerText = userAnswer?.[index]?.trim();
 									const isCorrect = blank.acceptableAnswers.some((acceptable) => acceptable.toLowerCase() === userAnswerText?.toLowerCase());
 
 									return (
-										<div key={index} className="flex items-center justify-between py-2 border-b border-gray-200 last:border-b-0">
-											<span className="text-gray-700">Blank {index + 1}:</span>
+										<div key={index} className="flex items-center justify-between py-2 border-b border-border last:border-b-0">
+											<span className="text-muted-foreground">Blank {index + 1}:</span>
 											<div className="flex items-center space-x-2">
-												<span className={`font-medium ${isCorrect ? "text-green-600" : "text-red-600"}`}>{userAnswerText || "(empty)"}</span>
-												{isCorrect ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}
+												<span className={`font-medium ${isCorrect ? "text-success" : "text-destructive"}`}>{userAnswerText || "(empty)"}</span>
+												{isCorrect ? <CheckCircle className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-destructive" />}
 											</div>
 										</div>
 									);

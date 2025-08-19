@@ -179,7 +179,7 @@ export function BusinessForm({ formType }) {
 								<div>
 									<Label htmlFor="business-name">Business Name *</Label>
 									<Input id="business-name" value={businessData.name} onChange={(e) => handleInputChange("name", e.target.value)} placeholder="Your Business Name" className={validationErrors.name ? "border-red-500" : ""} />
-									{validationErrors.name && <p className="text-sm text-red-500 mt-1">{validationErrors.name}</p>}
+									{validationErrors.name && <p className="text-sm text-destructive mt-1">{validationErrors.name}</p>}
 								</div>
 								<div>
 									<Label htmlFor="category">Category *</Label>
@@ -195,7 +195,7 @@ export function BusinessForm({ formType }) {
 											))}
 										</SelectContent>
 									</Select>
-									{validationErrors.category && <p className="text-sm text-red-500 mt-1">{validationErrors.category}</p>}
+									{validationErrors.category && <p className="text-sm text-destructive mt-1">{validationErrors.category}</p>}
 								</div>
 							</div>
 
@@ -219,14 +219,14 @@ export function BusinessForm({ formType }) {
 							<div>
 								<Label htmlFor="address">Street Address *</Label>
 								<Input id="address" value={businessData.address} onChange={(e) => handleInputChange("address", e.target.value)} placeholder="123 Main Street" className={validationErrors.address ? "border-red-500" : ""} />
-								{validationErrors.address && <p className="text-sm text-red-500 mt-1">{validationErrors.address}</p>}
+								{validationErrors.address && <p className="text-sm text-destructive mt-1">{validationErrors.address}</p>}
 							</div>
 
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 								<div>
 									<Label htmlFor="city">City *</Label>
 									<Input id="city" value={businessData.city} onChange={(e) => handleInputChange("city", e.target.value)} placeholder="Portland" className={validationErrors.city ? "border-red-500" : ""} />
-									{validationErrors.city && <p className="text-sm text-red-500 mt-1">{validationErrors.city}</p>}
+									{validationErrors.city && <p className="text-sm text-destructive mt-1">{validationErrors.city}</p>}
 								</div>
 								<div>
 									<Label htmlFor="state">State</Label>
@@ -242,12 +242,12 @@ export function BusinessForm({ formType }) {
 								<div>
 									<Label htmlFor="phone">Phone Number *</Label>
 									<Input id="phone" value={businessData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} placeholder="(503) 555-0123" className={validationErrors.phone ? "border-red-500" : ""} />
-									{validationErrors.phone && <p className="text-sm text-red-500 mt-1">{validationErrors.phone}</p>}
+									{validationErrors.phone && <p className="text-sm text-destructive mt-1">{validationErrors.phone}</p>}
 								</div>
 								<div>
 									<Label htmlFor="email">Email Address *</Label>
 									<Input id="email" type="email" value={businessData.email} onChange={(e) => handleInputChange("email", e.target.value)} placeholder="info@yourbusiness.com" className={validationErrors.email ? "border-red-500" : ""} />
-									{validationErrors.email && <p className="text-sm text-red-500 mt-1">{validationErrors.email}</p>}
+									{validationErrors.email && <p className="text-sm text-destructive mt-1">{validationErrors.email}</p>}
 								</div>
 							</div>
 
@@ -286,7 +286,7 @@ export function BusinessForm({ formType }) {
 										<ul className="space-y-2">
 											{tier.features.map((feature, index) => (
 												<li key={index} className="flex items-center text-sm">
-													<CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+													<CheckCircle className="w-4 h-4 text-success mr-2 flex-shrink-0" />
 													{feature}
 												</li>
 											))}
@@ -354,13 +354,13 @@ export function BusinessForm({ formType }) {
 					<div className="flex items-center space-x-2">
 						<span className="text-sm text-muted-foreground">{Math.round((currentStep / 4) * 100)}% Complete</span>
 						{autoSaveStatus === "saving" && (
-							<div className="flex items-center space-x-1 text-sm text-blue-600">
+							<div className="flex items-center space-x-1 text-sm text-primary">
 								<Save className="w-3 h-3 animate-spin" />
 								<span>Saving...</span>
 							</div>
 						)}
 						{autoSaveStatus === "saved" && (
-							<div className="flex items-center space-x-1 text-sm text-green-600">
+							<div className="flex items-center space-x-1 text-sm text-success">
 								<CheckCircle className="w-3 h-3" />
 								<span>Saved</span>
 							</div>

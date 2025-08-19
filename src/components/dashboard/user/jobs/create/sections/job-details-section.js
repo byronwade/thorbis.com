@@ -84,7 +84,7 @@ export const JobDetailsSection = ({ formData, onInputChange, errors = {}, allCat
 													{cat.name}
 													<span className="block text-xs text-muted-foreground">{cat.description}</span>
 												</span>
-												{cat.trending && <Badge className="ml-2 text-green-700 bg-green-100">Trending</Badge>}
+												{cat.trending && <Badge className="ml-2 text-success bg-success/10">Trending</Badge>}
 											</button>
 										))}
 								</div>
@@ -121,7 +121,7 @@ export const JobDetailsSection = ({ formData, onInputChange, errors = {}, allCat
 					{errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
 					<div className="flex justify-between items-center mt-1">
 						<p className="text-xs text-muted-foreground">Minimum 50 characters required</p>
-						<p className={`text-xs ${formData.description.length >= 50 ? "text-green-600" : "text-muted-foreground"}`}>{formData.description.length}/50</p>
+						<p className={`text-xs ${formData.description.length >= 50 ? "text-success" : "text-muted-foreground"}`}>{formData.description.length}/50</p>
 					</div>
 				</div>
 			</CardContent>

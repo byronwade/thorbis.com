@@ -7,7 +7,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 export class PerformanceMonitorService {
 	constructor() {

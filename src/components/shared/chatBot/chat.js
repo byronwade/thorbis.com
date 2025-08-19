@@ -54,22 +54,22 @@ const suggestions = [
 	{
 		text: "Find business information",
 		icon: "Search",
-		color: "rgb(226, 197, 65)",
+		color: "hsl(var(--accent))",
 	},
 	{
 		text: "Create a business content calendar",
 		icon: "Calendar",
-		color: "rgb(203, 139, 208)",
+		color: "hsl(var(--muted-foreground))",
 	},
 	{
 		text: "Organize business documents",
 		icon: "Clipboard",
-		color: "rgb(203, 139, 208)",
+		color: "hsl(var(--muted-foreground))",
 	},
 	{
 		text: "Write a business proposal",
 		icon: "Book",
-		color: "rgb(226, 197, 65)",
+		color: "hsl(var(--accent))",
 	},
 ];
 

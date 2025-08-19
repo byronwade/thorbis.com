@@ -170,7 +170,7 @@ export default function Header() {
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="sm" className="relative p-2 h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-accent">
 								<Bell className="w-5 h-5" />
-								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-primary border-2 border-white dark:border-gray-800 rounded-full"></span>
+								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-primary border-2 border-white dark:border-border rounded-full"></span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="w-80 z-[80] bg-neutral-950/95 backdrop-blur-md border border-neutral-900">

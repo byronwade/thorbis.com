@@ -277,7 +277,7 @@ export default function CreateServicePlan() {
 						<CardContent className="space-y-4">
 							{steps.map((step) => (
 								<div key={step.number} className={`flex items-start gap-3 p-3 rounded-lg transition-colors ${currentStep === step.number ? "bg-primary/10 border border-primary/20" : currentStep > step.number ? "bg-green-50 border border-green-200" : "bg-muted/50"}`}>
-									<div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${currentStep === step.number ? "bg-primary text-primary-foreground" : currentStep > step.number ? "bg-green-500 text-white" : "bg-muted text-muted-foreground"}`}>{currentStep > step.number ? <CheckCircle className="w-4 h-4" /> : step.number}</div>
+									<div className={`w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${currentStep === step.number ? "bg-primary text-primary-foreground" : currentStep > step.number ? "bg-success text-white" : "bg-muted text-muted-foreground"}`}>{currentStep > step.number ? <CheckCircle className="w-4 h-4" /> : step.number}</div>
 									<div className="flex-1 min-w-0">
 										<p className={`font-medium text-sm ${currentStep >= step.number ? "text-foreground" : "text-muted-foreground"}`}>{step.title}</p>
 										<p className="text-xs text-muted-foreground">{step.description}</p>
@@ -307,7 +307,7 @@ export default function CreateServicePlan() {
 							</div>
 							<div className="flex justify-between text-sm">
 								<span className="text-muted-foreground">Price</span>
-								<span className="font-medium text-green-600">${planData.price}</span>
+								<span className="font-medium text-success">${planData.price}</span>
 							</div>
 						</CardContent>
 					</Card>
@@ -525,7 +525,7 @@ export default function CreateServicePlan() {
 																</div>
 																<div>
 																	<span className="text-muted-foreground">Plan Price</span>
-																	<p className="font-medium text-green-600">${service.customPrice || service.basePrice}</p>
+																	<p className="font-medium text-success">${service.customPrice || service.basePrice}</p>
 																</div>
 															</div>
 															{service.notes && <p className="text-sm text-muted-foreground mt-2">{service.notes}</p>}
@@ -594,7 +594,7 @@ export default function CreateServicePlan() {
 											<div className="space-y-2">
 												{planData.benefits.map((benefit, index) => (
 													<div key={index} className="flex items-center gap-3 p-3 border rounded-lg">
-														<div className="w-2 h-2 bg-green-500 rounded-full" />
+														<div className="w-2 h-2 bg-success rounded-full" />
 														<span className="flex-1">{benefit}</span>
 														<Button variant="ghost" size="sm" onClick={() => removeBenefit(index)}>
 															<X className="w-4 h-4" />
@@ -653,7 +653,7 @@ export default function CreateServicePlan() {
 												<Separator />
 												<div className="flex justify-between">
 													<span className="font-medium">Customer Savings</span>
-													<span className={`font-medium ${calculateEstimatedCost() > planData.price ? "text-green-600" : "text-red-600"}`}>${calculateEstimatedCost() > planData.price ? (calculateEstimatedCost() - planData.price).toFixed(2) : "0.00"}</span>
+													<span className={`font-medium ${calculateEstimatedCost() > planData.price ? "text-success" : "text-destructive"}`}>${calculateEstimatedCost() > planData.price ? (calculateEstimatedCost() - planData.price).toFixed(2) : "0.00"}</span>
 												</div>
 												<div className="flex justify-between">
 													<span className="text-muted-foreground">Discount %</span>
@@ -664,10 +664,10 @@ export default function CreateServicePlan() {
 											{calculateEstimatedCost() <= planData.price && (
 												<div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
 													<div className="flex items-start gap-2">
-														<AlertTriangle className="w-4 h-4 text-yellow-600 mt-0.5" />
+														<AlertTriangle className="w-4 h-4 text-warning mt-0.5" />
 														<div className="text-sm">
-															<p className="font-medium text-yellow-800">Price Warning</p>
-															<p className="text-yellow-700">Plan price should be lower than service cost to provide customer value</p>
+															<p className="font-medium text-warning">Price Warning</p>
+															<p className="text-warning">Plan price should be lower than service cost to provide customer value</p>
 														</div>
 													</div>
 												</div>
@@ -719,7 +719,7 @@ export default function CreateServicePlan() {
 													</div>
 													<div className="flex justify-between">
 														<span className="text-muted-foreground">Total Revenue</span>
-														<span className="font-medium text-green-600">${(planData.price * (billingCycles.find((c) => c.value === planData.billingCycle)?.multiplier || 1) * (parseInt(planData.duration) / 12)).toFixed(2)}</span>
+														<span className="font-medium text-success">${(planData.price * (billingCycles.find((c) => c.value === planData.billingCycle)?.multiplier || 1) * (parseInt(planData.duration) / 12)).toFixed(2)}</span>
 													</div>
 												</div>
 											</div>
@@ -743,7 +743,7 @@ export default function CreateServicePlan() {
 												<div className="space-y-1 text-sm">
 													{planData.benefits.map((benefit, index) => (
 														<div key={index} className="flex items-start gap-2">
-															<div className="w-1 h-1 bg-green-500 rounded-full mt-2" />
+															<div className="w-1 h-1 bg-success rounded-full mt-2" />
 															<span className="text-muted-foreground flex-1">{benefit}</span>
 														</div>
 													))}

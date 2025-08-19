@@ -49,14 +49,14 @@ export default function HospitalityPOSWidget() {
 				<div className="grid grid-cols-2 gap-3">
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<DollarSign className="h-3 w-3 text-green-600" />
+							<DollarSign className="h-3 w-3 text-success" />
 							<span className="text-xs text-muted-foreground">Sales</span>
 						</div>
-						<p className="font-semibold text-sm text-green-600">{posData.todaysSales}</p>
+						<p className="font-semibold text-sm text-success">{posData.todaysSales}</p>
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<ShoppingCart className="h-3 w-3 text-blue-600" />
+							<ShoppingCart className="h-3 w-3 text-primary" />
 							<span className="text-xs text-muted-foreground">Orders</span>
 						</div>
 						<p className="font-semibold text-sm">{posData.todaysOrders}</p>
@@ -70,7 +70,7 @@ export default function HospitalityPOSWidget() {
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<Clock className="h-3 w-3 text-orange-600" />
+							<Clock className="h-3 w-3 text-warning" />
 							<span className="text-xs text-muted-foreground">Active</span>
 						</div>
 						<p className="font-semibold text-sm">{posData.activeOrders}</p>
@@ -106,7 +106,7 @@ export default function HospitalityPOSWidget() {
 							<div key={index} className="flex items-center justify-between text-xs">
 								<span className="flex-1 truncate">{item.name}</span>
 								<span className="text-muted-foreground mx-1">×{item.quantity}</span>
-								<span className="font-medium text-green-600">{item.revenue}</span>
+								<span className="font-medium text-success">{item.revenue}</span>
 							</div>
 						))}
 					</div>

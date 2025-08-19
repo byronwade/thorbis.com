@@ -90,19 +90,19 @@ export function Model3DInteractionRenderer({ question, onAnswer, isAnswered, use
 
 		if (showFeedback && isAnswered) {
 			if (isCorrect && isSelected) {
-				return "border-green-500 bg-green-100 text-green-700";
+				return "border-green-500 bg-success/10 text-success";
 			} else if (isCorrect && !isSelected) {
-				return "border-orange-500 bg-orange-100 text-orange-700";
+				return "border-orange-500 bg-warning/10 text-warning";
 			} else if (!isCorrect && isSelected) {
-				return "border-red-500 bg-red-100 text-red-700";
+				return "border-red-500 bg-destructive/10 text-destructive";
 			}
 		}
 
 		if (isSelected) {
-			return "border-blue-500 bg-blue-100 text-blue-700";
+			return "border-primary bg-primary/10 text-primary";
 		}
 
-		return "border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50";
+		return "border-border bg-white text-muted-foreground hover:border-border hover:bg-gray-50";
 	};
 
 	const getInteractionIcon = () => {
@@ -139,8 +139,8 @@ export function Model3DInteractionRenderer({ question, onAnswer, isAnswered, use
 					<div className="flex items-start space-x-3">
 						{getInteractionIcon()}
 						<div>
-							<p className="text-gray-700 mb-2">{getInteractionDescription()}</p>
-							<p className="text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">{getInteractionDescription()}</p>
+							<p className="text-sm text-muted-foreground">
 								Selected: {selectedTargets.length} / {question.correctInteractions.length}
 							</p>
 						</div>
@@ -244,7 +244,7 @@ export function Model3DInteractionRenderer({ question, onAnswer, isAnswered, use
 						</div>
 
 						{/* Rotation indicator */}
-						<div className="absolute top-4 right-4 text-xs text-gray-600 bg-white bg-opacity-75 px-2 py-1 rounded">
+						<div className="absolute top-4 right-4 text-xs text-muted-foreground bg-white bg-opacity-75 px-2 py-1 rounded">
 							Rotation: X:{rotation.x}° Y:{rotation.y}°
 						</div>
 					</div>
@@ -264,7 +264,7 @@ export function Model3DInteractionRenderer({ question, onAnswer, isAnswered, use
 										<p className="font-medium">{target.name}</p>
 										<p className="text-sm opacity-75">{target.description}</p>
 									</div>
-									{selectedTargets.includes(target.id) && showFeedback && isAnswered && <div className="ml-auto">{question.correctInteractions.includes(target.id) ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}</div>}
+									{selectedTargets.includes(target.id) && showFeedback && isAnswered && <div className="ml-auto">{question.correctInteractions.includes(target.id) ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}</div>}
 								</div>
 							</div>
 						))}
@@ -291,28 +291,28 @@ export function Model3DInteractionRenderer({ question, onAnswer, isAnswered, use
 									const isCorrect = question.correctInteractions.every((correctId) => selectedTargets.includes(correctId)) && selectedTargets.every((selectedId) => question.correctInteractions.includes(selectedId));
 									return (
 										<>
-											{isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isCorrect ? "text-green-700" : "text-red-700"}`}>{isCorrect ? "Perfect 3D Interaction!" : "Some selections need correction"}</span>
+											{isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isCorrect ? "text-success" : "text-destructive"}`}>{isCorrect ? "Perfect 3D Interaction!" : "Some selections need correction"}</span>
 										</>
 									);
 								})()}
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show correct interactions */}
 							<div className="p-4 rounded-lg bg-green-50 border border-green-200">
-								<p className="text-green-800 font-medium">Correct Interactions:</p>
+								<p className="text-success font-medium">Correct Interactions:</p>
 								<ul className="list-disc list-inside space-y-1 mt-2">
 									{question.correctInteractions.map((targetId) => {
 										const target = question.targets.find((t) => t.id === targetId);
 										return (
-											<li key={targetId} className="text-green-700">
+											<li key={targetId} className="text-success">
 												{target?.name} - {target?.description}
 											</li>
 										);

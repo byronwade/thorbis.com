@@ -204,9 +204,9 @@ function CompanyContent() {
 
 									<div>
 										<h2 className="text-3xl font-bold mb-6">Our Mission</h2>
-										<div className="bg-blue-50 p-6 rounded-lg">
-											<p className="text-lg text-blue-800 font-medium mb-4">"To empower local businesses with the tools and visibility they need to thrive, while helping communities discover and support the amazing entrepreneurs in their neighborhoods."</p>
-											<p className="text-blue-600">We believe that when local businesses succeed, entire communities benefit through job creation, economic growth, and stronger social connections.</p>
+										<div className="bg-primary p-6 rounded-lg">
+											<p className="text-lg text-primary font-medium mb-4">"To empower local businesses with the tools and visibility they need to thrive, while helping communities discover and support the amazing entrepreneurs in their neighborhoods."</p>
+											<p className="text-primary">We believe that when local businesses succeed, entire communities benefit through job creation, economic growth, and stronger social connections.</p>
 										</div>
 									</div>
 								</div>
@@ -218,7 +218,7 @@ function CompanyContent() {
 										{companyValues.map((value, index) => (
 											<Card key={index} className="text-center hover:shadow-lg transition-shadow">
 												<CardContent className="p-6">
-													<value.icon className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+													<value.icon className="h-12 w-12 text-primary mx-auto mb-4" />
 													<h3 className="font-semibold mb-2">{value.title}</h3>
 													<p className="text-muted-foreground text-sm">{value.description}</p>
 												</CardContent>
@@ -236,7 +236,7 @@ function CompanyContent() {
 												<CardContent className="p-6">
 													<div className="w-24 h-24 bg-muted rounded-full mx-auto mb-4"></div>
 													<h3 className="font-semibold mb-1">{member.name}</h3>
-													<p className="text-blue-600 text-sm mb-3">{member.role}</p>
+													<p className="text-primary text-sm mb-3">{member.role}</p>
 													<p className="text-muted-foreground text-sm">{member.bio}</p>
 												</CardContent>
 											</Card>
@@ -267,17 +267,17 @@ function CompanyContent() {
 									<h3 className="text-xl font-semibold mb-6 text-center">Why Work With Us?</h3>
 									<div className="grid md:grid-cols-3 gap-6">
 										<div className="text-center">
-											<Heart className="h-8 w-8 text-red-500 mx-auto mb-3" />
+											<Heart className="h-8 w-8 text-destructive mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Impact & Purpose</h4>
 											<p className="text-muted-foreground text-sm">Work on products that directly impact local communities and small business success.</p>
 										</div>
 										<div className="text-center">
-											<Globe className="h-8 w-8 text-blue-500 mx-auto mb-3" />
+											<Globe className="h-8 w-8 text-primary mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Remote-First Culture</h4>
 											<p className="text-muted-foreground text-sm">Flexible work arrangements with optional office access in major cities.</p>
 										</div>
 										<div className="text-center">
-											<Award className="h-8 w-8 text-green-500 mx-auto mb-3" />
+											<Award className="h-8 w-8 text-success mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Growth & Learning</h4>
 											<p className="text-muted-foreground text-sm">Continuous learning budget, conference attendance, and career development support.</p>
 										</div>
@@ -365,7 +365,7 @@ function CompanyContent() {
 									<h3 className="text-xl font-semibold mb-6">Media Resources</h3>
 									<div className="grid md:grid-cols-3 gap-6">
 										<div className="text-center">
-											<Download className="h-8 w-8 text-blue-500 mx-auto mb-3" />
+											<Download className="h-8 w-8 text-primary mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Brand Assets</h4>
 											<p className="text-muted-foreground text-sm mb-3">Logos, brand guidelines, and visual assets</p>
 											<Button variant="outline" size="sm">
@@ -373,7 +373,7 @@ function CompanyContent() {
 											</Button>
 										</div>
 										<div className="text-center">
-											<Newspaper className="h-8 w-8 text-green-500 mx-auto mb-3" />
+											<Newspaper className="h-8 w-8 text-success mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Fact Sheet</h4>
 											<p className="text-muted-foreground text-sm mb-3">Company stats, timeline, and key information</p>
 											<Button variant="outline" size="sm">
@@ -381,7 +381,7 @@ function CompanyContent() {
 											</Button>
 										</div>
 										<div className="text-center">
-											<Users className="h-8 w-8 text-purple-500 mx-auto mb-3" />
+											<Users className="h-8 w-8 text-muted-foreground mx-auto mb-3" />
 											<h4 className="font-semibold mb-2">Executive Bios</h4>
 											<p className="text-muted-foreground text-sm mb-3">Leadership team backgrounds and photos</p>
 											<Button variant="outline" size="sm">
@@ -414,19 +414,19 @@ function CompanyContent() {
 									<h3 className="text-xl font-semibold mb-6 text-center">Key Business Metrics</h3>
 									<div className="grid md:grid-cols-4 gap-6 text-center">
 										<div>
-											<div className="text-3xl font-bold text-green-600">$45M</div>
+											<div className="text-3xl font-bold text-success">$45M</div>
 											<div className="text-sm text-muted-foreground">Series B Funding</div>
 										</div>
 										<div>
-											<div className="text-3xl font-bold text-blue-600">250%</div>
+											<div className="text-3xl font-bold text-primary">250%</div>
 											<div className="text-sm text-muted-foreground">YoY Revenue Growth</div>
 										</div>
 										<div>
-											<div className="text-3xl font-bold text-purple-600">50K+</div>
+											<div className="text-3xl font-bold text-muted-foreground">50K+</div>
 											<div className="text-sm text-muted-foreground">Business Partners</div>
 										</div>
 										<div>
-											<div className="text-3xl font-bold text-orange-600">2.5M+</div>
+											<div className="text-3xl font-bold text-warning">2.5M+</div>
 											<div className="text-sm text-muted-foreground">Monthly Active Users</div>
 										</div>
 									</div>

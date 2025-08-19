@@ -68,12 +68,12 @@ export function LanguageSwitcher({
 
 	// Variant styles
 	const variantStyles = {
-		default: 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shadow-sm',
-		outline: 'bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-50',
-		ghost: 'bg-transparent border-none text-gray-600 hover:bg-gray-100',
+		default: 'bg-white border border-border text-muted-foreground hover:bg-gray-50 shadow-sm',
+		outline: 'bg-transparent border border-border text-muted-foreground hover:bg-gray-50',
+		ghost: 'bg-transparent border-none text-muted-foreground hover:bg-muted',
 		primary: 'bg-primary border border-primary text-primary-foreground hover:bg-primary/90',
-		secondary: 'bg-gray-600 border border-gray-600 text-white hover:bg-gray-700',
-		minimal: 'bg-transparent border-none text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+		secondary: 'bg-muted border border-border text-white hover:bg-muted',
+		minimal: 'bg-transparent border-none text-muted-foreground hover:text-muted-foreground hover:bg-gray-50'
 	};
 
 	// Size styles
@@ -101,7 +101,7 @@ export function LanguageSwitcher({
 	);
 
 	const dropdownClass = cn(
-		'absolute z-50 w-64 rounded-lg bg-white shadow-lg border border-gray-200 py-2 max-h-80 overflow-y-auto',
+		'absolute z-50 w-64 rounded-lg bg-white shadow-lg border border-border py-2 max-h-80 overflow-y-auto',
 		placementStyles[placement]
 	);
 
@@ -115,7 +115,7 @@ export function LanguageSwitcher({
 					disabled={disabled || isChanging}
 					className={cn(
 						'flex items-center gap-1.5 px-2 py-1 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
-						variant === 'compact' && 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+						variant === 'compact' && 'bg-muted text-muted-foreground hover:bg-muted'
 					)}
 					aria-expanded={isOpen}
 					aria-haspopup="menu"
@@ -146,7 +146,7 @@ export function LanguageSwitcher({
 								<div className="flex-1 min-w-0">
 									<div className="font-medium">{language.name}</div>
 									{showNativeName && language.nativeName !== language.name && (
-										<div className="text-xs text-gray-500 truncate">
+										<div className="text-xs text-muted-foreground truncate">
 											{language.nativeName}
 										</div>
 									)}
@@ -194,8 +194,8 @@ export function LanguageSwitcher({
 
 			{isOpen && (
 				<div className={dropdownClass}>
-					<div className="px-3 py-2 border-b border-gray-100">
-						<div className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+					<div className="px-3 py-2 border-b border-border">
+						<div className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
 							Choose Language
 						</div>
 					</div>
@@ -220,7 +220,7 @@ export function LanguageSwitcher({
 								</div>
 								<div className={cn(
 									'text-sm truncate',
-									code === locale ? 'text-primary' : 'text-gray-500'
+									code === locale ? 'text-primary' : 'text-muted-foreground'
 								)}>
 									{language.nativeName}
 								</div>
@@ -262,7 +262,7 @@ export function LanguageGrid({ currentLocale, onLanguageChange, className = '' }
 						'flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all duration-200 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
 						code === currentLocale
 							? 'border-primary bg-primary/20 shadow-sm'
-							: 'border-gray-200 bg-white hover:border-gray-300',
+							: 'border-border bg-white hover:border-border',
 						changing === code && 'opacity-50 cursor-wait'
 					)}
 				>
@@ -270,13 +270,13 @@ export function LanguageGrid({ currentLocale, onLanguageChange, className = '' }
 					<div className="text-center">
 						<div className={cn(
 							'font-medium text-sm',
-							code === currentLocale ? 'text-primary' : 'text-gray-900'
+							code === currentLocale ? 'text-primary' : 'text-foreground'
 						)}>
 							{language.name}
 						</div>
 						<div className={cn(
 							'text-xs',
-							code === currentLocale ? 'text-primary' : 'text-gray-500'
+							code === currentLocale ? 'text-primary' : 'text-muted-foreground'
 						)}>
 							{language.nativeName}
 						</div>
@@ -311,7 +311,7 @@ export function MobileLanguageSwitcher({ isOpen, onClose, onLanguageChange }) {
 						<h3 className="text-lg font-semibold">Choose Language</h3>
 						<button
 							onClick={onClose}
-							className="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+							className="p-2 rounded-lg hover:bg-muted focus:outline-none focus:ring-2 focus:ring-primary"
 						>
 							<svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -331,20 +331,20 @@ export function MobileLanguageSwitcher({ isOpen, onClose, onLanguageChange }) {
 									'w-full flex items-center gap-4 p-4 rounded-lg text-left transition-colors',
 									code === locale
 										? 'bg-primary/20 border-2 border-primary/30'
-										: 'bg-gray-50 border-2 border-transparent hover:bg-gray-100'
+										: 'bg-gray-50 border-2 border-transparent hover:bg-muted'
 								)}
 							>
 								<span className="text-2xl leading-none">{language.flag}</span>
 								<div className="flex-1">
 									<div className={cn(
 										'font-medium',
-										code === locale ? 'text-primary' : 'text-gray-900'
+										code === locale ? 'text-primary' : 'text-foreground'
 									)}>
 										{language.name}
 									</div>
 									<div className={cn(
 										'text-sm',
-										code === locale ? 'text-primary' : 'text-gray-500'
+										code === locale ? 'text-primary' : 'text-muted-foreground'
 									)}>
 										{language.nativeName}
 									</div>

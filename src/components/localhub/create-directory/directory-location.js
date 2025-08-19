@@ -165,7 +165,7 @@ export default function DirectoryLocation() {
 								</FormLabel>
 								<FormDescription>The central address for your directory (this can be your office or a central location in your coverage area).</FormDescription>
 								<FormControl>
-									<Input {...field} placeholder="123 Main Street" className={fieldState.error ? "border-red-500" : ""} />
+									<Input {...field} placeholder="123 Main Street" className={fieldState.error ? "border-destructive" : ""} />
 								</FormControl>
 								{validationTips.street && (
 									<div className={`flex items-center gap-1 text-sm ${validationTips.street.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
@@ -188,7 +188,7 @@ export default function DirectoryLocation() {
 										City <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
-										<Input {...field} placeholder="Raleigh" className={fieldState.error ? "border-red-500" : ""} />
+										<Input {...field} placeholder="Raleigh" className={fieldState.error ? "border-destructive" : ""} />
 									</FormControl>
 									{validationTips.city && (
 										<div className={`flex items-center gap-1 text-sm ${validationTips.city.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
@@ -217,7 +217,7 @@ export default function DirectoryLocation() {
 												const formatted = formatState(e.target.value);
 												field.onChange(formatted);
 											}}
-											className={fieldState.error ? "border-red-500" : ""}
+											className={fieldState.error ? "border-destructive" : ""}
 										/>
 									</FormControl>
 									{validationTips.state && (
@@ -240,7 +240,7 @@ export default function DirectoryLocation() {
 										ZIP Code <span className="text-destructive">*</span>
 									</FormLabel>
 									<FormControl>
-										<Input {...field} placeholder="27601" className={fieldState.error ? "border-red-500" : ""} />
+										<Input {...field} placeholder="27601" className={fieldState.error ? "border-destructive" : ""} />
 									</FormControl>
 									{validationTips.zip && (
 										<div className={`flex items-center gap-1 text-sm ${validationTips.zip.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>

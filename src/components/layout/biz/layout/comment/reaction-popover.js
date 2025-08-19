@@ -12,11 +12,11 @@ const reactionsIcons = {
 };
 
 const reactionColors = {
-	thumbsUp: "bg-blue-500 text-white",
-	heart: "bg-red-500 text-white",
-	smile: "bg-yellow-500 text-white",
-	frown: "bg-gray-500 text-white",
-	meh: "bg-green-500 text-white",
+	thumbsUp: "bg-primary text-white",
+	heart: "bg-destructive text-white",
+	smile: "bg-warning text-white",
+	frown: "bg-muted text-white",
+	meh: "bg-success text-white",
 	thumbsDown: "bg-purple-500 text-white",
 };
 
@@ -24,7 +24,7 @@ const ReactionPopover = ({ handleReactionClick }) => {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<button className="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-500">
+				<button className="flex items-center text-muted-foreground dark:text-muted-foreground hover:text-primary">
 					<ThumbsUp className="w-5 h-5 mr-1" /> Like
 				</button>
 			</PopoverTrigger>

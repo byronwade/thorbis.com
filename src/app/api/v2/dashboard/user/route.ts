@@ -6,7 +6,7 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { z } from "zod";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { withAuth, withValidation, withCache, withPerformanceMonitoring, createSuccessResponse, createErrorResponse, compose, type ApiRequest } from "@lib/api/middleware";
 
 // User dashboard query validation schema

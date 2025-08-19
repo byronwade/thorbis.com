@@ -6,7 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Performance-optimized cache with TTL
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
@@ -265,6 +265,7 @@ export async function GET(request) {
 				address,
 				city,
 				state,
+				country,
 				latitude,
 				longitude,
 				phone,
@@ -435,6 +436,7 @@ function transformBusiness(business) {
 		address: business.address,
 		city: business.city,
 		state: business.state,
+		country: business.country || "US",
 		phone: business.phone,
 		website: business.website,
 		rating: business.rating || 0,

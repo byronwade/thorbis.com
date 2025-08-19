@@ -46,11 +46,11 @@ const createSubdomainSchema = z.object({
 	primary_color: z
 		.string()
 		.regex(/^#[0-9A-F]{6}$/i, "Invalid color format")
-		.default("#3b82f6"),
+		.default("hsl(var(--primary))"),
 	secondary_color: z
 		.string()
 		.regex(/^#[0-9A-F]{6}$/i, "Invalid color format")
-		.default("#1e40af"),
+		.default("hsl(var(--primary))"),
 	contact_email: z.string().email("Invalid email format").optional(),
 	contact_phone: z.string().max(20, "Phone number too long").optional(),
 	featured_categories: z.array(z.string()).default([]),

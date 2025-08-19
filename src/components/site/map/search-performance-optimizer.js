@@ -7,7 +7,7 @@
 "use client";
 
 import React, { useEffect, useCallback, useRef } from "react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { withErrorHandling } from "@utils/error-handler";
 
 // Performance optimization strategies

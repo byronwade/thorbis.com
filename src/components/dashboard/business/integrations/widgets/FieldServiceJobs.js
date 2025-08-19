@@ -35,19 +35,19 @@ export default function FieldServiceJobsWidget() {
 
 	const getStatusColor = (status) => {
 		switch (status) {
-			case 'scheduled': return 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200';
-			case 'in_progress': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-200';
-			case 'completed': return 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200';
-			default: return 'bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-200';
+			case 'scheduled': return 'bg-primary/10 text-primary dark:bg-primary dark:text-primary/80';
+			case 'in_progress': return 'bg-warning/10 text-warning dark:bg-warning dark:text-warning/80';
+			case 'completed': return 'bg-success/10 text-success dark:bg-success dark:text-success/80';
+			default: return 'bg-muted text-foreground dark:bg-card dark:text-muted-foreground';
 		}
 	};
 
 	const getPriorityColor = (priority) => {
 		switch (priority) {
-			case 'high': return 'text-red-600';
-			case 'medium': return 'text-yellow-600';
-			case 'low': return 'text-green-600';
-			default: return 'text-gray-600';
+			case 'high': return 'text-destructive';
+			case 'medium': return 'text-warning';
+			case 'low': return 'text-success';
+			default: return 'text-muted-foreground';
 		}
 	};
 
@@ -56,8 +56,8 @@ export default function FieldServiceJobsWidget() {
 			<CardHeader className="pb-3">
 				<div className="flex items-center justify-between">
 					<div className="flex items-center space-x-2">
-						<div className="p-2 bg-blue-100 dark:bg-blue-950 rounded-lg">
-							<Wrench className="h-4 w-4 text-blue-600" />
+						<div className="p-2 bg-primary/10 dark:bg-primary rounded-lg">
+							<Wrench className="h-4 w-4 text-primary" />
 						</div>
 						<div>
 							<CardTitle className="text-sm">Field Service Jobs</CardTitle>

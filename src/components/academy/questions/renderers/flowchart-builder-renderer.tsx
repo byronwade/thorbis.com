@@ -43,15 +43,15 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 	const getNodeColor = (type: string) => {
 		switch (type) {
 			case "start":
-				return "bg-green-100 border-green-500 text-green-700";
+				return "bg-success/10 border-green-500 text-success";
 			case "process":
-				return "bg-blue-100 border-blue-500 text-blue-700";
+				return "bg-primary/10 border-primary text-primary";
 			case "decision":
-				return "bg-yellow-100 border-yellow-500 text-yellow-700";
+				return "bg-warning/10 border-yellow-500 text-warning";
 			case "end":
-				return "bg-red-100 border-red-500 text-red-700";
+				return "bg-destructive/10 border-red-500 text-destructive";
 			default:
-				return "bg-gray-100 border-gray-500 text-gray-700";
+				return "bg-muted border-border text-muted-foreground";
 		}
 	};
 
@@ -143,8 +143,8 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 			<Card>
 				<CardContent className="p-4">
 					<div className="space-y-2">
-						<p className="text-gray-700">Build the flowchart by clicking on the canvas to place nodes in the correct sequence.</p>
-						<div className="flex items-center space-x-4 text-sm text-gray-600">
+						<p className="text-muted-foreground">Build the flowchart by clicking on the canvas to place nodes in the correct sequence.</p>
+						<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 							<span>
 								Placed: {nodePositions.length} / {question.nodes.length}
 							</span>
@@ -170,7 +170,7 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 									</div>
 								))}
 						</div>
-						<p className="text-sm text-gray-600 mt-2">Click on the canvas below to place the next node.</p>
+						<p className="text-sm text-muted-foreground mt-2">Click on the canvas below to place the next node.</p>
 					</CardContent>
 				</Card>
 			)}
@@ -195,7 +195,7 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 			{/* Flowchart Canvas */}
 			<Card>
 				<CardContent className="p-4">
-					<div ref={canvasRef} className="relative w-full h-96 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-crosshair overflow-hidden" onClick={handleCanvasClick} onDragOver={handleNodeDrag} onDrop={handleNodeDrop}>
+					<div ref={canvasRef} className="relative w-full h-96 bg-gray-50 border-2 border-dashed border-border rounded-lg cursor-crosshair overflow-hidden" onClick={handleCanvasClick} onDragOver={handleNodeDrag} onDrop={handleNodeDrop}>
 						{/* SVG for Connections */}
 						<svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
 							{question.connections.map((connection) => {
@@ -206,7 +206,7 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 
 								return (
 									<g key={`${connection.fromId}-${connection.toId}`}>
-										<path d={getConnectionPath(fromPos, toPos)} stroke="#6B7280" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" />
+										<path d={getConnectionPath(fromPos, toPos)} stroke="hsl(var(--muted-foreground))" strokeWidth="2" fill="none" markerEnd="url(#arrowhead)" />
 										{connection.label && (
 											<text x={(fromPos.x + toPos.x) / 2} y={(fromPos.y + toPos.y) / 2} textAnchor="middle" className="text-xs fill-gray-600">
 												{connection.label}
@@ -219,7 +219,7 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 							{/* Arrow marker definition */}
 							<defs>
 								<marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-									<polygon points="0 0, 10 3.5, 0 7" fill="#6B7280" />
+									<polygon points="0 0, 10 3.5, 0 7" fill="hsl(var(--muted-foreground))" />
 								</marker>
 							</defs>
 						</svg>
@@ -253,7 +253,7 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 						{/* Empty state */}
 						{nodePositions.length === 0 && (
 							<div className="absolute inset-0 flex items-center justify-center">
-								<div className="text-center text-gray-500">
+								<div className="text-center text-muted-foreground">
 									<p className="text-lg font-medium">Click to place nodes</p>
 									<p className="text-sm">Build your flowchart by placing nodes in logical order</p>
 								</div>
@@ -294,26 +294,26 @@ export function FlowchartBuilderRenderer({ question, onAnswer, isAnswered, userA
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{nodePositions.length === question.nodes.length ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${nodePositions.length === question.nodes.length ? "text-green-700" : "text-red-700"}`}>{nodePositions.length === question.nodes.length ? "Flowchart Complete!" : "Flowchart Incomplete"}</span>
+								{nodePositions.length === question.nodes.length ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${nodePositions.length === question.nodes.length ? "text-success" : "text-destructive"}`}>{nodePositions.length === question.nodes.length ? "Flowchart Complete!" : "Flowchart Incomplete"}</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show expected positions if available */}
 							{question.correctFlowchart && question.correctFlowchart.length > 0 && (
 								<div className="p-4 rounded-lg bg-green-50 border border-green-200">
-									<p className="text-green-800 font-medium">Expected Flow:</p>
+									<p className="text-success font-medium">Expected Flow:</p>
 									<div className="mt-2 space-y-1">
 										{question.correctFlowchart.map((correct, index) => {
 											const node = question.nodes.find((n) => n.id === correct.nodeId);
 											return (
-												<div key={correct.nodeId} className="flex items-center space-x-2 text-green-700">
+												<div key={correct.nodeId} className="flex items-center space-x-2 text-success">
 													<span className="text-sm">{index + 1}.</span>
 													{node && getNodeIcon(node.type)}
 													<span className="text-sm">{node?.content}</span>

@@ -12,7 +12,7 @@
  * - Performance regression detection
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { observeWebVitals } from "@utils/web-vitals";
 
 /**

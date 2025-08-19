@@ -17,7 +17,7 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 	const [imageError, setImageError] = useState(false);
 
 	const renderStars = (rating) => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < rating ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />);
 	};
 
 	const handleBusinessPageClick = (event) => {
@@ -59,13 +59,13 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 				<div className="flex space-x-3">
 					{/* Business Logo */}
 					<div className="relative flex-shrink-0">
-						<div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100">
+						<div className="w-12 h-12 rounded-lg overflow-hidden bg-muted">
 							<Image src={!imageError ? business.image || business.logo || "/placeholder-business.jpg" : "/placeholder-business.jpg"} alt={business.name} width={48} height={48} className="w-full h-full object-cover" onError={() => setImageError(true)} />
 						</div>
 
 						{/* Photo Count */}
 						{business.photoCount > 0 && (
-							<Badge className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs px-1 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center">
+							<Badge className="absolute -top-1 -right-1 bg-primary text-white text-xs px-1 py-0.5 rounded-full min-w-[18px] h-[18px] flex items-center justify-center">
 								<Eye className="w-2 h-2 mr-0.5" />
 								{business.photoCount}
 							</Badge>
@@ -76,23 +76,23 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 					<div className="flex-1 min-w-0">
 						{/* Business Name and Status */}
 						<div className="flex items-start justify-between">
-							<h3 className="font-medium text-gray-900 text-sm truncate pr-2 group-hover:text-blue-600 transition-colors">{business.name}</h3>
+							<h3 className="font-medium text-foreground text-sm truncate pr-2 group-hover:text-primary transition-colors">{business.name}</h3>
 
 							{/* Status Badges */}
 							<div className="flex items-center space-x-1 flex-shrink-0">
 								{business.isOpen && (
-									<div className="flex items-center text-xs text-green-600">
-										<div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+									<div className="flex items-center text-xs text-success">
+										<div className="w-2 h-2 bg-success rounded-full mr-1"></div>
 										Open
 									</div>
 								)}
 								{business.verified && (
-									<Badge variant="secondary" className="bg-blue-100 text-blue-800 text-xs px-1.5 py-0.5">
+									<Badge variant="secondary" className="bg-primary/10 text-primary text-xs px-1.5 py-0.5">
 										Verified
 									</Badge>
 								)}
 								{business.sponsored && (
-									<Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-300 text-xs px-1.5 py-0.5">
+									<Badge variant="outline" className="bg-warning/10 text-warning border-yellow-300 text-xs px-1.5 py-0.5">
 										Ad
 									</Badge>
 								)}
@@ -102,22 +102,22 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 						{/* Rating and Reviews */}
 						<div className="flex items-center space-x-1 mt-1">
 							<div className="flex items-center">{renderStars(business.rating)}</div>
-							<span className="text-xs text-gray-600">
+							<span className="text-xs text-muted-foreground">
 								{business.rating} ({business.reviewCount})
 							</span>
 						</div>
 
 						{/* Location and Distance */}
-						<div className="flex items-center text-xs text-gray-500 mt-1">
+						<div className="flex items-center text-xs text-muted-foreground mt-1">
 							<MapPin className="w-3 h-3 mr-1" />
 							<span className="truncate">{business.address}</span>
-							{business.distance && <span className="ml-2 text-blue-600 font-medium">• {business.distance}</span>}
+							{business.distance && <span className="ml-2 text-primary font-medium">• {business.distance}</span>}
 						</div>
 
 						{/* Additional Info */}
-						<div className="flex items-center space-x-3 mt-2 text-xs text-gray-500">
+						<div className="flex items-center space-x-3 mt-2 text-xs text-muted-foreground">
 							{business.category && <span>{business.category}</span>}
-							{business.priceRange && <span className="text-green-600 font-medium">{business.priceRange}</span>}
+							{business.priceRange && <span className="text-success font-medium">{business.priceRange}</span>}
 							{business.hours && (
 								<div className="flex items-center">
 									<Clock className="w-3 h-3 mr-1" />
@@ -135,7 +135,7 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 				</div>
 
 				{/* Action Buttons */}
-				<div className="flex space-x-2 mt-3 pt-3 border-t border-gray-100">
+				<div className="flex space-x-2 mt-3 pt-3 border-t border-border">
 					{business.phone && (
 						<Button variant="outline" size="sm" onClick={handleCall} className="flex-1 text-xs h-7">
 							<Phone className="w-3 h-3 mr-1" />

@@ -111,8 +111,8 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 			<Card>
 				<CardContent className="p-4">
 					<div className="space-y-2">
-						<p className="text-gray-700">Click on the image to add annotations where you identify the key features or components.</p>
-						{question.userCanAddAnnotations && question.maxAnnotations && <p className="text-sm text-gray-600">Maximum annotations allowed: {question.maxAnnotations}</p>}
+						<p className="text-muted-foreground">Click on the image to add annotations where you identify the key features or components.</p>
+						{question.userCanAddAnnotations && question.maxAnnotations && <p className="text-sm text-muted-foreground">Maximum annotations allowed: {question.maxAnnotations}</p>}
 					</div>
 				</CardContent>
 			</Card>
@@ -128,7 +128,7 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 									Add Annotation
 								</Button>
 
-								<span className="text-sm text-gray-600">
+								<span className="text-sm text-muted-foreground">
 									Annotations: {userAnnotations.length}
 									{question.maxAnnotations && ` / ${question.maxAnnotations}`}
 								</span>
@@ -164,7 +164,7 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 									setSelectedAnnotation(selectedAnnotation === annotation.id ? null : annotation.id);
 								}}
 							>
-								<div className={`relative ${showFeedback && isAnswered ? (isAnnotationCorrect(annotation) ? "text-green-500" : "text-red-500") : "text-blue-500"}`}>
+								<div className={`relative ${showFeedback && isAnswered ? (isAnnotationCorrect(annotation) ? "text-success" : "text-destructive") : "text-primary"}`}>
 									<MapPin className="w-6 h-6 drop-shadow-lg" />
 									<div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-lg text-xs whitespace-nowrap">{annotation.label}</div>
 								</div>
@@ -183,9 +183,9 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 											top: `${annotation.y}%`,
 										}}
 									>
-										<div className="relative text-green-600">
-											<div className="w-4 h-4 rounded-full bg-green-500 border-2 border-white shadow-lg" />
-											<div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-green-100 px-2 py-1 rounded shadow-lg text-xs whitespace-nowrap">{annotation.label}</div>
+										<div className="relative text-success">
+											<div className="w-4 h-4 rounded-full bg-success border-2 border-white shadow-lg" />
+											<div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-success/10 px-2 py-1 rounded shadow-lg text-xs whitespace-nowrap">{annotation.label}</div>
 										</div>
 									</div>
 								))}
@@ -202,17 +202,17 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 						<h3 className="text-lg font-semibold mb-3">Your Annotations</h3>
 						<div className="space-y-2">
 							{userAnnotations.map((annotation) => (
-								<div key={annotation.id} className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${selectedAnnotation === annotation.id ? "border-blue-500 bg-blue-50" : showFeedback && isAnswered ? (isAnnotationCorrect(annotation) ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50") : "border-gray-200"}`}>
+								<div key={annotation.id} className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${selectedAnnotation === annotation.id ? "border-primary bg-blue-50" : showFeedback && isAnswered ? (isAnnotationCorrect(annotation) ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50") : "border-border"}`}>
 									<div className="flex items-center space-x-3">
-										<MapPin className={`w-4 h-4 ${selectedAnnotation === annotation.id ? "text-blue-500" : "text-gray-400"}`} />
+										<MapPin className={`w-4 h-4 ${selectedAnnotation === annotation.id ? "text-primary" : "text-muted-foreground"}`} />
 										<span className="font-medium">{annotation.label}</span>
-										<span className="text-sm text-gray-500">
+										<span className="text-sm text-muted-foreground">
 											({annotation.x.toFixed(1)}%, {annotation.y.toFixed(1)}%)
 										</span>
 									</div>
 
 									<div className="flex items-center space-x-2">
-										{showFeedback && isAnswered && <div className="flex items-center space-x-1">{isAnnotationCorrect(annotation) ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}</div>}
+										{showFeedback && isAnswered && <div className="flex items-center space-x-1">{isAnnotationCorrect(annotation) ? <CheckCircle className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-destructive" />}</div>}
 
 										{!isAnswered && (
 											<Button variant="outline" size="sm" onClick={() => removeAnnotation(annotation.id)} disabled={disabled}>
@@ -246,9 +246,9 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 									const isCorrect = score >= question.annotations.length * 0.7;
 									return (
 										<>
-											{isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isCorrect ? "text-green-700" : "text-red-700"}`}>{isCorrect ? "Good Annotation Skills!" : "Some annotations need improvement"}</span>
-											<span className="text-sm text-gray-600">
+											{isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isCorrect ? "text-success" : "text-destructive"}`}>{isCorrect ? "Good Annotation Skills!" : "Some annotations need improvement"}</span>
+											<span className="text-sm text-muted-foreground">
 												({score} / {question.annotations.length} correct)
 											</span>
 										</>
@@ -257,20 +257,20 @@ export function ImageAnnotationRenderer({ question, onAnswer, isAnswered, userAn
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Expected Annotations List */}
 							<div className="p-4 rounded-lg bg-green-50 border border-green-200">
-								<p className="text-green-800 font-medium">Expected Annotations:</p>
+								<p className="text-success font-medium">Expected Annotations:</p>
 								<ul className="list-disc list-inside space-y-1 mt-2">
 									{question.annotations.map((annotation) => (
-										<li key={annotation.id} className="text-green-700">
+										<li key={annotation.id} className="text-success">
 											{annotation.label}
-											{annotation.description && <span className="text-green-600"> - {annotation.description}</span>}
+											{annotation.description && <span className="text-success"> - {annotation.description}</span>}
 										</li>
 									))}
 								</ul>

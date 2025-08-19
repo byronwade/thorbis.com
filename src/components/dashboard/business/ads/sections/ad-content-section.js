@@ -30,13 +30,13 @@ const AdPreview = ({ headline, description, cta, type = "search", businessName =
 						<div className="space-y-2">
 							<div className="flex items-start justify-between">
 								<div className="space-y-1">
-									<h3 className="text-blue-600 text-lg font-medium leading-tight">{headline || "Your Headline Here"}</h3>
-									<p className="text-green-700 text-sm">{businessName} • Ad</p>
-									<p className="text-gray-700 text-sm leading-relaxed">{description || "Your compelling ad description will appear here..."}</p>
+									<h3 className="text-primary text-lg font-medium leading-tight">{headline || "Your Headline Here"}</h3>
+									<p className="text-success text-sm">{businessName} • Ad</p>
+									<p className="text-muted-foreground text-sm leading-relaxed">{description || "Your compelling ad description will appear here..."}</p>
 								</div>
 							</div>
 							<div className="pt-2">
-								<Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+								<Button size="sm" className="bg-primary hover:bg-primary">
 									{cta || "Learn More"}
 								</Button>
 							</div>
@@ -48,12 +48,12 @@ const AdPreview = ({ headline, description, cta, type = "search", businessName =
 				return (
 					<div className="bg-gradient-to-r from-blue-50 to-indigo-50 border rounded-lg p-6 shadow-sm">
 						<div className="text-center space-y-3">
-							<div className="w-16 h-16 bg-blue-200 rounded-full mx-auto flex items-center justify-center">
-								<Sparkles className="w-8 h-8 text-blue-600" />
+							<div className="w-16 h-16 bg-primary/20 rounded-full mx-auto flex items-center justify-center">
+								<Sparkles className="w-8 h-8 text-primary" />
 							</div>
-							<h3 className="text-xl font-bold text-gray-900">{headline || "Your Headline Here"}</h3>
-							<p className="text-gray-600 text-sm">{description || "Your compelling ad description will appear here..."}</p>
-							<Button className="bg-blue-600 hover:bg-blue-700">{cta || "Learn More"}</Button>
+							<h3 className="text-xl font-bold text-foreground">{headline || "Your Headline Here"}</h3>
+							<p className="text-muted-foreground text-sm">{description || "Your compelling ad description will appear here..."}</p>
+							<Button className="bg-primary hover:bg-primary">{cta || "Learn More"}</Button>
 						</div>
 					</div>
 				);
@@ -63,18 +63,18 @@ const AdPreview = ({ headline, description, cta, type = "search", businessName =
 					<div className="bg-white border rounded-lg shadow-sm">
 						<div className="p-4 border-b">
 							<div className="flex items-center space-x-3">
-								<div className="w-10 h-10 bg-blue-200 rounded-full flex items-center justify-center">
-									<TrendingUp className="w-5 h-5 text-blue-600" />
+								<div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+									<TrendingUp className="w-5 h-5 text-primary" />
 								</div>
 								<div>
 									<p className="font-semibold text-sm">{businessName}</p>
-									<p className="text-xs text-gray-500">Sponsored</p>
+									<p className="text-xs text-muted-foreground">Sponsored</p>
 								</div>
 							</div>
 						</div>
 						<div className="p-4 space-y-3">
-							<h3 className="font-semibold text-gray-900">{headline || "Your Headline Here"}</h3>
-							<p className="text-gray-700 text-sm">{description || "Your compelling ad description will appear here..."}</p>
+							<h3 className="font-semibold text-foreground">{headline || "Your Headline Here"}</h3>
+							<p className="text-muted-foreground text-sm">{description || "Your compelling ad description will appear here..."}</p>
 							<Button size="sm" variant="outline" className="w-full">
 								{cta || "Learn More"}
 							</Button>
@@ -134,7 +134,7 @@ const ContentSuggestions = ({ type, onSuggestionSelect }) => {
 	return (
 		<div className="space-y-4 p-4 bg-muted/30 rounded-lg border">
 			<div className="flex items-center gap-2">
-				<Lightbulb className="w-4 h-4 text-yellow-600" />
+				<Lightbulb className="w-4 h-4 text-warning" />
 				<span className="font-medium text-sm">Content Suggestions</span>
 			</div>
 
@@ -201,8 +201,8 @@ export const AdContentSection = ({
 	// Get character count with color coding
 	const getCharacterCountColor = (current, max) => {
 		const percentage = (current / max) * 100;
-		if (percentage >= 90) return "text-red-500";
-		if (percentage >= 75) return "text-yellow-500";
+		if (percentage >= 90) return "text-destructive";
+		if (percentage >= 75) return "text-warning";
 		return "text-muted-foreground";
 	};
 
@@ -216,7 +216,7 @@ export const AdContentSection = ({
 					<CardTitle className="flex items-center gap-2">
 						<Edit className="w-5 h-5 text-primary" />
 						Ad Content
-						{isContentComplete && <CheckCircle className="w-4 h-4 text-green-600" />}
+						{isContentComplete && <CheckCircle className="w-4 h-4 text-success" />}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="space-y-6">
@@ -230,7 +230,7 @@ export const AdContentSection = ({
 									<MousePointer className="w-4 h-4 text-muted-foreground" />
 								</Label>
 								<Input id="headline" placeholder="e.g., Professional Plumbing Services" value={headline} onChange={(e) => handleFieldUpdate("headline", e.target.value)} className={errors.headline ? "border-red-500 focus:border-red-500" : ""} maxLength={30} {...(!isHydrated && { suppressHydrationWarning: true })} />
-								{errors.headline && <p className="text-sm text-red-500 mt-1">{errors.headline}</p>}
+								{errors.headline && <p className="text-sm text-destructive mt-1">{errors.headline}</p>}
 								<p className={`text-xs mt-1 ${getCharacterCountColor(headline?.length || 0, 30)}`}>{headline?.length || 0}/30 characters</p>
 							</div>
 
@@ -238,7 +238,7 @@ export const AdContentSection = ({
 							<div>
 								<Label htmlFor="description">Description *</Label>
 								<Textarea id="description" placeholder="Describe your service and what makes you special..." value={description} onChange={(e) => handleFieldUpdate("description", e.target.value)} className={errors.description ? "border-red-500 focus:border-red-500" : ""} rows={4} maxLength={90} />
-								{errors.description && <p className="text-sm text-red-500 mt-1">{errors.description}</p>}
+								{errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
 								<p className={`text-xs mt-1 ${getCharacterCountColor(description?.length || 0, 90)}`}>{description?.length || 0}/90 characters</p>
 							</div>
 

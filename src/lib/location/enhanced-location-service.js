@@ -8,7 +8,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 import { googleMapsService } from './google-maps-service';
 
 /**

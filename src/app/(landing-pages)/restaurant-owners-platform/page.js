@@ -208,7 +208,7 @@ export default function RestaurantOwnersPlatform() {
       {/* Hero Section */}
       <section className="relative py-20 px-4 text-center">
         <div className="max-w-6xl mx-auto">
-          <Badge className="mb-4 bg-orange-100 text-orange-800 hover:bg-orange-200">
+          <Badge className="mb-4 bg-warning/10 text-warning hover:bg-warning/20">
             <Utensils className="w-4 h-4 mr-2" />
             Restaurant Management Platform
           </Badge>
@@ -224,7 +224,7 @@ export default function RestaurantOwnersPlatform() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg" className="bg-orange-600 hover:bg-orange-700">
+            <Button size="lg" className="bg-warning hover:bg-warning">
               Start Free Trial
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -243,7 +243,7 @@ export default function RestaurantOwnersPlatform() {
               { number: "99.9%", label: "Uptime" }
             ].map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl font-bold text-orange-600">{stat.number}</div>
+                <div className="text-3xl font-bold text-warning">{stat.number}</div>
                 <div className="text-muted-foreground">{stat.label}</div>
               </div>
             ))}
@@ -267,7 +267,7 @@ export default function RestaurantOwnersPlatform() {
             {features.map((feature, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <CardHeader>
-                  <feature.icon className="w-12 h-12 text-orange-600 mb-4" />
+                  <feature.icon className="w-12 h-12 text-warning mb-4" />
                   <CardTitle className="text-xl">{feature.title}</CardTitle>
                   <CardDescription>{feature.description}</CardDescription>
                 </CardHeader>
@@ -275,7 +275,7 @@ export default function RestaurantOwnersPlatform() {
                   <ul className="space-y-2">
                     {feature.benefits.map((benefit, idx) => (
                       <li key={idx} className="flex items-center text-sm text-muted-foreground">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                        <CheckCircle className="w-4 h-4 text-success mr-2" />
                         {benefit}
                       </li>
                     ))}
@@ -303,8 +303,8 @@ export default function RestaurantOwnersPlatform() {
             {successStories.map((story, index) => (
               <Card key={index} className="text-center">
                 <CardHeader>
-                  <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Utensils className="w-8 h-8 text-orange-600" />
+                  <div className="w-16 h-16 bg-warning/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Utensils className="w-8 h-8 text-warning" />
                   </div>
                   <CardTitle className="text-xl">{story.name}</CardTitle>
                   <CardDescription className="flex items-center justify-center text-sm">
@@ -313,11 +313,11 @@ export default function RestaurantOwnersPlatform() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-3xl font-bold text-green-600 mb-2">{story.growth}</div>
+                  <div className="text-3xl font-bold text-success mb-2">{story.growth}</div>
                   <p className="text-muted-foreground mb-4">{story.story}</p>
                   <div className="flex items-center justify-center">
                     <div className="flex items-center">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <Star className="w-4 h-4 text-warning fill-current" />
                       <span className="text-sm font-medium ml-1">{story.rating}</span>
                       <span className="text-sm text-muted-foreground ml-2">({story.reviews} reviews)</span>
                     </div>
@@ -345,7 +345,7 @@ export default function RestaurantOwnersPlatform() {
             {pricingPlans.map((plan, index) => (
               <Card key={index} className={`relative ${plan.popular ? 'border-orange-500 shadow-lg' : ''}`}>
                 {plan.popular && (
-                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange-600">
+                  <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-warning">
                     Most Popular
                   </Badge>
                 )}
@@ -361,13 +361,13 @@ export default function RestaurantOwnersPlatform() {
                   <ul className="space-y-3 mb-6">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-center text-sm">
-                        <CheckCircle className="w-4 h-4 text-green-500 mr-3" />
+                        <CheckCircle className="w-4 h-4 text-success mr-3" />
                         {feature}
                       </li>
                     ))}
                   </ul>
                   <Button 
-                    className={`w-full ${plan.popular ? 'bg-orange-600 hover:bg-orange-700' : ''}`}
+                    className={`w-full ${plan.popular ? 'bg-warning hover:bg-warning' : ''}`}
                     variant={plan.popular ? 'default' : 'outline'}
                   >
                     Start Free Trial
@@ -380,7 +380,7 @@ export default function RestaurantOwnersPlatform() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-orange-600 text-white">
+      <section className="py-20 px-4 bg-warning text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">
             Ready to Transform Your Restaurant?
@@ -393,7 +393,7 @@ export default function RestaurantOwnersPlatform() {
               Start Free Trial
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-orange-600">
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-warning">
               <Phone className="w-5 h-5 mr-2" />
               Call Sales: (555) 123-4567
             </Button>

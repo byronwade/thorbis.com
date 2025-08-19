@@ -126,8 +126,8 @@ export const baseMetadata = {
 	// Other meta tags
 	other: {
 		// Performance and mobile optimization
-		"theme-color": "#000000",
-		"msapplication-TileColor": "#000000",
+		"theme-color": "hsl(var(--background))",
+		"msapplication-TileColor": "hsl(var(--background))",
 		"msapplication-config": "/browserconfig.xml",
 		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
@@ -213,7 +213,7 @@ export function generateBusinessMetadata(business) {
 		keywords: [business.name, business.city, business.state, ...(business.categories || [])],
 		path,
 		images,
-		type: "business.business",
+		type: "website",
 	});
 }
 

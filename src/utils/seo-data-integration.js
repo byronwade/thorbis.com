@@ -5,7 +5,7 @@
  */
 
 import { getPooledClient } from "@lib/database/supabase/client";
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * SEO-optimized data fetching with caching and performance monitoring

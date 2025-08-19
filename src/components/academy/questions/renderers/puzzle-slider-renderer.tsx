@@ -200,9 +200,9 @@ export function PuzzleSliderRenderer({ question, onAnswer, isAnswered, userAnswe
 		const isMovable = validMoves.some((move) => move.row === row && move.col === col);
 
 		return `
-			bg-white border-2 border-gray-300 rounded-lg shadow-sm flex items-center justify-center
+			bg-white border-2 border-border rounded-lg shadow-sm flex items-center justify-center
 			cursor-pointer transition-all duration-200 font-bold text-lg
-			${isMovable ? "hover:border-blue-500 hover:shadow-md" : "cursor-not-allowed opacity-75"}
+			${isMovable ? "hover:border-primary hover:shadow-md" : "cursor-not-allowed opacity-75"}
 		`;
 	};
 
@@ -213,8 +213,8 @@ export function PuzzleSliderRenderer({ question, onAnswer, isAnswered, userAnswe
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">Arrange the puzzle pieces in numerical order by clicking adjacent tiles to the empty space.</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Arrange the puzzle pieces in numerical order by clicking adjacent tiles to the empty space.</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Moves: {moves}</span>
 								{question.maxMoves && <span>Max: {question.maxMoves}</span>}
 								<span>Time: {formatTime(timeElapsed)}</span>
@@ -239,7 +239,7 @@ export function PuzzleSliderRenderer({ question, onAnswer, isAnswered, userAnswe
 				<CardContent className="p-6">
 					<div className="flex justify-center">
 						<div
-							className="grid gap-2 p-4 bg-gray-100 rounded-lg"
+							className="grid gap-2 p-4 bg-muted rounded-lg"
 							style={{
 								gridTemplateColumns: `repeat(${question.puzzle.cols}, 1fr)`,
 								gridTemplateRows: `repeat(${question.puzzle.rows}, 1fr)`,
@@ -273,7 +273,7 @@ export function PuzzleSliderRenderer({ question, onAnswer, isAnswered, userAnswe
 					<CardContent className="p-4">
 						<h3 className="text-lg font-semibold mb-3">Reference Image</h3>
 						<div className="flex justify-center">
-							<img src={question.puzzle.imageSrc} alt="Puzzle reference" className="max-w-xs rounded-lg border-2 border-gray-300" style={{ maxHeight: "200px" }} />
+							<img src={question.puzzle.imageSrc} alt="Puzzle reference" className="max-w-xs rounded-lg border-2 border-border" style={{ maxHeight: "200px" }} />
 						</div>
 					</CardContent>
 				</Card>
@@ -285,24 +285,24 @@ export function PuzzleSliderRenderer({ question, onAnswer, isAnswered, userAnswe
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{isPuzzleSolved(puzzleState) ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${isPuzzleSolved(puzzleState) ? "text-green-700" : "text-red-700"}`}>{isPuzzleSolved(puzzleState) ? "Puzzle Solved!" : "Puzzle Incomplete"}</span>
-								<span className="text-sm text-gray-600">
+								{isPuzzleSolved(puzzleState) ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${isPuzzleSolved(puzzleState) ? "text-success" : "text-destructive"}`}>{isPuzzleSolved(puzzleState) ? "Puzzle Solved!" : "Puzzle Incomplete"}</span>
+								<span className="text-sm text-muted-foreground">
 									({moves} moves in {formatTime(timeElapsed)})
 								</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{moves > 0 && (
-								<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-									<p className="text-gray-800 font-medium">Performance:</p>
-									<ul className="list-disc list-inside space-y-1 mt-2 text-gray-700">
+								<div className="p-4 rounded-lg bg-gray-50 border border-border">
+									<p className="text-foreground font-medium">Performance:</p>
+									<ul className="list-disc list-inside space-y-1 mt-2 text-muted-foreground">
 										<li>Total moves: {moves}</li>
 										<li>Time taken: {formatTime(timeElapsed)}</li>
 										{question.maxMoves && <li>Efficiency: {moves <= question.maxMoves ? "Excellent" : "Could be improved"}</li>}

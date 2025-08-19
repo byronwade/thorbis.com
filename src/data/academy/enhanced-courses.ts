@@ -594,19 +594,19 @@ export const enhancedCourses: EnhancedCourse[] = [
 								id: "water-supply",
 								name: "Water Supply",
 								description: "Materials used for delivering clean water",
-								color: "#3B82F6",
+								color: "hsl(var(--primary))",
 							},
 							{
 								id: "drainage",
 								name: "Drainage & Waste",
 								description: "Materials used for waste water removal",
-								color: "#10B981",
+								color: "hsl(var(--muted-foreground))",
 							},
 							{
 								id: "gas-lines",
 								name: "Gas Lines",
 								description: "Materials used for natural gas distribution",
-								color: "#F59E0B",
+								color: "hsl(var(--accent))",
 							},
 						],
 						items: [
@@ -709,7 +709,7 @@ export const enhancedCourses: EnhancedCourse[] = [
 						difficulty: "easy" as const,
 						explanation: "ANSI A13.1 standards specify yellow as the color for natural gas pipe marking to ensure safety and easy identification.",
 						scenario: "You need to mark a natural gas supply line according to ANSI A13.1 color coding standards.",
-						targetColor: "#FFFF00",
+						targetColor: "hsl(var(--primary))",
 						tolerance: 30,
 						colorSpace: "hex",
 						hints: ["Think about warning colors", "Consider the color associated with caution"],
@@ -1032,7 +1032,7 @@ export const enhancedCourses: EnhancedCourse[] = [
 						points: 25,
 						difficulty: "advanced",
 						scene: {
-							backgroundColor: "#f0f8ff",
+							backgroundColor: "hsl(var(--muted))",
 							lighting: "mixed",
 						},
 						components: [
@@ -1041,7 +1041,7 @@ export const enhancedCourses: EnhancedCourse[] = [
 								name: "Main Pipe",
 								geometry: "cylinder",
 								material: {
-									color: "#4682B4",
+									color: "hsl(var(--primary))",
 									type: "standard",
 									roughness: 0.3,
 									metalness: 0.7,
@@ -1055,7 +1055,7 @@ export const enhancedCourses: EnhancedCourse[] = [
 								name: "90° Elbow Joint",
 								geometry: "box",
 								material: {
-									color: "#CD853F",
+									color: "hsl(var(--muted-foreground))",
 									type: "standard",
 									roughness: 0.4,
 									metalness: 0.5,

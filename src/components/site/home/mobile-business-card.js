@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import { buildBusinessUrlFrom } from "@utils";
 import { Star, MapPin } from "react-feather";
 
 // Netflix mobile app style - portrait cards for mobile
@@ -27,11 +28,11 @@ export default function MobileBusinessCard({ business, disabled }) {
 	};
 
 	return (
-		<Link href={`/biz/${slug}`} className={`block w-full ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
+		<Link href={buildBusinessUrlFrom(business)} className={`block w-full ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
 			{/* Netflix mobile-style portrait card */}
-			<div className="relative w-full bg-gray-900 rounded-lg overflow-hidden hover:bg-gray-800 transition-all duration-300 group">
+			<div className="relative w-full bg-card rounded-lg overflow-hidden hover:bg-card transition-all duration-300 group">
 				{/* Mobile portrait aspect ratio like Netflix mobile app */}
-				<div className="relative aspect-[3/4] overflow-hidden bg-gray-800">
+				<div className="relative aspect-[3/4] overflow-hidden bg-card">
 					<Image
 						className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
 						src={consistentBusiness.image}
@@ -51,7 +52,7 @@ export default function MobileBusinessCard({ business, disabled }) {
 					{rating > 0 && (
 						<div className="absolute top-2 right-2">
 							<div className="flex items-center gap-1 px-2 py-1 bg-black/90 backdrop-blur-sm rounded">
-								<Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+								<Star className="w-3 h-3 text-warning fill-yellow-500" />
 								<span className="text-xs font-bold text-white">{consistentBusiness.rating}</span>
 							</div>
 						</div>
@@ -64,18 +65,18 @@ export default function MobileBusinessCard({ business, disabled }) {
 						{consistentBusiness.name}
 					</h3>
 					
-					<p className="text-xs text-gray-300 mb-2 line-clamp-1">
+					<p className="text-xs text-muted-foreground mb-2 line-clamp-1">
 						{consistentBusiness.category}
 					</p>
 
 					<div className="flex items-center justify-between">
-						<div className="flex items-center gap-1 text-gray-400">
+						<div className="flex items-center gap-1 text-muted-foreground">
 							<MapPin className="w-3 h-3 flex-shrink-0" />
 							<span className="text-xs truncate">{consistentBusiness.location}</span>
 						</div>
 						
 						{consistentBusiness.reviewCount > 0 && (
-							<span className="text-xs text-gray-400 flex-shrink-0">
+							<span className="text-xs text-muted-foreground flex-shrink-0">
 								{consistentBusiness.reviewCount} reviews
 							</span>
 						)}

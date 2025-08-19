@@ -136,6 +136,11 @@ class EnhancedLogger {
 		this._log(LOG_LEVELS.INFO, `📊 BUSINESS: ${event}`, data);
 	}
 
+	// User interaction logging
+	interaction(eventName, data = {}) {
+		this._log(LOG_LEVELS.INFO, `👆 INTERACTION: ${eventName}`, data);
+	}
+
 	// Error logging with context
 	error(message, error = null, context = {}) {
 		const errorData = {

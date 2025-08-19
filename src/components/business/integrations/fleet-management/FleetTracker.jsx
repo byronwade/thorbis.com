@@ -514,7 +514,7 @@ export default function FleetTracker() {
 
   const getStatusIcon = (status: string, fuelLevel: number) => {
     if (status === "maintenance") {
-      return <div className="w-3 h-3 bg-red-500 rounded-full" />
+      return <div className="w-3 h-3 bg-destructive rounded-full" />
     }
     if (status === "active") {
       return (
@@ -539,8 +539,8 @@ export default function FleetTracker() {
 
   return (
     <div className="h-screen bg-black flex flex-col">
-      <div className="h-14 bg-gray-950 border-b border-gray-800 flex items-center justify-between px-4">
-        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white hover:bg-gray-800">
+      <div className="h-14 bg-card border-b border-border flex items-center justify-between px-4">
+        <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white hover:bg-card">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -548,59 +548,59 @@ export default function FleetTracker() {
 
         <div className="flex items-center gap-6 text-sm">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-            <span className="text-gray-400">Fleet Efficiency:</span>
-            <span className="text-green-400 font-medium">87%</span>
+            <div className="w-2 h-2 bg-success/40 rounded-full"></div>
+            <span className="text-muted-foreground">Fleet Efficiency:</span>
+            <span className="text-success font-medium">87%</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-            <span className="text-gray-400">Active Routes:</span>
-            <span className="text-blue-400 font-medium">{vehicles.filter((v) => v.status === "active").length}</span>
+            <div className="w-2 h-2 bg-primary/40 rounded-full"></div>
+            <span className="text-muted-foreground">Active Routes:</span>
+            <span className="text-primary font-medium">{vehicles.filter((v) => v.status === "active").length}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
-            <span className="text-gray-400">Alerts:</span>
-            <span className="text-yellow-400 font-medium">3</span>
+            <div className="w-2 h-2 bg-warning/40 rounded-full"></div>
+            <span className="text-muted-foreground">Alerts:</span>
+            <span className="text-warning font-medium">3</span>
           </div>
         </div>
       </div>
 
       <div className="flex-1 flex">
-        <div className="w-80 bg-gray-950 border-r border-gray-800 flex flex-col">
-          <div className="p-4 border-b border-gray-800">
+        <div className="w-80 bg-card border-r border-border flex flex-col">
+          <div className="p-4 border-b border-border">
             <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-700">
-                <div className="text-xs text-gray-400 mb-1">Daily Revenue</div>
-                <div className="text-lg font-bold text-green-400">$12,450</div>
-                <div className="text-xs text-green-400">+8.2%</div>
+              <div className="bg-card/50 p-3 rounded-lg border border-border">
+                <div className="text-xs text-muted-foreground mb-1">Daily Revenue</div>
+                <div className="text-lg font-bold text-success">$12,450</div>
+                <div className="text-xs text-success">+8.2%</div>
               </div>
-              <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-700">
-                <div className="text-xs text-gray-400 mb-1">Fuel Costs</div>
-                <div className="text-lg font-bold text-red-400">$2,180</div>
-                <div className="text-xs text-red-400">+3.1%</div>
+              <div className="bg-card/50 p-3 rounded-lg border border-border">
+                <div className="text-xs text-muted-foreground mb-1">Fuel Costs</div>
+                <div className="text-lg font-bold text-destructive">$2,180</div>
+                <div className="text-xs text-destructive">+3.1%</div>
               </div>
-              <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-700">
-                <div className="text-xs text-gray-400 mb-1">On-Time Rate</div>
-                <div className="text-lg font-bold text-blue-400">94%</div>
-                <div className="text-xs text-green-400">+2.1%</div>
+              <div className="bg-card/50 p-3 rounded-lg border border-border">
+                <div className="text-xs text-muted-foreground mb-1">On-Time Rate</div>
+                <div className="text-lg font-bold text-primary">94%</div>
+                <div className="text-xs text-success">+2.1%</div>
               </div>
-              <div className="bg-gray-900/50 p-3 rounded-lg border border-gray-700">
-                <div className="text-xs text-gray-400 mb-1">Safety Score</div>
-                <div className="text-lg font-bold text-green-400">91</div>
-                <div className="text-xs text-green-400">+1.5</div>
+              <div className="bg-card/50 p-3 rounded-lg border border-border">
+                <div className="text-xs text-muted-foreground mb-1">Safety Score</div>
+                <div className="text-lg font-bold text-success">91</div>
+                <div className="text-xs text-success">+1.5</div>
               </div>
             </div>
           </div>
 
           {/* Search */}
-          <div className="p-6 border-b border-gray-800">
+          <div className="p-6 border-b border-border">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Search vehicles, drivers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500/20"
+                className="pl-10 bg-card border-border text-white placeholder:text-muted-foreground focus:border-primary focus:ring-blue-500/20"
               />
             </div>
           </div>
@@ -611,9 +611,9 @@ export default function FleetTracker() {
               {filteredVehicles.map((vehicle) => (
                 <div
                   key={vehicle.id}
-                  className={`group p-4 rounded-xl cursor-pointer transition-all duration-200 hover:bg-gray-900/50 ${
+                  className={`group p-4 rounded-xl cursor-pointer transition-all duration-200 hover:bg-card/50 ${
                     selectedVehicle === vehicle.id.toString()
-                      ? "bg-blue-500/10 border border-blue-500/20 shadow-lg shadow-blue-500/5"
+                      ? "bg-primary/10 border border-primary/20 shadow-lg shadow-blue-500/5"
                       : "hover:shadow-md"
                   }`}
                   onClick={() => handleVehicleSelect(vehicle.id.toString())}
@@ -624,17 +624,17 @@ export default function FleetTracker() {
                       <div className="flex items-center justify-between mb-1">
                         <h3 className="font-semibold text-white text-base">{vehicle.name}</h3>
                         <div className="flex items-center gap-1">
-                          <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                          <span className="text-sm font-medium text-blue-400">{vehicle.fuelLevel}%</span>
+                          <div className="w-2 h-2 bg-primary rounded-full" />
+                          <span className="text-sm font-medium text-primary">{vehicle.fuelLevel}%</span>
                         </div>
                       </div>
-                      <div className="text-sm text-gray-400 mb-2">{vehicle.location}</div>
+                      <div className="text-sm text-muted-foreground mb-2">{vehicle.location}</div>
 
                       <div className="mb-2">
                         <div className="grid grid-cols-2 gap-2">
                           {/* Dash Camera */}
                           <div
-                            className="relative w-full h-20 bg-gray-800 rounded-lg overflow-hidden border border-gray-700 cursor-pointer hover:border-blue-500 transition-colors"
+                            className="relative w-full h-20 bg-card rounded-lg overflow-hidden border border-border cursor-pointer hover:border-primary transition-colors"
                             onClick={(e) => {
                               e.stopPropagation()
                               openVideoDialog(vehicle.name, "dash", "/placeholder-video.mp4")
@@ -648,17 +648,17 @@ export default function FleetTracker() {
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <div className="text-xs text-gray-500">Dash Cam {vehicle.dashCam.status}</div>
+                                <div className="text-xs text-muted-foreground">Dash Cam {vehicle.dashCam.status}</div>
                               </div>
                             )}
                             <div className="absolute top-1 right-1">
                               <div
                                 className={`w-2 h-2 rounded-full ${
                                   vehicle.dashCam.status === "online"
-                                    ? "bg-green-400"
+                                    ? "bg-success/40"
                                     : vehicle.dashCam.status === "offline"
-                                      ? "bg-gray-500"
-                                      : "bg-red-400"
+                                      ? "bg-muted"
+                                      : "bg-destructive/40"
                                 }`}
                               />
                             </div>
@@ -672,7 +672,7 @@ export default function FleetTracker() {
 
                           {/* Driver Camera */}
                           <div
-                            className="relative w-full h-20 bg-gray-800 rounded-lg overflow-hidden border border-gray-700 cursor-pointer hover:border-blue-500 transition-colors"
+                            className="relative w-full h-20 bg-card rounded-lg overflow-hidden border border-border cursor-pointer hover:border-primary transition-colors"
                             onClick={(e) => {
                               e.stopPropagation()
                               openVideoDialog(vehicle.name, "driver", "/placeholder-video.mp4")
@@ -686,17 +686,17 @@ export default function FleetTracker() {
                               />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <div className="text-xs text-gray-500">Driver Cam {vehicle.driverCam.status}</div>
+                                <div className="text-xs text-muted-foreground">Driver Cam {vehicle.driverCam.status}</div>
                               </div>
                             )}
                             <div className="absolute top-1 right-1">
                               <div
                                 className={`w-2 h-2 rounded-full ${
                                   vehicle.driverCam.status === "online"
-                                    ? "bg-green-400"
+                                    ? "bg-success/40"
                                     : vehicle.driverCam.status === "offline"
-                                      ? "bg-gray-500"
-                                      : "bg-red-400"
+                                      ? "bg-muted"
+                                      : "bg-destructive/40"
                                 }`}
                               />
                             </div>
@@ -706,7 +706,7 @@ export default function FleetTracker() {
                             {/* AI Alert Indicator */}
                             {vehicle.driverCam.aiFeatures.eyeTracking === "active" && (
                               <div className="absolute top-1 left-1">
-                                <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                                <div className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
                               </div>
                             )}
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/20">
@@ -718,40 +718,40 @@ export default function FleetTracker() {
                         {/* AI Monitoring Status */}
                         <div className="mt-1 flex items-center justify-between text-xs">
                           <div className="flex items-center gap-1">
-                            <div className="w-1 h-1 rounded-full bg-blue-400" />
-                            <span className="text-gray-400">AI: {vehicle.driverCam.aiFeatures.attentionScore}%</span>
+                            <div className="w-1 h-1 rounded-full bg-primary/40" />
+                            <span className="text-muted-foreground">AI: {vehicle.driverCam.aiFeatures.attentionScore}%</span>
                           </div>
                           <div className="flex items-center gap-1">
                             <div
                               className={`w-1 h-1 rounded-full ${
                                 vehicle.securitySystem.alarmStatus === "armed"
-                                  ? "bg-green-400"
+                                  ? "bg-success/40"
                                   : vehicle.securitySystem.alarmStatus === "triggered"
-                                    ? "bg-red-400"
-                                    : "bg-gray-500"
+                                    ? "bg-destructive/40"
+                                    : "bg-muted"
                               }`}
                             />
-                            <span className="text-gray-400">Security: {vehicle.securitySystem.alarmStatus}</span>
+                            <span className="text-muted-foreground">Security: {vehicle.securitySystem.alarmStatus}</span>
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <div className="text-xs text-gray-500">{vehicle.driver}</div>
+                        <div className="text-xs text-muted-foreground">{vehicle.driver}</div>
                         {vehicle.status === "active" && vehicle.speed > 0 && (
-                          <div className="text-xs text-green-400 font-medium">{vehicle.speed} mph</div>
+                          <div className="text-xs text-success font-medium">{vehicle.speed} mph</div>
                         )}
                       </div>
                       {vehicle.status === "active" && vehicle.tripDistance > 0 && (
-                        <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-                          <div className="w-1 h-1 bg-gray-600 rounded-full" />
+                        <div className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                          <div className="w-1 h-1 bg-muted rounded-full" />
                           {Math.round(vehicle.tripDistance * 60)} min remaining
                         </div>
                       )}
                       {vehicle.status === "maintenance" &&
                         vehicle.diagnosticCodes &&
                         vehicle.diagnosticCodes.length > 0 && (
-                          <div className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                          <div className="text-xs text-destructive mt-1 flex items-center gap-1">
                             <AlertTriangle className="w-3 h-3" />
                             {vehicle.diagnosticCodes.length} diagnostic code
                             {vehicle.diagnosticCodes.length > 1 ? "s" : ""}
@@ -765,19 +765,19 @@ export default function FleetTracker() {
           </div>
 
           {/* Vehicle Status Legend */}
-          <div className="p-4 border-t border-gray-800">
+          <div className="p-4 border-t border-border">
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
                 <div className="w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[6px] border-b-green-500" />
-                <span className="text-gray-400">Active</span>
+                <span className="text-muted-foreground">Active</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full" />
-                <span className="text-gray-400">Idle</span>
+                <div className="w-2 h-2 bg-warning rounded-full" />
+                <span className="text-muted-foreground">Idle</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full" />
-                <span className="text-gray-400">Maintenance</span>
+                <div className="w-2 h-2 bg-destructive rounded-full" />
+                <span className="text-muted-foreground">Maintenance</span>
               </div>
             </div>
           </div>
@@ -790,34 +790,34 @@ export default function FleetTracker() {
 
         {/* Right Sidebar - Vehicle Details with Expandable Sections */}
         {selectedVehicleData && (
-          <div className="w-80 bg-gray-950 border-l border-gray-800 flex flex-col overflow-y-auto">
-            <div className="p-4 border-b border-gray-800">
+          <div className="w-80 bg-card border-l border-border flex flex-col overflow-y-auto">
+            <div className="p-4 border-b border-border">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold text-white">{selectedVehicleData.name}</h2>
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white">
                     <Phone className="w-4 h-4" />
                   </Button>
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                      <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white">
                         <Settings className="w-4 h-4" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80 bg-gray-900 border-gray-700">
+                    <PopoverContent className="w-80 bg-card border-border">
                       <div className="space-y-4">
                         <h4 className="font-medium text-white">Diagnostic Settings</h4>
                         <div className="space-y-2 text-sm">
                           <div className="flex justify-between">
-                            <span className="text-gray-400">Engine RPM:</span>
+                            <span className="text-muted-foreground">Engine RPM:</span>
                             <span className="font-medium text-white">{selectedVehicleData.rpm}</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-400">Engine Temp:</span>
+                            <span className="text-muted-foreground">Engine Temp:</span>
                             <span className="font-medium text-white">{selectedVehicleData.engineTemp}°F</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="text-gray-400">Oil Pressure:</span>
+                            <span className="text-muted-foreground">Oil Pressure:</span>
                             <span className="font-medium text-white">{selectedVehicleData.oilPressure} PSI</span>
                           </div>
                         </div>
@@ -830,33 +830,33 @@ export default function FleetTracker() {
 
             <div className="flex-1 space-y-1">
               {/* Overview Section */}
-              <div className="border-b border-gray-800">
+              <div className="border-b border-border">
                 <button
                   onClick={() => toggleSection("overview")}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-900/50 transition-colors"
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-card/50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Eye className="w-4 h-4 text-blue-400" />
+                    <Eye className="w-4 h-4 text-primary" />
                     <span className="font-medium text-white">Overview</span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections.overview ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${expandedSections.overview ? "rotate-180" : ""}`}
                   />
                 </button>
                 {expandedSections.overview && (
                   <div className="px-4 pb-4 space-y-4">
                     {/* Status Indicators */}
                     <div className="grid grid-cols-3 gap-2">
-                      <div className="bg-gray-900/50 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-400">Status</div>
-                        <div className="text-sm font-medium text-green-400">On Time</div>
+                      <div className="bg-card/50 rounded-lg p-2 text-center">
+                        <div className="text-xs text-muted-foreground">Status</div>
+                        <div className="text-sm font-medium text-success">On Time</div>
                       </div>
-                      <div className="bg-gray-900/50 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-400">Battery</div>
+                      <div className="bg-card/50 rounded-lg p-2 text-center">
+                        <div className="text-xs text-muted-foreground">Battery</div>
                         <div className="text-sm font-medium text-white">{selectedVehicleData.battery}%</div>
                       </div>
-                      <div className="bg-gray-900/50 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-400">Distance</div>
+                      <div className="bg-card/50 rounded-lg p-2 text-center">
+                        <div className="text-xs text-muted-foreground">Distance</div>
                         <div className="text-sm font-medium text-white">
                           {Math.round(selectedVehicleData.tripDistance)} mi
                         </div>
@@ -868,19 +868,19 @@ export default function FleetTracker() {
                       <h4 className="text-sm font-medium text-white">Live OBD Data</h4>
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Speed:</span>
+                          <span className="text-muted-foreground">Speed:</span>
                           <span className="text-white">{selectedVehicleData.speed} mph</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-400">RPM:</span>
+                          <span className="text-muted-foreground">RPM:</span>
                           <span className="text-white">{selectedVehicleData.rpm}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Engine Temp:</span>
+                          <span className="text-muted-foreground">Engine Temp:</span>
                           <span className="text-white">{selectedVehicleData.engineTemp}°F</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-gray-400">Oil Pressure:</span>
+                          <span className="text-muted-foreground">Oil Pressure:</span>
                           <span className="text-white">{selectedVehicleData.oilPressure} PSI</span>
                         </div>
                       </div>
@@ -897,11 +897,11 @@ export default function FleetTracker() {
                           <img
                             src={selectedVehicleData.dashCam.lastFrame || "/placeholder.svg"}
                             alt="Dash Cam"
-                            className="w-full h-16 object-cover rounded border border-gray-700"
+                            className="w-full h-16 object-cover rounded border border-border"
                           />
                           <div className="absolute top-1 left-1 text-xs bg-black/50 text-white px-1 rounded">Dash</div>
                           <div
-                            className={`absolute top-1 right-1 w-2 h-2 rounded-full ${selectedVehicleData.dashCam.status === "online" ? "bg-green-400" : "bg-red-400"}`}
+                            className={`absolute top-1 right-1 w-2 h-2 rounded-full ${selectedVehicleData.dashCam.status === "online" ? "bg-success/40" : "bg-destructive/40"}`}
                           ></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/20 rounded">
                             <Play className="w-4 h-4 text-white" />
@@ -914,13 +914,13 @@ export default function FleetTracker() {
                           <img
                             src={selectedVehicleData.driverCam.lastFrame || "/placeholder.svg"}
                             alt="Driver Cam"
-                            className="w-full h-16 object-cover rounded border border-gray-700"
+                            className="w-full h-16 object-cover rounded border border-border"
                           />
                           <div className="absolute top-1 left-1 text-xs bg-black/50 text-white px-1 rounded">
                             Driver
                           </div>
                           <div
-                            className={`absolute top-1 right-1 w-2 h-2 rounded-full ${selectedVehicleData.driverCam.status === "online" ? "bg-green-400" : "bg-red-400"}`}
+                            className={`absolute top-1 right-1 w-2 h-2 rounded-full ${selectedVehicleData.driverCam.status === "online" ? "bg-success/40" : "bg-destructive/40"}`}
                           ></div>
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity bg-black/20 rounded">
                             <Play className="w-4 h-4 text-white" />
@@ -933,45 +933,45 @@ export default function FleetTracker() {
               </div>
 
               {/* Performance Section */}
-              <div className="border-b border-gray-800">
+              <div className="border-b border-border">
                 <button
                   onClick={() => toggleSection("performance")}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-900/50 transition-colors"
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-card/50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-green-400" />
+                    <TrendingUp className="w-4 h-4 text-success" />
                     <span className="font-medium text-white">Performance</span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections.performance ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${expandedSections.performance ? "rotate-180" : ""}`}
                   />
                 </button>
                 {expandedSections.performance && (
                   <div className="px-4 pb-4 space-y-4">
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-gray-900/50 rounded-lg p-3">
-                        <div className="text-xs text-gray-400 mb-1">Driver Score</div>
-                        <div className="text-2xl font-bold text-green-400">94</div>
-                        <div className="text-xs text-gray-400">+2 this week</div>
+                      <div className="bg-card/50 rounded-lg p-3">
+                        <div className="text-xs text-muted-foreground mb-1">Driver Score</div>
+                        <div className="text-2xl font-bold text-success">94</div>
+                        <div className="text-xs text-muted-foreground">+2 this week</div>
                       </div>
-                      <div className="bg-gray-900/50 rounded-lg p-3">
-                        <div className="text-xs text-gray-400 mb-1">Fuel Economy</div>
-                        <div className="text-2xl font-bold text-blue-400">7.2</div>
-                        <div className="text-xs text-gray-400">MPG avg</div>
+                      <div className="bg-card/50 rounded-lg p-3">
+                        <div className="text-xs text-muted-foreground mb-1">Fuel Economy</div>
+                        <div className="text-2xl font-bold text-primary">7.2</div>
+                        <div className="text-xs text-muted-foreground">MPG avg</div>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">On-time Delivery:</span>
-                        <span className="text-green-400">98%</span>
+                        <span className="text-muted-foreground">On-time Delivery:</span>
+                        <span className="text-success">98%</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Safety Incidents:</span>
-                        <span className="text-green-400">0 this month</span>
+                        <span className="text-muted-foreground">Safety Incidents:</span>
+                        <span className="text-success">0 this month</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Idle Time:</span>
-                        <span className="text-yellow-400">12 min/day</span>
+                        <span className="text-muted-foreground">Idle Time:</span>
+                        <span className="text-warning">12 min/day</span>
                       </div>
                     </div>
                   </div>
@@ -979,41 +979,41 @@ export default function FleetTracker() {
               </div>
 
               {/* Maintenance Section */}
-              <div className="border-b border-gray-800">
+              <div className="border-b border-border">
                 <button
                   onClick={() => toggleSection("maintenance")}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-900/50 transition-colors"
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-card/50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Wrench className="w-4 h-4 text-orange-400" />
+                    <Wrench className="w-4 h-4 text-warning" />
                     <span className="font-medium text-white">Maintenance</span>
-                    <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
+                    <div className="w-2 h-2 bg-warning/40 rounded-full"></div>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections.maintenance ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${expandedSections.maintenance ? "rotate-180" : ""}`}
                   />
                 </button>
                 {expandedSections.maintenance && (
                   <div className="px-4 pb-4 space-y-3">
-                    <div className="bg-orange-500/10 border border-orange-500/20 rounded-lg p-3">
+                    <div className="bg-warning/10 border border-orange-500/20 rounded-lg p-3">
                       <div className="flex items-center gap-2 mb-2">
-                        <AlertTriangle className="w-4 h-4 text-orange-400" />
-                        <span className="text-sm font-medium text-orange-400">Oil Change Due</span>
+                        <AlertTriangle className="w-4 h-4 text-warning" />
+                        <span className="text-sm font-medium text-warning">Oil Change Due</span>
                       </div>
-                      <div className="text-xs text-gray-400">Due in 847 miles</div>
-                      <div className="text-xs text-gray-400">Est. Cost: $89</div>
+                      <div className="text-xs text-muted-foreground">Due in 847 miles</div>
+                      <div className="text-xs text-muted-foreground">Est. Cost: $89</div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Tire Pressure:</span>
-                        <span className="text-green-400">Normal</span>
+                        <span className="text-muted-foreground">Tire Pressure:</span>
+                        <span className="text-success">Normal</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Brake Pads:</span>
-                        <span className="text-yellow-400">65% remaining</span>
+                        <span className="text-muted-foreground">Brake Pads:</span>
+                        <span className="text-warning">65% remaining</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Last Service:</span>
+                        <span className="text-muted-foreground">Last Service:</span>
                         <span className="text-white">2,340 miles ago</span>
                       </div>
                     </div>
@@ -1022,40 +1022,40 @@ export default function FleetTracker() {
               </div>
 
               {/* Compliance Section */}
-              <div className="border-b border-gray-800">
+              <div className="border-b border-border">
                 <button
                   onClick={() => toggleSection("compliance")}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-900/50 transition-colors"
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-card/50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-blue-400" />
+                    <Shield className="w-4 h-4 text-primary" />
                     <span className="font-medium text-white">Compliance</span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections.compliance ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${expandedSections.compliance ? "rotate-180" : ""}`}
                   />
                 </button>
                 {expandedSections.compliance && (
                   <div className="px-4 pb-4 space-y-3">
-                    <div className="bg-gray-900/50 rounded-lg p-3">
-                      <div className="text-xs text-gray-400 mb-1">Hours of Service</div>
+                    <div className="bg-card/50 rounded-lg p-3">
+                      <div className="text-xs text-muted-foreground mb-1">Hours of Service</div>
                       <div className="text-sm font-medium text-white">6.5 / 11 hours</div>
-                      <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                        <div className="bg-blue-400 h-2 rounded-full" style={{ width: "59%" }}></div>
+                      <div className="w-full bg-muted rounded-full h-2 mt-2">
+                        <div className="bg-primary/40 h-2 rounded-full" style={{ width: "59%" }}></div>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">DOT Inspection:</span>
-                        <span className="text-green-400">Valid</span>
+                        <span className="text-muted-foreground">DOT Inspection:</span>
+                        <span className="text-success">Valid</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">CDL Status:</span>
-                        <span className="text-green-400">Active</span>
+                        <span className="text-muted-foreground">CDL Status:</span>
+                        <span className="text-success">Active</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Medical Cert:</span>
-                        <span className="text-yellow-400">Expires 3/2025</span>
+                        <span className="text-muted-foreground">Medical Cert:</span>
+                        <span className="text-warning">Expires 3/2025</span>
                       </div>
                     </div>
                   </div>
@@ -1063,38 +1063,38 @@ export default function FleetTracker() {
               </div>
 
               {/* Dispatch Section */}
-              <div className="border-b border-gray-800">
+              <div className="border-b border-border">
                 <button
                   onClick={() => toggleSection("dispatch")}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-900/50 transition-colors"
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-card/50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     <Route className="w-4 h-4 text-purple-400" />
                     <span className="font-medium text-white">Dispatch</span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections.dispatch ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${expandedSections.dispatch ? "rotate-180" : ""}`}
                   />
                 </button>
                 {expandedSections.dispatch && (
                   <div className="px-4 pb-4 space-y-3">
-                    <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3">
-                      <div className="text-sm font-medium text-blue-400 mb-1">Current Job</div>
-                      <div className="text-xs text-gray-400">Pickup: Atlanta Warehouse</div>
-                      <div className="text-xs text-gray-400">Delivery: Birmingham, AL</div>
-                      <div className="text-xs text-gray-400">ETA: 2:30 PM</div>
+                    <div className="bg-primary/10 border border-primary/20 rounded-lg p-3">
+                      <div className="text-sm font-medium text-primary mb-1">Current Job</div>
+                      <div className="text-xs text-muted-foreground">Pickup: Atlanta Warehouse</div>
+                      <div className="text-xs text-muted-foreground">Delivery: Birmingham, AL</div>
+                      <div className="text-xs text-muted-foreground">ETA: 2:30 PM</div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Route Efficiency:</span>
-                        <span className="text-green-400">96%</span>
+                        <span className="text-muted-foreground">Route Efficiency:</span>
+                        <span className="text-success">96%</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Next Job:</span>
+                        <span className="text-muted-foreground">Next Job:</span>
                         <span className="text-white">4:00 PM</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Jobs Today:</span>
+                        <span className="text-muted-foreground">Jobs Today:</span>
                         <span className="text-white">3 of 5</span>
                       </div>
                     </div>
@@ -1106,44 +1106,44 @@ export default function FleetTracker() {
               <div>
                 <button
                   onClick={() => toggleSection("costs")}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-gray-900/50 transition-colors"
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-card/50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <DollarSign className="w-4 h-4 text-green-400" />
+                    <DollarSign className="w-4 h-4 text-success" />
                     <span className="font-medium text-white">Costs</span>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections.costs ? "rotate-180" : ""}`}
+                    className={`w-4 h-4 text-muted-foreground transition-transform ${expandedSections.costs ? "rotate-180" : ""}`}
                   />
                 </button>
                 {expandedSections.costs && (
                   <div className="px-4 pb-4 space-y-3">
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="bg-gray-900/50 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-400">Today</div>
+                      <div className="bg-card/50 rounded-lg p-2 text-center">
+                        <div className="text-xs text-muted-foreground">Today</div>
                         <div className="text-sm font-medium text-white">$127</div>
                       </div>
-                      <div className="bg-gray-900/50 rounded-lg p-2 text-center">
-                        <div className="text-xs text-gray-400">This Week</div>
+                      <div className="bg-card/50 rounded-lg p-2 text-center">
+                        <div className="text-xs text-muted-foreground">This Week</div>
                         <div className="text-sm font-medium text-white">$892</div>
                       </div>
                     </div>
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Fuel Cost:</span>
+                        <span className="text-muted-foreground">Fuel Cost:</span>
                         <span className="text-white">$89.50</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Maintenance:</span>
+                        <span className="text-muted-foreground">Maintenance:</span>
                         <span className="text-white">$23.00</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-400">Driver Pay:</span>
+                        <span className="text-muted-foreground">Driver Pay:</span>
                         <span className="text-white">$156.00</span>
                       </div>
-                      <div className="flex justify-between text-sm font-medium border-t border-gray-700 pt-2">
-                        <span className="text-gray-400">Profit:</span>
-                        <span className="text-green-400">$234.50</span>
+                      <div className="flex justify-between text-sm font-medium border-t border-border pt-2">
+                        <span className="text-muted-foreground">Profit:</span>
+                        <span className="text-success">$234.50</span>
                       </div>
                     </div>
                   </div>
@@ -1155,7 +1155,7 @@ export default function FleetTracker() {
       </div>
 
       <Dialog open={videoDialog.isOpen} onOpenChange={closeVideoDialog}>
-        <DialogContent className="max-w-4xl w-full bg-gray-900 border-gray-700">
+        <DialogContent className="max-w-4xl w-full bg-card border-border">
           <DialogHeader>
             <DialogTitle className="text-white flex items-center gap-2">
               <Camera className="w-5 h-5" />
@@ -1191,9 +1191,9 @@ export default function FleetTracker() {
                     max={duration || 0}
                     value={currentTime}
                     onChange={handleSeek}
-                    className="w-full h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer slider"
                   />
-                  <div className="flex justify-between text-xs text-gray-300 mt-1">
+                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
                     <span>{formatTime(currentTime)}</span>
                     <span>{formatTime(duration)}</span>
                   </div>
@@ -1228,7 +1228,7 @@ export default function FleetTracker() {
                         step="0.1"
                         value={volume}
                         onChange={handleVolumeChange}
-                        className="w-20 h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer"
+                        className="w-20 h-1 bg-muted rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
                   </div>
@@ -1253,11 +1253,11 @@ export default function FleetTracker() {
             </div>
 
             {/* Additional Controls */}
-            <div className="flex items-center justify-between text-sm text-gray-400">
+            <div className="flex items-center justify-between text-sm text-muted-foreground">
               <div className="flex items-center gap-4">
                 <span>Live Feed: {videoDialog.cameraType === "dash" ? "Road View" : "Driver Monitoring"}</span>
                 <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <div className="w-2 h-2 bg-success/40 rounded-full"></div>
                   <span>Recording</span>
                 </div>
               </div>
@@ -1266,7 +1266,7 @@ export default function FleetTracker() {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="text-gray-300 border-gray-600 hover:bg-gray-800 bg-transparent"
+                  className="text-muted-foreground border-border hover:bg-card bg-transparent"
                 >
                   <Download className="w-4 h-4 mr-1" />
                   Download

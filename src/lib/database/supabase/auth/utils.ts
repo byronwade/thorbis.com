@@ -2,7 +2,7 @@
 // Enhanced error handling, validation, and auth helpers
 
 import { AuthError, User, Session, WeakPassword } from "@supabase/supabase-js";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Auth error types for better error handling
 export interface AuthErrorDetails {

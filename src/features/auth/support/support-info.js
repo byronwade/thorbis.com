@@ -52,7 +52,7 @@ export default function SupportTicket() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Category <span className="text-red-500">*</span>
+											Category <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormDescription>Select the category that best describes your issue.</FormDescription>
 										<FormControl>
@@ -77,7 +77,7 @@ export default function SupportTicket() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Message <span className="text-red-500">*</span>
+											Message <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormDescription>Provide details about your issue or inquiry.</FormDescription>
 										<FormControl>
@@ -87,8 +87,8 @@ export default function SupportTicket() {
 									</FormItem>
 								)}
 							/>
-							{success && <p className="mt-2 text-sm leading-6 text-left text-green-500">Support ticket submitted successfully.</p>}
-							{error && <p className="mt-2 text-sm leading-6 text-left text-red-500">{error}</p>}
+							{success && <p className="mt-2 text-sm leading-6 text-left text-success">Support ticket submitted successfully.</p>}
+							{error && <p className="mt-2 text-sm leading-6 text-left text-destructive">{error}</p>}
 						</form>
 					</Form>
 				</FormProvider>

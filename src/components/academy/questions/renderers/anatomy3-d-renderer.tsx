@@ -39,16 +39,16 @@ function BodyPartMesh({ part, isVisible, isSelected, isIdentified, onPartClick, 
 
 	const material = useMemo(() => {
 		let color = part.color;
-		let emissive = "#000000";
+		let emissive = "hsl(var(--background))";
 		let opacity = 0.8;
 
 		if (isSelected) {
-			color = "#4F46E5";
-			emissive = "#1E40AF";
+			color = "hsl(var(--primary))";
+emissive = "hsl(var(--primary))";
 			opacity = 1;
 		} else if (isIdentified && showFeedback) {
-			color = "#22C55E";
-			emissive = "#16A34A";
+			color = "hsl(var(--success))";
+emissive = "hsl(var(--success))";
 			opacity = 0.9;
 		} else if (!isVisible) {
 			opacity = 0.1;
@@ -105,7 +105,7 @@ function BodyPartMesh({ part, isVisible, isSelected, isIdentified, onPartClick, 
 						<bufferGeometry>
 							<bufferAttribute attach="attributes-position" array={new Float32Array([part.position.x, part.position.y, part.position.z, part.position.x + 1, part.position.y, part.position.z])} count={2} itemSize={3} />
 						</bufferGeometry>
-						<lineBasicMaterial color="#666666" opacity={0.5} transparent />
+						<lineBasicMaterial color="hsl(var(--muted-foreground))666" opacity={0.5} transparent />
 					</line>
 				);
 			})}
@@ -113,14 +113,14 @@ function BodyPartMesh({ part, isVisible, isSelected, isIdentified, onPartClick, 
 			{/* Label */}
 			{(showLabels || isSelected) && (
 				<Html position={[part.position.x, part.position.y + 1, part.position.z]}>
-					<div className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${isSelected ? "bg-blue-500 text-white" : isIdentified && showFeedback ? "bg-green-500 text-white" : "bg-gray-800 text-white"}`}>{userLabel || part.name}</div>
+					<div className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${isSelected ? "bg-primary text-white" : isIdentified && showFeedback ? "bg-success text-white" : "bg-card text-white"}`}>{userLabel || part.name}</div>
 				</Html>
 			)}
 
 			{/* Identification indicator */}
 			{isIdentified && showFeedback && (
 				<Html position={[part.position.x + 0.7, part.position.y + 0.7, part.position.z]}>
-					<CheckCircle className="w-4 h-4 text-green-500" />
+					<CheckCircle className="w-4 h-4 text-success" />
 				</Html>
 			)}
 		</group>
@@ -164,7 +164,7 @@ function CrossSectionPlane({ question, crossSection }: { question: Anatomy3DQues
 
 	return (
 		<Plane ref={planeRef} args={[10, 10]} rotation={rotation} position={[crossSection.plane === "x" ? crossSection.position : 0, crossSection.plane === "y" ? crossSection.position : 0, crossSection.plane === "z" ? crossSection.position : 0]}>
-			<meshBasicMaterial color="#ff6b6b" opacity={0.3} transparent side={THREE.DoubleSide} />
+			<meshBasicMaterial color="hsl(var(--destructive))" opacity={0.3} transparent side={THREE.DoubleSide} />
 		</Plane>
 	);
 }
@@ -298,18 +298,18 @@ export function Anatomy3DRenderer({ question, onAnswer, isAnswered, userAnswer, 
 
 	const getSystemColor = (system: string) => {
 		const colors = {
-			skeletal: "#e3f2fd",
-			muscular: "#ffebee",
-			nervous: "#fff3e0",
-			circulatory: "#fce4ec",
-			respiratory: "#e8f5e8",
-			digestive: "#fff8e1",
-			endocrine: "#f3e5f5",
-			immune: "#e0f2f1",
-			integumentary: "#fafafa",
-			urinary: "#e1f5fe",
+			skeletal: "hsl(var(--primary))",
+muscular: "hsl(var(--destructive))",
+nervous: "hsl(var(--warning))",
+circulatory: "hsl(var(--destructive))",
+respiratory: "hsl(var(--success))",
+digestive: "hsl(var(--warning))",
+endocrine: "hsl(var(--muted-foreground))",
+immune: "hsl(var(--success))",
+integumentary: "hsl(var(--muted))",
+urinary: "hsl(var(--primary))",
 		};
-		return colors[system as keyof typeof colors] || "#f5f5f5";
+		return colors[system as keyof typeof colors] || "hsl(var(--muted))";
 	};
 
 	return (
@@ -319,13 +319,13 @@ export function Anatomy3DRenderer({ question, onAnswer, isAnswered, userAnswer, 
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">
+							<p className="text-muted-foreground mb-2">
 								{question.interactionMode === "identify" && "Click on body parts to identify them."}
 								{question.interactionMode === "quiz" && "Answer questions about the highlighted body parts."}
 								{question.interactionMode === "systems" && "Explore different body systems by clicking parts."}
 								{question.interactionMode === "assemble" && "Drag and drop body parts to assemble the model."}
 							</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Type: {question.anatomyType}</span>
 								<span>Identified: {identifiedParts.length}</span>
 								{question.labelingRequired && <span>Labeled: {Object.keys(userLabels).length}</span>}
@@ -360,7 +360,7 @@ export function Anatomy3DRenderer({ question, onAnswer, isAnswered, userAnswer, 
 			<Card>
 				<CardContent className="p-0">
 					<div className="h-96 w-full">
-						<Canvas shadows camera={{ position: [5, 5, 5], fov: 60 }} style={{ background: "#f8fafc" }}>
+						<Canvas shadows camera={{ position: [5, 5, 5], fov: 60 }} style={{ background: "hsl(var(--muted))" }}>
 							<AnatomyScene question={question} selectedPart={selectedPart} onPartClick={handlePartClick} visibleSystems={visibleSystems} identifiedParts={identifiedParts} showLabels={showLabels} userLabels={userLabels} showFeedback={showFeedback} showCrossSection={showCrossSection} />
 						</Canvas>
 					</div>
@@ -403,8 +403,8 @@ export function Anatomy3DRenderer({ question, onAnswer, isAnswered, userAnswer, 
 							return (
 								<div className="space-y-3">
 									<h3 className="text-lg font-semibold">{part.name}</h3>
-									<p className="text-gray-700">{part.description}</p>
-									<div className="flex items-center space-x-4 text-sm text-gray-600">
+									<p className="text-muted-foreground">{part.description}</p>
+									<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 										<span>
 											System: <span className="font-medium">{part.system}</span>
 										</span>
@@ -448,9 +448,9 @@ export function Anatomy3DRenderer({ question, onAnswer, isAnswered, userAnswer, 
 
 									return (
 										<>
-											{isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isCorrect ? "text-green-700" : "text-red-700"}`}>{isCorrect ? "Excellent Anatomy Knowledge!" : "Some parts need review"}</span>
-											<span className="text-sm text-gray-600">
+											{isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isCorrect ? "text-success" : "text-destructive"}`}>{isCorrect ? "Excellent Anatomy Knowledge!" : "Some parts need review"}</span>
+											<span className="text-sm text-muted-foreground">
 												({correctIdentifications.length} / {targetParts.length} correct)
 											</span>
 										</>
@@ -459,23 +459,23 @@ export function Anatomy3DRenderer({ question, onAnswer, isAnswered, userAnswer, 
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Detailed results */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Results by System:</p>
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Results by System:</p>
 								{availableSystems.map((system) => {
 									const systemParts = question.bodyParts.filter((p) => p.system === system && p.isTarget);
 									const correctSystemParts = systemParts.filter((p) => identifiedParts.includes(p.id));
 
 									return (
 										<div key={system} className="flex justify-between items-center py-1">
-											<span className="text-gray-700 capitalize">{system}:</span>
-											<span className={`font-medium ${correctSystemParts.length === systemParts.length ? "text-green-600" : "text-red-600"}`}>
+											<span className="text-muted-foreground capitalize">{system}:</span>
+											<span className={`font-medium ${correctSystemParts.length === systemParts.length ? "text-success" : "text-destructive"}`}>
 												{correctSystemParts.length} / {systemParts.length}
 											</span>
 										</div>

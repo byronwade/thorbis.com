@@ -10,7 +10,7 @@ import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Search, MapPin, TrendingUp, Star, Users, Clock } from "lucide-react";
 import { cn } from "@utils";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 export default function PersonalizedHeroSection({ section, onInteraction, isPersonalized = false, personalizationScore = 0, userId, sessionId, className = "", ...props }) {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -249,7 +249,7 @@ export default function PersonalizedHeroSection({ section, onInteraction, isPers
 				<motion.form variants={itemVariants} onSubmit={handleSearch} className="max-w-2xl mx-auto mb-8">
 					<div className="relative">
 						<div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-							<Search className="h-5 w-5 text-gray-400" />
+							<Search className="h-5 w-5 text-muted-foreground" />
 						</div>
 						<input
 							type="text"
@@ -258,10 +258,10 @@ export default function PersonalizedHeroSection({ section, onInteraction, isPers
 							onFocus={handleSearchFocus}
 							onBlur={() => setIsSearchFocused(false)}
 							placeholder={searchPlaceholder}
-							className={cn("block w-full pl-12 pr-4 py-4 text-lg", "bg-white/95 backdrop-blur-sm", "border-0 rounded-2xl", "placeholder-gray-500 text-gray-900", "focus:outline-none focus:ring-4 focus:ring-white/30", "transition-all duration-300", isSearchFocused && "bg-white shadow-2xl scale-105")}
+							className={cn("block w-full pl-12 pr-4 py-4 text-lg", "bg-white/95 backdrop-blur-sm", "border-0 rounded-2xl", "placeholder-gray-500 text-foreground", "focus:outline-none focus:ring-4 focus:ring-white/30", "transition-all duration-300", isSearchFocused && "bg-white shadow-2xl scale-105")}
 						/>
 						<div className="absolute inset-y-0 right-0 pr-2 flex items-center">
-							<button type="submit" disabled={!searchQuery.trim()} className={cn("px-6 py-2 rounded-xl", "bg-blue-600 hover:bg-blue-700", "text-white font-medium", "transition-all duration-300", "disabled:opacity-50 disabled:cursor-not-allowed", "focus:outline-none focus:ring-2 focus:ring-blue-500")}>
+							<button type="submit" disabled={!searchQuery.trim()} className={cn("px-6 py-2 rounded-xl", "bg-primary hover:bg-primary", "text-white font-medium", "transition-all duration-300", "disabled:opacity-50 disabled:cursor-not-allowed", "focus:outline-none focus:ring-2 focus:ring-blue-500")}>
 								Search
 							</button>
 						</div>
@@ -290,7 +290,7 @@ export default function PersonalizedHeroSection({ section, onInteraction, isPers
 
 				{/* CTA Buttons */}
 				<motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-					<button onClick={() => handleCtaClick("primary")} className={cn("px-8 py-4 text-lg font-semibold", "bg-white text-blue-600", "rounded-2xl transition-all duration-300", "hover:bg-gray-100 hover:scale-105", "focus:outline-none focus:ring-4 focus:ring-white/30", "shadow-xl")}>
+					<button onClick={() => handleCtaClick("primary")} className={cn("px-8 py-4 text-lg font-semibold", "bg-white text-primary", "rounded-2xl transition-all duration-300", "hover:bg-muted hover:scale-105", "focus:outline-none focus:ring-4 focus:ring-white/30", "shadow-xl")}>
 						{cta.primary}
 					</button>
 					<button onClick={() => handleCtaClick("secondary")} className={cn("px-8 py-4 text-lg font-semibold", "bg-transparent text-white", "border-2 border-white/50", "rounded-2xl transition-all duration-300", "hover:bg-white/10 hover:scale-105", "focus:outline-none focus:ring-4 focus:ring-white/30")}>
@@ -319,7 +319,7 @@ export default function PersonalizedHeroSection({ section, onInteraction, isPers
 			</motion.div>
 
 			{/* Performance indicator for development */}
-			{process.env.NODE_ENV === "development" && isPersonalized && <div className="absolute top-4 right-4 bg-green-500 text-white px-2 py-1 rounded text-xs">Personalized Hero ({Math.round(personalizationScore * 100)}%)</div>}
+			{process.env.NODE_ENV === "development" && isPersonalized && <div className="absolute top-4 right-4 bg-success text-white px-2 py-1 rounded text-xs">Personalized Hero ({Math.round(personalizationScore * 100)}%)</div>}
 		</section>
 	);
 }

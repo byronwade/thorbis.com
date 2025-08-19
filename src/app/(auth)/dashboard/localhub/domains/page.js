@@ -72,9 +72,9 @@ export default function DomainsManagement() {
 
 	const getStatusBadge = (status) => {
 		const statusConfig = {
-			active: { color: "bg-green-100 text-green-800 border-green-200", icon: Check, label: "Active" },
-			pending: { color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: Clock, label: "Pending Setup" },
-			failed: { color: "bg-red-100 text-red-800 border-red-200", icon: X, label: "Setup Failed" },
+			active: { color: "bg-success/10 text-success border-green-200", icon: Check, label: "Active" },
+			pending: { color: "bg-warning/10 text-warning border-yellow-200", icon: Clock, label: "Pending Setup" },
+			failed: { color: "bg-destructive/10 text-destructive border-red-200", icon: X, label: "Setup Failed" },
 		};
 
 		const config = statusConfig[status] || statusConfig.pending;
@@ -259,9 +259,9 @@ export default function DomainsManagement() {
 													<div className="flex items-center space-x-3">
 														<h3 className="font-semibold">{domain.domain}</h3>
 														{getStatusBadge(domain.status)}
-														{domain.isPrimary && <Badge className="text-xs text-blue-800 bg-blue-100 border-blue-200">Primary</Badge>}
+														{domain.isPrimary && <Badge className="text-xs text-primary bg-primary/10 border-primary/30">Primary</Badge>}
 														{domain.sslEnabled && (
-															<Badge className="text-xs text-green-800 bg-green-100 border-green-200">
+															<Badge className="text-xs text-success bg-success/10 border-green-200">
 																<Shield className="mr-1 w-3 h-3" />
 																SSL
 															</Badge>
@@ -433,12 +433,12 @@ export default function DomainsManagement() {
 										</div>
 										<div className="flex items-center space-x-2">
 											{domain.sslEnabled ? (
-												<Badge className="text-green-800 bg-green-100 border-green-200">
+												<Badge className="text-success bg-success/10 border-green-200">
 													<Shield className="mr-1 w-3 h-3" />
 													Active
 												</Badge>
 											) : (
-												<Badge className="text-yellow-800 bg-yellow-100 border-yellow-200">
+												<Badge className="text-warning bg-warning/10 border-yellow-200">
 													<Clock className="mr-1 w-3 h-3" />
 													Pending
 												</Badge>
@@ -462,7 +462,7 @@ export default function DomainsManagement() {
 									<h4 className="font-medium">HTTPS Redirect</h4>
 									<p className="text-sm text-muted-foreground">Automatically redirect HTTP traffic to HTTPS</p>
 								</div>
-								<Badge className="text-green-800 bg-green-100 border-green-200">
+								<Badge className="text-success bg-success/10 border-green-200">
 									<Check className="mr-1 w-3 h-3" />
 									Enabled
 								</Badge>
@@ -487,7 +487,7 @@ export default function DomainsManagement() {
 			<Card className="bg-card">
 				<CardHeader>
 					<CardTitle className="flex items-center">
-						<Zap className="mr-2 w-5 h-5 text-blue-600" />
+						<Zap className="mr-2 w-5 h-5 text-primary" />
 						Free Subdomain Included
 					</CardTitle>
 				</CardHeader>
@@ -495,11 +495,11 @@ export default function DomainsManagement() {
 					<p className="mb-4 text-sm text-muted-foreground">Every LocalHub directory comes with a free subdomain. You can upgrade to a custom domain anytime to enhance your brand.</p>
 					<div className="flex items-center space-x-4">
 						<div className="text-center">
-							<div className="text-lg font-bold text-blue-600">Free</div>
+							<div className="text-lg font-bold text-primary">Free</div>
 							<p className="text-xs text-muted-foreground">Subdomain</p>
 						</div>
 						<div className="text-center">
-							<div className="text-lg font-bold text-green-600">$0</div>
+							<div className="text-lg font-bold text-success">$0</div>
 							<p className="text-xs text-muted-foreground">Setup Fee</p>
 						</div>
 						<div className="text-center">

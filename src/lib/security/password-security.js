@@ -1,7 +1,7 @@
 // REQUIRED: Advanced Password Security Utilities
 // Implements comprehensive password validation and breach detection
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Password Security Manager

@@ -19,7 +19,7 @@ function MapPlaceholder({ location, radius, isValid }) {
 	return (
 		<div className={`w-full h-32 rounded-lg bg-gradient-to-r from-gray-900/40 dark:to-gray-800/30 border-neutral-800 dark:border-neutral-700"} flex items-center justify-center mb-6`}>
 			<div className="text-center">
-				<MapPin className={`w-12 h-12 mx-auto mb-3 ${isValid ? "text-green-600 dark:text-green-400" : "text-muted-foreground"}`} />
+				<MapPin className={`w-12 h-12 mx-auto mb-3 ${isValid ? "text-success dark:text-success" : "text-muted-foreground"}`} />
 				<p className="font-semibold text-lg text-foreground mb-1">Target Area Preview</p>
 				<p className="text-sm text-muted-foreground">
 					{location ? (
@@ -33,7 +33,7 @@ function MapPlaceholder({ location, radius, isValid }) {
 					)}
 				</p>
 				{isValid && (
-					<div className="mt-2 flex items-center justify-center gap-1 text-green-600 dark:text-green-400">
+					<div className="mt-2 flex items-center justify-center gap-1 text-success dark:text-success">
 						<CheckCircle className="w-4 h-4" />
 						<span className="text-xs font-medium">Valid location</span>
 					</div>
@@ -223,7 +223,7 @@ export default function CreateAdPage() {
 										<HelpCircle className="w-4 h-4 text-muted-foreground" />
 									</Label>
 									<Input id="campaignName" placeholder="e.g., Summer Plumbing Special" value={adData.name} onChange={(e) => updateAdData("name", e.target.value)} className={errors.name ? "border-red-500 focus:border-red-500" : ""} {...(!isHydrated && { suppressHydrationWarning: true })} />
-									{errors.name && <p className="text-sm text-red-500 mt-1">{errors.name}</p>}
+									{errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
 									<p className="text-xs text-muted-foreground mt-1">{adData.name.length}/50 characters</p>
 								</div>
 								<div>
@@ -245,7 +245,7 @@ export default function CreateAdPage() {
 										<HelpCircle className="w-4 h-4 text-muted-foreground" />
 									</Label>
 									<Input id="location" placeholder="e.g., San Francisco, CA" value={adData.location} onChange={(e) => updateAdData("location", e.target.value)} className={errors.location ? "border-red-500 focus:border-red-500" : ""} {...(!isHydrated && { suppressHydrationWarning: true })} />
-									{errors.location && <p className="text-sm text-red-500 mt-1">{errors.location}</p>}
+									{errors.location && <p className="text-sm text-destructive mt-1">{errors.location}</p>}
 								</div>
 								<div>
 									<Label htmlFor="radius">Target Radius (miles)</Label>
@@ -272,7 +272,7 @@ export default function CreateAdPage() {
 									<HelpCircle className="w-4 h-4 text-muted-foreground" />
 								</Label>
 								<Input id="headline" placeholder="e.g., 24/7 Emergency Plumbing Services" value={adData.headline} onChange={(e) => updateAdData("headline", e.target.value)} maxLength={60} className={errors.headline ? "border-red-500 focus:border-red-500" : ""} {...(!isHydrated && { suppressHydrationWarning: true })} />
-								{errors.headline && <p className="text-sm text-red-500 mt-1">{errors.headline}</p>}
+								{errors.headline && <p className="text-sm text-destructive mt-1">{errors.headline}</p>}
 								<p className="text-xs text-muted-foreground mt-1">{adData.headline.length}/60 characters</p>
 							</div>
 							<div>
@@ -281,7 +281,7 @@ export default function CreateAdPage() {
 									<HelpCircle className="w-4 h-4 text-muted-foreground" />
 								</Label>
 								<Textarea id="description" placeholder="Describe your service or offer..." value={adData.description} onChange={(e) => updateAdData("description", e.target.value)} maxLength={150} rows={3} className={errors.description ? "border-red-500 focus:border-red-500" : ""} {...(!isHydrated && { suppressHydrationWarning: true })} />
-								{errors.description && <p className="text-sm text-red-500 mt-1">{errors.description}</p>}
+								{errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
 								<p className="text-xs text-muted-foreground mt-1">{adData.description.length}/150 characters</p>
 							</div>
 							<div>
@@ -427,14 +427,14 @@ export default function CreateAdPage() {
 											I agree to the advertising terms and conditions
 										</label>
 									</div>
-									{errors.terms && <p className="text-sm text-red-500">{errors.terms}</p>}
+									{errors.terms && <p className="text-sm text-destructive">{errors.terms}</p>}
 									<div className="flex items-start space-x-2">
 										<Checkbox id="billing" checked={adData.billingAccepted} onCheckedChange={(checked) => updateAdData("billingAccepted", checked)} />
 										<label htmlFor="billing" className="text-sm leading-relaxed">
 											I understand that ads will be charged based on clicks or impressions
 										</label>
 									</div>
-									{errors.billing && <p className="text-sm text-red-500">{errors.billing}</p>}
+									{errors.billing && <p className="text-sm text-destructive">{errors.billing}</p>}
 								</div>
 							</div>
 						</div>
@@ -454,12 +454,12 @@ export default function CreateAdPage() {
 			</CardHeader>
 			<CardContent className="space-y-4">
 				{/* Search Results Preview */}
-				<div className="rounded-lg border border-blue-200 dark:border-blue-700 bg-blue-50/60 dark:bg-blue-900/30 p-4">
+				<div className="rounded-lg border border-primary/30 dark:border-primary bg-blue-50/60 dark:bg-primary/30 p-4">
 					<div className="flex items-start gap-3">
 						<div className="w-12 h-12 bg-muted rounded-lg flex-shrink-0"></div>
 						<div className="flex-1">
 							<div className="flex items-center gap-2 mb-1">
-								<h4 className="font-medium text-blue-600 dark:text-blue-300">{adData.headline || "Your Ad Headline"}</h4>
+								<h4 className="font-medium text-primary dark:text-primary/90">{adData.headline || "Your Ad Headline"}</h4>
 								<Badge variant="secondary" className="text-xs">
 									Ad
 								</Badge>
@@ -506,14 +506,14 @@ export default function CreateAdPage() {
 			</CardHeader>
 			<CardContent className="space-y-3">
 				<div className="flex items-center gap-3 p-3 bg-muted dark:bg-muted/40 rounded-lg">
-					<Search className="w-5 h-5 text-blue-600 dark:text-blue-300" />
+					<Search className="w-5 h-5 text-primary dark:text-primary/90" />
 					<div>
 						<h4 className="font-medium">Search Results</h4>
 						<p className="text-sm text-muted-foreground">When people search for your keywords</p>
 					</div>
 				</div>
 				<div className="flex items-center gap-3 p-3 bg-muted dark:bg-muted/40 rounded-lg">
-					<Globe className="w-5 h-5 text-green-600 dark:text-green-300" />
+					<Globe className="w-5 h-5 text-success dark:text-success/90" />
 					<div>
 						<h4 className="font-medium">Business Directory</h4>
 						<p className="text-sm text-muted-foreground">Featured placement in category listings</p>
@@ -527,7 +527,7 @@ export default function CreateAdPage() {
 					</div>
 				</div>
 				<div className="flex items-center gap-3 p-3 bg-muted dark:bg-muted/40 rounded-lg">
-					<Monitor className="w-5 h-5 text-orange-600 dark:text-orange-300" />
+					<Monitor className="w-5 h-5 text-warning dark:text-warning/90" />
 					<div>
 						<h4 className="font-medium">Partner Websites</h4>
 						<p className="text-sm text-muted-foreground">Display ads on partner business sites</p>

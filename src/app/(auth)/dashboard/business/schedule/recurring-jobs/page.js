@@ -190,11 +190,11 @@ export default function RecurringJobs() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "active":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "paused":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "completed":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary dark:text-primary/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
@@ -203,11 +203,11 @@ export default function RecurringJobs() {
 	const getPriorityColor = (priority) => {
 		switch (priority) {
 			case "high":
-				return "text-red-600 dark:text-red-400";
+				return "text-destructive dark:text-destructive";
 			case "medium":
-				return "text-yellow-600 dark:text-yellow-400";
+				return "text-warning dark:text-warning";
 			case "low":
-				return "text-green-600 dark:text-green-400";
+				return "text-success dark:text-success";
 			default:
 				return "text-muted-foreground dark:text-muted-foreground";
 		}
@@ -315,7 +315,7 @@ export default function RecurringJobs() {
 								<p className="text-sm text-muted-foreground">Total Jobs</p>
 								<p className="text-2xl font-bold">{dashboardStats.total}</p>
 							</div>
-							<Repeat className="w-8 h-8 text-blue-600" />
+							<Repeat className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -325,9 +325,9 @@ export default function RecurringJobs() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Active</p>
-								<p className="text-2xl font-bold text-green-600">{dashboardStats.active}</p>
+								<p className="text-2xl font-bold text-success">{dashboardStats.active}</p>
 							</div>
-							<CheckCircle className="w-8 h-8 text-green-600" />
+							<CheckCircle className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -337,9 +337,9 @@ export default function RecurringJobs() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Paused</p>
-								<p className="text-2xl font-bold text-yellow-600">{dashboardStats.paused}</p>
+								<p className="text-2xl font-bold text-warning">{dashboardStats.paused}</p>
 							</div>
-							<Pause className="w-8 h-8 text-yellow-600" />
+							<Pause className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -351,7 +351,7 @@ export default function RecurringJobs() {
 								<p className="text-sm text-muted-foreground">Total Revenue</p>
 								<p className="text-2xl font-bold">{formatCurrency(dashboardStats.totalRevenue)}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-600" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -363,7 +363,7 @@ export default function RecurringJobs() {
 								<p className="text-sm text-muted-foreground">Avg Job Value</p>
 								<p className="text-2xl font-bold">{formatCurrency(dashboardStats.avgJobValue)}</p>
 							</div>
-							<TrendingUp className="w-8 h-8 text-blue-600" />
+							<TrendingUp className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -373,9 +373,9 @@ export default function RecurringJobs() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Due This Week</p>
-								<p className="text-2xl font-bold text-orange-600">{dashboardStats.upcomingThisWeek}</p>
+								<p className="text-2xl font-bold text-warning">{dashboardStats.upcomingThisWeek}</p>
 							</div>
-							<Calendar className="w-8 h-8 text-orange-600" />
+							<Calendar className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -511,10 +511,10 @@ export default function RecurringJobs() {
 													<Button variant="ghost" size="sm" onClick={() => handleDuplicateJob(job.id)}>
 														<Copy className="w-4 h-4" />
 													</Button>
-													<Button variant="ghost" size="sm" onClick={() => handleToggleStatus(job.id)} className={job.status === "active" ? "text-yellow-600" : "text-green-600"}>
+													<Button variant="ghost" size="sm" onClick={() => handleToggleStatus(job.id)} className={job.status === "active" ? "text-warning" : "text-success"}>
 														{job.status === "active" ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
 													</Button>
-													<Button variant="ghost" size="sm" onClick={() => handleDeleteJob(job.id)} className="text-red-600">
+													<Button variant="ghost" size="sm" onClick={() => handleDeleteJob(job.id)} className="text-destructive">
 														<Trash2 className="w-4 h-4" />
 													</Button>
 												</div>

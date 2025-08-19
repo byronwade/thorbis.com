@@ -12,8 +12,8 @@ const createPlaceholderRenderer = (type: string, description: string) => {
 			</div>
 			<Card>
 				<CardContent className="p-6 text-center">
-					<p className="text-gray-600">{type} - Coming Soon</p>
-					<p className="text-sm text-gray-500 mt-2">{description}</p>
+					<p className="text-muted-foreground">{type} - Coming Soon</p>
+					<p className="text-sm text-muted-foreground mt-2">{description}</p>
 				</CardContent>
 			</Card>
 		</div>

@@ -152,11 +152,11 @@ export default function B2BInvoicesPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800';
-      case 'sent': return 'bg-blue-100 text-blue-800';
-      case 'overdue': return 'bg-red-100 text-red-800';
-      case 'draft': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'paid': return 'bg-success/10 text-success';
+      case 'sent': return 'bg-primary/10 text-primary';
+      case 'overdue': return 'bg-destructive/10 text-destructive';
+      case 'draft': return 'bg-muted text-muted-foreground';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -424,7 +424,7 @@ export default function B2BInvoicesPage() {
                     <Button 
                       size="sm"
                       onClick={() => handleStatusChange(invoice.id, 'paid')}
-                      className="bg-green-600 hover:bg-green-700"
+                      className="bg-success hover:bg-success"
                     >
                       Mark Paid
                     </Button>
@@ -440,7 +440,7 @@ export default function B2BInvoicesPage() {
                   <Button size="sm" variant="outline">
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
+                  <Button size="sm" variant="outline" className="text-destructive border-red-600 hover:bg-red-50">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>

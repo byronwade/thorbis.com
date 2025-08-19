@@ -290,13 +290,13 @@ export default function PerformanceMonitor({ showDetails = false, autoStart = tr
 	const getRatingColor = (rating) => {
 		switch (rating) {
 			case "good":
-				return "bg-green-100 text-green-800 border-green-200";
+				return "bg-success/10 text-success border-green-200";
 			case "needs-improvement":
-				return "bg-yellow-100 text-yellow-800 border-yellow-200";
+				return "bg-warning/10 text-warning border-yellow-200";
 			case "poor":
-				return "bg-red-100 text-red-800 border-red-200";
+				return "bg-destructive/10 text-destructive border-red-200";
 			default:
-				return "bg-gray-100 text-gray-800 border-gray-200";
+				return "bg-muted text-foreground border-border";
 		}
 	};
 
@@ -333,7 +333,7 @@ export default function PerformanceMonitor({ showDetails = false, autoStart = tr
 	// Developer tools style positioning
 	const getPositionClasses = () => {
 		if (position === "dev-tools") {
-			return "fixed bottom-0 left-0 right-0 z-50 max-h-[40vh] border-t-2 border-gray-200 bg-white";
+			return "fixed bottom-0 left-0 right-0 z-50 max-h-[40vh] border-t-2 border-border bg-white";
 		}
 		if (position === "footer-widget") {
 			return "w-full";
@@ -354,7 +354,7 @@ export default function PerformanceMonitor({ showDetails = false, autoStart = tr
 	// Developer tools style minimized state
 	if (!isVisible && position === "dev-tools") {
 		return (
-			<div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200">
+			<div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-border">
 				<div className="flex items-center justify-between px-4 py-2">
 					<Button onClick={() => setIsVisible(true)} variant="ghost" size="sm" className="text-sm font-medium">
 						▲ NextFaster Performance Tools
@@ -567,7 +567,7 @@ export function PerformanceDashboard() {
 							<CardContent>
 								<div className="text-2xl font-bold mb-2">{data ? formatValue(metric, data.value) : "Measuring..."}</div>
 								{data && <Badge className={getRatingColor(data.rating)}>{data.rating}</Badge>}
-								<div className="mt-4 text-sm text-gray-600">
+								<div className="mt-4 text-sm text-muted-foreground">
 									<div>Good: ≤ {formatValue(metric, thresholds.good)}</div>
 									<div>Poor: &gt; {formatValue(metric, thresholds.poor)}</div>
 								</div>
@@ -592,7 +592,7 @@ export function PerformanceDashboard() {
 									<span className="font-medium">{entry.metric}</span>
 									<span>{formatValue(entry.metric, entry.data.value)}</span>
 									<Badge className={getRatingColor(entry.data.rating)}>{entry.data.rating}</Badge>
-									<span className="text-sm text-gray-500">{new Date(entry.timestamp).toLocaleTimeString()}</span>
+									<span className="text-sm text-muted-foreground">{new Date(entry.timestamp).toLocaleTimeString()}</span>
 								</div>
 							))}
 					</div>

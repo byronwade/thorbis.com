@@ -3,7 +3,7 @@
 
 import { NextResponse } from "next/server";
 import { createSupabaseRouteHandlerClient } from "@lib/database/supabase/ssr";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 export async function GET(request) {
 	const requestUrl = new URL(request.url);

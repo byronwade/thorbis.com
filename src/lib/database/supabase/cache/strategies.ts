@@ -5,7 +5,7 @@
  */
 
 import { CacheManager } from "@utils/cacheManager";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Cache TTL Constants (in milliseconds)

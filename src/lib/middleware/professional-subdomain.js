@@ -79,7 +79,7 @@ export async function createProfessionalSubdomainMiddleware(request) {
     
     // Handle subdomain routing
     if (pathname === '/' || pathname === '') {
-      // Root path on subdomain - redirect to business profile
+      // Root path on subdomain - redirect to business profile (new canonical will be used downstream)
       const businessProfileUrl = new URL(`/biz/${subdomain}`, request.url);
       
       // Preserve query parameters
@@ -89,7 +89,7 @@ export async function createProfessionalSubdomainMiddleware(request) {
     }
     
     // Handle other paths on subdomain
-    if (pathname.startsWith('/biz/')) {
+    if (pathname.startsWith('/biz/') || /^\/[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\//.test(pathname)) {
       // Already on business path, continue normally
       return NextResponse.next();
     }

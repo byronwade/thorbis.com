@@ -31,7 +31,7 @@ export default function ScheduleCalendar() {
 			name: "Mike Wilson",
 			role: "Senior Technician",
 			skills: ["HVAC", "Plumbing", "Electrical"],
-			color: "#3B82F6",
+			color: "hsl(var(--primary))",
 			status: "available",
 			todaysJobs: 4,
 			efficiency: 92,
@@ -41,7 +41,7 @@ export default function ScheduleCalendar() {
 			name: "Lisa Chen",
 			role: "Electrical Specialist",
 			skills: ["Electrical", "Lighting", "Wiring"],
-			color: "#10B981",
+			color: "hsl(var(--muted-foreground))",
 			status: "on_job",
 			todaysJobs: 3,
 			efficiency: 87,
@@ -51,7 +51,7 @@ export default function ScheduleCalendar() {
 			name: "David Brown",
 			role: "Plumbing Expert",
 			skills: ["Plumbing", "Drainage", "Water Systems"],
-			color: "#F59E0B",
+			color: "hsl(var(--accent))",
 			status: "available",
 			todaysJobs: 5,
 			efficiency: 95,
@@ -148,15 +148,15 @@ export default function ScheduleCalendar() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "completed":
-				return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success/20 dark:text-success/90";
 			case "in_progress":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning/90";
 			case "scheduled":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary/90";
 			case "overdue":
-				return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive/90";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 		}
 	};
 
@@ -171,7 +171,7 @@ export default function ScheduleCalendar() {
 			case "low":
 				return "border-l-green-500";
 			default:
-				return "border-l-gray-500";
+				return "border-l-muted-foreground";
 		}
 	};
 
@@ -219,17 +219,17 @@ export default function ScheduleCalendar() {
 		const timeSlots = Array.from({ length: 12 }, (_, i) => i + 7); // 7 AM to 6 PM
 
 		return (
-			<div className="flex-1 bg-white dark:bg-gray-900 rounded-lg border overflow-hidden">
+			<div className="flex-1 bg-background rounded-lg border overflow-hidden">
 				{/* Week header */}
 				<div className="grid grid-cols-8 border-b">
 					<div className="p-4 border-r">
-						<span className="text-sm font-medium text-gray-500">Time</span>
+						<span className="text-sm font-medium text-muted-foreground">Time</span>
 					</div>
 					{weekDays.map((day) => (
 						<div key={day.getTime()} className="p-4 border-r last:border-r-0">
 							<div className="text-center">
 								<div className="text-sm font-medium">{format(day, "EEE")}</div>
-								<div className={`text-lg font-bold ${isSameDay(day, new Date()) ? "text-blue-600" : ""}`}>{format(day, "d")}</div>
+								<div className={`text-lg font-bold ${isSameDay(day, new Date()) ? "text-primary" : ""}`}>{format(day, "d")}</div>
 							</div>
 						</div>
 					))}
@@ -238,8 +238,8 @@ export default function ScheduleCalendar() {
 				{/* Week content */}
 				<div className="overflow-auto max-h-[600px]">
 					{timeSlots.map((hour) => (
-						<div key={hour} className="grid grid-cols-8 border-b border-gray-100 dark:border-gray-800">
-							<div className="p-2 text-sm text-gray-500 border-r">{format(new Date().setHours(hour, 0, 0, 0), "HH:mm")}</div>
+						<div key={hour} className="grid grid-cols-8 border-b border-border">
+							<div className="p-2 text-sm text-muted-foreground border-r">{format(new Date().setHours(hour, 0, 0, 0), "HH:mm")}</div>
 							{weekDays.map((day) => {
 								const dayJobs = getJobsForDate(day).filter((job) => new Date(job.scheduledStart).getHours() === hour);
 								return (
@@ -247,10 +247,10 @@ export default function ScheduleCalendar() {
 										{dayJobs.map((job) => {
 											const technician = getTechnicianById(job.assignedTo);
 											return (
-												<div key={job.id} className={`p-2 rounded-lg border-l-4 ${getPriorityColor(job.priority)} bg-white dark:bg-gray-800 shadow-sm mb-1 cursor-pointer hover:shadow-md transition-shadow`} style={{ backgroundColor: `${technician?.color}20` }} onClick={() => setSelectedJob(job)}>
+												<div key={job.id} className={`p-2 rounded-lg border-l-4 ${getPriorityColor(job.priority)} bg-card shadow-sm mb-1 cursor-pointer hover:shadow-md transition-shadow`} style={{ backgroundColor: `${technician?.color}20` }} onClick={() => setSelectedJob(job)}>
 													<div className="text-xs font-medium truncate">{job.title}</div>
-													<div className="text-xs text-gray-600 dark:text-gray-400 truncate">{job.customer}</div>
-													<div className="text-xs text-gray-500">{technician?.name}</div>
+													<div className="text-xs text-muted-foreground truncate">{job.customer}</div>
+													<div className="text-xs text-muted-foreground">{technician?.name}</div>
 												</div>
 											);
 										})}
@@ -283,14 +283,14 @@ export default function ScheduleCalendar() {
 										<div className="w-4 h-4 rounded-full" style={{ backgroundColor: technician.color }}></div>
 										<div>
 											<p className="font-medium text-sm">{technician.name}</p>
-											<p className="text-xs text-gray-500">{technician.role}</p>
+											<p className="text-xs text-muted-foreground">{technician.role}</p>
 										</div>
 									</div>
-									<Badge className={technician.status === "available" ? "bg-green-100 text-green-800" : technician.status === "on_job" ? "bg-yellow-100 text-yellow-800" : "bg-blue-100 text-blue-800"} variant="secondary">
+									<Badge className={technician.status === "available" ? "bg-success/10 text-success" : technician.status === "on_job" ? "bg-warning/10 text-warning" : "bg-primary/10 text-primary"} variant="secondary">
 										{technician.status.replace("_", " ")}
 									</Badge>
 								</div>
-								<div className="text-xs text-gray-600 dark:text-gray-400">
+								<div className="text-xs text-muted-foreground">
 									<p>
 										{todaysJobs.length} jobs today • {technician.efficiency}% efficiency
 									</p>
@@ -299,14 +299,14 @@ export default function ScheduleCalendar() {
 								{todaysJobs.length > 0 && (
 									<div className="mt-2 space-y-1">
 										{todaysJobs.slice(0, 2).map((job) => (
-											<div key={job.id} className="text-xs p-2 bg-gray-50 dark:bg-gray-800 rounded">
+											<div key={job.id} className="text-xs p-2 bg-muted rounded">
 												<div className="font-medium">{job.title}</div>
-												<div className="text-gray-500">
+												<div className="text-muted-foreground">
 													{format(parseISO(job.scheduledStart), "HH:mm")} - {format(parseISO(job.scheduledEnd), "HH:mm")}
 												</div>
 											</div>
 										))}
-										{todaysJobs.length > 2 && <div className="text-xs text-gray-500 text-center">+{todaysJobs.length - 2} more jobs</div>}
+										{todaysJobs.length > 2 && <div className="text-xs text-muted-foreground text-center">+{todaysJobs.length - 2} more jobs</div>}
 									</div>
 								)}
 							</div>
@@ -360,7 +360,7 @@ export default function ScheduleCalendar() {
 
 				<div className="flex items-center gap-2">
 					<div className="relative">
-						<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+						<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
 						<Input placeholder="Search jobs..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-10 w-64" />
 					</div>
 					<Select value={selectedTechnician} onValueChange={setSelectedTechnician}>
@@ -449,39 +449,39 @@ export default function ScheduleCalendar() {
 							<Badge className={getStatusColor(selectedJob.status)} variant="secondary">
 								{selectedJob.status}
 							</Badge>
-							<Badge variant="outline" className={selectedJob.priority === "urgent" ? "text-red-600" : ""}>
+							<Badge variant="outline" className={selectedJob.priority === "urgent" ? "text-destructive" : ""}>
 								{selectedJob.priority}
 							</Badge>
 						</div>
 
 						<div className="space-y-2 text-sm">
 							<div className="flex items-center gap-2">
-								<Users className="w-4 h-4 text-gray-500" />
+								<Users className="w-4 h-4 text-muted-foreground" />
 								<span>{selectedJob.customer}</span>
 							</div>
 							<div className="flex items-center gap-2">
-								<Phone className="w-4 h-4 text-gray-500" />
+								<Phone className="w-4 h-4 text-muted-foreground" />
 								<span>{selectedJob.customerPhone}</span>
 							</div>
 							<div className="flex items-center gap-2">
-								<MapPin className="w-4 h-4 text-gray-500" />
+								<MapPin className="w-4 h-4 text-muted-foreground" />
 								<span>{selectedJob.address}</span>
 							</div>
 							<div className="flex items-center gap-2">
-								<Clock className="w-4 h-4 text-gray-500" />
+								<Clock className="w-4 h-4 text-muted-foreground" />
 								<span>
 									{format(parseISO(selectedJob.scheduledStart), "MMM d, HH:mm")} -{format(parseISO(selectedJob.scheduledEnd), "HH:mm")}
 								</span>
 							</div>
 							<div className="flex items-center gap-2">
-								<DollarSign className="w-4 h-4 text-gray-500" />
+								<DollarSign className="w-4 h-4 text-muted-foreground" />
 								<span>${selectedJob.estimatedValue}</span>
 							</div>
 						</div>
 
 						<div>
 							<p className="text-sm font-medium mb-1">Description</p>
-							<p className="text-sm text-gray-600 dark:text-gray-400">{selectedJob.description}</p>
+							<p className="text-sm text-muted-foreground dark:text-muted-foreground">{selectedJob.description}</p>
 						</div>
 
 						<div>

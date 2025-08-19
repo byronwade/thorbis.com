@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseRouteHandlerClient } from '@lib/database/supabase/ssr';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 /**
  * POST /api/analytics - Handle analytics events from the client

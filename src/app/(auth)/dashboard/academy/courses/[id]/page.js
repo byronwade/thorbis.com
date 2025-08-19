@@ -109,25 +109,25 @@ function CourseDetailContent() {
 											{course.category}
 										</Badge>
 										{isCompleted && (
-											<Badge variant="secondary" className="bg-green-500/80 text-white border-0">
+											<Badge variant="secondary" className="bg-success/80 text-white border-0">
 												<Trophy className="w-3 h-3 mr-1" />
 												Completed
 											</Badge>
 										)}
 									</div>
 									<h1 className="text-3xl font-bold mb-2">{course.title}</h1>
-									<p className="text-blue-100 text-lg">{course.description}</p>
+									<p className="text-primary/70 text-lg">{course.description}</p>
 								</div>
 							</div>
 							<CardContent className="p-6">
 								<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
 									<div className="text-center">
-										<BookOpen className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+										<BookOpen className="w-8 h-8 mx-auto mb-2 text-primary" />
 										<div className="text-sm font-medium">{chapters.length} Chapters</div>
 										<div className="text-xs text-muted-foreground">Learn at your pace</div>
 									</div>
 									<div className="text-center">
-										<Clock className="w-8 h-8 mx-auto mb-2 text-green-600" />
+										<Clock className="w-8 h-8 mx-auto mb-2 text-success" />
 										<div className="text-sm font-medium">{course.duration || "Self-paced"}</div>
 										<div className="text-xs text-muted-foreground">Estimated time</div>
 									</div>
@@ -137,7 +137,7 @@ function CourseDetailContent() {
 										<div className="text-xs text-muted-foreground">Students enrolled</div>
 									</div>
 									<div className="text-center">
-										<Award className="w-8 h-8 mx-auto mb-2 text-yellow-600" />
+										<Award className="w-8 h-8 mx-auto mb-2 text-warning" />
 										<div className="text-sm font-medium">Certificate</div>
 										<div className="text-xs text-muted-foreground">Upon completion</div>
 									</div>
@@ -154,7 +154,7 @@ function CourseDetailContent() {
 									<Progress value={courseProgress} className="h-3" />
 									<div className="flex items-center justify-between text-sm">
 										<span className="text-muted-foreground">{Math.round(courseProgress)}% Complete</span>
-										{courseProgress > 0 && <span className="text-green-600 font-medium">Keep it up! 🎉</span>}
+										{courseProgress > 0 && <span className="text-success font-medium">Keep it up! 🎉</span>}
 									</div>
 								</div>
 							</CardContent>
@@ -167,7 +167,7 @@ function CourseDetailContent() {
 						<Card>
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
-									<Play className="w-5 h-5 text-blue-600" />
+									<Play className="w-5 h-5 text-primary" />
 									{isStarted ? "Continue Learning" : "Start Learning"}
 								</CardTitle>
 							</CardHeader>
@@ -193,20 +193,20 @@ function CourseDetailContent() {
 						<Card>
 							<CardHeader>
 								<CardTitle className="flex items-center gap-2">
-									<Lightbulb className="w-5 h-5 text-yellow-600" />
+									<Lightbulb className="w-5 h-5 text-warning" />
 									Learning Features
 								</CardTitle>
 							</CardHeader>
 							<CardContent className="space-y-3">
-								<div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-									<Brain className="w-5 h-5 text-blue-600" />
+								<div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-primary/20 rounded-lg">
+									<Brain className="w-5 h-5 text-primary" />
 									<div>
 										<div className="font-medium text-sm">AI Tutor</div>
 										<div className="text-xs text-muted-foreground">Get instant help</div>
 									</div>
 								</div>
-								<div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
-									<Target className="w-5 h-5 text-green-600" />
+								<div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-success/20 rounded-lg">
+									<Target className="w-5 h-5 text-success" />
 									<div>
 										<div className="font-medium text-sm">Practice Tests</div>
 										<div className="text-xs text-muted-foreground">Test your knowledge</div>
@@ -233,9 +233,9 @@ function CourseDetailContent() {
 					<CardContent>
 						<div className="space-y-3">
 							{chapters.map((chapter, index) => (
-								<div key={chapter.id} className={`flex items-center p-4 border rounded-lg transition-all ${chapter.current ? "border-blue-500 bg-blue-50 dark:bg-blue-950/20" : chapter.completed ? "border-green-200 bg-green-50 dark:bg-green-950/20" : chapter.locked ? "border-border bg-muted/50 opacity-60" : "border-border hover:bg-accent"}`}>
+								<div key={chapter.id} className={`flex items-center p-4 border rounded-lg transition-all ${chapter.current ? "border-primary bg-blue-50 dark:bg-primary/20" : chapter.completed ? "border-green-200 bg-green-50 dark:bg-success/20" : chapter.locked ? "border-border bg-muted/50 opacity-60" : "border-border hover:bg-accent"}`}>
 									<div className="flex items-center space-x-4 flex-1">
-										<div className={`w-10 h-10 rounded-full flex items-center justify-center ${chapter.completed ? "bg-green-500 text-white" : chapter.current ? "bg-blue-500 text-white" : chapter.locked ? "bg-muted text-muted-foreground" : "bg-muted/80 text-muted-foreground"}`}>{chapter.completed ? <CheckCircle className="w-5 h-5" /> : chapter.locked ? <Lock className="w-5 h-5" /> : <span className="font-medium">{index + 1}</span>}</div>
+										<div className={`w-10 h-10 rounded-full flex items-center justify-center ${chapter.completed ? "bg-success text-white" : chapter.current ? "bg-primary text-white" : chapter.locked ? "bg-muted text-muted-foreground" : "bg-muted/80 text-muted-foreground"}`}>{chapter.completed ? <CheckCircle className="w-5 h-5" /> : chapter.locked ? <Lock className="w-5 h-5" /> : <span className="font-medium">{index + 1}</span>}</div>
 
 										<div className="flex-1">
 											<h4 className={`font-medium ${chapter.locked ? "text-muted-foreground" : ""}`}>{chapter.title}</h4>
@@ -245,13 +245,13 @@ function CourseDetailContent() {
 													{chapter.duration}
 												</span>
 												{chapter.completed && (
-													<span className="flex items-center text-green-600">
+													<span className="flex items-center text-success">
 														<CheckCircle className="w-3 h-3 mr-1" />
 														Completed
 													</span>
 												)}
 												{chapter.current && (
-													<span className="flex items-center text-blue-600">
+													<span className="flex items-center text-primary">
 														<Zap className="w-3 h-3 mr-1" />
 														Current
 													</span>

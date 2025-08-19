@@ -140,7 +140,7 @@ export default function JobCreatePage() {
 								<div className="space-y-3">
 									<div className="flex justify-between">
 										<span>Job Posting</span>
-										<span className="font-medium text-green-600">Free</span>
+										<span className="font-medium text-success">Free</span>
 									</div>
 									<div className="border-t pt-3">
 										<p className="text-sm text-muted-foreground">No upfront costs. Only pay if you hire someone through our platform.</p>
@@ -149,9 +149,9 @@ export default function JobCreatePage() {
 							</div>
 
 							{/* Tips */}
-							<div className="bg-blue-50 rounded-lg border border-blue-200 p-6">
-								<h3 className="font-semibold text-lg mb-4 text-blue-900">💡 Pro Tips</h3>
-								<div className="space-y-3 text-sm text-blue-800">
+							<div className="bg-blue-50 rounded-lg border border-primary/30 p-6">
+								<h3 className="font-semibold text-lg mb-4 text-primary">💡 Pro Tips</h3>
+								<div className="space-y-3 text-sm text-primary">
 									<p>• Be specific about your requirements</p>
 									<p>• Include photos when relevant</p>
 									<p>• Set a realistic budget and timeline</p>

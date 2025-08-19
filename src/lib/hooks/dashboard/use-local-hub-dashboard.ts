@@ -8,7 +8,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useAuthStore } from "@store/auth";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { withErrorHandling } from "@utils/error-handler";
 import type { DirectoryStats, ActivityItem, RevenueBreakdownData, DirectoryHealth, BusinessMetrics, LocalHubDashboardData, UseLocalHubDashboardReturn, HealthMetric, RevenueBreakdown } from "@/types/dashboard";
 

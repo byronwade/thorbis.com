@@ -146,14 +146,14 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 		const hasLabel = getLabelForPoint(pointId);
 
 		if (showFeedback && isAnswered && hasLabel) {
-			return isPointCorrect(pointId) ? "border-green-500 bg-green-100 text-green-700" : "border-red-500 bg-red-100 text-red-700";
+			return isPointCorrect(pointId) ? "border-green-500 bg-success/10 text-success" : "border-red-500 bg-destructive/10 text-destructive";
 		}
 
 		if (hasLabel) {
-			return "border-blue-500 bg-blue-100 text-blue-700";
+			return "border-primary bg-primary/10 text-primary";
 		}
 
-		return "border-gray-400 bg-white text-gray-700 hover:border-gray-600";
+		return "border-border bg-white text-muted-foreground hover:border-border";
 	};
 
 	const getLabelStyle = (labelId: string) => {
@@ -165,10 +165,10 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 		}
 
 		if (isSelected) {
-			return "border-blue-500 bg-blue-100 text-blue-700 scale-105";
+			return "border-primary bg-primary/10 text-primary scale-105";
 		}
 
-		return "border-gray-300 bg-white text-gray-700 hover:border-gray-400 hover:bg-gray-50 cursor-grab";
+		return "border-border bg-white text-muted-foreground hover:border-border hover:bg-gray-50 cursor-grab";
 	};
 
 	return (
@@ -177,8 +177,8 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 			<Card>
 				<CardContent className="p-4">
 					<div className="space-y-2">
-						<p className="text-gray-700">Label the diagram by dragging labels to the correct points, or click on a label and then click on a point.</p>
-						<div className="flex items-center space-x-4 text-sm text-gray-600">
+						<p className="text-muted-foreground">Label the diagram by dragging labels to the correct points, or click on a label and then click on a point.</p>
+						<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 							<span>
 								Labeled: {labelPlacements.length} / {question.labels.length}
 							</span>
@@ -202,7 +202,7 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 								</div>
 							))}
 						</div>
-						{selectedLabel && <p className="text-sm text-blue-600 mt-2">Selected: {question.labels.find((l) => l.id === selectedLabel)?.text}. Click on a point to place it.</p>}
+						{selectedLabel && <p className="text-sm text-primary mt-2">Selected: {question.labels.find((l) => l.id === selectedLabel)?.text}. Click on a point to place it.</p>}
 					</CardContent>
 				</Card>
 			)}
@@ -252,7 +252,7 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 									{/* Remove button for placed labels */}
 									{placedLabel && !isAnswered && (
 										<button
-											className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full text-xs flex items-center justify-center hover:bg-red-600"
+											className="absolute -top-1 -right-1 w-4 h-4 bg-destructive text-white rounded-full text-xs flex items-center justify-center hover:bg-destructive"
 											onClick={(e) => {
 												e.stopPropagation();
 												removeLabelFromPoint(point.id);
@@ -263,7 +263,7 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 									)}
 
 									{/* Feedback Icons */}
-									{showFeedback && isAnswered && placedLabel && <div className="absolute -top-2 -right-2">{isPointCorrect(point.id) ? <CheckCircle className="w-5 h-5 text-green-500 bg-white rounded-full" /> : <XCircle className="w-5 h-5 text-red-500 bg-white rounded-full" />}</div>}
+									{showFeedback && isAnswered && placedLabel && <div className="absolute -top-2 -right-2">{isPointCorrect(point.id) ? <CheckCircle className="w-5 h-5 text-success bg-white rounded-full" /> : <XCircle className="w-5 h-5 text-destructive bg-white rounded-full" />}</div>}
 								</div>
 							);
 						})}
@@ -286,7 +286,7 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 												top: `${point.y + 8}%`, // Offset slightly below the point
 											}}
 										>
-											<div className="bg-green-100 border-2 border-green-500 text-green-700 px-2 py-1 rounded text-xs font-medium shadow-lg">Correct: {correctLabel?.text}</div>
+											<div className="bg-success/10 border-2 border-green-500 text-success px-2 py-1 rounded text-xs font-medium shadow-lg">Correct: {correctLabel?.text}</div>
 										</div>
 									);
 								})}
@@ -307,16 +307,16 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 								const point = question.labelPoints.find((p) => p.id === placement.pointId);
 
 								return (
-									<div key={placement.pointId} className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${showFeedback && isAnswered ? (isPointCorrect(placement.pointId) ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50") : "border-gray-200"}`}>
+									<div key={placement.pointId} className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${showFeedback && isAnswered ? (isPointCorrect(placement.pointId) ? "border-green-300 bg-green-50" : "border-red-300 bg-red-50") : "border-border"}`}>
 										<div className="flex items-center space-x-3">
-											<Tag className="w-4 h-4 text-gray-400" />
+											<Tag className="w-4 h-4 text-muted-foreground" />
 											<span className="font-medium">{label?.text}</span>
-											<span className="text-sm text-gray-500">
+											<span className="text-sm text-muted-foreground">
 												→ Point ({point?.x}%, {point?.y}%)
 											</span>
 										</div>
 
-										{showFeedback && isAnswered && <div className="flex items-center space-x-2">{isPointCorrect(placement.pointId) ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}</div>}
+										{showFeedback && isAnswered && <div className="flex items-center space-x-2">{isPointCorrect(placement.pointId) ? <CheckCircle className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-destructive" />}</div>}
 									</div>
 								);
 							})}
@@ -336,9 +336,9 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 									const isCorrect = correctCount === question.labelPoints.length;
 									return (
 										<>
-											{isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isCorrect ? "text-green-700" : "text-red-700"}`}>{isCorrect ? "Perfect Labeling!" : "Some labels need correction"}</span>
-											<span className="text-sm text-gray-600">
+											{isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isCorrect ? "text-success" : "text-destructive"}`}>{isCorrect ? "Perfect Labeling!" : "Some labels need correction"}</span>
+											<span className="text-sm text-muted-foreground">
 												({correctCount} / {question.labelPoints.length} correct)
 											</span>
 										</>
@@ -347,20 +347,20 @@ export function DiagramLabelingRenderer({ question, onAnswer, isAnswered, userAn
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show correct labeling */}
 							<div className="p-4 rounded-lg bg-green-50 border border-green-200">
-								<p className="text-green-800 font-medium">Correct Labeling:</p>
+								<p className="text-success font-medium">Correct Labeling:</p>
 								<ul className="list-disc list-inside space-y-1 mt-2">
 									{question.labelPoints.map((point) => {
 										const correctLabel = question.labels.find((label) => label.id === point.correctLabelId);
 										return (
-											<li key={point.id} className="text-green-700">
+											<li key={point.id} className="text-success">
 												{correctLabel?.text} → Position ({point.x}%, {point.y}%)
 											</li>
 										);

@@ -52,7 +52,7 @@ export default function Reviews({ business, setShowReviewModal }) {
 									<div className="space-y-2">
 										<div className="flex items-center space-x-1">
 											{[...Array(5)].map((_, i) => (
-												<Star key={i} className={`w-5 h-5 ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`} />
+												<Star key={i} className={`w-5 h-5 ${i < Math.floor(rating) ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />
 											))}
 										</div>
 										<div className="text-sm text-muted-foreground">{reviewCount} reviews</div>
@@ -61,13 +61,13 @@ export default function Reviews({ business, setShowReviewModal }) {
 								<div className="mt-4 lg:mt-6">
 									<h3 className="mb-2 text-lg font-semibold text-foreground">Community Trust</h3>
 									<div className="flex items-center justify-center gap-3 lg:justify-start">
-										<div className="flex items-center gap-2 px-3 py-1 bg-orange-100 rounded-full dark:bg-orange-900/30">
-											<Home className="w-4 h-4 text-orange-600 dark:text-orange-400" />
-											<span className="text-sm font-medium text-orange-800 dark:text-orange-200">{peerRecommendations.length} Neighbors</span>
+										<div className="flex items-center gap-2 px-3 py-1 bg-warning/10 rounded-full dark:bg-warning/30">
+											<Home className="w-4 h-4 text-warning dark:text-warning" />
+											<span className="text-sm font-medium text-warning dark:text-warning/80">{peerRecommendations.length} Neighbors</span>
 										</div>
-										<div className="flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full dark:bg-green-900/30">
-											<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
-											<span className="text-sm font-medium text-green-800 dark:text-green-200">{responseRate}% Response</span>
+										<div className="flex items-center gap-2 px-3 py-1 bg-success/10 rounded-full dark:bg-success/30">
+											<CheckCircle className="w-4 h-4 text-success dark:text-success" />
+											<span className="text-sm font-medium text-success dark:text-success/80">{responseRate}% Response</span>
 										</div>
 									</div>
 								</div>
@@ -116,7 +116,7 @@ export default function Reviews({ business, setShowReviewModal }) {
 					{/* Neighbor Reviews */}
 					<div className="space-y-4">
 						<div className="flex items-center gap-2">
-							<Home className="w-5 h-5 text-orange-500" />
+							<Home className="w-5 h-5 text-warning" />
 							<span className="font-medium text-foreground">Your Neighbors</span>
 							<Badge variant="secondary">Verified</Badge>
 						</div>
@@ -135,7 +135,7 @@ export default function Reviews({ business, setShowReviewModal }) {
 											<span className="text-sm text-muted-foreground">{neighbor.date}</span>
 											<div className="flex items-center ml-2">
 												{[...Array(5)].map((_, i) => (
-													<Star key={i} className={`w-4 h-4 ${i < neighbor.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`} />
+													<Star key={i} className={`w-4 h-4 ${i < neighbor.rating ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />
 												))}
 											</div>
 										</div>
@@ -169,7 +169,7 @@ export default function Reviews({ business, setShowReviewModal }) {
 											<span className="text-sm text-muted-foreground">{review.date}</span>
 											<div className="flex items-center ml-2">
 												{[...Array(5)].map((_, i) => (
-													<Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground"}`} />
+													<Star key={i} className={`w-4 h-4 ${i < review.rating ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />
 												))}
 											</div>
 										</div>

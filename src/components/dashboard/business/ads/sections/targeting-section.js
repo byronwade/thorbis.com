@@ -64,7 +64,7 @@ const KeywordSuggestions = ({ businessType, onAddKeyword, existingKeywords = [] 
 	return (
 		<div className="space-y-3">
 			<div className="flex items-center gap-2">
-				<Lightbulb className="w-4 h-4 text-yellow-600" />
+				<Lightbulb className="w-4 h-4 text-warning" />
 				<span className="text-sm font-medium">Suggested Keywords</span>
 			</div>
 			<div className="flex flex-wrap gap-2">
@@ -103,14 +103,14 @@ const AudienceEstimation = ({ demographics, interests, location }) => {
 	const estimatedReach = getEstimatedReach();
 
 	return (
-		<Card className="bg-blue-50/50 border-blue-200">
+		<Card className="bg-blue-50/50 border-primary/30">
 			<CardContent className="p-4">
 				<div className="flex items-center gap-2 mb-2">
-					<TrendingUp className="w-4 h-4 text-blue-600" />
+					<TrendingUp className="w-4 h-4 text-primary" />
 					<span className="font-medium text-sm">Estimated Reach</span>
 				</div>
-				<p className="text-2xl font-bold text-blue-600">{estimatedReach.toLocaleString()}</p>
-				<p className="text-xs text-blue-600/70">potential customers in your area</p>
+				<p className="text-2xl font-bold text-primary">{estimatedReach.toLocaleString()}</p>
+				<p className="text-xs text-primary/70">potential customers in your area</p>
 			</CardContent>
 		</Card>
 	);
@@ -202,7 +202,7 @@ export const TargetingSection = ({
 				<CardTitle className="flex items-center gap-2">
 					<Target className="w-5 h-5 text-primary" />
 					Audience Targeting
-					{isTargetingComplete && <CheckCircle className="w-4 h-4 text-green-600" />}
+					{isTargetingComplete && <CheckCircle className="w-4 h-4 text-success" />}
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-6">
@@ -223,7 +223,7 @@ export const TargetingSection = ({
 								</div>
 								<Textarea id="keywords" placeholder="e.g., plumber, emergency plumbing, drain cleaning" value={keywords} onChange={(e) => handleFieldUpdate("keywords", e.target.value)} className={errors.keywords ? "border-red-500 focus:border-red-500" : ""} rows={3} />
 							</div>
-							{errors.keywords && <p className="text-sm text-red-500 mt-1">{errors.keywords}</p>}
+							{errors.keywords && <p className="text-sm text-destructive mt-1">{errors.keywords}</p>}
 
 							{/* Display keywords as badges */}
 							{getKeywordArray().length > 0 && (

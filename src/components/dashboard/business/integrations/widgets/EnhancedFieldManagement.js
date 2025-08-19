@@ -49,18 +49,18 @@ export default function EnhancedFieldManagementWidget() {
 
 	const getStatusColor = (status) => {
 		switch (status) {
-			case 'on_route': return 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200';
-			case 'at_location': return 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200';
-			case 'completed': return 'bg-gray-100 text-gray-800 dark:bg-gray-950 dark:text-gray-200';
-			default: return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-200';
+			case 'on_route': return 'bg-primary/10 text-primary dark:bg-primary dark:text-primary/80';
+			case 'at_location': return 'bg-success/10 text-success dark:bg-success dark:text-success/80';
+			case 'completed': return 'bg-muted text-foreground dark:bg-card dark:text-muted-foreground';
+			default: return 'bg-warning/10 text-warning dark:bg-warning dark:text-warning/80';
 		}
 	};
 
 	const getSeverityIcon = (severity) => {
 		switch (severity) {
-			case 'high': return <AlertCircle className="h-3 w-3 text-red-500" />;
-			case 'medium': return <Clock className="h-3 w-3 text-yellow-500" />;
-			default: return <CheckCircle className="h-3 w-3 text-green-500" />;
+			case 'high': return <AlertCircle className="h-3 w-3 text-destructive" />;
+			case 'medium': return <Clock className="h-3 w-3 text-warning" />;
+			default: return <CheckCircle className="h-3 w-3 text-success" />;
 		}
 	};
 
@@ -87,17 +87,17 @@ export default function EnhancedFieldManagementWidget() {
 				<div className="grid grid-cols-2 gap-3">
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<Wrench className="h-3 w-3 text-blue-600" />
+							<Wrench className="h-3 w-3 text-primary" />
 							<span className="text-xs text-muted-foreground">Active Jobs</span>
 						</div>
 						<p className="font-semibold text-sm">{fieldData.activeJobs}</p>
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<CheckCircle className="h-3 w-3 text-green-600" />
+							<CheckCircle className="h-3 w-3 text-success" />
 							<span className="text-xs text-muted-foreground">Completed</span>
 						</div>
-						<p className="font-semibold text-sm text-green-600">{fieldData.completedToday}</p>
+						<p className="font-semibold text-sm text-success">{fieldData.completedToday}</p>
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
@@ -108,10 +108,10 @@ export default function EnhancedFieldManagementWidget() {
 					</div>
 					<div className="space-y-1">
 						<div className="flex items-center space-x-1">
-							<TrendingUp className="h-3 w-3 text-orange-600" />
+							<TrendingUp className="h-3 w-3 text-warning" />
 							<span className="text-xs text-muted-foreground">Satisfaction</span>
 						</div>
-						<p className="font-semibold text-sm text-orange-600">{fieldData.customerSatisfaction}/5</p>
+						<p className="font-semibold text-sm text-warning">{fieldData.customerSatisfaction}/5</p>
 					</div>
 				</div>
 
@@ -133,7 +133,7 @@ export default function EnhancedFieldManagementWidget() {
 								</div>
 								<div className="flex items-center justify-between">
 									<span className="text-muted-foreground">Efficiency</span>
-									<span className={`font-medium ${route.efficiency >= 90 ? 'text-green-600' : 'text-orange-600'}`}>
+									<span className={`font-medium ${route.efficiency >= 90 ? 'text-success' : 'text-warning'}`}>
 										{route.efficiency}%
 									</span>
 								</div>

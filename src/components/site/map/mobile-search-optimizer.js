@@ -12,7 +12,7 @@ import { Badge } from "@components/ui/badge";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Filter, MapPin, List, Map, Zap, TrendingUp, Clock, Star, DollarSign } from "lucide-react";
 import { withErrorHandling } from "@utils/error-handler";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, showMap = false, activeFilters = {}, totalResults = 0, searchQuery = "", loading = false, children }) => {
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -135,8 +135,8 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 				<div className="px-4 py-3">
 					<div className="flex items-center justify-between mb-3">
 						<div className="flex items-center gap-2">
-							<h2 className="text-lg font-bold text-gray-900 dark:text-white">{loading ? "Searching..." : `${totalResults.toLocaleString()} results`}</h2>
-							{totalResults > 0 && <Badge className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-xs px-2 py-1">{searchQuery ? `for "${searchQuery}"` : "nearby"}</Badge>}
+							<h2 className="text-lg font-bold text-foreground dark:text-white">{loading ? "Searching..." : `${totalResults.toLocaleString()} results`}</h2>
+							{totalResults > 0 && <Badge className="bg-primary/10 dark:bg-primary text-primary dark:text-primary/90 text-xs px-2 py-1">{searchQuery ? `for "${searchQuery}"` : "nearby"}</Badge>}
 						</div>
 
 						{/* Quick Actions */}
@@ -183,7 +183,7 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 										className={`
                       h-8 px-3 text-xs whitespace-nowrap flex-shrink-0
                       transition-all duration-200 active:scale-95
-                      ${filter.active ? "bg-blue-600 text-white border-blue-600" : "border-gray-300 dark:border-gray-600"}
+                      ${filter.active ? "bg-primary text-white border-primary" : "border-border dark:border-border"}
                     `}
 									>
 										<Icon className="w-3 h-3 mr-1.5" />
@@ -197,7 +197,7 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 
 				{/* Expandable Controls */}
 				{isExpanded && (
-					<div className="px-4 pb-3 border-t border-gray-100 dark:border-gray-800">
+					<div className="px-4 pb-3 border-t border-border dark:border-border">
 						<div className="pt-3 space-y-3">
 							{/* Advanced Filters */}
 							<div className="grid grid-cols-2 gap-2">
@@ -213,7 +213,7 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 
 							{/* Sort Options */}
 							<div className="flex gap-2 text-xs">
-								<span className="text-gray-500 dark:text-gray-400 py-2">Sort by:</span>
+								<span className="text-muted-foreground dark:text-muted-foreground py-2">Sort by:</span>
 								{["Relevance", "Distance", "Rating"].map((sort) => (
 									<Button key={sort} variant="ghost" size="sm" className="h-8 px-3 text-xs">
 										{sort}
@@ -226,7 +226,7 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 
 				{/* Expand/Collapse Indicator */}
 				<div className="flex justify-center py-1 cursor-pointer" onClick={() => setIsExpanded(!isExpanded)} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-					<div className="w-8 h-1 bg-gray-300 dark:bg-gray-600 rounded-full" />
+					<div className="w-8 h-1 bg-muted dark:bg-muted rounded-full" />
 				</div>
 			</div>
 
@@ -247,7 +247,7 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 						}}
 						className={`
               w-12 h-12 rounded-full shadow-lg
-              ${showMap ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-white dark:bg-gray-800 border-2 border-blue-600 text-blue-600"}
+              ${showMap ? "bg-primary hover:bg-primary text-white" : "bg-white dark:bg-card border-2 border-primary text-primary"}
               transition-all duration-200 active:scale-90
             `}
 					>
@@ -257,7 +257,7 @@ const MobileSearchOptimizer = ({ onFilterToggle, onMapToggle, onQuickFilter, sho
 					{/* Filter Badge */}
 					{Object.keys(activeFilters).length > 0 && (
 						<div className="absolute -top-1 -right-1">
-							<Badge className="w-5 h-5 p-0 flex items-center justify-center bg-red-500 text-white text-xs rounded-full">{Object.keys(activeFilters).length}</Badge>
+							<Badge className="w-5 h-5 p-0 flex items-center justify-center bg-destructive text-white text-xs rounded-full">{Object.keys(activeFilters).length}</Badge>
 						</div>
 					)}
 				</div>

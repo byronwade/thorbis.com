@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { z } from "zod";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { withValidation, withPerformanceMonitoring, createSuccessResponse, createErrorResponse, compose } from "@lib/api/middleware";
 
 // Signup request validation schema

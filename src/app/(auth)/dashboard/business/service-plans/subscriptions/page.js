@@ -194,14 +194,14 @@ const mockSubscriptions = [
 ];
 
 const statusColors = {
-	active: "bg-green-100 text-green-800",
-	paused: "bg-yellow-100 text-yellow-800",
-	expired: "bg-red-100 text-red-800",
-	cancelled: "bg-gray-100 text-gray-800",
+	active: "bg-success/10 text-success",
+	paused: "bg-warning/10 text-warning",
+	expired: "bg-destructive/10 text-destructive",
+	cancelled: "bg-muted text-muted-foreground",
 };
 
 const customerTypeColors = {
-	residential: "bg-blue-100 text-blue-800",
+	residential: "bg-primary/10 text-primary",
 	commercial: "bg-purple-100 text-purple-800",
 };
 
@@ -333,7 +333,7 @@ export default function ServicePlanSubscriptions() {
 								<p className="text-sm text-muted-foreground">Total Plans</p>
 								<p className="text-2xl font-bold">{stats.total}</p>
 							</div>
-							<Users className="w-8 h-8 text-blue-500" />
+							<Users className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -343,9 +343,9 @@ export default function ServicePlanSubscriptions() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Active</p>
-								<p className="text-2xl font-bold text-green-600">{stats.active}</p>
+								<p className="text-2xl font-bold text-success">{stats.active}</p>
 							</div>
-							<CheckCircle className="w-8 h-8 text-green-500" />
+							<CheckCircle className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -355,9 +355,9 @@ export default function ServicePlanSubscriptions() {
 						<div className="flex items-center justify-between">
 							<div>
 								<p className="text-sm text-muted-foreground">Paused</p>
-								<p className="text-2xl font-bold text-yellow-600">{stats.paused}</p>
+								<p className="text-2xl font-bold text-warning">{stats.paused}</p>
 							</div>
-							<Pause className="w-8 h-8 text-yellow-500" />
+							<Pause className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -369,7 +369,7 @@ export default function ServicePlanSubscriptions() {
 								<p className="text-sm text-muted-foreground">Total Revenue</p>
 								<p className="text-2xl font-bold">${stats.totalRevenue.toLocaleString()}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -381,7 +381,7 @@ export default function ServicePlanSubscriptions() {
 								<p className="text-sm text-muted-foreground">Avg Completion</p>
 								<p className="text-2xl font-bold">{stats.avgCompletion.toFixed(0)}%</p>
 							</div>
-							<TrendingUp className="w-8 h-8 text-blue-500" />
+							<TrendingUp className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -424,10 +424,10 @@ export default function ServicePlanSubscriptions() {
 								<div key={index} className="p-3 border border-orange-200 rounded-lg bg-orange-50">
 									<div className="flex items-start justify-between mb-2">
 										<h4 className="font-medium text-sm">{plan.customer.name}</h4>
-										<AlertTriangle className="w-4 h-4 text-orange-500" />
+										<AlertTriangle className="w-4 h-4 text-warning" />
 									</div>
 									<p className="text-xs text-muted-foreground">{plan.planName}</p>
-									<div className="flex items-center gap-1 text-xs text-orange-600 mt-1">
+									<div className="flex items-center gap-1 text-xs text-warning mt-1">
 										<CalendarIcon className="w-3 h-3" />
 										Expires {new Date(plan.endDate).toLocaleDateString()}
 									</div>
@@ -558,7 +558,7 @@ export default function ServicePlanSubscriptions() {
 														Renew Plan
 													</DropdownMenuItem>
 												)}
-												<DropdownMenuItem onClick={() => handleAction(subscription, "cancel")} className="text-red-600">
+												<DropdownMenuItem onClick={() => handleAction(subscription, "cancel")} className="text-destructive">
 													Cancel Plan
 												</DropdownMenuItem>
 											</DropdownMenuContent>
@@ -579,7 +579,7 @@ export default function ServicePlanSubscriptions() {
 
 										<div>
 											<span className="text-sm text-muted-foreground">Revenue</span>
-											<p className="text-lg font-semibold text-green-600">${subscription.revenue}</p>
+											<p className="text-lg font-semibold text-success">${subscription.revenue}</p>
 											<p className="text-xs text-muted-foreground">{subscription.billingCycle} billing</p>
 										</div>
 
@@ -746,7 +746,7 @@ export default function ServicePlanSubscriptions() {
 												<div key={index} className="border rounded-lg p-3">
 													<div className="flex justify-between items-start mb-2">
 														<h5 className="font-medium">{service.name}</h5>
-														<Badge className="bg-green-100 text-green-800">{service.status}</Badge>
+														<Badge className="bg-success/10 text-success">{service.status}</Badge>
 													</div>
 													<div className="text-sm text-muted-foreground">
 														<div className="flex items-center gap-1 mb-1">
@@ -789,7 +789,7 @@ export default function ServicePlanSubscriptions() {
 											<Separator />
 											<div className="flex justify-between">
 												<span className="font-medium">Total Revenue</span>
-												<span className="font-medium text-green-600">${selectedSubscription.revenue}</span>
+												<span className="font-medium text-success">${selectedSubscription.revenue}</span>
 											</div>
 										</div>
 									</div>

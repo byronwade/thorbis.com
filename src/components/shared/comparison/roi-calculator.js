@@ -64,13 +64,13 @@ export function ROICalculator({ title, subtitle, competitorData, thorbisData, su
 							{thorbisData.benefits.map((benefit, index) => (
 								<div key={index} className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">{benefit.label}</span>
-									<span className={`font-semibold ${benefit.positive !== false ? "text-green-600 dark:text-green-400" : "text-foreground"}`}>{benefit.amount}</span>
+									<span className={`font-semibold ${benefit.positive !== false ? "text-success dark:text-success" : "text-foreground"}`}>{benefit.amount}</span>
 								</div>
 							))}
 							<div className="border-t pt-4">
 								<div className="flex justify-between items-center font-bold text-lg">
 									<span>Net Annual Gain</span>
-									<span className="text-green-600 dark:text-green-400">{thorbisData.total}</span>
+									<span className="text-success dark:text-success">{thorbisData.total}</span>
 								</div>
 							</div>
 						</CardContent>

@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useCallback, useMemo, useState } from "react";
 import { GoogleMap, LoadScript, Marker, InfoWindow, OverlayView, MarkerClusterer } from "@react-google-maps/api";
+import { buildBusinessUrlFrom } from "@utils";
 
 // Suppress Google Maps Marker deprecation warning in development
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
@@ -94,7 +95,7 @@ const customInfoWindowStyles = `
     
     /* Style the close button */
     .gm-style .gm-ui-hover-effect {
-      background: rgba(0, 0, 0, 0.7) !important;
+      background: hsl(var(--foreground) / 0.7) !important;
       border-radius: 50% !important;
       width: 32px !important;
       height: 32px !important;
@@ -104,7 +105,7 @@ const customInfoWindowStyles = `
     }
     
     .gm-style .gm-ui-hover-effect:hover {
-      background: rgba(0, 0, 0, 0.9) !important;
+      background: hsl(var(--foreground) / 0.9) !important;
     }
     
     .gm-style .gm-ui-hover-effect span {
@@ -151,11 +152,11 @@ const customInfoWindowStyles = `
     
     /* Ensure our custom content has proper styling */
     .custom-infowindow-content {
-      background-color: #111827 !important;
-      color: #ffffff !important;
-      border: 1px solid #374151 !important;
+      background-color: hsl(var(--background)) !important;
+      color: hsl(var(--background)) !important;
+      border: 1px solid hsl(var(--border)) !important;
       border-radius: 12px !important;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+      box-shadow: 0 25px 50px -12px hsl(var(--foreground) / 0.5), 0 0 0 1px hsl(var(--background) / 0.05) !important;
       padding: 24px !important;
       margin: 0 !important;
       min-width: 320px !important;
@@ -191,99 +192,99 @@ import { useMapStore } from "@store/map";
 import { useSearchStore } from "@store/search";
 import { useBusinessStore } from "@store/business";
 import { toast } from "@components/ui/use-toast";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Dark mode map theme
 const darkMapStyles = [
   {
     featureType: "all",
     elementType: "geometry",
-    stylers: [{ color: "#242f3e" }],
+    stylers: [{ color: "hsl(var(--card))" }],
   },
   {
     featureType: "all",
     elementType: "labels.text.stroke",
-    stylers: [{ color: "#242f3e" }],
+    stylers: [{ color: "hsl(var(--card))" }],
   },
   {
     featureType: "all",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#746855" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "administrative.locality",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "poi",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "poi.park",
     elementType: "geometry",
-    stylers: [{ color: "#263c3f" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "poi.park",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#6b9a76" }],
+    stylers: [{ color: "hsl(var(--success))" }],
   },
   {
     featureType: "road",
     elementType: "geometry",
-    stylers: [{ color: "#38414e" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "road",
     elementType: "geometry.stroke",
-    stylers: [{ color: "#212a37" }],
+    stylers: [{ color: "hsl(var(--card))" }],
   },
   {
     featureType: "road",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#9ca5b3" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "road.highway",
     elementType: "geometry",
-    stylers: [{ color: "#746855" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "road.highway",
     elementType: "geometry.stroke",
-    stylers: [{ color: "#1f2835" }],
+    stylers: [{ color: "hsl(var(--background))" }],
   },
   {
     featureType: "road.highway",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#f3d19c" }],
+    stylers: [{ color: "hsl(var(--warning))" }],
   },
   {
     featureType: "transit",
     elementType: "geometry",
-    stylers: [{ color: "#2f3948" }],
+    stylers: [{ color: "hsl(var(--card))" }],
   },
   {
     featureType: "transit.station",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#d59563" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "water",
     elementType: "geometry",
-    stylers: [{ color: "#17263c" }],
+    stylers: [{ color: "hsl(var(--background))" }],
   },
   {
     featureType: "water",
     elementType: "labels.text.fill",
-    stylers: [{ color: "#515c6d" }],
+    stylers: [{ color: "hsl(var(--muted-foreground))" }],
   },
   {
     featureType: "water",
     elementType: "labels.text.stroke",
-    stylers: [{ color: "#17263c" }],
+    stylers: [{ color: "hsl(var(--background))" }],
   },
 ];
 
@@ -293,10 +294,10 @@ const createBusinessMarkerIcon = (isActive = false, rating = 0, category = '') =
   const getMarkerColorScheme = () => {
     if (isActive) {
       return {
-        primary: "#3b82f6",    // Blue for active
-        secondary: "#ffffff",  // White border
-        accent: "#60a5fa",     // Light blue
-        border: "#ffffff"      // White border for contrast
+        primary: "hsl(var(--primary))",    // Blue for active
+        secondary: "hsl(var(--background))",  // White border
+        accent: "hsl(var(--primary))",     // Light blue
+        border: "hsl(var(--background))"      // White border for contrast
       };
     }
     
@@ -305,49 +306,49 @@ const createBusinessMarkerIcon = (isActive = false, rating = 0, category = '') =
       case 'restaurant':
       case 'food':
         return {
-          primary: "#f97316",    // Orange
-          secondary: "#ffffff",
-          accent: "#fb923c",
-          border: "#ffffff"
+          primary: "hsl(var(--warning))",    // Orange
+          secondary: "hsl(var(--background))",
+          accent: "hsl(var(--warning))",
+          border: "hsl(var(--background))"
         };
       case 'retail':
       case 'shopping':
         return {
-          primary: "#10b981",    // Emerald
-          secondary: "#ffffff",
-          accent: "#34d399",
-          border: "#ffffff"
+          primary: "hsl(var(--muted-foreground))",    // Emerald
+          secondary: "hsl(var(--background))",
+          accent: "hsl(var(--success))",
+          border: "hsl(var(--background))"
         };
       case 'service':
       case 'professional':
         return {
-          primary: "#3b82f6",    // Blue
-          secondary: "#ffffff",
-          accent: "#60a5fa",
-          border: "#ffffff"
+          primary: "hsl(var(--primary))",    // Blue
+          secondary: "hsl(var(--background))",
+          accent: "hsl(var(--primary))",
+          border: "hsl(var(--background))"
         };
       case 'healthcare':
       case 'medical':
         return {
-          primary: "#ef4444",    // Red
-          secondary: "#ffffff",
-          accent: "#f87171",
-          border: "#ffffff"
+          primary: "hsl(var(--muted-foreground))",    // Red
+          secondary: "hsl(var(--background))",
+          accent: "hsl(var(--destructive))",
+          border: "hsl(var(--background))"
         };
       case 'entertainment':
       case 'recreation':
         return {
-          primary: "#8b5cf6",    // Purple
-          secondary: "#ffffff",
-          accent: "#a78bfa",
-          border: "#ffffff"
+          primary: "hsl(var(--muted-foreground))",    // Purple
+          secondary: "hsl(var(--background))",
+          accent: "hsl(var(--muted-foreground))",
+          border: "hsl(var(--background))"
         };
       default:
         return {
-          primary: "#6b7280",    // Gray
-          secondary: "#ffffff",
-          accent: "#9ca3af",
-          border: "#ffffff"
+          primary: "hsl(var(--muted-foreground))",    // Gray
+          secondary: "hsl(var(--background))",
+          accent: "hsl(var(--muted-foreground))",
+          border: "hsl(var(--background))"
         };
     }
   };
@@ -492,7 +493,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
     mapTypeControl: false,
     fullscreenControl: false,
     gestureHandling: "cooperative",
-    backgroundColor: "#242f3e",
+    backgroundColor: "hsl(var(--card))",
     clickableIcons: false,
   }), []);
 
@@ -978,7 +979,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
         <div className="absolute inset-0 opacity-5 dark:opacity-10">
           <div className="grid grid-cols-8 h-full">
             {Array.from({ length: 64 }).map((_, i) => (
-              <div key={i} className="border border-gray-300 dark:border-gray-600"></div>
+              <div key={i} className="border border-border dark:border-border"></div>
             ))}
           </div>
         </div>
@@ -986,21 +987,21 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
         <div className="text-center p-8 max-w-lg relative z-10">
           <div className="mb-6">
             <div className="relative mb-4">
-              <MapPin className="w-16 h-16 text-blue-500 mx-auto" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
+              <MapPin className="w-16 h-16 text-primary mx-auto" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-warning rounded-full flex items-center justify-center">
                 <span className="text-white text-xs">!</span>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Google Maps Configuration Required</h3>
-            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
+            <h3 className="text-xl font-semibold text-foreground dark:text-white mb-2">Google Maps Configuration Required</h3>
+            <p className="text-muted-foreground dark:text-muted-foreground text-sm leading-relaxed mb-4">
               Add NEXT_PUBLIC_GOOGLE_MAPS_API_KEY to display the interactive map
             </p>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-700">
-            <div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+          <div className="bg-white dark:bg-card rounded-lg p-4 mb-6 border border-border dark:border-border">
+            <div className="text-sm text-muted-foreground dark:text-muted-foreground space-y-2">
               <p className="font-medium text-left">For developers:</p>
-              <code className="block bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs text-left">
+              <code className="block bg-muted dark:bg-muted p-2 rounded text-xs text-left">
                 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
               </code>
             </div>
@@ -1029,28 +1030,28 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
     <div className="map-container relative w-full h-full overflow-hidden" ref={containerRef}>
       {/* Loading State */}
       {!mapLoaded && !mapError && (
-        <div className="absolute inset-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-muted dark:bg-card flex items-center justify-center z-10">
           <div className="text-center">
-            <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Loading map...</p>
+            <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground">Loading map...</p>
           </div>
         </div>
       )}
 
       {/* Error State */}
       {mapError && (
-        <div className="absolute inset-0 bg-red-50 dark:bg-red-900/20 flex items-center justify-center z-10">
+        <div className="absolute inset-0 bg-red-50 dark:bg-destructive/20 flex items-center justify-center z-10">
           <div className="text-center p-4">
-            <div className="text-red-500 text-2xl mb-2">⚠️</div>
-            <h3 className="text-lg font-semibold text-red-800 dark:text-red-200 mb-2">Map Error</h3>
-            <p className="text-sm text-red-600 dark:text-red-300 mb-4">
+            <div className="text-destructive text-2xl mb-2">⚠️</div>
+            <h3 className="text-lg font-semibold text-destructive dark:text-destructive/80 mb-2">Map Error</h3>
+            <p className="text-sm text-destructive dark:text-destructive/90 mb-4">
               Failed to load Google Maps. Please check your internet connection.
             </p>
             <Button 
               onClick={() => window.location.reload()} 
               variant="outline" 
               size="sm"
-              className="text-red-600 border-red-300 hover:bg-red-50"
+              className="text-destructive border-red-300 hover:bg-red-50"
             >
               <RefreshCw className="w-4 h-4 mr-2" />
               Retry
@@ -1083,7 +1084,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                   url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiMzYjgyZjYiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0id2hpdGUiPgo8cGF0aCBkPSJNMTIgMkM4LjEzIDIgNSA1LjEzIDUgOWMwIDUuMjUgNyAxMyA3IDEzczctNy43NSA3LTEzYzAtMy44Ny0zLjEzLTctNy03em0wIDkuNWMtMS4zOCAwLTIuNS0xLjEyLTIuNS0yLjVzMS4xMi0yLjUgMi41LTIuNSAyLjUgMS4xMiAyLjUgMi41LTEuMTIgMi41LTIuNSAyLjV6Ii8+Cjwvc3ZnPgo8L3N2Zz4K",
                   width: 40,
                   height: 40,
-                  textColor: "#ffffff",
+                  textColor: "hsl(var(--background))",
                   textSize: 14,
                 },
               ],
@@ -1123,15 +1124,15 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                     }}
                   >
                                       <div
-                    className="p-6 w-80 bg-gray-900 rounded-xl border border-gray-700 shadow-2xl custom-infowindow-content"
+                    className="p-6 w-80 bg-card rounded-xl border border-border shadow-2xl custom-infowindow-content"
                     style={{
-                      backgroundColor: '#111827 !important',
-                      color: '#ffffff !important',
+                      backgroundColor: 'hsl(var(--background)) !important',
+                      color: 'hsl(var(--background)) !important',
                       fontFamily: 'system-ui, -apple-system, sans-serif',
                       fontSize: '14px',
                       lineHeight: '1.5',
-                      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-                      border: '1px solid #374151 !important',
+                      boxShadow: '0 25px 50px -12px hsl(var(--foreground) / 0.5), 0 0 0 1px hsl(var(--background) / 0.05)',
+                      border: '1px solid hsl(var(--border)) !important',
                       borderRadius: '12px',
                       minWidth: '320px',
                       maxWidth: '320px',
@@ -1146,14 +1147,14 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                             {business.name}
                           </h3>
                           {business.category && (
-                            <p className="text-sm text-gray-400 font-medium">
+                            <p className="text-sm text-muted-foreground font-medium">
                               {business.category}
                             </p>
                           )}
                         </div>
                         {business.rating && (
-                          <div className="flex items-center bg-blue-600 text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg flex-shrink-0">
-                            <span className="text-yellow-300 mr-1">★</span>
+                          <div className="flex items-center bg-primary text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg flex-shrink-0">
+                            <span className="text-warning/90 mr-1">★</span>
                             <span>{business.rating}</span>
                           </div>
                         )}
@@ -1164,11 +1165,11 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                         {business.address && (
                           <div className="flex items-start space-x-3">
                             <div className="w-5 h-5 mt-0.5 flex-shrink-0">
-                              <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                               </svg>
                             </div>
-                            <p className="text-sm text-gray-200 leading-relaxed">
+                            <p className="text-sm text-muted-foreground leading-relaxed">
                               {business.address}
                             </p>
                           </div>
@@ -1181,7 +1182,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                               </svg>
                             </div>
-                            <span className="text-sm text-gray-200">
+                            <span className="text-sm text-muted-foreground">
                               {business.phone}
                             </span>
                           </div>
@@ -1189,18 +1190,19 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                       </div>
 
                       {/* Action buttons */}
-                      <div className="flex space-x-3 mt-6 pt-4 border-t border-gray-700">
+                      <div className="flex space-x-3 mt-6 pt-4 border-t border-border">
                         <button 
                           onClick={() => {
-                            window.open(`/biz/${business.slug || business.id}`, '_blank');
+                            			try { window.open(buildBusinessUrlFrom(business), '_blank'); }
+                            catch { window.open(`/us/${(business.state||'').toLowerCase()}/${(business.city||'').toLowerCase()}/${(business.name||'').toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')}-${business.short_id || business.shortId || ''}`, '_blank'); }
                           }}
-                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                          className="flex-1 bg-primary hover:bg-primary text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                         >
                           View Details
                         </button>
                         <button 
                           onClick={() => getDirections(business)}
-                          className="bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                          className="bg-muted hover:bg-muted text-white text-sm font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                         >
                           Directions
                         </button>
@@ -1208,8 +1210,8 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                           onClick={() => toggleFavorite(business.id)}
                           className={`p-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl ${
                             favorites.has(business.id)
-                              ? 'bg-red-600 hover:bg-red-700 text-white'
-                              : 'bg-gray-700 hover:bg-gray-600 text-white'
+                              ? 'bg-destructive hover:bg-destructive text-white'
+                              : 'bg-muted hover:bg-muted text-white'
                           }`}
                         >
                           <svg className="w-4 h-4" fill={favorites.has(business.id) ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
@@ -1233,9 +1235,9 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                 position={userLocation}
                 icon={{
                   path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
-                  fillColor: "#3b82f6",
+                  fillColor: "hsl(var(--primary))",
                   fillOpacity: 1,
-                  strokeColor: "#ffffff",
+                  strokeColor: "hsl(var(--background))",
                   strokeWeight: 3,
                   scale: 1.2,
                   anchor: { x: 12, y: 24 },
@@ -1254,7 +1256,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
         <Button 
           onClick={handleSearchInArea} 
           disabled={isSearching} 
-          className="bg-blue-600 hover:bg-blue-700 text-white shadow-2xl px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 border-0"
+          className="bg-primary hover:bg-primary text-white shadow-2xl px-6 py-3 text-sm font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 border-0"
         >
           <Search className="w-4 h-4 mr-2" />
           {isSearching ? "Searching..." : "Search this area"}
@@ -1263,7 +1265,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
         {/* Filter Toggle */}
         <Button 
           onClick={() => setShowFilters(!showFilters)}
-          className="bg-gray-900 hover:bg-gray-800 text-white shadow-2xl px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 border border-gray-700"
+          className="bg-card hover:bg-card text-white shadow-2xl px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 border border-border"
         >
           <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
@@ -1276,8 +1278,8 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
           onClick={() => setShowFavorites(!showFavorites)}
           className={`shadow-2xl px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 border ${
             showFavorites 
-              ? 'bg-red-600 hover:bg-red-700 text-white border-red-500' 
-              : 'bg-gray-900 hover:bg-gray-800 text-white border-gray-700'
+              ? 'bg-destructive hover:bg-destructive text-white border-red-500' 
+              : 'bg-card hover:bg-card text-white border-border'
           }`}
         >
           <svg className="w-4 h-4 mr-2" fill={showFavorites ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
@@ -1289,7 +1291,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
 
       {/* Filter Panel */}
       {showFilters && (
-        <div className="absolute top-32 right-4 z-20 bg-gray-900 rounded-xl shadow-2xl p-4 space-y-4 min-w-64 border border-gray-700">
+        <div className="absolute top-32 right-4 z-20 bg-card rounded-xl shadow-2xl p-4 space-y-4 min-w-64 border border-border">
           {/* Category Filter */}
           <div>
             <label className="block text-sm font-medium text-white mb-2">
@@ -1298,7 +1300,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
             <select
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
-              className="w-full text-sm border border-gray-600 rounded-lg px-3 py-2 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full text-sm border border-border rounded-lg px-3 py-2 bg-card text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">All Categories</option>
               <option value="restaurant">Restaurants</option>
@@ -1323,7 +1325,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
               step="0.5"
               value={filterRating}
               onChange={(e) => setFilterRating(parseFloat(e.target.value))}
-              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+              className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer"
             />
           </div>
 
@@ -1340,7 +1342,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                 step="1"
                 value={searchRadius}
                 onChange={(e) => setSearchRadius(parseInt(e.target.value))}
-                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer"
               />
             </div>
           )}
@@ -1352,7 +1354,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
               setFilterRating(0);
               setSearchRadius(10);
             }}
-            className="w-full bg-red-600 hover:bg-red-700 text-white text-sm font-semibold py-2 px-3 rounded-lg transition-all duration-200"
+            className="w-full bg-destructive hover:bg-destructive text-white text-sm font-semibold py-2 px-3 rounded-lg transition-all duration-200"
           >
             Clear Filters
           </Button>
@@ -1362,16 +1364,16 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
       {/* Business Count Indicator */}
       {displayBusinesses.length > 0 && (
         <div className="absolute top-4 left-4 z-20">
-          <div className="bg-gray-900 shadow-2xl rounded-xl px-4 py-3 border border-gray-700">
+          <div className="bg-card shadow-2xl rounded-xl px-4 py-3 border border-border">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center shadow-lg">
                 <MapPin className="w-4 h-4 text-white" />
               </div>
               <div>
                 <span className="text-sm font-bold text-white">
                   {displayBusinesses.length} business{displayBusinesses.length !== 1 ? 'es' : ''}
                 </span>
-                <div className="text-xs text-gray-400">
+                <div className="text-xs text-muted-foreground">
                   {displayBusinesses.length !== businesses.length 
                     ? `filtered from ${businesses.length} total`
                     : 'in this area'
@@ -1386,13 +1388,13 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
       {/* Map Controls */}
       <div className="absolute bottom-6 right-6 z-10">
         <div className="flex flex-col gap-3">
-          <div className="bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-3">
+          <div className="bg-card rounded-2xl shadow-2xl border border-border p-3">
             <div className="flex flex-col gap-2">
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={handleZoomIn} 
-                className="h-10 w-10 p-0 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg"
+                className="h-10 w-10 p-0 bg-muted hover:bg-muted text-white rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg"
               >
                 <Plus className="w-5 h-5" />
               </Button>
@@ -1400,7 +1402,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                 variant="ghost" 
                 size="sm" 
                 onClick={handleZoomOut} 
-                className="h-10 w-10 p-0 bg-gray-700 hover:bg-gray-600 text-white rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg"
+                className="h-10 w-10 p-0 bg-muted hover:bg-muted text-white rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg"
               >
                 <Minus className="w-5 h-5" />
               </Button>
@@ -1409,7 +1411,7 @@ const GoogleMapsContainer = React.forwardRef((props, ref) => {
                 size="sm" 
                 onClick={getUserLocation} 
                 disabled={isLoadingLocation}
-                className="h-10 w-10 p-0 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg"
+                className="h-10 w-10 p-0 bg-primary hover:bg-primary text-white rounded-xl transition-all duration-200 transform hover:scale-110 shadow-lg"
               >
                 {isLoadingLocation ? (
                   <RefreshCw className="w-5 h-5 animate-spin" />

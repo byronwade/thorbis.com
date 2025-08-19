@@ -57,14 +57,14 @@ export const LocationControls = ({
 				{userLocation && (
 					<div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
 						<div className="flex items-center space-x-2">
-							<CheckCircle className="h-4 w-4 text-green-600" />
-							<span className="text-sm font-medium text-green-800">Location Set</span>
+							<CheckCircle className="h-4 w-4 text-success" />
+							<span className="text-sm font-medium text-success">Location Set</span>
 						</div>
 						<div className="flex items-center space-x-1">
-							<Button variant="ghost" size="sm" onClick={onRefreshLocation} className="h-6 w-6 p-0 hover:bg-green-100">
+							<Button variant="ghost" size="sm" onClick={onRefreshLocation} className="h-6 w-6 p-0 hover:bg-success/10">
 								<RefreshCw className="h-3 w-3" />
 							</Button>
-							<Button variant="ghost" size="sm" onClick={onClearLocation} className="h-6 w-6 p-0 hover:bg-green-100">
+							<Button variant="ghost" size="sm" onClick={onClearLocation} className="h-6 w-6 p-0 hover:bg-success/10">
 								<X className="h-3 w-3" />
 							</Button>
 						</div>
@@ -74,10 +74,10 @@ export const LocationControls = ({
 				{/* Location Error */}
 				{locationError && (
 					<div className="flex items-start space-x-2 p-3 bg-red-50 rounded-lg border border-red-200">
-						<AlertCircle className="h-4 w-4 text-red-600 mt-0.5" />
+						<AlertCircle className="h-4 w-4 text-destructive mt-0.5" />
 						<div className="flex-1">
-							<p className="text-sm font-medium text-red-800">Location Error</p>
-							<p className="text-xs text-red-600 mt-1">{locationError}</p>
+							<p className="text-sm font-medium text-destructive">Location Error</p>
+							<p className="text-xs text-destructive mt-1">{locationError}</p>
 						</div>
 					</div>
 				)}
@@ -135,11 +135,11 @@ export const LocationControls = ({
 				{/* Status Indicators */}
 				<div className="flex items-center justify-center space-x-4 text-xs text-muted-foreground">
 					<div className="flex items-center space-x-1">
-						<div className={`w-2 h-2 rounded-full ${userLocation ? "bg-green-500" : "bg-gray-300"}`} />
+						<div className={`w-2 h-2 rounded-full ${userLocation ? "bg-success" : "bg-muted"}`} />
 						<span>Location</span>
 					</div>
 					<div className="flex items-center space-x-1">
-						<div className={`w-2 h-2 rounded-full ${isSearching || isGettingLocation ? "bg-yellow-500" : "bg-gray-300"}`} />
+						<div className={`w-2 h-2 rounded-full ${isSearching || isGettingLocation ? "bg-warning" : "bg-muted"}`} />
 						<span>Services</span>
 					</div>
 				</div>

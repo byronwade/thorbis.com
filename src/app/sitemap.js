@@ -68,7 +68,23 @@ export default async function sitemap() {
 		const { data: recent } = await BusinessDataFetchers.searchBusinesses({ limit: 50, offset: 0, featured: true });
 		if (recent?.businesses?.length) {
 			for (const b of recent.businesses) {
-				if (b?.slug) paths.push(`/biz/${b.slug}`);
+				if (b?.slug) {
+					// Validate required business data for URL generation
+					if (b.country && b.state && b.city && b.name) {
+						const country = (b.country || 'US').toLowerCase();
+						const state = (b.state || '').toLowerCase();
+						const city = (b.city || '').toLowerCase();
+						const namePart = (b.name || b.slug || '')
+							.toLowerCase()
+							.replace(/&/g, ' and ')
+							.replace(/[^a-z0-9\s-]/g, '')
+							.replace(/\s+/g, '-')
+							.replace(/-+/g, '-')
+							.trim();
+						const suffix = b.short_id || b.shortId ? `-${b.short_id || b.shortId}` : '';
+						paths.push(`/${country}/${state}/${city}/${namePart}${suffix}`);
+					}
+				}
 			}
 		}
 	} catch {}

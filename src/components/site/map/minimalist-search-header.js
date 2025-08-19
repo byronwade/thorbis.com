@@ -49,7 +49,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 				<div className="sm:hidden space-y-2">
 					{/* Mobile: Results Count */}
 					<div className="flex items-center justify-between">
-						<h1 className="text-base font-bold tracking-tight text-gray-900 dark:text-white">{formatResultsText()}</h1>
+						<h1 className="text-base font-bold tracking-tight text-foreground dark:text-white">{formatResultsText()}</h1>
 						{!loading && resultsCount > 0 && (
 							<Badge className="bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800 px-1.5 py-0.5 rounded-full font-medium text-xs">
 								<div className="w-1 h-1 bg-emerald-500 rounded-full mr-1 animate-pulse" />
@@ -60,9 +60,9 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 
 					{/* Mobile: Search Context - More Compact */}
 					{formatSearchText() && (
-						<div className="text-xs text-gray-600 dark:text-gray-400">
+						<div className="text-xs text-muted-foreground dark:text-muted-foreground">
 							<span className="font-medium">Searching: </span>
-							<span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded text-xs font-mono">{formatSearchText()}</span>
+							<span className="px-1.5 py-0.5 bg-muted dark:bg-card rounded text-xs font-mono">{formatSearchText()}</span>
 						</div>
 					)}
 
@@ -87,7 +87,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 
 						{/* Mobile Filter Button - More Compact */}
 						{onFilterClick && (
-							<Button variant="outline" size="sm" onClick={onFilterClick} className="flex-1 min-w-0 h-8 text-xs font-medium border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 active:scale-95">
+							<Button variant="outline" size="sm" onClick={onFilterClick} className="flex-1 min-w-0 h-8 text-xs font-medium border-border dark:border-border hover:bg-gray-50 dark:hover:bg-card transition-all duration-200 active:scale-95">
 								<Filter className="w-3 h-3 mr-1.5 flex-shrink-0" />
 								<span className="truncate">Filters</span>
 							</Button>
@@ -95,7 +95,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 
 						{/* Mobile AI Button - More Compact */}
 						{onAIClick && (
-							<Button variant="outline" size="sm" onClick={onAIClick} className="flex-1 min-w-0 h-8 text-xs font-medium bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-950 dark:hover:to-indigo-950 transition-all duration-200 active:scale-95">
+							<Button variant="outline" size="sm" onClick={onAIClick} className="flex-1 min-w-0 h-8 text-xs font-medium bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50 text-primary dark:text-primary/90 border-primary/30 dark:border-primary hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-950 dark:hover:to-indigo-950 transition-all duration-200 active:scale-95">
 								<Bot className="w-3 h-3 mr-1.5 flex-shrink-0" />
 								<span className="truncate">AI</span>
 							</Button>
@@ -106,17 +106,17 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 					{onSortChange && (
 						<DropdownMenu open={showSort} onOpenChange={setShowSort}>
 							<DropdownMenuTrigger asChild>
-								<Button variant="outline" size="sm" className="w-full h-10 text-sm font-medium justify-between border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 active:scale-95">
+								<Button variant="outline" size="sm" className="w-full h-10 text-sm font-medium justify-between border-border dark:border-border hover:bg-gray-50 dark:hover:bg-card transition-all duration-200 active:scale-95">
 									<div className="flex items-center">
-										<span className="font-normal text-gray-500 dark:text-gray-400 mr-2">Sort:</span>
+										<span className="font-normal text-muted-foreground dark:text-muted-foreground mr-2">Sort:</span>
 										<span className="font-medium">{sortOptions.find((option) => option.value === sortBy)?.label || "Relevance"}</span>
 									</div>
 									<ChevronDown className="w-4 h-4 flex-shrink-0 transition-transform duration-200" />
 								</Button>
 							</DropdownMenuTrigger>
-							<DropdownMenuContent align="center" className="w-[calc(100vw-2rem)] max-w-sm shadow-lg border-gray-200 dark:border-gray-700">
+							<DropdownMenuContent align="center" className="w-[calc(100vw-2rem)] max-w-sm shadow-lg border-border dark:border-border">
 								{sortOptions.map((option) => (
-									<DropdownMenuItem key={option.value} onClick={() => handleSortSelect(option.value)} className="cursor-pointer py-3 px-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150 active:bg-gray-100 dark:active:bg-gray-700">
+									<DropdownMenuItem key={option.value} onClick={() => handleSortSelect(option.value)} className="cursor-pointer py-3 px-4 hover:bg-gray-50 dark:hover:bg-card transition-colors duration-150 active:bg-muted dark:active:bg-muted">
 										<span className="font-medium text-base">{option.label}</span>
 									</DropdownMenuItem>
 								))}
@@ -133,7 +133,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 							<div className="flex-1 min-w-0 space-y-1.5">
 								{/* Desktop: Main Results Count - Smaller */}
 								<div className="flex items-center gap-3">
-									<h1 className="text-lg font-bold tracking-tight text-gray-900 dark:text-white leading-tight">{formatResultsText()}</h1>
+									<h1 className="text-lg font-bold tracking-tight text-foreground dark:text-white leading-tight">{formatResultsText()}</h1>
 
 									{/* Desktop: Status Badges - More Compact */}
 									{!loading && resultsCount > 0 && (
@@ -148,21 +148,21 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 
 								{/* Desktop: Search Context - More Compact */}
 								{formatSearchText() && (
-									<div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+									<div className="flex items-center gap-2 text-xs text-muted-foreground dark:text-muted-foreground">
 										<span className="font-medium">Searching:</span>
-										<span className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-800 rounded font-mono text-xs">{formatSearchText()}</span>
+										<span className="px-1.5 py-0.5 bg-muted dark:bg-card rounded font-mono text-xs">{formatSearchText()}</span>
 									</div>
 								)}
 							</div>
 						</div>
 
 						{/* Desktop: Action Bar - More Compact */}
-						<div className="flex items-center justify-between pt-1.5 border-t border-gray-100 dark:border-gray-800">
+						<div className="flex items-center justify-between pt-1.5 border-t border-border dark:border-border">
 							{/* Desktop: Primary Actions - More Compact */}
 							<div className="flex items-center gap-2">
 								{onMapToggle && (
-									<div className="bg-gray-50 dark:bg-gray-800/50 rounded-md p-0.5">
-										<Button variant={showMap ? "default" : "ghost"} size="sm" onClick={onMapToggle} className={`h-7 px-3 text-xs font-medium transition-all duration-200 ${showMap ? "bg-blue-600 hover:bg-blue-700 text-white" : "hover:bg-gray-100 dark:hover:bg-gray-700"}`}>
+									<div className="bg-gray-50 dark:bg-card/50 rounded-md p-0.5">
+										<Button variant={showMap ? "default" : "ghost"} size="sm" onClick={onMapToggle} className={`h-7 px-3 text-xs font-medium transition-all duration-200 ${showMap ? "bg-primary hover:bg-primary text-white" : "hover:bg-muted dark:hover:bg-muted"}`}>
 											{showMap ? (
 												<>
 													<Map className="w-3 h-3 mr-1.5" />
@@ -179,7 +179,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 								)}
 
 								{onAIClick && (
-									<Button variant="outline" size="sm" onClick={onAIClick} className="h-7 px-3 text-xs font-medium bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-950 dark:hover:to-indigo-950 transition-all duration-200">
+									<Button variant="outline" size="sm" onClick={onAIClick} className="h-7 px-3 text-xs font-medium bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50 text-primary dark:text-primary/90 border-primary/30 dark:border-primary hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-950 dark:hover:to-indigo-950 transition-all duration-200">
 										<Bot className="w-3 h-3 mr-1.5" />
 										AI
 									</Button>
@@ -190,7 +190,7 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 							<div className="flex items-center gap-1.5">
 								{/* Desktop: Filter Button - More Compact */}
 								{onFilterClick && (
-									<Button variant="outline" size="sm" onClick={onFilterClick} className="h-7 px-3 text-xs font-medium border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200">
+									<Button variant="outline" size="sm" onClick={onFilterClick} className="h-7 px-3 text-xs font-medium border-border dark:border-border hover:bg-gray-50 dark:hover:bg-card transition-all duration-200">
 										<Filter className="w-3 h-3 mr-1.5" />
 										Filters
 									</Button>
@@ -200,14 +200,14 @@ const MinimalistSearchHeader = ({ resultsCount = 0, openCount = 0, searchQuery =
 								{onSortChange && (
 									<DropdownMenu open={showSort} onOpenChange={setShowSort}>
 										<DropdownMenuTrigger asChild>
-											<Button variant="outline" size="sm" className="h-7 px-3 text-xs font-medium min-w-[120px] justify-between border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200">
+											<Button variant="outline" size="sm" className="h-7 px-3 text-xs font-medium min-w-[120px] justify-between border-border dark:border-border hover:bg-gray-50 dark:hover:bg-card transition-all duration-200">
 												<span className="truncate">{sortOptions.find((option) => option.value === sortBy)?.label || "Sort"}</span>
 												<ChevronDown className="w-3 h-3 ml-1.5 flex-shrink-0 transition-transform duration-200" />
 											</Button>
 										</DropdownMenuTrigger>
-										<DropdownMenuContent align="end" className="w-48 shadow-lg border-gray-200 dark:border-gray-700">
+										<DropdownMenuContent align="end" className="w-48 shadow-lg border-border dark:border-border">
 											{sortOptions.map((option) => (
-												<DropdownMenuItem key={option.value} onClick={() => handleSortSelect(option.value)} className="cursor-pointer py-2 px-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150">
+												<DropdownMenuItem key={option.value} onClick={() => handleSortSelect(option.value)} className="cursor-pointer py-2 px-3 hover:bg-gray-50 dark:hover:bg-card transition-colors duration-150">
 													<span className="font-medium text-sm">{option.label}</span>
 												</DropdownMenuItem>
 											))}

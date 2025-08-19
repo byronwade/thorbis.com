@@ -1,5 +1,5 @@
 // lib/algoliaClient.js - Supabase search client (replaces Algolia)
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Supabase search client that mimics Algolia API
 const createSupabaseSearchClient = () => {

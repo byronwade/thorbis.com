@@ -1,5 +1,5 @@
-import { toast } from "@components/ui/use-toast";
-import logger from "./logger";
+// import { toast } from "@components/ui/use-toast"; // Commented out to avoid circular imports
+import logger from "./logger.js";
 
 // Error types for better categorization
 export const ErrorTypes = {

@@ -43,7 +43,7 @@ export function FAQs() {
 							<span className="text-base font-semibold leading-7">{faq.question}</span>
 						</AccordionTrigger>
 						<AccordionContent className="pr-12 mt-2">
-							<p className="text-base leading-7 text-gray-300">{faq.answer}</p>
+							<p className="text-base leading-7 text-muted-foreground">{faq.answer}</p>
 						</AccordionContent>
 					</AccordionItem>
 				))}

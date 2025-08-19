@@ -5,7 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Mock map data for fallback
 const mockMapBusinesses = [

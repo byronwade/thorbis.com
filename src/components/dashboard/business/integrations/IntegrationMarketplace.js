@@ -213,7 +213,7 @@ export default function IntegrationMarketplace() {
   const getStatusBadge = (status) => {
     switch (status) {
       case "installed":
-        return <Badge variant="default" className="bg-green-500">Installed</Badge>;
+        return <Badge variant="default" className="bg-success">Installed</Badge>;
       case "installing":
         return <Badge variant="outline" className="animate-pulse">Installing...</Badge>;
       default:
@@ -360,7 +360,7 @@ export default function IntegrationMarketplace() {
 
                 <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                   <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    <Star className="w-4 h-4 fill-yellow-400 text-warning" />
                     <span>{integration.rating}</span>
                   </div>
                   <div className="flex items-center space-x-1">

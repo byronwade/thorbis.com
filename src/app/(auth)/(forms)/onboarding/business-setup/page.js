@@ -446,10 +446,10 @@ export default function BusinessSetupPage() {
         
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-start gap-3">
-            <Shield className="w-5 h-5 text-blue-600 mt-0.5" />
+            <Shield className="w-5 h-5 text-primary mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-blue-900">Why verify your business?</p>
-              <p className="text-sm text-blue-700 mt-1">
+              <p className="text-sm font-medium text-primary">Why verify your business?</p>
+              <p className="text-sm text-primary mt-1">
                 Verified businesses get a trust badge, appear higher in search results, and customers are 3x more likely to book verified providers.
               </p>
             </div>
@@ -466,11 +466,11 @@ export default function BusinessSetupPage() {
                     <p className="text-muted-foreground mb-6">Choose which Thorbis features to enable for your business</p>
         
         <div className="space-y-4">
-          <Card className={formData.enableBooking ? "border-blue-500 bg-blue-50" : ""}>
+          <Card className={formData.enableBooking ? "border-primary bg-blue-50" : ""}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Calendar className="w-5 h-5 text-blue-600" />
+                  <Calendar className="w-5 h-5 text-primary" />
                   <div>
                     <h4 className="font-medium">Online Booking</h4>
                     <p className="text-sm text-muted-foreground">Let customers book services directly</p>
@@ -484,11 +484,11 @@ export default function BusinessSetupPage() {
             </CardContent>
           </Card>
           
-          <Card className={formData.enableQuotes ? "border-blue-500 bg-blue-50" : ""}>
+          <Card className={formData.enableQuotes ? "border-primary bg-blue-50" : ""}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <DollarSign className="w-5 h-5 text-green-600" />
+                  <DollarSign className="w-5 h-5 text-success" />
                   <div>
                     <h4 className="font-medium">Digital Quotes</h4>
                     <p className="text-sm text-muted-foreground">Send professional quotes instantly</p>
@@ -502,7 +502,7 @@ export default function BusinessSetupPage() {
             </CardContent>
           </Card>
           
-          <Card className={formData.enablePayments ? "border-blue-500 bg-blue-50" : ""}>
+          <Card className={formData.enablePayments ? "border-primary bg-blue-50" : ""}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -520,11 +520,11 @@ export default function BusinessSetupPage() {
             </CardContent>
           </Card>
           
-          <Card className={formData.enableScheduling ? "border-blue-500 bg-blue-50" : ""}>
+          <Card className={formData.enableScheduling ? "border-primary bg-blue-50" : ""}>
             <CardContent className="p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Users className="w-5 h-5 text-orange-600" />
+                  <Users className="w-5 h-5 text-warning" />
                   <div>
                     <h4 className="font-medium">Team Scheduling</h4>
                     <p className="text-sm text-muted-foreground">Manage team schedules and dispatch</p>
@@ -579,8 +579,8 @@ export default function BusinessSetupPage() {
                 <div key={step.number} className="flex items-center">
                   <div className={`
                     flex items-center justify-center w-10 h-10 rounded-full border-2 
-                    ${isActive ? 'border-blue-500 bg-blue-500 text-white' : 
-                      isCompleted ? 'border-green-500 bg-green-500 text-white' : 
+                    ${isActive ? 'border-primary bg-primary text-white' : 
+                      isCompleted ? 'border-green-500 bg-success text-white' : 
                       'border-border bg-card text-muted-foreground'}
                   `}>
                     {isCompleted ? <CheckCircle className="w-5 h-5" /> : <Icon className="w-5 h-5" />}

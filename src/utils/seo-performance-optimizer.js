@@ -5,7 +5,7 @@
  */
 
 import { cache } from "react";
-import { logger } from "./logger";
+import logger from "./logger.js";
 import { seoDataIntegration } from "./seo-data-integration";
 
 /**
@@ -354,7 +354,7 @@ export class SEOPerformanceOptimizer {
 					title: `${business.name} - ${business.city}, ${business.state}`,
 					description: business.description || `Trusted local business in ${business.city}`,
 					images: business.business_photos?.filter((p) => p.is_primary)?.[0] ? [{ url: business.business_photos.filter((p) => p.is_primary)[0].url }] : undefined,
-					type: "business.business",
+					type: "website",
 				},
 				twitter: {
 					card: "summary_large_image",

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { track } from '@vercel/analytics';
-import { logger } from '@utils/logger';
+import logger from "@lib/utils/logger";
 
 /**
  * Vercel Feature Flag Tracker

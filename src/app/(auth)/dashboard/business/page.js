@@ -33,7 +33,7 @@ export default function BusinessDashboardPage() {
 				<div className="mx-auto max-w-7xl space-y-8">
 					<RoleDebugger />
 					<div className="text-center">
-						<h2 className="text-2xl font-bold text-red-600">Access Denied</h2>
+						<h2 className="text-2xl font-bold text-destructive">Access Denied</h2>
 						<p className="text-muted-foreground">Please sync your user roles using the debug panel above</p>
 					</div>
 				</div>
@@ -44,7 +44,7 @@ export default function BusinessDashboardPage() {
 					<div className="mx-auto max-w-7xl space-y-8">
 						<RoleDebugger />
 						<div className="text-center">
-							<h2 className="text-2xl font-bold text-yellow-600">Account Setup Required</h2>
+							<h2 className="text-2xl font-bold text-warning">Account Setup Required</h2>
 							<p className="text-muted-foreground">Unable to automatically configure your account. Please use the sync button above.</p>
 						</div>
 					</div>
@@ -64,24 +64,24 @@ function BusinessDashboardContent() {
 			value: "8,432",
 			change: "+15% from last month",
 			icon: Eye,
-			color: "text-blue-600",
-			bgColor: "bg-blue-50 dark:bg-blue-950",
+			color: "text-primary",
+			bgColor: "bg-blue-50 dark:bg-primary",
 		},
 		{
 			title: "New Reviews",
 			value: "12",
 			change: "+3 this week",
 			icon: MessageSquare,
-			color: "text-green-600",
-			bgColor: "bg-green-50 dark:bg-green-950",
+			color: "text-success",
+			bgColor: "bg-green-50 dark:bg-success",
 		},
 		{
 			title: "Average Rating",
 			value: "4.6",
 			change: "Based on 87 reviews",
 			icon: Star,
-			color: "text-yellow-600",
-			bgColor: "bg-yellow-50 dark:bg-yellow-950",
+			color: "text-warning",
+			bgColor: "bg-yellow-50 dark:bg-warning",
 		},
 		{
 			title: "Click-through Rate",
@@ -100,16 +100,16 @@ function BusinessDashboardContent() {
 			value: "12",
 			change: "3 in progress",
 			icon: Wrench,
-			color: "text-blue-600",
-			bgColor: "bg-blue-50 dark:bg-blue-950",
+			color: "text-primary",
+			bgColor: "bg-blue-50 dark:bg-primary",
 		},
 		{
 			title: "Active Technicians",
 			value: "8",
 			change: "2 available",
 			icon: Users,
-			color: "text-green-600",
-			bgColor: "bg-green-50 dark:bg-green-950",
+			color: "text-success",
+			bgColor: "bg-green-50 dark:bg-success",
 		},
 		{
 			title: "Monthly Revenue",
@@ -124,8 +124,8 @@ function BusinessDashboardContent() {
 			value: "4.8",
 			change: "Based on 156 reviews",
 			icon: Star,
-			color: "text-yellow-600",
-			bgColor: "bg-yellow-50 dark:bg-yellow-950",
+			color: "text-warning",
+			bgColor: "bg-yellow-50 dark:bg-warning",
 		},
 	];
 
@@ -175,16 +175,16 @@ function BusinessDashboardContent() {
 			description: "List another business",
 			href: "/dashboard/business/add",
 			icon: Plus,
-			color: "text-blue-600",
-			bgColor: "bg-blue-50 dark:bg-blue-950",
+			color: "text-primary",
+			bgColor: "bg-blue-50 dark:bg-primary",
 		},
 		{
 			title: "Update Information",
 			description: "Keep details current",
 			href: "/dashboard/business/profile",
 			icon: Edit,
-			color: "text-green-600",
-			bgColor: "bg-green-50 dark:bg-green-950",
+			color: "text-success",
+			bgColor: "bg-green-50 dark:bg-success",
 		},
 		{
 			title: "View Analytics",
@@ -199,8 +199,8 @@ function BusinessDashboardContent() {
 			description: "Respond to customer feedback",
 			href: "/dashboard/business/reviews",
 			icon: MessageSquare,
-			color: "text-orange-600",
-			bgColor: "bg-orange-50 dark:bg-orange-950",
+			color: "text-warning",
+			bgColor: "bg-orange-50 dark:bg-warning",
 		},
 	];
 
@@ -211,16 +211,16 @@ function BusinessDashboardContent() {
 			description: "Create service appointment",
 			href: "/dashboard/business/schedule/new-job",
 			icon: Plus,
-			color: "text-blue-600",
-			bgColor: "bg-blue-50 dark:bg-blue-950",
+			color: "text-primary",
+			bgColor: "bg-blue-50 dark:bg-primary",
 		},
 		{
 			title: "View Calendar",
 			description: "Manage technician schedule",
 			href: "/dashboard/business/schedule/calendar",
 			icon: Calendar,
-			color: "text-green-600",
-			bgColor: "bg-green-50 dark:bg-green-950",
+			color: "text-success",
+			bgColor: "bg-green-50 dark:bg-success",
 		},
 		{
 			title: "Create Estimate",
@@ -235,8 +235,8 @@ function BusinessDashboardContent() {
 			description: "Customer relationships",
 			href: "/dashboard/business/customers/list",
 			icon: Users,
-			color: "text-orange-600",
-			bgColor: "bg-orange-50 dark:bg-orange-950",
+			color: "text-warning",
+			bgColor: "bg-orange-50 dark:bg-warning",
 		},
 		{
 			title: "Create Invoice",
@@ -393,21 +393,21 @@ function BusinessDashboardContent() {
 								</CardHeader>
 								<CardContent className="space-y-4">
 									<div className="flex items-start space-x-3">
-										<div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+										<div className="w-2 h-2 bg-success rounded-full mt-2"></div>
 										<div className="flex-1">
 											<p className="text-sm font-medium">Job completed</p>
 											<p className="text-xs text-muted-foreground">HVAC maintenance • 1 hour ago</p>
 										</div>
 									</div>
 									<div className="flex items-start space-x-3">
-										<div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+										<div className="w-2 h-2 bg-primary rounded-full mt-2"></div>
 										<div className="flex-1">
 											<p className="text-sm font-medium">New customer added</p>
 											<p className="text-xs text-muted-foreground">Sarah Johnson • 2 hours ago</p>
 										</div>
 									</div>
 									<div className="flex items-start space-x-3">
-										<div className="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+										<div className="w-2 h-2 bg-warning rounded-full mt-2"></div>
 										<div className="flex-1">
 											<p className="text-sm font-medium">Estimate approved</p>
 											<p className="text-xs text-muted-foreground">Electrical repair • 3 hours ago</p>
@@ -517,7 +517,7 @@ function BusinessDashboardContent() {
 												</div>
 												<div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
 													<div className="flex items-center space-x-1">
-														<Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+														<Star className="h-3 w-3 fill-yellow-400 text-warning" />
 														<span>
 															{business.rating} ({business.reviewCount})
 														</span>
@@ -526,8 +526,8 @@ function BusinessDashboardContent() {
 														<Eye className="h-3 w-3" />
 														<span>{business.views.toLocaleString()} views</span>
 													</div>
-													<div className="text-green-600 font-medium">{business.revenue}</div>
-													<div className="text-blue-600 font-medium">{business.leads} leads</div>
+													<div className="text-success font-medium">{business.revenue}</div>
+													<div className="text-primary font-medium">{business.leads} leads</div>
 												</div>
 											</div>
 										</div>

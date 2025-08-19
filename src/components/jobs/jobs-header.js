@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@components/ui/button";
 import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
+import EnhancedMobileMenu from "@components/shared/enhanced-mobile-menu";
 
 const navItems = [
 	{ href: "/jobs", text: "Find Jobs" },
@@ -13,6 +15,7 @@ const navItems = [
 
 export function JobsHeader() {
 	const pathname = usePathname();
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 	return (
 		<div className="sticky top-0 z-[60] bg-card/95 backdrop-blur-md border-b border-border/50">
@@ -44,14 +47,41 @@ export function JobsHeader() {
 				</div>
 
 				{/* Right Section - Auth and Post Job */}
-				<div className="flex items-center gap-x-2">
+				<div className="hidden lg:flex items-center gap-x-2">
 					<Button variant="ghost">Sign In</Button>
 					<div className="h-6 border-l border-border/50 mx-2" />
 					<Button asChild>
 						<Link href="/jobs/post">Post Job</Link>
 					</Button>
 				</div>
+
+				{/* Mobile Menu Button */}
+				<Button 
+					variant="outline" 
+					size="sm" 
+					className="lg:hidden flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
+					onClick={() => setMobileMenuOpen(true)}
+				>
+					<Menu className="h-5 w-5 text-foreground" />
+				</Button>
 			</div>
 		</div>
+
+		{/* Mobile Menu */}
+		<EnhancedMobileMenu
+			isOpen={mobileMenuOpen}
+			onClose={() => setMobileMenuOpen(false)}
+			dashboardType="jobs"
+			navigationItems={navItems.map(item => ({
+				key: item.text.toLowerCase().replace(/\s+/g, '-'),
+				text: item.text,
+				href: item.href,
+				icon: null
+			}))}
+			activeNavKey={navItems.find(item => pathname === item.href)?.text.toLowerCase().replace(/\s+/g, '-') || ""}
+			config={{ title: "Jobs Menu" }}
+			businessSubNavItems={{}}
+			showAuthButtons={true}
+		/>
 	);
 }

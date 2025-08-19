@@ -42,7 +42,7 @@ import { useMapStore } from "@store/map";
 import { useBusinessStore } from "@store/business";
 import { useLocationStore, locationUtils } from "@lib/location/enhanced-location-service";
 import { cn } from "@lib/utils";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 import { debounce } from "lodash";
 
 const EnhancedLocationDropdown = ({ className, size = "default", showFavorites = true, showRecent = true, showCurrentLocation = true }) => {
@@ -236,10 +236,10 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
   // Get status color based on location state
   const getStatusColor = () => {
     if (locationError || location?.error) {
-      return "border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-900/20";
+      return "border-red-200 dark:border-red-800 bg-red-50 dark:bg-destructive/20";
     }
     if (location?.value) {
-      return "border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20";
+      return "border-green-200 dark:border-green-800 bg-green-50 dark:bg-success/20";
     }
     return "border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground hover:border-primary";
   };
@@ -250,24 +250,24 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
       return <Loader2 className={`${currentSize.icon} animate-spin text-primary`} />;
     }
     if (currentLocation?.isCurrentLocation && location?.value === currentLocation.formattedAddress) {
-      return <Navigation className={`${currentSize.icon} text-blue-600`} />;
+      return <Navigation className={`${currentSize.icon} text-primary`} />;
     }
     if (location?.value) {
-      return <div className="w-2 h-2 rounded-full bg-green-500" />;
+      return <div className="w-2 h-2 rounded-full bg-success" />;
     }
     if (locationError || location?.error) {
-      return <div className="w-2 h-2 rounded-full bg-red-500" />;
+      return <div className="w-2 h-2 rounded-full bg-destructive" />;
     }
-    return <MapPin className={`${currentSize.icon} text-gray-400`} />;
+    return <MapPin className={`${currentSize.icon} text-muted-foreground`} />;
   };
 
   // Get location icon for different types
   const getLocationTypeIcon = (location) => {
     if (location?.isCurrentLocation) return <Navigation className={currentSize.icon} />;
-    if (location?.type === 'favorite') return <Star className={cn(currentSize.icon, "text-yellow-500")} />;
-    if (location?.type === 'recent') return <Clock className={cn(currentSize.icon, "text-gray-500")} />;
-    if (location?.type === 'home') return <Home className={cn(currentSize.icon, "text-green-500")} />;
-    if (location?.type === 'work') return <Building2 className={cn(currentSize.icon, "text-blue-500")} />;
+    if (location?.type === 'favorite') return <Star className={cn(currentSize.icon, "text-warning")} />;
+    if (location?.type === 'recent') return <Clock className={cn(currentSize.icon, "text-muted-foreground")} />;
+    if (location?.type === 'home') return <Home className={cn(currentSize.icon, "text-success")} />;
+    if (location?.type === 'work') return <Building2 className={cn(currentSize.icon, "text-primary")} />;
     return <MapPin className={currentSize.icon} />;
   };
 
@@ -283,7 +283,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
 
     return (
       <DropdownMenuItem
-        className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 focus:bg-gray-50 dark:focus:bg-gray-800"
+        className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-card focus:bg-gray-50 dark:focus:bg-card"
         onClick={() => handleLocationSelect(location)}
       >
         <div className="flex items-center space-x-3 flex-1 min-w-0">
@@ -292,21 +292,21 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2">
-              <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+              <p className="text-sm font-medium text-foreground dark:text-white truncate">
                 {location.shortName || location.city || 'Unknown Location'}
               </p>
               {type === 'favorite' && (
-                <Star className="w-3 h-3 text-yellow-500 fill-current" />
+                <Star className="w-3 h-3 text-warning fill-current" />
               )}
               {type === 'recent' && (
                 <Badge variant="secondary" className="text-xs">Recent</Badge>
               )}
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+            <p className="text-xs text-muted-foreground dark:text-muted-foreground truncate">
               {location.formattedAddress || location.address}
             </p>
             {showDistance && distance && (
-              <p className="text-xs text-blue-600 dark:text-blue-400">
+              <p className="text-xs text-primary dark:text-primary">
                 {locationUtils.formatDistance(distance)} away
               </p>
             )}
@@ -322,7 +322,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
           >
             <Heart className={cn(
               "w-3 h-3",
-              isFavorite ? "text-red-500 fill-current" : "text-gray-400"
+              isFavorite ? "text-destructive fill-current" : "text-muted-foreground"
             )} />
           </Button>
         </div>
@@ -349,7 +349,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
 
     if (!hasContent && !isLoadingSuggestions) {
       return (
-        <div className="p-6 text-center text-gray-500 dark:text-gray-400">
+        <div className="p-6 text-center text-muted-foreground dark:text-muted-foreground">
           <MapPin className="w-8 h-8 mx-auto mb-2 opacity-50" />
           <p className="text-sm">Start typing to search for locations</p>
         </div>
@@ -370,20 +370,20 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
                 {isGettingLocation ? (
                   <Loader2 className={cn(currentSize.icon, "animate-spin")} />
                 ) : (
-                  <Crosshair className={cn(currentSize.icon, "text-blue-600")} />
+                  <Crosshair className={cn(currentSize.icon, "text-primary")} />
                 )}
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                <p className="text-sm font-medium text-primary dark:text-primary">
                   {isGettingLocation ? 'Getting location...' : 'Use current location'}
                 </p>
                 {currentLocation && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-muted-foreground dark:text-muted-foreground">
                     {locationUtils.formatLocationDisplay(currentLocation)}
                   </p>
                 )}
               </div>
-              <Target className={cn(currentSize.icon, "text-blue-600")} />
+              <Target className={cn(currentSize.icon, "text-primary")} />
             </DropdownMenuItem>
             <DropdownMenuSeparator />
           </DropdownMenuGroup>
@@ -392,7 +392,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
         {/* Favorites */}
         {showFavorites && favoriteLocations.length > 0 && (
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">
               Favorites
             </DropdownMenuLabel>
             {favoriteLocations.slice(0, 3).map((location, index) => (
@@ -410,7 +410,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
         {/* Recent Locations */}
         {showRecent && recentLocations.length > 0 && (
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">
               Recent
             </DropdownMenuLabel>
             {recentLocations.slice(0, 3).map((location, index) => (
@@ -428,7 +428,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
         {/* Search Suggestions */}
         {searchSuggestions.length > 0 && (
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">
               Suggestions
             </DropdownMenuLabel>
             {searchSuggestions.map((location, index) => (
@@ -445,7 +445,7 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
         {/* Popular Locations (when no search) */}
         {!searchQuery && !searchSuggestions.length && (
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">
               Popular Cities
             </DropdownMenuLabel>
             {popularLocations.map((location, index) => (
@@ -461,8 +461,8 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
         {/* Loading state */}
         {isLoadingSuggestions && (
           <div className="p-6 text-center">
-            <Loader2 className="w-6 h-6 mx-auto animate-spin text-blue-600" />
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+            <Loader2 className="w-6 h-6 mx-auto animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-2">
               Finding locations...
             </p>
           </div>
@@ -499,9 +499,9 @@ const EnhancedLocationDropdown = ({ className, size = "default", showFavorites =
         sideOffset={4}
       >
         {/* Search Header */}
-        <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+        <div className="p-3 border-b border-border dark:border-border">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               ref={inputRef}
               placeholder="Search for a location..."

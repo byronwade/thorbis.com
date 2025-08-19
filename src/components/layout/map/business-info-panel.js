@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { buildBusinessUrl } from "@utils";
 import { Button } from "@components/ui/button";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { X, Star, Phone, MapPin, Clock, Share2, Heart, ExternalLink, Navigation, Wifi, CreditCard, ParkingCircle as Parking, Accessibility, ChevronLeft, ChevronRight, TrendingUp, Users, Award } from "lucide-react";
 import { useBusinessStore } from "@store/business";
 import { useMapStore } from "@store/map";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { getReliableImageUrl, generateReliableBusinessPhotos } from "@utils/reliable-image-service";
 
 const BusinessInfoPanel = () => {
@@ -81,7 +82,7 @@ const BusinessInfoPanel = () => {
 	};
 
 	const renderStars = (rating) => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < Math.floor(rating) ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />);
 	};
 
 	if (!business) return null;
@@ -104,7 +105,7 @@ const BusinessInfoPanel = () => {
 				</div>
 				<div className="flex items-center gap-1">
 					<button onClick={() => setIsFavorited(!isFavorited)} className="p-1.5 transition-colors rounded-full hover:bg-accent/80 text-muted-foreground hover:text-foreground">
-						<Heart className={`w-4 h-4 ${isFavorited ? "fill-red-500 text-red-500" : ""}`} />
+						<Heart className={`w-4 h-4 ${isFavorited ? "fill-red-500 text-destructive" : ""}`} />
 					</button>
 					<button className="p-1.5 transition-colors rounded-full hover:bg-accent/80 text-muted-foreground hover:text-foreground">
 						<Share2 className="w-4 h-4" />
@@ -163,8 +164,8 @@ const BusinessInfoPanel = () => {
 					<div className="space-y-4">
 						{business.isOpen && (
 							<div className="flex items-center gap-2">
-								<div className="w-2.5 h-2.5 bg-green-500 rounded-full shadow-sm shadow-green-500/50"></div>
-								<span className="font-medium text-green-600 dark:text-green-400">Open now</span>
+								<div className="w-2.5 h-2.5 bg-success rounded-full shadow-sm shadow-green-500/50"></div>
+								<span className="font-medium text-success dark:text-success">Open now</span>
 							</div>
 						)}
 
@@ -195,7 +196,7 @@ const BusinessInfoPanel = () => {
 						</div>
 						<div className="grid grid-cols-2 gap-4 text-sm">
 							<div className="flex items-center gap-2">
-								<TrendingUp className="w-3 h-3 text-green-600 dark:text-green-400" />
+								<TrendingUp className="w-3 h-3 text-success dark:text-success" />
 								<span className="text-muted-foreground">Trending up</span>
 							</div>
 							<div className="flex items-center gap-2">
@@ -286,7 +287,13 @@ const BusinessInfoPanel = () => {
 					</div>
 
 					{/* View Full Profile - More Prominent */}
-					<Link href={`/biz/${business.slug}`} className="block">
+					<Link href={buildBusinessUrl({
+						country: (business.country || 'US').toLowerCase(),
+						state: business.state,
+						city: business.city,
+						name: business.name,
+						shortId: business.short_id || business.shortId
+					})} className="block">
 						<Button className="w-full py-3 font-medium shadow-sm bg-primary hover:bg-primary/90 text-primary-foreground">
 							<ExternalLink className="w-4 h-4 mr-2" />
 							View Full Business Profile

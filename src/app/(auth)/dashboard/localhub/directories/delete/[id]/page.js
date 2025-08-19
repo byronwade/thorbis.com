@@ -33,7 +33,7 @@ const mockDirectories = [
 		totalReviews: 342,
 		activeSubscriptions: 45,
 		lastActivity: "2 hours ago",
-		primaryColor: "#3B82F6",
+		primaryColor: "hsl(var(--primary))",
 		logo: "/placeholder.svg",
 		deletionRequested: null,
 		deletionDate: null,
@@ -59,7 +59,7 @@ const mockDirectories = [
 		totalReviews: 187,
 		activeSubscriptions: 32,
 		lastActivity: "1 day ago",
-		primaryColor: "#8B5CF6",
+		primaryColor: "hsl(var(--primary))",
 		logo: "/placeholder.svg",
 		deletionRequested: null,
 		deletionDate: null,
@@ -85,7 +85,7 @@ const mockDirectories = [
 		totalReviews: 456,
 		activeSubscriptions: 67,
 		lastActivity: "30 minutes ago",
-		primaryColor: "#10B981",
+		primaryColor: "hsl(var(--muted-foreground))",
 		logo: "/placeholder.svg",
 		deletionRequested: null,
 		deletionDate: null,
@@ -338,7 +338,7 @@ export default function DeleteDirectory({ params }) {
 									<ul className="space-y-2 ml-4">
 										{category.items.map((item, itemIndex) => (
 											<li key={itemIndex} className="flex items-start space-x-2">
-												<XCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
+												<XCircle className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
 												<span className="text-sm text-muted-foreground">{item}</span>
 											</li>
 										))}
@@ -347,9 +347,9 @@ export default function DeleteDirectory({ params }) {
 								</div>
 							))}
 
-							<Alert className="border-red-200 bg-red-50 dark:bg-red-950 dark:border-red-800">
-								<AlertTriangle className="h-4 w-4 text-red-600" />
-								<AlertDescription className="text-red-800 dark:text-red-200">
+							<Alert className="border-red-200 bg-red-50 dark:bg-destructive dark:border-red-800">
+								<AlertTriangle className="h-4 w-4 text-destructive" />
+								<AlertDescription className="text-destructive dark:text-destructive/80">
 									<strong>Important:</strong> Once deleted, this directory will no longer be accessible, all {directory.businessCount} business listings will be removed, and the domain {directory.domain} will become unavailable.
 								</AlertDescription>
 							</Alert>
@@ -375,72 +375,72 @@ export default function DeleteDirectory({ params }) {
 							<CardDescription>This is your final chance to cancel the deletion request.</CardDescription>
 						</CardHeader>
 						<CardContent className="space-y-6">
-							<Alert className="border-red-200 bg-red-50 dark:bg-red-950 dark:border-red-800">
-								<AlertTriangle className="h-4 w-4 text-red-600" />
-								<AlertDescription className="text-red-800 dark:text-red-200">
+							<Alert className="border-red-200 bg-red-50 dark:bg-destructive dark:border-red-800">
+								<AlertTriangle className="h-4 w-4 text-destructive" />
+								<AlertDescription className="text-destructive dark:text-destructive/80">
 									<strong>Final Warning:</strong> You are about to request the permanent deletion of &quot;{directory.name}&quot;. This action will initiate a 30-day waiting period, after which the directory and all its data will be permanently deleted.
 								</AlertDescription>
 							</Alert>
 
 							<div className="space-y-4">
-								<div className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+								<div className="bg-red-50 dark:bg-destructive/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
 									<div className="flex items-start space-x-3">
-										<AlertTriangle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
+										<AlertTriangle className="w-5 h-5 text-destructive dark:text-destructive mt-0.5 flex-shrink-0" />
 										<div className="flex-1">
 											<div className="flex items-center space-x-2 mb-2">
 												<input type="checkbox" id="dataLoss" checked={understandDataLoss} onChange={(e) => setUnderstandDataLoss(e.target.checked)} className="rounded border-neutral-700" />
-												<label htmlFor="dataLoss" className="font-medium text-red-900 dark:text-red-100">
+												<label htmlFor="dataLoss" className="font-medium text-destructive dark:text-destructive/70">
 													I understand that ALL data will be permanently lost
 												</label>
 											</div>
-											<p className="text-sm text-red-700 dark:text-red-300">
+											<p className="text-sm text-destructive dark:text-destructive/90">
 												This includes {directory.businessCount} business listings, {directory.totalReviews} reviews, {directory.activeSubscriptions} subscriptions, and all directory data.
 											</p>
 										</div>
 									</div>
 								</div>
 
-								<div className="bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
+								<div className="bg-orange-50 dark:bg-warning/20 border border-orange-200 dark:border-orange-800 rounded-lg p-4">
 									<div className="flex items-start space-x-3">
-										<Building2 className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+										<Building2 className="w-5 h-5 text-warning dark:text-warning mt-0.5 flex-shrink-0" />
 										<div className="flex-1">
 											<div className="flex items-center space-x-2 mb-2">
 												<input type="checkbox" id="businessImpact" checked={understandBusinessImpact} onChange={(e) => setUnderstandBusinessImpact(e.target.checked)} className="rounded border-neutral-700" />
-												<label htmlFor="businessImpact" className="font-medium text-orange-900 dark:text-orange-100">
+												<label htmlFor="businessImpact" className="font-medium text-warning dark:text-warning/70">
 													I understand the impact on businesses
 												</label>
 											</div>
-											<p className="text-sm text-orange-700 dark:text-orange-300">All {directory.businessCount} businesses listed in this directory will lose their online presence and customer reviews. This may significantly impact their business operations.</p>
+											<p className="text-sm text-warning dark:text-warning/90">All {directory.businessCount} businesses listed in this directory will lose their online presence and customer reviews. This may significantly impact their business operations.</p>
 										</div>
 									</div>
 								</div>
 
-								<div className="bg-yellow-50 dark:bg-yellow-950/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+								<div className="bg-yellow-50 dark:bg-warning/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
 									<div className="flex items-start space-x-3">
-										<Shield className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
+										<Shield className="w-5 h-5 text-warning dark:text-warning mt-0.5 flex-shrink-0" />
 										<div className="flex-1">
 											<div className="flex items-center space-x-2 mb-2">
 												<input type="checkbox" id="legalImplications" checked={understandLegalImplications} onChange={(e) => setUnderstandLegalImplications(e.target.checked)} className="rounded border-neutral-700" />
-												<label htmlFor="legalImplications" className="font-medium text-yellow-900 dark:text-yellow-100">
+												<label htmlFor="legalImplications" className="font-medium text-warning dark:text-warning/70">
 													I understand legal and compliance implications
 												</label>
 											</div>
-											<p className="text-sm text-yellow-700 dark:text-yellow-300">Deleting directory data may have legal implications. Ensure you have proper authorization and have consulted with legal counsel if necessary.</p>
+											<p className="text-sm text-warning dark:text-warning/90">Deleting directory data may have legal implications. Ensure you have proper authorization and have consulted with legal counsel if necessary.</p>
 										</div>
 									</div>
 								</div>
 
-								<div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+								<div className="bg-blue-50 dark:bg-primary/20 border border-primary/30 dark:border-primary rounded-lg p-4">
 									<div className="flex items-start space-x-3">
-										<FileText className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+										<FileText className="w-5 h-5 text-primary dark:text-primary mt-0.5 flex-shrink-0" />
 										<div className="flex-1">
 											<div className="flex items-center space-x-2 mb-2">
 												<input type="checkbox" id="backupData" checked={hasBackedUpData} onChange={(e) => setHasBackedUpData(e.target.checked)} className="rounded border-neutral-700" />
-												<label htmlFor="backupData" className="font-medium text-blue-900 dark:text-blue-100">
+												<label htmlFor="backupData" className="font-medium text-primary dark:text-primary/70">
 													I have backed up all important data
 												</label>
 											</div>
-											<p className="text-sm text-blue-700 dark:text-blue-300">I have exported and saved all business listings, customer data, reviews, analytics, and any other data I may need in the future.</p>
+											<p className="text-sm text-primary dark:text-primary/90">I have exported and saved all business listings, customer data, reviews, analytics, and any other data I may need in the future.</p>
 										</div>
 									</div>
 								</div>
@@ -503,7 +503,7 @@ export default function DeleteDirectory({ params }) {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="text-center py-8">
-								<CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+								<CheckCircle className="w-16 h-16 text-success mx-auto mb-4" />
 								<h3 className="text-xl font-semibold mb-2">Deletion Request Confirmed</h3>
 								<p className="text-muted-foreground mb-4">Your request to delete &quot;{directory.name}&quot; has been submitted successfully.</p>
 							</div>
@@ -511,7 +511,7 @@ export default function DeleteDirectory({ params }) {
 							{timeRemaining && (
 								<div className="text-center p-6 border rounded-lg bg-muted/50">
 									<h4 className="font-semibold mb-2">Time Remaining Until Deletion</h4>
-									<div className="text-2xl font-bold text-red-600">
+									<div className="text-2xl font-bold text-destructive">
 										{timeRemaining.days}d {timeRemaining.hours}h {timeRemaining.minutes}m
 									</div>
 									<p className="text-sm text-muted-foreground mt-2">Directory will be deleted on {new Date(deletionDate).toLocaleDateString()}</p>

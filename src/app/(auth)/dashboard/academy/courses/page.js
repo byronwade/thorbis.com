@@ -48,8 +48,8 @@ function AcademyCoursesContent() {
 	});
 
 	const getProgressIcon = (progress) => {
-		if (progress === 100) return <CheckCircle className="w-5 h-5 text-green-600" />;
-		if (progress > 0) return <Play className="w-5 h-5 text-blue-600" />;
+		if (progress === 100) return <CheckCircle className="w-5 h-5 text-success" />;
+		if (progress > 0) return <Play className="w-5 h-5 text-primary" />;
 		return <BookOpen className="w-5 h-5 text-muted-foreground" />;
 	};
 
@@ -156,7 +156,7 @@ function AcademyCoursesContent() {
 														<div className="flex items-center gap-2 mb-2">
 															<h3 className="text-xl font-semibold">{course.title}</h3>
 															<Badge variant={course.level === "Beginner" ? "secondary" : course.level === "Advanced" ? "default" : "outline"}>{course.level}</Badge>
-															{isCompleted && <Star className="h-4 w-4 text-yellow-500 fill-current" />}
+															{isCompleted && <Star className="h-4 w-4 text-warning fill-current" />}
 														</div>
 														<p className="text-muted-foreground mb-2">{course.description}</p>
 														<div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -201,7 +201,7 @@ function AcademyCoursesContent() {
 												<CardTitle className="text-lg">{course.title}</CardTitle>
 												<div className="flex items-center gap-2 mt-1">
 													<Badge variant={course.level === "Beginner" ? "secondary" : course.level === "Advanced" ? "default" : "outline"}>{course.level}</Badge>
-													{isCompleted && <Star className="h-4 w-4 text-yellow-500 fill-current" />}
+													{isCompleted && <Star className="h-4 w-4 text-warning fill-current" />}
 												</div>
 											</div>
 											{getProgressIcon(progress)}

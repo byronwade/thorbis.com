@@ -13,8 +13,8 @@ export const viewport = {
 	maximumScale: 1,
 	userScalable: false,
 	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "#ffffff" },
-		{ media: "(prefers-color-scheme: dark)", color: "#000000" },
+		{ media: "(prefers-color-scheme: light)", color: "hsl(var(--background))" },
+		{ media: "(prefers-color-scheme: dark)", color: "hsl(var(--background))" },
 	],
 	colorScheme: "light dark",
 	viewportFit: "cover",
@@ -61,17 +61,17 @@ export default async function SearchLayout({ children }) {
 					// CSS variables for feature flag driven styles
 					"--search-transition-duration": searchFlags.smartSearch ? "200ms" : "150ms",
 					"--search-border-radius": "12px",
-					"--search-shadow": "0 8px 32px -8px rgb(0 0 0 / 0.08)",
-					"--search-shadow-hover": "0 16px 64px -12px rgb(0 0 0 / 0.12)",
+					"--search-shadow": "0 8px 32px -8px hsl(var(--foreground) / 0.08)",
+					"--search-shadow-hover": "0 16px 64px -12px hsl(var(--foreground) / 0.12)",
 				}}
 			>
 				{/* Performance-first layout with minimal reflows */}
 				<div className="relative w-full h-screen overflow-hidden">
 					{/* Background pattern for Vercel-style aesthetics */}
-					<div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.05),transparent_50%)]" aria-hidden="true" />
+					<div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.05),transparent_50%)]" aria-hidden="true" />
 
 					{/* Grid pattern for depth */}
-					<div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[length:20px_20px] dark:bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)]" aria-hidden="true" />
+					<div className="absolute inset-0 bg-[linear-gradient(hsl(var(--foreground)/0.02)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--foreground)/0.02)_1px,transparent_1px)] bg-[length:20px_20px] dark:bg-[linear-gradient(hsl(var(--background)/0.02)_1px,transparent_1px),linear-gradient(90deg,hsl(var(--background)/0.02)_1px,transparent_1px)]" aria-hidden="true" />
 
 					{/* Main content with perfect centering */}
 					<div className="relative z-10 w-full h-full">{children}</div>

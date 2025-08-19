@@ -3,7 +3,7 @@
 
 import { createSupabaseServerClient } from "@lib/database/supabase/server";
 import { NextResponse } from "next/server";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * POST /api/auth/sync-roles

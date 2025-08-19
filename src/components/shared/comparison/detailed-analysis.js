@@ -13,7 +13,7 @@ import { CheckCircle, XCircle } from "lucide-react";
  */
 function AnalysisPoint({ title, description, type, quote, attribution }) {
 	const isPositive = type === "solution";
-	const titleColor = isPositive ? "text-green-600 dark:text-green-400" : "text-destructive";
+	const titleColor = isPositive ? "text-success dark:text-success" : "text-destructive";
 
 	return (
 		<div className={`p-4 bg-card rounded-lg border ${isPositive ? "border-primary/20" : "border-destructive/20"}`}>

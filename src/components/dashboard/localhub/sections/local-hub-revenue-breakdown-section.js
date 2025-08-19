@@ -20,14 +20,14 @@ const LocalHubRevenueBreakdownSection = ({ revenueData, expanded = false }) => {
 			count: 12,
 			revenue: 948, // $79 * 12
 			percentage: 34.9,
-			color: "bg-blue-500",
+			color: "bg-primary",
 		},
 		{
 			plan: "Pro",
 			count: 18,
 			revenue: 882, // $49 * 18
 			percentage: 32.5,
-			color: "bg-green-500",
+			color: "bg-success",
 		},
 		{
 			plan: "Basic",
@@ -87,12 +87,12 @@ const LocalHubRevenueBreakdownSection = ({ revenueData, expanded = false }) => {
 
 					<div className="flex items-center justify-between text-sm">
 						<span className="text-muted-foreground">Platform Fee (20%)</span>
-						<span className="font-medium text-red-600">-${platformFee}</span>
+						<span className="font-medium text-destructive">-${platformFee}</span>
 					</div>
 
 					<div className="flex items-center justify-between text-sm font-bold">
 						<span>Your Share (80%)</span>
-						<span className="text-green-600">${yourShare.toLocaleString()}</span>
+						<span className="text-success">${yourShare.toLocaleString()}</span>
 					</div>
 				</div>
 
@@ -119,12 +119,12 @@ const LocalHubRevenueBreakdownSection = ({ revenueData, expanded = false }) => {
 
 				{/* Growth Insight */}
 				<div className="pt-4 border-t">
-					<div className="bg-green-50 dark:bg-green-950 p-3 rounded-lg">
-						<div className="flex items-center gap-2 text-sm text-green-700 dark:text-green-300">
+					<div className="bg-green-50 dark:bg-success p-3 rounded-lg">
+						<div className="flex items-center gap-2 text-sm text-success dark:text-success/90">
 							<TrendingUp className="h-4 w-4" />
 							<span className="font-medium">Revenue Growth Opportunity:</span>
 						</div>
-						<p className="text-xs text-green-600 dark:text-green-400 mt-1">Adding 5 more Premium businesses could increase monthly revenue by $395</p>
+						<p className="text-xs text-success dark:text-success mt-1">Adding 5 more Premium businesses could increase monthly revenue by $395</p>
 					</div>
 				</div>
 			</CardContent>

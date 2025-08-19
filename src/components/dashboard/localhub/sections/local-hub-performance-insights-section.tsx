@@ -127,16 +127,16 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 
 	// Get trend icon
 	const getTrendIcon = (growth: number) => {
-		if (growth > 0) return <TrendingUp className="h-4 w-4 text-green-500" />;
-		if (growth < 0) return <TrendingDown className="h-4 w-4 text-red-500" />;
-		return <Activity className="h-4 w-4 text-gray-500" />;
+		if (growth > 0) return <TrendingUp className="h-4 w-4 text-success" />;
+		if (growth < 0) return <TrendingDown className="h-4 w-4 text-destructive" />;
+		return <Activity className="h-4 w-4 text-muted-foreground" />;
 	};
 
 	// Get trend color
 	const getTrendColor = (growth: number) => {
-		if (growth > 0) return "text-green-600";
-		if (growth < 0) return "text-red-600";
-		return "text-gray-600";
+		if (growth > 0) return "text-success";
+		if (growth < 0) return "text-destructive";
+		return "text-muted-foreground";
 	};
 
 	// Performance score calculation
@@ -162,9 +162,9 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 	const performanceScore = calculatePerformanceScore();
 
 	const getScoreColor = (score: number) => {
-		if (score >= 80) return "text-green-600";
-		if (score >= 60) return "text-yellow-600";
-		return "text-red-600";
+		if (score >= 80) return "text-success";
+		if (score >= 60) return "text-warning";
+		return "text-destructive";
 	};
 
 	const getScoreBadge = (score: number) => {
@@ -201,12 +201,12 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 					<CardContent>
 						<div className="grid grid-cols-2 md:grid-cols-4 gap-4">
 							<div className="text-center p-4 bg-muted rounded-lg">
-								<Eye className="h-8 w-8 mx-auto mb-2 text-blue-600" />
+								<Eye className="h-8 w-8 mx-auto mb-2 text-primary" />
 								<div className="text-2xl font-bold">{performanceMetrics.uniqueVisitors.toLocaleString()}</div>
 								<div className="text-sm text-muted-foreground">Unique Visitors</div>
 							</div>
 							<div className="text-center p-4 bg-muted rounded-lg">
-								<Search className="h-8 w-8 mx-auto mb-2 text-green-600" />
+								<Search className="h-8 w-8 mx-auto mb-2 text-success" />
 								<div className="text-2xl font-bold">{performanceMetrics.searchQueries.toLocaleString()}</div>
 								<div className="text-sm text-muted-foreground">Search Queries</div>
 							</div>
@@ -216,7 +216,7 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 								<div className="text-sm text-muted-foreground">Click-Through Rate</div>
 							</div>
 							<div className="text-center p-4 bg-muted rounded-lg">
-								<Clock className="h-8 w-8 mx-auto mb-2 text-orange-600" />
+								<Clock className="h-8 w-8 mx-auto mb-2 text-warning" />
 								<div className="text-2xl font-bold">{performanceMetrics.sessionDurationFormatted}</div>
 								<div className="text-sm text-muted-foreground">Avg Session</div>
 							</div>
@@ -271,11 +271,11 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 										<div className="space-y-2 text-sm">
 											<div className="flex justify-between">
 												<span>Click-Through Rate</span>
-												<span className="text-green-600">{performanceMetrics.clickThroughRate}%</span>
+												<span className="text-success">{performanceMetrics.clickThroughRate}%</span>
 											</div>
 											<div className="flex justify-between">
 												<span>Bounce Rate</span>
-												<span className="text-blue-600">{performanceMetrics.bounceRate}%</span>
+												<span className="text-primary">{performanceMetrics.bounceRate}%</span>
 											</div>
 											<div className="flex justify-between">
 												<span>Session Duration</span>
@@ -283,7 +283,7 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 											</div>
 											<div className="flex justify-between">
 												<span>Pages per Session</span>
-												<span className="text-orange-600">{performanceMetrics.pagesPerSession}</span>
+												<span className="text-warning">{performanceMetrics.pagesPerSession}</span>
 											</div>
 										</div>
 									</div>
@@ -303,19 +303,19 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 								<div className="grid grid-cols-2 md:grid-cols-3 gap-6">
 									<div className="p-4 border rounded-lg">
 										<div className="flex items-center space-x-2 mb-2">
-											<Eye className="h-5 w-5 text-blue-600" />
+											<Eye className="h-5 w-5 text-primary" />
 											<span className="font-medium">Unique Visitors</span>
 										</div>
 										<div className="text-2xl font-bold">{performanceMetrics.uniqueVisitors.toLocaleString()}</div>
-										<div className="text-sm text-green-600">+12.3% vs last month</div>
+										<div className="text-sm text-success">+12.3% vs last month</div>
 									</div>
 									<div className="p-4 border rounded-lg">
 										<div className="flex items-center space-x-2 mb-2">
-											<BarChart3 className="h-5 w-5 text-green-600" />
+											<BarChart3 className="h-5 w-5 text-success" />
 											<span className="font-medium">Page Views</span>
 										</div>
 										<div className="text-2xl font-bold">{performanceMetrics.pageViews.toLocaleString()}</div>
-										<div className="text-sm text-green-600">+8.7% vs last month</div>
+										<div className="text-sm text-success">+8.7% vs last month</div>
 									</div>
 									<div className="p-4 border rounded-lg">
 										<div className="flex items-center space-x-2 mb-2">
@@ -323,7 +323,7 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 											<span className="font-medium">Bounce Rate</span>
 										</div>
 										<div className="text-2xl font-bold">{performanceMetrics.bounceRate}%</div>
-										<div className="text-sm text-red-600">-2.1% vs last month</div>
+										<div className="text-sm text-destructive">-2.1% vs last month</div>
 									</div>
 								</div>
 							</CardContent>
@@ -402,10 +402,10 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 										<div className="space-y-4">
 											<div className="p-4 bg-green-50 rounded-lg">
 												<div className="flex items-center space-x-2 mb-2">
-													<TrendingUp className="h-4 w-4 text-green-600" />
-													<span className="font-medium text-green-800">Growing Categories</span>
+													<TrendingUp className="h-4 w-4 text-success" />
+													<span className="font-medium text-success">Growing Categories</span>
 												</div>
-												<p className="text-sm text-green-700">
+												<p className="text-sm text-success">
 													"Hair salon" and "fitness gym" searches are up 22% and 19% respectively, 
 													indicating high demand in these categories.
 												</p>
@@ -413,10 +413,10 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 
 											<div className="p-4 bg-blue-50 rounded-lg">
 												<div className="flex items-center space-x-2 mb-2">
-													<Search className="h-4 w-4 text-blue-600" />
-													<span className="font-medium text-blue-800">Search Volume</span>
+													<Search className="h-4 w-4 text-primary" />
+													<span className="font-medium text-primary">Search Volume</span>
 												</div>
-												<p className="text-sm text-blue-700">
+												<p className="text-sm text-primary">
 													Total search volume increased 15.3% this month, with restaurants 
 													and plumbing services being the most searched categories.
 												</p>
@@ -463,7 +463,7 @@ const LocalHubPerformanceInsightsSection: React.FC<LocalHubPerformanceInsightsSe
 													</div>
 												</div>
 												<div className="text-right">
-													<div className="text-lg font-bold text-green-600">{business.conversionRate}%</div>
+													<div className="text-lg font-bold text-success">{business.conversionRate}%</div>
 													<div className="text-sm text-muted-foreground">Conversion Rate</div>
 												</div>
 											</div>

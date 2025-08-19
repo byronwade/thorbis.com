@@ -143,17 +143,17 @@ export default async function AngiesListAlternative() {
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Monthly Cost</td>
 									<td className="px-6 py-4 text-center text-destructive font-semibold">$300+</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Lead Quality</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Variable</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">AI-Verified</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Variable</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">AI-Verified</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Review Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Sync</td>
@@ -161,13 +161,13 @@ export default async function AngiesListAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">24/7 Priority</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Business Growth Tools</td>
@@ -175,18 +175,18 @@ export default async function AngiesListAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Analytics & Insights</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Service Categories</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Comprehensive</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Comprehensive</td>
 								</tr>
 							</tbody>
 						</table>
@@ -247,27 +247,27 @@ export default async function AngiesListAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Affordable Pricing</h4>
+								<h4 className="font-semibold text-success dark:text-success">Affordable Pricing</h4>
 								<p className="text-sm text-muted-foreground">Simple $29/month pricing with comprehensive features and no hidden fees.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">AI-Verified Leads</h4>
+								<h4 className="font-semibold text-success dark:text-success">AI-Verified Leads</h4>
 								<p className="text-sm text-muted-foreground">Advanced lead qualification system that ensures high-quality, ready-to-buy customers.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Sync across Google, Facebook, Yelp, Angie&apos;s List, and other major platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">24/7 Priority Support</h4>
+								<h4 className="font-semibold text-success dark:text-success">24/7 Priority Support</h4>
 								<p className="text-sm text-muted-foreground">Dedicated support team with quick response times and personalized solutions.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Growth & Marketing Tools</h4>
+								<h4 className="font-semibold text-success dark:text-success">Growth & Marketing Tools</h4>
 								<p className="text-sm text-muted-foreground">Email campaigns, social media integration, and marketing automation.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Comprehensive Categories</h4>
+								<h4 className="font-semibold text-success dark:text-success">Comprehensive Categories</h4>
 								<p className="text-sm text-muted-foreground">Support for all service categories with flexible customization options.</p>
 							</div>
 						</CardContent>
@@ -451,35 +451,35 @@ export default async function AngiesListAlternative() {
 						<CardContent>
 							<ul className="space-y-3 text-sm">
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Multi-platform management</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">AI-verified leads</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Comprehensive platform reach</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Growth automation tools</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">All service categories</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Advanced analytics</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Appointment booking</span>
 								</li>
 							</ul>
@@ -502,7 +502,7 @@ export default async function AngiesListAlternative() {
 								<span className="text-sm font-medium text-primary">Roofing Contractor</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+387%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+387%</div>
 								<div className="text-sm text-muted-foreground">Conversion Rate Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Angie's List charged me $500/month and sent price shoppers. Thorbis costs $29 and sends homeowners ready to hire quality work. I went from 12% to 63% close rate."</blockquote>
@@ -525,7 +525,7 @@ export default async function AngiesListAlternative() {
 								<span className="text-sm font-medium text-primary">Electrical Services</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$290K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$290K</div>
 								<div className="text-sm text-muted-foreground">Additional Annual Revenue</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Angie's List verification process was a joke. Thorbis's AI verification means I only get real customers with real budgets. My business grew 290% this year."</blockquote>
@@ -548,7 +548,7 @@ export default async function AngiesListAlternative() {
 								<span className="text-sm font-medium text-primary">HVAC Services</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">-92%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">-92%</div>
 								<div className="text-sm text-muted-foreground">Reduction in No-Shows</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Angie's List leads were all over the place. Half didn't show up. Thorbis sends verified customers who actually want the work done. My team stays busy with real jobs."</blockquote>
@@ -620,7 +620,7 @@ export default async function AngiesListAlternative() {
 						<CardContent className="px-0 space-y-6">
 							<div className="space-y-4">
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Multi-Point Identity Verification</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Multi-Point Identity Verification</h4>
 									<p className="text-sm text-muted-foreground mb-3">"AI verifies phone, email, address, and cross-references with public records. Every lead is a real person with a real project."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -628,7 +628,7 @@ export default async function AngiesListAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Budget Qualification Algorithm</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Budget Qualification Algorithm</h4>
 									<p className="text-sm text-muted-foreground mb-3">"AI analyzes project scope, market rates, and customer profile to ensure realistic budget expectations. No more low-ballers."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -636,7 +636,7 @@ export default async function AngiesListAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Timeline and Urgency Scoring</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Timeline and Urgency Scoring</h4>
 									<p className="text-sm text-muted-foreground mb-3">"AI validates project timeline with follow-up questions and commitment indicators. Only real, ready-to-start projects."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -708,24 +708,24 @@ export default async function AngiesListAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Time saved with qualified leads (3hr/week)</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$1,700</span>
+									<span className="font-semibold text-success dark:text-success">+$1,700</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Revenue boost from 63% conversion</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$12,400</span>
+									<span className="font-semibold text-success dark:text-success">+$12,400</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Premium pricing with quality customers</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$3,800</span>
+									<span className="font-semibold text-success dark:text-success">+$3,800</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Reduced marketing spend</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$800</span>
+									<span className="font-semibold text-success dark:text-success">+$800</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Monthly Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$25,571</span>
+										<span className="text-success dark:text-success">+$25,571</span>
 									</div>
 								</div>
 							</CardContent>

@@ -13,6 +13,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip"
 import { Star, Phone, MapPin, Navigation, ExternalLink, Share2, Eye, Users, Verified, TrendingUp, Zap } from "lucide-react";
 import { Card, CardContent } from "@components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { buildBusinessUrlFrom } from "@utils";
 
 export const BusinessCard = memo(
 	forwardRef(({ business, isActive, handleClick, isLoading, onHover, onLeave }, ref) => {
@@ -80,11 +81,12 @@ export const BusinessCard = memo(
 					.replace(/\s+/g, "-")
 					.replace(/-+/g, "-")
 					.trim();
-			window.open(`/biz/${slug}`, "_blank");
+			try { window.open(buildBusinessUrlFrom(business), "_blank"); }
+			catch { window.open(`/us/${(business.state||'').toLowerCase()}/${(business.city||'').toLowerCase()}/${(business.name||'').toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')}-${business.short_id || business.shortId || ''}`, "_blank"); }
 		};
 
 		const renderStars = (rating) => {
-			return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />);
+			return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < rating ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />);
 		};
 
 		return (
@@ -96,7 +98,7 @@ export const BusinessCard = memo(
 						{/* Availability Status */}
 						<div className="flex items-center space-x-2">
 							{business.isOpen && (
-								<Badge variant="secondary" className="bg-green-100 text-green-800 text-xs">
+								<Badge variant="secondary" className="bg-success/10 text-success text-xs">
 									Open
 								</Badge>
 							)}
@@ -107,7 +109,7 @@ export const BusinessCard = memo(
 							{business.verified && (
 								<Tooltip>
 									<TooltipTrigger>
-										<Verified className="w-4 h-4 text-blue-500" />
+										<Verified className="w-4 h-4 text-primary" />
 									</TooltipTrigger>
 									<TooltipContent>Verified Business</TooltipContent>
 								</Tooltip>
@@ -134,7 +136,7 @@ export const BusinessCard = memo(
 
 							{/* Photo Count Badge */}
 							{business.photoCount > 0 && (
-								<Badge className="absolute -bottom-1 -right-1 bg-blue-500 text-white text-xs px-1.5 py-0.5 rounded-full">
+								<Badge className="absolute -bottom-1 -right-1 bg-primary text-white text-xs px-1.5 py-0.5 rounded-full">
 									<Eye className="w-3 h-3 mr-1" />
 									{business.photoCount}
 								</Badge>
@@ -144,33 +146,33 @@ export const BusinessCard = memo(
 						{/* Business Information */}
 						<div className="flex-1 min-w-0">
 							{/* Business Name */}
-							<h3 className="font-semibold text-lg text-gray-900 truncate group-hover:text-blue-600 transition-colors">{business.name}</h3>
+							<h3 className="font-semibold text-lg text-foreground truncate group-hover:text-primary transition-colors">{business.name}</h3>
 
 							{/* Category & Price */}
 							<div className="flex items-center space-x-2 mb-2">
-								<span className="text-sm text-gray-600">{business.category}</span>
-								{business.priceRange && <span className="text-sm text-green-600 font-medium">{business.priceRange}</span>}
+								<span className="text-sm text-muted-foreground">{business.category}</span>
+								{business.priceRange && <span className="text-sm text-success font-medium">{business.priceRange}</span>}
 							</div>
 
 							{/* Rating & Reviews */}
 							<div className="flex items-center space-x-2 mb-2">
 								<div className="flex items-center">{renderStars(business.rating)}</div>
-								<span className="text-sm text-gray-600">
+								<span className="text-sm text-muted-foreground">
 									{business.rating} ({business.reviewCount} reviews)
 								</span>
 							</div>
 
 							{/* Location */}
-							<div className="flex items-center text-sm text-gray-500 mb-3">
-								<MapPin className="w-4 h-4 mr-1 text-gray-400" />
+							<div className="flex items-center text-sm text-muted-foreground mb-3">
+								<MapPin className="w-4 h-4 mr-1 text-muted-foreground" />
 								<span className="truncate">{business.address}</span>
-								{business.distance && <span className="ml-2 text-blue-600 font-medium">{business.distance}</span>}
+								{business.distance && <span className="ml-2 text-primary font-medium">{business.distance}</span>}
 							</div>
 						</div>
 					</div>
 
 					{/* Action Footer */}
-					<div className="flex items-center justify-between pt-3 border-t border-gray-100">
+					<div className="flex items-center justify-between pt-3 border-t border-border">
 						{/* Action Buttons */}
 						<div className="flex space-x-2">
 							<Button variant="outline" size="sm" onClick={handleCall} className="text-xs">
@@ -184,7 +186,7 @@ export const BusinessCard = memo(
 						</div>
 
 						{/* Social Proof Indicators */}
-						<div className="flex items-center space-x-3 text-xs text-gray-500">
+						<div className="flex items-center space-x-3 text-xs text-muted-foreground">
 							{business.responseTime && (
 								<div className="flex items-center">
 									<TrendingUp className="w-3 h-3 mr-1" />

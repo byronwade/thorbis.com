@@ -14,21 +14,21 @@ export default function VerifyAccount() {
 			<p className="text-sm leading-6 text-left text-muted-foreground">An email has been sent to your email and will need to be confirmed before the account is avaliable to use.</p>
 			<div className="flex flex-col mt-6">
 				<div className="space-y-4">
-					<p className="text-sm leading-6 text-left text-gray-600 dark:text-gray-200">Click on one of the icons below to open your email provider:</p>
+					<p className="text-sm leading-6 text-left text-muted-foreground dark:text-muted-foreground">Click on one of the icons below to open your email provider:</p>
 					<div className="flex flex-row space-x-4">
 						<a href="https://mail.google.com/" target="_blank" rel="noopener noreferrer">
 							<Card className="p-4 transition-all hover:scale-110">
-								<BiLogoGmail size={36} className="text-[#EA4335]" />
+								<BiLogoGmail size={36} className="text-muted-foreground" />
 							</Card>
 						</a>
 						<a href="https://mail.yahoo.com/" target="_blank" rel="noopener noreferrer">
 							<Card className="p-4 transition-all hover:scale-110">
-								<FaYahoo size={36} className="text-[#720E9E]" />
+								<FaYahoo size={36} className="text-muted-foreground" />
 							</Card>
 						</a>
 						<a href="https://mail.aol.com/" target="_blank" rel="noopener noreferrer">
 							<Card className="p-4 transition-all hover:scale-110">
-								<SiAol size={36} className="text-[#00A4E4]" />
+								<SiAol size={36} className="text-muted-foreground" />
 							</Card>
 						</a>
 					</div>

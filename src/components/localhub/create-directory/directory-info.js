@@ -141,7 +141,7 @@ export default function DirectoryInfo() {
 								</FormLabel>
 								<FormDescription>This will be the public name of your business directory (e.g., &quot;Raleigh LocalHub&quot;, &quot;Downtown Dallas Directory&quot;).</FormDescription>
 								<FormControl>
-									<Input {...field} placeholder="e.g., Raleigh LocalHub" className={fieldState.error ? "border-red-500" : ""} />
+									<Input {...field} placeholder="e.g., Raleigh LocalHub" className={fieldState.error ? "border-destructive" : ""} />
 								</FormControl>
 								{validationTips.directoryName && (
 									<div className={`flex items-center gap-1 text-sm ${validationTips.directoryName.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
@@ -165,7 +165,7 @@ export default function DirectoryInfo() {
 								</FormLabel>
 								<FormDescription>Describe what makes your directory special and what area/community it serves.</FormDescription>
 								<FormControl>
-									<Textarea {...field} placeholder="e.g., The premier business directory for Raleigh, NC. Connecting local customers with trusted businesses since 2024." rows={4} className={fieldState.error ? "border-red-500" : ""} />
+									<Textarea {...field} placeholder="e.g., The premier business directory for Raleigh, NC. Connecting local customers with trusted businesses since 2024." rows={4} className={fieldState.error ? "border-destructive" : ""} />
 								</FormControl>
 								{validationTips.description && (
 									<div className={`flex items-center gap-1 text-sm ${validationTips.description.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
@@ -189,7 +189,7 @@ export default function DirectoryInfo() {
 								</FormLabel>
 								<FormDescription>This email will be used for business inquiries and directory management.</FormDescription>
 								<FormControl>
-									<Input {...field} type="email" placeholder="contact@raleighlocalhub.com" className={fieldState.error ? "border-red-500" : ""} />
+									<Input {...field} type="email" placeholder="contact@raleighlocalhub.com" className={fieldState.error ? "border-destructive" : ""} />
 								</FormControl>
 								{validationTips.contactEmail && (
 									<div className={`flex items-center gap-1 text-sm ${validationTips.contactEmail.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
@@ -220,7 +220,7 @@ export default function DirectoryInfo() {
 											const formatted = formatPhoneNumber(e.target.value);
 											field.onChange(formatted);
 										}}
-										className={fieldState.error ? "border-red-500" : ""}
+										className={fieldState.error ? "border-destructive" : ""}
 									/>
 								</FormControl>
 								{validationTips.contactPhone && (

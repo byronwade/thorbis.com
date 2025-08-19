@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { buildBusinessUrl } from "@utils";
 import { Star, MapPin } from "react-feather";
 import { trackBusinessCardClick } from "@utils/netflix-analytics";
 
-export default function BusinessCard({ business, disabled }) {
+export default function BusinessCard({ business, disabled, sponsored = false }) {
 	const slug =
 		business.slug ||
 		business.name
@@ -25,6 +26,11 @@ export default function BusinessCard({ business, disabled }) {
 		rating: rating > 0 ? rating.toFixed(1) : "0.0",
 		reviewCount: business.reviewCount || 0,
 		image: business.image || "/placeholder-business.svg",
+		// Add missing location data
+		state: business.state || "",
+		city: business.city || "",
+		country: business.country || "US",
+		short_id: business.short_id || business.shortId || "",
 	};
 
 	const handleCardClick = () => {
@@ -32,70 +38,117 @@ export default function BusinessCard({ business, disabled }) {
 			business.id,
 			consistentBusiness.name,
 			consistentBusiness.category,
-			'home-section', // This could be passed as a prop
+			"home-section", // This could be passed as a prop
 			0 // Position in list, could be passed as a prop
 		);
 	};
 
+	const urlParams = {
+		country: (consistentBusiness.country || "US").toLowerCase(),
+		state: consistentBusiness.state,
+		city: consistentBusiness.city,
+		name: consistentBusiness.name,
+		shortId: consistentBusiness.short_id || consistentBusiness.shortId,
+	};
+
+	// Validate required parameters before building URL
+	const generatedUrl = (urlParams.country && urlParams.state && urlParams.city && urlParams.name) 
+		? buildBusinessUrl(urlParams)
+		: '/';
+
 	return (
-		<div className="group relative">
-			<Link 
-				href={`/biz/${slug}`} 
-				className={`block w-full ${disabled ? "opacity-50 pointer-events-none" : ""}`}
+		<div className="group/card relative h-[320px] sm:h-[380px]">
+			<Link
+				href={generatedUrl}
+				className={`block w-full h-full ${disabled ? "opacity-50 pointer-events-none" : ""}`}
 				onClick={handleCardClick}
 				data-business-card="true"
 				data-business-id={business.id}
 				data-business-name={consistentBusiness.name}
 				data-business-category={consistentBusiness.category}
 			>
-				{/* Simplified card with Thorbis design system */}
-				<div className="relative w-full bg-card rounded-lg overflow-hidden transition-all duration-300 ease-out group-hover:bg-accent group-hover:shadow-2xl group-hover:shadow-primary/20 group-hover:-translate-y-1">
-					{/* Business image with 16:9 aspect ratio */}
-					<div className="relative aspect-[16/9] overflow-hidden bg-muted">
+				{/* Enhanced mobile-optimized card */}
+				<div className="relative w-full h-full bg-card rounded-2xl overflow-hidden transition-all duration-300 ease-out group-hover/card:bg-accent/5 group-hover/card:shadow-lg group-hover/card:shadow-primary/10 group-hover/card:-translate-y-1 group-active/card:scale-95 border border-border/50 group-hover/card:border-primary/20">
+					{/* Business image with mobile-optimized aspect ratio */}
+					<div className="relative aspect-[3/2] sm:aspect-[4/3] overflow-hidden bg-muted/30">
 						<Image
-							className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover:scale-105"
+							className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover/card:scale-105"
 							src={consistentBusiness.image}
 							alt={consistentBusiness.name}
 							width={400}
-							height={225}
+							height={300}
 							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
 							onError={(e) => {
-								e.target.src = "/placeholder-business.svg";
+								// Next/Image onError uses currentTarget in React
+								if (e?.currentTarget) {
+									e.currentTarget.src = "/placeholder-business.svg";
+								}
 							}}
 						/>
 
-						{/* Rating badge with Thorbis colors */}
+						{/* Enhanced rating badge with better mobile touch target */}
 						{rating > 0 && (
-							<div className="absolute top-3 right-3 opacity-90 group-hover:opacity-100 transition-opacity duration-300">
-								<div className="flex items-center gap-1.5 px-3 py-1.5 bg-card/90 backdrop-blur-sm rounded-md border border-border">
-									<Star className="w-4 h-4 text-primary fill-primary" />
-									<span className="text-sm font-bold text-card-foreground">{consistentBusiness.rating}</span>
+							<div className="absolute top-3 right-3 opacity-90 group-hover/card:opacity-100 transition-opacity duration-300">
+								<div className="flex items-center gap-1.5 px-3 py-2 bg-background/95 backdrop-blur-sm rounded-xl border border-border/50 shadow-sm min-w-[60px] justify-center">
+									<Star className="w-4 h-4 text-primary fill-primary flex-shrink-0" />
+									<span className="text-sm font-semibold text-foreground">{consistentBusiness.rating}</span>
 								</div>
 							</div>
 						)}
 
-						{/* Clean gradient overlay */}
-						<div className="absolute inset-0 bg-gradient-to-t from-card/80 via-card/20 to-transparent" />
-						
-						{/* Subtle hover brightness */}
-						<div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+						{/* Sponsored badge - subtle but clear */}
+						{sponsored && (
+							<div className="absolute top-3 left-3 opacity-90 group-hover/card:opacity-100 transition-opacity duration-300">
+								<div className="flex items-center gap-1 px-2 py-1.5 bg-primary/90 backdrop-blur-sm rounded-lg border border-primary/30 shadow-sm">
+									<span className="text-xs font-medium text-primary-foreground">Sponsored</span>
+								</div>
+							</div>
+						)}
+
+						{/* Subtle overlay for better text readability */}
+						<div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
 					</div>
 
-					{/* Content overlay with larger text */}
-					<div className="absolute bottom-0 left-0 right-0 p-4">
-						<h3 className="font-bold text-card-foreground text-base sm:text-lg line-clamp-1 mb-2 group-hover:text-primary transition-colors duration-200">
-							{consistentBusiness.name}
-						</h3>
-						<div className="flex items-center justify-between opacity-90 group-hover:opacity-100 transition-opacity duration-200">
-							<span className="text-sm text-muted-foreground font-medium">{consistentBusiness.category}</span>
-							{consistentBusiness.reviewCount > 0 && (
-								<span className="text-sm text-muted-foreground/80">{consistentBusiness.reviewCount} reviews</span>
-							)}
+					{/* Content section with mobile-optimized spacing */}
+					<div className="p-4 sm:p-5 space-y-3 flex flex-col justify-between h-full">
+						<div className="space-y-3">
+							{/* Business name with mobile-optimized typography */}
+							<h3 className="font-semibold text-foreground text-base sm:text-lg leading-tight line-clamp-2 group-hover/card:text-primary transition-colors duration-200 h-12 sm:h-10 flex items-start">
+								{consistentBusiness.name}
+							</h3>
+
+							{/* Category and location with mobile-friendly layout */}
+							<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-sm text-muted-foreground">
+								<span className="inline-flex items-center gap-1 px-3 py-1.5 bg-muted/50 rounded-lg text-xs font-medium w-fit">
+									{consistentBusiness.category}
+								</span>
+								{consistentBusiness.location && (
+									<div className="flex items-center gap-1.5 text-xs">
+										<MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+										<span className="truncate">{consistentBusiness.location}</span>
+									</div>
+								)}
+							</div>
 						</div>
+
+						{/* Reviews and additional info with better mobile layout */}
+						{consistentBusiness.reviewCount > 0 && (
+							<div className="flex items-center justify-between text-xs text-muted-foreground/80 pt-1">
+								<span className="font-medium">{consistentBusiness.reviewCount} reviews</span>
+								{/* Enhanced status indicator */}
+								<div className="flex items-center gap-1.5">
+									<div className="w-2 h-2 bg-success rounded-full"></div>
+									<span className="text-xs font-medium">Verified</span>
+								</div>
+							</div>
+						)}
 					</div>
 
-					{/* Subtle border on hover */}
-					<div className="absolute inset-0 border border-transparent group-hover:border-primary/30 transition-colors duration-300 rounded-lg pointer-events-none" />
+					{/* Enhanced touch feedback */}
+					<div className="absolute inset-0 border border-transparent group-hover/card:border-primary/20 group-active/card:border-primary/40 transition-colors duration-300 rounded-2xl pointer-events-none" />
+					
+					{/* Mobile touch indicator */}
+					<div className="absolute inset-0 bg-primary/0 group-active/card:bg-primary/5 transition-colors duration-150 rounded-2xl pointer-events-none" />
 				</div>
 			</Link>
 		</div>

@@ -1,5 +1,5 @@
 // lib/utils/webVitals.js - Advanced Web Vitals monitoring
-import { logger } from "@utils/logger";
+import { logger } from "./logger.js";
 
 // Web Vitals thresholds based on Google's recommendations
 const VITALS_THRESHOLDS = {

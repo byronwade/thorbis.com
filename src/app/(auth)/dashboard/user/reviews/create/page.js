@@ -62,8 +62,8 @@ function ReviewForm({ business, onBack }) {
 		return (
 			<Card className="w-full max-w-2xl">
 				<CardContent className="pt-6 text-center">
-					<div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
-						<CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
+					<div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-success/10 dark:bg-success">
+						<CheckCircle className="h-8 w-8 text-success dark:text-success" />
 					</div>
 					<h2 className="text-2xl font-semibold mb-2">Thank You!</h2>
 					<p className="text-muted-foreground mb-6">Your feedback has been submitted successfully.</p>
@@ -115,7 +115,7 @@ function ReviewForm({ business, onBack }) {
 						<div className="mt-3 flex justify-center gap-1">
 							{[1, 2, 3, 4, 5].map((star) => (
 								<button key={star} type="button" onClick={() => setRating(star)} onMouseEnter={() => setHoveredRating(star)} onMouseLeave={() => setHoveredRating(0)} className="p-1 transition-transform hover:scale-110">
-									<Star className={`h-8 w-8 transition-colors ${star <= (hoveredRating || rating) ? "fill-yellow-400 text-yellow-400" : "fill-muted text-muted-foreground"}`} />
+									<Star className={`h-8 w-8 transition-colors ${star <= (hoveredRating || rating) ? "fill-yellow-400 text-warning" : "fill-muted text-muted-foreground"}`} />
 								</button>
 							))}
 						</div>

@@ -1,7 +1,7 @@
 // REQUIRED: Advanced Device Fingerprinting for Security
 // Implements comprehensive device identification for fraud prevention
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Device Fingerprinting Utility
@@ -145,10 +145,10 @@ export class DeviceFingerprint {
 			if (!ctx) return null;
 
 			// Draw simple geometric patterns (not text for privacy)
-			ctx.fillStyle = "rgb(200, 200, 200)";
+			ctx.fillStyle = "hsl(var(--muted-foreground))";
 			ctx.fillRect(0, 0, 100, 100);
 
-			ctx.fillStyle = "rgb(100, 100, 100)";
+			ctx.fillStyle = "hsl(var(--muted-foreground))";
 			ctx.fillRect(10, 10, 80, 80);
 
 			ctx.arc(50, 50, 30, 0, 2 * Math.PI);

@@ -12,7 +12,7 @@ import { ROLES, RoleManager, PERMISSIONS } from "@lib/auth/roles";
 import { useAuth } from "@context/auth-context";
 import { usePermissions } from "@features/auth";
 import { Search, User, Shield, Settings, Edit, Trash2, Save, X, AlertTriangle } from "lucide-react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Comprehensive permission management interface
@@ -247,7 +247,7 @@ function UserCard({ user, onSelect, selected, currentUserLevel }) {
 	const canManage = currentUserLevel > userLevel;
 
 	return (
-		<div className={`p-4 border rounded-lg cursor-pointer transition-colors ${selected ? "border-blue-500 bg-blue-50 dark:bg-blue-950" : "hover:bg-muted"}`} onClick={() => onSelect(user)}>
+		<div className={`p-4 border rounded-lg cursor-pointer transition-colors ${selected ? "border-primary bg-primary dark:bg-primary" : "hover:bg-muted"}`} onClick={() => onSelect(user)}>
 			<div className="flex items-center justify-between">
 				<div className="flex items-center space-x-3">
 					<div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">{user.name?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase()}</div>

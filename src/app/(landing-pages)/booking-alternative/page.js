@@ -87,7 +87,7 @@ export default function BookingAlternative() {
 								<span className="text-sm font-medium text-primary">Boutique Hotel</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+312%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+312%</div>
 								<div className="text-sm text-muted-foreground">Direct Booking Revenue</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Booking.com was taking 18% commission plus fees. Thorbis costs $29/month and we keep 100% of our revenue. We've increased direct bookings by 312% this year."</blockquote>
@@ -110,7 +110,7 @@ export default function BookingAlternative() {
 								<span className="text-sm font-medium text-primary">Vacation Rental</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$95K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$95K</div>
 								<div className="text-sm text-muted-foreground">Annual Commission Savings</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"We were paying $95,000 in Booking.com commissions annually. Now we pay $348 to Thorbis and have better guest relationships. Pure profit increase."</blockquote>
@@ -133,7 +133,7 @@ export default function BookingAlternative() {
 								<span className="text-sm font-medium text-primary">Travel Agency</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">-78%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">-78%</div>
 								<div className="text-sm text-muted-foreground">Customer Acquisition Cost</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Booking.com made us compete on price only. Thorbis helps us build relationships and offer personalized service. Our repeat booking rate tripled."</blockquote>
@@ -205,7 +205,7 @@ export default function BookingAlternative() {
 						<CardContent className="px-0 space-y-6">
 							<div className="space-y-4">
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Predictable Fixed Costs</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Predictable Fixed Costs</h4>
 									<p className="text-sm text-muted-foreground mb-3">"$29/month no matter how many bookings we get. Last month we saved $8,400 compared to what we'd pay Booking.com. The more we grow, the more we save."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -213,7 +213,7 @@ export default function BookingAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Own Customer Relationships</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Own Customer Relationships</h4>
 									<p className="text-sm text-muted-foreground mb-3">"We have guest email addresses, preferences, history. We send personalized offers and 60% of our bookings are now repeat customers. Built a real business, not just a commodity."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -221,7 +221,7 @@ export default function BookingAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Flexible Pricing Freedom</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Flexible Pricing Freedom</h4>
 									<p className="text-sm text-muted-foreground mb-3">"We offer direct booking discounts, loyalty programs, and package deals. Guests love the personal service and we love keeping 100% of the revenue."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -293,24 +293,24 @@ export default function BookingAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Saved commission fees</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$54,000</span>
+									<span className="font-semibold text-success dark:text-success">+$54,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Direct booking premium pricing</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$36,000</span>
+									<span className="font-semibold text-success dark:text-success">+$36,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Repeat customer revenue</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$48,000</span>
+									<span className="font-semibold text-success dark:text-success">+$48,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Reduced marketing costs</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$12,000</span>
+									<span className="font-semibold text-success dark:text-success">+$12,000</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Annual Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$245,652</span>
+										<span className="text-success dark:text-success">+$245,652</span>
 									</div>
 								</div>
 							</CardContent>
@@ -442,17 +442,17 @@ export default function BookingAlternative() {
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Commission Rate</td>
 									<td className="px-6 py-4 text-center text-destructive font-semibold">15-25%</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29/month</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29/month</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Direct Bookings</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full Control</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full Control</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Data</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Restricted</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full Access</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Restricted</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full Access</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Sync</td>
@@ -460,13 +460,13 @@ export default function BookingAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">24/7 Priority</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Business Growth Tools</td>
@@ -474,18 +474,18 @@ export default function BookingAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Review Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Analytics & Insights</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 							</tbody>
 						</table>
@@ -546,27 +546,27 @@ export default function BookingAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Fixed Monthly Pricing</h4>
+								<h4 className="font-semibold text-success dark:text-success">Fixed Monthly Pricing</h4>
 								<p className="text-sm text-muted-foreground">Simple $29/month pricing with no commission fees or hidden costs.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Direct Customer Relationships</h4>
+								<h4 className="font-semibold text-success dark:text-success">Direct Customer Relationships</h4>
 								<p className="text-sm text-muted-foreground">Build direct relationships with customers and increase repeat bookings.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Full Customer Data Access</h4>
+								<h4 className="font-semibold text-success dark:text-success">Full Customer Data Access</h4>
 								<p className="text-sm text-muted-foreground">Complete access to customer information and booking history.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Sync across Google, Facebook, TripAdvisor, Booking.com, and other platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">24/7 Priority Support</h4>
+								<h4 className="font-semibold text-success dark:text-success">24/7 Priority Support</h4>
 								<p className="text-sm text-muted-foreground">Dedicated support team with quick response times and personalized solutions.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Growth & Marketing Tools</h4>
+								<h4 className="font-semibold text-success dark:text-success">Growth & Marketing Tools</h4>
 								<p className="text-sm text-muted-foreground">Email campaigns, social media integration, and marketing automation.</p>
 							</div>
 						</CardContent>
@@ -709,35 +709,35 @@ export default function BookingAlternative() {
 						<CardContent>
 							<ul className="space-y-3 text-sm">
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">No commission fees</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Direct customer relationships</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Full customer data access</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Multi-platform integration</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Growth automation tools</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Advanced analytics</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Booking management</span>
 								</li>
 							</ul>

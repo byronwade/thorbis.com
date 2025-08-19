@@ -168,7 +168,7 @@ const OverviewSection = ({ profile, setProfile, isEditing, handleSaveProfile, fi
 					</div>
 					<div className="flex justify-between items-center p-4 rounded-lg border border-border">
 						<div className="flex items-center space-x-2">
-							<Star className="w-5 h-5 text-yellow-500" />
+							<Star className="w-5 h-5 text-warning" />
 							<span className="font-medium">{profile.rating} Star Rating</span>
 						</div>
 						<Badge variant="secondary">{profile.reviewCount} Reviews</Badge>

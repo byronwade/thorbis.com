@@ -84,8 +84,8 @@ export default function PayrollModule() {
 			{/* Page Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h1 className="text-3xl font-bold text-gray-900 dark:text-white">Payroll & Time Tracking</h1>
-					<p className="text-gray-600 dark:text-gray-400 mt-1">Manage employee time, calculate payroll, and track labor costs</p>
+					<h1 className="text-3xl font-bold text-foreground">Payroll & Time Tracking</h1>
+					<p className="text-muted-foreground mt-1">Manage employee time, calculate payroll, and track labor costs</p>
 				</div>
 				<div className="flex space-x-2">
 					<Button variant="outline" size="sm">
@@ -104,10 +104,10 @@ export default function PayrollModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Total Payroll</CardTitle>
-						<DollarSign className="h-4 w-4 text-green-600" />
+						<DollarSign className="h-4 w-4 text-success" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-green-600">{formatCurrency(payrollData.overview.totalPayroll)}</div>
+						<div className="text-2xl font-bold text-success">{formatCurrency(payrollData.overview.totalPayroll)}</div>
 						<p className="text-xs text-muted-foreground">This month</p>
 					</CardContent>
 				</Card>
@@ -115,10 +115,10 @@ export default function PayrollModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Total Employees</CardTitle>
-						<Users className="h-4 w-4 text-blue-600" />
+						<Users className="h-4 w-4 text-primary" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-blue-600">{payrollData.overview.totalEmployees}</div>
+						<div className="text-2xl font-bold text-primary">{payrollData.overview.totalEmployees}</div>
 						<p className="text-xs text-muted-foreground">Active employees</p>
 					</CardContent>
 				</Card>
@@ -137,10 +137,10 @@ export default function PayrollModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Avg Hourly Rate</CardTitle>
-						<Calculator className="h-4 w-4 text-orange-600" />
+						<Calculator className="h-4 w-4 text-warning" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-orange-600">{formatCurrency(payrollData.overview.averageHourlyRate)}</div>
+						<div className="text-2xl font-bold text-warning">{formatCurrency(payrollData.overview.averageHourlyRate)}</div>
 						<p className="text-xs text-muted-foreground">Across all roles</p>
 					</CardContent>
 				</Card>
@@ -148,13 +148,13 @@ export default function PayrollModule() {
 
 			{/* Alert for pending items */}
 			{payrollData.overview.pendingApprovals > 0 && (
-				<Card className="border-orange-200 bg-orange-50 dark:bg-orange-900/20">
+				<Card className="border-orange-200 bg-orange-50 dark:bg-warning/20">
 					<CardContent className="flex items-center justify-between p-4">
 						<div className="flex items-center space-x-3">
-							<AlertCircle className="h-5 w-5 text-orange-600" />
+							<AlertCircle className="h-5 w-5 text-warning" />
 							<div>
-								<p className="font-medium text-orange-900 dark:text-orange-100">{payrollData.overview.pendingApprovals} time entries need approval</p>
-								<p className="text-sm text-orange-700 dark:text-orange-300">Next payroll run: {payrollData.overview.upcomingPayroll}</p>
+								<p className="font-medium text-warning dark:text-warning/70">{payrollData.overview.pendingApprovals} time entries need approval</p>
+								<p className="text-sm text-warning dark:text-warning/90">Next payroll run: {payrollData.overview.upcomingPayroll}</p>
 							</div>
 						</div>
 						<Button size="sm" variant="outline">
@@ -186,7 +186,7 @@ export default function PayrollModule() {
 									{payrollData.timeEntries.map((entry) => (
 										<div key={entry.id} className="flex items-center justify-between p-3 border rounded-lg">
 											<div className="flex items-center space-x-3">
-												<div className="h-8 w-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+												<div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center">
 													<User className="h-4 w-4" />
 												</div>
 												<div>
@@ -213,10 +213,10 @@ export default function PayrollModule() {
 								<CardDescription>Monthly labor cost analysis</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+								<div className="h-64 flex items-center justify-center bg-muted rounded-lg">
 									<div className="text-center">
-										<TrendingUp className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-										<p className="text-gray-500">Labor cost chart coming soon</p>
+										<TrendingUp className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+										<p className="text-muted-foreground">Labor cost chart coming soon</p>
 									</div>
 								</div>
 							</CardContent>
@@ -233,9 +233,9 @@ export default function PayrollModule() {
 						<CardContent>
 							<div className="space-y-4">
 								{payrollData.employees.map((employee) => (
-									<div key={employee.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+									<div key={employee.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted transition-colors">
 										<div className="flex items-center space-x-4">
-											<div className="h-12 w-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+											<div className="h-12 w-12 bg-muted rounded-full flex items-center justify-center">
 												<User className="h-6 w-6" />
 											</div>
 											<div>
@@ -247,7 +247,7 @@ export default function PayrollModule() {
 											</div>
 										</div>
 										<div className="text-right">
-											<p className="text-xl font-semibold text-green-600">{formatCurrency(employee.grossPay)}</p>
+											<p className="text-xl font-semibold text-success">{formatCurrency(employee.grossPay)}</p>
 											<Badge variant={employee.status === "active" ? "default" : "secondary"}>{employee.status.replace("_", " ")}</Badge>
 										</div>
 									</div>
@@ -268,7 +268,7 @@ export default function PayrollModule() {
 								{payrollData.timeEntries.map((entry) => (
 									<div key={entry.id} className="flex items-center justify-between p-4 border rounded-lg">
 										<div className="flex items-center space-x-4">
-											<div className="h-10 w-10 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+											<div className="h-10 w-10 bg-muted rounded-full flex items-center justify-center">
 												<Clock className="h-5 w-5" />
 											</div>
 											<div>
@@ -310,9 +310,9 @@ export default function PayrollModule() {
 						<CardContent>
 							<div className="space-y-4">
 								{payrollData.payrollRuns.map((run) => (
-									<div key={run.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+									<div key={run.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted transition-colors">
 										<div className="flex items-center space-x-4">
-											<div className="h-10 w-10 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
+											<div className="h-10 w-10 bg-success/10 text-success rounded-full flex items-center justify-center">
 												<CreditCard className="h-5 w-5" />
 											</div>
 											<div>

@@ -6,7 +6,7 @@
 
 import { create } from "zustand";
 import { supabase } from "@lib/database/supabase";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Sync user profile to our users table
 const syncUserProfile = async (authUser) => {

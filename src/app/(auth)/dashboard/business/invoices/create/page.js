@@ -262,7 +262,7 @@ export default function CreateInvoice() {
 									{filteredCustomers.map((customer) => (
 										<div key={customer.id} className="p-3 border-b cursor-pointer hover:bg-accent last:border-b-0" onClick={() => handleCustomerSelect(customer)}>
 											<div className="flex gap-3 items-center">
-												{customer.type === "commercial" ? <Building className="w-5 h-5 text-blue-500" /> : <User className="w-5 h-5 text-green-500" />}
+												{customer.type === "commercial" ? <Building className="w-5 h-5 text-primary" /> : <User className="w-5 h-5 text-success" />}
 												<div className="flex-1">
 													<p className="font-medium">{customer.name}</p>
 													<p className="text-sm text-muted-foreground">{customer.email}</p>
@@ -279,7 +279,7 @@ export default function CreateInvoice() {
 									<div className="flex justify-between items-start">
 										<div className="space-y-2">
 											<div className="flex gap-2 items-center">
-												{selectedCustomer.type === "commercial" ? <Building className="w-5 h-5 text-blue-500" /> : <User className="w-5 h-5 text-green-500" />}
+												{selectedCustomer.type === "commercial" ? <Building className="w-5 h-5 text-primary" /> : <User className="w-5 h-5 text-success" />}
 												<h3 className="font-medium">{selectedCustomer.name}</h3>
 												{selectedCustomer.taxExempt && <Badge variant="outline">Tax Exempt</Badge>}
 											</div>

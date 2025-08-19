@@ -63,8 +63,8 @@ export default function CreateSubdomainForm({ onSuccess }) {
 			country: "US",
 			hubType: "city",
 			radiusKm: 50,
-			primaryColor: "#3b82f6",
-			secondaryColor: "#1e40af",
+			primaryColor: "hsl(var(--primary))",
+secondaryColor: "hsl(var(--primary))",
 		},
 	});
 
@@ -211,13 +211,13 @@ export default function CreateSubdomainForm({ onSuccess }) {
 				<div className="flex items-center gap-2">
 					{available && valid ? (
 						<>
-							<CheckCircle className="w-4 h-4 text-green-600" />
-							<span className="text-sm text-green-600 font-medium">{watchedValues.subdomain}.localhub.com is available!</span>
+							<CheckCircle className="w-4 h-4 text-success" />
+							<span className="text-sm text-success font-medium">{watchedValues.subdomain}.localhub.com is available!</span>
 						</>
 					) : (
 						<>
-							<XCircle className="w-4 h-4 text-red-600" />
-							<span className="text-sm text-red-600 font-medium">Not available</span>
+							<XCircle className="w-4 h-4 text-destructive" />
+							<span className="text-sm text-destructive font-medium">Not available</span>
 						</>
 					)}
 				</div>
@@ -257,7 +257,7 @@ export default function CreateSubdomainForm({ onSuccess }) {
 				{/* Suggestions */}
 				{suggestions && suggestions.length > 0 && (
 					<div className="space-y-2">
-						<div className="flex items-center gap-2 text-sm text-blue-600">
+						<div className="flex items-center gap-2 text-sm text-primary">
 							<Lightbulb className="w-4 h-4" />
 							<span className="font-medium">Suggestions:</span>
 						</div>
@@ -470,7 +470,7 @@ export default function CreateSubdomainForm({ onSuccess }) {
 											<FormControl>
 												<div className="flex items-center gap-2">
 													<Input {...field} type="color" className="w-16 h-10 p-1 rounded" />
-													<Input value={field.value} onChange={field.onChange} placeholder="#3b82f6" />
+													<Input value={field.value} onChange={field.onChange} placeholder="hsl(var(--primary))" />
 												</div>
 											</FormControl>
 											<FormDescription>Main color for your hub's branding</FormDescription>
@@ -488,7 +488,7 @@ export default function CreateSubdomainForm({ onSuccess }) {
 											<FormControl>
 												<div className="flex items-center gap-2">
 													<Input {...field} type="color" className="w-16 h-10 p-1 rounded" />
-													<Input value={field.value} onChange={field.onChange} placeholder="#1e40af" />
+													<Input value={field.value} onChange={field.onChange} placeholder="hsl(var(--primary))" />
 												</div>
 											</FormControl>
 											<FormDescription>Accent color for buttons and highlights</FormDescription>

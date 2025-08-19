@@ -28,11 +28,11 @@ export function ContactCard() {
 					<span>123 Main St, Anytown USA</span>
 				</div>
 			</div>
-			<Separator className="my-4 bg-gray-400" />
+			<Separator className="my-4 bg-muted" />
 			<div className="space-y-2">
 				<h3 className="text-base font-semibold">Reviews</h3>
 				<div className="flex items-center gap-2">
-					<Star className="w-5 h-5 text-yellow-500" />
+					<Star className="w-5 h-5 text-warning" />
 					<span>4.8 (123 reviews)</span>
 				</div>
 				<Button className="w-full">Leave a Review</Button>

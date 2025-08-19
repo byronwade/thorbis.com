@@ -127,12 +127,12 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 
 	const getCardStyle = (cardId: string) => {
 		if (matchedCards.includes(cardId)) {
-			return "border-green-500 bg-green-100 transform scale-95";
+			return "border-green-500 bg-success/10 transform scale-95";
 		}
 		if (flippedCards.includes(cardId)) {
-			return "border-blue-500 bg-blue-100";
+			return "border-primary bg-primary/10";
 		}
-		return "border-gray-300 bg-white hover:border-gray-400 cursor-pointer";
+		return "border-border bg-white hover:border-border cursor-pointer";
 	};
 
 	return (
@@ -142,8 +142,8 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">Find matching pairs by flipping two cards at a time. Try to complete the game with as few attempts as possible!</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Find matching pairs by flipping two cards at a time. Try to complete the game with as few attempts as possible!</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Attempts: {attempts}</span>
 								{question.maxAttempts && <span>Max: {question.maxAttempts}</span>}
 								<span>
@@ -171,9 +171,9 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 
 			{/* Game Status */}
 			{question.showTime && gameStarted && showPreview && (
-				<Card className="border-blue-500 bg-blue-50">
+				<Card className="border-primary bg-blue-50">
 					<CardContent className="p-4 text-center">
-						<p className="text-blue-800 font-medium">Study the cards! They will flip over soon...</p>
+						<p className="text-primary font-medium">Study the cards! They will flip over soon...</p>
 					</CardContent>
 				</Card>
 			)}
@@ -193,8 +193,8 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 									{isCardVisible(card.id) ? (
 										<div className="text-center">{card.type === "image" && card.src ? <img src={card.src} alt={card.content} className="w-full h-full object-cover rounded" /> : <span className="font-medium text-sm text-center break-words">{card.content}</span>}</div>
 									) : (
-										<div className="w-full h-full bg-gray-200 rounded flex items-center justify-center">
-											<span className="text-gray-400 text-2xl">?</span>
+										<div className="w-full h-full bg-muted rounded flex items-center justify-center">
+											<span className="text-muted-foreground text-2xl">?</span>
 										</div>
 									)}
 								</div>
@@ -212,9 +212,9 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 						<div className="space-y-3">
 							{Array.from(new Set(question.cards.map((card) => card.matchGroup))).map((group) => (
 								<div key={group} className="flex items-center space-x-3">
-									<div className="w-4 h-4 rounded-full bg-blue-500" />
+									<div className="w-4 h-4 rounded-full bg-primary" />
 									<span className="font-medium">{group}</span>
-									<span className="text-sm text-gray-600">({question.cards.filter((card) => card.matchGroup === group).length} cards)</span>
+									<span className="text-sm text-muted-foreground">({question.cards.filter((card) => card.matchGroup === group).length} cards)</span>
 								</div>
 							))}
 						</div>
@@ -233,8 +233,8 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 									{matchedCards.length / 2} / {question.cards.length} pairs
 								</span>
 							</div>
-							<div className="w-full bg-gray-200 rounded-full h-2">
-								<div className="bg-blue-500 h-2 rounded-full transition-all duration-300" style={{ width: `${(matchedCards.length / (question.cards.length * 2)) * 100}%` }} />
+							<div className="w-full bg-muted rounded-full h-2">
+								<div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${(matchedCards.length / (question.cards.length * 2)) * 100}%` }} />
 							</div>
 						</div>
 					</CardContent>
@@ -247,24 +247,24 @@ export function MemoryMatchRenderer({ question, onAnswer, isAnswered, userAnswer
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{matchedCards.length === shuffledCards.length ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${matchedCards.length === shuffledCards.length ? "text-green-700" : "text-red-700"}`}>{matchedCards.length === shuffledCards.length ? "Perfect Memory!" : "Game Incomplete"}</span>
-								<span className="text-sm text-gray-600">
+								{matchedCards.length === shuffledCards.length ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${matchedCards.length === shuffledCards.length ? "text-success" : "text-destructive"}`}>{matchedCards.length === shuffledCards.length ? "Perfect Memory!" : "Game Incomplete"}</span>
+								<span className="text-sm text-muted-foreground">
 									({matchedCards.length / 2} matches in {attempts} attempts)
 								</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Performance Rating */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Performance:</p>
-								<ul className="list-disc list-inside space-y-1 text-gray-700">
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Performance:</p>
+								<ul className="list-disc list-inside space-y-1 text-muted-foreground">
 									<li>Total attempts: {attempts}</li>
 									<li>Success rate: {((matchedCards.length / 2 / attempts) * 100).toFixed(1)}%</li>
 									<li>Rating: {attempts <= question.cards.length ? "Excellent" : attempts <= question.cards.length * 1.5 ? "Good" : "Needs Practice"}</li>

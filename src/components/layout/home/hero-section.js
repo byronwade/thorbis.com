@@ -604,45 +604,45 @@ export default function HeroSection() {
 			<div className="absolute inset-0 bg-gradient-to-t from-blue-950/20 via-transparent to-purple-950/20"></div>
 
 			{/* Animated geometric shapes */}
-			<div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl animate-pulse"></div>
+			<div className="absolute top-20 left-20 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
 			<div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
 
 			<ImageGrid />
 
-			<div className="relative z-10 px-6 lg:px-32 py-20 lg:py-32">
-				<div className="max-w-8xl mx-auto space-y-20">
+			<div className="relative z-10 px-4 sm:px-6 lg:px-32 py-8 sm:py-12 lg:py-20 xl:py-32">
+				<div className="max-w-8xl mx-auto space-y-12 sm:space-y-16 lg:space-y-20">
 					{/* Enhanced Hero Content */}
-					<div className="space-y-16">
+					<div className="space-y-8 sm:space-y-12 lg:space-y-16">
 						{/* Enhanced Badge */}
 						<div className="flex justify-center animate-fade-in">
-							<div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3">
-								<div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-								<Sparkles className="w-4 h-4 text-blue-400" />
-								<span className="text-white font-medium">50,000+ Verified Businesses</span>
+							<div className="inline-flex items-center gap-2 sm:gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 sm:px-6 sm:py-3">
+								<div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-success/40 rounded-full animate-pulse"></div>
+								<Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+								<span className="text-white font-medium text-xs sm:text-sm">50,000+ Verified Businesses</span>
 							</div>
 						</div>
 
 						{/* Enhanced Typography */}
-						<div className="text-center space-y-8">
-							<h1 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[0.9] animate-slide-up animation-delay-200">
+						<div className="text-center space-y-4 sm:space-y-6 lg:space-y-8">
+							<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[0.9] animate-slide-up animation-delay-200">
 								<span className="block text-white">Find the Best Local</span>
-								<span className="block text-primary text-6xl md:text-7xl lg:text-8xl mt-2 font-extrabold relative">
+								<span className="block text-primary text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mt-1 sm:mt-2 font-extrabold relative">
 									Businesses
-									<div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-blue-500 rounded-full scale-x-0 origin-center" style={{ animation: "scaleX 1s ease-out 1.5s forwards" }}></div>
+									<div className="absolute -bottom-1 sm:-bottom-2 left-1/2 transform -translate-x-1/2 w-3/4 h-0.5 sm:h-1 bg-primary rounded-full scale-x-0 origin-center" style={{ animation: "scaleX 1s ease-out 1.5s forwards" }}></div>
 								</span>
-								<span className="block text-2xl md:text-3xl lg:text-4xl font-normal text-gray-400 mt-4">Near You</span>
+								<span className="block text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-normal text-muted-foreground mt-2 sm:mt-4">Near You</span>
 							</h1>
 
 							{/* Enhanced Subheading */}
-							<p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-fade-in animation-delay-400">Read real reviews, compare prices, and book services instantly</p>
+							<p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in animation-delay-400 px-2">Read real reviews, compare prices, and book services instantly</p>
 						</div>
 					</div>
 
 					{/* Advanced Search Interface with Modern UX */}
-					<div className="relative max-w-4xl mx-auto mb-20" ref={searchRef}>
+					<div className="relative max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20" ref={searchRef}>
 						{/* Search Intent Indicator */}
 						{searchFocus && (
-							<div className="absolute -top-8 left-4 text-xs text-blue-600 dark:text-blue-400 font-medium">
+							<div className="absolute -top-8 left-4 text-xs text-primary dark:text-primary font-medium">
 								{searchIntent === "location" && "📍 Location-based search"}
 								{searchIntent === "category" && "🏷️ Category exploration"}
 								{searchIntent === "specific" && "🔍 Specific business search"}
@@ -653,11 +653,11 @@ export default function HeroSection() {
 						<form
 							className={`relative flex items-center w-full backdrop-blur-xl border-2 transition-all duration-300 ${
 								searchFocus
-									? "bg-white/95 dark:bg-neutral-900/95 border-blue-500 dark:border-blue-400 shadow-2xl shadow-blue-500/20 rounded-2xl scale-[1.02]"
+									? "bg-white/95 dark:bg-neutral-900/95 border-primary dark:border-primary/50 shadow-2xl shadow-blue-500/20 rounded-2xl scale-[1.02]"
 									: aiMode
-										? "bg-white/90 dark:bg-neutral-950/90 border-blue-500/60 dark:border-blue-400/60 shadow-xl shadow-blue-500/10 rounded-2xl"
+										? "bg-white/90 dark:bg-neutral-950/90 border-primary/60 dark:border-primary/50/60 shadow-xl shadow-blue-500/10 rounded-2xl"
 										: isDraggingOver
-											? "bg-white/95 dark:bg-neutral-950/95 border-blue-500 border-dashed shadow-xl shadow-blue-500/10 scale-[1.01] rounded-2xl"
+											? "bg-white/95 dark:bg-neutral-950/95 border-primary border-dashed shadow-xl shadow-blue-500/10 scale-[1.01] rounded-2xl"
 											: "bg-white/80 dark:bg-neutral-950/80 border-neutral-200/60 dark:border-neutral-800/60 hover:bg-white/95 dark:hover:bg-neutral-950/95 hover:border-neutral-300/80 dark:hover:border-neutral-700/80 rounded-2xl hover:shadow-xl hover:scale-[1.01]"
 							}`}
 							onSubmit={handleSearch}
@@ -665,14 +665,14 @@ export default function HeroSection() {
 						>
 							{/* Enhanced Drag Overlay */}
 							{isDraggingOver && (
-								<div className="absolute inset-0 bg-gradient-to-r from-blue-50/90 via-purple-50/90 to-blue-50/90 dark:from-blue-950/90 dark:via-purple-950/90 dark:to-blue-950/90 rounded-full pointer-events-none z-20 flex items-center justify-center backdrop-blur-sm border-2 border-dashed border-blue-400 dark:border-blue-500 animate-pulse">
+								<div className="absolute inset-0 bg-gradient-to-r from-blue-50/90 via-purple-50/90 to-blue-50/90 dark:from-blue-950/90 dark:via-purple-950/90 dark:to-blue-950/90 rounded-full pointer-events-none z-20 flex items-center justify-center backdrop-blur-sm border-2 border-dashed border-primary/50 dark:border-primary animate-pulse">
 									<div className="flex flex-col items-center space-y-3 text-center px-6">
 										<div className="flex items-center space-x-2 animate-bounce">
-											<Upload className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-											<FileText className="w-5 h-5 text-blue-500 dark:text-blue-300" />
-											<Image className="w-5 h-5 text-blue-500 dark:text-blue-300" alt="" />
+											<Upload className="w-6 h-6 text-primary dark:text-primary" />
+											<FileText className="w-5 h-5 text-primary dark:text-primary/90" />
+											<Image className="w-5 h-5 text-primary dark:text-primary/90" alt="" />
 										</div>
-										<div className="text-blue-700 dark:text-blue-300">
+										<div className="text-primary dark:text-primary/90">
 											<p className="text-base font-semibold">Drop your files here</p>
 											<p className="text-sm opacity-80">Images, PDFs, documents • Max 10MB each</p>
 										</div>
@@ -681,7 +681,7 @@ export default function HeroSection() {
 							)}
 
 							{/* Enhanced Search Icon with Loading State */}
-							<div className="flex items-center pl-6 py-4">{loading ? <Loader2 className="w-5 h-5 text-blue-500 animate-spin" /> : <Search className={`w-5 h-5 transition-colors ${searchFocus ? "text-blue-500" : "text-neutral-400"}`} />}</div>
+							<div className="flex items-center pl-6 py-4">{loading ? <Loader2 className="w-5 h-5 text-primary animate-spin" /> : <Search className={`w-5 h-5 transition-colors ${searchFocus ? "text-primary" : "text-neutral-400"}`} />}</div>
 
 							{/* Enhanced Input Field with Modern UX */}
 							<div className="flex-1 px-4 py-1">
@@ -694,7 +694,7 @@ export default function HeroSection() {
 												setSearchQuery(queryCorrection.suggested);
 												handleInputChange({ target: { value: queryCorrection.suggested } });
 											}}
-											className="ml-1 text-blue-600 dark:text-blue-400 hover:underline font-medium"
+											className="ml-1 text-primary dark:text-primary hover:underline font-medium"
 										>
 											{queryCorrection.suggested}
 										</button>
@@ -709,7 +709,7 @@ export default function HeroSection() {
 									onFocus={handleSearchFocus}
 									onBlur={handleSearchBlur}
 									placeholder={aiMode ? "Ask me anything about local businesses..." : searchIntent === "location" ? "Find businesses near you..." : searchIntent === "category" ? "Explore business categories..." : "Search restaurants, services, healthcare..."}
-									className={`w-full bg-transparent text-lg outline-none border-0 py-3 text-foreground transition-all duration-200 ${aiMode ? "placeholder:text-blue-400/80 dark:placeholder:text-blue-500/80" : "placeholder:text-neutral-400/80 dark:placeholder:text-neutral-500/80"} ${searchFocus ? "text-lg" : "text-base"}`}
+									className={`w-full bg-transparent text-lg outline-none border-0 py-3 text-foreground transition-all duration-200 ${aiMode ? "placeholder:text-primary/80 dark:placeholder:text-primary/80" : "placeholder:text-neutral-400/80 dark:placeholder:text-neutral-500/80"} ${searchFocus ? "text-lg" : "text-base"}`}
 									disabled={loading}
 								/>
 
@@ -724,14 +724,14 @@ export default function HeroSection() {
 							<div className="flex items-center space-x-3 pr-6 py-4">
 								{/* Voice Search Button */}
 								{isVoiceSupported && (
-									<button type="button" onClick={handleVoiceSearch} className={`p-2.5 rounded-xl transition-all duration-200 ${isListening ? "bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 animate-pulse shadow-lg" : "text-neutral-500 dark:text-neutral-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50"}`} title={isListening ? "Listening... Click to stop" : "Voice search"}>
+									<button type="button" onClick={handleVoiceSearch} className={`p-2.5 rounded-xl transition-all duration-200 ${isListening ? "bg-destructive/10 dark:bg-destructive/50 text-destructive dark:text-destructive animate-pulse shadow-lg" : "text-neutral-500 dark:text-neutral-400 hover:text-primary dark:hover:text-primary hover:bg-blue-50 dark:hover:bg-primary/50"}`} title={isListening ? "Listening... Click to stop" : "Voice search"}>
 										{isListening ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
 									</button>
 								)}
 
 								{/* Smart Filters Indicator */}
 								{Object.values(smartFilters).some((filter) => filter !== null && filter !== false) && (
-									<div className="flex items-center space-x-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/50 rounded-lg text-xs text-blue-700 dark:text-blue-300">
+									<div className="flex items-center space-x-1 px-2 py-1 bg-primary/10 dark:bg-primary/50 rounded-lg text-xs text-primary dark:text-primary/90">
 										<Shield className="w-3 h-3" />
 										<span>Filtered</span>
 									</div>
@@ -755,16 +755,16 @@ export default function HeroSection() {
 								{aiMode && (
 									<DropdownMenu>
 										<DropdownMenuTrigger asChild>
-											<button className="p-1.5 rounded-lg text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-all duration-200 border border-blue-200 dark:border-blue-700">
+											<button className="p-1.5 rounded-lg text-primary dark:text-primary hover:bg-blue-50 dark:hover:bg-primary/50 transition-all duration-200 border border-primary/30 dark:border-primary">
 												<Plus className="w-4 h-4" />
 											</button>
 										</DropdownMenuTrigger>
 										<DropdownMenuContent align="end" className="w-56 border-0 shadow-xl bg-white dark:bg-neutral-900 rounded-xl p-2">
 											<DropdownMenuLabel className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 px-3 py-2">AI Tools</DropdownMenuLabel>
 											<DropdownMenuSeparator className="bg-neutral-200 dark:bg-neutral-700 my-1" />
-											<DropdownMenuItem onClick={triggerFileUpload} className="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 cursor-pointer transition-colors border-0">
-												<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/50">
-													<Upload className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+											<DropdownMenuItem onClick={triggerFileUpload} className="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-blue-50 dark:hover:bg-primary/50 cursor-pointer transition-colors border-0">
+												<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 dark:bg-primary/50">
+													<Upload className="w-4 h-4 text-primary dark:text-primary" />
 												</div>
 												<div className="flex flex-col">
 													<span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Upload Files</span>
@@ -789,10 +789,10 @@ export default function HeroSection() {
 															setUploadProgress({});
 															setUploadErrors({});
 														}}
-														className="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/50 cursor-pointer transition-colors border-0"
+														className="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-red-50 dark:hover:bg-destructive/50 cursor-pointer transition-colors border-0"
 													>
-														<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/50">
-															<X className="w-4 h-4 text-red-600 dark:text-red-400" />
+														<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-destructive/10 dark:bg-destructive/50">
+															<X className="w-4 h-4 text-destructive dark:text-destructive" />
 														</div>
 														<div className="flex flex-col">
 															<span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Clear All Files</span>
@@ -801,9 +801,9 @@ export default function HeroSection() {
 													</DropdownMenuItem>
 												</>
 											)}
-											<DropdownMenuItem className="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-green-50 dark:hover:bg-green-950/50 cursor-pointer transition-colors border-0">
-												<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/50">
-													<Camera className="w-4 h-4 text-green-600 dark:text-green-400" />
+											<DropdownMenuItem className="flex items-center space-x-3 px-3 py-2.5 rounded-lg hover:bg-green-50 dark:hover:bg-success/50 cursor-pointer transition-colors border-0">
+												<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-success/10 dark:bg-success/50">
+													<Camera className="w-4 h-4 text-success dark:text-success" />
 												</div>
 												<div className="flex flex-col">
 													<span className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Take Photo</span>
@@ -827,7 +827,7 @@ export default function HeroSection() {
 										<DropdownMenuContent align="end" className="w-64 border-0 shadow-xl bg-white dark:bg-neutral-900 rounded-xl p-3">
 											<DropdownMenuLabel className="text-sm font-semibold text-neutral-700 dark:text-neutral-300 px-2 py-1 mb-2">Set Location</DropdownMenuLabel>
 											<div className="space-y-3">
-												<LocationDropdown size="full" className="w-full text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg px-3 py-2 bg-white dark:bg-neutral-800 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+												<LocationDropdown size="full" className="w-full text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg px-3 py-2 bg-white dark:bg-neutral-800 focus:ring-2 focus:ring-blue-500 focus:border-primary" />
 											</div>
 										</DropdownMenuContent>
 									</DropdownMenu>
@@ -887,7 +887,7 @@ export default function HeroSection() {
 								{Object.keys(uploadErrors).length > 0 && (
 									<div className="mb-4">
 										{Object.entries(uploadErrors).map(([key, error]) => (
-											<div key={key} className="flex items-center space-x-2 text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-950/50 px-3 py-2 rounded-lg mb-2">
+											<div key={key} className="flex items-center space-x-2 text-destructive dark:text-destructive text-sm bg-red-50 dark:bg-destructive/50 px-3 py-2 rounded-lg mb-2">
 												<X className="w-4 h-4" />
 												<span>{error}</span>
 											</div>
@@ -917,7 +917,7 @@ export default function HeroSection() {
 																	<img src={file.preview} alt={`Preview of ${file.name}`} className="w-full h-full object-cover" />
 																</div>
 															) : (
-																<div className="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center">{file.type.includes("pdf") ? <FileText className="w-5 h-5 text-red-600 dark:text-red-400" /> : file.type.includes("image") ? <Image className="w-5 h-5 text-green-600 dark:text-green-400" alt="" /> : <FileText className="w-5 h-5 text-blue-600 dark:text-blue-400" />}</div>
+																<div className="w-10 h-10 rounded-lg bg-primary/10 dark:bg-primary/50 flex items-center justify-center">{file.type.includes("pdf") ? <FileText className="w-5 h-5 text-destructive dark:text-destructive" /> : file.type.includes("image") ? <Image className="w-5 h-5 text-success dark:text-success" alt="" /> : <FileText className="w-5 h-5 text-primary dark:text-primary" />}</div>
 															)}
 														</div>
 
@@ -930,7 +930,7 @@ export default function HeroSection() {
 															{isUploading && (
 																<div className="mt-2">
 																	<div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-1">
-																		<div className="bg-blue-600 h-1 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
+																		<div className="bg-primary h-1 rounded-full transition-all duration-300" style={{ width: `${progress}%` }}></div>
 																	</div>
 																	<p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Uploading... {Math.round(progress)}%</p>
 																</div>
@@ -940,12 +940,12 @@ export default function HeroSection() {
 														{/* Upload Status & Remove Button */}
 														<div className="flex items-center space-x-2">
 															{file.uploaded && (
-																<div className="flex items-center text-green-600 dark:text-green-400">
+																<div className="flex items-center text-success dark:text-success">
 																	<CheckCircle className="w-4 h-4" />
 																</div>
 															)}
 
-															<button onClick={() => removeFile(file.id)} className="p-1 text-neutral-500 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 rounded transition-colors" title="Remove file">
+															<button onClick={() => removeFile(file.id)} className="p-1 text-neutral-500 dark:text-neutral-400 hover:text-destructive dark:hover:text-destructive hover:bg-red-50 dark:hover:bg-destructive/50 rounded transition-colors" title="Remove file">
 																<X className="w-4 h-4" />
 															</button>
 														</div>
@@ -961,7 +961,7 @@ export default function HeroSection() {
 
 					{/* Enhanced Search Results Dropdown with Modern UX */}
 					{autocompleteOpen && (
-						<div className={`absolute z-50 w-full mt-4 overflow-hidden backdrop-blur-xl border-2 rounded-2xl transition-all duration-300 ${aiMode ? "bg-white/95 dark:bg-neutral-900/95 border-blue-500/30 shadow-2xl shadow-blue-500/20" : "bg-white/90 dark:bg-neutral-950/90 border-neutral-200/50 dark:border-neutral-800/50 shadow-2xl shadow-neutral-900/10"}`}>
+						<div className={`absolute z-50 w-full mt-4 overflow-hidden backdrop-blur-xl border-2 rounded-2xl transition-all duration-300 ${aiMode ? "bg-white/95 dark:bg-neutral-900/95 border-primary/30 shadow-2xl shadow-blue-500/20" : "bg-white/90 dark:bg-neutral-950/90 border-neutral-200/50 dark:border-neutral-800/50 shadow-2xl shadow-neutral-900/10"}`}>
 							{aiMode ? (
 								<UnifiedAIChat
 									ref={aiChatRef}
@@ -979,20 +979,20 @@ export default function HeroSection() {
 									{searchSuggestions.length > 0 && (
 										<div className="p-6 border-b border-neutral-100 dark:border-neutral-800">
 											<h4 className="text-sm font-semibold mb-4 text-neutral-700 dark:text-neutral-300 flex items-center">
-												<Sparkles className="w-4 h-4 mr-2 text-blue-500" />
+												<Sparkles className="w-4 h-4 mr-2 text-primary" />
 												Smart Suggestions
 											</h4>
 											<div className="space-y-2">
 												{searchSuggestions.map((suggestion, idx) => (
 													<button key={idx} onClick={() => handleSuggestionSelect(suggestion.query)} className="w-full flex items-center justify-between p-3 text-left hover:bg-neutral-50 dark:hover:bg-neutral-800/50 rounded-xl transition-colors border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700">
 														<div className="flex items-center space-x-3">
-															<div className={`p-2 rounded-lg ${suggestion.type === "trending" ? "bg-orange-100 dark:bg-orange-900/50" : suggestion.type === "personalized" ? "bg-purple-100 dark:bg-purple-900/50" : suggestion.type === "location" ? "bg-green-100 dark:bg-green-900/50" : "bg-blue-100 dark:bg-blue-900/50"}`}>
-																<suggestion.icon className={`w-4 h-4 ${suggestion.type === "trending" ? "text-orange-600 dark:text-orange-400" : suggestion.type === "personalized" ? "text-purple-600 dark:text-purple-400" : suggestion.type === "location" ? "text-green-600 dark:text-green-400" : "text-blue-600 dark:text-blue-400"}`} />
+															<div className={`p-2 rounded-lg ${suggestion.type === "trending" ? "bg-warning/10 dark:bg-warning/50" : suggestion.type === "personalized" ? "bg-purple-100 dark:bg-purple-900/50" : suggestion.type === "location" ? "bg-success/10 dark:bg-success/50" : "bg-primary/10 dark:bg-primary/50"}`}>
+																<suggestion.icon className={`w-4 h-4 ${suggestion.type === "trending" ? "text-warning dark:text-warning" : suggestion.type === "personalized" ? "text-purple-600 dark:text-purple-400" : suggestion.type === "location" ? "text-success dark:text-success" : "text-primary dark:text-primary"}`} />
 															</div>
 															<div className="flex-1">
 																<p className="font-medium text-neutral-900 dark:text-neutral-100 text-sm">
 																	{suggestion.title}
-																	{suggestion.trending && <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300">🔥 Trending</span>}
+																	{suggestion.trending && <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs bg-warning/10 dark:bg-warning/50 text-warning dark:text-warning/90">🔥 Trending</span>}
 																</p>
 																<p className="text-xs text-neutral-500 dark:text-neutral-400">{suggestion.subtitle}</p>
 															</div>
@@ -1008,7 +1008,7 @@ export default function HeroSection() {
 									{businessSuggestions.length > 0 && (
 										<div className="p-6 border-b border-neutral-100 dark:border-neutral-800">
 											<h4 className="text-sm font-semibold mb-4 text-neutral-700 dark:text-neutral-300 flex items-center">
-												<Star className="w-4 h-4 mr-2 text-yellow-500" />
+												<Star className="w-4 h-4 mr-2 text-warning" />
 												Business Results
 												<span className="ml-2 px-2 py-0.5 bg-neutral-100 dark:bg-neutral-800 rounded-full text-xs text-neutral-600 dark:text-neutral-400">{businessSuggestions.length}</span>
 											</h4>
@@ -1022,7 +1022,7 @@ export default function HeroSection() {
 															saveToSearchHistory(searchQuery);
 															handleSearch();
 														}}
-														className="w-full p-3 text-center text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50 rounded-xl transition-colors text-sm font-medium"
+														className="w-full p-3 text-center text-primary dark:text-primary hover:bg-blue-50 dark:hover:bg-primary/50 rounded-xl transition-colors text-sm font-medium"
 													>
 														View all {businessSuggestions.length} results →
 													</button>
@@ -1042,22 +1042,22 @@ export default function HeroSection() {
 												{popularCategories.slice(0, 6).map((cat, idx) => {
 													const IconComponent = cat.icon;
 													return (
-														<button key={idx} onClick={() => handleSuggestionSelect(cat.query)} className="group flex items-center gap-3 p-4 text-sm hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-950/50 dark:hover:to-purple-950/50 rounded-xl transition-all duration-200 text-left border border-neutral-100 dark:border-neutral-800 hover:border-blue-200 dark:hover:border-blue-700 hover:shadow-md">
+														<button key={idx} onClick={() => handleSuggestionSelect(cat.query)} className="group flex items-center gap-3 p-4 text-sm hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-950/50 dark:hover:to-purple-950/50 rounded-xl transition-all duration-200 text-left border border-neutral-100 dark:border-neutral-800 hover:border-primary/30 dark:hover:border-primary hover:shadow-md">
 															<div className="relative">
 																<div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 group-hover:scale-110 transition-transform">
-																	<IconComponent className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+																	<IconComponent className="w-5 h-5 text-primary dark:text-primary" />
 																</div>
 																{cat.trending && (
-																	<div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-500 rounded-full flex items-center justify-center">
+																	<div className="absolute -top-1 -right-1 w-3 h-3 bg-warning rounded-full flex items-center justify-center">
 																		<div className="w-1 h-1 bg-white rounded-full"></div>
 																	</div>
 																)}
 															</div>
 															<div className="flex-1">
-																<span className="font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">{cat.name}</span>
+																<span className="font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-primary dark:group-hover:text-primary/90 transition-colors">{cat.name}</span>
 																<div className="flex items-center space-x-2 mt-0.5">
 																	<span className="text-xs text-neutral-500 dark:text-neutral-400">{cat.count}</span>
-																	<span className="text-xs text-yellow-600 dark:text-yellow-400">★ {cat.avgRating}</span>
+																	<span className="text-xs text-warning dark:text-warning">★ {cat.avgRating}</span>
 																</div>
 															</div>
 														</button>
@@ -1085,8 +1085,8 @@ export default function HeroSection() {
 														className="w-full text-left p-3 text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800/50 rounded-xl transition-colors flex items-center justify-between group border border-transparent hover:border-neutral-200 dark:hover:border-neutral-700"
 													>
 														<div className="flex items-center gap-3">
-															<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
-																<Clock className="w-4 h-4 text-neutral-500 dark:text-neutral-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors" />
+															<div className="flex items-center justify-center w-8 h-8 rounded-lg bg-neutral-100 dark:bg-neutral-800 group-hover:bg-primary/10 dark:group-hover:bg-primary/50 transition-colors">
+																<Clock className="w-4 h-4 text-neutral-500 dark:text-neutral-400 group-hover:text-primary dark:group-hover:text-primary transition-colors" />
 															</div>
 															<span className="font-medium text-neutral-900 dark:text-neutral-100">{search}</span>
 														</div>
@@ -1101,7 +1101,7 @@ export default function HeroSection() {
 									{!searchQuery && trendingSearches.length > 0 && (
 										<div className="p-6">
 											<h4 className="text-sm font-semibold mb-4 text-neutral-700 dark:text-neutral-300 flex items-center">
-												<TrendingUp className="w-4 h-4 mr-2 text-orange-500" />
+												<TrendingUp className="w-4 h-4 mr-2 text-warning" />
 												Trending Now
 											</h4>
 											<div className="flex flex-wrap gap-2">
@@ -1112,9 +1112,9 @@ export default function HeroSection() {
 															setSearchQuery(search);
 															handleSuggestionSelect(search);
 														}}
-														className="inline-flex items-center px-3 py-2 bg-neutral-100 dark:bg-neutral-800 hover:bg-gradient-to-r hover:from-orange-100 hover:to-red-100 dark:hover:from-orange-900/50 dark:hover:to-red-900/50 text-neutral-700 dark:text-neutral-300 hover:text-orange-700 dark:hover:text-orange-300 rounded-xl text-xs font-medium transition-all duration-200 hover:shadow-md"
+														className="inline-flex items-center px-3 py-2 bg-neutral-100 dark:bg-neutral-800 hover:bg-gradient-to-r hover:from-orange-100 hover:to-red-100 dark:hover:from-orange-900/50 dark:hover:to-red-900/50 text-neutral-700 dark:text-neutral-300 hover:text-warning dark:hover:text-warning/90 rounded-xl text-xs font-medium transition-all duration-200 hover:shadow-md"
 													>
-														<TrendingUp className="w-3 h-3 mr-1.5 text-orange-500" />
+														<TrendingUp className="w-3 h-3 mr-1.5 text-warning" />
 														{search}
 													</button>
 												))}
@@ -1131,7 +1131,7 @@ export default function HeroSection() {
 											</h4>
 											<div className="flex flex-wrap gap-2">
 												{popularSearches.slice(0, 6).map((search, idx) => (
-													<Badge key={idx} variant="secondary" className="cursor-pointer hover:bg-blue-100 hover:text-blue-800 dark:hover:bg-blue-900 dark:hover:text-blue-200 transition-colors text-xs px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-700" onClick={() => handleSuggestionSelect(search)}>
+													<Badge key={idx} variant="secondary" className="cursor-pointer hover:bg-primary/10 hover:text-primary dark:hover:bg-primary dark:hover:text-primary/80 transition-colors text-xs px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-neutral-700" onClick={() => handleSuggestionSelect(search)}>
 														{search}
 													</Badge>
 												))}
@@ -1165,7 +1165,7 @@ export default function HeroSection() {
 											<h4 className="font-medium text-white text-sm mb-1">{category.name}</h4>
 
 											{/* Count with accent color */}
-											<p className="text-xs text-blue-400 font-semibold">{category.count}</p>
+											<p className="text-xs text-primary font-semibold">{category.count}</p>
 
 											{/* Hover indicator */}
 											<div className="absolute inset-0 rounded-2xl ring-2 ring-blue-400/0 group-hover:ring-blue-400/50 transition-all duration-300"></div>
@@ -1185,7 +1185,7 @@ export default function HeroSection() {
 									<div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300">
 										<Icon className="w-8 h-8 text-primary mx-auto mb-3" />
 										<div className="text-3xl font-bold text-white mb-1">{stat.value}</div>
-										<div className="text-sm text-gray-400">{stat.label}</div>
+										<div className="text-sm text-muted-foreground">{stat.label}</div>
 									</div>
 								</div>
 							);
@@ -1195,7 +1195,7 @@ export default function HeroSection() {
 					{/* Call-to-Action Enhancement */}
 					<div className="text-center">
 						<div className="inline-flex items-center gap-4 animate-fade-in animation-delay-600">
-							<Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
+							<Button size="lg" className="bg-primary hover:bg-primary text-white px-8 py-4 rounded-2xl text-lg font-semibold shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 group">
 								Start Exploring
 								<ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
 							</Button>
@@ -1206,7 +1206,7 @@ export default function HeroSection() {
 						</div>
 
 						{/* Trust indicators below CTAs */}
-						<p className="text-sm text-gray-400 mt-6">Join 2.3M+ happy customers • Free to use • No credit card required</p>
+						<p className="text-sm text-muted-foreground mt-6">Join 2.3M+ happy customers • Free to use • No credit card required</p>
 					</div>
 				</div>
 			</div>

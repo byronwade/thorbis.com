@@ -120,7 +120,7 @@ export default function EmployeeOnboarding() {
                 <p className="text-sm text-muted-foreground">New Hires</p>
                 <p className="text-2xl font-bold">{newHires.length}</p>
               </div>
-              <UserPlus className="h-8 w-8 text-blue-500" />
+              <UserPlus className="h-8 w-8 text-primary" />
             </div>
           </CardContent>
         </Card>
@@ -130,11 +130,11 @@ export default function EmployeeOnboarding() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">In Progress</p>
-                <p className="text-2xl font-bold text-orange-600">
+                <p className="text-2xl font-bold text-warning">
                   {newHires.filter(h => h.status === "in_progress").length}
                 </p>
               </div>
-              <Clock className="h-8 w-8 text-orange-500" />
+              <Clock className="h-8 w-8 text-warning" />
             </div>
           </CardContent>
         </Card>
@@ -144,11 +144,11 @@ export default function EmployeeOnboarding() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Completed</p>
-                <p className="text-2xl font-bold text-green-600">
+                <p className="text-2xl font-bold text-success">
                   {newHires.filter(h => h.status === "completed").length}
                 </p>
               </div>
-              <CheckCircle className="h-8 w-8 text-green-500" />
+              <CheckCircle className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -248,9 +248,9 @@ export default function EmployeeOnboarding() {
                 >
                   <div className="flex items-center gap-4">
                     <div className={`p-2 rounded-lg ${
-                      step.status === "completed" ? "bg-green-100 text-green-600" :
-                      step.status === "in_progress" ? "bg-blue-100 text-blue-600" : 
-                      "bg-gray-100 text-gray-600"
+                      step.status === "completed" ? "bg-success/10 text-success" :
+                      step.status === "in_progress" ? "bg-primary/10 text-primary" : 
+                      "bg-muted text-muted-foreground"
                     }`}>
                       <Icon className="h-5 w-5" />
                     </div>
@@ -266,10 +266,10 @@ export default function EmployeeOnboarding() {
                         {step.status.replace('_', ' ')}
                       </Badge>
                       {step.status === "completed" && (
-                        <CheckCircle className="h-5 w-5 text-green-500" />
+                        <CheckCircle className="h-5 w-5 text-success" />
                       )}
                       {step.status === "in_progress" && (
-                        <Clock className="h-5 w-5 text-blue-500" />
+                        <Clock className="h-5 w-5 text-primary" />
                       )}
                     </div>
                   </div>
@@ -293,19 +293,19 @@ export default function EmployeeOnboarding() {
                   <h4 className="font-medium">Personal Information Required:</h4>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <CheckCircle className="h-4 w-4 text-success" />
                       Full legal name
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <CheckCircle className="h-4 w-4 text-success" />
                       Contact information (phone, email, address)
                     </li>
                     <li className="flex items-center gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500" />
+                      <CheckCircle className="h-4 w-4 text-success" />
                       Emergency contact details
                     </li>
                     <li className="flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4 text-yellow-500" />
+                      <AlertCircle className="h-4 w-4 text-warning" />
                       Social Security Number (for payroll)
                     </li>
                   </ul>
@@ -317,19 +317,19 @@ export default function EmployeeOnboarding() {
                   <h4 className="font-medium">Employment Details:</h4>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-blue-500" />
+                      <Clock className="h-4 w-4 text-primary" />
                       Job title and department assignment
                     </li>
                     <li className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-blue-500" />
+                      <Clock className="h-4 w-4 text-primary" />
                       Salary/hourly rate confirmation
                     </li>
                     <li className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-blue-500" />
+                      <Clock className="h-4 w-4 text-primary" />
                       Work schedule and location
                     </li>
                     <li className="flex items-center gap-2">
-                      <Clock className="h-4 w-4 text-blue-500" />
+                      <Clock className="h-4 w-4 text-primary" />
                       Reporting structure
                     </li>
                   </ul>
@@ -341,19 +341,19 @@ export default function EmployeeOnboarding() {
                   <h4 className="font-medium">Benefits Enrollment:</h4>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4 text-yellow-500" />
+                      <AlertCircle className="h-4 w-4 text-warning" />
                       Health insurance plan selection
                     </li>
                     <li className="flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4 text-yellow-500" />
+                      <AlertCircle className="h-4 w-4 text-warning" />
                       401(k) enrollment and contribution setup
                     </li>
                     <li className="flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4 text-yellow-500" />
+                      <AlertCircle className="h-4 w-4 text-warning" />
                       Life and disability insurance
                     </li>
                     <li className="flex items-center gap-2">
-                      <AlertCircle className="h-4 w-4 text-yellow-500" />
+                      <AlertCircle className="h-4 w-4 text-warning" />
                       PTO policy acknowledgment
                     </li>
                   </ul>

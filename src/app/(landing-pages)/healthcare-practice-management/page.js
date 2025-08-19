@@ -97,7 +97,7 @@ export default function HealthcarePracticeManagement() {
 					Complete practice management solution with integrated EMR, patient scheduling, billing, and revenue cycle management designed for modern healthcare providers.
 				</p>
 				<div className="flex items-center justify-center gap-4 pt-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-blue-600 px-6 py-3 text-white font-semibold hover:bg-blue-700 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-white font-semibold hover:bg-primary transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
@@ -111,13 +111,13 @@ export default function HealthcarePracticeManagement() {
 				{features.map((feature) => (
 					<div key={feature.title} className="rounded-xl border p-6 bg-card hover:shadow-lg transition-shadow">
 						<div className="flex items-center gap-3 mb-4">
-							<feature.icon className="w-8 h-8 text-blue-600" />
+							<feature.icon className="w-8 h-8 text-primary" />
 							<h3 className="font-bold text-lg">{feature.title}</h3>
 						</div>
 						<ul className="space-y-2 text-sm text-muted-foreground">
 							{feature.points.map((point) => (
 								<li key={point} className="flex items-start gap-2">
-									<span className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0"></span>
+									<span className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></span>
 									{point}
 								</li>
 							))}
@@ -127,7 +127,7 @@ export default function HealthcarePracticeManagement() {
 			</section>
 
 			{/* Benefits Section */}
-			<section className="max-w-6xl mx-auto mt-16 bg-blue-50 dark:bg-blue-950/20 rounded-2xl p-8">
+			<section className="max-w-6xl mx-auto mt-16 bg-blue-50 dark:bg-primary/20 rounded-2xl p-8">
 				<div className="text-center mb-8">
 					<h2 className="text-3xl font-bold mb-4">Transform Your Healthcare Practice</h2>
 					<p className="text-lg text-muted-foreground">See the impact of streamlined practice management</p>
@@ -135,7 +135,7 @@ export default function HealthcarePracticeManagement() {
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{benefits.map((benefit, index) => (
 						<div key={index} className="flex items-center gap-3 bg-white dark:bg-neutral-800 rounded-lg p-4">
-							<div className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></div>
+							<div className="w-2 h-2 bg-success rounded-full flex-shrink-0"></div>
 							<span className="text-sm font-medium">{benefit}</span>
 						</div>
 					))}

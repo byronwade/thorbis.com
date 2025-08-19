@@ -22,7 +22,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 			return {
 				type: "high-demand",
 				text: "High demand today",
-				color: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800",
+				color: "bg-destructive/10 dark:bg-destructive/30 text-destructive dark:text-destructive/90 border-red-200 dark:border-red-800",
 				icon: TrendingUp,
 			};
 		}
@@ -30,7 +30,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 			return {
 				type: "trending",
 				text: `${activityData.recentViews} people viewing`,
-				color: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800",
+				color: "bg-warning/10 dark:bg-warning/30 text-warning dark:text-warning/90 border-orange-200 dark:border-orange-800",
 				icon: Eye,
 			};
 		}
@@ -38,7 +38,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 			return {
 				type: "fast-response",
 				text: `Responds in ${activityData.responseTime}h`,
-				color: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800",
+				color: "bg-success/10 dark:bg-success/30 text-success dark:text-success/90 border-green-200 dark:border-green-800",
 				icon: Timer,
 			};
 		}
@@ -56,7 +56,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 	};
 
 	const renderStars = (rating, size = "w-3 h-3") => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`${size} ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : i < rating ? "fill-yellow-200 text-yellow-400" : "text-muted-foreground/50"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`${size} ${i < Math.floor(rating) ? "fill-yellow-400 text-warning" : i < rating ? "fill-yellow-200 text-warning" : "text-muted-foreground/50"}`} />);
 	};
 
 	const urgency = getUrgencyIndicator();
@@ -74,12 +74,12 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 						</div>
 						{/* Trust indicator overlay */}
 						{trustScore >= 80 && (
-							<div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center shadow-sm">
+							<div className="absolute -top-1 -right-1 w-5 h-5 bg-success rounded-full flex items-center justify-center shadow-sm">
 								<Shield className="w-3 h-3 text-white" />
 							</div>
 						)}
 						{/* Activity pulse for high activity */}
-						{activityData.recentViews >= 8 && <div className="absolute -top-1 -left-1 w-3 h-3 bg-orange-400 rounded-full animate-pulse shadow-sm" />}
+						{activityData.recentViews >= 8 && <div className="absolute -top-1 -left-1 w-3 h-3 bg-warning/40 rounded-full animate-pulse shadow-sm" />}
 					</div>
 
 					<div className="flex-1 min-w-0">
@@ -125,7 +125,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 						</div>
 					)}
 					{business.isInsured && (
-						<div className="flex items-center gap-1 text-green-600 dark:text-green-400 bg-green-500/10 px-2 py-1 rounded-full border border-green-500/20">
+						<div className="flex items-center gap-1 text-success dark:text-success bg-success/10 px-2 py-1 rounded-full border border-green-500/20">
 							<Shield className="w-3 h-3" />
 							<span className="font-medium">Insured</span>
 						</div>
@@ -148,7 +148,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 							</div>
 						)}
 						{activityData.lastBooking <= 60 && (
-							<div className="flex items-center gap-1 text-green-600 dark:text-green-400">
+							<div className="flex items-center gap-1 text-success dark:text-success">
 								<Users className="w-3 h-3" />
 								<span>Booked {activityData.lastBooking}m ago</span>
 							</div>
@@ -171,8 +171,8 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 				{/* Status and Call-to-Action */}
 				<div className="flex items-center justify-between">
 					<div className="flex items-center gap-2">
-						<div className={`w-2 h-2 rounded-full ${business.isOpenNow ? "bg-green-500 shadow-sm shadow-green-500/50" : "bg-red-500 shadow-sm shadow-red-500/50"}`} />
-						<span className={`text-xs font-medium ${business.isOpenNow ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{business.isOpenNow ? "Open Now" : "Closed"}</span>
+						<div className={`w-2 h-2 rounded-full ${business.isOpenNow ? "bg-success shadow-sm shadow-green-500/50" : "bg-destructive shadow-sm shadow-red-500/50"}`} />
+						<span className={`text-xs font-medium ${business.isOpenNow ? "text-success dark:text-success" : "text-destructive dark:text-destructive"}`}>{business.isOpenNow ? "Open Now" : "Closed"}</span>
 						{business.openUntil && business.isOpenNow && <span className="text-xs text-muted-foreground">until {business.openUntil}</span>}
 						{business.opensAt && !business.isOpenNow && <span className="text-xs text-muted-foreground">opens {business.opensAt}</span>}
 					</div>
@@ -186,7 +186,7 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 							</Badge>
 						)}
 						{business.same_day_service && (
-							<Badge variant="outline" className="text-xs bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20 font-medium">
+							<Badge variant="outline" className="text-xs bg-success/10 text-success dark:text-success border-green-500/20 font-medium">
 								<Clock className="w-3 h-3 mr-1" />
 								Same Day
 							</Badge>
@@ -207,10 +207,10 @@ const EnhancedBusinessCard = ({ business, isActive, onClick }) => {
 
 				{/* Urgency Footer - Only for high-priority cases */}
 				{(activityData.bookingsToday >= 6 || (business.limited_availability && business.isOpenNow)) && (
-					<div className="mt-3 pt-3 border-t border-orange-500/20 bg-orange-500/10 -mx-5 -mb-5 px-5 pb-5 rounded-b-xl">
+					<div className="mt-3 pt-3 border-t border-orange-500/20 bg-warning/10 -mx-5 -mb-5 px-5 pb-5 rounded-b-xl">
 						<div className="flex items-center gap-2 text-xs">
-							<div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse shadow-sm" />
-							<span className="text-orange-600 dark:text-orange-400 font-medium">{activityData.bookingsToday >= 6 ? `${activityData.bookingsToday} bookings today - Popular choice!` : "Limited availability today"}</span>
+							<div className="w-2 h-2 bg-warning rounded-full animate-pulse shadow-sm" />
+							<span className="text-warning dark:text-warning font-medium">{activityData.bookingsToday >= 6 ? `${activityData.bookingsToday} bookings today - Popular choice!` : "Limited availability today"}</span>
 						</div>
 					</div>
 				)}

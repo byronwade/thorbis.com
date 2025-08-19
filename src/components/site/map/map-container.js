@@ -302,7 +302,7 @@ const MapContainer = React.forwardRef((props, ref) => {
 				<div className="absolute inset-0 opacity-5 dark:opacity-10">
 					<div className="grid grid-cols-8 h-full">
 						{Array.from({ length: 64 }).map((_, i) => (
-							<div key={i} className="border border-gray-300 dark:border-gray-600"></div>
+							<div key={i} className="border border-border dark:border-border"></div>
 						))}
 					</div>
 				</div>
@@ -310,19 +310,19 @@ const MapContainer = React.forwardRef((props, ref) => {
 				<div className="text-center p-8 max-w-lg relative z-10">
 					<div className="mb-6">
 						<div className="relative mb-4">
-							<MapPin className="w-16 h-16 text-blue-500 mx-auto" />
-							<div className="absolute -top-1 -right-1 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
+							<MapPin className="w-16 h-16 text-primary mx-auto" />
+							<div className="absolute -top-1 -right-1 w-4 h-4 bg-warning rounded-full flex items-center justify-center">
 								<span className="text-white text-xs">!</span>
 							</div>
 						</div>
-						<h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Map Display Unavailable</h3>
-						<p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">The interactive map requires a Mapbox access token. You can still view businesses in list format.</p>
+						<h3 className="text-xl font-semibold text-foreground dark:text-white mb-2">Map Display Unavailable</h3>
+						<p className="text-muted-foreground dark:text-muted-foreground text-sm leading-relaxed mb-4">The interactive map requires a Mapbox access token. You can still view businesses in list format.</p>
 					</div>
 
-					<div className="bg-white dark:bg-gray-800 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-700">
-						<div className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+					<div className="bg-white dark:bg-card rounded-lg p-4 mb-6 border border-border dark:border-border">
+						<div className="text-sm text-muted-foreground dark:text-muted-foreground space-y-2">
 							<p className="font-medium text-left">For developers:</p>
-							<code className="block bg-gray-100 dark:bg-gray-700 p-2 rounded text-xs text-left">NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_token_here</code>
+							<code className="block bg-muted dark:bg-muted p-2 rounded text-xs text-left">NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_token_here</code>
 						</div>
 					</div>
 
@@ -379,7 +379,7 @@ const MapContainer = React.forwardRef((props, ref) => {
 
 			{/* Simple Search Button */}
 			<div className="absolute top-4 right-4 z-20">
-				<Button onClick={handleSearchInArea} disabled={isSearching} className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg px-4 py-2 text-sm rounded-lg">
+				<Button onClick={handleSearchInArea} disabled={isSearching} className="bg-primary hover:bg-primary text-white shadow-lg px-4 py-2 text-sm rounded-lg">
 					<Search className="w-4 h-4 mr-2" />
 					{isSearching ? "Searching..." : "Search this area"}
 				</Button>

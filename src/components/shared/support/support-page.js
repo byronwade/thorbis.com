@@ -424,17 +424,17 @@ export default function SupportPage({ userType = "user" }) {
 							<CardContent className="pt-6">
 								<div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
 									<div>
-										<CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-600" />
+										<CheckCircle className="w-8 h-8 mx-auto mb-2 text-success" />
 										<h3 className="font-semibold mb-1">Quick Response</h3>
 										<p className="text-sm text-muted-foreground">We typically respond within 24 hours</p>
 									</div>
 									<div>
-										<Info className="w-8 h-8 mx-auto mb-2 text-blue-600" />
+										<Info className="w-8 h-8 mx-auto mb-2 text-primary" />
 										<h3 className="font-semibold mb-1">Expert Support</h3>
 										<p className="text-sm text-muted-foreground">Our team of experts is here to help</p>
 									</div>
 									<div>
-										<Clock className="w-8 h-8 mx-auto mb-2 text-orange-600" />
+										<Clock className="w-8 h-8 mx-auto mb-2 text-warning" />
 										<h3 className="font-semibold mb-1">24/7 Availability</h3>
 										<p className="text-sm text-muted-foreground">AI assistant available around the clock</p>
 									</div>

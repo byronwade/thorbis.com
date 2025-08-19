@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { supabase } from "@lib/database/supabase";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Dev helper: detect if auth should be disabled for testing (dev-only)
 function isDevAuthDisabled() {

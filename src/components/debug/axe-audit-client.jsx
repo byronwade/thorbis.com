@@ -5,13 +5,13 @@ import { useCallback, useMemo, useState } from "react";
 const impactColor = (impact) => {
 	switch (impact) {
 		case "critical":
-			return "bg-red-200 text-red-800 dark:bg-red-900/40 dark:text-red-300";
+			return "bg-destructive/20 text-destructive dark:bg-destructive/40 dark:text-destructive/90";
 		case "serious":
-			return "bg-orange-200 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300";
+			return "bg-warning/20 text-warning dark:bg-warning/40 dark:text-warning/90";
 		case "moderate":
-			return "bg-yellow-200 text-yellow-900 dark:bg-yellow-900/40 dark:text-yellow-300";
+			return "bg-warning/20 text-warning dark:bg-warning/40 dark:text-warning/90";
 		case "minor":
-			return "bg-blue-200 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300";
+			return "bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary/90";
 		default:
 			return "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300";
 	}
@@ -107,7 +107,7 @@ export default function AxeAuditClient() {
 								<span className="font-semibold">{v.id}</span>
 								<span className="ml-2 text-zinc-500">{v.description}</span>
 								{v.helpUrl && (
-									<a className="ml-2 underline text-blue-600 dark:text-blue-400" href={v.helpUrl} target="_blank" rel="noreferrer">
+									<a className="ml-2 underline text-primary dark:text-primary" href={v.helpUrl} target="_blank" rel="noreferrer">
 										docs
 									</a>
 								)}
@@ -144,7 +144,7 @@ export default function AxeAuditClient() {
 									<span className="font-semibold">{v.id}</span>
 									<span className="ml-2 text-zinc-500">{v.description}</span>
 									{v.helpUrl && (
-										<a className="ml-2 underline text-blue-600 dark:text-blue-400" href={v.helpUrl} target="_blank" rel="noreferrer">
+										<a className="ml-2 underline text-primary dark:text-primary" href={v.helpUrl} target="_blank" rel="noreferrer">
 											docs
 										</a>
 									)}

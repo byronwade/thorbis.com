@@ -220,10 +220,10 @@ export const MAP_CONFIG = {
 		lng: -98.5795,
 	},
 	MARKER_COLORS: {
-		DEFAULT: "#3B82F6", // Blue
-		FEATURED: "#F59E0B", // Amber
-		SELECTED: "#EF4444", // Red
-		VERIFIED: "#10B981", // Green
+		DEFAULT: "hsl(var(--primary))", // Blue
+		FEATURED: "hsl(var(--accent))", // Amber
+		SELECTED: "hsl(var(--destructive))", // Error red
+		VERIFIED: "hsl(var(--muted-foreground))", // Green
 	},
 };
 

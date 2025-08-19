@@ -7,7 +7,7 @@ import { useBusinessStore } from "@store/business";
 import { useSearchStore } from "@store/search";
 import UnifiedAIChat from "@components/shared/ai/unified-ai-chat";
 import { useSearchParams } from "next/navigation";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Direct import instead of dynamic import
 import MapContainer from "@components/site/map/map-container";

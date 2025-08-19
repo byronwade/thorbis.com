@@ -18,6 +18,7 @@ import { useBusinessStore } from "@store/business";
 import ErrorBoundary from "@components/shared/error-boundary";
 import UnifiedHeader from "@components/shared/unified-header";
 import { useTranslation } from "@lib/i18n/enhanced-client";
+import { buildBusinessUrlFrom } from "@utils";
 
 /**
  * Modern search experience with proper split view design
@@ -128,10 +129,10 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
 
   // Handle business click - navigate to business page
   const handleBusinessClick = useCallback((business) => {
-    if (business.slug) {
-      router.push(`/biz/${business.slug}`);
-    } else {
-      router.push(`/biz/${business.id}`);
+    			try { router.push(buildBusinessUrlFrom(business)); }
+    catch {
+      const fallback = `/us/${(business.state||'').toLowerCase()}/${(business.city||'').toLowerCase()}/${(business.name||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')}-${business.short_id || business.shortId || ''}`;
+      router.push(fallback);
     }
   }, [router]);
 
@@ -175,7 +176,7 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
           {/* Mobile Map Toggle */}
           {showMobileMap && (
             <div className="lg:hidden">
-              <div className="h-80 bg-gray-100">
+              <div className="h-80 bg-muted">
                 <MapContainer
                   ref={mapContainerRef}
                   businesses={businesses}
@@ -194,8 +195,8 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
             {viewMode === "split" && (
               <div className="grid grid-cols-[380px_1fr] h-full">
                 {/* Left Panel - Results */}
-                <div className="overflow-hidden border-r border-gray-200 dark:border-gray-800">
-                  <div className="h-full overflow-y-auto bg-white dark:bg-gray-950">
+                <div className="overflow-hidden border-r border-border dark:border-border">
+                  <div className="h-full overflow-y-auto bg-white dark:bg-card">
                     {loading ? (
                       <div className="flex flex-col items-center justify-center h-full">
                         <Loader2 className="w-12 h-12 animate-spin mb-4" />
@@ -217,8 +218,8 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
                             transition={{ delay: index * 0.02 }}
                             className={`p-4 rounded-lg border cursor-pointer hover:shadow-md transition-all ${
                               selectedBusiness?.id === business.id 
-                                ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/20' 
-                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                                ? 'border-primary bg-blue-50 dark:bg-primary/20' 
+                                : 'border-border dark:border-border hover:border-border dark:hover:border-border'
                             }`}
                             onClick={() => handleBusinessClick(business)}
                             onMouseEnter={() => handleBusinessSelect(business)}
@@ -229,14 +230,14 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
                                   <img
                                     src={business.photos[0].url || business.photos[0]}
                                     alt={business.name}
-                                    className="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-gray-700"
+                                    className="w-16 h-16 rounded-lg object-cover border border-border dark:border-border"
                                     onError={(e) => {
                                       e.target.style.display = 'none';
                                     }}
                                   />
                                 ) : (
-                                  <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
-                                    <span className="text-2xl text-gray-400">🏢</span>
+                                  <div className="w-16 h-16 rounded-lg bg-muted dark:bg-card border border-border dark:border-border flex items-center justify-center">
+                                    <span className="text-2xl text-muted-foreground">🏢</span>
                                   </div>
                                 )}
                               </div>
@@ -263,7 +264,7 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
                                 <div className="flex items-center space-x-2 mb-2">
                                   {business.rating > 0 && (
                                     <div className="flex items-center">
-                                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                      <Star className="w-4 h-4 fill-yellow-400 text-warning" />
                                       <span className="text-sm font-medium ml-1">{business.rating}</span>
                                       {business.reviewCount > 0 && (
                                         <span className="text-xs text-muted-foreground ml-1">
@@ -316,17 +317,17 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
 
                 {/* Right Panel - Map */}
                 <div className="overflow-hidden">
-                  <div className="h-full bg-gray-100 relative">
+                  <div className="h-full bg-muted relative">
                     {/* Map status info */}
                     {!process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-gray-800 z-10">
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-50 dark:bg-card z-10">
                         <div className="text-center p-6">
                           <div className="text-4xl mb-4">🗺️</div>
                           <h3 className="text-lg font-semibold mb-2">Map Configuration Required</h3>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-4">
                             Add NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN to display the interactive map
                           </p>
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-muted-foreground">
                             Businesses: {businesses.length} found
                           </p>
                         </div>
@@ -407,7 +408,7 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
                                 <div className="flex items-center space-x-4 mb-3">
                                   {business.rating > 0 && (
                                     <div className="flex items-center">
-                                      <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                                      <Star className="w-5 h-5 fill-yellow-400 text-warning" />
                                       <span className="font-medium ml-1">{business.rating}</span>
                                       {business.reviewCount > 0 && (
                                         <span className="text-sm text-muted-foreground ml-1">
@@ -460,7 +461,7 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
             )}
 
             {viewMode === "map" && (
-              <div className="h-full bg-gray-100">
+              <div className="h-full bg-muted">
                 <MapContainer
                   ref={mapContainerRef}
                   businesses={businesses}
@@ -506,14 +507,14 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
                                 <img
                                   src={business.photos[0].url || business.photos[0]}
                                   alt={business.name}
-                                  className="w-20 h-20 rounded-lg object-cover border border-gray-200 dark:border-gray-700"
+                                  className="w-20 h-20 rounded-lg object-cover border border-border dark:border-border"
                                   onError={(e) => {
                                     e.target.style.display = 'none';
                                   }}
                                 />
                               ) : (
-                                <div className="w-20 h-20 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex items-center justify-center">
-                                  <span className="text-3xl text-gray-400">🏢</span>
+                                <div className="w-20 h-20 rounded-lg bg-muted dark:bg-card border border-border dark:border-border flex items-center justify-center">
+                                  <span className="text-3xl text-muted-foreground">🏢</span>
                                 </div>
                               )}
                             </div>
@@ -540,7 +541,7 @@ const ModernSearchExperience = React.memo(function ModernSearchExperience({
                               <div className="flex items-center space-x-3 mb-2">
                                 {business.rating > 0 && (
                                   <div className="flex items-center">
-                                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                                    <Star className="w-4 h-4 fill-yellow-400 text-warning" />
                                     <span className="text-sm font-medium ml-1">{business.rating}</span>
                                     {business.reviewCount > 0 && (
                                       <span className="text-xs text-muted-foreground ml-1">

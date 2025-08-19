@@ -201,21 +201,21 @@ function AcademyDashboardContent() {
 							<CardContent>
 								<div className="space-y-4">
 									<div className="flex items-center space-x-3">
-										<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-success rounded-full"></div>
 										<div className="flex-1">
 											<p className="text-sm">Completed &ldquo;Plumbing Tools Overview&rdquo;</p>
 											<p className="text-xs text-muted-foreground">2 hours ago</p>
 										</div>
 									</div>
 									<div className="flex items-center space-x-3">
-										<div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-primary rounded-full"></div>
 										<div className="flex-1">
 											<p className="text-sm">Started &ldquo;HVAC Energy Efficiency&rdquo;</p>
 											<p className="text-xs text-muted-foreground">1 day ago</p>
 										</div>
 									</div>
 									<div className="flex items-center space-x-3">
-										<div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-warning rounded-full"></div>
 										<div className="flex-1">
 											<p className="text-sm">Earned &ldquo;7-Day Learning Streak&rdquo; badge</p>
 											<p className="text-xs text-muted-foreground">3 days ago</p>

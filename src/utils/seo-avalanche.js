@@ -17,7 +17,7 @@
  * - Scale up systematically to prevent Google trust issues
  */
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 export class SEOAvalancheManager {
 	constructor(options = {}) {

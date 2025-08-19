@@ -4,7 +4,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { Database } from "./client";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Client cache with short TTL for server-side auth
 const serverClientCache = new Map<string, { client: any; expires: number }>();
@@ -213,9 +213,28 @@ export async function fetchPageData<T>(
 			return { data, error: null };
 		}
 
-		// Try to get from cache first
-		const { CacheManager } = await import("@utils/cache-manager");
-		const cached = CacheManager.memory.get(cacheKey);
+		// Try to get from cache first (server-safe)
+		let cached: any = null;
+		let setCache: (key: string, value: any, ttlMs: number) => void = () => {};
+		try {
+			const { CacheManager } = await import("@utils/cache-manager");
+			cached = CacheManager.memory.get(cacheKey);
+			setCache = (key, value, ttlMs) => CacheManager.memory.set(key, value, ttlMs);
+		} catch {
+			// Fallback: minimal in-memory cache on server
+			const globalAny: any = globalThis as any;
+			if (!globalAny.__SERVER_CACHE__) {
+				globalAny.__SERVER_CACHE__ = new Map<string, { value: any; expiresAt: number }>();
+			}
+			const serverCache: Map<string, { value: any; expiresAt: number }> = globalAny.__SERVER_CACHE__;
+			const entry = serverCache.get(cacheKey);
+			if (entry && entry.expiresAt > Date.now()) {
+				cached = entry.value;
+			}
+			setCache = (key, value, ttlMs) => {
+				serverCache.set(key, { value, expiresAt: Date.now() + ttlMs });
+			};
+		}
 		
 		if (cached) {
 			const duration = performance.now() - startTime;
@@ -228,7 +247,7 @@ export async function fetchPageData<T>(
 		
 		// Cache the result
 		const ttlMs = ttlSeconds * 1000;
-		CacheManager.memory.set(cacheKey, data, ttlMs);
+		setCache(cacheKey, data, ttlMs);
 
 		const duration = performance.now() - startTime;
 		logger.performance(`Page data fetched and cached in ${duration.toFixed(2)}ms: ${cacheKey}`);
@@ -291,11 +310,15 @@ export const BusinessDataFetchers = {
 		}
 
 		return fetchPageData(async () => {
-			// Determine if businessId is UUID or slug
-			const isUUID = this.isValidUUID(businessId);
-			const queryField = isUUID ? "id" : "slug";
+			// Determine identifier strategy: support `${name}-${shortId}`
+			const compound = businessId || '';
+			const shortIdMatch = compound.match(/-(\w{5,10})$/);
+			const shortId = shortIdMatch ? shortIdMatch[1] : null;
+			const isUUID = this.isValidUUID(compound);
+			const queryField = shortId ? 'short_id' : (isUUID ? 'id' : 'slug');
+			const queryValue = shortId ? shortId : compound;
 
-			logger.debug(`Querying business by ${queryField}: ${businessId}`);
+			logger.debug(`Querying business by ${queryField}: ${queryValue}`);
 
 			// First, check if businesses table exists
 			try {
@@ -318,7 +341,7 @@ export const BusinessDataFetchers = {
 				const { data: business, error } = await supabase
 					.from("businesses")
 					.select("*")
-					.eq(queryField, businessId)
+					.eq(queryField, queryValue)
 					.eq("status", "published")
 					.single();
 
@@ -644,6 +667,7 @@ export const BusinessDataFetchers = {
 						.select(
 							`
 							id,
+							short_id,
 							name,
 							slug,
 							description,

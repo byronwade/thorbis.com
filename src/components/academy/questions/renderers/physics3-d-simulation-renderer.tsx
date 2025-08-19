@@ -120,7 +120,7 @@ function PhysicsObject({ object, isRunning, onObjectUpdate, appliedForce, showTr
 					<bufferGeometry>
 						<bufferAttribute attach="attributes-position" array={new Float32Array(trail.flatMap((p) => [p.x, p.y, p.z]))} count={trail.length} itemSize={3} />
 					</bufferGeometry>
-					<lineBasicMaterial color="#ff6b6b" opacity={0.6} transparent />
+					<lineBasicMaterial color="hsl(var(--destructive))" opacity={0.6} transparent />
 				</line>
 			)}
 		</group>
@@ -135,34 +135,34 @@ function PhysicsEnvironment({ question, children }: { question: Physics3DSimulat
 			{/* Floor */}
 			{environment.floor && (
 				<Box position={[0, -0.5, 0]} args={[environment.boundaries.width, 1, environment.boundaries.depth]}>
-					<meshStandardMaterial color="#8D6E63" />
+					<meshStandardMaterial color="hsl(var(--muted-foreground))" />
 				</Box>
 			)}
 
 			{/* Walls */}
 			{environment.walls?.front && (
-				<Box position={[0, environment.boundaries.height / 2, environment.boundaries.depth / 2]} args={[environment.boundaries.width, environment.boundaries.height, 0.5]}>
-					<meshStandardMaterial color="#BDBDBD" transparent opacity={0.7} />
-				</Box>
-			)}
+<Box position={[0, environment.boundaries.height / 2, environment.boundaries.depth / 2]} args={[environment.boundaries.width, environment.boundaries.height, 0.5]}>
+<meshStandardMaterial color="hsl(var(--muted-foreground))" transparent opacity={0.7} />
+</Box>
+)}
 
 			{environment.walls?.back && (
-				<Box position={[0, environment.boundaries.height / 2, -environment.boundaries.depth / 2]} args={[environment.boundaries.width, environment.boundaries.height, 0.5]}>
-					<meshStandardMaterial color="#BDBDBD" transparent opacity={0.7} />
-				</Box>
-			)}
+<Box position={[0, environment.boundaries.height / 2, -environment.boundaries.depth / 2]} args={[environment.boundaries.width, environment.boundaries.height, 0.5]}>
+<meshStandardMaterial color="hsl(var(--muted-foreground))" transparent opacity={0.7} />
+</Box>
+)}
 
 			{environment.walls?.left && (
-				<Box position={[-environment.boundaries.width / 2, environment.boundaries.height / 2, 0]} args={[0.5, environment.boundaries.height, environment.boundaries.depth]}>
-					<meshStandardMaterial color="#BDBDBD" transparent opacity={0.7} />
-				</Box>
-			)}
+<Box position={[-environment.boundaries.width / 2, environment.boundaries.height / 2, 0]} args={[0.5, environment.boundaries.height, environment.boundaries.depth]}>
+<meshStandardMaterial color="hsl(var(--muted-foreground))" transparent opacity={0.7} />
+</Box>
+)}
 
 			{environment.walls?.right && (
-				<Box position={[environment.boundaries.width / 2, environment.boundaries.height / 2, 0]} args={[0.5, environment.boundaries.height, environment.boundaries.depth]}>
-					<meshStandardMaterial color="#BDBDBD" transparent opacity={0.7} />
-				</Box>
-			)}
+<Box position={[environment.boundaries.width / 2, environment.boundaries.height / 2, 0]} args={[0.5, environment.boundaries.height, environment.boundaries.depth]}>
+<meshStandardMaterial color="hsl(var(--muted-foreground))" transparent opacity={0.7} />
+</Box>
+)}
 
 			{children}
 		</group>
@@ -344,8 +344,8 @@ export function Physics3DSimulationRenderer({ question, onAnswer, isAnswered, us
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">{question.challenge.description}</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">{question.challenge.description}</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Time: {formatTime(simulationTime)}</span>
 								{question.timeLimit && <span>Limit: {formatTime(question.timeLimit)}</span>}
 								<span>Attempts: {attempts}</span>
@@ -385,8 +385,8 @@ export function Physics3DSimulationRenderer({ question, onAnswer, isAnswered, us
 				<Card className={`border-2 ${conditionMet ? "border-green-500 bg-green-50" : "border-yellow-500 bg-yellow-50"}`}>
 					<CardContent className="p-4">
 						<div className="flex items-center space-x-2">
-							{conditionMet ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Settings className="w-5 h-5 text-yellow-500" />}
-							<span className={`font-medium ${conditionMet ? "text-green-700" : "text-yellow-700"}`}>{conditionMet ? `Condition met! Duration: ${conditionDuration.toFixed(1)}s / ${question.challenge.successCondition.duration || 1}s` : `Working toward: ${question.challenge.successCondition.condition} ≤ ${question.challenge.successCondition.threshold}`}</span>
+							{conditionMet ? <CheckCircle className="w-5 h-5 text-success" /> : <Settings className="w-5 h-5 text-warning" />}
+							<span className={`font-medium ${conditionMet ? "text-success" : "text-warning"}`}>{conditionMet ? `Condition met! Duration: ${conditionDuration.toFixed(1)}s / ${question.challenge.successCondition.duration || 1}s` : `Working toward: ${question.challenge.successCondition.condition} ≤ ${question.challenge.successCondition.threshold}`}</span>
 						</div>
 					</CardContent>
 				</Card>
@@ -396,7 +396,7 @@ export function Physics3DSimulationRenderer({ question, onAnswer, isAnswered, us
 			<Card>
 				<CardContent className="p-0">
 					<div className="h-96 w-full">
-						<Canvas shadows camera={{ position: [15, 10, 15], fov: 60 }} style={{ background: "#87CEEB" }}>
+						<Canvas shadows camera={{ position: [15, 10, 15], fov: 60 }} style={{ background: "hsl(var(--primary))" }}>
 							<PhysicsScene question={question} isRunning={isRunning} onObjectUpdate={handleObjectUpdate} appliedForces={appliedForces} showTrails={showTrails} />
 						</Canvas>
 					</div>
@@ -441,7 +441,7 @@ export function Physics3DSimulationRenderer({ question, onAnswer, isAnswered, us
 						{question.objects.map((object) => (
 							<div key={object.id} className="p-3 rounded-lg border bg-gray-50">
 								<h4 className="font-medium mb-2">{object.name}</h4>
-								<div className="space-y-1 text-sm text-gray-600">
+								<div className="space-y-1 text-sm text-muted-foreground">
 									<div>Mass: {object.physics.mass} kg</div>
 									<div>Friction: {object.physics.friction}</div>
 									<div>Restitution: {object.physics.restitution}</div>
@@ -466,24 +466,24 @@ export function Physics3DSimulationRenderer({ question, onAnswer, isAnswered, us
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{userAnswer?.success ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${userAnswer?.success ? "text-green-700" : "text-red-700"}`}>{userAnswer?.success ? "Physics Challenge Completed!" : "Challenge Not Completed"}</span>
-								<span className="text-sm text-gray-600">
+								{userAnswer?.success ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${userAnswer?.success ? "text-success" : "text-destructive"}`}>{userAnswer?.success ? "Physics Challenge Completed!" : "Challenge Not Completed"}</span>
+								<span className="text-sm text-muted-foreground">
 									({attempts} attempts in {formatTime(simulationTime)})
 								</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Physics Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Physics Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Performance analysis */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Simulation Results:</p>
-								<ul className="list-disc list-inside space-y-1 text-gray-700">
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Simulation Results:</p>
+								<ul className="list-disc list-inside space-y-1 text-muted-foreground">
 									<li>Challenge type: {question.challenge.type}</li>
 									<li>Success condition: {question.challenge.successCondition.condition}</li>
 									<li>Attempts used: {attempts}</li>

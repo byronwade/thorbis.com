@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { buildBusinessUrl } from "@utils";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Input } from "@components/ui/input";
@@ -68,7 +69,7 @@ const CategoryPage = ({ type, title, subtitle, businesses = [], category, locati
 	};
 
 	const renderStars = (rating) => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < Math.floor(rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-4 h-4 ${i < Math.floor(rating) ? "fill-yellow-400 text-warning" : "text-muted-foreground"}`} />);
 	};
 
 	// Better image fallback system
@@ -98,7 +99,7 @@ const CategoryPage = ({ type, title, subtitle, businesses = [], category, locati
 	};
 
 	const BusinessListCard = ({ business }) => (
-		<Link href={`/biz/${business.slug}`} className="block">
+		<Link href={buildBusinessUrl({ country: (business.country||'US').toLowerCase(), state: business.state, city: business.city, name: business.name, shortId: business.short_id || business.shortId })} className="block">
 			<Card className="hover:shadow-lg transition-all duration-200 border-border/50 hover:border-primary/50 group">
 				<CardContent className="p-6">
 					<div className="flex gap-4">
@@ -141,8 +142,8 @@ const CategoryPage = ({ type, title, subtitle, businesses = [], category, locati
 							<div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
 								{business.isOpenNow !== undefined && (
 									<div className="flex items-center gap-1">
-										<div className={`w-2 h-2 rounded-full ${business.isOpenNow ? "bg-green-500" : "bg-red-500"}`} />
-										<span className={business.isOpenNow ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>{business.isOpenNow ? "Open Now" : "Closed"}</span>
+										<div className={`w-2 h-2 rounded-full ${business.isOpenNow ? "bg-success" : "bg-destructive"}`} />
+										<span className={business.isOpenNow ? "text-success dark:text-success" : "text-destructive dark:text-destructive"}>{business.isOpenNow ? "Open Now" : "Closed"}</span>
 									</div>
 								)}
 
@@ -249,7 +250,7 @@ const CategoryPage = ({ type, title, subtitle, businesses = [], category, locati
 						{/* Stats Row */}
 						<div className="flex flex-wrap justify-center gap-6 text-sm">
 							<div className="flex items-center gap-2 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
-								<div className="w-2 h-2 bg-green-500 rounded-full" />
+								<div className="w-2 h-2 bg-success rounded-full" />
 								<span className="font-medium">{filteredBusinesses.filter((b) => b.isOpenNow).length} open now</span>
 							</div>
 							<div className="flex items-center gap-2 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
@@ -257,7 +258,7 @@ const CategoryPage = ({ type, title, subtitle, businesses = [], category, locati
 								<span className="font-medium">{filteredBusinesses.length} total results</span>
 							</div>
 							<div className="flex items-center gap-2 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full border border-border/50">
-								<Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+								<Star className="w-4 h-4 text-warning fill-yellow-500" />
 								<span className="font-medium">Verified Reviews</span>
 							</div>
 						</div>

@@ -113,15 +113,15 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 	const getItemClasses = (status: string) => {
 		switch (status) {
 			case "selected":
-				return "bg-blue-100 border-blue-500 text-blue-900";
+				return "bg-primary/10 border-primary text-primary";
 			case "matched":
-				return "bg-gray-100 border-gray-400 text-gray-700";
+				return "bg-muted border-border text-muted-foreground";
 			case "correct":
-				return "bg-green-100 border-green-500 text-green-900";
+				return "bg-success/10 border-green-500 text-success";
 			case "incorrect":
-				return "bg-red-100 border-red-500 text-red-900";
+				return "bg-destructive/10 border-red-500 text-destructive";
 			default:
-				return "bg-white border-gray-300 hover:border-gray-400 hover:bg-gray-50";
+				return "bg-white border-border hover:border-border hover:bg-gray-50";
 		}
 	};
 
@@ -153,7 +153,7 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 					const y2 = rightRect.top + rightRect.height / 2 - containerRect.top;
 
 					const status = getLeftItemStatus(match.leftId);
-					const color = status === "correct" ? "#10b981" : status === "incorrect" ? "#ef4444" : "#6b7280";
+					const color = status === "correct" ? "hsl(var(--success))" : status === "incorrect" ? "hsl(var(--destructive))" : "hsl(var(--muted-foreground))";
 
 					return <line key={index} x1={x1} y1={y1} x2={x2} y2={y2} stroke={color} strokeWidth="2" strokeDasharray={status === "matched" ? "5,5" : "none"} opacity={0.8} />;
 				})}
@@ -186,8 +186,8 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 			</div>
 
 			{/* Instructions */}
-			<div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-				<p className="text-blue-800 text-sm">Click on items from both columns to match them. Click on a matched pair to unlink them. {matches.length > 0 && <span className="font-medium">Matched: {matches.length}</span>}</p>
+			<div className="p-4 bg-blue-50 border border-primary/30 rounded-lg">
+				<p className="text-primary text-sm">Click on items from both columns to match them. Click on a matched pair to unlink them. {matches.length > 0 && <span className="font-medium">Matched: {matches.length}</span>}</p>
 			</div>
 
 			{/* Matching Interface */}
@@ -198,7 +198,7 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 						<div className="grid grid-cols-2 gap-8">
 							{/* Left Column */}
 							<div className="space-y-3">
-								<h4 className="font-semibold text-gray-900 text-center">Terms</h4>
+								<h4 className="font-semibold text-foreground text-center">Terms</h4>
 								{question.leftColumn.map((item) => {
 									const status = getLeftItemStatus(item.id);
 									const match = matches.find((m) => m.leftId === item.id);
@@ -206,7 +206,7 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 									return (
 										<div key={item.id} data-left-id={item.id} className={`p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 text-center ${getItemClasses(status)} ${!isAnswered && !disabled ? "hover:shadow-md" : ""}`} onClick={() => (match ? removeMatch(match.leftId, match.rightId) : handleLeftClick(item.id))}>
 											<span className="font-medium">{item.text}</span>
-											{isAnswered && <div className="mt-2 flex justify-center">{status === "correct" ? <CheckCircle className="h-4 w-4 text-green-600" /> : status === "incorrect" ? <XCircle className="h-4 w-4 text-red-600" /> : null}</div>}
+											{isAnswered && <div className="mt-2 flex justify-center">{status === "correct" ? <CheckCircle className="h-4 w-4 text-success" /> : status === "incorrect" ? <XCircle className="h-4 w-4 text-destructive" /> : null}</div>}
 										</div>
 									);
 								})}
@@ -214,7 +214,7 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 
 							{/* Right Column */}
 							<div className="space-y-3">
-								<h4 className="font-semibold text-gray-900 text-center">Definitions</h4>
+								<h4 className="font-semibold text-foreground text-center">Definitions</h4>
 								{question.rightColumn.map((item) => {
 									const status = getRightItemStatus(item.id);
 									const match = matches.find((m) => m.rightId === item.id);
@@ -222,7 +222,7 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 									return (
 										<div key={item.id} data-right-id={item.id} className={`p-3 border-2 rounded-lg cursor-pointer transition-all duration-200 text-center ${getItemClasses(status)} ${!isAnswered && !disabled ? "hover:shadow-md" : ""}`} onClick={() => (match ? removeMatch(match.leftId, match.rightId) : handleRightClick(item.id))}>
 											<span className="text-sm">{item.text}</span>
-											{isAnswered && <div className="mt-2 flex justify-center">{status === "correct" ? <CheckCircle className="h-4 w-4 text-green-600" /> : status === "incorrect" ? <XCircle className="h-4 w-4 text-red-600" /> : null}</div>}
+											{isAnswered && <div className="mt-2 flex justify-center">{status === "correct" ? <CheckCircle className="h-4 w-4 text-success" /> : status === "incorrect" ? <XCircle className="h-4 w-4 text-destructive" /> : null}</div>}
 										</div>
 									);
 								})}
@@ -238,7 +238,7 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 					{/* Correct Matches Display */}
 					<Card>
 						<CardContent className="p-4">
-							<h4 className="font-medium text-gray-900 mb-3">Correct Matches:</h4>
+							<h4 className="font-medium text-foreground mb-3">Correct Matches:</h4>
 							<div className="space-y-2">
 								{question.correctMatches.map((correctMatch) => {
 									const leftItem = question.leftColumn.find((item) => item.id === correctMatch.leftId);
@@ -250,10 +250,10 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 										<div key={`${correctMatch.leftId}-${correctMatch.rightId}`} className={`flex items-center justify-between p-3 rounded-lg ${isCorrect ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200"}`}>
 											<div className="flex items-center space-x-4">
 												<span className="font-medium">{leftItem?.text}</span>
-												<span className="text-gray-500">→</span>
+												<span className="text-muted-foreground">→</span>
 												<span className="text-sm">{rightItem?.text}</span>
 											</div>
-											{isCorrect ? <CheckCircle className="h-5 w-5 text-green-500" /> : <XCircle className="h-5 w-5 text-red-500" />}
+											{isCorrect ? <CheckCircle className="h-5 w-5 text-success" /> : <XCircle className="h-5 w-5 text-destructive" />}
 										</div>
 									);
 								})}
@@ -266,11 +266,11 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 						<CardContent className="p-4">
 							<div className="flex items-start space-x-3">
 								<div className="flex-shrink-0 mt-0.5">
-									<Lightbulb className="h-5 w-5 text-blue-500" />
+									<Lightbulb className="h-5 w-5 text-primary" />
 								</div>
 								<div>
-									<p className="font-medium text-gray-900 mb-1">Explanation:</p>
-									<p className="text-gray-700 text-sm">{question.explanation}</p>
+									<p className="font-medium text-foreground mb-1">Explanation:</p>
+									<p className="text-muted-foreground text-sm">{question.explanation}</p>
 								</div>
 							</div>
 						</CardContent>
@@ -282,10 +282,10 @@ export function WordMatchingRenderer({ question, onAnswer, isAnswered, userAnswe
 			{!isAnswered && question.hints && question.hints.length > 0 && (
 				<div className="mt-4">
 					<details className="group">
-						<summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 font-medium">💡 Need a hint? Click here</summary>
+						<summary className="cursor-pointer text-sm text-primary hover:text-primary font-medium">💡 Need a hint? Click here</summary>
 						<Card className="mt-2">
 							<CardContent className="p-3 bg-yellow-50">
-								<p className="text-yellow-800 text-sm">{question.hints[0]}</p>
+								<p className="text-warning text-sm">{question.hints[0]}</p>
 							</CardContent>
 						</Card>
 					</details>

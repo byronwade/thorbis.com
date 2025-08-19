@@ -6,7 +6,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Performance-optimized cache with TTL
 const CACHE_TTL = 60 * 60 * 1000; // 1 hour

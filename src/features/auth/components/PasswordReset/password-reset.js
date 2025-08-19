@@ -211,8 +211,8 @@ export default function PasswordReset() {
 	if (resetEmailSent && !hasToken) {
 		return (
 			<div className="flex flex-col justify-center items-center space-y-4 text-center">
-				<div className="flex justify-center items-center mb-4 w-16 h-16 bg-blue-100 rounded-full dark:bg-blue-900">
-					<Mail className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+				<div className="flex justify-center items-center mb-4 w-16 h-16 bg-primary/10 rounded-full dark:bg-primary">
+					<Mail className="w-8 h-8 text-primary dark:text-primary" />
 				</div>
 				<h2 className="text-2xl font-bold">Check your email</h2>
 				<p className="max-w-sm text-muted-foreground">
@@ -241,11 +241,11 @@ export default function PasswordReset() {
 				
 				{/* Display auth errors */}
 				{authError && (
-					<div className="p-3 mt-4 bg-red-50 rounded-md border border-red-200 dark:bg-red-900/20 dark:border-red-800">
+					<div className="p-3 mt-4 bg-red-50 rounded-md border border-red-200 dark:bg-destructive/20 dark:border-red-800">
 						<div className="flex">
-							<AlertCircle className="w-5 h-5 text-red-400" />
+							<AlertCircle className="w-5 h-5 text-destructive" />
 							<div className="ml-3">
-								<p className="text-sm text-red-800 dark:text-red-200">{authError.userMessage}</p>
+								<p className="text-sm text-destructive dark:text-destructive/80">{authError.userMessage}</p>
 							</div>
 						</div>
 					</div>
@@ -276,9 +276,9 @@ export default function PasswordReset() {
 														onClick={() => setShowNewPassword(!showNewPassword)}
 													>
 														{showNewPassword ? (
-															<EyeOff className="w-4 h-4 text-gray-400" />
+															<EyeOff className="w-4 h-4 text-muted-foreground" />
 														) : (
-															<Eye className="w-4 h-4 text-gray-400" />
+															<Eye className="w-4 h-4 text-muted-foreground" />
 														)}
 													</button>
 												</div>
@@ -296,11 +296,11 @@ export default function PasswordReset() {
 																	className={`h-1 w-6 rounded-full ${
 																		i < passwordStrength.score
 																			? passwordStrength.score < 2
-																				? "bg-red-500"
+																				? "bg-destructive"
 																				: passwordStrength.score < 3
-																				? "bg-yellow-500"
-																				: "bg-green-500"
-																			: "bg-gray-200 dark:bg-gray-600"
+																				? "bg-warning"
+																				: "bg-success"
+																			: "bg-muted dark:bg-muted"
 																	}`}
 																/>
 															))}
@@ -348,9 +348,9 @@ export default function PasswordReset() {
 														onClick={() => setShowConfirmPassword(!showConfirmPassword)}
 													>
 														{showConfirmPassword ? (
-															<EyeOff className="w-4 h-4 text-gray-400" />
+															<EyeOff className="w-4 h-4 text-muted-foreground" />
 														) : (
-															<Eye className="w-4 h-4 text-gray-400" />
+															<Eye className="w-4 h-4 text-muted-foreground" />
 														)}
 													</button>
 												</div>
@@ -395,11 +395,11 @@ export default function PasswordReset() {
 			
 			{/* Display auth errors */}
 			{authError && (
-				<div className="p-3 mt-4 bg-red-50 rounded-md border border-red-200 dark:bg-red-900/20 dark:border-red-800">
+				<div className="p-3 mt-4 bg-red-50 rounded-md border border-red-200 dark:bg-destructive/20 dark:border-red-800">
 					<div className="flex">
-						<AlertCircle className="w-5 h-5 text-red-400" />
+						<AlertCircle className="w-5 h-5 text-destructive" />
 						<div className="ml-3">
-							<p className="text-sm text-red-800 dark:text-red-200">{authError.userMessage}</p>
+							<p className="text-sm text-destructive dark:text-destructive/80">{authError.userMessage}</p>
 						</div>
 					</div>
 				</div>

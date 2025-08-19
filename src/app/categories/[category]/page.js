@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { BusinessDataFetchers } from "@lib/database/supabase/server";
 import CategoryPage from "@components/site/categories/category-page";
+import { buildBusinessUrl } from "@utils";
 
 // Force dynamic rendering to prevent build hanging
 export const dynamic = "force-dynamic";
@@ -363,7 +364,7 @@ export default async function CategoryRoute({ params }) {
 					position: index + 1,
 					item: {
 						"@type": "LocalBusiness",
-						"@id": `https://thorbis.com/biz/${business.slug}`,
+						"@id": buildBusinessUrl({ country: 'us', state: business.state || 'us', city: business.city || '', name: business.name, shortId: business.short_id || business.shortId || '' }),
 						name: business.name,
 						description: business.description,
 						image: business.image,
@@ -420,7 +421,7 @@ export default async function CategoryRoute({ params }) {
 					position: index + 1,
 					item: {
 						"@type": "LocalBusiness",
-						"@id": `https://thorbis.com/biz/${business.slug}`,
+						"@id": buildBusinessUrl({ country: 'us', state: business.state || 'us', city: business.city || '', name: business.name, shortId: business.short_id || business.shortId || '' }),
 						name: business.name,
 						description: business.description,
 						image: business.image,

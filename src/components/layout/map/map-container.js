@@ -404,14 +404,14 @@ const MapContainer = React.forwardRef((props, ref) => {
 	// Show fallback UI when Mapbox token is missing
 	if (!MAPBOX_TOKEN) {
 		return (
-			<div className="map-container relative w-full h-full overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center" ref={containerRef}>
+			<div className="map-container relative w-full h-full overflow-hidden bg-muted dark:bg-card flex items-center justify-center" ref={containerRef}>
 				<div className="text-center p-8 max-w-md">
-					<MapPin className="mx-auto h-16 w-16 text-gray-400 mb-4" />
-					<h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">Map Configuration Required</h3>
-					<p className="text-gray-600 dark:text-gray-400 mb-4">To display the interactive map, please add your Mapbox access token to the environment configuration.</p>
-					<div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg text-sm font-mono text-left">
-						<div className="text-gray-500 dark:text-gray-400 mb-1">Add to .env.local:</div>
-						<div className="text-gray-800 dark:text-gray-200">NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_token_here</div>
+					<MapPin className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+					<h3 className="text-lg font-semibold text-foreground dark:text-muted-foreground mb-2">Map Configuration Required</h3>
+					<p className="text-muted-foreground dark:text-muted-foreground mb-4">To display the interactive map, please add your Mapbox access token to the environment configuration.</p>
+					<div className="bg-gray-50 dark:bg-muted p-3 rounded-lg text-sm font-mono text-left">
+						<div className="text-muted-foreground dark:text-muted-foreground mb-1">Add to .env.local:</div>
+						<div className="text-foreground dark:text-muted-foreground">NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your_token_here</div>
 					</div>
 					<Button variant="outline" className="mt-4" onClick={() => window.open("https://account.mapbox.com/access-tokens/", "_blank")}>
 						Get Mapbox Token
@@ -503,7 +503,7 @@ const MapContainer = React.forwardRef((props, ref) => {
 
 			{/* Simple Search Button */}
 			<div className="absolute top-4 right-4 z-20">
-				<Button onClick={handleSearchInArea} disabled={isSearching} className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg px-4 py-2 text-sm rounded-lg">
+				<Button onClick={handleSearchInArea} disabled={isSearching} className="bg-primary hover:bg-primary text-white shadow-lg px-4 py-2 text-sm rounded-lg">
 					<Search className="w-4 h-4 mr-2" />
 					{isSearching ? "Searching..." : "Search this area"}
 				</Button>

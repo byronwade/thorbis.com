@@ -4,7 +4,7 @@
  * Inspired by instant.page and grep.app performance architecture
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Configuration based on instant.page recommendations
 const PRELOAD_CONFIG = {
@@ -398,6 +398,14 @@ class InstantPreloader {
 		}
 
 		document.head.appendChild(link);
+
+		// Cleanup unused preload links after 10 seconds to prevent browser warnings
+		setTimeout(() => {
+			if (link.parentNode) {
+				link.remove();
+				logger.debug(`Removed unused preload: ${url}`);
+			}
+		}, 10000);
 	}
 
 	/**

@@ -99,8 +99,8 @@ export const metadata = {
 	// Other meta tags
 	other: {
 		// Performance and mobile optimization
-		"theme-color": "#000000",
-		"msapplication-TileColor": "#000000",
+		"theme-color": "hsl(var(--background))",
+		"msapplication-TileColor": "hsl(var(--background))",
 		"msapplication-config": "/browserconfig.xml",
 		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
@@ -136,7 +136,7 @@ export const viewport = {
 	userScalable: true,
 	viewportFit: "cover",
 	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "#ffffff" },
-		{ media: "(prefers-color-scheme: dark)", color: "#000000" },
+		{ media: "(prefers-color-scheme: light)", color: "hsl(var(--background))" },
+		{ media: "(prefers-color-scheme: dark)", color: "hsl(var(--background))" },
 	],
 };

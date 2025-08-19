@@ -6,7 +6,7 @@
  * https://vercel.com/docs/multi-tenant/domain-management
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Vercel API configuration
 const VERCEL_API_URL = "https://api.vercel.com";

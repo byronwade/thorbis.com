@@ -114,12 +114,12 @@ export default function BusinessProfile() {
 								<FormDescription>Upload your business logo. This will appear on your business profile.</FormDescription>
 								<FormControl>
 									<div className="flex items-center space-x-4">
-										<Avatar className="w-16 h-16 bg-white border border-gray-300 rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary">
+										<Avatar className="w-16 h-16 bg-white border border-border rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary">
 											<AvatarImage src={logoUrl || "https://github.com/shadcn.png"} alt="Business Logo" />
 											<AvatarFallback className="rounded-md">Logo</AvatarFallback>
 										</Avatar>
 										<div className="flex flex-col space-y-2">
-											<label htmlFor="logo-upload" className="p-2 text-sm bg-white border border-gray-300 rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary hover:bg-muted/50">
+											<label htmlFor="logo-upload" className="p-2 text-sm bg-white border border-border rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary hover:bg-muted/50">
 												<span className="text-primary">Click here to add image</span>
 												<input id="logo-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
 											</label>

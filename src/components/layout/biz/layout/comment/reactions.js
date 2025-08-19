@@ -11,11 +11,11 @@ const reactionsIcons = {
 };
 
 const reactionColors = {
-	thumbsUp: "bg-blue-500 text-white",
-	heart: "bg-red-500 text-white",
-	smile: "bg-yellow-500 text-white",
-	frown: "bg-gray-500 text-white",
-	meh: "bg-green-500 text-white",
+	thumbsUp: "bg-primary text-white",
+	heart: "bg-destructive text-white",
+	smile: "bg-warning text-white",
+	frown: "bg-muted text-white",
+	meh: "bg-success text-white",
 	thumbsDown: "bg-purple-500 text-white",
 };
 

@@ -32,24 +32,24 @@ function BuildingComponent({ component, isPlaced, isSelected, isCorrectlyPlaced,
 
 	const material = useMemo(() => {
 		const getMaterialColor = () => {
-			if (isSelected) return "#4F46E5";
-			if (showFeedback && isCorrectlyPlaced) return "#22C55E";
-			if (showFeedback && isPlaced && !isCorrectlyPlaced) return "#EF4444";
+			if (isSelected) return "hsl(var(--primary))";
+if (showFeedback && isCorrectlyPlaced) return "hsl(var(--success))";
+if (showFeedback && isPlaced && !isCorrectlyPlaced) return "hsl(var(--destructive))";
 
 			// Material-based colors
 			switch (component.material.type) {
 				case "wood":
-					return "#8B4513";
-				case "steel":
-					return "#C0C0C0";
-				case "concrete":
-					return "#808080";
-				case "brick":
-					return "#B22222";
-				case "pipe":
-					return "#4682B4";
-				case "wire":
-					return "#FFD700";
+return "hsl(var(--muted-foreground))";
+case "steel":
+return "hsl(var(--muted-foreground))";
+case "concrete":
+return "hsl(var(--muted-foreground))";
+case "brick":
+return "hsl(var(--destructive))";
+case "pipe":
+return "hsl(var(--primary))";
+case "wire":
+return "hsl(var(--warning))";
 				default:
 					return component.material.color;
 			}
@@ -86,7 +86,7 @@ function BuildingComponent({ component, isPlaced, isSelected, isCorrectlyPlaced,
 			{/* Blueprint outline */}
 			{showBlueprint && (
 				<Box args={[component.dimensions.width, component.dimensions.height, component.dimensions.depth]} position={[component.requiredPosition.x, component.requiredPosition.y, component.requiredPosition.z]} rotation={[component.requiredRotation.x, component.requiredRotation.y, component.requiredRotation.z]}>
-					<meshBasicMaterial color="#0066CC" wireframe />
+					<meshBasicMaterial color="hsl(var(--primary))" wireframe />
 				</Box>
 			)}
 
@@ -96,7 +96,7 @@ function BuildingComponent({ component, isPlaced, isSelected, isCorrectlyPlaced,
 			{/* Component label */}
 			{(isSelected || (showFeedback && isPlaced)) && (
 				<Html position={[component.requiredPosition.x, component.requiredPosition.y + component.dimensions.height / 2 + 1, component.requiredPosition.z]}>
-					<div className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${isSelected ? "bg-blue-500 text-white" : isCorrectlyPlaced ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>
+					<div className={`px-2 py-1 rounded text-xs font-medium whitespace-nowrap ${isSelected ? "bg-primary text-white" : isCorrectlyPlaced ? "bg-success text-white" : "bg-destructive text-white"}`}>
 						{component.name}
 						{component.cost && <span className="ml-1">${component.cost}</span>}
 					</div>
@@ -104,7 +104,7 @@ function BuildingComponent({ component, isPlaced, isSelected, isCorrectlyPlaced,
 			)}
 
 			{/* Status indicator */}
-			{showFeedback && isPlaced && <Html position={[component.requiredPosition.x + component.dimensions.width / 2 + 0.5, component.requiredPosition.y + component.dimensions.height / 2, component.requiredPosition.z]}>{isCorrectlyPlaced ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}</Html>}
+			{showFeedback && isPlaced && <Html position={[component.requiredPosition.x + component.dimensions.width / 2 + 0.5, component.requiredPosition.y + component.dimensions.height / 2, component.requiredPosition.z]}>{isCorrectlyPlaced ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}</Html>}
 		</group>
 	);
 }
@@ -143,7 +143,7 @@ function BuildingScene({ question, placedComponents, selectedComponent, onCompon
 
 			{/* Foundation/Ground */}
 			<Box position={[0, -1, 0]} args={[question.blueprint.dimensions.width + 2, 0.5, question.blueprint.dimensions.depth + 2]}>
-				<meshStandardMaterial color="#654321" />
+				<meshStandardMaterial color="hsl(var(--muted-foreground))" />
 			</Box>
 
 			{/* Building components */}
@@ -162,7 +162,7 @@ function BuildingScene({ question, placedComponents, selectedComponent, onCompon
 			})}
 
 			{/* X-ray grid */}
-			{showXray && <gridHelper args={[question.blueprint.dimensions.width, 10, "#666666", "#333333"]} position={[0, 0, 0]} />}
+			{showXray && <gridHelper args={[question.blueprint.dimensions.width, 10, "hsl(var(--muted-foreground))666", "hsl(var(--foreground))333"]} position={[0, 0, 0]} />}
 
 			{/* Camera controls */}
 			<OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
@@ -336,13 +336,13 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 
 	const getCategoryColor = (category: string) => {
 		const colors = {
-			structural: "#8B4513",
-			plumbing: "#4682B4",
-			electrical: "#FFD700",
-			hvac: "#32CD32",
-			finishing: "#DDA0DD",
+			structural: "hsl(var(--muted-foreground))",
+plumbing: "hsl(var(--primary))",
+electrical: "hsl(var(--warning))",
+hvac: "hsl(var(--success))",
+finishing: "hsl(var(--muted-foreground))",
 		};
-		return colors[category as keyof typeof colors] || "#808080";
+		return colors[category as keyof typeof colors] || "hsl(var(--muted-foreground))";
 	};
 
 	return (
@@ -353,8 +353,8 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 					<div className="flex items-center justify-between">
 						<div>
 							<h3 className="text-lg font-semibold mb-1">{question.buildingType.charAt(0).toUpperCase() + question.buildingType.slice(1)} Construction</h3>
-							<p className="text-gray-700 mb-2">Place building components according to construction phases and building codes.</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Place building components according to construction phases and building codes.</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Phase: {getCurrentPhase()?.name}</span>
 								<span>
 									Placed: {placedComponents.length} / {question.components.length}
@@ -385,16 +385,16 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 
 			{/* Building Errors */}
 			{buildingErrors.length > 0 && (
-				<Card className="border-red-500 bg-red-50">
+				<Card className="border-destructive bg-destructive">
 					<CardContent className="p-4">
 						<div className="space-y-2">
 							<div className="flex items-center space-x-2">
-								<XCircle className="w-5 h-5 text-red-500" />
-								<span className="font-medium text-red-700">Building Violations</span>
+								<XCircle className="w-5 h-5 text-destructive" />
+								<span className="font-medium text-destructive">Building Violations</span>
 							</div>
 							<ul className="list-disc list-inside space-y-1">
 								{buildingErrors.map((error, index) => (
-									<li key={index} className="text-red-700 text-sm">
+									<li key={index} className="text-destructive text-sm">
 										{error}
 									</li>
 								))}
@@ -408,7 +408,7 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 			<Card>
 				<CardContent className="p-0">
 					<div className="h-96 w-full">
-						<Canvas shadows camera={{ position: [15, 10, 15], fov: 60 }} style={{ background: "#87CEEB" }}>
+						<Canvas shadows camera={{ position: [15, 10, 15], fov: 60 }} style={{ background: "hsl(var(--primary))" }}>
 							<BuildingScene question={question} placedComponents={placedComponents} selectedComponent={selectedComponent} onComponentClick={handleComponentClick} showBlueprint={showBlueprint} showXray={showXray} visibleLayers={visibleLayers} showFeedback={showFeedback} />
 						</Canvas>
 					</div>
@@ -454,7 +454,7 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 							return (
 								<div
 									key={component.id}
-									className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 ${isSelected ? "border-blue-500 bg-blue-50" : isPlaced ? "border-green-500 bg-green-50" : isAllowedInPhase ? "border-gray-200 hover:border-gray-300" : "border-gray-100 bg-gray-50 opacity-50"}`}
+									className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 ${isSelected ? "border-primary bg-primary" : isPlaced ? "border-success bg-success" : isAllowedInPhase ? "border-border hover:border-border" : "border-border bg-gray-50 opacity-50"}`}
 									onClick={() => {
 										if (!isPlaced && isAllowedInPhase) {
 											setSelectedComponent(component.id);
@@ -464,9 +464,9 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 									<div className="flex items-center justify-between">
 										<div>
 											<p className="font-medium">{component.name}</p>
-											<p className="text-sm text-gray-600 capitalize">{component.category}</p>
+											<p className="text-sm text-muted-foreground capitalize">{component.category}</p>
 											{component.cost && (
-												<p className="text-sm text-green-600">
+												<p className="text-sm text-success">
 													<DollarSign className="w-3 h-3 inline mr-1" />
 													{component.cost.toLocaleString()}
 												</p>
@@ -475,7 +475,7 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 
 										<div className="flex flex-col space-y-1">
 											{isPlaced ? (
-												<CheckCircle className="w-5 h-5 text-green-500" />
+												<CheckCircle className="w-5 h-5 text-success" />
 											) : (
 												<div className="space-y-1">
 													{isAllowedInPhase && (
@@ -524,19 +524,19 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 							const isCompleted = phase.requiredComponents.every((compId) => placedComponents.includes(compId));
 
 							return (
-								<div key={phase.phaseId} className={`p-3 rounded-lg border-2 transition-all duration-200 ${isCurrentPhase ? "border-blue-500 bg-blue-50" : isCompleted ? "border-green-500 bg-green-50" : "border-gray-200"}`}>
+								<div key={phase.phaseId} className={`p-3 rounded-lg border-2 transition-all duration-200 ${isCurrentPhase ? "border-primary bg-primary" : isCompleted ? "border-success bg-success" : "border-border"}`}>
 									<div className="flex items-center justify-between">
 										<div>
 											<h4 className="font-medium">{phase.name}</h4>
-											<p className="text-sm text-gray-600">{phase.description}</p>
-											<div className="flex items-center space-x-4 text-xs text-gray-500 mt-1">
+											<p className="text-sm text-muted-foreground">{phase.description}</p>
+											<div className="flex items-center space-x-4 text-xs text-muted-foreground mt-1">
 												<span>Required: {phase.requiredComponents.length}</span>
 												<span>Allowed: {phase.allowedComponents.length}</span>
 												{phase.constraints?.budgetLimit && <span>Budget: ${phase.constraints.budgetLimit.toLocaleString()}</span>}
 											</div>
 										</div>
 
-										{isCompleted ? <CheckCircle className="w-6 h-6 text-green-500" /> : isCurrentPhase ? <Clock className="w-6 h-6 text-blue-500" /> : <div className="w-6 h-6 rounded-full border-2 border-gray-300" />}
+										{isCompleted ? <CheckCircle className="w-6 h-6 text-success" /> : isCurrentPhase ? <Clock className="w-6 h-6 text-primary" /> : <div className="w-6 h-6 rounded-full border-2 border-border" />}
 									</div>
 								</div>
 							);
@@ -560,27 +560,27 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{userAnswer?.errors?.length === 0 ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${userAnswer?.errors?.length === 0 ? "text-green-700" : "text-red-700"}`}>{userAnswer?.errors?.length === 0 ? "Construction Completed Successfully!" : "Construction Issues Found"}</span>
-								<span className="text-sm text-gray-600">
+								{userAnswer?.errors?.length === 0 ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${userAnswer?.errors?.length === 0 ? "text-success" : "text-destructive"}`}>{userAnswer?.errors?.length === 0 ? "Construction Completed Successfully!" : "Construction Issues Found"}</span>
+								<span className="text-sm text-muted-foreground">
 									({userAnswer?.totalComponents || 0} components, ${userAnswer?.totalCost?.toLocaleString() || 0})
 								</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Construction Notes:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-primary border border-primary/30">
+									<p className="text-primary font-medium">Construction Notes:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Construction errors */}
 							{userAnswer?.errors && userAnswer.errors.length > 0 && (
-								<div className="p-4 rounded-lg bg-red-50 border border-red-200">
-									<p className="text-red-800 font-medium">Issues to Address:</p>
+								<div className="p-4 rounded-lg bg-destructive border border-destructive">
+									<p className="text-destructive font-medium">Issues to Address:</p>
 									<ul className="list-disc list-inside space-y-1 mt-2">
 										{userAnswer.errors.map((error, index) => (
-											<li key={index} className="text-red-700">
+											<li key={index} className="text-destructive">
 												{error}
 											</li>
 										))}
@@ -589,25 +589,25 @@ export function Architecture3DRenderer({ question, onAnswer, isAnswered, userAns
 							)}
 
 							{/* Project summary */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Project Summary:</p>
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Project Summary:</p>
 								<div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
 									<div>
-										<span className="text-gray-600">Building Type:</span>
+										<span className="text-muted-foreground">Building Type:</span>
 										<p className="font-medium capitalize">{question.buildingType}</p>
 									</div>
 									<div>
-										<span className="text-gray-600">Total Cost:</span>
+										<span className="text-muted-foreground">Total Cost:</span>
 										<p className="font-medium">${userAnswer?.totalCost?.toLocaleString() || 0}</p>
 									</div>
 									<div>
-										<span className="text-gray-600">Components:</span>
+										<span className="text-muted-foreground">Components:</span>
 										<p className="font-medium">
 											{userAnswer?.totalComponents || 0} / {question.components.length}
 										</p>
 									</div>
 									<div>
-										<span className="text-gray-600">Phases:</span>
+										<span className="text-muted-foreground">Phases:</span>
 										<p className="font-medium">
 											{question.buildingPhases.findIndex((p) => p.phaseId === userAnswer?.currentPhase) + 1} / {question.buildingPhases.length}
 										</p>

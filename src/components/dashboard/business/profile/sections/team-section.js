@@ -103,11 +103,11 @@ export const TeamSection = ({
 								<div className="text-sm text-muted-foreground">Total Members</div>
 							</div>
 							<div>
-								<div className="text-2xl font-bold text-green-600">{stats.complete}</div>
+								<div className="text-2xl font-bold text-success">{stats.complete}</div>
 								<div className="text-sm text-muted-foreground">Complete Profiles</div>
 							</div>
 							<div>
-								<div className="text-2xl font-bold text-blue-600">{stats.active}</div>
+								<div className="text-2xl font-bold text-primary">{stats.active}</div>
 								<div className="text-sm text-muted-foreground">Active Members</div>
 							</div>
 							<div>
@@ -150,7 +150,7 @@ const TeamMemberCard = ({
 						<h4 className="font-medium flex items-center space-x-2">
 							<span>Team Member #{index + 1}</span>
 							{isComplete ? (
-								<Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
+								<Badge variant="secondary" className="text-xs bg-success/10 text-success">
 									Complete
 								</Badge>
 							) : (

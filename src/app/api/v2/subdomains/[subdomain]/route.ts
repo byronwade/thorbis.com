@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { z } from "zod";
 
 export const dynamic = "force-dynamic";

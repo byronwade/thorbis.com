@@ -21,15 +21,15 @@ const MapPlaceholder = ({ location, radius, isValid = false }) => (
 		<div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-green-50/50 rounded-lg" />
 		<div className="relative z-10 text-center space-y-3">
 			<div className="bg-primary/10 p-3 rounded-full w-fit mx-auto">
-				<MapPin className={`w-6 h-6 ${isValid ? "text-green-600" : "text-muted-foreground"}`} />
+				<MapPin className={`w-6 h-6 ${isValid ? "text-success" : "text-muted-foreground"}`} />
 			</div>
 			<div>
 				<p className="font-medium text-sm">{location || "Select your target location"}</p>
 				{location && <p className="text-xs text-muted-foreground">Targeting within {radius}km radius</p>}
 			</div>
 			{isValid && (
-				<div className="flex items-center justify-center gap-2 text-xs text-green-600">
-					<div className="w-2 h-2 bg-green-500 rounded-full" />
+				<div className="flex items-center justify-center gap-2 text-xs text-success">
+					<div className="w-2 h-2 bg-success rounded-full" />
 					Location configured
 				</div>
 			)}
@@ -67,8 +67,8 @@ export const CampaignDetailsSection = ({
 	// Get character count with color coding
 	const getCharacterCountColor = (current, max) => {
 		const percentage = (current / max) * 100;
-		if (percentage >= 90) return "text-red-500";
-		if (percentage >= 75) return "text-yellow-500";
+		if (percentage >= 90) return "text-destructive";
+		if (percentage >= 75) return "text-warning";
 		return "text-muted-foreground";
 	};
 
@@ -91,7 +91,7 @@ export const CampaignDetailsSection = ({
 							Campaign Name *{showHelpText && <HelpCircle className="w-4 h-4 text-muted-foreground" />}
 						</Label>
 						<Input id="campaignName" placeholder="e.g., Summer Plumbing Special" value={name} onChange={(e) => handleFieldUpdate("name", e.target.value)} className={errors.name ? "border-red-500 focus:border-red-500" : ""} maxLength={50} {...(!isHydrated && { suppressHydrationWarning: true })} />
-						{errors.name && <p className="text-sm text-red-500 mt-1">{errors.name}</p>}
+						{errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
 						<p className={`text-xs mt-1 ${getCharacterCountColor(name?.length || 0, 50)}`}>{name?.length || 0}/50 characters</p>
 					</div>
 
@@ -108,13 +108,13 @@ export const CampaignDetailsSection = ({
 							<SelectContent>
 								<SelectItem value="search">
 									<div className="flex items-center gap-2">
-										<div className="w-2 h-2 bg-blue-500 rounded-full" />
+										<div className="w-2 h-2 bg-primary rounded-full" />
 										Search Ads
 									</div>
 								</SelectItem>
 								<SelectItem value="display">
 									<div className="flex items-center gap-2">
-										<div className="w-2 h-2 bg-green-500 rounded-full" />
+										<div className="w-2 h-2 bg-success rounded-full" />
 										Display Ads
 									</div>
 								</SelectItem>
@@ -126,7 +126,7 @@ export const CampaignDetailsSection = ({
 								</SelectItem>
 							</SelectContent>
 						</Select>
-						{errors.type && <p className="text-sm text-red-500 mt-1">{errors.type}</p>}
+						{errors.type && <p className="text-sm text-destructive mt-1">{errors.type}</p>}
 					</div>
 
 					{/* Location */}
@@ -136,7 +136,7 @@ export const CampaignDetailsSection = ({
 							<MapPin className="w-4 h-4 text-muted-foreground" />
 						</Label>
 						<Input id="location" placeholder="e.g., San Francisco, CA or 94102" value={location} onChange={(e) => handleFieldUpdate("location", e.target.value)} className={errors.location ? "border-red-500 focus:border-red-500" : ""} />
-						{errors.location && <p className="text-sm text-red-500 mt-1">{errors.location}</p>}
+						{errors.location && <p className="text-sm text-destructive mt-1">{errors.location}</p>}
 						{showHelpText && <p className="text-xs text-muted-foreground mt-1">Enter a city, zip code, or address to target your ads</p>}
 					</div>
 

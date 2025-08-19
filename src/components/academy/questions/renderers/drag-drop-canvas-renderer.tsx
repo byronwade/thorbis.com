@@ -176,8 +176,8 @@ export function DragDropCanvasRenderer({ question, onAnswer, isAnswered, userAns
 			</div>
 
 			{/* Instructions */}
-			<div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-				<p className="text-blue-800 text-sm">Drag the items below onto the canvas and place them in the correct drop zones.</p>
+			<div className="p-4 bg-blue-50 border border-primary/30 rounded-lg">
+				<p className="text-primary text-sm">Drag the items below onto the canvas and place them in the correct drop zones.</p>
 			</div>
 
 			{/* Canvas */}
@@ -185,7 +185,7 @@ export function DragDropCanvasRenderer({ question, onAnswer, isAnswered, userAns
 				<CardContent className="p-0">
 					<div
 						ref={canvasRef}
-						className="relative bg-gray-50 border-2 border-dashed border-gray-300"
+						className="relative bg-gray-50 border-2 border-dashed border-border"
 						style={{
 							width: question.canvas.width,
 							height: question.canvas.height,
@@ -203,8 +203,8 @@ export function DragDropCanvasRenderer({ question, onAnswer, isAnswered, userAns
 								className="absolute inset-0 opacity-20"
 								style={{
 									backgroundImage: `
-                    linear-gradient(to right, #000 1px, transparent 1px),
-                    linear-gradient(to bottom, #000 1px, transparent 1px)
+                    linear-gradient(to right, hsl(var(--foreground)) 1px, transparent 1px),
+linear-gradient(to bottom, hsl(var(--foreground)) 1px, transparent 1px)
                   `,
 									backgroundSize: `${question.canvas.gridSize}px ${question.canvas.gridSize}px`,
 								}}
@@ -217,7 +217,7 @@ export function DragDropCanvasRenderer({ question, onAnswer, isAnswered, userAns
 							return (
 								<div
 									key={zone.id}
-									className={`absolute border-2 border-dashed rounded-lg flex items-center justify-center text-sm font-medium transition-colors ${status === "correct" ? "border-green-500 bg-green-50 text-green-700" : status === "incorrect" ? "border-red-500 bg-red-50 text-red-700" : "border-gray-400 bg-white/50 text-gray-600"}`}
+									className={`absolute border-2 border-dashed rounded-lg flex items-center justify-center text-sm font-medium transition-colors ${status === "correct" ? "border-green-500 bg-green-50 text-success" : status === "incorrect" ? "border-red-500 bg-red-50 text-destructive" : "border-border bg-white/50 text-muted-foreground"}`}
 									style={{
 										left: zone.x,
 										top: zone.y,
@@ -246,9 +246,9 @@ export function DragDropCanvasRenderer({ question, onAnswer, isAnswered, userAns
 									}}
 									onMouseDown={(e) => handleMouseDown(e, item.id)}
 								>
-									<div className={`px-3 py-2 rounded-lg border-2 bg-white flex items-center space-x-2 ${status === "correct" ? "border-green-500" : status === "incorrect" ? "border-red-500" : "border-gray-300 hover:border-blue-400"}`}>
+									<div className={`px-3 py-2 rounded-lg border-2 bg-white flex items-center space-x-2 ${status === "correct" ? "border-green-500" : status === "incorrect" ? "border-red-500" : "border-border hover:border-primary/50"}`}>
 										{item.type === "image" && item.src ? <img src={item.src} alt={item.content} className="w-8 h-8 object-cover rounded" draggable={false} /> : <span className="text-sm font-medium">{item.content}</span>}
-										{isAnswered && <div className="ml-2">{status === "correct" ? <CheckCircle className="h-4 w-4 text-green-500" /> : <AlertCircle className="h-4 w-4 text-red-500" />}</div>}
+										{isAnswered && <div className="ml-2">{status === "correct" ? <CheckCircle className="h-4 w-4 text-success" /> : <AlertCircle className="h-4 w-4 text-destructive" />}</div>}
 									</div>
 								</div>
 							);
@@ -259,14 +259,14 @@ export function DragDropCanvasRenderer({ question, onAnswer, isAnswered, userAns
 
 			{/* Feedback */}
 			{showFeedback && isAnswered && (
-				<div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+				<div className="p-4 bg-gray-50 border border-border rounded-lg">
 					<div className="flex items-start space-x-3">
 						<div className="flex-shrink-0 mt-0.5">
-							<AlertCircle className="h-5 w-5 text-gray-500" />
+							<AlertCircle className="h-5 w-5 text-muted-foreground" />
 						</div>
 						<div>
-							<p className="font-medium text-gray-900 mb-1">Explanation:</p>
-							<p className="text-gray-700 text-sm">{question.explanation}</p>
+							<p className="font-medium text-foreground mb-1">Explanation:</p>
+							<p className="text-muted-foreground text-sm">{question.explanation}</p>
 						</div>
 					</div>
 				</div>

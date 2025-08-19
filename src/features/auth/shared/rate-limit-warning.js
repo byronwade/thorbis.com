@@ -92,9 +92,9 @@ export function RateLimitWarning({
 								<span>Lockout expires in:</span>
 								<span className="font-mono">{formatTime(timeRemaining)}</span>
 							</div>
-							<div className="w-full bg-gray-200 rounded-full h-1">
+							<div className="w-full bg-muted rounded-full h-1">
 								<div
-									className="bg-red-500 h-1 rounded-full transition-all duration-1000"
+									className="bg-destructive h-1 rounded-full transition-all duration-1000"
 									style={{
 										width: `${((lockoutDuration - timeRemaining) / lockoutDuration) * 100}%`,
 									}}
@@ -142,7 +142,7 @@ export function RateLimitBadge({ attempts = 0, maxAttempts = 5, className = "" }
 	const isDanger = attempts >= maxAttempts * 0.8; // 80% threshold
 
 	return (
-		<div className={cn("inline-flex items-center px-2 py-1 rounded-full text-xs font-medium", isDanger ? "bg-red-100 text-red-800" : isWarning ? "bg-yellow-100 text-yellow-800" : "bg-blue-100 text-blue-800", className)}>
+		<div className={cn("inline-flex items-center px-2 py-1 rounded-full text-xs font-medium", isDanger ? "bg-destructive/10 text-destructive" : isWarning ? "bg-warning/10 text-warning" : "bg-primary/10 text-primary", className)}>
 			<AlertTriangle className="w-3 h-3 mr-1" />
 			{attempts}/{maxAttempts} attempts
 		</div>
@@ -172,9 +172,9 @@ export function AccountSecurityStatus({ recentFailedAttempts = 0, lastSuccessful
 
 	return (
 		<div className={cn("flex items-center space-x-2 text-sm", className)}>
-			<Shield className={cn("w-4 h-4", security.color === "green" ? "text-green-500" : security.color === "yellow" ? "text-yellow-500" : "text-red-500")} />
+			<Shield className={cn("w-4 h-4", security.color === "green" ? "text-success" : security.color === "yellow" ? "text-warning" : "text-destructive")} />
 			<span className="text-muted-foreground">Security:</span>
-			<span className={cn("font-medium", security.color === "green" ? "text-green-700" : security.color === "yellow" ? "text-yellow-700" : "text-red-700")}>{security.text}</span>
+			<span className={cn("font-medium", security.color === "green" ? "text-success" : security.color === "yellow" ? "text-warning" : "text-destructive")}>{security.text}</span>
 		</div>
 	);
 }

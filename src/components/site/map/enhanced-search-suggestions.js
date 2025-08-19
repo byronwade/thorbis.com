@@ -15,7 +15,7 @@ import { Separator } from "@components/ui/separator";
 import { Search, Star, History, ExternalLink, Users, ChevronRight, ArrowUpRight } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { withErrorHandling } from "@utils/error-handler";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearches = [], popularCategories = [], onSuggestionClick, onBusinessClick, onCategoryClick, onClose, loading = false, className = "" }) => {
 	const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -127,22 +127,22 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 			key={`business-${business.id}`}
 			className={`
         flex items-center gap-3 p-3 cursor-pointer rounded-lg transition-all duration-150
-        ${selectedIndex === index ? "bg-blue-50 dark:bg-blue-950/30" : "hover:bg-gray-50 dark:hover:bg-gray-800/50"}
+        ${selectedIndex === index ? "bg-blue-50 dark:bg-primary/30" : "hover:bg-gray-50 dark:hover:bg-card/50"}
       `}
 			onClick={() => handleItemClick(business)}
 			onMouseEnter={() => setHoveredSuggestion(business.id)}
 			onMouseLeave={() => setHoveredSuggestion(null)}
 		>
 			{/* Business Avatar */}
-			<Avatar className="w-10 h-10 border border-gray-200 dark:border-gray-700">
+			<Avatar className="w-10 h-10 border border-border dark:border-border">
 				<AvatarImage src={business.logo || business.image} alt={business.name} />
-				<AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium">{business.name?.charAt(0)?.toUpperCase()}</AvatarFallback>
+				<AvatarFallback className="bg-primary/10 dark:bg-primary text-primary dark:text-primary/90 text-sm font-medium">{business.name?.charAt(0)?.toUpperCase()}</AvatarFallback>
 			</Avatar>
 
 			{/* Business Info */}
 			<div className="flex-1 min-w-0">
 				<div className="flex items-center gap-2">
-					<h4 className="font-medium text-sm text-gray-900 dark:text-white truncate">{business.name}</h4>
+					<h4 className="font-medium text-sm text-foreground dark:text-white truncate">{business.name}</h4>
 					{business.isOpen && (
 						<Badge variant="secondary" className="h-5 px-1.5 text-xs bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300">
 							Open
@@ -152,12 +152,12 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 				<div className="flex items-center gap-3 mt-1">
 					{business.rating && (
 						<div className="flex items-center gap-1">
-							<Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-							<span className="text-xs text-gray-600 dark:text-gray-400">{business.rating}</span>
+							<Star className="w-3 h-3 fill-yellow-400 text-warning" />
+							<span className="text-xs text-muted-foreground dark:text-muted-foreground">{business.rating}</span>
 						</div>
 					)}
-					{business.category && <span className="text-xs text-gray-500 dark:text-gray-500">{business.category}</span>}
-					{business.distance && <span className="text-xs text-blue-600 dark:text-blue-400">{business.distance}</span>}
+					{business.category && <span className="text-xs text-muted-foreground dark:text-muted-foreground">{business.category}</span>}
+					{business.distance && <span className="text-xs text-primary dark:text-primary">{business.distance}</span>}
 				</div>
 			</div>
 
@@ -178,7 +178,7 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 						</Button>
 					</>
 				)}
-				<ChevronRight className="w-4 h-4 text-gray-400" />
+				<ChevronRight className="w-4 h-4 text-muted-foreground" />
 			</div>
 		</div>
 	);
@@ -189,18 +189,18 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 			key={`suggestion-${index}`}
 			className={`
         flex items-center gap-3 p-3 cursor-pointer rounded-lg transition-all duration-150
-        ${selectedIndex === index ? "bg-blue-50 dark:bg-blue-950/30" : "hover:bg-gray-50 dark:hover:bg-gray-800/50"}
+        ${selectedIndex === index ? "bg-blue-50 dark:bg-primary/30" : "hover:bg-gray-50 dark:hover:bg-card/50"}
       `}
 			onClick={() => handleItemClick(suggestion)}
 		>
-			<div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-				<Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+			<div className="w-8 h-8 rounded-full bg-muted dark:bg-card flex items-center justify-center">
+				<Search className="w-4 h-4 text-muted-foreground dark:text-muted-foreground" />
 			</div>
 			<div className="flex-1">
-				<span className="text-sm text-gray-900 dark:text-white">{suggestion.name}</span>
-				{suggestion.description && <p className="text-xs text-gray-500 dark:text-gray-500 mt-0.5">{suggestion.description}</p>}
+				<span className="text-sm text-foreground dark:text-white">{suggestion.name}</span>
+				{suggestion.description && <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-0.5">{suggestion.description}</p>}
 			</div>
-			<ArrowUpRight className="w-3 h-3 text-gray-400" />
+			<ArrowUpRight className="w-3 h-3 text-muted-foreground" />
 		</div>
 	);
 
@@ -210,32 +210,32 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 			key={`recent-${index}`}
 			className={`
         flex items-center gap-3 p-3 cursor-pointer rounded-lg transition-all duration-150
-        ${selectedIndex === index ? "bg-blue-50 dark:bg-blue-950/30" : "hover:bg-gray-50 dark:hover:bg-gray-800/50"}
+        ${selectedIndex === index ? "bg-blue-50 dark:bg-primary/30" : "hover:bg-gray-50 dark:hover:bg-card/50"}
       `}
 			onClick={() => handleItemClick(recent)}
 		>
-			<div className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-				<History className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+			<div className="w-8 h-8 rounded-full bg-muted dark:bg-card flex items-center justify-center">
+				<History className="w-4 h-4 text-muted-foreground dark:text-muted-foreground" />
 			</div>
 			<div className="flex-1">
-				<span className="text-sm text-gray-900 dark:text-white">{recent.query}</span>
-				{recent.location && <p className="text-xs text-gray-500 dark:text-gray-500 mt-0.5">near {recent.location}</p>}
+				<span className="text-sm text-foreground dark:text-white">{recent.query}</span>
+				{recent.location && <p className="text-xs text-muted-foreground dark:text-muted-foreground mt-0.5">near {recent.location}</p>}
 			</div>
-			<span className="text-xs text-gray-400">{new Date(recent.timestamp).toLocaleDateString()}</span>
+			<span className="text-xs text-muted-foreground">{new Date(recent.timestamp).toLocaleDateString()}</span>
 		</div>
 	);
 
 	if (loading) {
 		return (
-			<Card className={`absolute top-full left-0 right-0 mt-1 z-50 shadow-lg border-gray-200 dark:border-gray-700 ${className}`}>
+			<Card className={`absolute top-full left-0 right-0 mt-1 z-50 shadow-lg border-border dark:border-border ${className}`}>
 				<CardContent className="p-3">
 					<div className="space-y-3">
 						{Array.from({ length: 3 }).map((_, i) => (
 							<div key={i} className="flex items-center gap-3 animate-pulse">
-								<div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full" />
+								<div className="w-8 h-8 bg-muted dark:bg-muted rounded-full" />
 								<div className="flex-1">
-									<div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-2/3 mb-1" />
-									<div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
+									<div className="h-4 bg-muted dark:bg-muted rounded w-2/3 mb-1" />
+									<div className="h-3 bg-muted dark:bg-muted rounded w-1/2" />
 								</div>
 							</div>
 						))}
@@ -246,7 +246,7 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 	}
 
 	return (
-		<Card className={`absolute top-full left-0 right-0 mt-1 z-50 shadow-lg border-gray-200 dark:border-gray-700 max-h-96 ${className}`}>
+		<Card className={`absolute top-full left-0 right-0 mt-1 z-50 shadow-lg border-border dark:border-border max-h-96 ${className}`}>
 			<CardContent className="p-0">
 				<ScrollArea className="max-h-96">
 					<div className="p-2">
@@ -254,8 +254,8 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 						{categorizedSuggestions.businesses.length > 0 && (
 							<div className="mb-4">
 								<div className="flex items-center gap-2 px-2 py-1 mb-2">
-									<Users className="w-4 h-4 text-gray-500" />
-									<h3 className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Businesses</h3>
+									<Users className="w-4 h-4 text-muted-foreground" />
+									<h3 className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">Businesses</h3>
 								</div>
 								<div className="space-y-1">{categorizedSuggestions.businesses.slice(0, 3).map((business, index) => renderBusinessSuggestion(business, index))}</div>
 							</div>
@@ -265,8 +265,8 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 						{(categorizedSuggestions.services.length > 0 || categorizedSuggestions.locations.length > 0) && (
 							<div className="mb-4">
 								<div className="flex items-center gap-2 px-2 py-1 mb-2">
-									<Search className="w-4 h-4 text-gray-500" />
-									<h3 className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Suggestions</h3>
+									<Search className="w-4 h-4 text-muted-foreground" />
+									<h3 className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">Suggestions</h3>
 								</div>
 								<div className="space-y-1">{[...categorizedSuggestions.services, ...categorizedSuggestions.locations].slice(0, 3).map((suggestion, index) => renderTextSuggestion(suggestion, index + categorizedSuggestions.businesses.length))}</div>
 							</div>
@@ -276,8 +276,8 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 						{categorizedSuggestions.recent.length > 0 && (
 							<div className="mb-2">
 								<div className="flex items-center gap-2 px-2 py-1 mb-2">
-									<History className="w-4 h-4 text-gray-500" />
-									<h3 className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide">Recent</h3>
+									<History className="w-4 h-4 text-muted-foreground" />
+									<h3 className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">Recent</h3>
 								</div>
 								<div className="space-y-1">{categorizedSuggestions.recent.map((recent, index) => renderRecentSearch(recent, index + suggestions.length))}</div>
 							</div>
@@ -288,10 +288,10 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 							<>
 								<Separator className="my-3" />
 								<div className="px-2">
-									<h3 className="text-xs font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-2">Popular</h3>
+									<h3 className="text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide mb-2">Popular</h3>
 									<div className="flex flex-wrap gap-1.5">
 										{popularCategories.slice(0, 6).map((category) => (
-											<Button key={category} variant="outline" size="sm" onClick={() => handleCategoryClick(category)} className="h-6 px-2 text-xs border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+											<Button key={category} variant="outline" size="sm" onClick={() => handleCategoryClick(category)} className="h-6 px-2 text-xs border-border dark:border-border hover:bg-gray-50 dark:hover:bg-card">
 												{category}
 											</Button>
 										))}
@@ -303,9 +303,9 @@ const EnhancedSearchSuggestions = ({ query = "", suggestions = [], recentSearche
 						{/* No results */}
 						{suggestions.length === 0 && recentSearches.length === 0 && query.length > 2 && (
 							<div className="p-4 text-center">
-								<Search className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-								<p className="text-sm text-gray-600 dark:text-gray-400">No suggestions found</p>
-								<p className="text-xs text-gray-500 dark:text-gray-500 mt-1">Try different keywords</p>
+								<Search className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
+								<p className="text-sm text-muted-foreground dark:text-muted-foreground">No suggestions found</p>
+								<p className="text-xs text-muted-foreground dark:text-muted-foreground mt-1">Try different keywords</p>
 							</div>
 						)}
 					</div>

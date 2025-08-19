@@ -4,7 +4,7 @@
  */
 
 import { track } from '@vercel/analytics';
-import { logger } from '@utils/logger';
+import logger from "@lib/utils/logger";
 
 export interface FlagAnalyticsOptions {
   immediate?: boolean;

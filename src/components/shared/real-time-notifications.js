@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useAuthStore } from "@store/auth";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Real-time Notifications Component
@@ -169,13 +169,13 @@ export default function RealTimeNotifications({
   // Notification type icons and colors
   const getNotificationIcon = useCallback((type) => {
     const iconMap = {
-      review: { icon: Star, color: "text-yellow-500", bg: "bg-yellow-50 dark:bg-yellow-950/30" },
-      job: { icon: Calendar, color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-950/30" },
-      payment: { icon: DollarSign, color: "text-green-500", bg: "bg-green-50 dark:bg-green-950/30" },
+      review: { icon: Star, color: "text-warning", bg: "bg-yellow-50 dark:bg-warning/30" },
+      job: { icon: Calendar, color: "text-primary", bg: "bg-blue-50 dark:bg-primary/30" },
+      payment: { icon: DollarSign, color: "text-success", bg: "bg-green-50 dark:bg-success/30" },
       customer: { icon: Users, color: "text-purple-500", bg: "bg-purple-50 dark:bg-purple-950/30" },
-      system: { icon: Info, color: "text-gray-500", bg: "bg-gray-50 dark:bg-gray-950/30" },
-      warning: { icon: AlertTriangle, color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-950/30" },
-      success: { icon: CheckCircle, color: "text-green-500", bg: "bg-green-50 dark:bg-green-950/30" },
+      system: { icon: Info, color: "text-muted-foreground", bg: "bg-gray-50 dark:bg-card/30" },
+      warning: { icon: AlertTriangle, color: "text-warning", bg: "bg-orange-50 dark:bg-warning/30" },
+      success: { icon: CheckCircle, color: "text-success", bg: "bg-green-50 dark:bg-success/30" },
       message: { icon: MessageSquare, color: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-950/30" }
     };
 
@@ -277,7 +277,7 @@ export default function RealTimeNotifications({
           )}
           
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+            <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-medium text-white">
               {unreadCount > 99 ? "99+" : unreadCount}
             </span>
           )}
@@ -365,13 +365,13 @@ export default function RealTimeNotifications({
                   <div
                     key={notification.id}
                     className={`group flex items-start p-4 hover:bg-accent/50 transition-colors cursor-pointer relative ${
-                      !notification.read ? "bg-blue-50/30 dark:bg-blue-950/10" : ""
+                      !notification.read ? "bg-blue-50/30 dark:bg-primary/10" : ""
                     }`}
                     onClick={() => handleNotificationClick(notification)}
                   >
                     {/* Read indicator */}
                     {!notification.read && (
-                      <div className="absolute left-2 top-6 w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="absolute left-2 top-6 w-2 h-2 bg-primary rounded-full"></div>
                     )}
 
                     {/* Icon or Avatar */}
@@ -401,7 +401,7 @@ export default function RealTimeNotifications({
                               {notification.title}
                             </p>
                             {notification.important && (
-                              <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
+                              <Star className="w-3 h-3 text-warning fill-yellow-500" />
                             )}
                           </div>
                           <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
@@ -436,7 +436,7 @@ export default function RealTimeNotifications({
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-6 w-6 p-0 text-red-500 hover:text-red-600"
+                            className="h-6 w-6 p-0 text-destructive hover:text-destructive"
                             onClick={(e) => {
                               e.stopPropagation();
                               deleteNotification(notification.id);

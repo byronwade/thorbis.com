@@ -6,7 +6,7 @@
 
 "use client";
 
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 class GoogleMapsService {
   constructor() {

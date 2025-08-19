@@ -12,6 +12,7 @@ import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
 import { Star, Phone, Navigation, Globe, MapPin, Clock, Users, Eye } from "lucide-react";
 import { Card, CardContent } from "@components/ui/card";
+import { buildBusinessUrlFrom } from "@utils";
 
 export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 	const [imageError, setImageError] = useState(false);
@@ -26,7 +27,8 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 		const isLink = target.closest("a");
 
 		if (!isButton && !isLink) {
-			window.open(`/biz/${business.slug}`, "_blank");
+			try { window.open(buildBusinessUrlFrom(business), "_blank"); }
+			catch { window.open(`/us/${(business.state||'').toLowerCase()}/${(business.city||'').toLowerCase()}/${(business.name||'').toLowerCase().replace(/[^a-z0-9\\s-]/g,'').replace(/\\s+/g,'-').replace(/-+/g,'-')}-${business.short_id || business.shortId || ''}`, "_blank"); }
 		}
 	};
 
@@ -102,22 +104,22 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 						{/* Rating and Reviews */}
 						<div className="flex items-center space-x-1 mt-1">
 							<div className="flex items-center">{renderStars(business.rating)}</div>
-							<span className="text-xs text-gray-600 dark:text-gray-300">
+							<span className="text-xs text-muted-foreground dark:text-muted-foreground">
 								{business.rating} ({business.reviewCount})
 							</span>
 						</div>
 
 						{/* Location and Distance */}
-						<div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mt-1">
+						<div className="flex items-center text-xs text-muted-foreground dark:text-muted-foreground mt-1">
 							<MapPin className="w-3 h-3 mr-1" />
 							<span className="truncate">{business.address}</span>
-							{business.distance && <span className="ml-2 text-blue-600 dark:text-blue-400 font-medium">• {business.distance}</span>}
+							{business.distance && <span className="ml-2 text-primary dark:text-primary font-medium">• {business.distance}</span>}
 						</div>
 
 						{/* Additional Info */}
-						<div className="flex items-center space-x-3 mt-2 text-xs text-gray-500 dark:text-gray-400">
+						<div className="flex items-center space-x-3 mt-2 text-xs text-muted-foreground dark:text-muted-foreground">
 							{business.category && <span>{business.category}</span>}
-							{business.priceRange && <span className="text-green-600 dark:text-green-400 font-medium">{business.priceRange}</span>}
+							{business.priceRange && <span className="text-success dark:text-success font-medium">{business.priceRange}</span>}
 							{business.hours && (
 								<div className="flex items-center">
 									<Clock className="w-3 h-3 mr-1" />
@@ -135,7 +137,7 @@ export const GoogleStyleBusinessCard = ({ business, isActive }) => {
 				</div>
 
 				{/* Action Buttons */}
-				<div className="flex space-x-2 mt-3 pt-3 border-t border-gray-100">
+				<div className="flex space-x-2 mt-3 pt-3 border-t border-border">
 					{business.phone && (
 						<Button variant="outline" size="sm" onClick={handleCall} className="flex-1 text-xs h-7">
 							<Phone className="w-3 h-3 mr-1" />

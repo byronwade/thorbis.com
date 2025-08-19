@@ -4,7 +4,7 @@
  * Provides unified interface for cross-platform analytics tracking
  */
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 import { AnalyticsMutations } from "@lib/database/supabase/mutations/analytics";
 import { services } from "@config";
 

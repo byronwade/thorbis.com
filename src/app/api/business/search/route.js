@@ -5,7 +5,7 @@
 
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Mock search results for fallback
 const mockSearchResults = [
@@ -114,6 +114,7 @@ function transformBusiness(business) {
 		address: business.address,
 		city: business.city,
 		state: business.state,
+		country: business.country || "US",
 		phone: business.phone,
 		website: business.website,
 		rating: business.rating || 0,
@@ -225,6 +226,7 @@ export async function GET(request) {
 				address,
 				city,
 				state,
+				country,
 				latitude,
 				longitude,
 				phone,

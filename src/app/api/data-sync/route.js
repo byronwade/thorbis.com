@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { BusinessDataFetchers } from "@lib/database/supabase/server";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Function to validate Supabase data integrity
 const validateSupabaseData = async () => {

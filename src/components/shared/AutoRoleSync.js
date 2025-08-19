@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useAuth } from "@context/auth-context";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { PageLoadingState } from "@components/ui/loading-state";
 
 /**

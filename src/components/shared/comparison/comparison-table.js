@@ -13,7 +13,7 @@ import { CheckCircle, XCircle } from "lucide-react";
 function ComparisonRow({ feature, competitor, thorbis, competitorClass = "", thorbisClass = "" }) {
 	const renderCellContent = (content) => {
 		if (content === true) {
-			return <CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />;
+			return <CheckCircle className="inline w-5 h-5 text-success dark:text-success" />;
 		}
 		if (content === false) {
 			return <XCircle className="inline w-5 h-5 text-destructive" />;
@@ -82,14 +82,14 @@ export function ServicePlatformComparison({ competitorName }) {
 			competitor: "15-25%",
 			thorbis: "$29/month",
 			competitorClass: "text-destructive font-semibold",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Lead Quality",
 			competitor: "Basic Screening",
 			thorbis: "AI-Qualified",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Customer Data Access",
@@ -110,15 +110,15 @@ export function ServicePlatformComparison({ competitorName }) {
 			name: "Customer Support",
 			competitor: "Limited",
 			thorbis: "24/7 Priority",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Review Management",
 			competitor: "Basic",
 			thorbis: "Advanced AI",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 	];
 
@@ -135,21 +135,21 @@ export function TravelPlatformComparison({ competitorName, commissionRate = "20-
 			competitor: commissionRate,
 			thorbis: "$29/month",
 			competitorClass: "text-destructive font-semibold",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Direct Bookings",
 			competitor: "Limited",
 			thorbis: "Full Control",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Customer Data",
 			competitor: "Restricted",
 			thorbis: "Full Access",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Multi-Platform Sync",
@@ -160,8 +160,8 @@ export function TravelPlatformComparison({ competitorName, commissionRate = "20-
 			name: "Customer Support",
 			competitor: "Limited",
 			thorbis: "24/7 Priority",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Business Growth Tools",
@@ -172,15 +172,15 @@ export function TravelPlatformComparison({ competitorName, commissionRate = "20-
 			name: "Review Management",
 			competitor: "Basic",
 			thorbis: "Advanced AI",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Analytics & Insights",
 			competitor: "Basic",
 			thorbis: "Advanced AI",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 	];
 
@@ -197,35 +197,35 @@ export function RestaurantPlatformComparison({ competitorName }) {
 			competitor: "$200-500",
 			thorbis: "$29",
 			competitorClass: "text-destructive font-semibold",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Reservation System",
 			competitor: "Basic",
 			thorbis: "Advanced",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Review Management",
 			competitor: "Limited",
 			thorbis: "AI-Powered",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Menu Management",
 			competitor: "Manual",
 			thorbis: "Automated",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Customer Data Access",
 			competitor: "Limited",
 			thorbis: "Full Access",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "Multi-Platform Sync",
@@ -236,8 +236,8 @@ export function RestaurantPlatformComparison({ competitorName }) {
 			name: "Analytics Dashboard",
 			competitor: "Basic",
 			thorbis: "Advanced",
-			competitorClass: "text-yellow-600 dark:text-yellow-400",
-			thorbisClass: "text-green-600 dark:text-green-400 font-bold",
+			competitorClass: "text-warning dark:text-warning",
+			thorbisClass: "text-success dark:text-success font-bold",
 		},
 		{
 			name: "POS Integration",

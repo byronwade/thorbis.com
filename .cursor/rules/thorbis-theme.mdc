@@ -1,0 +1,312 @@
+---
+description: Thorbis theme guidelines and color system for consistent design across all components, pages, and UI elements
+globs: ["**/*.{js,jsx,ts,tsx,css,scss,mdx,md}"]
+alwaysApply: true
+---
+
+
+# Thorbis Theme Guidelines
+
+## 🎨 THORBIS DESIGN SYSTEM
+
+**ALL COMPONENTS MUST FOLLOW THE THORBIS THEME: Clean Black, White, Blue, and Neutral Colors**
+
+### Core Theme Philosophy
+- **Minimalist Design**: Clean, professional, and modern
+- **High Contrast**: Excellent readability and accessibility
+- **Brand Consistency**: Thorbis blue (#3B82F6) as primary accent
+- **Neutral Foundation**: Black, white, and gray scale for content
+- **No Gradients**: Flat, solid colors only
+- **Dark Mode First**: Default to dark mode for modern UX
+
+## 🎯 Color Palette
+
+### Primary Colors
+```css
+/* Thorbis Blue - Primary Brand Color */
+--primary: 217 91% 60%; /* #3B82F6 */
+--primary-foreground: 0 0% 100%; /* White text on blue */
+
+/* Neutral Grays - Content Foundation */
+--background: 0 0% 0%; /* Pure black (dark mode) */
+--foreground: 0 0% 100%; /* Pure white (dark mode) */
+--card: 0 0% 4%; /* Very dark neutral */
+--card-foreground: 0 0% 100%; /* Pure white */
+```
+
+### Secondary Colors
+```css
+/* Secondary and Accent Colors */
+--secondary: 0 0% 8%; /* Dark neutral gray */
+--secondary-foreground: 0 0% 100%; /* White text */
+--accent: 217 91% 60%; /* Thorbis blue accent */
+--accent-foreground: 0 0% 100%; /* White text on blue */
+
+/* Muted and Border Colors */
+--muted: 0 0% 8%; /* Dark neutral gray */
+--muted-foreground: 0 0% 65%; /* Light neutral gray */
+--border: 0 0% 12%; /* Medium dark neutral border */
+--input: 0 0% 8%; /* Dark neutral input */
+```
+
+### Semantic Colors
+```css
+/* Success States - Subtle Green */
+--success: 160 84% 39%; /* #10B981 - Success Green */
+--success-foreground: 0 0% 100%; /* White text on green */
+
+/* Error States - Muted Red */
+--destructive: 0 84% 60%; /* #EF4444 - Error Red */
+--destructive-foreground: 0 0% 100%; /* White text on red */
+
+/* Warning States - Soft Orange */
+--warning: 38 92% 50%; /* #F59E0B - Warning Orange */
+--warning-foreground: 0 0% 0%; /* Black text on orange */
+```
+
+## 🚨 CRITICAL: NEVER USE THESE COLORS
+
+### Forbidden Colors
+- ❌ **Purple/Pink**: No purple or pink accents
+- ❌ **Gradients**: No gradient backgrounds or text
+- ❌ **Rainbow Colors**: No multi-color schemes
+- ❌ **Overly Bright Colors**: No neon or overly saturated colors
+- ❌ **Brand Colors**: No social media brand colors (Facebook blue, Twitter blue, etc.)
+
+### Allowed Colors - Minimalist & Semantic
+- ✅ **Thorbis Blue**: #3B82F6 (primary brand color)
+- ✅ **Pure Black**: #000000 (backgrounds)
+- ✅ **Pure White**: #FFFFFF (text and highlights)
+- ✅ **Neutral Grays**: Various shades for content hierarchy
+- ✅ **Success Green**: Subtle green for success states (#10B981)
+- ✅ **Error Red**: Muted red for error states (#EF4444)
+- ✅ **Warning Orange**: Soft orange for warnings (#F59E0B)
+- ✅ **Transparency**: For overlays and effects
+
+## 📋 Implementation Guidelines
+
+### CSS Variables Usage
+```css
+/* ✅ CORRECT: Use CSS variables */
+background-color: hsl(var(--background));
+color: hsl(var(--foreground));
+border-color: hsl(var(--border));
+
+/* ❌ WRONG: Hard-coded colors */
+background-color: #121212;
+color: #EAEAEA;
+border-color: #374151;
+```
+
+### Tailwind Classes
+```jsx
+// ✅ CORRECT: Use semantic Tailwind classes
+<div className="bg-background text-foreground border-border">
+<div className="bg-primary text-primary-foreground">
+<div className="bg-muted text-muted-foreground">
+
+// ❌ WRONG: Hard-coded color classes
+<div className="bg-[#121212] text-[#EAEAEA]">
+<div className="bg-gray-800 text-gray-200">
+```
+
+### Component Styling
+```jsx
+// ✅ CORRECT: Use theme-aware components
+<Card className="bg-card text-card-foreground">
+<Button className="bg-primary text-primary-foreground">
+<Badge className="bg-muted text-muted-foreground">
+
+// ❌ WRONG: Custom color styling
+<Card className="bg-[#0a0a0a] text-[#EAEAEA]">
+<Button className="bg-blue-500 text-white">
+```
+
+## ✍️ Typography System (Consistent Fonts & Sizes)
+
+### Typeface
+- **Primary (UI/Body/Headings)**: Inter, system-ui fallback
+- **Monospace (Code/Numbers)**: SFMono-Regular/Monaco fallback
+
+### Tailwind Font Families
+```js
+// tailwind.config.js (extend)
+fontFamily: {
+  sans: ["Inter", "ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"],
+  mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New"],
+}
+```
+
+### Type Scale (Tailwind `fontSize`)
+```text
+- xs: 12/16 (labels, meta)
+- sm: 14/20 (secondary text)
+- base: 16/24 (body default)
+- lg: 18/28 (section intro)
+- xl: 20/28 (subhead)
+- 2xl: 24/32 (H4)
+- 3xl: 30/36 (H3)
+- 4xl: 36/40 (H2)
+- 5xl: 48/48 (H1 small)
+- 6xl+: Hero tiers (sparingly)
+```
+
+### Usage Rules
+- Headings: `text-foreground font-semibold` (avoid extra weights)
+- Body: `text-muted-foreground` for secondary, `text-foreground` for primary
+- Links: `text-primary` with `hover:underline` (no custom blues)
+- Truncation: prefer `line-clamp-*` over manual clipping
+
+## 📐 Spacing & Layout (Consistent Rhythm)
+
+### Spacing Scale (Tailwind defaults, 4px base)
+- Use multiples of 4: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64
+- Default section padding: `py-12 md:py-16`
+- Default card padding: `p-4 md:p-6`
+- Default grid gap: `gap-4 md:gap-6`
+
+### Do/Don't
+- Do use `space-y-*`/`space-x-*` for vertical rhythm
+- Do maintain consistent gaps across similar components
+- Don't mix arbitrary pixel paddings for similar components
+
+## 🧱 Containers (Max Widths & Gutters)
+
+### Container Rules
+- Centered container with responsive gutters
+- Max widths: `sm:640 md:768 lg:1024 xl:1280 2xl:1400`
+- Gutters: `sm:1rem, md:1.5rem, lg+:2rem`
+
+### Tailwind Container Config
+```js
+container: {
+  center: true,
+  padding: { DEFAULT: "1.5rem", sm: "1rem", md: "1.5rem", lg: "2rem", xl: "2rem", "2xl": "2rem" },
+  screens: { sm: "640px", md: "768px", lg: "1024px", xl: "1280px", "2xl": "1400px" }
+}
+```
+
+### Usage
+- Page shells: `container` on top-level wrappers
+- Avoid nested `container` inside `container`
+- Use `max-w-*` on feature blocks when needed (e.g., `max-w-3xl` for article)
+
+## 🧩 Component Layout Patterns
+
+- Card: `bg-card text-card-foreground border border-border rounded-lg p-4 md:p-6`
+- Section: `py-12 md:py-16 border-b border-border/30`
+- Toolbar: `h-10 px-3 md:px-4 rounded-md bg-secondary text-secondary-foreground`
+
+## 🧾 Typography Plugin Defaults
+
+Tailwind Typography is configured to use theme colors. Prefer prose classes for content-rich blocks:
+```jsx
+<article className="prose prose-invert">
+  {/* markdown/content */}
+</article>
+```
+
+## 🎨 Design Patterns
+
+### Text Hierarchy
+```jsx
+// Primary headings
+<h1 className="text-foreground font-bold text-4xl">
+
+// Secondary headings  
+<h2 className="text-foreground font-semibold text-2xl">
+
+// Body text
+<p className="text-foreground">
+
+// Muted text
+<span className="text-muted-foreground">
+```
+
+### Interactive Elements
+```jsx
+// Primary buttons
+<Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+
+// Secondary buttons
+<Button variant="secondary" className="bg-secondary text-secondary-foreground">
+
+// Destructive actions
+<Button variant="destructive" className="bg-destructive text-destructive-foreground">
+```
+
+### Cards and Containers
+```jsx
+// Main content cards
+<Card className="bg-card text-card-foreground border-border">
+
+// Muted containers
+<div className="bg-muted text-muted-foreground p-4 rounded-lg">
+
+// Accent highlights
+<div className="bg-accent/10 text-accent-foreground border border-accent/20">
+```
+
+## 🔧 Migration Checklist
+
+### Files to Update
+1. **Business Profile Pages**: Remove hard-coded dark colors
+2. **Authentication Components**: Update social media icons to neutral colors
+3. **Dashboard Components**: Ensure consistent theming
+4. **Landing Pages**: Update any custom color schemes
+5. **Form Components**: Use theme variables for all styling
+
+### Common Replacements
+```jsx
+// Replace hard-coded colors with theme variables
+"#121212" → "hsl(var(--background))"
+"#EAEAEA" → "hsl(var(--foreground))"
+"#0a0a0a" → "hsl(var(--card))"
+"#374151" → "hsl(var(--border))"
+"#6B7280" → "hsl(var(--muted-foreground))"
+
+// Replace Tailwind color classes
+"bg-gray-800" → "bg-card"
+"text-gray-200" → "text-card-foreground"
+"border-gray-700" → "border-border"
+```
+
+## 🚨 Enforcement Rules
+
+### Always Do:
+- Use CSS variables for all colors
+- Follow the Thorbis blue + neutral color scheme
+- Implement dark mode by default
+- Use semantic color names
+- Test contrast ratios for accessibility
+
+### Never Do:
+- Use hard-coded hex colors
+- Implement rainbow or multi-color schemes
+- Use gradients or complex color patterns
+- Ignore the established color palette
+- Create custom color variations
+
+### Code Review Checklist:
+- [ ] No hard-coded hex colors
+- [ ] Uses CSS variables for theming
+- [ ] Follows Thorbis blue + neutral scheme
+- [ ] Implements proper dark mode support
+- [ ] Maintains accessibility standards
+- [ ] No gradients or complex patterns
+
+## 🎯 Success Metrics
+
+### Visual Consistency:
+- **100%** of components use theme variables
+- **0** hard-coded color values
+- **Consistent** brand recognition across all pages
+- **Professional** and modern appearance
+
+### Accessibility:
+- **WCAG AA** contrast compliance
+- **High contrast** for all text elements
+- **Clear visual hierarchy** using neutral grays
+- **Consistent** focus indicators
+
+**Remember: The Thorbis theme is about simplicity, professionalism, and consistency. Every color choice should reinforce the brand identity.**

@@ -140,11 +140,11 @@ export default function HomeServicesBookingsPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'pending': return 'bg-yellow-100 text-yellow-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'confirmed': return 'bg-success/10 text-success';
+      case 'pending': return 'bg-warning/10 text-warning';
+      case 'completed': return 'bg-primary/10 text-primary';
+      case 'cancelled': return 'bg-destructive/10 text-destructive';
+      default: return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -311,7 +311,7 @@ export default function HomeServicesBookingsPage() {
                       <Button 
                         size="sm" 
                         onClick={() => handleStatusChange(booking.id, 'confirmed')}
-                        className="bg-green-600 hover:bg-green-700"
+                        className="bg-success hover:bg-success"
                       >
                         Confirm
                       </Button>
@@ -319,7 +319,7 @@ export default function HomeServicesBookingsPage() {
                         size="sm" 
                         variant="outline"
                         onClick={() => handleStatusChange(booking.id, 'cancelled')}
-                        className="text-red-600 border-red-600 hover:bg-red-50"
+                        className="text-destructive border-destructive hover:bg-destructive"
                       >
                         Cancel
                       </Button>
@@ -336,7 +336,7 @@ export default function HomeServicesBookingsPage() {
                   <Button size="sm" variant="outline">
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
+                  <Button size="sm" variant="outline" className="text-destructive border-destructive hover:bg-destructive">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>

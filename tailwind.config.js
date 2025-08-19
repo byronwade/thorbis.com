@@ -19,28 +19,58 @@ module.exports = {
 	theme: {
 		container: {
 			center: true,
-			padding: "2rem",
+			padding: {
+				DEFAULT: "1.5rem",
+				sm: "1rem",
+				md: "1.5rem",
+				lg: "2rem",
+				xl: "2rem",
+				"2xl": "2rem",
+			},
 			screens: {
+				sm: "640px",
+				md: "768px",
+				lg: "1024px",
+				xl: "1280px",
 				"2xl": "1400px",
 			},
 		},
 		extend: {
+			fontFamily: {
+				sans: [
+					"Inter",
+					"ui-sans-serif",
+					"system-ui",
+					"Segoe UI",
+					"Roboto",
+					"Helvetica Neue",
+					"Arial",
+					"Noto Sans",
+					"Apple Color Emoji",
+					"Segoe UI Emoji",
+					"Segoe UI Symbol",
+				],
+				mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New"],
+			},
+			fontSize: {
+				xs: ["0.75rem", { lineHeight: "1rem" }],
+				sm: ["0.875rem", { lineHeight: "1.25rem" }],
+				base: ["1rem", { lineHeight: "1.5rem" }],
+				lg: ["1.125rem", { lineHeight: "1.75rem" }],
+				xl: ["1.25rem", { lineHeight: "1.75rem" }],
+				"2xl": ["1.5rem", { lineHeight: "2rem" }],
+				"3xl": ["1.875rem", { lineHeight: "2.25rem" }],
+				"4xl": ["2.25rem", { lineHeight: "2.5rem" }],
+				"5xl": ["3rem", { lineHeight: "1" }],
+				"6xl": ["3.75rem", { lineHeight: "1" }],
+				"7xl": ["4.5rem", { lineHeight: "1" }],
+			},
 			ringWidth: {
 				0: "0px",
 			},
 			colors: {
-				dark: {
-					100: "#f5f5f5",
-					200: "#e5e5e5",
-					300: "#d4d4d4",
-					400: "#a3a3a3",
-					500: "#737373",
-					600: "#525252",
-					700: "#404040",
-					800: "#262626",
-					900: "#171717",
-					950: "#111111",
-				},
+				// Removed hard-coded gray colors - use CSS variables instead
+				// All colors should use hsl(var(--color-name)) format
 				border: "hsl(var(--border))",
 				input: "hsl(var(--input))",
 				ring: "hsl(var(--ring))",
@@ -66,6 +96,14 @@ module.exports = {
 					DEFAULT: "hsl(var(--accent))",
 					foreground: "hsl(var(--accent-foreground))",
 				},
+				success: {
+					DEFAULT: "hsl(var(--success))",
+					foreground: "hsl(var(--success-foreground))",
+				},
+				warning: {
+					DEFAULT: "hsl(var(--warning))",
+					foreground: "hsl(var(--warning-foreground))",
+				},
 				popover: {
 					DEFAULT: "hsl(var(--popover))",
 					foreground: "hsl(var(--popover-foreground))",
@@ -85,6 +123,19 @@ module.exports = {
 					ring: "hsl(var(--sidebar-ring))",
 				},
 			},
+			typography: (theme) => ({
+				DEFAULT: {
+					css: {
+						color: theme("colors.foreground"),
+						a: { color: theme("colors.primary.DEFAULT") },
+						h1: { color: theme("colors.foreground") },
+						h2: { color: theme("colors.foreground") },
+						h3: { color: theme("colors.foreground") },
+						strong: { color: theme("colors.foreground") },
+						blockquote: { color: theme("colors.muted.foreground") },
+					}
+				},
+			}),
 			borderRadius: {
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",

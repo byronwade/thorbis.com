@@ -1,5 +1,5 @@
 import { authTranslations } from './modules/auth.js';
-import { landingPagesTranslations } from './modules/landingPages.js';
+import { landingPagesTranslations } from './modules/landing-pages.js';
 import { businessTranslations } from './modules/business.js';
 import { dashboardTranslations } from './modules/dashboard.js';
 import { commonTranslations } from './modules/common.js';

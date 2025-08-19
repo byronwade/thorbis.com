@@ -75,7 +75,7 @@ export function AppointmentCard() {
 									</Select>
 								)}
 							/>
-							{errors.service && <p className="text-red-500">{errors.service.message}</p>}
+							{errors.service && <p className="text-destructive">{errors.service.message}</p>}
 							<Button type="button" onClick={nextStep} className="w-full mt-4">
 								Next
 							</Button>
@@ -85,7 +85,7 @@ export function AppointmentCard() {
 						<div>
 							<label>Description</label>
 							<Textarea placeholder="Describe your request" {...register("description", { required: "Description is required." })} />
-							{errors.description && <p className="text-red-500">{errors.description.message}</p>}
+							{errors.description && <p className="text-destructive">{errors.description.message}</p>}
 							<div className="flex justify-between mt-4">
 								<Button type="button" onClick={previousStep} className="w-1/2 mr-2">
 									Back
@@ -100,7 +100,7 @@ export function AppointmentCard() {
 						<div>
 							<label>Budget</label>
 							<Input type="number" placeholder="Your budget" {...register("budget", { required: "Budget is required." })} />
-							{errors.budget && <p className="text-red-500">{errors.budget.message}</p>}
+							{errors.budget && <p className="text-destructive">{errors.budget.message}</p>}
 							<p className="mt-4">{companyInfo.name} will reach out to you to confirm and book the appointment date.</p>
 							<div className="flex justify-between mt-4">
 								<Button type="button" onClick={previousStep} className="w-1/2 mr-2">

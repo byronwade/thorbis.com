@@ -77,7 +77,7 @@ const AddPostForm = ({ onSubmit }) => {
 					<Image width={100} height={100} className="w-12 h-12 mr-3 rounded-full" src="/placeholder.svg" alt="User avatar" />
 					<div className="w-full">
 						<textarea
-							className={`w-full h-32 p-2 border rounded-md resize-none dark:bg-gray-700 dark:border-gray-600 dark:text-white transition-all duration-200 ${isDraggingImages || isDraggingVideo ? "border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-900/10" : "border-gray-300 dark:border-gray-600"}`}
+							className={`w-full h-32 p-2 border rounded-md resize-none dark:bg-muted dark:border-border dark:text-white transition-all duration-200 ${isDraggingImages || isDraggingVideo ? "border-dashed border-primary bg-blue-50/50 dark:bg-primary/10" : "border-border dark:border-border"}`}
 							placeholder={isDraggingImages ? "Drop images here..." : isDraggingVideo ? "Drop video here..." : "What's on your mind?"}
 							value={content}
 							onChange={handleChange}
@@ -91,7 +91,7 @@ const AddPostForm = ({ onSubmit }) => {
 								{images.map((image, index) => (
 									<div key={index} className="relative aspect-square">
 										<Image src={image} alt={`Preview ${index + 1}`} width={400} height={400} className="w-full h-full object-cover rounded-md" />
-										<button type="button" onClick={() => removeImage(index)} className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors">
+										<button type="button" onClick={() => removeImage(index)} className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 hover:bg-destructive transition-colors">
 											<XCircle className="w-4 h-4" />
 										</button>
 									</div>
@@ -103,7 +103,7 @@ const AddPostForm = ({ onSubmit }) => {
 						{video && (
 							<div className="mt-3 relative">
 								<video src={video} className="w-full max-h-64 object-cover rounded-md" controls />
-								<button type="button" onClick={removeVideo} className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors">
+								<button type="button" onClick={removeVideo} className="absolute top-2 right-2 bg-destructive text-white rounded-full p-1 hover:bg-destructive transition-colors">
 									<XCircle className="w-4 h-4" />
 								</button>
 							</div>
@@ -126,7 +126,7 @@ const AddPostForm = ({ onSubmit }) => {
 								<input ref={videoInputRef} type="file" accept="video/*" className="hidden" onChange={(e) => handleVideoUpload(Array.from(e.target.files))} />
 							</div>
 							{/* Post Button */}
-							<Button type="submit" className="text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800">
+							<Button type="submit" className="text-white bg-primary hover:bg-primary dark:bg-primary dark:hover:bg-primary">
 								Post
 							</Button>
 						</div>

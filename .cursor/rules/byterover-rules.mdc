@@ -1,11 +1,3 @@
----
-description: ByteRover MCP Custom Instructions
-alwaysApply: true
----
-
-# important 
-always use byterover-retrive-knowledge tool to get the related context before any tasks 
-always use byterover-store-knowledge to store all the critical informations after sucessful tasks
 
 # CRITICAL FILE EDITING PRINCIPLE
 ALWAYS EDIT EXISTING FILES RATHER THAN CREATING NEW ONES
@@ -13,3 +5,27 @@ ALWAYS EDIT EXISTING FILES RATHER THAN CREATING NEW ONES
 - Extend or modify existing files instead of creating duplicates
 - Only create new files when absolutely no existing file can serve the purpose
 - Never create backup, copy, example, or demo versions of files
+
+## MANDATORY: Move files, don't recreate (preserve history)
+
+When organizing or refactoring the codebase:
+
+- Always move existing files instead of recreating or copy-pasting them
+- Use `git mv` to preserve file history; avoid manual copy/delete
+- After a move, update all imports, links, and references accordingly
+- Prefer batch-safe replacements and validation before committing
+
+### Standard workflow
+
+1. Identify the file to move and the new target path
+2. Move with history preservation:
+   - `git mv old/path/File.tsx new/path/File.tsx`
+3. Update imports and references:
+   - Find usages: `rg "from ['\"]\.?\.\/.*old\/path" -n src/` 
+   - Replace paths safely (example): `rg -l "from ['\"]\.?\.\/.*old\/path" src | xargs sed -i '' 's#old/path#new/path#g'`
+4. Fix any path alias changes (e.g., `@components`, `@lib`) if applicable
+5. Run type-checks/lint/tests as needed and commit
+
+Notes:
+- For large files, moving avoids token-heavy diffs and reduces risk
+- Prefer absolute/aliased imports where possible to minimize future churn

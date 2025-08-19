@@ -6,7 +6,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { toast } from "@components/ui/use-toast";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 const initialProfileState = {
 	// Basic Information

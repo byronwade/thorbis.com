@@ -10,7 +10,7 @@
  * - Entity-based content organization
  */
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 import { seoDataIntegration } from "./seo-data-integration";
 
 export class AISearchOptimizer {

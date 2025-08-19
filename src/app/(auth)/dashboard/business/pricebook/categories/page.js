@@ -17,7 +17,7 @@ const mockCategories = [
 	{ id: "CAT005", name: "Thermostats", type: "product", items: 5, description: "Smart & Standard" },
 ];
 
-const typeColors = { service: "bg-blue-100 text-blue-800", product: "bg-purple-100 text-purple-800" };
+const typeColors = { service: "bg-primary/10 text-primary", product: "bg-purple-100 text-purple-800" };
 
 // metadata removed (client component)
 

@@ -12,7 +12,7 @@ import { useSearchStore } from "@store/search";
 import { useMapStore } from "@store/map";
 import { filterAndSortBusinesses } from "@utils/sorting";
 import { withErrorHandling } from "@utils/error-handler";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Virtual scrolling constants
 const ITEMS_PER_PAGE = 20;
@@ -406,9 +406,9 @@ export const useBusinessCardList = (businesses = []) => {
 
 	// Utility functions
 	const getUrgencyIndicator = (business) => {
-		if (business.urgent) return { color: "bg-red-500", label: "Urgent" };
-		if (business.responseTime === "Within 1 hour") return { color: "bg-orange-500", label: "Fast Response" };
-		if (business.availability === "Available today") return { color: "bg-green-500", label: "Available" };
+		if (business.urgent) return { color: "bg-destructive", label: "Urgent" };
+		if (business.responseTime === "Within 1 hour") return { color: "bg-warning", label: "Fast Response" };
+		if (business.availability === "Available today") return { color: "bg-success", label: "Available" };
 		return null;
 	};
 

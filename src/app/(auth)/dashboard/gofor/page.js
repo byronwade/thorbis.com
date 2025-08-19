@@ -168,12 +168,12 @@ export default function GoForDashboard() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "pending": return "bg-yellow-100 text-yellow-800 border-yellow-300";
-      case "picking_up": return "bg-blue-100 text-blue-800 border-blue-300";
+      case "pending": return "bg-warning/10 text-warning border-yellow-300";
+      case "picking_up": return "bg-primary/10 text-primary border-primary/40";
       case "en_route": return "bg-purple-100 text-purple-800 border-purple-300";
-      case "delivered": return "bg-green-100 text-green-800 border-green-300";
-      case "completed": return "bg-green-100 text-green-800 border-green-300";
-      case "cancelled": return "bg-red-100 text-red-800 border-red-300";
+      case "delivered": return "bg-success/10 text-success border-green-300";
+      case "completed": return "bg-success/10 text-success border-green-300";
+      case "cancelled": return "bg-destructive/10 text-destructive border-red-300";
       default: return "bg-muted text-muted-foreground border-border";
     }
   };
@@ -329,7 +329,7 @@ export default function GoForDashboard() {
                             <div className="flex items-center gap-2 text-xs text-muted-foreground">
                               <Phone className="w-3 h-3" />
                               <span>{delivery.driver.phone}</span>
-                              <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                              <Star className="w-3 h-3 fill-yellow-400 text-warning" />
                               <span>{delivery.driver.rating}</span>
                             </div>
                           </div>
@@ -387,7 +387,7 @@ export default function GoForDashboard() {
                     <p className="font-medium">{driver.name}</p>
                     <p className="text-sm text-muted-foreground">{driver.vehicle}</p>
                   </div>
-                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">
+                  <Badge variant="outline" className="bg-green-50 text-success border-green-200">
                     Available
                   </Badge>
                 </div>
@@ -396,7 +396,7 @@ export default function GoForDashboard() {
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Rating:</span>
                     <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      <Star className="w-3 h-3 fill-yellow-400 text-warning" />
                       <span>{driver.rating}</span>
                     </div>
                   </div>
@@ -606,7 +606,7 @@ export default function GoForDashboard() {
                             {[...Array(5)].map((_, i) => (
                               <Star 
                                 key={i} 
-                                className={`w-3 h-3 ${i < delivery.rating ? 'fill-yellow-400 text-yellow-400' : 'text-muted-foreground'}`} 
+                                className={`w-3 h-3 ${i < delivery.rating ? 'fill-yellow-400 text-warning' : 'text-muted-foreground'}`} 
                               />
                             ))}
                           </div>
@@ -701,7 +701,7 @@ export default function GoForDashboard() {
                         <div>
                           <span className="text-muted-foreground">Rating:</span>
                           <div className="flex items-center gap-1 mt-1">
-                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                            <Star className="w-4 h-4 fill-yellow-400 text-warning" />
                             <span className="font-medium">{driver.rating}</span>
                           </div>
                         </div>

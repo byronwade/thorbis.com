@@ -90,7 +90,7 @@ const SelectedBusinessCard = ({ business }) => {
 									<h4 className="text-lg font-semibold leading-tight text-foreground">{business.name}</h4>
 									{business.ratings?.overall && (
 										<div className="flex flex-shrink-0 gap-1 items-center ml-2">
-											<Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+											<Star className="w-4 h-4 text-warning fill-yellow-400" />
 											<span className="text-sm font-medium">{business.ratings.overall}</span>
 										</div>
 									)}
@@ -118,7 +118,7 @@ const SelectedBusinessCard = ({ business }) => {
 
 						{/* Status Badge Row */}
 						<div className="flex justify-center pt-2">
-							<Badge variant="secondary" className="text-green-800 bg-green-100 border-green-200 dark:bg-green-900 dark:text-green-200 dark:border-green-800">
+							<Badge variant="secondary" className="text-success bg-success/10 border-green-200 dark:bg-success dark:text-success/80 dark:border-green-800">
 								<CheckCircle className="mr-2 w-4 h-4" />
 								Selected for Claiming
 							</Badge>

@@ -142,10 +142,10 @@ export default function HomeServicesCustomersPage() {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'inactive': return 'bg-gray-100 text-gray-800';
-      case 'new': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'active': return 'bg-success/10 text-success';
+      case 'inactive': return 'bg-muted text-foreground';
+      case 'new': return 'bg-primary/10 text-primary';
+      default: return 'bg-muted text-foreground';
     }
   };
 
@@ -159,10 +159,10 @@ export default function HomeServicesCustomersPage() {
   const getValueColor = (value) => {
     switch (value) {
       case 'VIP': return 'bg-purple-100 text-purple-800';
-      case 'Regular': return 'bg-blue-100 text-blue-800';
-      case 'Occasional': return 'bg-yellow-100 text-yellow-800';
-      case 'New': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'Regular': return 'bg-primary/10 text-primary';
+      case 'Occasional': return 'bg-warning/10 text-warning';
+      case 'New': return 'bg-success/10 text-success';
+      default: return 'bg-muted text-foreground';
     }
   };
 
@@ -398,7 +398,7 @@ export default function HomeServicesCustomersPage() {
                   <Button size="sm" variant="outline">
                     <Edit className="h-4 w-4" />
                   </Button>
-                  <Button size="sm" variant="outline" className="text-red-600 border-red-600 hover:bg-red-50">
+                  <Button size="sm" variant="outline" className="text-destructive border-red-600 hover:bg-red-50">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>

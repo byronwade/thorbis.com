@@ -169,7 +169,7 @@ export function MapRouteVisualization({ vehicles, selectedVehicle, onVehicleSele
           {vehicles.map((vehicle, vehicleIndex) => {
             const isSelected = selectedVehicle === vehicle.id
             const routeColor =
-              vehicle.status === "active" ? "#b8860b" : vehicle.status === "idle" ? "#8b5cf6" : "#6b7280"
+              vehicle.status === "active" ? "hsl(var(--warning))" : vehicle.status === "idle" ? "hsl(var(--muted-foreground))" : "hsl(var(--muted-foreground))"
 
             // Generate route path points
             const routePoints = vehicle.route.map((_, index) => ({
@@ -197,7 +197,7 @@ export function MapRouteVisualization({ vehicles, selectedVehicle, onVehicleSele
                       cx={point.x}
                       cy={point.y}
                       r={index === 0 || index === routePoints.length - 1 ? "6" : "4"}
-                      fill={index === 0 ? "#b8860b" : index === routePoints.length - 1 ? "#8b5cf6" : routeColor}
+                      fill={index === 0 ? "hsl(var(--warning))" : index === routePoints.length - 1 ? "hsl(var(--muted-foreground))" : routeColor}
                       stroke="white"
                       strokeWidth="2"
                       className="transition-all duration-300"

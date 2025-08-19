@@ -199,9 +199,9 @@ export default function CustomerPortalPage() {
                   <div key={activity.id} className="flex items-center justify-between p-3 border rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="flex-shrink-0">
-                        {activity.type === 'booking' && <Calendar className="h-5 w-5 text-blue-500" />}
-                        {activity.type === 'payment' && <CreditCard className="h-5 w-5 text-green-500" />}
-                        {activity.type === 'review' && <CheckCircle className="h-5 w-5 text-yellow-500" />}
+                        {activity.type === 'booking' && <Calendar className="h-5 w-5 text-primary" />}
+                        {activity.type === 'payment' && <CreditCard className="h-5 w-5 text-success" />}
+                        {activity.type === 'review' && <CheckCircle className="h-5 w-5 text-warning" />}
                       </div>
                       <div>
                         <p className="font-medium">{activity.customer}</p>
@@ -323,9 +323,9 @@ export default function CustomerPortalPage() {
                   <div key={activity.id} className="flex items-center justify-between p-3 border rounded-lg">
                     <div className="flex items-center space-x-3">
                       <div className="flex-shrink-0">
-                        {activity.type === 'invoice' && <FileText className="h-5 w-5 text-blue-500" />}
-                        {activity.type === 'payment' && <CreditCard className="h-5 w-5 text-green-500" />}
-                        {activity.type === 'estimate' && <Calculator className="h-5 w-5 text-purple-500" />}
+                        {activity.type === 'invoice' && <FileText className="h-5 w-5 text-primary" />}
+                        {activity.type === 'payment' && <CreditCard className="h-5 w-5 text-success" />}
+                        {activity.type === 'estimate' && <Calculator className="h-5 w-5 text-muted-foreground" />}
                       </div>
                       <div>
                         <p className="font-medium">{activity.client}</p>

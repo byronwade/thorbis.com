@@ -6,7 +6,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 export const useUserPreferencesStore = create(
 	persist(

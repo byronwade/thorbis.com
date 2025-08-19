@@ -112,13 +112,13 @@ export default function JobsPage() {
 		switch (status) {
 			case "active":
 				return (
-					<Badge variant="secondary" className="bg-green-500/10 text-green-600 dark:text-green-400 hover:bg-green-500/20">
+					<Badge variant="secondary" className="bg-success/10 text-success dark:text-success hover:bg-success/20">
 						Active
 					</Badge>
 				);
 			case "in-progress":
 				return (
-					<Badge variant="secondary" className="bg-blue-500/10 text-blue-600 dark:text-blue-400 hover:bg-blue-500/20">
+					<Badge variant="secondary" className="bg-primary/10 text-primary dark:text-primary hover:bg-primary/20">
 						In Progress
 					</Badge>
 				);
@@ -130,7 +130,7 @@ export default function JobsPage() {
 				);
 			case "draft":
 				return (
-					<Badge variant="secondary" className="bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 hover:bg-yellow-500/20">
+					<Badge variant="secondary" className="bg-warning/10 text-warning dark:text-warning hover:bg-warning/20">
 						Draft
 					</Badge>
 				);
@@ -163,7 +163,7 @@ export default function JobsPage() {
 							<DropdownMenuItem>Edit jobs</DropdownMenuItem>
 							<DropdownMenuItem>Duplicate jobs</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem className="text-red-600">Delete jobs</DropdownMenuItem>
+							<DropdownMenuItem className="text-destructive">Delete jobs</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
 					<Link href="/dashboard/user/jobs/create">
@@ -218,7 +218,7 @@ export default function JobsPage() {
 								<TrendingUp className="w-4 h-4 mr-2" />
 								Boost jobs
 							</Button>
-							<Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+							<Button variant="outline" size="sm" className="text-destructive hover:text-destructive">
 								<Trash2 className="w-4 h-4 mr-2" />
 								Delete jobs
 							</Button>
@@ -349,7 +349,7 @@ export default function JobsPage() {
 													</DropdownMenuItem>
 												)}
 												<DropdownMenuSeparator />
-												<DropdownMenuItem className="text-red-600">
+												<DropdownMenuItem className="text-destructive">
 													<Trash2 className="w-4 h-4 mr-2" />
 													Delete
 												</DropdownMenuItem>

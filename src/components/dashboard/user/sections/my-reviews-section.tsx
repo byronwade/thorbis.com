@@ -39,7 +39,7 @@ export default function MyReviewsSection({ reviews = [] as ReviewItem[] }: { rev
                             <div key={rev.id} className="flex items-start justify-between gap-4 p-4 rounded-lg border bg-card">
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2">
-                                        <div className="flex items-center gap-1 text-yellow-500">
+                                        <div className="flex items-center gap-1 text-warning">
                                             {[1, 2, 3, 4, 5].map((s) => (
                                                 <Star key={s} className={`h-4 w-4 ${s <= (rev.rating || 0) ? "fill-yellow-500" : "text-muted-foreground"}`} />
                                             ))}

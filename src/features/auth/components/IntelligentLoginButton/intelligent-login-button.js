@@ -25,18 +25,18 @@ const CONTEXT_ICONS = {
 };
 
 const CONTEXT_COLORS = {
-	"add-business": "bg-blue-600 hover:bg-blue-700",
-	"claim-business": "bg-green-600 hover:bg-green-700",
-	"write-review": "bg-yellow-600 hover:bg-yellow-700",
-	"save-business": "bg-red-600 hover:bg-red-700",
+	"add-business": "bg-primary hover:bg-primary",
+	"claim-business": "bg-success hover:bg-success",
+	"write-review": "bg-warning hover:bg-warning",
+	"save-business": "bg-destructive hover:bg-destructive",
 	"book-service": "bg-purple-600 hover:bg-purple-700",
-	"business-dashboard": "bg-gray-600 hover:bg-gray-700",
+	"business-dashboard": "bg-muted hover:bg-muted",
 	"view-profile": "bg-primary hover:bg-primary/90",
 	"admin-access": "bg-primary hover:bg-primary/90",
 	"premium-features": "bg-primary hover:bg-primary/90",
 	"join-community": "bg-primary hover:bg-primary/90",
 	"get-support": "bg-primary hover:bg-primary/90",
-	default: "bg-gray-900 hover:bg-gray-800",
+	default: "bg-card hover:bg-card",
 };
 
 /**

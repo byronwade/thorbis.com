@@ -149,7 +149,7 @@ export function SmartHelp({
 			{/* Header */}
 			<div className="flex items-center justify-between mb-3">
 				<div className="flex items-center space-x-2">
-					<Lightbulb className="w-5 h-5 text-blue-500" />
+					<Lightbulb className="w-5 h-5 text-primary" />
 					<h3 className="font-semibold text-foreground">{currentContent.title}</h3>
 				</div>
 				<Button variant="ghost" size="sm" onClick={handleDismiss} className="h-8 w-8 p-0">
@@ -162,7 +162,7 @@ export function SmartHelp({
 				{currentContent.tips.map((tip, index) => (
 					<div key={index} className="border rounded-lg p-3">
 						<div className={cn("flex items-start space-x-3", tip.expandable && "cursor-pointer")} onClick={() => tip.expandable && toggleTip(index)}>
-							<div className="text-blue-500 mt-0.5">{tip.icon}</div>
+							<div className="text-primary mt-0.5">{tip.icon}</div>
 							<div className="flex-1">
 								<div className="flex items-center justify-between">
 									<h4 className="font-medium text-sm text-foreground">{tip.title}</h4>
@@ -254,10 +254,10 @@ export function StepProgress({ currentStep, totalSteps, steps = [], showLabels =
 					return (
 						<div key={stepNumber} className="flex items-center">
 							{/* Step Circle */}
-							<div className={cn("w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-medium", isCompleted && "bg-green-500 border-green-500 text-white", isActive && "border-primary text-primary bg-primary/10", !isActive && !isCompleted && "border-muted-foreground text-muted-foreground")}>{isCompleted ? "✓" : stepNumber}</div>
+							<div className={cn("w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-medium", isCompleted && "bg-success border-green-500 text-white", isActive && "border-primary text-primary bg-primary/10", !isActive && !isCompleted && "border-muted-foreground text-muted-foreground")}>{isCompleted ? "✓" : stepNumber}</div>
 
 							{/* Connector Line */}
-							{index < totalSteps - 1 && <div className={cn("h-0.5 w-12 mx-2", stepNumber < currentStep ? "bg-green-500" : "bg-muted")} />}
+							{index < totalSteps - 1 && <div className={cn("h-0.5 w-12 mx-2", stepNumber < currentStep ? "bg-success" : "bg-muted")} />}
 						</div>
 					);
 				})}

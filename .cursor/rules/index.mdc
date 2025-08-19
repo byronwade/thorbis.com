@@ -17,6 +17,12 @@ This is the fundamental rule that applies across ALL development work:
 - Only create new files when absolutely no existing file can serve the purpose
 - Never create backup, copy, example, or demo versions of files
 
+### Non-negotiable workflow: Move, don't recreate
+
+- Use `git mv` when reorganizing or renaming files to preserve history
+- After moves, update imports/links/aliases and validate references
+- Avoid content copy-paste; prefer relocations with tracked history
+
 ## Core Framework
 
 Core Next.js and React development guidelines.
@@ -25,6 +31,7 @@ Core Next.js and React development guidelines.
 | :--------------------------------- | :---------------------------------------------------------- |
 | @frontend-framework.mdc            | Next.js, React 19 architecture, and custom hooks           |
 | @ui-components.mdc                 | UI component and styling guidelines (Shadcn, Tailwind)      |
+| @thorbis-theme.mdc                 | Thorbis theme guidelines and color system                   |
 | @form-handling.mdc                 | Form handling using React Hook Form and Zod                 |
 | @data-fetching.mdc                 | Fetching data from the API using SWR                        |
 | @get-api-route.mdc                 | Guidelines for implementing GET API routes in Next.js       |

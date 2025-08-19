@@ -7,6 +7,8 @@ import { ArrowRight, Star, ShoppingCart, Heart, CheckCircle, Truck } from "lucid
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@components/store/ProductCard";
+import ProductListItem from "@components/store/ProductListItem";
+import MobileProductList from "@components/store/MobileProductList";
 
 // Mock data for categories and products
 const categories = [
@@ -178,7 +180,17 @@ function CategoryProducts({ products }) {
   return (
     <section className="py-16 bg-white dark:bg-slate-900">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Mobile List View */}
+        <div className="block md:hidden">
+          <MobileProductList>
+            {products.map((product) => (
+              <ProductListItem key={product.id} product={product} />
+            ))}
+          </MobileProductList>
+        </div>
+        
+        {/* Desktop Grid View */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

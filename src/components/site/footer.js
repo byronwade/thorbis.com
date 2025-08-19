@@ -117,8 +117,8 @@ export default function Footer() {
 										<div className="text-lg font-semibold">App Store</div>
 									</div>
 								</Link>
-								<Link href="/mobile" aria-label="Get it on Google Play" className="inline-flex items-center gap-3 rounded-2xl border px-6 py-4 bg-neutral-800 border-emerald-400/30 hover:bg-neutral-700 transition-colors text-white min-w-[160px]">
-									<FaGooglePlay className="w-7 h-7 text-emerald-400" />
+								<Link href="/mobile" aria-label="Get it on Google Play" className="inline-flex items-center gap-3 rounded-2xl border px-6 py-4 bg-neutral-800 border-success/30 hover:bg-neutral-700 transition-colors text-white min-w-[160px]">
+									<FaGooglePlay className="w-7 h-7 text-success" />
 									<div className="text-left">
 										<div className="text-xs text-slate-400">Get it on</div>
 										<div className="text-lg font-semibold">Google Play</div>
@@ -132,27 +132,27 @@ export default function Footer() {
 					<div className="mb-16">
 						<h3 className="text-xl font-bold text-white mb-6 text-center">{footer.trustTitle}</h3>
 						<div className="flex flex-wrap justify-center gap-6">
-							<div className="flex items-center gap-2 text-green-400">
+							<div className="flex items-center gap-2 text-success">
 								<MdVerifiedUser className="w-5 h-5" />
 								<span className="text-sm font-medium">Privacy Shield</span>
 							</div>
-							<div className="flex items-center gap-2 text-blue-400">
+							<div className="flex items-center gap-2 text-primary">
 								<FaCertificate className="w-5 h-5" />
 								<span className="text-sm font-medium">ISO 27001</span>
 							</div>
-							<div className="flex items-center gap-2 text-purple-400">
+							<div className="flex items-center gap-2 text-muted-foreground">
 								<FaAward className="w-5 h-5" />
 								<span className="text-sm font-medium">SOC2</span>
 							</div>
-							<div className="flex items-center gap-2 text-orange-400">
+							<div className="flex items-center gap-2 text-warning">
 								<MdGppGood className="w-5 h-5" />
 								<span className="text-sm font-medium">CCPA</span>
 							</div>
-							<div className="flex items-center gap-2 text-indigo-400">
+							<div className="flex items-center gap-2 text-primary">
 								<MdSecurity className="w-5 h-5" />
 								<span className="text-sm font-medium">GDPR</span>
 							</div>
-							<div className="flex items-center gap-2 text-teal-400">
+							<div className="flex items-center gap-2 text-success">
 								<FaBriefcaseMedical className="w-5 h-5" />
 								<span className="text-sm font-medium">HIPAA</span>
 							</div>
@@ -163,45 +163,45 @@ export default function Footer() {
 					<div className="mb-16">
 						<div className="mb-12 text-center">
 							<h3 className="flex gap-3 justify-center items-center mb-4 text-2xl font-bold text-white">
-								<MdCompare className="w-6 h-6 text-blue-300" />
+								<MdCompare className="w-6 h-6 text-primary/90" />
 								{footer.compareTitle}
 							</h3>
 							<p className="mx-auto max-w-2xl text-lg text-slate-300">{footer.compareDescription}</p>
 						</div>
 						<div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-9 gap-4">
-							<Link href="/yelp-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-red-500/10 border border-neutral-700 hover:border-red-400/30 transition-all">
+							<Link href="/yelp-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-destructive/10 border border-neutral-700 hover:border-destructive/30 transition-all">
 								<SiYelp className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Yelp</span>
 							</Link>
-							<Link href="/google-business-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-blue-500/10 border border-neutral-700 hover:border-blue-400/30 transition-all">
+							<Link href="/google-business-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-primary/10 border border-neutral-700 hover:border-primary/50/30 transition-all">
 								<SiGoogle className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Google</span>
 							</Link>
-							<Link href="/tripadvisor-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-green-500/10 border border-neutral-700 hover:border-green-400/30 transition-all">
+							<Link href="/tripadvisor-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-success/10 border border-neutral-700 hover:border-success/30 transition-all">
 								<SiTripadvisor className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs TripAdvisor</span>
 							</Link>
-							<Link href="/angies-list-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-pink-500/10 border border-neutral-700 hover:border-pink-400/30 transition-all">
+							<Link href="/angies-list-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-muted/10 border border-neutral-700 hover:border-border/30 transition-all">
 								<MdRateReview className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Angie's List</span>
 							</Link>
-							<Link href="/booking-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-cyan-500/10 border border-neutral-700 hover:border-cyan-400/30 transition-all">
+							<Link href="/booking-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-primary/10 border border-neutral-700 hover:border-primary/30 transition-all">
 								<FaBuilding className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Booking</span>
 							</Link>
-							<Link href="/expedia-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-orange-500/10 border border-neutral-700 hover:border-orange-400/30 transition-all">
+							<Link href="/expedia-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-warning/10 border border-neutral-700 hover:border-warning/30 transition-all">
 								<SiExpedia className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Expedia</span>
 							</Link>
-							<Link href="/yellow-pages-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-yellow-500/10 border border-neutral-700 hover:border-yellow-400/30 transition-all">
+							<Link href="/yellow-pages-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-warning/10 border border-neutral-700 hover:border-warning/30 transition-all">
 								<FaBookOpen className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Yellow Pages</span>
 							</Link>
-							<Link href="/bark-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-emerald-500/10 border border-neutral-700 hover:border-emerald-400/30 transition-all">
+							<Link href="/bark-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-success/10 border border-neutral-700 hover:border-success/30 transition-all">
 								<MdWork className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Bark</span>
 							</Link>
-							<Link href="/thumbtack-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-purple-500/10 border border-neutral-700 hover:border-purple-400/30 transition-all">
+							<Link href="/thumbtack-alternative" className="group flex flex-col items-center p-4 rounded-xl bg-neutral-800/50 hover:bg-muted/10 border border-neutral-700 hover:border-border/30 transition-all">
 								<SiThumbtack className="w-8 h-8 text-white mb-2" />
 								<span className="text-xs font-medium text-center text-slate-300">vs Thumbtack</span>
 							</Link>

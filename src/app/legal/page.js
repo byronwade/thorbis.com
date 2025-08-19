@@ -199,7 +199,7 @@ function LegalHero() {
     <div className="bg-background border-b border-border transition-colors duration-200">
       <div className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 dark:bg-primary/50 text-primary dark:text-primary/90 text-sm font-medium rounded-full mb-6">
             <Scale className="h-4 w-4" />
             Legal Center
           </div>
@@ -277,8 +277,8 @@ function LegalContent() {
                 <CardHeader className="border-b border-border pb-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex items-center justify-center w-8 h-8 bg-blue-50 dark:bg-blue-950/50 rounded-lg">
-                        <Scale className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                      <div className="flex items-center justify-center w-8 h-8 bg-blue-50 dark:bg-primary/50 rounded-lg">
+                        <Scale className="h-4 w-4 text-primary dark:text-primary" />
                       </div>
                       <div>
                         <CardTitle className="text-lg font-semibold text-foreground">Terms of Service</CardTitle>
@@ -306,7 +306,7 @@ function LegalContent() {
                       <h3 className="font-medium text-foreground mb-3">Key Points</h3>
                       <div className="grid gap-2">
                         <div className="flex items-start gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                          <CheckCircle className="h-4 w-4 text-success dark:text-success mt-0.5 flex-shrink-0" />
                           <span className="text-sm text-muted-foreground">You must be 18 or older to use our services</span>
                         </div>
                         <div className="flex items-start gap-2">
@@ -348,30 +348,30 @@ function LegalContent() {
                 <CardContent>
                   <div className="space-y-6">
                     {privacyHighlights.map((section, index) => (
-                      <div key={index} className="border-l-4 border-green-500 dark:border-green-400 pl-4 hover:bg-green-50 dark:hover:bg-green-900/10 rounded-r-lg transition-colors duration-200 p-3">
+                      <div key={index} className="border-l-4 border-green-500 dark:border-green-400 pl-4 hover:bg-green-50 dark:hover:bg-success/10 rounded-r-lg transition-colors duration-200 p-3">
                         <h3 className="font-semibold mb-2 text-foreground">{section.title}</h3>
                         <p className="text-muted-foreground leading-relaxed">{section.content}</p>
                       </div>
                     ))}
                     
-                    <div className="bg-green-50 dark:bg-green-900/20 p-6 rounded-lg mt-8 border border-green-200 dark:border-green-800">
-                      <h3 className="font-semibold mb-3 text-green-900 dark:text-green-100">Your Data Rights:</h3>
+                    <div className="bg-green-50 dark:bg-success/20 p-6 rounded-lg mt-8 border border-green-200 dark:border-green-800">
+                      <h3 className="font-semibold mb-3 text-success dark:text-success/70">Your Data Rights:</h3>
                       <ul className="space-y-3">
                         <li className="flex items-center space-x-3">
-                          <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
-                          <span className="text-green-800 dark:text-green-200">Access and download your data</span>
+                          <CheckCircle className="h-5 w-5 text-success dark:text-success flex-shrink-0" />
+                          <span className="text-success dark:text-success/80">Access and download your data</span>
                         </li>
                         <li className="flex items-center space-x-3">
-                          <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
-                          <span className="text-green-800 dark:text-green-200">Correct inaccurate information</span>
+                          <CheckCircle className="h-5 w-5 text-success dark:text-success flex-shrink-0" />
+                          <span className="text-success dark:text-success/80">Correct inaccurate information</span>
                         </li>
                         <li className="flex items-center space-x-3">
-                          <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
-                          <span className="text-green-800 dark:text-green-200">Delete your account and data</span>
+                          <CheckCircle className="h-5 w-5 text-success dark:text-success flex-shrink-0" />
+                          <span className="text-success dark:text-success/80">Delete your account and data</span>
                         </li>
                         <li className="flex items-center space-x-3">
-                          <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0" />
-                          <span className="text-green-800 dark:text-green-200">Opt-out of marketing communications</span>
+                          <CheckCircle className="h-5 w-5 text-success dark:text-success flex-shrink-0" />
+                          <span className="text-success dark:text-success/80">Opt-out of marketing communications</span>
                         </li>
                       </ul>
                     </div>
@@ -451,13 +451,13 @@ function LegalContent() {
                   <div className="space-y-8">
                     {contentStandards.map((category, index) => (
                       <div key={index}>
-                        <h3 className="text-lg font-semibold mb-4 text-orange-600 dark:text-orange-400">
+                        <h3 className="text-lg font-semibold mb-4 text-warning dark:text-warning">
                           {category.category} Standards
                         </h3>
                         <div className="grid md:grid-cols-2 gap-3">
                           {category.standards.map((standard, i) => (
-                            <div key={i} className="flex items-center space-x-3 p-2 rounded hover:bg-orange-50 dark:hover:bg-orange-900/10 transition-colors duration-200">
-                              <CheckCircle className="h-4 w-4 text-green-500 dark:text-green-400 flex-shrink-0" />
+                            <div key={i} className="flex items-center space-x-3 p-2 rounded hover:bg-orange-50 dark:hover:bg-warning/10 transition-colors duration-200">
+                              <CheckCircle className="h-4 w-4 text-success dark:text-success flex-shrink-0" />
                               <span className="text-sm text-muted-foreground">{standard}</span>
                             </div>
                           ))}
@@ -465,15 +465,15 @@ function LegalContent() {
                       </div>
                     ))}
                     
-                    <div className="bg-orange-50 dark:bg-orange-900/20 p-6 rounded-lg border border-orange-200 dark:border-orange-800">
-                      <h3 className="font-semibold mb-3 text-orange-900 dark:text-orange-100">Prohibited Content:</h3>
-                      <div className="grid md:grid-cols-2 gap-3 text-orange-800 dark:text-orange-200">
-                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span><span>Spam or irrelevant content</span></div>
-                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span><span>Fake or misleading information</span></div>
-                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span><span>Offensive or inappropriate material</span></div>
-                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span><span>Copyright-infringing content</span></div>
-                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span><span>Personal attacks or harassment</span></div>
-                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-orange-600 dark:bg-orange-400 rounded-full"></span><span>Promotional or advertising content</span></div>
+                    <div className="bg-orange-50 dark:bg-warning/20 p-6 rounded-lg border border-orange-200 dark:border-orange-800">
+                      <h3 className="font-semibold mb-3 text-warning dark:text-warning/70">Prohibited Content:</h3>
+                      <div className="grid md:grid-cols-2 gap-3 text-warning dark:text-warning/80">
+                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-warning dark:bg-warning/40 rounded-full"></span><span>Spam or irrelevant content</span></div>
+                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-warning dark:bg-warning/40 rounded-full"></span><span>Fake or misleading information</span></div>
+                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-warning dark:bg-warning/40 rounded-full"></span><span>Offensive or inappropriate material</span></div>
+                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-warning dark:bg-warning/40 rounded-full"></span><span>Copyright-infringing content</span></div>
+                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-warning dark:bg-warning/40 rounded-full"></span><span>Personal attacks or harassment</span></div>
+                        <div className="flex items-center space-x-2"><span className="w-1.5 h-1.5 bg-warning dark:bg-warning/40 rounded-full"></span><span>Promotional or advertising content</span></div>
                       </div>
                     </div>
                   </div>
@@ -515,19 +515,19 @@ function LegalContent() {
                     ))}
                   </div>
                   
-                  <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg border border-red-200 dark:border-red-800">
-                    <h3 className="font-semibold mb-3 text-red-900 dark:text-red-100">Report Issues:</h3>
-                    <p className="text-red-800 dark:text-red-200 mb-4">
+                  <div className="bg-red-50 dark:bg-destructive/20 p-6 rounded-lg border border-red-200 dark:border-red-800">
+                    <h3 className="font-semibold mb-3 text-destructive dark:text-destructive/70">Report Issues:</h3>
+                    <p className="text-destructive dark:text-destructive/80 mb-4">
                       If you encounter any safety issues, inappropriate content, or suspicious activity:
                     </p>
                     <div className="flex flex-wrap gap-3">
-                      <Button variant="outline" size="sm" className="border-red-300 dark:border-red-600 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30">
+                      <Button variant="outline" size="sm" className="border-red-300 dark:border-red-600 text-destructive dark:text-destructive/90 hover:bg-red-50 dark:hover:bg-destructive/30">
                         Report Content
                       </Button>
-                      <Button variant="outline" size="sm" className="border-red-300 dark:border-red-600 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30">
+                      <Button variant="outline" size="sm" className="border-red-300 dark:border-red-600 text-destructive dark:text-destructive/90 hover:bg-red-50 dark:hover:bg-destructive/30">
                         Report User
                       </Button>
-                      <Button variant="outline" size="sm" className="border-red-300 dark:border-red-600 text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30">
+                      <Button variant="outline" size="sm" className="border-red-300 dark:border-red-600 text-destructive dark:text-destructive/90 hover:bg-red-50 dark:hover:bg-destructive/30">
                         Emergency Contact
                       </Button>
                     </div>

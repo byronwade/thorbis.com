@@ -1,7 +1,7 @@
 // REQUIRED: Advanced Role-Based Access Control System
 // Implements comprehensive permission management with performance optimization
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { SecureStorage } from "@utils/secure-storage";
 
 /**

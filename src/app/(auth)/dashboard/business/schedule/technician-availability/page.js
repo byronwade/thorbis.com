@@ -304,37 +304,37 @@ export default function TechnicianAvailability() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "available":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "on_job":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary dark:text-primary/90";
 			case "traveling":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "off_duty":
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
 	};
 
 	const getStatusIcon = (status) => {
 		switch (status) {
 			case "available":
-				return <CheckCircle className="w-4 h-4 text-green-600" />;
+				return <CheckCircle className="w-4 h-4 text-success" />;
 			case "on_job":
-				return <Activity className="w-4 h-4 text-blue-600" />;
+				return <Activity className="w-4 h-4 text-primary" />;
 			case "traveling":
-				return <Navigation className="w-4 h-4 text-yellow-600" />;
+				return <Navigation className="w-4 h-4 text-warning" />;
 			case "off_duty":
-				return <XCircle className="w-4 h-4 text-gray-600" />;
+				return <XCircle className="w-4 h-4 text-muted-foreground" />;
 			default:
-				return <AlertTriangle className="w-4 h-4 text-red-600" />;
+				return <AlertTriangle className="w-4 h-4 text-destructive" />;
 		}
 	};
 
 	const getUtilizationColor = (rate) => {
-		if (rate >= 80) return "text-green-600";
-		if (rate >= 60) return "text-yellow-600";
-		return "text-red-600";
+		if (rate >= 80) return "text-success";
+		if (rate >= 60) return "text-warning";
+		return "text-destructive";
 	};
 
 	const formatTime = (timeString) => {
@@ -380,24 +380,24 @@ export default function TechnicianAvailability() {
 								<p className="text-sm text-muted-foreground">Team Status</p>
 								<div className="flex gap-2 items-center mt-1">
 									<div className="flex gap-1">
-										<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-success rounded-full"></div>
 										<span className="text-xs">{teamStats.available}</span>
 									</div>
 									<div className="flex gap-1">
-										<div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-primary rounded-full"></div>
 										<span className="text-xs">{teamStats.onJob}</span>
 									</div>
 									<div className="flex gap-1">
-										<div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-warning rounded-full"></div>
 										<span className="text-xs">{teamStats.traveling}</span>
 									</div>
 									<div className="flex gap-1">
-										<div className="w-2 h-2 bg-gray-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-muted-foreground rounded-full"></div>
 										<span className="text-xs">{teamStats.offDuty}</span>
 									</div>
 								</div>
 							</div>
-							<Users className="w-8 h-8 text-blue-600" />
+							<Users className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -409,7 +409,7 @@ export default function TechnicianAvailability() {
 								<p className="text-sm text-muted-foreground">Avg Utilization</p>
 								<p className={`text-2xl font-bold ${getUtilizationColor(teamStats.avgUtilization)}`}>{teamStats.avgUtilization.toFixed(1)}%</p>
 							</div>
-							<Target className="w-8 h-8 text-green-600" />
+							<Target className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -421,7 +421,7 @@ export default function TechnicianAvailability() {
 								<p className="text-sm text-muted-foreground">Jobs Today</p>
 								<p className="text-2xl font-bold">{teamStats.totalJobsToday}</p>
 							</div>
-							<Wrench className="w-8 h-8 text-orange-600" />
+							<Wrench className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -433,7 +433,7 @@ export default function TechnicianAvailability() {
 								<p className="text-sm text-muted-foreground">Avg Rating</p>
 								<div className="flex gap-1 items-center">
 									<p className="text-2xl font-bold">{teamStats.avgRating.toFixed(1)}</p>
-									<Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+									<Star className="w-4 h-4 fill-yellow-400 text-warning" />
 								</div>
 							</div>
 							<Award className="w-8 h-8 text-purple-600" />
@@ -547,7 +547,7 @@ export default function TechnicianAvailability() {
 									<p className="text-sm text-muted-foreground">Rating</p>
 									<div className="flex gap-1 justify-center items-center">
 										<p className="text-lg font-semibold">{tech.performance.rating}</p>
-										<Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+										<Star className="w-4 h-4 fill-yellow-400 text-warning" />
 									</div>
 								</div>
 								<div>
@@ -601,7 +601,7 @@ export default function TechnicianAvailability() {
 												<span className="font-medium">{job.time}</span>
 												<span className="ml-2 text-muted-foreground">{job.title}</span>
 											</div>
-											<Badge className={job.status === "completed" ? "bg-green-100 text-green-800" : job.status === "in_progress" ? "bg-blue-100 text-blue-800" : "bg-gray-100 text-gray-800"} variant="secondary">
+											<Badge className={job.status === "completed" ? "bg-success/10 text-success" : job.status === "in_progress" ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"} variant="secondary">
 												{job.status.replace("_", " ")}
 											</Badge>
 										</div>

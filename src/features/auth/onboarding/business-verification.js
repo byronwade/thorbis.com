@@ -108,8 +108,8 @@ export default function BusinessVerification() {
 	return (
 		<div className="space-y-6">
 			<div className="text-center space-y-2">
-				<h2 className="text-2xl font-bold text-gray-900 dark:text-white">Business Verification</h2>
-				<p className="text-gray-600 dark:text-gray-400">Please provide the following documents to verify your business. This helps us maintain the quality of our platform.</p>
+				<h2 className="text-2xl font-bold text-foreground dark:text-white">Business Verification</h2>
+				<p className="text-muted-foreground dark:text-muted-foreground">Please provide the following documents to verify your business. This helps us maintain the quality of our platform.</p>
 			</div>
 
 			<Alert>
@@ -129,7 +129,7 @@ export default function BusinessVerification() {
 							</FormLabel>
 							<FormDescription>Your 9-digit Employer Identification Number</FormDescription>
 							<FormControl>
-								<Input {...field} placeholder="12-3456789" className={fieldState.error ? "border-red-500" : ""} />
+								<Input {...field} placeholder="12-3456789" className={fieldState.error ? "border-destructive" : ""} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>

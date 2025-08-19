@@ -52,30 +52,30 @@ const LocalHubDirectoryHealthSection = ({ healthData }) => {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "excellent":
-				return "text-green-600";
+				return "text-success";
 			case "good":
-				return "text-blue-600";
+				return "text-primary";
 			case "warning":
-				return "text-yellow-600";
+				return "text-warning";
 			case "critical":
-				return "text-red-600";
+				return "text-destructive";
 			default:
-				return "text-gray-600";
+				return "text-muted-foreground";
 		}
 	};
 
 	const getStatusBadge = (status) => {
 		switch (status) {
 			case "excellent":
-				return "bg-green-100 text-green-800";
+				return "bg-success/10 text-success";
 			case "good":
-				return "bg-blue-100 text-blue-800";
+				return "bg-primary/10 text-primary";
 			case "warning":
-				return "bg-yellow-100 text-yellow-800";
+				return "bg-warning/10 text-warning";
 			case "critical":
-				return "bg-red-100 text-red-800";
+				return "bg-destructive/10 text-destructive";
 			default:
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-foreground";
 		}
 	};
 
@@ -130,7 +130,7 @@ const LocalHubDirectoryHealthSection = ({ healthData }) => {
 									<div className="flex items-center gap-2">
 										<IconComponent className={`h-4 w-4 ${getStatusColor(metric.status)}`} />
 										<span className="text-sm font-medium">{metric.metric}</span>
-										{isAboveTarget ? <CheckCircle className="h-3 w-3 text-green-500" /> : <AlertTriangle className="h-3 w-3 text-yellow-500" />}
+										{isAboveTarget ? <CheckCircle className="h-3 w-3 text-success" /> : <AlertTriangle className="h-3 w-3 text-warning" />}
 									</div>
 									<span className={`font-medium ${getStatusColor(metric.status)}`}>{metric.value}%</span>
 								</div>
@@ -151,20 +151,20 @@ const LocalHubDirectoryHealthSection = ({ healthData }) => {
 					<h4 className="text-sm font-medium">Health Insights</h4>
 
 					<div className="space-y-2">
-						<div className="flex items-start gap-2 p-2 bg-green-50 dark:bg-green-950 rounded text-xs">
-							<CheckCircle className="h-3 w-3 text-green-600 mt-0.5 flex-shrink-0" />
-							<span className="text-green-700 dark:text-green-300">Excellent retention rate - businesses are satisfied with your directory</span>
+						<div className="flex items-start gap-2 p-2 bg-green-50 dark:bg-success rounded text-xs">
+							<CheckCircle className="h-3 w-3 text-success mt-0.5 flex-shrink-0" />
+							<span className="text-success dark:text-success/90">Excellent retention rate - businesses are satisfied with your directory</span>
 						</div>
 
-						<div className="flex items-start gap-2 p-2 bg-blue-50 dark:bg-blue-950 rounded text-xs">
-							<Activity className="h-3 w-3 text-blue-600 mt-0.5 flex-shrink-0" />
-							<span className="text-blue-700 dark:text-blue-300">High uptime ensures consistent business visibility</span>
+						<div className="flex items-start gap-2 p-2 bg-blue-50 dark:bg-primary rounded text-xs">
+							<Activity className="h-3 w-3 text-primary mt-0.5 flex-shrink-0" />
+							<span className="text-primary dark:text-primary/90">High uptime ensures consistent business visibility</span>
 						</div>
 
 						{healthMetrics.some((m) => m.value < m.target) && (
-							<div className="flex items-start gap-2 p-2 bg-yellow-50 dark:bg-yellow-950 rounded text-xs">
-								<AlertTriangle className="h-3 w-3 text-yellow-600 mt-0.5 flex-shrink-0" />
-								<span className="text-yellow-700 dark:text-yellow-300">Consider improving support response times to reach the 90% target</span>
+							<div className="flex items-start gap-2 p-2 bg-yellow-50 dark:bg-warning rounded text-xs">
+								<AlertTriangle className="h-3 w-3 text-warning mt-0.5 flex-shrink-0" />
+								<span className="text-warning dark:text-warning/90">Consider improving support response times to reach the 90% target</span>
 							</div>
 						)}
 					</div>

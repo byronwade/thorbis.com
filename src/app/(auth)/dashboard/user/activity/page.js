@@ -125,13 +125,13 @@ export default function Activity() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "completed":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "pending":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "active":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary dark:text-primary/90";
 			case "rejected":
-				return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
@@ -313,7 +313,7 @@ export default function Activity() {
 															</div>
 															{activity.rating && (
 																<div className="flex items-center space-x-1">
-																	<Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+																	<Star className="w-4 h-4 text-warning fill-yellow-400" />
 																	<span>{activity.rating}/5</span>
 																</div>
 															)}
@@ -321,11 +321,11 @@ export default function Activity() {
 														</div>
 
 														{activity.blockchainHash && (
-															<div className="p-2 mt-3 bg-green-50 rounded-md dark:bg-green-900/20">
+															<div className="p-2 mt-3 bg-green-50 rounded-md dark:bg-success/20">
 																<div className="flex items-center space-x-2 text-xs">
-																	<div className="w-2 h-2 bg-green-500 rounded-full"></div>
-																	<span className="text-green-700 dark:text-green-300">Blockchain Verified</span>
-																	<span className="font-mono text-green-600 dark:text-green-400">{activity.blockchainHash}</span>
+																	<div className="w-2 h-2 bg-success rounded-full"></div>
+																	<span className="text-success dark:text-success/90">Blockchain Verified</span>
+																	<span className="font-mono text-success dark:text-success">{activity.blockchainHash}</span>
 																</div>
 															</div>
 														)}

@@ -343,13 +343,13 @@ export default function StaffList() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "active":
-				return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success/20 dark:text-success/90";
 			case "inactive":
 				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 			case "on_leave":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning/90";
 			case "terminated":
-				return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 		}
@@ -358,18 +358,18 @@ export default function StaffList() {
 	const getCertificationStatus = (status) => {
 		switch (status) {
 			case "valid":
-				return "bg-green-100 text-green-800";
+				return "bg-success/10 text-success";
 			case "expiring_soon":
-				return "bg-yellow-100 text-yellow-800";
+				return "bg-warning/10 text-warning";
 			case "expired":
-				return "bg-red-100 text-red-800";
+				return "bg-destructive/10 text-destructive";
 			default:
 				return "bg-muted text-muted-foreground";
 		}
 	};
 
 	const getRatingStars = (rating) => {
-		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < Math.floor(rating) ? "text-yellow-400 fill-current" : "text-muted-foreground/30"}`} />);
+		return Array.from({ length: 5 }, (_, i) => <Star key={i} className={`w-3 h-3 ${i < Math.floor(rating) ? "text-warning fill-current" : "text-muted-foreground/30"}`} />);
 	};
 
 	const getExperienceYears = (hireDate) => {
@@ -449,7 +449,7 @@ export default function StaffList() {
 								<p className="text-sm text-muted-foreground">Total Staff</p>
 								<p className="text-2xl font-bold">{employeeStats.all}</p>
 							</div>
-							<Users className="w-8 h-8 text-blue-500" />
+							<Users className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -460,7 +460,7 @@ export default function StaffList() {
 								<p className="text-sm text-muted-foreground">YTD Payroll</p>
 								<p className="text-2xl font-bold">${totalPayroll.toLocaleString()}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -471,7 +471,7 @@ export default function StaffList() {
 								<p className="text-sm text-muted-foreground">Avg Performance</p>
 								<p className="text-2xl font-bold">{avgRating.toFixed(1)}</p>
 							</div>
-							<Star className="w-8 h-8 text-yellow-500" />
+							<Star className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -570,7 +570,7 @@ export default function StaffList() {
 								<DropdownMenuItem onClick={() => handleBulkAction("schedule")}>Schedule Training</DropdownMenuItem>
 								<DropdownMenuItem onClick={() => handleBulkAction("export")}>Export Selected</DropdownMenuItem>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem onClick={() => handleBulkAction("terminate")} className="text-red-600">
+								<DropdownMenuItem onClick={() => handleBulkAction("terminate")} className="text-destructive">
 									Terminate Selected
 								</DropdownMenuItem>
 							</DropdownMenuContent>
@@ -729,7 +729,7 @@ export default function StaffList() {
 														Payroll Details
 													</DropdownMenuItem>
 													<DropdownMenuSeparator />
-													<DropdownMenuItem className="text-red-600">
+													<DropdownMenuItem className="text-destructive">
 														<Trash2 className="mr-2 w-4 h-4" />
 														Terminate Employee
 													</DropdownMenuItem>

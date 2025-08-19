@@ -88,17 +88,17 @@ export default function TripAdvisorAlternative() {
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Monthly Cost</td>
 									<td className="px-6 py-4 text-center text-destructive font-semibold">$200+</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Review Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Reservation System</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full Integration</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full Integration</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Lead Generation</td>
@@ -106,13 +106,13 @@ export default function TripAdvisorAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">24/7 Priority</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Sync</td>
@@ -120,7 +120,7 @@ export default function TripAdvisorAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
@@ -129,13 +129,13 @@ export default function TripAdvisorAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Menu Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced</td>
 								</tr>
 							</tbody>
 						</table>
@@ -196,27 +196,27 @@ export default function TripAdvisorAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Affordable Pricing</h4>
+								<h4 className="font-semibold text-success dark:text-success">Affordable Pricing</h4>
 								<p className="text-sm text-muted-foreground">Simple $29/month pricing with comprehensive features and no hidden fees.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Advanced Review Management</h4>
+								<h4 className="font-semibold text-success dark:text-success">Advanced Review Management</h4>
 								<p className="text-sm text-muted-foreground">AI-powered review monitoring and response system across all platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Integrated Reservation System</h4>
+								<h4 className="font-semibold text-success dark:text-success">Integrated Reservation System</h4>
 								<p className="text-sm text-muted-foreground">Seamless integration with major POS systems and calendar platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Lead Generation Tools</h4>
+								<h4 className="font-semibold text-success dark:text-success">Lead Generation Tools</h4>
 								<p className="text-sm text-muted-foreground">Automated lead capture and customer conversion system.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Sync across Google, Facebook, Yelp, TripAdvisor, and other platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Advanced Analytics</h4>
+								<h4 className="font-semibold text-success dark:text-success">Advanced Analytics</h4>
 								<p className="text-sm text-muted-foreground">Comprehensive insights with AI-powered recommendations for growth.</p>
 							</div>
 						</CardContent>
@@ -359,35 +359,35 @@ export default function TripAdvisorAlternative() {
 						<CardContent>
 							<ul className="space-y-3 text-sm">
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Multi-platform management</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">AI-powered review management</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Lead generation system</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Reservation integration</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Advanced analytics</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Menu management</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Growth automation tools</span>
 								</li>
 							</ul>
@@ -410,7 +410,7 @@ export default function TripAdvisorAlternative() {
 								<span className="text-sm font-medium text-primary">Fine Dining</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+145%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+145%</div>
 								<div className="text-sm text-muted-foreground">Reservation Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"TripAdvisor was expensive and gave us no control. Since switching to Thorbis, reservations increased 145% and we saved $2,000/month. The POS integration is seamless."</blockquote>
@@ -433,7 +433,7 @@ export default function TripAdvisorAlternative() {
 								<span className="text-sm font-medium text-primary">Fast Casual</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+267%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+267%</div>
 								<div className="text-sm text-muted-foreground">Online Orders</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Thorbis connected our ordering system to all review platforms. Online orders went up 267% and our menu updates sync everywhere automatically. Game changer."</blockquote>
@@ -456,7 +456,7 @@ export default function TripAdvisorAlternative() {
 								<span className="text-sm font-medium text-primary">Boutique Hotel</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+89%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+89%</div>
 								<div className="text-sm text-muted-foreground">Direct Bookings</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"We reduced TripAdvisor dependence and increased direct bookings by 89%. Thorbis helps us manage reviews across all platforms and capture more leads."</blockquote>
@@ -510,15 +510,15 @@ export default function TripAdvisorAlternative() {
 							</div>
 							<div className="space-y-2 text-sm">
 								<div className="flex items-center gap-2">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 									<span>Menu items sync across all platforms</span>
 								</div>
 								<div className="flex items-center gap-2">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 									<span>Pricing updates in real-time</span>
 								</div>
 								<div className="flex items-center gap-2">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 									<span>Availability tracking</span>
 								</div>
 							</div>
@@ -554,15 +554,15 @@ export default function TripAdvisorAlternative() {
 							</div>
 							<div className="space-y-2 text-sm">
 								<div className="flex items-center gap-2">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 									<span>Unified order dashboard</span>
 								</div>
 								<div className="flex items-center gap-2">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 									<span>Commission tracking</span>
 								</div>
 								<div className="flex items-center gap-2">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 									<span>Customer data aggregation</span>
 								</div>
 							</div>
@@ -592,26 +592,26 @@ export default function TripAdvisorAlternative() {
 								<tbody className="bg-card divide-y divide-border">
 									<tr className="hover:bg-muted/50 transition-colors">
 										<td className="px-6 py-4 font-medium">Menu Management</td>
-										<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Manual Updates</td>
-										<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">POS Integration</td>
+										<td className="px-6 py-4 text-center text-warning dark:text-warning">Manual Updates</td>
+										<td className="px-6 py-4 text-center text-success dark:text-success font-bold">POS Integration</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">Save 10hrs/week</td>
 									</tr>
 									<tr className="hover:bg-muted/50 transition-colors">
 										<td className="px-6 py-4 font-medium">Reservation System</td>
-										<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-										<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full Integration</td>
+										<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+										<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full Integration</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">+40% bookings</td>
 									</tr>
 									<tr className="hover:bg-muted/50 transition-colors">
 										<td className="px-6 py-4 font-medium">Review Response</td>
-										<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">TripAdvisor Only</td>
-										<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">All Platforms</td>
+										<td className="px-6 py-4 text-center text-warning dark:text-warning">TripAdvisor Only</td>
+										<td className="px-6 py-4 text-center text-success dark:text-success font-bold">All Platforms</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">Unified reputation</td>
 									</tr>
 									<tr className="hover:bg-muted/50 transition-colors">
 										<td className="px-6 py-4 font-medium">Analytics & Reporting</td>
-										<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-										<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">AI-Powered</td>
+										<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+										<td className="px-6 py-4 text-center text-success dark:text-success font-bold">AI-Powered</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">Data-driven decisions</td>
 									</tr>
 									<tr className="hover:bg-muted/50 transition-colors">
@@ -620,7 +620,7 @@ export default function TripAdvisorAlternative() {
 											<XCircle className="inline w-5 h-5 text-destructive" />
 										</td>
 										<td className="px-6 py-4 text-center">
-											<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+											<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 										</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">Build customer database</td>
 									</tr>
@@ -630,14 +630,14 @@ export default function TripAdvisorAlternative() {
 											<XCircle className="inline w-5 h-5 text-destructive" />
 										</td>
 										<td className="px-6 py-4 text-center">
-											<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+											<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 										</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">Reduce commissions</td>
 									</tr>
 									<tr className="hover:bg-muted/50 transition-colors">
 										<td className="px-6 py-4 font-medium">Monthly Cost</td>
 										<td className="px-6 py-4 text-center text-destructive font-semibold">$200+</td>
-										<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29</td>
+										<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29</td>
 										<td className="px-6 py-4 text-center text-sm text-muted-foreground">Save $2,052/year</td>
 									</tr>
 								</tbody>
@@ -706,24 +706,24 @@ export default function TripAdvisorAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Reduced commission fees</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">-$400</span>
+									<span className="font-semibold text-success dark:text-success">-$400</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Automated menu management</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">-$1,000</span>
+									<span className="font-semibold text-success dark:text-success">-$1,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Increased direct bookings (+40%)</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$2,400</span>
+									<span className="font-semibold text-success dark:text-success">+$2,400</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Unified review management</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">-$400</span>
+									<span className="font-semibold text-success dark:text-success">-$400</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Monthly Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$4,771</span>
+										<span className="text-success dark:text-success">+$4,771</span>
 									</div>
 								</div>
 							</CardContent>

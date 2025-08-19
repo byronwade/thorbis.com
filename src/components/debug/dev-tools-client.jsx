@@ -182,7 +182,7 @@ export default function DevToolsClient() {
 		overlay.style.inset = "0";
 		overlay.style.pointerEvents = "none";
 		overlay.style.zIndex = "99999";
-		overlay.style.backgroundImage = "linear-gradient(rgba(120,120,120,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(120,120,120,0.15) 1px, transparent 1px)";
+		overlay.style.backgroundImage = "linear-gradient(hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px)";
 		overlay.style.backgroundSize = "8px 8px, 8px 8px";
 		document.body.appendChild(overlay);
 	};
@@ -197,8 +197,8 @@ export default function DevToolsClient() {
 		const style = document.createElement("style");
 		style.id = id;
 		style.innerHTML = `
-      *:focus { outline: 2px solid #22c55e !important; outline-offset: 2px !important; }
-      a, button { outline: 1px dashed rgba(59,130,246,.7) !important; }
+      *:focus { outline: 2px solid hsl(var(--primary)) !important; outline-offset: 2px !important; }
+      a, button { outline: 1px dashed hsl(var(--primary) / 0.7) !important; }
     `;
 		document.head.appendChild(style);
 	};
@@ -248,7 +248,7 @@ export default function DevToolsClient() {
 											<span className="truncate mr-2" title={k}>
 												{k}
 											</span>
-											<button type="button" onClick={() => toggleFlag(k)} className={`rounded border px-2 py-0.5 text-[10px] ${v ? "bg-green-200 text-green-800 dark:bg-green-900/40 dark:text-green-300" : "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"}`}>
+											<button type="button" onClick={() => toggleFlag(k)} className={`rounded border px-2 py-0.5 text-[10px] ${v ? "bg-success/20 text-success dark:bg-success/40 dark:text-success/90" : "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"}`}>
 												{v ? "on" : "off"}
 											</button>
 										</div>
@@ -303,10 +303,10 @@ export default function DevToolsClient() {
 						<div className="rounded border p-3">
 							<div className="font-semibold mb-2">React Profiler</div>
 							<div className="flex items-center gap-2">
-								<button type="button" className={`rounded border px-2 py-1 ${profilerOn ? "bg-blue-100 dark:bg-blue-900/30" : ""} hover:bg-zinc-100 dark:hover:bg-zinc-800`} onClick={toggleProfiler}>
+								<button type="button" className={`rounded border px-2 py-1 ${profilerOn ? "bg-primary/10 dark:bg-primary/30" : ""} hover:bg-zinc-100 dark:hover:bg-zinc-800`} onClick={toggleProfiler}>
 									{profilerOn ? "Disable" : "Enable"} Profiler
 								</button>
-								<span className={`inline-flex h-4 min-w-10 items-center justify-center rounded px-1 text-[10px] ${profilerOn ? "bg-blue-200 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300" : "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"}`}>{profilerOn ? "on" : "off"}</span>
+								<span className={`inline-flex h-4 min-w-10 items-center justify-center rounded px-1 text-[10px] ${profilerOn ? "bg-primary/20 text-primary dark:bg-primary/40 dark:text-primary/90" : "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"}`}>{profilerOn ? "on" : "off"}</span>
 							</div>
 							<div className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">Wraps app subtree and logs render timings.</div>
 						</div>
@@ -318,10 +318,10 @@ export default function DevToolsClient() {
 						<div className="rounded border p-3">
 							<div className="font-semibold mb-2">React Re-renders (React Scan)</div>
 							<div className="flex items-center gap-2">
-								<button type="button" className={`rounded border px-2 py-1 ${reactScanOn ? "bg-green-100 dark:bg-green-900/30" : ""} hover:bg-zinc-100 dark:hover:bg-zinc-800`} onClick={toggleReactScan}>
+								<button type="button" className={`rounded border px-2 py-1 ${reactScanOn ? "bg-success/10 dark:bg-success/30" : ""} hover:bg-zinc-100 dark:hover:bg-zinc-800`} onClick={toggleReactScan}>
 									{reactScanOn ? "Disable" : "Enable"} React Scan
 								</button>
-								<span className={`inline-flex h-4 min-w-10 items-center justify-center rounded px-1 text-[10px] ${reactScanOn ? "bg-green-200 text-green-800 dark:bg-green-900/40 dark:text-green-300" : "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"}`}>{reactScanOn ? "on" : "off"}</span>
+								<span className={`inline-flex h-4 min-w-10 items-center justify-center rounded px-1 text-[10px] ${reactScanOn ? "bg-success/20 text-success dark:bg-success/40 dark:text-success/90" : "bg-zinc-200 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"}`}>{reactScanOn ? "on" : "off"}</span>
 							</div>
 							<div className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">Loads from unpkg in development only.</div>
 						</div>

@@ -107,7 +107,7 @@ export default function BusinessOverview({ business }) {
 						<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3">
 							{safeBusinessHighlights.map((highlight, index) => (
 								<div key={index} className="flex items-start p-4 space-x-3 rounded-lg border bg-card/30 border-border sm:p-5">
-									<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-green-400 sm:w-5 sm:h-5 sm:mt-0" />
+									<CheckCircle className="flex-shrink-0 mt-0.5 w-4 h-4 text-success sm:w-5 sm:h-5 sm:mt-0" />
 									<span className="text-sm leading-relaxed break-words sm:text-base text-foreground">{highlight}</span>
 								</div>
 							))}

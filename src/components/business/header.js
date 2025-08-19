@@ -548,7 +548,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 												<p className="text-xs text-muted-foreground">{company.industry}</p>
 												<p className="text-xs text-muted-foreground">{company.location}</p>
 											</div>
-											{company.id === currentCompanyId && <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full"></div>}
+											{company.id === currentCompanyId && <div className="flex-shrink-0 w-2 h-2 bg-success rounded-full"></div>}
 										</DropdownMenuItem>
 									))}
 									<DropdownMenuSeparator />
@@ -629,7 +629,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 																togglePin(res.href);
 															}}
 														>
-															<Star className={`w-4 h-4 ${pinned ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+															<Star className={`w-4 h-4 ${pinned ? "text-warning fill-yellow-400" : "text-muted-foreground"}`} />
 														</Button>
 													</Link>
 												);
@@ -702,7 +702,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 																			togglePin(link.href);
 																		}}
 																	>
-																		<Star className={`w-4 h-4 ${pinned ? "text-yellow-400 fill-yellow-400" : "text-muted-foreground"}`} />
+																		<Star className={`w-4 h-4 ${pinned ? "text-warning fill-yellow-400" : "text-muted-foreground"}`} />
 																	</Button>
 																</Link>
 															);
@@ -795,7 +795,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 							<DropdownMenuTrigger asChild>
 								<Button variant="ghost" size="sm" className="relative p-2 h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-accent">
 									<Bell className="w-5 h-5" />
-									<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-blue-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+									<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-primary border-2 border-white dark:border-border rounded-full"></span>
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent className="w-80 z-[80] bg-neutral-950/95 backdrop-blur-md border border-neutral-900">
@@ -807,7 +807,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 								</div>
 								<div className="overflow-y-auto max-h-96">
 									<DropdownMenuItem className="flex items-start p-4 space-x-3">
-										<div className="flex-shrink-0 w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
+										<div className="flex-shrink-0 w-2 h-2 mt-2 bg-primary rounded-full"></div>
 										<div className="flex-1 min-w-0">
 											<p className="text-sm font-medium text-foreground">New directory review</p>
 											<p className="mt-1 text-xs text-muted-foreground">Customer left a 5-star review on your listing</p>
@@ -815,7 +815,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 										</div>
 									</DropdownMenuItem>
 									<DropdownMenuItem className="flex items-start p-4 space-x-3">
-										<div className="flex-shrink-0 w-2 h-2 mt-2 bg-green-500 rounded-full"></div>
+										<div className="flex-shrink-0 w-2 h-2 mt-2 bg-success rounded-full"></div>
 										<div className="flex-1 min-w-0">
 											<p className="text-sm font-medium text-foreground">Field job completed</p>
 											<p className="mt-1 text-xs text-muted-foreground">Plumbing service job marked complete</p>
@@ -875,7 +875,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 								<DropdownMenuSeparator />
 								<DropdownMenuGroup>
 									<DropdownMenuItem onClick={() => setTheme("light")}>
-										<SunIcon className="w-4 h-4 mr-2 text-yellow-500" />
+										<SunIcon className="w-4 h-4 mr-2 text-warning" />
 										Light
 									</DropdownMenuItem>
 									<DropdownMenuItem onClick={() => setTheme("dark")}>
@@ -894,7 +894,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 									</Link>
 								</DropdownMenuItem>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem onClick={handleLogout} className="text-red-600 focus:text-red-600">
+								<DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
 									<span>Logout</span>
 								</DropdownMenuItem>
 							</DropdownMenuContent>
@@ -950,7 +950,7 @@ function LegacyHeader({ dashboardType = "business" }) {
 													</div>
 													<p className="text-xs opacity-80">{company.industry}</p>
 												</div>
-												{company.id === currentCompanyId && <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full"></div>}
+												{company.id === currentCompanyId && <div className="flex-shrink-0 w-2 h-2 bg-success rounded-full"></div>}
 											</button>
 										))}
 

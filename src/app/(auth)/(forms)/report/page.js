@@ -60,7 +60,7 @@ const SelectedBusinessCard = ({ business }) => {
 				<p className="text-sm text-muted-foreground">You are reporting an issue with this business</p>
 			</div>
 
-			<Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950/20">
+			<Card className="border-red-200 bg-red-50 dark:border-red-800 dark:bg-destructive/20">
 				<CardContent className="p-4">
 					{/* Mobile-first layout */}
 					<div className="space-y-3">
@@ -85,7 +85,7 @@ const SelectedBusinessCard = ({ business }) => {
 									<h4 className="text-lg font-semibold text-foreground leading-tight">{business.name}</h4>
 									{business.ratings?.overall && (
 										<div className="flex items-center gap-1 ml-2 flex-shrink-0">
-											<Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+											<Star className="w-4 h-4 fill-yellow-400 text-warning" />
 											<span className="text-sm font-medium">{business.ratings.overall}</span>
 										</div>
 									)}
@@ -113,7 +113,7 @@ const SelectedBusinessCard = ({ business }) => {
 
 						{/* Status Badge Row */}
 						<div className="flex justify-center pt-2">
-							<Badge variant="secondary" className="bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-200 dark:border-red-800">
+							<Badge variant="secondary" className="bg-destructive/10 text-destructive border-red-200 dark:bg-destructive dark:text-destructive/80 dark:border-red-800">
 								<AlertTriangle className="w-4 h-4 mr-2" />
 								Selected for Reporting
 							</Badge>

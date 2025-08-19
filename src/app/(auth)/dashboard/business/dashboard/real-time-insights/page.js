@@ -62,8 +62,8 @@ export default function RealTimeInsights() {
 			],
 			segments: [
 				{ name: "Residential", value: 65, color: "#3b82f6" },
-				{ name: "Commercial", value: 25, color: "#10b981" },
-				{ name: "Emergency", value: 10, color: "#f59e0b" },
+				{ name: "Commercial", value: 25, color: "hsl(var(--muted-foreground))" },
+				{ name: "Emergency", value: 10, color: "hsl(var(--accent))" },
 			],
 		},
 		operations: {
@@ -156,26 +156,26 @@ export default function RealTimeInsights() {
 	const getAlertIcon = (type) => {
 		switch (type) {
 			case "critical":
-				return <AlertTriangle className="w-4 h-4 text-red-500" />;
+				return <AlertTriangle className="w-4 h-4 text-destructive" />;
 			case "warning":
-				return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+				return <AlertTriangle className="w-4 h-4 text-warning" />;
 			case "info":
-				return <CheckCircle className="w-4 h-4 text-blue-500" />;
+				return <CheckCircle className="w-4 h-4 text-primary" />;
 			default:
-				return <Activity className="w-4 h-4 text-gray-500" />;
+				return <Activity className="w-4 h-4 text-muted-foreground" />;
 		}
 	};
 
 	const getAlertColor = (type) => {
 		switch (type) {
 			case "critical":
-				return "border-red-200 bg-red-50 dark:border-red-800 dark:bg-red-950";
+				return "border-red-200 bg-red-50 dark:border-red-800 dark:bg-destructive";
 			case "warning":
-				return "border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-yellow-950";
+				return "border-yellow-200 bg-yellow-50 dark:border-yellow-800 dark:bg-warning";
 			case "info":
-				return "border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950";
+				return "border-primary/30 bg-blue-50 dark:border-primary dark:bg-primary";
 			default:
-				return "border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-950";
+				return "border-border bg-muted dark:border-border dark:bg-muted";
 		}
 	};
 
@@ -266,7 +266,7 @@ export default function RealTimeInsights() {
 							<CardContent>
 								<div className="text-2xl font-bold">{realtimeData.performance.currentMetrics.activeJobs}</div>
 								<div className="flex gap-1 items-center text-xs text-muted-foreground">
-									<TrendingUp className="w-3 h-3 text-green-500" />
+									<TrendingUp className="w-3 h-3 text-success" />
 									<span>Real-time tracking</span>
 								</div>
 							</CardContent>
@@ -291,7 +291,7 @@ export default function RealTimeInsights() {
 							<CardContent>
 								<div className="text-2xl font-bold">{formatCurrency(realtimeData.performance.currentMetrics.revenueToday)}</div>
 								<div className="flex gap-1 items-center text-xs text-muted-foreground">
-									<TrendingUp className="w-3 h-3 text-green-500" />
+									<TrendingUp className="w-3 h-3 text-success" />
 									<span>+12% vs target</span>
 								</div>
 							</CardContent>
@@ -314,7 +314,7 @@ export default function RealTimeInsights() {
 									<Tooltip />
 									<Legend />
 									<Bar yAxisId="left" dataKey="jobs" fill="#3b82f6" name="Jobs Completed" />
-									<Line yAxisId="right" type="monotone" dataKey="efficiency" stroke="#10b981" name="Efficiency %" strokeWidth={2} />
+									<Line yAxisId="right" type="monotone" dataKey="efficiency" stroke="hsl(var(--muted-foreground))" name="Efficiency %" strokeWidth={2} />
 								</LineChart>
 							</ResponsiveContainer>
 						</CardContent>
@@ -327,25 +327,25 @@ export default function RealTimeInsights() {
 					<div className="grid grid-cols-2 gap-6 md:grid-cols-4">
 						<Card>
 							<CardContent className="p-4 text-center">
-								<div className="text-2xl font-bold text-green-600">{realtimeData.technicians.status.available}</div>
+								<div className="text-2xl font-bold text-success">{realtimeData.technicians.status.available}</div>
 								<p className="text-sm text-muted-foreground">Available</p>
 							</CardContent>
 						</Card>
 						<Card>
 							<CardContent className="p-4 text-center">
-								<div className="text-2xl font-bold text-orange-600">{realtimeData.technicians.status.onJob}</div>
+								<div className="text-2xl font-bold text-warning">{realtimeData.technicians.status.onJob}</div>
 								<p className="text-sm text-muted-foreground">On Job</p>
 							</CardContent>
 						</Card>
 						<Card>
 							<CardContent className="p-4 text-center">
-								<div className="text-2xl font-bold text-yellow-600">{realtimeData.technicians.status.traveling}</div>
+								<div className="text-2xl font-bold text-warning">{realtimeData.technicians.status.traveling}</div>
 								<p className="text-sm text-muted-foreground">Traveling</p>
 							</CardContent>
 						</Card>
 						<Card>
 							<CardContent className="p-4 text-center">
-								<div className="text-2xl font-bold text-gray-600">{realtimeData.technicians.status.offline}</div>
+								<div className="text-2xl font-bold text-muted-foreground">{realtimeData.technicians.status.offline}</div>
 								<p className="text-sm text-muted-foreground">Offline</p>
 							</CardContent>
 						</Card>
@@ -451,7 +451,7 @@ export default function RealTimeInsights() {
 									<YAxis />
 									<Tooltip />
 									<Legend />
-									<Bar dataKey="completed" fill="#10b981" name="Completed" />
+									<Bar dataKey="completed" fill="hsl(var(--muted-foreground))" name="Completed" />
 									<Bar dataKey="scheduled" fill="#3b82f6" name="Scheduled" />
 								</BarChart>
 							</ResponsiveContainer>

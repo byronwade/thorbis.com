@@ -21,8 +21,8 @@ const mockProducts = [
 ];
 
 const stockStatus = (p) => (p.stock === 0 ? "out" : p.stock <= p.reorder ? "low" : "ok");
-const stockColors = { ok: "bg-green-100 text-green-800", low: "bg-yellow-100 text-yellow-800", out: "bg-red-100 text-red-800" };
-const statusColors = { active: "bg-green-100 text-green-800", draft: "bg-gray-100 text-gray-800", archived: "bg-red-100 text-red-800" };
+const stockColors = { ok: "bg-success/10 text-success", low: "bg-warning/10 text-warning", out: "bg-destructive/10 text-destructive" };
+const statusColors = { active: "bg-success/10 text-success", draft: "bg-muted text-muted-foreground", archived: "bg-destructive/10 text-destructive" };
 
 // metadata removed (client component)
 
@@ -98,7 +98,7 @@ export default function PricebookProductsPage() {
 								<p className="text-sm text-muted-foreground">Products</p>
 								<p className="text-2xl font-bold">{totals.count}</p>
 							</div>
-							<Package className="w-8 h-8 text-blue-500" />
+							<Package className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -109,7 +109,7 @@ export default function PricebookProductsPage() {
 								<p className="text-sm text-muted-foreground">Total Stock</p>
 								<p className="text-2xl font-bold">{totals.inventory}</p>
 							</div>
-							<Warehouse className="w-8 h-8 text-orange-500" />
+							<Warehouse className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -120,7 +120,7 @@ export default function PricebookProductsPage() {
 								<p className="text-sm text-muted-foreground">Avg Margin</p>
 								<p className="text-2xl font-bold">{(totals.avgMargin * 100).toFixed(0)}%</p>
 							</div>
-							<TrendingUp className="w-8 h-8 text-green-500" />
+							<TrendingUp className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -209,7 +209,7 @@ export default function PricebookProductsPage() {
 
 									<div>
 										<span className="text-muted-foreground text-sm">Price</span>
-										<p className="font-semibold text-green-600">${p.price.toFixed(2)}</p>
+										<p className="font-semibold text-success">${p.price.toFixed(2)}</p>
 										<p className="text-xs text-muted-foreground">Cost ${p.cost.toFixed(2)}</p>
 									</div>
 
@@ -243,7 +243,7 @@ export default function PricebookProductsPage() {
 													<Edit className="w-4 h-4 mr-2" />
 													Edit
 												</DropdownMenuItem>
-												<DropdownMenuItem onClick={() => archive(p.id)} className="text-red-600">
+												<DropdownMenuItem onClick={() => archive(p.id)} className="text-destructive">
 													<Archive className="w-4 h-4 mr-2" />
 													Archive
 												</DropdownMenuItem>

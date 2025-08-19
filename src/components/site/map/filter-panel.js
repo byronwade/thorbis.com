@@ -113,28 +113,28 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 		<>
 			{/* Mobile Bottom Sheet */}
 			<div className="sm:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
-				<div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 rounded-t-2xl max-h-[85vh] overflow-hidden shadow-2xl border-t border-gray-200 dark:border-gray-700">
+				<div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-card rounded-t-2xl max-h-[85vh] overflow-hidden shadow-2xl border-t border-border dark:border-border">
 					{/* Mobile Handle */}
-					<div className="flex justify-center py-3 bg-gray-50 dark:bg-gray-800">
-						<div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+					<div className="flex justify-center py-3 bg-gray-50 dark:bg-card">
+						<div className="w-12 h-1 bg-muted dark:bg-muted rounded-full"></div>
 					</div>
 
 					{/* Mobile Header */}
-					<div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+					<div className="flex items-center justify-between px-4 py-3 border-b border-border dark:border-border bg-white dark:bg-card">
 						<div className="flex items-center gap-3">
-							<div className="flex items-center justify-center w-8 h-8 bg-blue-50 dark:bg-blue-950/50 rounded-lg">
-								<Filter className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+							<div className="flex items-center justify-center w-8 h-8 bg-blue-50 dark:bg-primary/50 rounded-lg">
+								<Filter className="w-4 h-4 text-primary dark:text-primary" />
 							</div>
 							<div>
-								<h2 className="text-lg font-semibold text-gray-900 dark:text-white">Filters</h2>
-								{totalResults > 0 && <Badge className="bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-2 py-0.5 rounded font-medium text-xs">{totalResults.toLocaleString()} matches</Badge>}
+								<h2 className="text-lg font-semibold text-foreground dark:text-white">Filters</h2>
+								{totalResults > 0 && <Badge className="bg-blue-50 dark:bg-primary/50 text-primary dark:text-primary/90 border-primary/30 dark:border-primary px-2 py-0.5 rounded font-medium text-xs">{totalResults.toLocaleString()} matches</Badge>}
 							</div>
 						</div>
 						<div className="flex items-center gap-2">
-							<Button variant="ghost" size="sm" onClick={handleReset} disabled={loading || isApplying} className="h-10 w-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 active:scale-95">
+							<Button variant="ghost" size="sm" onClick={handleReset} disabled={loading || isApplying} className="h-10 w-10 p-0 hover:bg-muted dark:hover:bg-card transition-colors duration-200 active:scale-95">
 								<RefreshCw className="w-5 h-5" />
 							</Button>
-							<Button variant="ghost" size="sm" onClick={onClose} className="h-10 w-10 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 active:scale-95">
+							<Button variant="ghost" size="sm" onClick={onClose} className="h-10 w-10 p-0 hover:bg-muted dark:hover:bg-card transition-colors duration-200 active:scale-95">
 								<X className="w-5 h-5" />
 							</Button>
 						</div>
@@ -161,7 +161,7 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 									Rating ({localFilters.rating?.[0] || 0} - {localFilters.rating?.[1] || 5} stars)
 								</Label>
 								<Slider value={localFilters.rating || [0, 5]} onValueChange={(value) => handleRangeChange("rating", value)} onValueCommit={(value) => handleFilterChange("rating", value)} max={5} min={0} step={0.5} className="w-full" />
-								<div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+								<div className="flex justify-between text-sm text-muted-foreground dark:text-muted-foreground">
 									<span>0 stars</span>
 									<span>5 stars</span>
 								</div>
@@ -176,7 +176,7 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 									Price Range (${localFilters.priceRange?.[0] || 0} - ${localFilters.priceRange?.[1] || 200})
 								</Label>
 								<Slider value={localFilters.priceRange || [0, 200]} onValueChange={(value) => handleRangeChange("priceRange", value)} onValueCommit={(value) => handleFilterChange("priceRange", value)} max={200} min={0} step={10} className="w-full" />
-								<div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+								<div className="flex justify-between text-sm text-muted-foreground dark:text-muted-foreground">
 									<span>$0</span>
 									<span>$200+</span>
 								</div>
@@ -191,7 +191,7 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 									Distance ({localFilters.distance?.[0] || 0} - {localFilters.distance?.[1] || 25} miles)
 								</Label>
 								<Slider value={localFilters.distance || [0, 25]} onValueChange={(value) => handleRangeChange("distance", value)} onValueCommit={(value) => handleFilterChange("distance", value)} max={25} min={0} step={1} className="w-full" />
-								<div className="flex justify-between text-sm text-gray-500 dark:text-gray-400">
+								<div className="flex justify-between text-sm text-muted-foreground dark:text-muted-foreground">
 									<span>0 miles</span>
 									<span>25+ miles</span>
 								</div>
@@ -202,14 +202,14 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 							{/* Categories */}
 							<div className="space-y-4">
 								<Label className="flex items-center gap-2 text-base font-medium">
-																	<div className="w-4 h-4 rounded bg-blue-500" />
+																	<div className="w-4 h-4 rounded bg-primary" />
 								Categories
 								</Label>
 								<div className="grid grid-cols-1 gap-3">
 									{BUSINESS_CATEGORIES.map((category) => (
-										<label key={category.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
-											<Checkbox checked={localFilters.categories?.includes(category.id)} onCheckedChange={(checked) => handleCategoryChange(category.id, checked)} className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600" />
-											<span className="text-base font-medium text-gray-900 dark:text-white flex-1">{category.name}</span>
+										<label key={category.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-card transition-colors cursor-pointer">
+											<Checkbox checked={localFilters.categories?.includes(category.id)} onCheckedChange={(checked) => handleCategoryChange(category.id, checked)} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+											<span className="text-base font-medium text-foreground dark:text-white flex-1">{category.name}</span>
 										</label>
 									))}
 								</div>
@@ -220,14 +220,14 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 							{/* Features */}
 							<div className="space-y-4">
 								<Label className="flex items-center gap-2 text-base font-medium">
-																	<div className="w-4 h-4 rounded bg-yellow-500" />
+																	<div className="w-4 h-4 rounded bg-warning" />
 								Features
 								</Label>
 								<div className="grid grid-cols-1 gap-3">
 									{BUSINESS_FEATURES.map((feature) => (
-										<label key={feature.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
-											<Checkbox checked={localFilters.features?.includes(feature.id)} onCheckedChange={(checked) => handleFeatureChange(feature.id, checked)} className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600" />
-											<span className="text-base font-medium text-gray-900 dark:text-white flex-1">{feature.name}</span>
+										<label key={feature.id} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-card transition-colors cursor-pointer">
+											<Checkbox checked={localFilters.features?.includes(feature.id)} onCheckedChange={(checked) => handleFeatureChange(feature.id, checked)} className="data-[state=checked]:bg-primary data-[state=checked]:border-primary" />
+											<span className="text-base font-medium text-foreground dark:text-white flex-1">{feature.name}</span>
 										</label>
 									))}
 								</div>
@@ -236,12 +236,12 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 					</ScrollArea>
 
 					{/* Mobile Action Buttons */}
-					<div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/20">
+					<div className="p-4 border-t border-border dark:border-border bg-gray-50/50 dark:bg-card/20">
 						<div className="flex gap-3">
-							<Button variant="outline" onClick={handleClearAll} disabled={loading || isApplying} className="flex-1 h-12 font-medium border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 active:scale-95">
+							<Button variant="outline" onClick={handleClearAll} disabled={loading || isApplying} className="flex-1 h-12 font-medium border-border dark:border-border hover:bg-gray-50 dark:hover:bg-muted transition-all duration-200 active:scale-95">
 								Clear All
 							</Button>
-							<Button onClick={onClose} disabled={loading || isApplying} className="flex-1 h-12 font-medium bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all duration-200 active:scale-95">
+							<Button onClick={onClose} disabled={loading || isApplying} className="flex-1 h-12 font-medium bg-primary hover:bg-primary text-white shadow-sm transition-all duration-200 active:scale-95">
 								{isApplying ? (
 									<>
 										<div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin mr-2" />
@@ -258,22 +258,22 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 
 			{/* Desktop Modal */}
 			<div className="hidden sm:flex fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-4">
-				<Card className="w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6 border-b border-gray-100 dark:border-gray-800">
+				<Card className="w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl border-border dark:border-border bg-white/95 dark:bg-card/95 backdrop-blur-md">
+					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6 border-b border-border dark:border-border">
 						<CardTitle className="flex items-center gap-3 text-lg font-bold">
-							<div className="flex items-center justify-center w-10 h-10 bg-blue-50 dark:bg-blue-950/50 rounded-xl">
-								<Filter className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+							<div className="flex items-center justify-center w-10 h-10 bg-blue-50 dark:bg-primary/50 rounded-xl">
+								<Filter className="w-5 h-5 text-primary dark:text-primary" />
 							</div>
 							<div>
-								<h2 className="text-gray-900 dark:text-white">Filter Results</h2>
-								{totalResults > 0 && <Badge className="bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 px-2 py-1 rounded-md font-medium text-xs mt-1">{totalResults.toLocaleString()} matches</Badge>}
+								<h2 className="text-foreground dark:text-white">Filter Results</h2>
+								{totalResults > 0 && <Badge className="bg-blue-50 dark:bg-primary/50 text-primary dark:text-primary/90 border-primary/30 dark:border-primary px-2 py-1 rounded-md font-medium text-xs mt-1">{totalResults.toLocaleString()} matches</Badge>}
 							</div>
 						</CardTitle>
 						<div className="flex items-center gap-2">
-							<Button variant="ghost" size="sm" onClick={handleReset} disabled={loading || isApplying} className="h-9 w-9 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+							<Button variant="ghost" size="sm" onClick={handleReset} disabled={loading || isApplying} className="h-9 w-9 p-0 hover:bg-muted dark:hover:bg-card transition-colors duration-200">
 								<RefreshCw className="w-4 h-4" />
 							</Button>
-							<Button variant="ghost" size="sm" onClick={onClose} className="h-9 w-9 p-0 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
+							<Button variant="ghost" size="sm" onClick={onClose} className="h-9 w-9 p-0 hover:bg-muted dark:hover:bg-card transition-colors duration-200">
 								<X className="w-4 h-4" />
 							</Button>
 						</div>
@@ -409,12 +409,12 @@ const FilterPanel = ({ isOpen, onClose, filters, onFiltersChange, onClearFilters
 					</ScrollArea>
 
 					{/* Modern Action Buttons */}
-					<div className="p-6 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/20">
+					<div className="p-6 border-t border-border dark:border-border bg-gray-50/50 dark:bg-card/20">
 						<div className="flex gap-3">
-							<Button variant="outline" onClick={handleClearAll} disabled={loading || isApplying} className="flex-1 h-11 font-medium border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200">
+							<Button variant="outline" onClick={handleClearAll} disabled={loading || isApplying} className="flex-1 h-11 font-medium border-border dark:border-border hover:bg-gray-50 dark:hover:bg-muted transition-all duration-200">
 								Clear All
 							</Button>
-							<Button onClick={onClose} disabled={loading || isApplying} className="flex-1 h-11 font-medium bg-blue-600 hover:bg-blue-700 text-white shadow-sm transition-all duration-200">
+							<Button onClick={onClose} disabled={loading || isApplying} className="flex-1 h-11 font-medium bg-primary hover:bg-primary text-white shadow-sm transition-all duration-200">
 								{isApplying ? (
 									<>
 										<RefreshCw className="w-4 h-4 mr-2 animate-spin" />

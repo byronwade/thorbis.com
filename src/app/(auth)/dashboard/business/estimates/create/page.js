@@ -680,7 +680,7 @@ export default function CreateEstimate() {
 											<div className="col-span-1 text-right">
 												<Label>Total</Label>
 												<div className="text-sm font-medium">{formatCurrency(item.quantity * item.unitPrice * (1 - item.discount / 100))}</div>
-												<Button variant="ghost" size="sm" onClick={() => removeLineItem(item.id)} className="mt-1 text-red-600">
+												<Button variant="ghost" size="sm" onClick={() => removeLineItem(item.id)} className="mt-1 text-destructive">
 													<Trash2 className="w-4 h-4" />
 												</Button>
 											</div>
@@ -753,7 +753,7 @@ export default function CreateEstimate() {
 										/>
 									</div>
 									{estimateData.pricing.discountAmount > 0 && (
-										<div className="flex justify-between items-center text-green-600">
+										<div className="flex justify-between items-center text-success">
 											<span>Discount Applied</span>
 											<span>-{formatCurrency(estimateData.pricing.discountAmount)}</span>
 										</div>
@@ -958,7 +958,7 @@ export default function CreateEstimate() {
 										<span>{formatCurrency(estimateData.pricing.subtotal)}</span>
 									</div>
 									{estimateData.pricing.discountAmount > 0 && (
-										<div className="flex justify-between text-green-600">
+										<div className="flex justify-between text-success">
 											<span>Discount</span>
 											<span>-{formatCurrency(estimateData.pricing.discountAmount)}</span>
 										</div>

@@ -48,7 +48,7 @@ const PostContent = () => {
 				<div className="flex p-4">
 					<Image width={100} height={100} className="w-12 h-12 rounded-full" src={avatar} alt={name} />
 					<div className="ml-2 mt-0.5">
-						<span className="block text-base font-medium leading-snug text-black dark:text-gray-100">{name}</span>
+						<span className="block text-base font-medium leading-snug text-black dark:text-muted-foreground">{name}</span>
 						<DateDisplay date={date} /> {/* Use DateDisplay component */}
 					</div>
 				</div>
@@ -60,7 +60,7 @@ const PostContent = () => {
 					</div>
 					{/* Comment count aligned to the right */}
 					{allowComments && (
-						<div className="text-gray-500 cursor-pointer dark:text-gray-400 hover:underline" onClick={() => setShowComments(!showComments)}>
+						<div className="text-muted-foreground cursor-pointer dark:text-muted-foreground hover:underline" onClick={() => setShowComments(!showComments)}>
 							{comments.length} comments
 						</div>
 					)}
@@ -68,18 +68,18 @@ const PostContent = () => {
 				<div className="flex justify-around p-4">
 					{allowLikes && (
 						<ReactionTrigger postId={post.id}>
-							<span className="flex items-center text-gray-500 cursor-pointer dark:text-gray-400 hover:text-blue-500">
+							<span className="flex items-center text-muted-foreground cursor-pointer dark:text-muted-foreground hover:text-primary">
 								<ThumbsUp className="w-5 h-5 mr-1" /> Like
 							</span>
 						</ReactionTrigger>
 					)}
 					{allowComments && (
-						<button className="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-500" onClick={() => setShowComments(!showComments)}>
+						<button className="flex items-center text-muted-foreground dark:text-muted-foreground hover:text-primary" onClick={() => setShowComments(!showComments)}>
 							<MessageCircle className="w-5 h-5 mr-1" /> Comment
 						</button>
 					)}
 					{allowSharing && (
-						<button className="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-500">
+						<button className="flex items-center text-muted-foreground dark:text-muted-foreground hover:text-primary">
 							<Share2 className="w-5 h-5 mr-1" /> Share
 						</button>
 					)}

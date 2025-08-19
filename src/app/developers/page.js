@@ -81,7 +81,7 @@ export default function DevelopersPage() {
 			<div className="bg-background text-foreground">
 				{/* Enhanced Hero Section */}
 				<div className="relative overflow-hidden bg-muted">
-					<div className="absolute inset-0 bg-grid-small-black/[0.05] [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
+					<div className="absolute inset-0 bg-grid-small-foreground/[0.05] [mask-image:linear-gradient(0deg,white,hsl(var(--background) / 0.6))]" />
 					<div className="relative px-4 py-32 mx-auto max-w-7xl text-center lg:px-8">
 						<div className="mx-auto max-w-4xl">
 							<Badge variant="secondary" className="mb-6 px-4 py-2">
@@ -121,7 +121,7 @@ export default function DevelopersPage() {
 									<span className="font-medium">Sub-50ms response times</span>
 								</div>
 								<div className="flex items-center">
-									<Award className="mr-2 w-4 h-4 text-purple-500" />
+									<Award className="mr-2 w-4 h-4 text-muted-foreground" />
 									<span className="font-medium">SOC 2 Type II Certified</span>
 								</div>
 							</div>
@@ -250,27 +250,27 @@ export default function DevelopersPage() {
 									</div>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Everything in Free</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Higher rate limits (1,000 req/min)</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Webhook support</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Advanced analytics & monitoring</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Email support (24hr response)</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>99.95% uptime SLA</span>
 										</div>
 									</div>
@@ -286,8 +286,8 @@ export default function DevelopersPage() {
 							{/* Enterprise Tier */}
 							<Card className="border-2 hover:border-primary/50 transition-all">
 								<CardHeader className="text-center">
-									<div className="mx-auto p-3 bg-purple-100 rounded-full dark:bg-purple-900/20 w-fit mb-4">
-										<Infinity className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+									<div className="mx-auto p-3 bg-muted rounded-full dark:bg-muted/20 w-fit mb-4">
+										<Infinity className="w-8 h-8 text-muted-foreground dark:text-muted-foreground" />
 									</div>
 									<CardTitle className="text-2xl">Enterprise</CardTitle>
 									<div className="mt-4">
@@ -302,27 +302,27 @@ export default function DevelopersPage() {
 									</div>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Everything in Pro</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Unlimited rate limits</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Dedicated support manager</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Custom integrations & features</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>Priority support (1hr response)</span>
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-3 w-4 h-4 text-green-500 flex-shrink-0" />
+											<CheckCircle className="mr-3 w-4 h-4 text-success flex-shrink-0" />
 											<span>99.99% uptime SLA</span>
 										</div>
 									</div>
@@ -341,8 +341,8 @@ export default function DevelopersPage() {
 							<h3 className="text-xl font-semibold text-center mb-8">API Pricing Breakdown</h3>
 							<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 								<div className="text-center">
-									<div className="p-3 bg-blue-100 rounded-full dark:bg-blue-900/20 w-fit mx-auto mb-4">
-										<Database className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+									<div className="p-3 bg-primary/10 rounded-full dark:bg-primary/20 w-fit mx-auto mb-4">
+										<Database className="w-6 h-6 text-primary dark:text-primary" />
 									</div>
 									<h4 className="font-semibold mb-2">Business Search API</h4>
 									<p className="text-sm text-muted-foreground mb-3">Search through 5M+ verified businesses</p>
@@ -350,8 +350,8 @@ export default function DevelopersPage() {
 									<div className="text-xs text-muted-foreground">After free tier</div>
 								</div>
 								<div className="text-center">
-									<div className="p-3 bg-green-100 rounded-full dark:bg-green-900/20 w-fit mx-auto mb-4">
-										<MapPin className="w-6 h-6 text-green-600 dark:text-green-400" />
+									<div className="p-3 bg-success/10 rounded-full dark:bg-success/20 w-fit mx-auto mb-4">
+										<MapPin className="w-6 h-6 text-success dark:text-success" />
 									</div>
 									<h4 className="font-semibold mb-2">Geolocation API</h4>
 									<p className="text-sm text-muted-foreground mb-3">GPS-accurate location services</p>
@@ -359,8 +359,8 @@ export default function DevelopersPage() {
 									<div className="text-xs text-muted-foreground">After free tier</div>
 								</div>
 								<div className="text-center">
-									<div className="p-3 bg-purple-100 rounded-full dark:bg-purple-900/20 w-fit mx-auto mb-4">
-										<Activity className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+									<div className="p-3 bg-muted rounded-full dark:bg-muted/20 w-fit mx-auto mb-4">
+										<Activity className="w-6 h-6 text-muted-foreground dark:text-muted-foreground" />
 									</div>
 									<h4 className="font-semibold mb-2">Real-Time Data API</h4>
 									<p className="text-sm text-muted-foreground mb-3">Live business information & WebSocket streams</p>
@@ -676,8 +676,8 @@ export default function DevelopersPage() {
 							<Card className="border-2 hover:border-primary/50 transition-colors">
 								<CardHeader>
 									<div className="flex items-center">
-										<div className="p-2 bg-blue-100 rounded-lg dark:bg-blue-900/20">
-											<Database className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+										<div className="p-2 bg-primary/10 rounded-lg dark:bg-primary/20">
+											<Database className="w-6 h-6 text-primary dark:text-primary" />
 										</div>
 									</div>
 									<CardTitle>Business Search API</CardTitle>
@@ -686,15 +686,15 @@ export default function DevelopersPage() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											5M+ verified businesses
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Real-time availability
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Advanced filtering
 										</div>
 									</div>
@@ -707,8 +707,8 @@ export default function DevelopersPage() {
 							<Card className="border-2 hover:border-primary/50 transition-colors">
 								<CardHeader>
 									<div className="flex items-center">
-										<div className="p-2 bg-green-100 rounded-lg dark:bg-green-900/20">
-											<MapPin className="w-6 h-6 text-green-600 dark:text-green-400" />
+										<div className="p-2 bg-success/10 rounded-lg dark:bg-success/20">
+											<MapPin className="w-6 h-6 text-success dark:text-success" />
 										</div>
 									</div>
 									<CardTitle>Geolocation API</CardTitle>
@@ -717,15 +717,15 @@ export default function DevelopersPage() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											GPS-accurate positioning
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Radius-based search
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Geocoding & reverse geocoding
 										</div>
 									</div>
@@ -738,8 +738,8 @@ export default function DevelopersPage() {
 							<Card className="border-2 hover:border-primary/50 transition-colors">
 								<CardHeader>
 									<div className="flex items-center">
-										<div className="p-2 bg-purple-100 rounded-lg dark:bg-purple-900/20">
-											<Zap className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+										<div className="p-2 bg-muted rounded-lg dark:bg-muted/20">
+											<Zap className="w-6 h-6 text-muted-foreground dark:text-muted-foreground" />
 										</div>
 									</div>
 									<CardTitle>Real-Time Data API</CardTitle>
@@ -748,15 +748,15 @@ export default function DevelopersPage() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Live business hours
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Real-time availability
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											WebSocket support
 										</div>
 									</div>
@@ -769,8 +769,8 @@ export default function DevelopersPage() {
 							<Card className="border-2 hover:border-primary/50 transition-colors">
 								<CardHeader>
 									<div className="flex items-center">
-										<div className="p-2 bg-orange-100 rounded-lg dark:bg-orange-900/20">
-											<Shield className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+										<div className="p-2 bg-warning/10 rounded-lg dark:bg-warning/20">
+											<Shield className="w-6 h-6 text-warning dark:text-warning" />
 										</div>
 									</div>
 									<CardTitle>Authentication API</CardTitle>
@@ -779,15 +779,15 @@ export default function DevelopersPage() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											JWT-based auth
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Rate limiting
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Usage analytics
 										</div>
 									</div>
@@ -810,15 +810,15 @@ export default function DevelopersPage() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Real-time metrics
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Usage breakdowns
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Performance insights
 										</div>
 									</div>
@@ -831,8 +831,8 @@ export default function DevelopersPage() {
 							<Card className="border-2 hover:border-primary/50 transition-colors">
 								<CardHeader>
 									<div className="flex items-center">
-										<div className="p-2 bg-red-100 rounded-lg dark:bg-red-900/20">
-											<Users className="w-6 h-6 text-red-600 dark:text-red-400" />
+										<div className="p-2 bg-destructive/10 rounded-lg dark:bg-destructive/20">
+											<Users className="w-6 h-6 text-destructive dark:text-destructive" />
 										</div>
 									</div>
 									<CardTitle>Reviews & Ratings API</CardTitle>
@@ -841,15 +841,15 @@ export default function DevelopersPage() {
 								<CardContent>
 									<div className="space-y-3">
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Verified reviews
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Sentiment analysis
 										</div>
 										<div className="flex items-center text-sm">
-											<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+											<CheckCircle className="mr-2 w-4 h-4 text-success" />
 											Rating aggregations
 										</div>
 									</div>
@@ -954,8 +954,8 @@ export default function DevelopersPage() {
 						<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
 							<Card className="text-center hover:shadow-lg transition-shadow">
 								<CardHeader>
-									<div className="mx-auto p-3 bg-blue-100 rounded-lg dark:bg-blue-900/20 w-fit">
-										<Code2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+									<div className="mx-auto p-3 bg-primary/10 rounded-lg dark:bg-primary/20 w-fit">
+										<Code2 className="w-8 h-8 text-primary dark:text-primary" />
 									</div>
 									<CardTitle className="text-lg">JavaScript SDK</CardTitle>
 								</CardHeader>
@@ -972,8 +972,8 @@ export default function DevelopersPage() {
 
 							<Card className="text-center hover:shadow-lg transition-shadow">
 								<CardHeader>
-									<div className="mx-auto p-3 bg-green-100 rounded-lg dark:bg-green-900/20 w-fit">
-										<Smartphone className="w-8 h-8 text-green-600 dark:text-green-400" />
+									<div className="mx-auto p-3 bg-success/10 rounded-lg dark:bg-success/20 w-fit">
+										<Smartphone className="w-8 h-8 text-success dark:text-success" />
 									</div>
 									<CardTitle className="text-lg">React Native</CardTitle>
 								</CardHeader>
@@ -990,8 +990,8 @@ export default function DevelopersPage() {
 
 							<Card className="text-center hover:shadow-lg transition-shadow">
 								<CardHeader>
-									<div className="mx-auto p-3 bg-purple-100 rounded-lg dark:bg-purple-900/20 w-fit">
-										<Globe className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+									<div className="mx-auto p-3 bg-muted rounded-lg dark:bg-muted/20 w-fit">
+										<Globe className="w-8 h-8 text-muted-foreground dark:text-muted-foreground" />
 									</div>
 									<CardTitle className="text-lg">Python SDK</CardTitle>
 								</CardHeader>
@@ -1008,8 +1008,8 @@ export default function DevelopersPage() {
 
 							<Card className="text-center hover:shadow-lg transition-shadow">
 								<CardHeader>
-									<div className="mx-auto p-3 bg-orange-100 rounded-lg dark:bg-orange-900/20 w-fit">
-										<GitBranch className="w-8 h-8 text-orange-600 dark:text-orange-400" />
+									<div className="mx-auto p-3 bg-warning/10 rounded-lg dark:bg-warning/20 w-fit">
+										<GitBranch className="w-8 h-8 text-warning dark:text-warning" />
 									</div>
 									<CardTitle className="text-lg">CLI Tools</CardTitle>
 								</CardHeader>
@@ -1045,8 +1045,8 @@ export default function DevelopersPage() {
 							<Card className="relative overflow-hidden">
 								<CardHeader>
 									<div className="flex items-center space-x-4">
-										<div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center dark:bg-blue-900/20">
-											<Smartphone className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+										<div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center dark:bg-primary/20">
+											<Smartphone className="w-6 h-6 text-primary dark:text-primary" />
 										</div>
 										<div>
 											<CardTitle className="text-lg">FoodieFind Mobile</CardTitle>
@@ -1072,8 +1072,8 @@ export default function DevelopersPage() {
 							<Card className="relative overflow-hidden">
 								<CardHeader>
 									<div className="flex items-center space-x-4">
-										<div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center dark:bg-green-900/20">
-											<Network className="w-6 h-6 text-green-600 dark:text-green-400" />
+										<div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center dark:bg-success/20">
+											<Network className="w-6 h-6 text-success dark:text-success" />
 										</div>
 										<div>
 											<CardTitle className="text-lg">LocalConnect CRM</CardTitle>
@@ -1099,8 +1099,8 @@ export default function DevelopersPage() {
 							<Card className="relative overflow-hidden">
 								<CardHeader>
 									<div className="flex items-center space-x-4">
-										<div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center dark:bg-purple-900/20">
-											<Cpu className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+										<div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center dark:bg-muted/20">
+											<Cpu className="w-6 h-6 text-muted-foreground dark:text-muted-foreground" />
 										</div>
 										<div>
 											<CardTitle className="text-lg">DeliveryDash</CardTitle>
@@ -1171,19 +1171,19 @@ export default function DevelopersPage() {
 								</CardHeader>
 								<CardContent className="space-y-3">
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										End-to-end encryption
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Role-based access control
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Audit logs & compliance reporting
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										IP whitelisting & VPN access
 									</div>
 								</CardContent>
@@ -1191,27 +1191,27 @@ export default function DevelopersPage() {
 
 							<Card className="hover:border-primary/50 transition-colors">
 								<CardHeader>
-									<div className="p-2 bg-blue-100 rounded-lg dark:bg-blue-900/20 w-fit">
-										<Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+									<div className="p-2 bg-primary/10 rounded-lg dark:bg-primary/20 w-fit">
+										<Activity className="w-6 h-6 text-primary dark:text-primary" />
 									</div>
 									<CardTitle className="text-lg">Advanced Analytics</CardTitle>
 									<CardDescription>Deep insights into API usage and business metrics</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-3">
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Real-time usage dashboards
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Custom alerts & notifications
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Performance benchmarking
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Data export & API logs
 									</div>
 								</CardContent>
@@ -1219,27 +1219,27 @@ export default function DevelopersPage() {
 
 							<Card className="hover:border-primary/50 transition-colors">
 								<CardHeader>
-									<div className="p-2 bg-green-100 rounded-lg dark:bg-green-900/20 w-fit">
-										<Network className="w-6 h-6 text-green-600 dark:text-green-400" />
+									<div className="p-2 bg-success/10 rounded-lg dark:bg-success/20 w-fit">
+										<Network className="w-6 h-6 text-success dark:text-success" />
 									</div>
 									<CardTitle className="text-lg">Global Infrastructure</CardTitle>
 									<CardDescription>Multi-region deployment with edge caching</CardDescription>
 								</CardHeader>
 								<CardContent className="space-y-3">
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										99.99% uptime SLA guaranteed
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Global CDN with 50+ edge locations
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Auto-scaling & load balancing
 									</div>
 									<div className="flex items-center text-sm">
-										<CheckCircle className="mr-2 w-4 h-4 text-green-500" />
+										<CheckCircle className="mr-2 w-4 h-4 text-success" />
 										Multi-zone redundancy
 									</div>
 								</CardContent>
@@ -1258,8 +1258,8 @@ export default function DevelopersPage() {
 						<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 							<Card className="text-center hover:shadow-lg transition-shadow">
 								<CardHeader>
-									<div className="mx-auto p-3 bg-blue-100 rounded-lg dark:bg-blue-900/20 w-fit">
-										<Book className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+									<div className="mx-auto p-3 bg-primary/10 rounded-lg dark:bg-primary/20 w-fit">
+										<Book className="w-8 h-8 text-primary dark:text-primary" />
 									</div>
 									<CardTitle>Documentation</CardTitle>
 									<CardDescription>Comprehensive guides, API references, and interactive tutorials</CardDescription>
@@ -1282,8 +1282,8 @@ export default function DevelopersPage() {
 
 							<Card className="text-center hover:shadow-lg transition-shadow">
 								<CardHeader>
-									<div className="mx-auto p-3 bg-green-100 rounded-lg dark:bg-green-900/20 w-fit">
-										<MessageSquare className="w-8 h-8 text-green-600 dark:text-green-400" />
+									<div className="mx-auto p-3 bg-success/10 rounded-lg dark:bg-success/20 w-fit">
+										<MessageSquare className="w-8 h-8 text-success dark:text-success" />
 									</div>
 									<CardTitle>Community Forum</CardTitle>
 									<CardDescription>Connect with developers and get help from the community</CardDescription>
@@ -1349,22 +1349,22 @@ export default function DevelopersPage() {
 						{/* Quick Value Props */}
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
 							<div className="text-center p-6 bg-background rounded-lg border">
-								<div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-green-900/20">
-									<CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+								<div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-success/20">
+									<CheckCircle className="w-6 h-6 text-success dark:text-success" />
 								</div>
 								<h3 className="font-semibold mb-2">Start in 5 Minutes</h3>
 								<p className="text-sm text-muted-foreground">No credit card required. Get your API key and make your first call in under 5 minutes.</p>
 							</div>
 							<div className="text-center p-6 bg-background rounded-lg border">
-								<div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-blue-900/20">
-									<Zap className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+								<div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-primary/20">
+									<Zap className="w-6 h-6 text-primary dark:text-primary" />
 								</div>
 								<h3 className="font-semibold mb-2">Lightning Fast</h3>
 								<p className="text-sm text-muted-foreground">Sub-50ms response times with global CDN and 99.99% uptime guarantee.</p>
 							</div>
 							<div className="text-center p-6 bg-background rounded-lg border">
-								<div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-purple-900/20">
-									<Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+								<div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 dark:bg-muted/20">
+									<Users className="w-6 h-6 text-muted-foreground dark:text-muted-foreground" />
 								</div>
 								<h3 className="font-semibold mb-2">Expert Support</h3>
 								<p className="text-sm text-muted-foreground">Get help from our developer success team and active community forum.</p>
@@ -1441,13 +1441,13 @@ export default function DevelopersPage() {
 				{process.env.NODE_ENV === 'development' && (
 					<div className="px-4 py-16 mx-auto max-w-7xl lg:px-8">
 						<div className="mx-auto max-w-4xl">
-							<Card className="border-yellow-200 bg-yellow-50/50 dark:bg-yellow-900/10 dark:border-yellow-800">
+							<Card className="border-warning bg-warning/50 dark:bg-warning/10 dark:border-warning">
 								<CardHeader>
-									<CardTitle className="flex items-center text-yellow-800 dark:text-yellow-200">
+									<CardTitle className="flex items-center text-warning dark:text-warning/80">
 										<Key className="mr-2 w-5 h-5" />
 										Development Feature Flags
 									</CardTitle>
-									<CardDescription className="text-yellow-700 dark:text-yellow-300">
+									<CardDescription className="text-warning dark:text-warning/90">
 										Control feature flags for development and testing. These settings are only available in development mode.
 									</CardDescription>
 								</CardHeader>
@@ -1472,8 +1472,8 @@ export default function DevelopersPage() {
 											/>
 										</div>
 										
-										<div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-											<p className="text-sm text-blue-800 dark:text-blue-200">
+										<div className="mt-4 p-3 bg-primary dark:bg-primary/20 rounded-lg border border-primary/30 dark:border-primary">
+											<p className="text-sm text-primary dark:text-primary/80">
 												<strong>Note:</strong> Feature flags are controlled via Vercel Edge Config. 
 												For production changes, update the Edge Config values in your Vercel dashboard.
 											</p>

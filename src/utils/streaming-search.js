@@ -4,7 +4,7 @@
  * Features streaming responses, debouncing, and progressive enhancement
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import cacheManager from "@utils/cache-manager";
 import { compressedSearch } from "@utils/compressed-search-index";
 

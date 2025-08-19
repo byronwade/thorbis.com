@@ -35,7 +35,7 @@ export default function BusinessOperations({ business }) {
 
 			<div className="space-y-8">
 				{/* Educational Introduction */}
-				<div className="p-6 border bg-gradient-to-r rounded-xl from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border-blue-200/50">
+				<div className="p-6 border bg-gradient-to-r rounded-xl from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20 border-primary/30/50">
 					<div className="space-y-4">
 						<h3 className="text-lg font-semibold text-foreground">Understanding Professional Service Costs</h3>
 						<p className="text-sm leading-relaxed text-muted-foreground">We believe in transparency. Quality service businesses invest in many areas that customers don&apos;t always see. Here&apos;s an educational look at what goes into delivering professional, reliable service.</p>
@@ -50,7 +50,7 @@ export default function BusinessOperations({ business }) {
 							<div key={index} className="p-4 border rounded-lg bg-card/30 border-border">
 								<div className="flex items-start justify-between mb-3">
 									<h4 className="font-medium text-foreground">{area.category}</h4>
-									<Badge variant="outline" className={`text-xs ${area.importance === "Critical" ? "border-red-200 text-red-600 bg-red-50" : area.importance === "High" ? "border-orange-200 text-orange-600 bg-orange-50" : "border-blue-200 text-blue-600 bg-blue-50"}`}>
+									<Badge variant="outline" className={`text-xs ${area.importance === "Critical" ? "border-destructive text-destructive bg-destructive/20" : area.importance === "High" ? "border-warning text-warning bg-warning/20" : "border-primary text-primary bg-primary/20"}`}>
 										{area.importance}
 									</Badge>
 								</div>

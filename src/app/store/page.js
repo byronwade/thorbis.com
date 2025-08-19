@@ -14,16 +14,23 @@ import {
   Search,
   Filter,
   Grid,
-  List
+  List,
+  ArrowLeft,
+  Menu,
+  Heart,
+  X,
+  ChevronDown,
+  Share2,
+  Play
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@components/store/ProductCard";
+import ProductListItem from "@components/store/ProductListItem";
+import MobileProductList from "@components/store/MobileProductList";
 import ScrollSection from "@components/site/home/scroll-section";
 import { 
   allProducts, 
-  featuredProducts, 
-  getProductsByCategory, 
   getAllCategories,
   searchProducts 
 } from "@data/products";
@@ -53,15 +60,17 @@ const testimonials = [
   }
 ];
 
-// Thorbis-style Product Slider Component - Updated to match Netflix-style home hero
+// Mobile-optimized Product Slider Component
 function ProductSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Featured products for the slider - use actual products from data
+  // Use all products for the slider - rotate through different categories
   const sliderProducts = [
-    allProducts.find(p => p.id === "thorbis-pos-pro"),
+    allProducts.find(p => p.id === "thorbis-flippad"),
     allProducts.find(p => p.id === "thorbis-aegis-360"),
-    allProducts.find(p => p.id === "thorbis-doorsense")
+    allProducts.find(p => p.id === "thorbis-doorsense"),
+    allProducts.find(p => p.id === "thorbis-tech-tee"),
+    allProducts.find(p => p.id === "thorbis-pay-brick-mini")
   ].filter(Boolean);
 
   // Auto-rotate products every 8 seconds
@@ -80,10 +89,10 @@ function ProductSlider() {
   // If no products available, show a fallback
   if (!currentProduct) {
     return (
-      <section className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-black">
+      <section className="relative h-[85vh] sm:h-[90vh] lg:h-screen overflow-hidden bg-background">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className="text-4xl font-bold mb-4">Loading Products...</h1>
+            <h1 className="text-3xl font-bold mb-4">Loading Products...</h1>
             <p className="text-muted-foreground">Please wait while we load our product catalog.</p>
           </div>
         </div>
@@ -92,8 +101,8 @@ function ProductSlider() {
   }
 
   return (
-    <section className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-black">
-      {/* Netflix-style hero background image */}
+    <section className="relative h-[80vh] sm:h-[85vh] lg:h-screen overflow-hidden bg-background">
+      {/* Netflix-style full-screen background image */}
       <div className="absolute inset-0">
         <Image
           src={currentProduct.image}
@@ -106,163 +115,356 @@ function ProductSlider() {
           }}
         />
         
-        {/* Gradient overlays with design system colors */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/20 md:to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
+        {/* Netflix-style gradient overlays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent lg:to-background/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
       </div>
 
-      {/* Netflix-style content overlay - mobile responsive */}
+      {/* Netflix-style content overlay - responsive layout */}
       <div className="relative z-10 h-full flex items-center">
-        <div className="px-4 md:px-6 lg:px-12 max-w-screen-2xl mx-auto w-full">
-          <div className="max-w-full md:max-w-2xl">
-            {/* Product category badge - mobile responsive */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mb-4">
-              					<div className="bg-primary text-primary-foreground px-3 py-1 rounded text-xs sm:text-sm font-semibold">
-                {currentProduct.badge}
-              </div>
-              <span className="text-muted-foreground text-sm font-medium">
-                {currentProduct.category}
-              </span>
-            </div>
-
-            {/* Product name - mobile responsive sizing */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 leading-tight">
-              {currentProduct.name}
-            </h1>
-
-            {/* Product info row - mobile stacked */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 mb-6">
-              {/* Rating */}
-              <div className="flex items-center gap-2">
-                					<Star className="w-4 h-4 sm:w-5 sm:h-5 text-primary fill-current" />
-                <span className="text-white font-semibold text-base sm:text-lg">
-                  {currentProduct.rating}
-                </span>
-                <span className="text-muted-foreground text-xs sm:text-sm">
-                  ({currentProduct.reviews} reviews)
-                </span>
-              </div>
-
-              {/* Price */}
-              <div className="flex items-center gap-2">
-                					<span className="text-primary font-bold text-lg sm:text-xl">
-                  ${currentProduct.price}
-                </span>
-                {currentProduct.originalPrice > currentProduct.price && (
-                  <span className="text-muted-foreground text-sm line-through">
-                    ${currentProduct.originalPrice}
+        <div className="px-4 sm:px-6 lg:px-12 xl:px-16 max-w-screen-2xl mx-auto w-full">
+          {/* Mobile app-style layout for small screens */}
+          <div className="block lg:hidden">
+            <div className="flex flex-col justify-end h-full pb-6 sm:pb-8">
+              {/* Top action buttons - mobile app style */}
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="bg-primary/20 backdrop-blur-sm border border-primary/30 text-primary px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-semibold">
+                    FEATURED
+                  </div>
+                  <span className="text-muted-foreground/80 text-xs sm:text-sm font-medium">
+                    {currentProduct.category}
                   </span>
-                )}
-              </div>
-
-              {/* Features */}
-              <div className="flex items-center gap-2">
-                <div className="flex gap-1">
-                  {(currentProduct.features || []).slice(0, 2).map((feature, index) => (
-                    <span key={index} className="text-muted-foreground text-xs sm:text-sm">
-                      {feature}
-                      {index < 1 && (currentProduct.features || []).length > 1 && " • "}
-                    </span>
-                  ))}
+                </div>
+                
+                {/* Mobile app-style action buttons */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <button className="p-2 sm:p-2.5 rounded-full bg-background/20 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground transition-all duration-200">
+                    <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
+                  <button className="p-2 sm:p-2.5 rounded-full bg-background/20 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground transition-all duration-200">
+                    <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                  </button>
                 </div>
               </div>
-            </div>
 
-            {/* Description - hidden on small mobile */}
-            <p className="hidden sm:block text-muted-foreground text-base lg:text-lg leading-relaxed mb-8 max-w-xl">
-              {currentProduct.description}
-            </p>
+              {/* Product name - mobile app typography */}
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-3 sm:mb-4 leading-tight">
+                {currentProduct.name}
+              </h1>
 
-            {/* Mobile short description */}
-            <p className="block sm:hidden text-muted-foreground text-sm leading-relaxed mb-6">
-              {currentProduct.description.split('.')[0]}.
-            </p>
+              {/* Product info - mobile app layout */}
+              <div className="flex flex-col gap-2 sm:gap-3 mb-4 sm:mb-6">
+                {/* Rating and reviews */}
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Star className="w-3 h-3 sm:w-4 sm:h-4 text-primary fill-current" />
+                    <span className="text-foreground font-semibold text-sm sm:text-base">
+                      {currentProduct.rating || 4.8}
+                    </span>
+                    <span className="text-muted-foreground text-xs sm:text-sm">
+                      ({currentProduct.reviewCount || 127} reviews)
+                    </span>
+                  </div>
+                </div>
 
-            {/* Action buttons with Thorbis design system */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
-              <Link href={`/store/product/${currentProduct.id}`} className="flex-1 sm:flex-none">
-                					<button className="w-full sm:w-auto flex items-center justify-center gap-3 bg-primary text-primary-foreground px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-base sm:text-lg hover:bg-primary/90 transition-colors duration-200">
-                  <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+                {/* Price and availability */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-2 sm:gap-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="text-xl sm:text-2xl md:text-3xl font-bold text-primary">
+                      ${currentProduct.price}
+                    </span>
+                    {currentProduct.originalPrice && currentProduct.originalPrice > currentProduct.price && (
+                      <span className="text-base sm:text-lg text-muted-foreground line-through">
+                        ${currentProduct.originalPrice}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-green-500 text-xs sm:text-sm font-medium">
+                      In Stock
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Description - mobile app style */}
+              <p className="text-muted-foreground text-xs sm:text-sm md:text-base leading-relaxed mb-4 sm:mb-6 max-w-lg">
+                {currentProduct.description}
+              </p>
+
+              {/* Mobile app-style action buttons */}
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <Link href={`/store/product/${currentProduct.id}`} className="flex-1">
+                  <button className="w-full flex items-center justify-center gap-2 sm:gap-3 bg-primary text-primary-foreground px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base hover:bg-primary/90 transition-all duration-200 active:scale-95 touch-manipulation">
+                    <Play className="w-5 h-5 fill-current" />
+                    Learn More
+                  </button>
+                </Link>
+                
+                <button className="flex items-center justify-center gap-3 bg-background/20 backdrop-blur-sm border border-border/50 text-foreground px-6 py-4 rounded-xl font-semibold text-base hover:bg-background/30 transition-all duration-200 active:scale-95 touch-manipulation">
+                  <Info className="w-5 h-5" />
                   Add to Cart
                 </button>
-              </Link>
-              
-              <button className="flex items-center justify-center gap-3 bg-white/10 text-white px-6 sm:px-8 py-3 sm:py-4 rounded font-bold text-base sm:text-lg hover:bg-white/20 transition-colors duration-200 backdrop-blur-sm border border-white/20">
-                <Info className="w-4 h-4 sm:w-5 sm:h-5" />
-                Learn More
-              </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Netflix-style desktop layout for larger screens */}
+          <div className="hidden lg:block">
+            <div className="max-w-2xl xl:max-w-3xl">
+              {/* Netflix-style category badge */}
+              <div className="flex items-center gap-3 mb-4">
+                <div className="bg-primary text-primary-foreground px-4 py-2 rounded text-sm font-semibold">
+                  FEATURED
+                </div>
+                <span className="text-muted-foreground text-lg font-medium">
+                  {currentProduct.category}
+                </span>
+              </div>
+
+              {/* Netflix-style prominent title */}
+              <h1 className="text-5xl xl:text-6xl 2xl:text-7xl font-bold text-foreground mb-6 leading-tight">
+                {currentProduct.name}
+              </h1>
+
+              {/* Netflix-style product info */}
+              <div className="flex items-center gap-6 mb-6">
+                {/* Rating */}
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-primary fill-current" />
+                  <span className="text-foreground font-semibold text-lg">
+                    {currentProduct.rating || 4.8}
+                  </span>
+                  <span className="text-muted-foreground text-base">
+                    ({currentProduct.reviewCount || 127} reviews)
+                  </span>
+                </div>
+
+                {/* Price */}
+                <div className="flex items-center gap-2">
+                  <span className="text-3xl xl:text-4xl font-bold text-primary">
+                    ${currentProduct.price}
+                  </span>
+                  {currentProduct.originalPrice && currentProduct.originalPrice > currentProduct.price && (
+                    <span className="text-xl text-muted-foreground line-through">
+                      ${currentProduct.originalPrice}
+                    </span>
+                  )}
+                </div>
+
+                {/* Availability */}
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-500 text-base font-medium">
+                    In Stock
+                  </span>
+                </div>
+              </div>
+
+              {/* Netflix-style description */}
+              <p className="text-muted-foreground text-lg xl:text-xl leading-relaxed mb-8 max-w-2xl">
+                {currentProduct.description}
+              </p>
+
+              {/* Netflix-style action buttons */}
+              <div className="flex items-center gap-4">
+                <Link href={`/store/product/${currentProduct.id}`}>
+                  <button className="flex items-center justify-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-200">
+                    <Play className="w-6 h-6 fill-current" />
+                    Learn More
+                  </button>
+                </Link>
+                
+                <button className="flex items-center justify-center gap-3 bg-background/20 backdrop-blur-sm border border-border/50 text-foreground px-8 py-4 rounded-lg font-semibold text-lg hover:bg-background/30 transition-all duration-200">
+                  <Info className="w-6 h-6" />
+                  Add to Cart
+                </button>
+
+                {/* Desktop action buttons */}
+                <button className="p-3 rounded-full bg-background/20 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground transition-all duration-200">
+                  <Heart className="w-6 h-6" />
+                </button>
+                <button className="p-3 rounded-full bg-background/20 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground transition-all duration-200">
+                  <Share2 className="w-6 h-6" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Progress indicators with Thorbis colors */}
-      <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 flex gap-2">
+      {/* Netflix-style progress indicators */}
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2">
         {(sliderProducts || []).map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`w-2 sm:w-3 h-1 rounded-full transition-all duration-300 ${
-              					index === currentIndex ? 'bg-primary' : 'bg-white/30'
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentIndex ? 'bg-primary' : 'bg-muted-foreground/30'
             }`}
           />
         ))}
       </div>
 
-      {/* Fade gradient at bottom for seamless transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 sm:h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+      {/* Netflix-style fade gradient */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
 }
 
-function FeaturedProductsSection() {
+// Mobile-optimized All Products Section
+function AllProductsSection({ products, searchQuery, selectedCategory }) {
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
+  const [sortBy, setSortBy] = useState('name'); // 'name', 'price', 'rating'
+  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
+
+  // Sort products
+  const sortedProducts = [...products].sort((a, b) => {
+    let aValue, bValue;
+    
+    switch (sortBy) {
+      case 'price':
+        aValue = a.price;
+        bValue = b.price;
+        break;
+      case 'rating':
+        aValue = a.rating || 0;
+        bValue = b.rating || 0;
+        break;
+      case 'name':
+      default:
+        aValue = a.name.toLowerCase();
+        bValue = b.name.toLowerCase();
+        break;
+    }
+    
+    if (sortOrder === 'desc') {
+      return bValue > aValue ? 1 : -1;
+    }
+    return aValue > bValue ? 1 : -1;
+  });
+
   return (
-    <section className="py-16 bg-black">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
-            Featured Products
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Handpicked solutions to elevate your business operations
-          </p>
+    <section className="py-8 md:py-16 bg-black">
+      <div className="px-4 md:px-6">
+        {/* Header with search results info */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <div>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 tracking-tight">
+              {searchQuery ? `Search Results for "${searchQuery}"` : 'All Products'}
+            </h2>
+            <p className="text-sm md:text-base text-muted-foreground">
+              {products.length} product{products.length !== 1 ? 's' : ''} found
+              {selectedCategory !== 'all' && ` in ${selectedCategory}`}
+            </p>
+          </div>
+          
+          {/* View and Sort Controls */}
+          <div className="flex items-center gap-3">
+            {/* Sort Dropdown */}
+            <div className="relative">
+              <select
+                value={`${sortBy}-${sortOrder}`}
+                onChange={(e) => {
+                  const [newSortBy, newSortOrder] = e.target.value.split('-');
+                  setSortBy(newSortBy);
+                  setSortOrder(newSortOrder);
+                }}
+                className="bg-background border border-border text-white px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="name-asc">Name A-Z</option>
+                <option value="name-desc">Name Z-A</option>
+                <option value="price-asc">Price Low to High</option>
+                <option value="price-desc">Price High to Low</option>
+                <option value="rating-desc">Highest Rated</option>
+              </select>
+            </div>
+            
+            {/* View Mode Toggle */}
+            <div className="flex items-center bg-background border border-border rounded-lg p-1">
+              <Button
+                variant={viewMode === 'grid' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('grid')}
+                className="h-8 w-8 p-0"
+              >
+                <Grid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === 'list' ? 'default' : 'ghost'}
+                size="sm"
+                onClick={() => setViewMode('list')}
+                className="h-8 w-8 p-0"
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {/* Products Display */}
+        {sortedProducts.length > 0 ? (
+          <>
+            {/* Mobile List View */}
+            <div className="block md:hidden">
+              <MobileProductList>
+                {sortedProducts.map((product) => (
+                  <ProductListItem key={product.id} product={product} />
+                ))}
+              </MobileProductList>
+            </div>
+            
+            {/* Desktop Grid View */}
+            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {sortedProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+              <Search className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">No products found</h3>
+            <p className="text-muted-foreground">
+              Try adjusting your search or filter criteria
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
+// Mobile-optimized Stats Section
 function StatsSection() {
   return (
-    				<section className="py-16 bg-background">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="py-8 md:py-16 bg-background">
+      <div className="px-4 md:px-6">
+        <div className="grid grid-cols-3 gap-4 md:gap-8">
           <div className="text-center">
-            					<div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-						<Users className="w-6 h-6 text-primary" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <Users className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold text-white mb-2">10,000+</div>
-            <div className="text-sm font-medium text-muted-foreground">Happy Customers</div>
+            <div className="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">10,000+</div>
+            <div className="text-xs md:text-sm font-medium text-muted-foreground">Happy Customers</div>
           </div>
           <div className="text-center">
-            					<div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-						<BarChart3 className="w-6 h-6 text-primary" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold text-white mb-2">99.9%</div>
-            <div className="text-sm font-medium text-muted-foreground">Uptime Guarantee</div>
+            <div className="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">99.9%</div>
+            <div className="text-xs md:text-sm font-medium text-muted-foreground">Uptime Guarantee</div>
           </div>
           <div className="text-center">
-            					<div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-						<Headphones className="w-6 h-6 text-primary" />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <Headphones className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             </div>
-            <div className="text-2xl font-bold text-white mb-2">24/7</div>
-            <div className="text-sm font-medium text-muted-foreground">Expert Support</div>
+            <div className="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">24/7</div>
+            <div className="text-xs md:text-sm font-medium text-muted-foreground">Expert Support</div>
           </div>
         </div>
       </div>
@@ -286,299 +488,110 @@ function categorizeProducts(products) {
     safetyCompliance: [],
     customerExperience: [],
     developmentTools: [],
-    computerVision: [],
-    trainingAR: [],
-    serviceSolutions: [],
-    outdoorSystems: [],
-    edgeComputing: [],
-    supplyHouse: [],
-    clothing: [],
-    officeSupplies: [],
-    drinkware: [],
-    bagsAccessories: [],
-    safetyPPE: [],
-    techElectronics: [],
-    promotional: [],
+    merchandise: [],
+    trending: []
   };
 
-  products.forEach((product) => {
-    const categoryName = product.category?.toLowerCase() || "";
-    
-    if (categoryName.includes("pos systems")) {
-      categories.posSystems.push(product);
-    } else if (categoryName.includes("fleet management")) {
-      categories.fleetManagement.push(product);
-    } else if (categoryName.includes("security systems")) {
-      categories.securitySystems.push(product);
-    } else if (categoryName.includes("kitchen systems")) {
-      categories.kitchenSystems.push(product);
-    } else if (categoryName.includes("inventory management")) {
-      categories.inventoryManagement.push(product);
-    } else if (categoryName.includes("self-service") || categoryName.includes("self service")) {
-      categories.selfService.push(product);
-    } else if (categoryName.includes("digital signage")) {
-      categories.digitalSignage.push(product);
-    } else if (categoryName.includes("iot sensors")) {
-      categories.iotSensors.push(product);
-    } else if (categoryName.includes("trades equipment")) {
-      categories.tradesEquipment.push(product);
-    } else if (categoryName.includes("infrastructure")) {
-      categories.infrastructure.push(product);
-    } else if (categoryName.includes("safety & compliance")) {
-      categories.safetyCompliance.push(product);
-    } else if (categoryName.includes("customer experience")) {
-      categories.customerExperience.push(product);
-    } else if (categoryName.includes("development tools")) {
-      categories.developmentTools.push(product);
-    } else if (categoryName.includes("computer vision")) {
-      categories.computerVision.push(product);
-    } else if (categoryName.includes("training & ar")) {
-      categories.trainingAR.push(product);
-    } else if (categoryName.includes("service solutions")) {
-      categories.serviceSolutions.push(product);
-    } else if (categoryName.includes("outdoor systems")) {
-      categories.outdoorSystems.push(product);
-    } else if (categoryName.includes("edge computing")) {
-      categories.edgeComputing.push(product);
-    } else if (categoryName.includes("supply house")) {
-      categories.supplyHouse.push(product);
-    } else if (categoryName.includes("clothing")) {
-      categories.clothing.push(product);
-    } else if (categoryName.includes("office supplies")) {
-      categories.officeSupplies.push(product);
-    } else if (categoryName.includes("drinkware")) {
-      categories.drinkware.push(product);
-    } else if (categoryName.includes("bags & accessories")) {
-      categories.bagsAccessories.push(product);
-    } else if (categoryName.includes("warehouse systems")) {
-      // Add warehouse systems to infrastructure
-      categories.infrastructure.push(product);
-    } else {
-      // Distribute remaining products across categories deterministically
-      const keys = Object.keys(categories);
-      const productHash = product.id.split('').reduce((a, b) => {
-        a = ((a << 5) - a) + b.charCodeAt(0);
-        return a & a;
-      }, 0);
-      const selectedKey = keys[Math.abs(productHash) % keys.length];
-      categories[selectedKey].push(product);
-    }
+  products.forEach(product => {
+    if (product.category === 'POS Systems') categories.posSystems.push(product);
+    else if (product.category === 'Fleet Management') categories.fleetManagement.push(product);
+    else if (product.category === 'Security Systems') categories.securitySystems.push(product);
+    else if (product.category === 'Kitchen Systems') categories.kitchenSystems.push(product);
+    else if (product.category === 'Inventory Management') categories.inventoryManagement.push(product);
+    else if (product.category === 'Self-Service') categories.selfService.push(product);
+    else if (product.category === 'Digital Signage') categories.digitalSignage.push(product);
+    else if (product.category === 'IoT Sensors') categories.iotSensors.push(product);
+    else if (product.category === 'Trades Equipment') categories.tradesEquipment.push(product);
+    else if (product.category === 'Infrastructure') categories.infrastructure.push(product);
+    else if (product.category === 'Safety & Compliance') categories.safetyCompliance.push(product);
+    else if (product.category === 'Customer Experience') categories.customerExperience.push(product);
+    else if (product.category === 'Development Tools') categories.developmentTools.push(product);
+    else if (product.category === 'Merchandise') categories.merchandise.push(product);
+    else if (product.trending) categories.trending.push(product);
   });
 
   return categories;
 }
 
-// Product sections with real data - similar to home page business sections
-function ProductSections({ categories }) {
+// Mobile-optimized Product Category Section
+function ProductCategorySection({ title, products, categorySlug, subtitle = "" }) {
+  if (!products || products.length === 0) return null;
+
   return (
-    <>
-      {/* POS & PAYMENT SYSTEMS SECTION */}
-      {categories.posSystems.length > 0 && (
-        <div className="space-y-12 animate-fade-in-up mb-20" data-section="pos-systems">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left">POS & Payment Systems</h2>
-            					<Link href="/store/categories/pos-systems" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-200">
-              See all
-            </Link>
-          </div>
-
-          {/* Best Sellers - POS Systems */}
-          <ScrollSection title="Best Sellers" subtitle="Most popular POS solutions" link="/store/categories/pos-systems?sort=popular">
-            {(categories.posSystems || []).slice(0, 10).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ScrollSection>
-
-          {/* New Arrivals - POS Systems */}
-          {(categories.posSystems || []).length > 10 && (
-            <ScrollSection title="New Arrivals" subtitle="Latest POS innovations" link="/store/categories/pos-systems?sort=newest">
-              {(categories.posSystems || []).slice(10, 20).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </ScrollSection>
+    <div className="space-y-6 md:space-y-12 animate-fade-in-up animate-delay-100 mb-12 md:mb-20">
+      <div className="flex justify-between items-center px-4 md:px-6">
+        <div>
+          <h2 className="text-xl md:text-3xl font-bold text-white animate-slide-in-left animate-delay-100">
+            {title}
+          </h2>
+          {subtitle && (
+            <p className="text-sm md:text-base text-muted-foreground mt-1">
+              {subtitle}
+            </p>
           )}
         </div>
-      )}
+        <Link 
+          href={`/store/categories/${categorySlug}`} 
+          className="text-sm md:text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-300"
+        >
+          See all
+        </Link>
+      </div>
 
-      {/* FLEET MANAGEMENT SECTION */}
-      {categories.fleetManagement.length > 0 && (
-        <div className="space-y-12 animate-fade-in-up animate-delay-100 mb-20" data-section="fleet-management">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-100">Fleet Management</h2>
-            					<Link href="/store/categories/fleet-management" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-300">
-              See all
-            </Link>
-          </div>
-
-          {/* GPS Tracking Solutions */}
-          <ScrollSection title="GPS Tracking Solutions" subtitle="Real-time fleet monitoring" link="/store/categories/fleet-management?type=gps">
-            {(categories.fleetManagement || []).slice(0, 10).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ScrollSection>
-
-          {/* Fleet Accessories */}
-          {(categories.fleetManagement || []).length > 10 && (
-            <ScrollSection title="Fleet Accessories" subtitle="Essential fleet equipment" link="/store/categories/fleet-management?type=accessories">
-              {(categories.fleetManagement || []).slice(10, 20).map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </ScrollSection>
-          )}
-        </div>
-      )}
-
-      {/* SECURITY SYSTEMS SECTION */}
-      {categories.securitySystems.length > 0 && (
-        <div className="space-y-12 animate-fade-in-up animate-delay-200 mb-20" data-section="security-systems">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-200">Security & Monitoring</h2>
-            					<Link href="/store/categories/security-systems" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-400">
-              See all
-            </Link>
-          </div>
-
-          {/* Surveillance Cameras */}
-          <ScrollSection title="Surveillance Cameras" subtitle="Professional security monitoring" link="/store/categories/security-systems?type=cameras">
-            {(categories.securitySystems || []).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ScrollSection>
-        </div>
-      )}
-
-      {/* KITCHEN SYSTEMS SECTION */}
-      {categories.kitchenSystems.length > 0 && (
-        <div className="space-y-12 animate-fade-in-up animate-delay-300 mb-20" data-section="kitchen-systems">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-300">Kitchen & Back-of-House</h2>
-            					<Link href="/store/categories/kitchen-systems" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-500">
-              See all
-            </Link>
-          </div>
-
-          {/* Kitchen Display Systems */}
-          <ScrollSection title="Kitchen Display Systems" subtitle="Streamline kitchen operations" link="/store/categories/kitchen-systems?type=kds">
-            {(categories.kitchenSystems || []).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ScrollSection>
-        </div>
-      )}
-
-      {/* INVENTORY MANAGEMENT SECTION */}
-      {categories.inventoryManagement.length > 0 && (
-        <div className="space-y-12 animate-fade-in-up animate-delay-400 mb-20" data-section="inventory-management">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-400">Inventory Management</h2>
-            					<Link href="/store/categories/inventory-management" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-500">
-              See all
-            </Link>
-          </div>
-
-          {/* Smart Inventory Solutions */}
-          <ScrollSection title="Smart Inventory Solutions" subtitle="Automated inventory tracking" link="/store/categories/inventory-management?type=smart">
-            {categories.inventoryManagement.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ScrollSection>
-        </div>
-      )}
-
-      {/* MERCHANDISE SECTION */}
-      {(categories.clothing.length > 0 || categories.officeSupplies.length > 0 || categories.drinkware.length > 0) && (
-        <div className="space-y-12 animate-fade-in-up animate-delay-500 mb-20" data-section="merchandise">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-500">Thorbis Merchandise</h2>
-            					<Link href="/store/categories/merchandise" className="text-base text-muted-foreground hover:text-primary transition-colors animate-fade-in-scale animate-delay-600">
-              See all
-            </Link>
-          </div>
-
-          {/* Clothing & Apparel */}
-          {categories.clothing.length > 0 && (
-            <ScrollSection title="Clothing & Apparel" subtitle="Professional Thorbis branded clothing" link="/store/categories/merchandise?type=clothing">
-              {categories.clothing.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </ScrollSection>
-          )}
-
-          {/* Office Supplies */}
-          {categories.officeSupplies.length > 0 && (
-            <ScrollSection title="Office Supplies" subtitle="Essential office accessories" link="/store/categories/merchandise?type=office">
-              {categories.officeSupplies.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </ScrollSection>
-          )}
-
-          {/* Drinkware */}
-          {categories.drinkware.length > 0 && (
-            <ScrollSection title="Drinkware" subtitle="Stay hydrated with Thorbis style" link="/store/categories/merchandise?type=drinkware">
-              {categories.drinkware.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </ScrollSection>
-          )}
-        </div>
-      )}
-
-      {/* TRENDING & NEW SECTION */}
-      <div className="space-y-12 animate-fade-in-up animate-delay-600 mb-20" data-section="trending">
-        <div className="flex justify-between items-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white animate-slide-in-left animate-delay-600">Trending & New</h2>
-        </div>
-
-        {/* Trending This Week */}
-        <ScrollSection title="Trending This Week" subtitle="Most viewed products" link="/store/trending">
-          {(allProducts || []).slice(0, 20).map((product) => (
+      {/* Mobile List View */}
+      <div className="block md:hidden">
+        <MobileProductList>
+          {products.slice(0, 8).map((product) => (
+            <ProductListItem key={product.id} product={product} />
+          ))}
+        </MobileProductList>
+      </div>
+      
+      {/* Desktop Scroll View */}
+      <div className="hidden md:block">
+        <ScrollSection title={title} subtitle={subtitle} link={`/store/categories/${categorySlug}`}>
+          {products.slice(0, 10).map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </ScrollSection>
-
-        {/* Recently Added */}
-        {(allProducts || []).length > 20 && (
-          <ScrollSection title="New Arrivals" subtitle="Recently added to our catalog" link="/store/search?sort=newest">
-            {(allProducts || []).slice(-20).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ScrollSection>
-        )}
       </div>
-    </>
+    </div>
   );
 }
 
+// Mobile-optimized Testimonials Section
 function TestimonialsSection() {
   return (
-    <section className="py-16 bg-black">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight">
+    <section className="py-8 md:py-16 bg-background">
+      <div className="px-4 md:px-6">
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
             What Our Customers Say
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real feedback from businesses that trust Thorbis
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+            Join thousands of satisfied businesses using Thorbis solutions
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {testimonials.map((testimonial, index) => (
-            					<div key={index} className="bg-background rounded-xl p-6 shadow-lg border border-border">
+            <div 
+              key={index} 
+              className="bg-card rounded-2xl p-6 md:p-8 border border-border/50"
+            >
               <div className="flex items-center gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  					<Star key={i} className="w-4 h-4 fill-muted-foreground text-muted-foreground" />
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <p className="text-base leading-relaxed text-muted-foreground mb-4">
-                &ldquo;{testimonial.content}&rdquo;
+              <p className="text-sm md:text-base text-muted-foreground mb-4 leading-relaxed">
+                "{testimonial.content}"
               </p>
               <div>
-                <div className="font-semibold text-base text-white">
+                <div className="font-semibold text-white text-sm md:text-base">
                   {testimonial.name}
                 </div>
-                <div className="text-sm text-muted-foreground">
+                <div className="text-xs md:text-sm text-muted-foreground">
                   {testimonial.role}
                 </div>
               </div>
@@ -590,60 +603,295 @@ function TestimonialsSection() {
   );
 }
 
-// Main store page component
+// Mobile-optimized CTA Section
+function CTASection() {
+  return (
+    <section className="py-8 md:py-16 bg-primary/10">
+      <div className="px-4 md:px-6">
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            Ready to Transform Your Business?
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground mb-8">
+            Get started with Thorbis solutions today and join thousands of successful businesses
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-xl font-semibold w-full sm:w-auto">
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/demo">
+              <Button variant="outline" size="lg" className="border-primary/50 text-primary hover:bg-primary/10 px-8 py-3 rounded-xl font-semibold w-full sm:w-auto">
+                Schedule Demo
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function StorePage() {
-  // Categorize all products with safety check
-  const categories = categorizeProducts(allProducts || []);
-  
-  // Check if we have any products to display
-  const hasAnyCategories = Object.values(categories || {}).some(category => (category || []).length > 0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [filteredProducts, setFilteredProducts] = useState(allProducts);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+
+  // Get all categories
+  const allCategories = getAllCategories();
+
+  // Debug logging
+  console.log('Store Page Debug:', {
+    totalProducts: allProducts.length,
+    filteredProducts: filteredProducts.length,
+    searchQuery,
+    selectedCategory,
+    allCategories: allCategories.length
+  });
+
+  // Handle search
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim()) {
+      const results = searchProducts(query);
+      setFilteredProducts(results);
+      console.log('Search results:', results.length);
+    } else {
+      setFilteredProducts(allProducts);
+      console.log('Reset to all products:', allProducts.length);
+    }
+  };
+
+  // Handle category filter
+  const handleCategoryFilter = (category) => {
+    setSelectedCategory(category);
+    if (category === "all") {
+      setFilteredProducts(allProducts);
+      console.log('Category filter reset to all:', allProducts.length);
+    } else {
+      const categoryProducts = allProducts.filter(product => product.category === category);
+      setFilteredProducts(categoryProducts);
+      console.log('Category filter applied:', category, categoryProducts.length);
+    }
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    setSearchQuery("");
+    setSelectedCategory("all");
+    setFilteredProducts(allProducts);
+    console.log('Filters cleared, showing all products:', allProducts.length);
+  };
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Thorbis-style Product Slider */}
-      <ProductSlider />
+    <main className="min-h-screen bg-black">
+      {/* Mobile Header */}
+      <div className="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-border md:hidden">
+        <div className="flex items-center justify-between p-4">
+          <Button variant="ghost" size="sm" asChild className="h-10 w-10 p-0">
+            <Link href="/">
+              <ArrowLeft className="h-5 w-5" />
+            </Link>
+          </Button>
+          <h1 className="text-lg font-semibold text-white">Store</h1>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-10 w-10 p-0"
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        </div>
+        
+        {/* Mobile Search Bar */}
+        <div className="px-4 pb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search all products..."
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+              className="pl-10 pr-10 bg-background border-border text-white placeholder:text-muted-foreground"
+            />
+            {searchQuery && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => handleSearch("")}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
 
-      {/* Featured Products Section */}
-      <FeaturedProductsSection />
-
-      {/* Stats Section */}
-      <StatsSection />
-
-      {/* Main Content with Categorized Product Sections */}
-      				<section className="py-24 bg-background">
-        <div className="max-w-screen-2xl mx-auto px-6 space-y-24">
-          {hasAnyCategories ? (
-            <ProductSections categories={categories} />
-          ) : (
-            <div className="text-center py-24 space-y-6">
-                              <div className="mx-auto w-20 h-20 bg-muted rounded-full flex items-center justify-center">
-                <ShoppingCart className="w-10 h-10 text-muted-foreground" />
-              </div>
-              
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold text-white">
-                  No Products Found
-                </h3>
-                <p className="text-muted-foreground max-w-sm mx-auto">
-                  We're working on adding products to our catalog. Check back soon!
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-                <button className="px-6 py-2 border border-border text-foreground hover:bg-muted transition-colors rounded">
-                  <Link href="/store/categories">Browse Categories</Link>
-                </button>
-                					<button className="px-6 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors rounded">
-                  <Link href="/contact">Contact Sales</Link>
-                </button>
+      {/* Desktop Header */}
+      <div className="hidden md:block sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-white">Thorbis Store</h1>
+            
+            {/* Desktop Search */}
+            <div className="flex items-center gap-4 flex-1 max-w-md mx-8">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search all products..."
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="pl-10 pr-10 bg-background border-border text-white placeholder:text-muted-foreground"
+                />
+                {searchQuery && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleSearch("")}
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                )}
               </div>
             </div>
-          )}
+            
+            {/* Desktop Category Filter */}
+            <div className="flex items-center gap-2">
+              <select
+                value={selectedCategory}
+                onChange={(e) => handleCategoryFilter(e.target.value)}
+                className="bg-background border border-border text-white px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <option value="all">All Categories</option>
+                {allCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+              
+              {(searchQuery || selectedCategory !== "all") && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={clearFilters}
+                  className="text-muted-foreground hover:text-white"
+                >
+                  Clear
+                </Button>
+              )}
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* Testimonials Section */}
+      {/* Hero Slider */}
+      <ProductSlider />
+
+      {/* Stats */}
+      <StatsSection />
+
+      {/* All Products Section */}
+      <AllProductsSection 
+        products={filteredProducts}
+        searchQuery={searchQuery}
+        selectedCategory={selectedCategory}
+      />
+
+      {/* Product Categories - Show if no search/filter is active */}
+      {!searchQuery && selectedCategory === "all" && (
+        <div className="space-y-8 md:space-y-16">
+          {/* Categorize all products */}
+          {(() => {
+            const categories = categorizeProducts(allProducts);
+            
+            return (
+              <>
+                {/* POS Systems */}
+                {categories.posSystems.length > 0 && (
+                  <ProductCategorySection
+                    title="POS Systems"
+                    products={categories.posSystems}
+                    categorySlug="pos-systems"
+                    subtitle="Complete point-of-sale solutions"
+                  />
+                )}
+
+                {/* Fleet Management */}
+                {categories.fleetManagement.length > 0 && (
+                  <ProductCategorySection
+                    title="Fleet Management"
+                    products={categories.fleetManagement}
+                    categorySlug="fleet-management"
+                    subtitle="GPS tracking and fleet optimization"
+                  />
+                )}
+
+                {/* Security Systems */}
+                {categories.securitySystems.length > 0 && (
+                  <ProductCategorySection
+                    title="Security & Monitoring"
+                    products={categories.securitySystems}
+                    categorySlug="security-systems"
+                    subtitle="Advanced security solutions"
+                  />
+                )}
+
+                {/* Kitchen Systems */}
+                {categories.kitchenSystems.length > 0 && (
+                  <ProductCategorySection
+                    title="Kitchen Systems"
+                    products={categories.kitchenSystems}
+                    categorySlug="kitchen-systems"
+                    subtitle="Restaurant and kitchen automation"
+                  />
+                )}
+
+                {/* Inventory Management */}
+                {categories.inventoryManagement.length > 0 && (
+                  <ProductCategorySection
+                    title="Inventory Management"
+                    products={categories.inventoryManagement}
+                    categorySlug="inventory-management"
+                    subtitle="Smart inventory tracking"
+                  />
+                )}
+
+                {/* Merchandise */}
+                {categories.merchandise.length > 0 && (
+                  <ProductCategorySection
+                    title="Merchandise"
+                    products={categories.merchandise}
+                    categorySlug="merchandise"
+                    subtitle="Thorbis branded merchandise"
+                  />
+                )}
+
+                {/* Trending & New */}
+                {categories.trending.length > 0 && (
+                  <ProductCategorySection
+                    title="Trending & New"
+                    products={categories.trending}
+                    categorySlug="trending"
+                    subtitle="Latest and most popular products"
+                  />
+                )}
+              </>
+            );
+          })()}
+        </div>
+      )}
+
+      {/* Testimonials */}
       <TestimonialsSection />
-    </div>
+
+      {/* CTA */}
+      <CTASection />
+    </main>
   );
 }

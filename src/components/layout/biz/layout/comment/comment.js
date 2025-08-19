@@ -73,18 +73,18 @@ const Comment = ({ comment, handleReplyClick, replyBox, replyText, setReplyText,
 							</div>
 							<div className="flex mt-2 space-x-1">
 								<div className="w-1/2">
-									<a href="#" className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-blue-600 bg-blue-300 bg-opacity-50 rounded-md hover:bg-opacity-60">
+									<a href="#" className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-primary bg-primary/30 bg-opacity-50 rounded-md hover:bg-opacity-60">
 										<PlusCircle className="w-4 h-4 mr-1" />
 										Add
 									</a>
 								</div>
 								<div className="w-auto">
-									<a href="#" className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-gray-800 bg-gray-200 rounded-lg hover:bg-gray-300">
+									<a href="#" className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-foreground bg-muted rounded-lg hover:bg-muted">
 										<CheckCircle className="w-4 h-4 mr-1" />
 									</a>
 								</div>
 								<div className="w-auto">
-									<a href="#" className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-gray-800 bg-gray-200 rounded-lg hover:bg-gray-300">
+									<a href="#" className="flex items-center justify-center px-3 py-2 text-xs font-semibold text-foreground bg-muted rounded-lg hover:bg-muted">
 										<Eye className="w-4 h-4 mr-1" />
 									</a>
 								</div>
@@ -93,7 +93,7 @@ const Comment = ({ comment, handleReplyClick, replyBox, replyText, setReplyText,
 					</Popover>
 
 					<div className="block w-full">
-						<div className="relative w-full p-2 bg-gray-800 rounded-md">
+						<div className="relative w-full p-2 bg-card rounded-md">
 							<Link href="#" className="p-0 m-0 text-sm font-medium hover:underline">
 								{comment.user.name}
 							</Link>
@@ -115,7 +115,7 @@ const Comment = ({ comment, handleReplyClick, replyBox, replyText, setReplyText,
 							<div className="mt-2">
 								<Textarea className="w-full px-3 py-2 border rounded" placeholder="Write a reply..." value={replyText[comment.id] || ""} onChange={(e) => setReplyText({ ...replyText, [comment.id]: e.target.value })} />
 								{replyText[comment.id] && (
-									<button className="px-3 py-2 mt-2 text-white bg-blue-600 rounded" onClick={() => handleAddReply(comment.id)}>
+									<button className="px-3 py-2 mt-2 text-white bg-primary rounded" onClick={() => handleAddReply(comment.id)}>
 										Submit
 									</button>
 								)}

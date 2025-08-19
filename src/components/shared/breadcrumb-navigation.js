@@ -24,7 +24,7 @@ import {
   Briefcase,
   MessageSquare
 } from "lucide-react";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Smart Breadcrumb Navigation Component

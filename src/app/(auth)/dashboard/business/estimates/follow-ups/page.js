@@ -296,11 +296,11 @@ export default function EstimateFollowUps() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "overdue":
-				return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/90";
 			case "scheduled":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary dark:text-primary/90";
 			case "hot_lead":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "expired":
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 			default:
@@ -326,22 +326,22 @@ export default function EstimateFollowUps() {
 	const getPriorityColor = (priority) => {
 		switch (priority) {
 			case "urgent":
-				return "text-red-600 dark:text-red-400";
+				return "text-destructive dark:text-destructive";
 			case "high":
-				return "text-orange-600 dark:text-orange-400";
+				return "text-warning dark:text-warning";
 			case "medium":
-				return "text-yellow-600 dark:text-yellow-400";
+				return "text-warning dark:text-warning";
 			case "low":
-				return "text-green-600 dark:text-green-400";
+				return "text-success dark:text-success";
 			default:
 				return "text-muted-foreground dark:text-muted-foreground";
 		}
 	};
 
 	const getConversionColor = (probability) => {
-		if (probability >= 80) return "text-green-600 dark:text-green-400";
-		if (probability >= 60) return "text-yellow-600 dark:text-yellow-400";
-		return "text-red-600 dark:text-red-400";
+		if (probability >= 80) return "text-success dark:text-success";
+		if (probability >= 60) return "text-warning dark:text-warning";
+		return "text-destructive dark:text-destructive";
 	};
 
 	const getEngagementScore = (engagement) => {
@@ -350,9 +350,9 @@ export default function EstimateFollowUps() {
 	};
 
 	const getEngagementColor = (score) => {
-		if (score >= 70) return "text-green-600 dark:text-green-400";
-		if (score >= 40) return "text-yellow-600 dark:text-yellow-400";
-		return "text-red-600 dark:text-red-400";
+		if (score >= 70) return "text-success dark:text-success";
+		if (score >= 40) return "text-warning dark:text-warning";
+		return "text-destructive dark:text-destructive";
 	};
 
 	const filteredFollowUps = followUps.filter((followUp) => {
@@ -494,7 +494,7 @@ export default function EstimateFollowUps() {
 								<p className="text-sm text-muted-foreground">Total Follow-ups</p>
 								<p className="text-2xl font-bold">{dashboardStats.total}</p>
 							</div>
-							<FileText className="w-8 h-8 text-blue-600" />
+							<FileText className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -504,9 +504,9 @@ export default function EstimateFollowUps() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Overdue</p>
-								<p className="text-2xl font-bold text-red-600">{dashboardStats.overdue}</p>
+								<p className="text-2xl font-bold text-destructive">{dashboardStats.overdue}</p>
 							</div>
-							<AlertTriangle className="w-8 h-8 text-red-600" />
+							<AlertTriangle className="w-8 h-8 text-destructive" />
 						</div>
 					</CardContent>
 				</Card>
@@ -516,9 +516,9 @@ export default function EstimateFollowUps() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Hot Leads</p>
-								<p className="text-2xl font-bold text-green-600">{dashboardStats.hotLeads}</p>
+								<p className="text-2xl font-bold text-success">{dashboardStats.hotLeads}</p>
 							</div>
-							<Star className="w-8 h-8 text-green-600" />
+							<Star className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -528,9 +528,9 @@ export default function EstimateFollowUps() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Conversion Rate</p>
-								<p className="text-2xl font-bold text-green-600">{dashboardStats.conversionRate}%</p>
+								<p className="text-2xl font-bold text-success">{dashboardStats.conversionRate}%</p>
 							</div>
-							<Target className="w-8 h-8 text-green-600" />
+							<Target className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -540,9 +540,9 @@ export default function EstimateFollowUps() {
 						<div className="flex justify-between items-center">
 							<div>
 								<p className="text-sm text-muted-foreground">Automation</p>
-								<p className="text-2xl font-bold text-blue-600">{dashboardStats.automationEnabled}</p>
+								<p className="text-2xl font-bold text-primary">{dashboardStats.automationEnabled}</p>
 							</div>
-							<Zap className="w-8 h-8 text-blue-600" />
+							<Zap className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -644,7 +644,7 @@ export default function EstimateFollowUps() {
 														{followUp.job.priority}
 													</Badge>
 													{followUp.automationRules.enabled && (
-														<Badge variant="outline" className="text-blue-600">
+														<Badge variant="outline" className="text-primary">
 															<Zap className="mr-1 w-3 h-3" />
 															Auto
 														</Badge>
@@ -682,7 +682,7 @@ export default function EstimateFollowUps() {
 													{followUp.nextFollowUp && (
 														<>
 															<p className="text-xs text-muted-foreground mt-2 mb-1">Next Follow-up</p>
-															<p className="text-sm font-medium text-blue-600">{formatDate(followUp.nextFollowUp)}</p>
+															<p className="text-sm font-medium text-primary">{formatDate(followUp.nextFollowUp)}</p>
 														</>
 													)}
 												</div>
@@ -712,7 +712,7 @@ export default function EstimateFollowUps() {
 													<p className="text-sm font-medium mb-2">Recent Activity</p>
 													<div className="space-y-2">
 														{followUp.notes.slice(-2).map((note) => (
-															<div key={note.id} className="p-2 bg-blue-50 dark:bg-blue-950 rounded text-sm">
+															<div key={note.id} className="p-2 bg-blue-50 dark:bg-primary rounded text-sm">
 																<div className="flex justify-between items-start mb-1">
 																	<Badge variant="outline" className="text-xs">
 																		{note.type}
@@ -754,7 +754,7 @@ export default function EstimateFollowUps() {
 														<Eye className="w-4 h-4" />
 													</Button>
 													<Button variant="ghost" size="sm" onClick={() => handleToggleAutomation(followUp.id)}>
-														<Zap className={`w-4 h-4 ${followUp.automationRules.enabled ? "text-blue-600" : "text-muted-foreground"}`} />
+														<Zap className={`w-4 h-4 ${followUp.automationRules.enabled ? "text-primary" : "text-muted-foreground"}`} />
 													</Button>
 												</div>
 											</div>

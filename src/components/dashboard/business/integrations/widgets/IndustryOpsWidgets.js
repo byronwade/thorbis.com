@@ -12,8 +12,8 @@ export function AgricultureWidget() {
 		<Card>
 			<CardHeader className="pb-2">
 				<div className="flex items-center space-x-2">
-					<div className="p-2 bg-green-100 dark:bg-green-950 rounded-lg">
-						<Tractor className="h-4 w-4 text-green-600" />
+					<div className="p-2 bg-success/10 dark:bg-success rounded-lg">
+						<Tractor className="h-4 w-4 text-success" />
 					</div>
 					<div>
 						<CardTitle className="text-sm">Agriculture</CardTitle>
@@ -48,8 +48,8 @@ export function AutomotiveWidget() {
 		<Card>
 			<CardHeader className="pb-2">
 				<div className="flex items-center space-x-2">
-					<div className="p-2 bg-blue-100 dark:bg-blue-950 rounded-lg">
-						<Car className="h-4 w-4 text-blue-600" />
+					<div className="p-2 bg-primary/10 dark:bg-primary rounded-lg">
+						<Car className="h-4 w-4 text-primary" />
 					</div>
 					<div>
 						<CardTitle className="text-sm">Automotive</CardTitle>
@@ -65,7 +65,7 @@ export function AutomotiveWidget() {
 					</div>
 					<div className="flex items-center justify-between text-sm">
 						<span className="text-muted-foreground">Revenue Today</span>
-						<span className="font-medium text-green-600">$1,240</span>
+						<span className="font-medium text-success">$1,240</span>
 					</div>
 				</div>
 				<Button size="sm" variant="outline" className="w-full mt-3">
@@ -101,7 +101,7 @@ export function EcommerceWidget() {
 					</div>
 					<div className="flex items-center justify-between text-sm">
 						<span className="text-muted-foreground">Conversion</span>
-						<span className="font-medium text-green-600">3.2%</span>
+						<span className="font-medium text-success">3.2%</span>
 					</div>
 				</div>
 				<Button size="sm" variant="outline" className="w-full mt-3">
@@ -120,8 +120,8 @@ export function LogisticsWidget() {
 		<Card>
 			<CardHeader className="pb-2">
 				<div className="flex items-center space-x-2">
-					<div className="p-2 bg-orange-100 dark:bg-orange-950 rounded-lg">
-						<Truck className="h-4 w-4 text-orange-600" />
+					<div className="p-2 bg-warning/10 dark:bg-warning rounded-lg">
+						<Truck className="h-4 w-4 text-warning" />
 					</div>
 					<div>
 						<CardTitle className="text-sm">Logistics</CardTitle>
@@ -137,7 +137,7 @@ export function LogisticsWidget() {
 					</div>
 					<div className="flex items-center justify-between text-sm">
 						<span className="text-muted-foreground">On-time Rate</span>
-						<span className="font-medium text-green-600">94%</span>
+						<span className="font-medium text-success">94%</span>
 					</div>
 				</div>
 				<Button size="sm" variant="outline" className="w-full mt-3">
@@ -173,7 +173,7 @@ export function PropertyManagementWidget() {
 					</div>
 					<div className="flex items-center justify-between text-sm">
 						<span className="text-muted-foreground">Occupancy</span>
-						<span className="font-medium text-green-600">92%</span>
+						<span className="font-medium text-success">92%</span>
 					</div>
 				</div>
 				<Button size="sm" variant="outline" className="w-full mt-3">

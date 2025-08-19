@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useAuth } from "@context/auth-context";
 import { supabase } from "@lib/database/supabase";
 import { CheckCircle, AlertCircle, Mail, Smartphone, Loader2, RefreshCw } from "lucide-react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 export default function OTPVerification() {
 	const router = useRouter();
@@ -274,8 +274,8 @@ export default function OTPVerification() {
 			<Card className="w-full max-w-md">
 				<CardHeader className="text-center">
 					<div className="flex justify-center mb-4">
-						<div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-							<Icon className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+						<div className="w-16 h-16 bg-primary/10 dark:bg-primary rounded-full flex items-center justify-center">
+							<Icon className="w-8 h-8 text-primary dark:text-primary" />
 						</div>
 					</div>
 					<CardTitle className="text-2xl">{verificationType === "email" ? "Verify Email" : "Verify Phone"}</CardTitle>

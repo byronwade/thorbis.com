@@ -121,7 +121,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
       })
       directionsRenderersRef.current = []
 
-      const colors = ["#3b82f6", "#ef4444", "#10b981", "#8b5cf6", "#f59e0b", "#06b6d4"]
+      const colors = ["hsl(var(--primary))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--accent))", "hsl(var(--primary))"]
 
       memoizedVehicles.forEach((vehicle, index) => {
         if (!vehicle.destinationLat || !vehicle.destinationLng) {
@@ -187,13 +187,13 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
         <div style="
           width: 40px;
           height: 40px;
-          background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+          background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
           border: 3px solid white;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          box-shadow: 0 4px 12px hsl(var(--foreground) / 0.3);
           cursor: pointer;
           transform: perspective(100px) rotateX(15deg);
         ">
@@ -217,19 +217,19 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
           // Create info window content
           const infoContent = `
           <div style="
-            background: linear-gradient(135deg, #1f2937, #374151);
+            background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--border)));
             border-radius: 12px;
             padding: 16px;
             color: white;
             font-family: system-ui, -apple-system, sans-serif;
             min-width: 280px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px hsl(var(--foreground) / 0.3);
           ">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
               <div style="
                 width: 40px;
                 height: 40px;
-                background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
                 border-radius: 8px;
                 display: flex;
                 align-items: center;
@@ -241,22 +241,22 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               </div>
               <div>
                 <h3 style="margin: 0; font-size: 16px; font-weight: 600;">${vehicle.name}</h3>
-                <p style="margin: 0; font-size: 12px; color: #9ca3af;">Driver: ${vehicle.driver}</p>
+                <p style="margin: 0; font-size: 12px; color: hsl(var(--muted-foreground));">Driver: ${vehicle.driver}</p>
               </div>
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
-              <div style="background: rgba(59, 130, 246, 0.1); padding: 8px; border-radius: 6px; text-align: center;">
-                <div style="font-size: 18px; font-weight: 600; color: #3b82f6;">${vehicle.speed} mph</div>
-                <div style="font-size: 11px; color: #9ca3af;">Speed</div>
+              <div style="background: hsl(var(--primary) / 0.1); padding: 8px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 18px; font-weight: 600; color: hsl(var(--primary));">${vehicle.speed} mph</div>
+<div style="font-size: 11px; color: hsl(var(--muted-foreground));">Speed</div>
               </div>
-              <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 6px; text-align: center;">
-                <div style="font-size: 18px; font-weight: 600; color: #10b981;">${vehicle.fuelLevel}%</div>
-                <div style="font-size: 11px; color: #9ca3af;">Fuel</div>
+              <div style="background: hsl(var(--muted-foreground) / 0.1); padding: 8px; border-radius: 6px; text-align: center;">
+                <div style="font-size: 18px; font-weight: 600; color: hsl(var(--muted-foreground));">${vehicle.fuelLevel}%</div>
+                <div style="font-size: 11px; color: hsl(var(--muted-foreground));">Fuel</div>
               </div>
             </div>
             
-            <div style="font-size: 12px; color: #d1d5db;">
+            <div style="font-size: 12px; color: hsl(var(--muted-foreground));">
               <div style="margin-bottom: 4px;">📍 Destination: ${vehicle.destinationName || "Not set"}</div>
               <div>🕒 Status: ${vehicle.status}</div>
             </div>
@@ -288,13 +288,13 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
           <div style="
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
             border: 3px solid white;
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px hsl(var(--foreground) / 0.4);
             cursor: pointer;
             transform: perspective(200px) rotateX(45deg) rotateY(15deg);
             transition: all 0.2s ease;
@@ -317,19 +317,19 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               const destInfoWindow = new window.google.maps.InfoWindow({
                 content: `
                   <div style="
-                    background: linear-gradient(135deg, #1f2937, #374151);
+                    background: linear-gradient(135deg, hsl(var(--card)), hsl(var(--border)));
                     color: white;
                     padding: 16px;
                     border-radius: 12px;
                     font-family: system-ui, -apple-system, sans-serif;
                     min-width: 280px;
-                    border: 1px solid #4b5563;
+                    border: 1px solid hsl(var(--border));
                   ">
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
                       <div style="
                         width: 32px;
                         height: 32px;
-                        background: linear-gradient(135deg, #0ea5e9, #0284c7);
+                        background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
                         border-radius: 8px;
                         display: flex;
                         align-items: center;
@@ -340,25 +340,25 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                         </svg>
                       </div>
                       <div>
-                        <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: #0ea5e9;">
+                        <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: hsl(var(--primary));">
                           ${vehicle.destinationName}
                         </h3>
-                        <p style="margin: 0; font-size: 12px; color: #9ca3af;">
+                        <p style="margin: 0; font-size: 12px; color: hsl(var(--muted-foreground));">
                           Destination for ${vehicle.name}
                         </p>
                       </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
-                      <div style="background: rgba(59, 130, 246, 0.1); padding: 8px; border-radius: 6px; border: 1px solid rgba(59, 130, 246, 0.2);">
-                        <div style="font-size: 11px; color: #9ca3af; margin-bottom: 2px;">ETA</div>
-                        <div style="font-size: 14px; font-weight: 600; color: #3b82f6;">
+                      <div style="background: hsl(var(--primary) / 0.1); padding: 8px; border-radius: 6px; border: 1px solid hsl(var(--primary) / 0.2);">
+                        <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 2px;">ETA</div>
+                        <div style="font-size: 14px; font-weight: 600; color: hsl(var(--primary));">
                           ${Math.floor(Math.random() * 30 + 15)} min
                         </div>
                       </div>
-                      <div style="background: rgba(16, 185, 129, 0.1); padding: 8px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.2);">
-                        <div style="font-size: 11px; color: #9ca3af; margin-bottom: 2px;">Distance</div>
-                        <div style="font-size: 14px; font-weight: 600; color: #10b981;">
+                      <div style="background: hsl(var(--muted-foreground) / 0.1); padding: 8px; border-radius: 6px; border: 1px solid hsl(var(--muted-foreground) / 0.2);">
+                        <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 2px;">Distance</div>
+                        <div style="font-size: 14px; font-weight: 600; color: hsl(var(--muted-foreground));">
                           ${(Math.random() * 15 + 5).toFixed(1)} mi
                         </div>
                       </div>
@@ -367,7 +367,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                     <div style="display: flex; gap: 8px;">
                       <button style="
                         flex: 1;
-                        background: linear-gradient(135deg, #3b82f6, #2563eb);
+                        background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
                         color: white;
                         border: none;
                         padding: 8px 12px;
@@ -380,9 +380,9 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                       </button>
                       <button style="
                         flex: 1;
-                        background: rgba(75, 85, 99, 0.8);
+                        background: hsl(var(--muted-foreground) / 0.8);
                         color: white;
-                        border: 1px solid #6b7280;
+                        border: 1px solid hsl(var(--border));
                         padding: 8px 12px;
                         border-radius: 6px;
                         font-size: 12px;
@@ -538,9 +538,9 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               "data:image/svg+xml;base64," +
               btoa(`
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="16" cy="16" r="15" fill="#059669" stroke="#ffffff" strokeWidth="2"/>
+              <circle cx="16" cy="16" r="15" fill="hsl(var(--muted-foreground))" stroke="hsl(var(--background))" strokeWidth="2"/>
               <path d="M12 10h8v4h-2v8h-4v-8h-2v-4z" fill="white"/>
-              <circle cx="16" cy="20" r="1" fill="#059669"/>
+              <circle cx="16" cy="20" r="1" fill="hsl(var(--muted-foreground))"/>
             </svg>
           `),
             scaledSize: new window.google.maps.Size(32, 32),
@@ -566,14 +566,14 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               box-shadow: none;
             ">
               <div style="
-                background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+                background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%);
                 border-radius: 12px;
                 overflow: hidden;
-                box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
-                border: 1px solid #374151;
+                box-shadow: 0 20px 40px -12px hsl(var(--foreground) / 0.5);
+                border: 1px solid hsl(var(--border));
               ">
                 <div style="
-                  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+                  background: linear-gradient(135deg, hsl(var(--muted-foreground)) 0%, hsl(var(--muted-foreground)) 100%);
                   padding: 16px;
                   color: white;
                 ">
@@ -581,7 +581,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                     <div style="
                       width: 24px; 
                       height: 24px; 
-                      background: rgba(255,255,255,0.2); 
+                      background: hsl(var(--background) / 0.2); 
                       border-radius: 50%; 
                       display: flex; 
                       align-items: center; 
@@ -594,7 +594,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                     station.rating > 0
                       ? `
                     <div style="margin-top: 8px; display: flex; align-items: center; gap: 4px;">
-                      <span style="color: #fbbf24;">★</span>
+                      <span style="color: hsl(var(--warning));">★</span>
                       <span style="font-size: 14px;">${station.rating.toFixed(1)}</span>
                     </div>
                   `
@@ -603,7 +603,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                 </div>
                 
                 <div style="padding: 16px;">
-                  <div style="color: #d1d5db; font-size: 14px; margin-bottom: 12px;">
+                  <div style="color: hsl(var(--muted-foreground)); font-size: 14px; margin-bottom: 12px;">
                     📍 ${station.vicinity}
                   </div>
                   
@@ -617,7 +617,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                       font-size: 12px;
                       font-weight: 500;
                       ${
-                        station.isOpen ? "background: #065f46; color: #10b981;" : "background: #7f1d1d; color: #f87171;"
+                        station.isOpen ? "background: hsl(var(--success)); color: hsl(var(--success-foreground));" : "background: hsl(var(--destructive)); color: hsl(var(--destructive-foreground));"
                       }
                     ">
                       ${station.isOpen ? "Open Now" : "Closed"}
@@ -629,7 +629,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                   ${
                     station.price_level
                       ? `
-                    <div style="margin-top: 8px; color: #9ca3af; font-size: 12px;">
+                    <div style="margin-top: 8px; color: hsl(var(--muted-foreground)); font-size: 12px;">
                       Price Level: ${"$".repeat(station.price_level)} / $$$$
                     </div>
                   `
@@ -640,9 +640,9 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                     <button style="
                       flex: 1;
                       padding: 8px 12px;
-                      background: #1f2937;
-                      color: #e5e7eb;
-                      border: 1px solid #374151;
+                      background: hsl(var(--card));
+                      color: hsl(var(--card-foreground));
+                      border: 1px solid hsl(var(--border));
                       border-radius: 6px;
                       font-size: 12px;
                       cursor: pointer;
@@ -652,7 +652,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                     <button style="
                       flex: 1;
                       padding: 8px 12px;
-                      background: #059669;
+                      background: hsl(var(--muted-foreground));
                       color: white;
                       border: none;
                       border-radius: 6px;
@@ -934,13 +934,13 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
   const getVehicleColor = (status: string) => {
     switch (status) {
       case "active":
-        return "#22c55e"
+        return "hsl(var(--primary))"
       case "idle":
-        return "#f59e0b"
+        return "hsl(var(--accent))"
       case "maintenance":
-        return "#ef4444"
+        return "hsl(var(--muted-foreground))"
       default:
-        return "#6b7280"
+        return "hsl(var(--muted-foreground))"
     }
   }
 
@@ -951,20 +951,20 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
     return `
       <div style="background: transparent; padding: 0; margin: 0;">
         <div style="
-          background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+          background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--background)) 100%);
           border-radius: 12px;
           padding: 16px;
           color: white;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(55, 65, 81, 0.3);
+          box-shadow: 0 20px 25px -5px hsl(var(--foreground) / 0.3), 0 10px 10px -5px hsl(var(--foreground) / 0.1);
+          border: 1px solid hsl(var(--border) / 0.3);
           min-width: 280px;
         ">
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
             <div style="
               width: 40px;
               height: 40px;
-              background: linear-gradient(135deg, #0ea5e9, #0284c7);
+              background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
               border-radius: 8px;
               display: flex;
               align-items: center;
@@ -972,48 +972,48 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               font-size: 20px;
             ">🏢</div>
             <div>
-              <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: #f9fafb;">${vehicle.destinationName}</h3>
-              <p style="margin: 2px 0 0 0; font-size: 12px; color: #9ca3af;">Delivery Destination</p>
+              <h3 style="margin: 0; font-size: 16px; font-weight: 600; color: hsl(var(--foreground));">${vehicle.destinationName}</h3>
+<p style="margin: 2px 0 0 0; font-size: 12px; color: hsl(var(--muted-foreground));">Delivery Destination</p>
             </div>
           </div>
           
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
             <div style="
-              background: rgba(59, 130, 246, 0.1);
-              border: 1px solid rgba(59, 130, 246, 0.2);
+              background: hsl(var(--primary) / 0.1);
+              border: 1px solid hsl(var(--primary) / 0.2);
               border-radius: 8px;
               padding: 8px;
               text-align: center;
             ">
-              <div style="font-size: 11px; color: #9ca3af; margin-bottom: 2px;">ETA</div>
-              <div style="font-size: 13px; font-weight: 600; color: #60a5fa;">${estimatedArrival.getHours()}:${estimatedArrival.getMinutes().toString().padStart(2, "0")}</div>
+              <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 2px;">ETA</div>
+<div style="font-size: 13px; font-weight: 600; color: hsl(var(--primary));">${estimatedArrival.getHours()}:${estimatedArrival.getMinutes().toString().padStart(2, "0")}</div>
             </div>
             <div style="
-              background: rgba(16, 185, 129, 0.1);
-              border: 1px solid rgba(16, 185, 129, 0.2);
+              background: hsl(var(--muted-foreground) / 0.1);
+              border: 1px solid hsl(var(--muted-foreground) / 0.2);
               border-radius: 8px;
               padding: 8px;
               text-align: center;
             ">
-              <div style="font-size: 11px; color: #9ca3af; margin-bottom: 2px;">Status</div>
-              <div style="font-size: 13px; font-weight: 600; color: #34d399;">En Route</div>
+              <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 2px;">Status</div>
+<div style="font-size: 13px; font-weight: 600; color: hsl(var(--success));">En Route</div>
             </div>
           </div>
 
           <div style="margin-bottom: 12px;">
-            <div style="font-size: 11px; color: #9ca3af; margin-bottom: 4px;">Delivery Window</div>
-            <div style="font-size: 13px; color: #f3f4f6;">${deliveryWindow}</div>
+            <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 4px;">Delivery Window</div>
+<div style="font-size: 13px; color: hsl(var(--foreground));">${deliveryWindow}</div>
           </div>
 
           <div style="margin-bottom: 12px;">
-            <div style="font-size: 11px; color: #9ca3af; margin-bottom: 4px;">Delivery Details</div>
-            <div style="font-size: 13px; color: #f3f4f6;">Package delivery • Signature required</div>
+            <div style="font-size: 11px; color: hsl(var(--muted-foreground)); margin-bottom: 4px;">Delivery Details</div>
+<div style="font-size: 13px; color: hsl(var(--foreground));">Package delivery • Signature required</div>
           </div>
 
           <div style="display: flex; gap: 8px;">
             <button style="
               flex: 1;
-              background: linear-gradient(135deg, #0ea5e9, #0284c7);
+              background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)));
               border: none;
               border-radius: 6px;
               padding: 8px 12px;
@@ -1027,16 +1027,16 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
             </button>
             <button style="
               flex: 1;
-              background: rgba(55, 65, 81, 0.8);
-              border: 1px solid rgba(75, 85, 99, 0.5);
+              background: hsl(var(--border) / 0.8);
+              border: 1px solid hsl(var(--muted-foreground) / 0.5);
               border-radius: 6px;
               padding: 8px 12px;
-              color: #d1d5db;
+              color: hsl(var(--muted-foreground));
               font-size: 12px;
               font-weight: 500;
               cursor: pointer;
               transition: all 0.2s ease;
-            " onmouseover="this.style.background='rgba(75, 85, 99, 0.8)'" onmouseout="this.style.background='rgba(55, 65, 81, 0.8)'">
+            " onmouseover="this.style.background='hsl(var(--muted-foreground) / 0.8)'" onmouseout="this.style.background='hsl(var(--border) / 0.8)'">
               View Details
             </button>
           </div>
@@ -1050,7 +1050,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
   }
 
   const renderFallbackMap = () => (
-    <div className="w-full h-full bg-gray-900 relative overflow-hidden">
+    <div className="w-full h-full bg-card relative overflow-hidden">
       {/* Atlanta street grid background */}
       <div className="absolute inset-0 opacity-20">
         <svg width="100%" height="100%" viewBox="0 0 800 600">
@@ -1062,7 +1062,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                 y1="0"
                 x2={i * 40}
                 y2="600"
-                stroke={i % 5 === 0 ? "#4b5563" : "#374151"}
+                stroke={i % 5 === 0 ? "hsl(var(--muted-foreground))" : "hsl(var(--border))"}
                 strokeWidth={i % 5 === 0 ? "2" : "1"}
               />
               <line
@@ -1070,14 +1070,14 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                 y1={i * 30}
                 x2="800"
                 y2={i * 30}
-                stroke={i % 5 === 0 ? "#4b5563" : "#374151"}
+                stroke={i % 5 === 0 ? "hsl(var(--muted-foreground))" : "hsl(var(--border))"}
                 strokeWidth={i % 5 === 0 ? "2" : "1"}
               />
             </g>
           ))}
 
           {/* Major highways overlay */}
-          <g stroke="#6b7280" strokeWidth="3" opacity="0.6">
+          <g stroke="hsl(var(--muted-foreground))" strokeWidth="3" opacity="0.6">
             <line x1="100" y1="0" x2="700" y2="600" /> {/* I-75 */}
             <line x1="0" y1="200" x2="800" y2="400" /> {/* I-20 */}
             <line x1="200" y1="0" x2="600" y2="600" /> {/* I-85 */}
@@ -1107,7 +1107,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                 width: "50px",
                 height: "50px",
                 transform: "perspective(200px) rotateX(45deg) rotateY(-15deg)",
-                filter: "drop-shadow(0 8px 16px rgba(0,0,0,0.4))",
+                filter: "drop-shadow(0 8px 16px hsl(var(--foreground) / 0.4))",
                 transformOrigin: "center center",
               }}
               dangerouslySetInnerHTML={{
@@ -1130,7 +1130,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                     width: "40px",
                     height: "40px",
                     transform: "perspective(200px) rotateX(45deg) rotateY(15deg)",
-                    filter: "drop-shadow(0 6px 12px rgba(14,165,233,0.4))",
+                    filter: "drop-shadow(0 6px 12px hsl(var(--primary) / 0.4))",
                   }}
                   dangerouslySetInnerHTML={{
                     __html: create3DHomeElement().innerHTML,
@@ -1146,7 +1146,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
       {vehicles.map((vehicle, index) => {
         if (!vehicle.destinationLat || !vehicle.destinationLng) return null
 
-        const routeColors = ["#1d4ed8", "#dc2626", "#059669", "#7c3aed", "#ea580c", "#0891b2"]
+        const routeColors = ["hsl(var(--primary))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--muted-foreground))", "hsl(var(--warning))", "hsl(var(--primary))"]
         const routeColor = routeColors[index % routeColors.length]
 
         const startX = ((vehicle.lng + 84.5) * 800) / 0.5
@@ -1162,7 +1162,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               y1={Math.max(25, Math.min(startY, 575))}
               x2={Math.max(25, Math.min(endX, 775))}
               y2={Math.max(25, Math.min(endY, 575))}
-              stroke="#000000"
+              stroke="hsl(var(--background))"
               strokeWidth="8"
               strokeOpacity="0.4"
               strokeLinecap="round"
@@ -1184,14 +1184,14 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               cy={Math.max(25, Math.min(endY, 575))}
               r="8"
               fill={routeColor}
-              stroke="#ffffff"
+              stroke="hsl(var(--background))"
               strokeWidth="2"
             />
             <text
               x={Math.max(25, Math.min(endX, 775))}
               y={Math.max(25, Math.min(endY, 575)) + 20}
               textAnchor="middle"
-              fill="#ffffff"
+              fill="hsl(var(--background))"
               fontSize="10"
               fontWeight="bold"
             >
@@ -1204,14 +1204,14 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
   )
 
   return (
-    <div className="relative w-full h-full bg-gray-900 min-h-[600px]">
+    <div className="relative w-full h-full bg-card min-h-[600px]">
       <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
         <button
           onClick={() => setShowGasStations(!showGasStations)}
           className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 backdrop-blur-sm border ${
             showGasStations
               ? "bg-emerald-600/90 text-white border-emerald-500 shadow-lg"
-              : "bg-gray-800/90 text-gray-300 border-gray-600 hover:bg-gray-700/90"
+              : "bg-card/90 text-muted-foreground border-border hover:bg-muted/90"
           }`}
         >
           ⛽ Gas Stations
@@ -1223,11 +1223,11 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
       </div>
 
       {!mapLoaded && (
-        <div className="absolute inset-0 bg-gray-900 flex items-center justify-center">
+        <div className="absolute inset-0 bg-card flex items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <h3 className="text-lg font-semibold text-white mb-2">Atlanta Fleet Map</h3>
-            <p className="text-gray-400">Loading Google Maps...</p>
+            <p className="text-muted-foreground">Loading Google Maps...</p>
           </div>
         </div>
       )}
@@ -1239,8 +1239,8 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               onClick={() => setRealTimeEnabled(!realTimeEnabled)}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 realTimeEnabled
-                  ? "bg-green-600 hover:bg-green-700 text-white"
-                  : "bg-gray-600 hover:bg-gray-700 text-white"
+                  ? "bg-success hover:bg-success text-white"
+                  : "bg-muted hover:bg-muted text-white"
               }`}
             >
               {realTimeEnabled ? "Live Tracking ON" : "Live Tracking OFF"}
@@ -1257,21 +1257,21 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
               {!navigationState.isNavigating ? (
                 <button
                   onClick={startNavigation}
-                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition-colors"
+                  className="px-3 py-1 bg-primary hover:bg-primary text-white text-sm rounded transition-colors"
                 >
                   Start
                 </button>
               ) : (
                 <button
                   onClick={stopNavigation}
-                  className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition-colors"
+                  className="px-3 py-1 bg-destructive hover:bg-destructive text-white text-sm rounded transition-colors"
                 >
                   Stop
                 </button>
               )}
               <button
                 onClick={recalculateRoute}
-                className="px-3 py-1 bg-gray-600 hover:bg-gray-700 text-white text-sm rounded transition-colors"
+                className="px-3 py-1 bg-muted hover:bg-muted text-white text-sm rounded transition-colors"
               >
                 Recalculate
               </button>
@@ -1280,23 +1280,23 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
 
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-300">Distance:</span>
+              <span className="text-muted-foreground">Distance:</span>
               <span className="text-white font-medium">{navigationState.distanceRemaining}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-300">Time:</span>
+              <span className="text-muted-foreground">Time:</span>
               <span className="text-white font-medium">{navigationState.timeRemaining}</span>
             </div>
 
             {navigationState.isNavigating && (
               <>
-                <div className="w-full bg-gray-700 rounded-full h-2 mt-3">
+                <div className="w-full bg-muted rounded-full h-2 mt-3">
                   <div
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-1000"
+                    className="bg-primary h-2 rounded-full transition-all duration-1000"
                     style={{ width: `${navigationState.routeProgress}%` }}
                   />
                 </div>
-                <div className="text-center text-xs text-gray-400 mt-1">
+                <div className="text-center text-xs text-muted-foreground mt-1">
                   {navigationState.routeProgress.toFixed(0)}% Complete
                 </div>
               </>
@@ -1308,7 +1308,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
       {mapLoaded && navigationState.isNavigating && (
         <div className="absolute bottom-20 left-4 right-4 bg-black bg-opacity-90 rounded-lg shadow-lg p-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -1318,13 +1318,13 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
                 Step {navigationState.currentStep + 1} of {navigationState.totalSteps}
               </div>
               <div
-                className="text-gray-300 text-sm"
+                className="text-muted-foreground text-sm"
                 dangerouslySetInnerHTML={{ __html: navigationState.nextInstruction }}
               />
             </div>
             <div className="text-right">
               <div className="text-white font-bold text-lg">{navigationState.distanceRemaining}</div>
-              <div className="text-gray-400 text-xs">{navigationState.timeRemaining}</div>
+              <div className="text-muted-foreground text-xs">{navigationState.timeRemaining}</div>
             </div>
           </div>
         </div>
@@ -1333,48 +1333,48 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
       {/* Map Controls */}
       {mapLoaded && (
         <>
-          <div className="absolute top-4 left-4 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-xl shadow-2xl px-4 py-3 flex items-center gap-3">
+          <div className="absolute top-4 left-4 bg-card/90 backdrop-blur-sm border border-border rounded-xl shadow-2xl px-4 py-3 flex items-center gap-3">
             <div className="relative">
-              <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse" />
-              <div className="absolute inset-0 w-3 h-3 rounded-full bg-green-400 animate-ping opacity-30" />
+              <div className="w-3 h-3 rounded-full bg-success/40 animate-pulse" />
+              <div className="absolute inset-0 w-3 h-3 rounded-full bg-success/40 animate-ping opacity-30" />
             </div>
             <span className="text-sm font-semibold text-white">Live Tracking</span>
           </div>
 
-          <div className="absolute top-4 right-4 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-xl shadow-2xl px-4 py-3">
+          <div className="absolute top-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-xl shadow-2xl px-4 py-3">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-blue-400" />
+              <div className="w-2 h-2 rounded-full bg-primary/40" />
               <span className="text-sm font-semibold text-white">
                 {vehicles.filter((v) => v.status === "active").length} vehicles active
               </span>
             </div>
           </div>
 
-          <div className="absolute bottom-4 left-4 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-xl shadow-2xl p-4">
+          <div className="absolute bottom-4 left-4 bg-card/90 backdrop-blur-sm border border-border rounded-xl shadow-2xl p-4">
             <h4 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-gradient-to-br from-blue-500 to-purple-600" />
               Vehicle Status
             </h4>
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/30"></div>
-                <span className="text-xs font-medium text-gray-300">Active</span>
+                <div className="w-3 h-3 rounded-full bg-success shadow-lg shadow-green-500/30"></div>
+                <span className="text-xs font-medium text-muted-foreground">Active</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-lg shadow-yellow-500/30"></div>
-                <span className="text-xs font-medium text-gray-300">Idle</span>
+                <div className="w-3 h-3 rounded-full bg-warning shadow-lg shadow-yellow-500/30"></div>
+                <span className="text-xs font-medium text-muted-foreground">Idle</span>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30"></div>
-                <span className="text-xs font-medium text-gray-300">Maintenance</span>
+                <div className="w-3 h-3 rounded-full bg-destructive shadow-lg shadow-red-500/30"></div>
+                <span className="text-xs font-medium text-muted-foreground">Maintenance</span>
               </div>
             </div>
           </div>
 
-          <div className="absolute bottom-4 right-4 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-xl shadow-2xl overflow-hidden">
+          <div className="absolute bottom-4 right-4 bg-card/90 backdrop-blur-sm border border-border rounded-xl shadow-2xl overflow-hidden">
             <button
               onClick={() => mapInstanceRef.current?.setZoom((mapInstanceRef.current?.getZoom() || 15) + 1)}
-              className="block w-10 h-10 flex items-center justify-center text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
+              className="block w-10 h-10 flex items-center justify-center text-white hover:bg-muted transition-colors border-b border-border"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -1382,7 +1382,7 @@ export function AtlantaMap({ vehicles, selectedVehicle, onVehicleSelect }: Atlan
             </button>
             <button
               onClick={() => mapInstanceRef.current?.setZoom((mapInstanceRef.current?.getZoom() || 15) - 1)}
-              className="block w-10 h-10 flex items-center justify-center text-white hover:bg-gray-700 transition-colors"
+              className="block w-10 h-10 flex items-center justify-center text-white hover:bg-muted transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 12H6" />
@@ -1410,7 +1410,7 @@ const create3DVehicleElement = (vehicleType: string, color: string) => {
     justify-content: center;
     position: relative;
     z-index: 10;
-    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+    filter: drop-shadow(0 8px 16px hsl(var(--foreground) / 0.4));
     transform-origin: center center;
   `
 
@@ -1435,22 +1435,22 @@ const create3DVehicleElement = (vehicleType: string, color: string) => {
           <!-- Truck body -->
           <g transform="translate(5,10)">
             <!-- Main body -->
-            <rect x="8" y="8" width="28" height="12" fill="${color}" stroke="#333" strokeWidth="1"/>
-            <rect x="8" y="6" width="28" height="4" fill="${color}" stroke="#333" strokeWidth="1"/>
+            <rect x="8" y="8" width="28" height="12" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
+            <rect x="8" y="6" width="28" height="4" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
             <!-- Cab -->
-            <rect x="32" y="4" width="8" height="16" fill="${color}" stroke="#333" strokeWidth="1"/>
+            <rect x="32" y="4" width="8" height="16" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
             <!-- Windows -->
-            <rect x="33" y="5" width="6" height="6" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <rect x="33" y="5" width="6" height="6" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Wheels -->
-            <circle cx="14" cy="22" r="3" fill="#333"/>
-            <circle cx="14" cy="22" r="2" fill="#666"/>
-            <circle cx="26" cy="22" r="3" fill="#333"/>
-            <circle cx="26" cy="22" r="2" fill="#666"/>
-            <circle cx="36" cy="22" r="3" fill="#333"/>
-            <circle cx="36" cy="22" r="2" fill="#666"/>
+            <circle cx="14" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="14" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
+            <circle cx="26" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="26" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
+            <circle cx="36" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="36" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
             <!-- Highlights -->
-            <rect x="9" y="7" width="26" height="2" fill="rgba(255,255,255,0.3)"/>
-            <rect x="33" y="5" width="6" height="1" fill="rgba(255,255,255,0.4)"/>
+            <rect x="9" y="7" width="26" height="2" fill="hsl(var(--background) / 0.3)"/>
+            <rect x="33" y="5" width="6" height="1" fill="hsl(var(--background) / 0.4)"/>
           </g>
         </svg>
       `
@@ -1461,20 +1461,20 @@ const create3DVehicleElement = (vehicleType: string, color: string) => {
           <!-- Van body -->
           <g transform="translate(8,12)">
             <!-- Main body -->
-            <rect x="4" y="6" width="26" height="14" rx="2" fill="${color}" stroke="#333" strokeWidth="1"/>
+            <rect x="4" y="6" width="26" height="14" rx="2" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
             <!-- Windshield -->
-            <polygon points="4,6 8,2 26,2 30,6" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <polygon points="4,6 8,2 26,2 30,6" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Side windows -->
-            <rect x="6" y="8" width="4" height="6" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
-            <rect x="24" y="8" width="4" height="6" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <rect x="6" y="8" width="4" height="6" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
+            <rect x="24" y="8" width="4" height="6" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Wheels -->
-            <circle cx="10" cy="22" r="3" fill="#333"/>
-            <circle cx="10" cy="22" r="2" fill="#666"/>
-            <circle cx="24" cy="22" r="3" fill="#333"/>
-            <circle cx="24" cy="22" r="2" fill="#666"/>
+            <circle cx="10" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="10" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
+            <circle cx="24" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="24" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
             <!-- Highlights -->
-            <rect x="5" y="7" width="24" height="1" fill="rgba(255,255,255,0.3)"/>
-            <polygon points="5,3 7,1 25,1 27,3" fill="rgba(255,255,255,0.2)"/>
+            <rect x="5" y="7" width="24" height="1" fill="hsl(var(--background) / 0.3)"/>
+            <polygon points="5,3 7,1 25,1 27,3" fill="hsl(var(--background) / 0.2)"/>
           </g>
         </svg>
       `
@@ -1485,19 +1485,19 @@ const create3DVehicleElement = (vehicleType: string, color: string) => {
           <!-- Sedan body -->
           <g transform="translate(10,15)">
             <!-- Main body -->
-            <ellipse cx="15" cy="10" rx="12" ry="6" fill="${color}" stroke="#333" strokeWidth="1"/>
+            <ellipse cx="15" cy="10" rx="12" ry="6" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
             <!-- Windshield -->
-            <ellipse cx="15" cy="8" rx="8" ry="3" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <ellipse cx="15" cy="8" rx="8" ry="3" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Side windows -->
-            <ellipse cx="10" cy="9" rx="2" ry="2" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
-            <ellipse cx="20" cy="9" rx="2" ry="2" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <ellipse cx="10" cy="9" rx="2" ry="2" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
+            <ellipse cx="20" cy="9" rx="2" ry="2" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Wheels -->
-            <circle cx="8" cy="16" r="2.5" fill="#333"/>
-            <circle cx="8" cy="16" r="1.5" fill="#666"/>
-            <circle cx="22" cy="16" r="2.5" fill="#333"/>
-            <circle cx="22" cy="16" r="1.5" fill="#666"/>
+            <circle cx="8" cy="16" r="2.5" fill="hsl(var(--foreground))"/>
+            <circle cx="8" cy="16" r="1.5" fill="hsl(var(--muted-foreground))"/>
+            <circle cx="22" cy="16" r="2.5" fill="hsl(var(--foreground))"/>
+            <circle cx="22" cy="16" r="1.5" fill="hsl(var(--muted-foreground))"/>
             <!-- Highlights -->
-            <ellipse cx="15" cy="7" rx="10" ry="2" fill="rgba(255,255,255,0.2)"/>
+            <ellipse cx="15" cy="7" rx="10" ry="2" fill="hsl(var(--background) / 0.2)"/>
           </g>
         </svg>
       `
@@ -1508,22 +1508,22 @@ const create3DVehicleElement = (vehicleType: string, color: string) => {
           <!-- SUV body -->
           <g transform="translate(8,10)">
             <!-- Main body -->
-            <rect x="4" y="8" width="26" height="12" rx="2" fill="${color}" stroke="#333" strokeWidth="1"/>
+            <rect x="4" y="8" width="26" height="12" rx="2" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
             <!-- Roof -->
-            <rect x="6" y="4" width="22" height="6" rx="1" fill="${color}" stroke="#333" strokeWidth="1"/>
+            <rect x="6" y="4" width="22" height="6" rx="1" fill="${color}" stroke="hsl(var(--foreground))" strokeWidth="1"/>
             <!-- Windshield -->
-            <rect x="7" y="5" width="20" height="4" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <rect x="7" y="5" width="20" height="4" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Side windows -->
-            <rect x="6" y="10" width="4" height="6" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
-            <rect x="24" y="10" width="4" height="6" fill="#87CEEB" stroke="#333" strokeWidth="0.5"/>
+            <rect x="6" y="10" width="4" height="6" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
+            <rect x="24" y="10" width="4" height="6" fill="hsl(var(--primary))" stroke="hsl(var(--foreground))" strokeWidth="0.5"/>
             <!-- Wheels -->
-            <circle cx="10" cy="22" r="3" fill="#333"/>
-            <circle cx="10" cy="22" r="2" fill="#666"/>
-            <circle cx="24" cy="22" r="3" fill="#333"/>
-            <circle cx="24" cy="22" r="2" fill="#666"/>
+            <circle cx="10" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="10" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
+            <circle cx="24" cy="22" r="3" fill="hsl(var(--foreground))"/>
+            <circle cx="24" cy="22" r="2" fill="hsl(var(--muted-foreground))"/>
             <!-- Highlights -->
-            <rect x="5" y="9" width="24" height="1" fill="rgba(255,255,255,0.3)"/>
-            <rect x="7" y="5" width="20" height="1" fill="rgba(255,255,255,0.2)"/>
+            <rect x="5" y="9" width="24" height="1" fill="hsl(var(--background) / 0.3)"/>
+            <rect x="7" y="5" width="20" height="1" fill="hsl(var(--background) / 0.2)"/>
           </g>
         </svg>
       `
@@ -1538,12 +1538,12 @@ const create3DVehicleElement = (vehicleType: string, color: string) => {
   markerElement.addEventListener("mouseenter", () => {
     innerContainer.style.transform = "perspective(200px) rotateX(45deg) rotateY(-15deg) scale(1.15)"
     markerElement.style.zIndex = "1000"
-    markerElement.style.filter = "drop-shadow(0 12px 24px rgba(0,0,0,0.6))"
+    markerElement.style.filter = "drop-shadow(0 12px 24px hsl(var(--foreground) / 0.6))"
   })
   markerElement.addEventListener("mouseleave", () => {
     innerContainer.style.transform = "perspective(200px) rotateX(45deg) rotateY(-15deg) scale(1)"
     markerElement.style.zIndex = "10"
-    markerElement.style.filter = "drop-shadow(0 8px 16px rgba(0,0,0,0.4))"
+    markerElement.style.filter = "drop-shadow(0 8px 16px hsl(var(--foreground) / 0.4))"
   })
 
   return markerElement
@@ -1562,9 +1562,7 @@ const create3DHomeElement = () => {
     transform: perspective(200px) rotateX(45deg) rotateY(15deg);
     transition: all 0.2s ease;
     z-index: 5;
-    filter: drop-shadow(0 6px 12px rgba(14,165,233    transition: all 0.2s ease;
-    z-index: 5;
-    filter: drop-shadow(0 6px 12px rgba(14,165,233,0.4));
+    filter: drop-shadow(0 6px 12px hsl(var(--primary) / 0.4));
   `
 
   const homeSVG = `
@@ -1572,20 +1570,20 @@ const create3DHomeElement = () => {
       <!-- House base -->
       <g transform="translate(5,8)">
         <!-- Main house body -->
-        <rect x="5" y="12" width="20" height="16" fill="#0ea5e9" stroke="#0284c7" strokeWidth="1"/>
+        <rect x="5" y="12" width="20" height="16" fill="hsl(var(--primary))" stroke="hsl(var(--primary))" strokeWidth="1"/>
         <!-- Roof -->
-        <polygon points="15,4 2,12 28,12" fill="#0284c7" stroke="#075985" strokeWidth="1"/>
+        <polygon points="15,4 2,12 28,12" fill="hsl(var(--primary))" stroke="hsl(var(--primary))" strokeWidth="1"/>
         <!-- Door -->
-        <rect x="12" y="20" width="6" height="8" fill="#075985" stroke="#0c4a6e" strokeWidth="0.5"/>
+        <rect x="12" y="20" width="6" height="8" fill="hsl(var(--primary))" stroke="hsl(var(--primary))" strokeWidth="0.5"/>
         <!-- Windows -->
-        <rect x="7" y="16" width="4" height="4" fill="#87CEEB" stroke="#0284c7" strokeWidth="0.5"/>
-        <rect x="19" y="16" width="4" height="4" fill="#87CEEB" stroke="#0284c7" strokeWidth="0.5"/>
+        <rect x="7" y="16" width="4" height="4" fill="hsl(var(--primary))" stroke="hsl(var(--primary))" strokeWidth="0.5"/>
+        <rect x="19" y="16" width="4" height="4" fill="hsl(var(--primary))" stroke="hsl(var(--primary))" strokeWidth="0.5"/>
         <!-- Door knob -->
-        <circle cx="16" cy="24" r="0.5" fill="#fbbf24"/>
+        <circle cx="16" cy="24" r="0.5" fill="hsl(var(--warning))"/>
         <!-- Roof highlight -->
-        <polygon points="15,5 4,11 26,11" fill="rgba(255,255,255,0.2)"/>
+        <polygon points="15,5 4,11 26,11" fill="hsl(var(--background) / 0.2)"/>
         <!-- Wall highlights -->
-        <rect x="6" y="13" width="18" height="1" fill="rgba(255,255,255,0.2)"/>
+        <rect x="6" y="13" width="18" height="1" fill="hsl(var(--background) / 0.2)"/>
       </g>
     </svg>
   `
@@ -1594,11 +1592,11 @@ const create3DHomeElement = () => {
 
   homeElement.addEventListener("mouseenter", () => {
     homeElement.style.transform = "perspective(200px) rotateX(45deg) rotateY(15deg) scale(1.1)"
-    homeElement.style.filter = "drop-shadow(0 8px 16px rgba(14,165,233,0.6))"
+    homeElement.style.filter = "drop-shadow(0 8px 16px hsl(var(--primary) / 0.6))"
   })
   homeElement.addEventListener("mouseleave", () => {
     homeElement.style.transform = "perspective(200px) rotateX(45deg) rotateY(15deg) scale(1)"
-    homeElement.style.filter = "drop-shadow(0 6px 12px rgba(14,165,233,0.4))"
+    homeElement.style.filter = "drop-shadow(0 6px 12px hsl(var(--primary) / 0.4))"
   })
 
   return homeElement

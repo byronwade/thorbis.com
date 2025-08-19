@@ -41,7 +41,7 @@ import {
 import { useLocationStore, locationUtils } from '@lib/location/enhanced-location-service';
 import { googleMapsService } from '@lib/location/google-maps-service';
 import { cn } from '@lib/utils';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 /**
  * Enhanced Location Selector with advanced features
@@ -120,7 +120,7 @@ const EnhancedLocationSelector = React.memo(({
   const variantStyles = {
     default: "border-neutral-600 bg-neutral-700/30 text-white placeholder:text-neutral-400 hover:bg-neutral-700/50 hover:border-neutral-500",
     filled: "border-neutral-500 bg-neutral-700/50 text-white placeholder:text-neutral-400 hover:bg-neutral-700/70",
-    outlined: "border-2 border-blue-500/50 bg-neutral-700/30 text-white placeholder:text-neutral-400 hover:border-blue-500/70"
+    outlined: "border-2 border-primary/50 bg-neutral-700/30 text-white placeholder:text-neutral-400 hover:border-primary/70"
   };
 
   // Handle business search
@@ -305,10 +305,10 @@ const EnhancedLocationSelector = React.memo(({
 
   // Get location icon
   const getLocationIcon = (location) => {
-    if (location?.type === 'business') return <Building2 className={cn(config.icon, "text-blue-400")} />;
+    if (location?.type === 'business') return <Building2 className={cn(config.icon, "text-primary")} />;
     if (location?.isCurrentLocation) return <Navigation className={config.icon} />;
     		if (location?.type === 'favorite') return <Star className={cn(config.icon, "text-muted-foreground")} />;
-    if (location?.type === 'recent') return <Clock className={cn(config.icon, "text-gray-500")} />;
+    if (location?.type === 'recent') return <Clock className={cn(config.icon, "text-muted-foreground")} />;
     		if (location?.type === 'home') return <Home className={cn(config.icon, "text-primary")} />;
 		if (location?.type === 'work') return <Building2 className={cn(config.icon, "text-primary")} />;
     return <MapPin className={config.icon} />;
@@ -337,7 +337,7 @@ const EnhancedLocationSelector = React.memo(({
                 {location.shortName || location.city || 'Unknown Location'}
               </p>
               {type === 'favorite' && (
-                							<Star className="w-3 h-3 text-yellow-400 fill-current" />
+                							<Star className="w-3 h-3 text-warning fill-current" />
               )}
               {type === 'recent' && (
                 <Badge variant="secondary" className="text-xs bg-neutral-700 text-neutral-300 border-neutral-600">Recent</Badge>
@@ -364,7 +364,7 @@ const EnhancedLocationSelector = React.memo(({
             >
               <Heart className={cn(
                 "w-3 h-3",
-                							isFavorite ? "text-red-400 fill-current" : "text-neutral-500 hover:text-red-400"
+                							isFavorite ? "text-destructive fill-current" : "text-neutral-500 hover:text-destructive"
               )} />
             </Button>
           )}
@@ -388,7 +388,7 @@ const EnhancedLocationSelector = React.memo(({
         <div className="flex items-center space-x-3 flex-1 min-w-0">
           <div className="flex-shrink-0">
             <div className="flex items-center justify-center w-6 h-6 rounded-md bg-neutral-800">
-              <Building2 className={cn(config.icon, "text-blue-400")} />
+              <Building2 className={cn(config.icon, "text-primary")} />
             </div>
           </div>
           <div className="flex-1 min-w-0">
@@ -397,10 +397,10 @@ const EnhancedLocationSelector = React.memo(({
                 {business.name}
               </p>
               {business.featured && (
-                <Badge variant="secondary" className="text-xs bg-yellow-500/20 text-yellow-300 border-yellow-500/30">Featured</Badge>
+                <Badge variant="secondary" className="text-xs bg-warning/20 text-warning/90 border-yellow-500/30">Featured</Badge>
               )}
               {business.verified && (
-                <Badge variant="secondary" className="text-xs bg-green-500/20 text-green-300 border-green-500/30">Verified</Badge>
+                <Badge variant="secondary" className="text-xs bg-success/20 text-success/90 border-green-500/30">Verified</Badge>
               )}
             </div>
             <p className="text-xs text-neutral-400 truncate">
@@ -408,7 +408,7 @@ const EnhancedLocationSelector = React.memo(({
             </p>
             {business.rating && (
               <div className="flex items-center space-x-1 mt-1">
-                <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                <Star className="w-3 h-3 text-warning fill-current" />
                 <span className="text-xs text-neutral-300">{business.rating}</span>
                 {business.reviewCount && (
                   <span className="text-xs text-neutral-500">({business.reviewCount} reviews)</span>
@@ -475,7 +475,7 @@ const EnhancedLocationSelector = React.memo(({
         {/* Favorites */}
         {showFavorites && favoriteLocations.length > 0 && (
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">
               Favorites
             </DropdownMenuLabel>
             {favoriteLocations.slice(0, 3).map((location, index) => (
@@ -493,7 +493,7 @@ const EnhancedLocationSelector = React.memo(({
         {/* Recent Locations */}
         {showRecent && recentLocations.length > 0 && (
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wide">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wide">
               Recent
             </DropdownMenuLabel>
             {recentLocations.slice(0, 3).map((location, index) => (
@@ -659,8 +659,8 @@ const EnhancedLocationSelector = React.memo(({
         {allowCustomization && (
           <>
             <DropdownMenuSeparator />
-            <div className="p-3 bg-gray-50 dark:bg-gray-800">
-              <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+            <div className="p-3 bg-gray-50 dark:bg-card">
+              <div className="flex items-center justify-between text-xs text-muted-foreground dark:text-muted-foreground">
                 <span>Location preferences</span>
                 <Button variant="ghost" size="sm" className="h-6 px-2">
                   <Settings className="w-3 h-3 mr-1" />

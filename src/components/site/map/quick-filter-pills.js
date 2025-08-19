@@ -12,7 +12,7 @@ import { Badge } from "@components/ui/badge";
 import { ScrollArea } from "@components/ui/scroll-area";
 import { Star, Clock, MapPin, DollarSign, Verified, Zap, TrendingUp, Users } from "lucide-react";
 import { withErrorHandling } from "@utils/error-handler";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 const QuickFilterPills = ({ onFilterChange, activeFilters = {}, className = "", totalResults = 0, loading = false }) => {
 	const [processingFilter, setProcessingFilter] = useState(null);
@@ -107,24 +107,24 @@ const QuickFilterPills = ({ onFilterChange, activeFilters = {}, className = "", 
 			inactive: "hover:bg-emerald-50 dark:hover:bg-emerald-950/20 hover:border-emerald-200 dark:hover:border-emerald-800",
 		},
 		yellow: {
-			active: "bg-yellow-100 dark:bg-yellow-950/30 text-yellow-700 dark:text-yellow-300 border-yellow-300 dark:border-yellow-700",
-			inactive: "hover:bg-yellow-50 dark:hover:bg-yellow-950/20 hover:border-yellow-200 dark:hover:border-yellow-800",
+			active: "bg-warning/10 dark:bg-warning/30 text-warning dark:text-warning/90 border-yellow-300 dark:border-yellow-700",
+			inactive: "hover:bg-yellow-50 dark:hover:bg-warning/20 hover:border-yellow-200 dark:hover:border-yellow-800",
 		},
 		blue: {
-			active: "bg-blue-100 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-700",
-			inactive: "hover:bg-blue-50 dark:hover:bg-blue-950/20 hover:border-blue-200 dark:hover:border-blue-800",
+			active: "bg-primary/10 dark:bg-primary/30 text-primary dark:text-primary/90 border-primary/40 dark:border-primary",
+			inactive: "hover:bg-blue-50 dark:hover:bg-primary/20 hover:border-primary/30 dark:hover:border-primary",
 		},
 		green: {
-			active: "bg-green-100 dark:bg-green-950/30 text-green-700 dark:text-green-300 border-green-300 dark:border-green-700",
-			inactive: "hover:bg-green-50 dark:hover:bg-green-950/20 hover:border-green-200 dark:hover:border-green-800",
+			active: "bg-success/10 dark:bg-success/30 text-success dark:text-success/90 border-green-300 dark:border-green-700",
+			inactive: "hover:bg-green-50 dark:hover:bg-success/20 hover:border-green-200 dark:hover:border-green-800",
 		},
 		purple: {
 			active: "bg-purple-100 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 border-purple-300 dark:border-purple-700",
 			inactive: "hover:bg-purple-50 dark:hover:bg-purple-950/20 hover:border-purple-200 dark:hover:border-purple-800",
 		},
 		orange: {
-			active: "bg-orange-100 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300 border-orange-300 dark:border-orange-700",
-			inactive: "hover:bg-orange-50 dark:hover:bg-orange-950/20 hover:border-orange-200 dark:hover:border-orange-800",
+			active: "bg-warning/10 dark:bg-warning/30 text-warning dark:text-warning/90 border-orange-300 dark:border-orange-700",
+			inactive: "hover:bg-orange-50 dark:hover:bg-warning/20 hover:border-orange-200 dark:hover:border-orange-800",
 		},
 		indigo: {
 			active: "bg-indigo-100 dark:bg-indigo-950/30 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-700",
@@ -194,7 +194,7 @@ const QuickFilterPills = ({ onFilterChange, activeFilters = {}, className = "", 
 				{/* Header */}
 				<div className="flex items-center justify-between mb-2">
 					<div className="flex items-center gap-2">
-						<h3 className="text-sm font-medium text-gray-900 dark:text-white">Quick Filters</h3>
+						<h3 className="text-sm font-medium text-foreground dark:text-white">Quick Filters</h3>
 						{activeFilterCount > 0 && (
 							<Badge variant="secondary" className="h-5 px-1.5 text-xs">
 								{activeFilterCount}
@@ -202,7 +202,7 @@ const QuickFilterPills = ({ onFilterChange, activeFilters = {}, className = "", 
 						)}
 					</div>
 					{activeFilterCount > 0 && (
-						<Button variant="ghost" size="sm" onClick={() => onFilterChange({})} className="h-6 px-2 text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+						<Button variant="ghost" size="sm" onClick={() => onFilterChange({})} className="h-6 px-2 text-xs text-muted-foreground hover:text-muted-foreground dark:text-muted-foreground dark:hover:text-muted-foreground">
 							Clear All
 						</Button>
 					)}
@@ -226,9 +226,9 @@ const QuickFilterPills = ({ onFilterChange, activeFilters = {}, className = "", 
 									disabled={loading || isProcessing}
 									className={`
                     h-7 px-3 text-xs font-medium whitespace-nowrap flex-shrink-0
-                    border border-gray-200 dark:border-gray-700
+                    border border-border dark:border-border
                     transition-all duration-200
-                    ${isActive ? colorClass.active : `bg-white dark:bg-neutral-900 text-gray-700 dark:text-gray-300 ${colorClass.inactive}`}
+                    ${isActive ? colorClass.active : `bg-white dark:bg-neutral-900 text-muted-foreground dark:text-muted-foreground ${colorClass.inactive}`}
                     ${isProcessing ? "opacity-50 cursor-not-allowed" : ""}
                     hover:scale-105 active:scale-95
                   `}
@@ -244,10 +244,10 @@ const QuickFilterPills = ({ onFilterChange, activeFilters = {}, className = "", 
 				</ScrollArea>
 
 				{/* Results indicator */}
-				{!loading && totalResults > 0 && <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">{totalResults.toLocaleString()} businesses match your filters</div>}
+				{!loading && totalResults > 0 && <div className="mt-2 text-xs text-muted-foreground dark:text-muted-foreground">{totalResults.toLocaleString()} businesses match your filters</div>}
 
 				{/* Keyboard shortcuts hint */}
-				<div className="mt-1 text-xs text-gray-400 dark:text-gray-500">💡 Tip: Use Ctrl+letter shortcuts for quick filtering</div>
+				<div className="mt-1 text-xs text-muted-foreground dark:text-muted-foreground">💡 Tip: Use Ctrl+letter shortcuts for quick filtering</div>
 			</div>
 		</div>
 	);

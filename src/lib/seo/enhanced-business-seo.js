@@ -10,7 +10,10 @@
  */
 export function generateEnhancedStructuredData(business) {
 	const baseUrl = "https://thorbis.com";
-	const businessUrl = `${baseUrl}/biz/${business.slug}`;
+	const businessUrl = (() => {
+		const { buildBusinessUrl } = require("@utils");
+		return `${baseUrl}${buildBusinessUrl({ country: 'us', state: business.state || 'us', city: business.city || '', name: business.name, shortId: business.short_id || business.shortId || '' })}`;
+	})();
 
 	// Enhanced LocalBusiness schema with comprehensive data
 	const localBusinessSchema = {
@@ -306,7 +309,12 @@ function capitalizeDay(day) {
  * Generate enhanced meta tags for business profiles
  */
 export function generateBusinessMetaTags(business) {
-	const businessUrl = `https://thorbis.com/biz/${business.slug}`;
+	const businessUrl = (() => {
+		try {
+			const { buildBusinessUrl } = require("@utils");
+			return buildBusinessUrl({ country: 'us', state: business.state || 'us', city: business.city || '', name: business.name, shortId: business.short_id || business.shortId || '' });
+		} catch { return `https://thorbis.com/biz/${business.slug}`; }
+	})();
 	const description = business.description || `${business.name} in ${business.city}, ${business.state}. Professional services with ${business.rating || 5}-star rating. Contact us today!`;
 
 	const keywords = [business.name, business.city, business.state, ...(business.categories || []), ...(business.services?.slice(0, 5) || []), "professional services", "local business", "customer reviews"].filter(Boolean).join(", ");
@@ -369,7 +377,12 @@ export function generateBusinessMetaTags(business) {
  * Generate canonical URL and alternate links
  */
 export function generateCanonicalAndAlternates(business) {
-	const businessUrl = `https://thorbis.com/biz/${business.slug}`;
+	const businessUrl = (() => {
+		try {
+			const { buildBusinessUrl } = require("@utils");
+			return buildBusinessUrl({ country: 'us', state: business.state || 'us', city: business.city || '', name: business.name, shortId: business.short_id || business.shortId || '' });
+		} catch { return `https://thorbis.com/biz/${business.slug}`; }
+	})();
 
 	return {
 		canonical: businessUrl,
@@ -421,8 +434,8 @@ export function generateCompleteSEOConfig(business) {
 			"format-detection": "telephone=yes",
 			"mobile-web-app-capable": "yes",
 			"apple-mobile-web-app-status-bar-style": "default",
-			"theme-color": "#ffffff",
-			"msapplication-TileColor": "#ffffff",
+			"theme-color": "hsl(var(--background))",
+			"msapplication-TileColor": "hsl(var(--background))",
 		},
 	};
 }

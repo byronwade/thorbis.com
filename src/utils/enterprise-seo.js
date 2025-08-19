@@ -12,7 +12,7 @@
  * - Industry-expert best practices implementation
  */
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Simple in-memory cache for SEO metadata
@@ -325,7 +325,7 @@ export class EnterpriseSEOManager {
 			openGraph: {
 				title: `${name} - ${category}`,
 				description: description,
-				type: "business.business",
+				type: "website",
 				url: businessUrl,
 				siteName: this.siteConfig.name,
 				images: [
@@ -646,7 +646,7 @@ export class EnterpriseSEOManager {
 			"format-detection": "telephone=no",
 			"mobile-web-app-capable": "yes",
 			"apple-mobile-web-app-status-bar-style": "default",
-			"theme-color": "#000000",
+			"theme-color": "hsl(var(--background))",
 		};
 
 		return metadata;

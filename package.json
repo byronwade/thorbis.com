@@ -37,7 +37,12 @@
     "security:lint": "eslint .security/experimental/ --ext .js",
     "security:check": "bun run security:lint && bun run security:validate",
     "org:validate": "bash scripts/validate-project-organization.sh",
-    "org:check": "bun run org:validate && echo 'Project organization validated successfully'"
+    "org:check": "bun run org:validate && echo 'Project organization validated successfully'",
+    "theme:check": "node scripts/theme-consistency-check.js",
+    "theme:fix": "node scripts/fix-theme-issues.js",
+    "theme:audit": "bun run theme:check && echo 'Theme audit completed'",
+    "check:logger-imports": "node scripts/check-logger-imports.js",
+    "fix:logger-imports": "node scripts/fix-all-logger-imports.js"
   },
   "dependencies": {
     "@faker-js/faker": "^9.8.0",
@@ -124,7 +129,7 @@
     "lodash.throttle": "^4.1.1",
     "lucide-react": "^0.516.0",
     "mapbox-gl": "^3.5.2",
-    "next": "canary",
+    "next": "^15.4.1",
     "next-seo": "^5.15.0",
     "next-themes": "^0.4.6",
     "openai": "^4.53.2",

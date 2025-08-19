@@ -48,9 +48,9 @@ const SystemUpdatesSection: React.FC<SystemUpdatesSectionProps> = ({ updates, is
 			date: "2024-01-25",
 			version: "v2.1.0",
 			icon: Briefcase,
-			iconColor: "text-blue-500",
+			iconColor: "text-primary",
 			badge: "New",
-			badgeColor: "bg-blue-100 text-blue-800",
+			badgeColor: "bg-primary/10 text-primary",
 		},
 		{
 			id: 2,
@@ -60,9 +60,9 @@ const SystemUpdatesSection: React.FC<SystemUpdatesSectionProps> = ({ updates, is
 			date: "2024-01-24",
 			version: "v2.0.8",
 			icon: Star,
-			iconColor: "text-green-500",
+			iconColor: "text-success",
 			badge: "Improved",
-			badgeColor: "bg-green-100 text-green-800",
+			badgeColor: "bg-success/10 text-success",
 		},
 		{
 			id: 3,
@@ -72,9 +72,9 @@ const SystemUpdatesSection: React.FC<SystemUpdatesSectionProps> = ({ updates, is
 			date: "2024-01-23",
 			version: "v2.0.7",
 			icon: User,
-			iconColor: "text-red-500",
+			iconColor: "text-destructive",
 			badge: "Fixed",
-			badgeColor: "bg-red-100 text-red-800",
+			badgeColor: "bg-destructive/10 text-destructive",
 		},
 		{
 			id: 4,
@@ -129,10 +129,10 @@ const SystemUpdatesSection: React.FC<SystemUpdatesSectionProps> = ({ updates, is
 					<div className="space-y-4">
 						{Array.from({ length: 3 }).map((_, i) => (
 							<div key={i} className="flex items-start gap-4 p-4 border rounded-lg animate-pulse">
-								<div className="h-10 w-10 bg-gray-200 rounded-full" />
+								<div className="h-10 w-10 bg-muted rounded-full" />
 								<div className="flex-1 space-y-2">
-									<div className="h-4 bg-gray-200 rounded w-3/4" />
-									<div className="h-3 bg-gray-200 rounded w-1/2" />
+									<div className="h-4 bg-muted rounded w-3/4" />
+									<div className="h-3 bg-muted rounded w-1/2" />
 								</div>
 							</div>
 						))}

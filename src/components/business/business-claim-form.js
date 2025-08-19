@@ -16,7 +16,7 @@ import { toast } from "sonner";
 import { useAuth } from "@context/auth-context";
 import { Building, MapPin, Phone, Globe, Clock, Star, AlertCircle, CheckCircle, Upload, X, Loader2 } from "lucide-react";
 import { SecureStorage } from "@utils/secure-storage";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Business claim form validation schema
 const businessClaimSchema = z.object({
@@ -199,7 +199,7 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 			<Card className="max-w-2xl mx-auto">
 				<CardHeader>
 					<CardTitle className="flex items-center gap-2">
-						{claimStatus === "approved" ? <CheckCircle className="h-5 w-5 text-green-600" /> : claimStatus === "pending" ? <Clock className="h-5 w-5 text-yellow-600" /> : <AlertCircle className="h-5 w-5 text-red-600" />}
+						{claimStatus === "approved" ? <CheckCircle className="h-5 w-5 text-success" /> : claimStatus === "pending" ? <Clock className="h-5 w-5 text-warning" /> : <AlertCircle className="h-5 w-5 text-destructive" />}
 						Claim Status: {claimStatus.charAt(0).toUpperCase() + claimStatus.slice(1)}
 					</CardTitle>
 					<CardDescription>
@@ -231,20 +231,20 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 				<CardContent className="space-y-4">
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<div className="space-y-2">
-							<div className="flex items-center gap-2 text-sm text-gray-600">
+							<div className="flex items-center gap-2 text-sm text-muted-foreground">
 								<MapPin className="h-4 w-4" />
 								{business.address}
 							</div>
 							{business.phone && (
-								<div className="flex items-center gap-2 text-sm text-gray-600">
+								<div className="flex items-center gap-2 text-sm text-muted-foreground">
 									<Phone className="h-4 w-4" />
 									{business.phone}
 								</div>
 							)}
 							{business.website && (
-								<div className="flex items-center gap-2 text-sm text-gray-600">
+								<div className="flex items-center gap-2 text-sm text-muted-foreground">
 									<Globe className="h-4 w-4" />
-									<a href={business.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+									<a href={business.website} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
 										{business.website}
 									</a>
 								</div>
@@ -252,8 +252,8 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 						</div>
 						<div className="space-y-2">
 							{business.rating && (
-								<div className="flex items-center gap-2 text-sm text-gray-600">
-									<Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+								<div className="flex items-center gap-2 text-sm text-muted-foreground">
+									<Star className="h-4 w-4 fill-yellow-400 text-warning" />
 									{business.rating} ({business.reviewCount} reviews)
 								</div>
 							)}
@@ -403,13 +403,13 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 									{/* File Upload for Verification Documents */}
 									<div className="space-y-2">
 										<label className="text-sm font-medium">Supporting Documents (Optional)</label>
-										<div className="border-2 border-dashed border-gray-300 rounded-md p-4">
+										<div className="border-2 border-dashed border-border rounded-md p-4">
 											<input type="file" multiple accept=".jpg,.jpeg,.png,.pdf" onChange={handleFileUpload} className="hidden" id="file-upload" />
 											<label htmlFor="file-upload" className="cursor-pointer">
 												<div className="text-center">
-													<Upload className="mx-auto h-8 w-8 text-gray-400" />
-													<p className="mt-2 text-sm text-gray-600">Click to upload verification documents</p>
-													<p className="text-xs text-gray-500">JPEG, PNG, PDF up to 5MB each (max 3 files)</p>
+													<Upload className="mx-auto h-8 w-8 text-muted-foreground" />
+													<p className="mt-2 text-sm text-muted-foreground">Click to upload verification documents</p>
+													<p className="text-xs text-muted-foreground">JPEG, PNG, PDF up to 5MB each (max 3 files)</p>
 												</div>
 											</label>
 										</div>
@@ -464,7 +464,7 @@ export default function BusinessClaimForm({ business, onSuccess, onCancel }) {
 												</FormControl>
 												<div className="space-y-1 leading-none">
 													<FormLabel className="text-sm">I confirm that I am authorized to claim and manage this business listing</FormLabel>
-													<p className="text-xs text-gray-600">By checking this box, you certify that you have the legal authority to claim this business listing and that all information provided is accurate. Submitting false information may result in account suspension.</p>
+													<p className="text-xs text-muted-foreground">By checking this box, you certify that you have the legal authority to claim this business listing and that all information provided is accurate. Submitting false information may result in account suspension.</p>
 												</div>
 											</FormItem>
 										)}

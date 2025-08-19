@@ -28,6 +28,22 @@ alwaysApply: true
 3. **Third**: Only create new files when absolutely no existing file can be adapted
 4. **Never**: Create duplicate files or similar functionality elsewhere
 
+### REQUIRED: Move files, don't recreate
+
+- Always move files with `git mv` to preserve history and avoid large diffs
+- After moving, update imports, links, routes, and aliases
+- Validate with a search for old paths and fix them
+
+Example commands:
+
+```bash
+# Move a component to its canonical location
+git mv src/app/(auth)/dashboard/user/components/Stats.tsx src/components/dashboard/user/sections/Stats.tsx
+
+# Update path references
+rg -l "app/\(auth\)/dashboard/user/components/Stats" src | xargs sed -i '' 's#app/(auth)/dashboard/user/components/Stats#components/dashboard/user/sections/Stats#g'
+```
+
 ## 📁 Required File Extension Standards
 
 ### React Components

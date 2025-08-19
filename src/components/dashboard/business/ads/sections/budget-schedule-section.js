@@ -69,19 +69,19 @@ const PerformanceEstimation = ({ budget, duration, keywords, location }) => {
 		<Card className="bg-gradient-to-br from-green-50 to-blue-50 border-green-200">
 			<CardHeader className="pb-3">
 				<CardTitle className="flex items-center gap-2 text-lg">
-					<TrendingUp className="w-5 h-5 text-green-600" />
+					<TrendingUp className="w-5 h-5 text-success" />
 					Performance Forecast
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-4">
 				<div className="grid grid-cols-2 gap-4">
 					<div className="text-center">
-						<p className="text-2xl font-bold text-green-600">{estimation.impressions.toLocaleString()}</p>
-						<p className="text-xs text-green-600/70">Estimated Impressions</p>
+						<p className="text-2xl font-bold text-success">{estimation.impressions.toLocaleString()}</p>
+						<p className="text-xs text-success/70">Estimated Impressions</p>
 					</div>
 					<div className="text-center">
-						<p className="text-2xl font-bold text-blue-600">{estimation.clicks.toLocaleString()}</p>
-						<p className="text-xs text-blue-600/70">Estimated Clicks</p>
+						<p className="text-2xl font-bold text-primary">{estimation.clicks.toLocaleString()}</p>
+						<p className="text-xs text-primary/70">Estimated Clicks</p>
 					</div>
 				</div>
 
@@ -113,24 +113,24 @@ const BudgetRecommendation = ({ businessType, currentBudget, onBudgetSelect }) =
 	return (
 		<div className="space-y-3">
 			<div className="flex items-center gap-2">
-				<Target className="w-4 h-4 text-blue-600" />
+				<Target className="w-4 h-4 text-primary" />
 				<span className="text-sm font-medium">Recommended Budgets</span>
 			</div>
 
 			<div className="grid grid-cols-3 gap-2">
-				<div className={`p-3 rounded-lg border cursor-pointer transition-colors ${currentBudget <= recommendation.min ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:border-gray-300"}`} onClick={() => onBudgetSelect(recommendation.min)}>
+				<div className={`p-3 rounded-lg border cursor-pointer transition-colors ${currentBudget <= recommendation.min ? "border-primary bg-blue-50" : "border-border hover:border-border"}`} onClick={() => onBudgetSelect(recommendation.min)}>
 					<p className="text-sm font-medium">Starter</p>
 					<p className="text-lg font-bold">${recommendation.min}</p>
 					<p className="text-xs text-muted-foreground">Conservative</p>
 				</div>
 
-				<div className={`p-3 rounded-lg border cursor-pointer transition-colors ${currentBudget === recommendation.recommended ? "border-green-500 bg-green-50" : "border-gray-200 hover:border-gray-300"}`} onClick={() => onBudgetSelect(recommendation.recommended)}>
+				<div className={`p-3 rounded-lg border cursor-pointer transition-colors ${currentBudget === recommendation.recommended ? "border-green-500 bg-green-50" : "border-border hover:border-border"}`} onClick={() => onBudgetSelect(recommendation.recommended)}>
 					<p className="text-sm font-medium">Recommended</p>
-					<p className="text-lg font-bold text-green-600">${recommendation.recommended}</p>
+					<p className="text-lg font-bold text-success">${recommendation.recommended}</p>
 					<p className="text-xs text-muted-foreground">Best results</p>
 				</div>
 
-				<div className={`p-3 rounded-lg border cursor-pointer transition-colors ${currentBudget >= recommendation.max ? "border-purple-500 bg-purple-50" : "border-gray-200 hover:border-gray-300"}`} onClick={() => onBudgetSelect(recommendation.max)}>
+				<div className={`p-3 rounded-lg border cursor-pointer transition-colors ${currentBudget >= recommendation.max ? "border-purple-500 bg-purple-50" : "border-border hover:border-border"}`} onClick={() => onBudgetSelect(recommendation.max)}>
 					<p className="text-sm font-medium">Aggressive</p>
 					<p className="text-lg font-bold">${recommendation.max}</p>
 					<p className="text-xs text-muted-foreground">Maximum reach</p>
@@ -221,7 +221,7 @@ export const BudgetScheduleSection = ({
 					<CardTitle className="flex items-center gap-2">
 						<CreditCard className="w-5 h-5 text-primary" />
 						Budget & Schedule
-						{isSectionComplete && <CheckCircle className="w-4 h-4 text-green-600" />}
+						{isSectionComplete && <CheckCircle className="w-4 h-4 text-success" />}
 					</CardTitle>
 				</CardHeader>
 				<CardContent className="space-y-6">
@@ -237,7 +237,7 @@ export const BudgetScheduleSection = ({
 									<Input id="budget" type="number" placeholder="50" value={budget} onChange={(e) => handleBudgetUpdate("budget", parseInt(e.target.value) || 0)} className={errors.budget ? "border-red-500 focus:border-red-500" : ""} min="1" max="1000" />
 									<Slider value={[budget]} onValueChange={([value]) => handleBudgetUpdate("budget", value)} max={500} min={10} step={5} className="w-full" />
 								</div>
-								{errors.budget && <p className="text-sm text-red-500 mt-1">{errors.budget}</p>}
+								{errors.budget && <p className="text-sm text-destructive mt-1">{errors.budget}</p>}
 							</div>
 
 							<div>
@@ -293,14 +293,14 @@ export const BudgetScheduleSection = ({
 							<div>
 								<Label htmlFor="startDate">Start Date</Label>
 								<Input id="startDate" type="date" value={startDate} onChange={(e) => handleScheduleUpdate("startDate", e.target.value)} className={errors.startDate ? "border-red-500 focus:border-red-500" : ""} min={new Date().toISOString().split("T")[0]} />
-								{errors.startDate && <p className="text-sm text-red-500 mt-1">{errors.startDate}</p>}
+								{errors.startDate && <p className="text-sm text-destructive mt-1">{errors.startDate}</p>}
 							</div>
 
 							{/* End Date */}
 							<div>
 								<Label htmlFor="endDate">End Date</Label>
 								<Input id="endDate" type="date" value={endDate} onChange={(e) => handleScheduleUpdate("endDate", e.target.value)} className={errors.endDate ? "border-red-500 focus:border-red-500" : ""} min={startDate || new Date().toISOString().split("T")[0]} />
-								{errors.endDate && <p className="text-sm text-red-500 mt-1">{errors.endDate}</p>}
+								{errors.endDate && <p className="text-sm text-destructive mt-1">{errors.endDate}</p>}
 							</div>
 						</div>
 

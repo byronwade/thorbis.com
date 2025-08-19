@@ -145,17 +145,17 @@ export function ValidationMessage({ validation, className = "", showSuggestions 
 	const { hasError, hasWarning, hasSuccess, message, suggestions, severity } = validation;
 
 	const getIcon = () => {
-		if (hasError) return <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />;
-		if (hasWarning) return <Info className="w-4 h-4 text-yellow-500 flex-shrink-0" />;
-		if (hasSuccess) return <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />;
-		return <Info className="w-4 h-4 text-blue-500 flex-shrink-0" />;
+		if (hasError) return <AlertCircle className="w-4 h-4 text-destructive flex-shrink-0" />;
+		if (hasWarning) return <Info className="w-4 h-4 text-warning flex-shrink-0" />;
+		if (hasSuccess) return <CheckCircle2 className="w-4 h-4 text-success flex-shrink-0" />;
+		return <Info className="w-4 h-4 text-primary flex-shrink-0" />;
 	};
 
 	const getTextColor = () => {
-		if (hasError) return "text-red-600";
-		if (hasWarning) return "text-yellow-600";
-		if (hasSuccess) return "text-green-600";
-		return "text-blue-600";
+		if (hasError) return "text-destructive";
+		if (hasWarning) return "text-warning";
+		if (hasSuccess) return "text-success";
+		return "text-primary";
 	};
 
 	return (
@@ -171,7 +171,7 @@ export function ValidationMessage({ validation, className = "", showSuggestions 
 				<div className="ml-6 space-y-1">
 					{suggestions.map((suggestion, index) => (
 						<div key={index} className="flex items-start space-x-2">
-							<Lightbulb className="w-3 h-3 text-blue-500 mt-0.5 flex-shrink-0" />
+							<Lightbulb className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
 							<p className="text-xs text-muted-foreground">{suggestion}</p>
 						</div>
 					))}

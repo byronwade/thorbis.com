@@ -84,7 +84,7 @@ export function TextInputRenderer({ question, onAnswer, isAnswered, userAnswer, 
 				{isAnswered && (
 					<div className="flex items-center space-x-2">
 						{isCorrect() ? (
-							<Badge variant="default" className="bg-green-500">
+							<Badge variant="default" className="bg-success">
 								<CheckCircle className="h-3 w-3 mr-1" />
 								Correct
 							</Badge>
@@ -104,12 +104,12 @@ export function TextInputRenderer({ question, onAnswer, isAnswered, userAnswer, 
 			<Card>
 				<CardContent className="p-6 space-y-4">
 					<div className="space-y-3">
-						<Input type="text" placeholder={question.placeholder || "Type your answer here..."} value={value} onChange={(e) => !isAnswered && setValue(e.target.value)} onKeyPress={handleKeyPress} disabled={disabled || isAnswered} maxLength={question.maxLength} className={`text-lg py-3 ${isAnswered ? (isCorrect() ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50") : "focus:border-blue-500"}`} />
+						<Input type="text" placeholder={question.placeholder || "Type your answer here..."} value={value} onChange={(e) => !isAnswered && setValue(e.target.value)} onKeyPress={handleKeyPress} disabled={disabled || isAnswered} maxLength={question.maxLength} className={`text-lg py-3 ${isAnswered ? (isCorrect() ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50") : "focus:border-primary"}`} />
 
 						{/* Character count */}
 						{question.maxLength && (
 							<div className="flex justify-end">
-								<span className={`text-xs ${value.length > question.maxLength * 0.9 ? "text-orange-500" : "text-gray-500"}`}>
+								<span className={`text-xs ${value.length > question.maxLength * 0.9 ? "text-warning" : "text-muted-foreground"}`}>
 									{value.length}/{question.maxLength}
 								</span>
 							</div>
@@ -137,17 +137,17 @@ export function TextInputRenderer({ question, onAnswer, isAnswered, userAnswer, 
 								<div className="flex items-start space-x-3">
 									<div className="flex-shrink-0 mt-0.5">
 										{isCorrect() ? (
-											<CheckCircle className="h-5 w-5 text-green-500" />
+											<CheckCircle className="h-5 w-5 text-success" />
 										) : getPartialCredit() > 0 ? (
-											<div className="h-5 w-5 rounded-full bg-yellow-500 flex items-center justify-center">
+											<div className="h-5 w-5 rounded-full bg-warning flex items-center justify-center">
 												<span className="text-white text-xs font-bold">~</span>
 											</div>
 										) : (
-											<XCircle className="h-5 w-5 text-red-500" />
+											<XCircle className="h-5 w-5 text-destructive" />
 										)}
 									</div>
 									<div className="flex-1">
-										<p className={`font-medium mb-2 ${isCorrect() ? "text-green-900" : getPartialCredit() > 0 ? "text-yellow-900" : "text-red-900"}`}>{isCorrect() ? "Correct Answer!" : getPartialCredit() > 0 ? "Partially Correct" : "Incorrect Answer"}</p>
+										<p className={`font-medium mb-2 ${isCorrect() ? "text-success" : getPartialCredit() > 0 ? "text-warning" : "text-destructive"}`}>{isCorrect() ? "Correct Answer!" : getPartialCredit() > 0 ? "Partially Correct" : "Incorrect Answer"}</p>
 
 										<div className="space-y-1 text-sm">
 											<div>
@@ -156,14 +156,14 @@ export function TextInputRenderer({ question, onAnswer, isAnswered, userAnswer, 
 											</div>
 											<div>
 												<span className="font-medium">Correct answer: </span>
-												<span className="bg-green-100 px-2 py-1 rounded border border-green-200">"{question.validation.correctAnswer}"</span>
+												<span className="bg-success/10 px-2 py-1 rounded border border-green-200">"{question.validation.correctAnswer}"</span>
 											</div>
 											{question.validation.acceptableVariations && question.validation.acceptableVariations.length > 0 && (
 												<div>
 													<span className="font-medium">Also acceptable: </span>
 													<div className="flex flex-wrap gap-1 mt-1">
 														{question.validation.acceptableVariations.map((variation, index) => (
-															<span key={index} className="bg-blue-100 px-2 py-1 rounded border border-blue-200 text-xs">
+															<span key={index} className="bg-primary/10 px-2 py-1 rounded border border-primary/30 text-xs">
 																"{variation}"
 															</span>
 														))}
@@ -182,11 +182,11 @@ export function TextInputRenderer({ question, onAnswer, isAnswered, userAnswer, 
 						<CardContent className="p-4">
 							<div className="flex items-start space-x-3">
 								<div className="flex-shrink-0 mt-0.5">
-									<Lightbulb className="h-5 w-5 text-blue-500" />
+									<Lightbulb className="h-5 w-5 text-primary" />
 								</div>
 								<div>
-									<p className="font-medium text-gray-900 mb-1">Explanation:</p>
-									<p className="text-gray-700 text-sm">{question.explanation}</p>
+									<p className="font-medium text-foreground mb-1">Explanation:</p>
+									<p className="text-muted-foreground text-sm">{question.explanation}</p>
 								</div>
 							</div>
 						</CardContent>
@@ -198,10 +198,10 @@ export function TextInputRenderer({ question, onAnswer, isAnswered, userAnswer, 
 			{!isAnswered && question.hints && question.hints.length > 0 && (
 				<div className="mt-4">
 					<details className="group">
-						<summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 font-medium">💡 Need a hint? Click here</summary>
+						<summary className="cursor-pointer text-sm text-primary hover:text-primary font-medium">💡 Need a hint? Click here</summary>
 						<Card className="mt-2">
 							<CardContent className="p-3 bg-yellow-50">
-								<p className="text-yellow-800 text-sm">{question.hints[0]}</p>
+								<p className="text-warning text-sm">{question.hints[0]}</p>
 							</CardContent>
 						</Card>
 					</details>

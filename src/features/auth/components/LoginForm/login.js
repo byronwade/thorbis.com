@@ -16,14 +16,14 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaGithub, FaTwitter, FaApple } from "react-icons/fa";
 import { SiDiscord, SiLinkedin } from "react-icons/si";
 import { cn } from "@utils";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { DeviceFingerprint } from "@lib/security/device-fingerprint";
 import { LoginContextDetector } from "@lib/auth/login-context";
 import ZodErrorBoundary from "@components/shared/zod-error-boundary";
 import IntelligentLoginMessage from "@features/auth/shared/intelligent-login-message";
 
 // Import the new i18n hooks
-import { useAuthTranslation } from '@lib/i18n/useTranslation';
+import { useAuthTranslation } from '@lib/i18n/use-translation';
 
 // Create internationalized validation schema
 const createLoginSchemas = (tLogin) => {
@@ -634,15 +634,15 @@ export default function LoginPage() {
 			case "google":
 				return <FcGoogle className="mr-2 h-5 w-5" />;
 			case "facebook":
-				return <FaFacebook className="mr-2 h-5 w-5 text-[#1877f2]" />;
+				return <FaFacebook className="mr-2 h-5 w-5 text-muted-foreground" />;
 			case "github":
 				return <FaGithub className="mr-2 h-5 w-5" />;
 			case "twitter":
-				return <FaTwitter className="mr-2 h-5 w-5 text-[#1da1f2]" />;
+				return <FaTwitter className="mr-2 h-5 w-5 text-muted-foreground" />;
 			case "discord":
-				return <SiDiscord className="mr-2 h-5 w-5 text-[#5865f2]" />;
+				return <SiDiscord className="mr-2 h-5 w-5 text-muted-foreground" />;
 			case "linkedin":
-				return <SiLinkedin className="mr-2 h-5 w-5 text-[#0077b5]" />;
+				return <SiLinkedin className="mr-2 h-5 w-5 text-muted-foreground" />;
 			case "apple":
 				return <FaApple className="mr-2 h-5 w-5" />;
 			default:
@@ -658,8 +658,8 @@ export default function LoginPage() {
 			<ZodErrorBoundary>
 				{/* Minimal error messages only */}
 				{isRateLimited && (
-					<div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-800">
-						<div className="flex items-center text-sm text-red-700 dark:text-red-300">
+					<div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-destructive/20 dark:border-red-800">
+						<div className="flex items-center text-sm text-destructive dark:text-destructive/90">
 							<AlertCircle className="h-4 w-4 mr-2 flex-shrink-0" />
 							<span>Too many attempts. Please wait before trying again.</span>
 						</div>
@@ -668,10 +668,10 @@ export default function LoginPage() {
 
 				{/* Display auth errors - simplified */}
 				{authError && (
-					<div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-800">
+					<div className="mb-6 p-4 rounded-lg border border-red-200 bg-red-50 dark:bg-destructive/20 dark:border-red-800">
 						<div className="flex items-center">
-							<AlertCircle className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" />
-							<p className="text-sm text-red-700 dark:text-red-300">{authError.userMessage}</p>
+							<AlertCircle className="h-4 w-4 text-destructive mr-2 flex-shrink-0" />
+							<p className="text-sm text-destructive dark:text-destructive/90">{authError.userMessage}</p>
 						</div>
 					</div>
 				)}
@@ -734,7 +734,7 @@ export default function LoginPage() {
 													suppressHydrationWarning={true}
 												/>
 												{/* Removed email validation loading indicator */}
-												{emailValidation.isValid && fieldTouched.email && !emailValidation.isChecking && <CheckCircle2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-green-500" />}
+												{emailValidation.isValid && fieldTouched.email && !emailValidation.isChecking && <CheckCircle2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-success" />}
 											</div>
 										</FormControl>
 

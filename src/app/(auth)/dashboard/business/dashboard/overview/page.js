@@ -186,42 +186,42 @@ export default function DashboardOverview() {
 	};
 
 	const getTrendIcon = (trend) => {
-		return trend === "up" ? <ArrowUpRight className="w-4 h-4 text-green-500" /> : <ArrowDownRight className="w-4 h-4 text-red-500" />;
+		return trend === "up" ? <ArrowUpRight className="w-4 h-4 text-success" /> : <ArrowDownRight className="w-4 h-4 text-destructive" />;
 	};
 
 	const getTrendColor = (trend) => {
-		return trend === "up" ? "text-green-500" : "text-red-500";
+		return trend === "up" ? "text-success" : "text-destructive";
 	};
 
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "completed":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "urgent":
-				return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/90";
 			case "scheduled":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary dark:text-primary/90";
 			case "on_job":
-				return "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "traveling":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			case "available":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
 	};
 
 	const getAlertIcon = (type) => {
 		switch (type) {
 			case "urgent":
-				return <AlertTriangle className="w-4 h-4 text-red-500" />;
+				return <AlertTriangle className="w-4 h-4 text-destructive" />;
 			case "warning":
-				return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+				return <AlertTriangle className="w-4 h-4 text-warning" />;
 			case "info":
-				return <Bell className="w-4 h-4 text-blue-500" />;
+				return <Bell className="w-4 h-4 text-primary" />;
 			default:
-				return <Bell className="w-4 h-4 text-gray-500" />;
+				return <Bell className="w-4 h-4 text-muted-foreground" />;
 		}
 	};
 
@@ -370,7 +370,7 @@ export default function DashboardOverview() {
 										<span className="text-sm font-medium">{dashboardData.todayStats.avgJobDuration}h</span>
 									</div>
 									<div className="flex gap-1 items-center">
-										<Timer className="w-4 h-4 text-blue-500" />
+										<Timer className="w-4 h-4 text-primary" />
 										<span className="text-xs text-muted-foreground">{dashboardData.todayStats.avgJobDuration < 3 ? "On target" : "Above average"}</span>
 									</div>
 								</div>
@@ -381,7 +381,7 @@ export default function DashboardOverview() {
 										<span className="text-sm font-medium">{formatCurrency(dashboardData.todayStats.revenue)}</span>
 									</div>
 									<div className="flex gap-1 items-center">
-										<Star className="w-4 h-4 text-yellow-500" />
+										<Star className="w-4 h-4 text-warning" />
 										<span className="text-xs text-muted-foreground">{dashboardData.todayStats.customerSatisfaction}/5.0 satisfaction</span>
 									</div>
 								</div>
@@ -498,7 +498,7 @@ export default function DashboardOverview() {
 												<p className="text-xs text-muted-foreground">{tech.currentJob || tech.location}</p>
 												<div className="flex justify-between items-center mt-1">
 													<div className="flex gap-1 items-center text-xs text-muted-foreground">
-														<Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+														<Star className="w-3 h-3 fill-yellow-400 text-warning" />
 														<span>{tech.rating}</span>
 														<span>•</span>
 														<span>{tech.jobsToday} jobs today</span>

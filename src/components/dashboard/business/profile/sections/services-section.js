@@ -318,7 +318,7 @@ const ServiceCard = ({ service, index, onUpdate, onRemove }) => {
 			<div className="flex justify-between items-center pt-2 mt-3 border-t border-border/30">
 				<div className="flex items-center space-x-2">
 					{isComplete ? (
-						<Badge variant="secondary" className="text-xs text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-300">
+						<Badge variant="secondary" className="text-xs text-success bg-success/10 dark:bg-success/30 dark:text-success/90">
 							<CheckCircle className="mr-1 w-3 h-3" />
 							Complete
 						</Badge>

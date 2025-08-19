@@ -94,7 +94,7 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 	const getDifferenceStyle = (difference: (typeof question.differences)[0], isFound: boolean) => {
 		if (!showFeedback && !isFound) return "hidden";
 
-		return isFound ? "border-4 border-green-500 bg-green-500 bg-opacity-20" : showFeedback && isAnswered ? "border-4 border-red-500 bg-red-500 bg-opacity-20" : "hidden";
+		return isFound ? "border-4 border-green-500 bg-success bg-opacity-20" : showFeedback && isAnswered ? "border-4 border-red-500 bg-destructive bg-opacity-20" : "hidden";
 	};
 
 	// Timer effect
@@ -121,8 +121,8 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">Find the differences between these images by clicking on them.</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Find the differences between these images by clicking on them.</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>
 									Found: {foundDifferences.length} / {question.differences.length}
 								</span>
@@ -186,7 +186,7 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 												top: `${found.y}%`,
 											}}
 										>
-											<div className="w-8 h-8 rounded-full bg-green-500 border-2 border-white shadow-lg flex items-center justify-center">
+											<div className="w-8 h-8 rounded-full bg-success border-2 border-white shadow-lg flex items-center justify-center">
 												<CheckCircle className="w-5 h-5 text-white" />
 											</div>
 										</div>
@@ -194,7 +194,7 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 							</div>
 
 							<div className="mt-3 text-center">
-								<p className="text-sm font-medium text-gray-700">Image {index + 1}</p>
+								<p className="text-sm font-medium text-muted-foreground">Image {index + 1}</p>
 							</div>
 						</CardContent>
 					</Card>
@@ -211,8 +211,8 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 								{foundDifferences.length} / {question.differences.length}
 							</span>
 						</div>
-						<div className="w-full bg-gray-200 rounded-full h-2">
-							<div className="bg-blue-500 h-2 rounded-full transition-all duration-300" style={{ width: `${(foundDifferences.length / question.differences.length) * 100}%` }} />
+						<div className="w-full bg-muted rounded-full h-2">
+							<div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${(foundDifferences.length / question.differences.length) * 100}%` }} />
 						</div>
 					</div>
 				</CardContent>
@@ -231,9 +231,9 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 								const difference = question.differences.find((d) => d.id === found.id);
 								return (
 									<div key={found.id} className="flex items-center space-x-3 p-2 bg-green-50 border border-green-200 rounded-lg">
-										<div className="w-6 h-6 rounded-full bg-green-500 text-white text-xs flex items-center justify-center font-semibold">{index + 1}</div>
-										<span className="text-green-800">{difference?.description || `Difference ${index + 1}`}</span>
-										<span className="text-xs text-green-600">Image {question.images.findIndex((img) => img.id === found.imageId) + 1}</span>
+										<div className="w-6 h-6 rounded-full bg-success text-white text-xs flex items-center justify-center font-semibold">{index + 1}</div>
+										<span className="text-success">{difference?.description || `Difference ${index + 1}`}</span>
+										<span className="text-xs text-success">Image {question.images.findIndex((img) => img.id === found.imageId) + 1}</span>
 									</div>
 								);
 							})}
@@ -254,9 +254,9 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 									const isCorrect = score >= maxScore * 0.7;
 									return (
 										<>
-											{isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isCorrect ? "text-green-700" : "text-red-700"}`}>{isCorrect ? "Great observation skills!" : "Keep practicing your attention to detail"}</span>
-											<span className="text-sm text-gray-600">
+											{isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isCorrect ? "text-success" : "text-destructive"}`}>{isCorrect ? "Great observation skills!" : "Keep practicing your attention to detail"}</span>
+											<span className="text-sm text-muted-foreground">
 												({score} / {maxScore} found in {formatTime(timeElapsed)})
 											</span>
 										</>
@@ -265,21 +265,21 @@ export function ImageComparisonRenderer({ question, onAnswer, isAnswered, userAn
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show missed differences */}
 							{foundDifferences.length < question.differences.length && (
 								<div className="p-4 rounded-lg bg-orange-50 border border-orange-200">
-									<p className="text-orange-800 font-medium">Missed Differences:</p>
+									<p className="text-warning font-medium">Missed Differences:</p>
 									<ul className="list-disc list-inside space-y-1 mt-2">
 										{question.differences
 											.filter((diff) => !foundDifferences.some((found) => found.id === diff.id))
 											.map((diff) => (
-												<li key={diff.id} className="text-orange-700">
+												<li key={diff.id} className="text-warning">
 													{diff.description}
 												</li>
 											))}

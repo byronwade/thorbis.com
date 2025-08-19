@@ -107,7 +107,7 @@ export default function CreateDirectoryPage() {
 			},
 			directoryCustomization: {
 				logo: null,
-				primaryColor: "#3B82F6",
+				primaryColor: "hsl(var(--primary))",
 				subdomain: "",
 				businessCategories: [],
 			},

@@ -207,7 +207,7 @@ export default function EmployeeProfile({ employeeId, onClose }) {
                 <p className="text-sm text-muted-foreground">Performance Rating</p>
                 <p className="text-2xl font-bold">{employee.performance.rating}/5</p>
               </div>
-              <Award className="h-8 w-8 text-yellow-500" />
+              <Award className="h-8 w-8 text-warning" />
             </div>
           </CardContent>
         </Card>
@@ -219,7 +219,7 @@ export default function EmployeeProfile({ employeeId, onClose }) {
                 <p className="text-sm text-muted-foreground">Goals Completed</p>
                 <p className="text-2xl font-bold">{employee.performance.completed}/{employee.performance.goals}</p>
               </div>
-              <Target className="h-8 w-8 text-blue-500" />
+              <Target className="h-8 w-8 text-primary" />
             </div>
           </CardContent>
         </Card>
@@ -231,7 +231,7 @@ export default function EmployeeProfile({ employeeId, onClose }) {
                 <p className="text-sm text-muted-foreground">Hours This Month</p>
                 <p className="text-2xl font-bold">{employee.timeTracking.hoursThisMonth}</p>
               </div>
-              <Clock className="h-8 w-8 text-green-500" />
+              <Clock className="h-8 w-8 text-success" />
             </div>
           </CardContent>
         </Card>
@@ -306,25 +306,25 @@ export default function EmployeeProfile({ employeeId, onClose }) {
                 <div className="flex justify-between items-center">
                   <span className="text-sm">Dental Insurance</span>
                   {employee.benefits.dentalInsurance ? (
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-success" />
                   ) : (
-                    <X className="h-4 w-4 text-red-500" />
+                    <X className="h-4 w-4 text-destructive" />
                   )}
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm">Vision Insurance</span>
                   {employee.benefits.visionInsurance ? (
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-success" />
                   ) : (
-                    <X className="h-4 w-4 text-red-500" />
+                    <X className="h-4 w-4 text-destructive" />
                   )}
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm">Life Insurance</span>
                   {employee.benefits.lifeInsurance ? (
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-success" />
                   ) : (
-                    <X className="h-4 w-4 text-red-500" />
+                    <X className="h-4 w-4 text-destructive" />
                   )}
                 </div>
               </div>
@@ -388,7 +388,7 @@ export default function EmployeeProfile({ employeeId, onClose }) {
             </div>
             <div className="flex justify-between items-center">
               <span>Remaining Balance</span>
-              <span className="font-semibold text-green-600">{employee.timeTracking.ptoRemaining} days</span>
+              <span className="font-semibold text-success">{employee.timeTracking.ptoRemaining} days</span>
             </div>
             
             <Separator />

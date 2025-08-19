@@ -201,25 +201,25 @@ export default function CustomersList() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "active":
-				return "bg-green-500";
+				return "bg-success";
 			case "inactive":
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 			case "prospect":
-				return "bg-blue-500";
+				return "bg-primary";
 			default:
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 		}
 	};
 
 	const getCustomerTypeIcon = (type) => {
-		return type === "commercial" ? <Building className="w-4 h-4 text-blue-500" /> : <User className="w-4 h-4 text-green-500" />;
+		return type === "commercial" ? <Building className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-success" />;
 	};
 
 	const renderStarRating = (rating) => {
 		return (
 			<div className="flex items-center gap-1">
 				{[1, 2, 3, 4, 5].map((star) => (
-					<Star key={star} className={`w-3 h-3 ${star <= rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} />
+					<Star key={star} className={`w-3 h-3 ${star <= rating ? "fill-yellow-400 text-warning" : "text-muted-foreground/30"}`} />
 				))}
 				<span className="text-xs text-muted-foreground ml-1">{rating.toFixed(1)}</span>
 			</div>
@@ -273,7 +273,7 @@ export default function CustomersList() {
 								<p className="text-2xl font-bold">{customerStats.total}</p>
 								<p className="text-xs text-muted-foreground">{customerStats.active} active</p>
 							</div>
-							<Users className="w-8 h-8 text-blue-500" />
+							<Users className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -286,7 +286,7 @@ export default function CustomersList() {
 								<p className="text-2xl font-bold">${customerStats.totalRevenue.toLocaleString()}</p>
 								<p className="text-xs text-muted-foreground">All-time customer value</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -298,11 +298,11 @@ export default function CustomersList() {
 								<p className="text-sm text-muted-foreground">Avg Rating</p>
 								<p className="text-2xl font-bold">{customerStats.avgRating.toFixed(1)}</p>
 								<div className="flex items-center gap-1 mt-1">
-									<Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+									<Star className="w-3 h-3 fill-yellow-400 text-warning" />
 									<span className="text-xs text-muted-foreground">Customer satisfaction</span>
 								</div>
 							</div>
-							<Award className="w-8 h-8 text-yellow-500" />
+							<Award className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -425,7 +425,7 @@ export default function CustomersList() {
 									<thead className="border-b bg-muted/50">
 										<tr className="text-left">
 											<th className="p-4">
-												<input type="checkbox" checked={selectedCustomers.length === sortedCustomers.length && sortedCustomers.length > 0} onChange={selectAllCustomers} className="rounded border-gray-300" />
+												<input type="checkbox" checked={selectedCustomers.length === sortedCustomers.length && sortedCustomers.length > 0} onChange={selectAllCustomers} className="rounded border-border" />
 											</th>
 											<th className="p-4 font-medium">Customer</th>
 											<th className="p-4 font-medium">Contact</th>
@@ -441,7 +441,7 @@ export default function CustomersList() {
 										{sortedCustomers.map((customer) => (
 											<tr key={customer.id} className="border-b hover:bg-muted/50">
 												<td className="p-4">
-													<input type="checkbox" checked={selectedCustomers.includes(customer.id)} onChange={() => toggleCustomerSelection(customer.id)} className="rounded border-gray-300" />
+													<input type="checkbox" checked={selectedCustomers.includes(customer.id)} onChange={() => toggleCustomerSelection(customer.id)} className="rounded border-border" />
 												</td>
 
 												<td className="p-4">
@@ -450,7 +450,7 @@ export default function CustomersList() {
 														<div>
 															<div className="flex items-center gap-2">
 																<p className="font-medium">{customer.name}</p>
-																{customer.tags.includes("VIP") && <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />}
+																{customer.tags.includes("VIP") && <Star className="w-4 h-4 fill-yellow-400 text-warning" />}
 															</div>
 															<p className="text-sm text-muted-foreground">{customer.contactPerson}</p>
 															<div className="flex gap-1 mt-1">
@@ -564,9 +564,9 @@ export default function CustomersList() {
 
 							{sortedCustomers.length === 0 && (
 								<div className="text-center py-12">
-									<Users className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-									<h3 className="text-lg font-medium text-gray-900 mb-2">No customers found</h3>
-									<p className="text-gray-500 mb-4">{searchQuery || typeFilter !== "all" || statusFilter !== "all" ? "Try adjusting your search criteria" : "Get started by adding your first customer"}</p>
+									<Users className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+									<h3 className="text-lg font-medium text-foreground mb-2">No customers found</h3>
+									<p className="text-muted-foreground mb-4">{searchQuery || typeFilter !== "all" || statusFilter !== "all" ? "Try adjusting your search criteria" : "Get started by adding your first customer"}</p>
 									{!searchQuery && typeFilter === "all" && statusFilter === "all" && (
 										<Button>
 											<Plus className="w-4 h-4 mr-2" />

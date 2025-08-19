@@ -81,7 +81,7 @@ const LocalHubDashboardPage = () => {
 					<Card>
 						<CardContent className="p-6">
 							<div className="flex items-center">
-								<DollarSign className="h-8 w-8 text-green-600" />
+								<DollarSign className="h-8 w-8 text-success" />
 								<div className="ml-4">
 									<div className="text-2xl font-bold">${businessMetrics.averageRevenuePerBusiness || 0}</div>
 									<p className="text-xs text-muted-foreground">Avg Revenue/Business</p>
@@ -92,7 +92,7 @@ const LocalHubDashboardPage = () => {
 					<Card>
 						<CardContent className="p-6">
 							<div className="flex items-center">
-								<Users className="h-8 w-8 text-blue-600" />
+								<Users className="h-8 w-8 text-primary" />
 								<div className="ml-4">
 									<div className="text-2xl font-bold">+{businessMetrics.newBusinessesThisWeek || 0}</div>
 									<p className="text-xs text-muted-foreground">New This Week</p>
@@ -114,7 +114,7 @@ const LocalHubDashboardPage = () => {
 					<Card>
 						<CardContent className="p-6">
 							<div className="flex items-center">
-								<BarChart3 className="h-8 w-8 text-orange-600" />
+								<BarChart3 className="h-8 w-8 text-warning" />
 								<div className="ml-4">
 									<div className="text-2xl font-bold">+{businessMetrics.monthlyGrowthRate || 0}%</div>
 									<p className="text-xs text-muted-foreground">Monthly Growth</p>

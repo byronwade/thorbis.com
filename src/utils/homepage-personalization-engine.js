@@ -5,7 +5,7 @@
  */
 
 import { getPooledClient } from "@lib/database/supabase/client";
-import { logger } from "./logger";
+import logger from "./logger.js";
 import { cache } from "react";
 
 export class HomepagePersonalizationEngine {

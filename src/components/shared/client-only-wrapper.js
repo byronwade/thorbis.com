@@ -17,7 +17,7 @@ export default function ClientOnlyWrapper({ children, fallback = null }) {
   if (!mounted) {
     return fallback || (
       <div className="animate-pulse">
-        <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+        <div className="h-8 w-24 bg-muted dark:bg-muted rounded"></div>
       </div>
     );
   }

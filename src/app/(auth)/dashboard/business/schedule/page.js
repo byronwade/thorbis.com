@@ -9,7 +9,7 @@ import { Progress } from "@components/ui/progress";
 import { Skeleton } from "@components/ui/skeleton";
 import { Calendar, Clock, Users, MapPin, Plus, Route, CheckCircle, AlertTriangle, Timer, Target, BarChart3, DollarSign, Zap, RefreshCw } from "lucide-react";
 import { format, parseISO, isTomorrow } from "date-fns";
-import { useSchedule } from "@lib/hooks/business/useSchedule";
+import { useSchedule } from "@lib/hooks/business/use-schedule";
 import { toast } from "@components/ui/use-toast";
 /**
  * Main Schedule Overview Dashboard
@@ -87,7 +87,7 @@ export default function ScheduleOverview() {
 			<div className="flex justify-center items-center py-16">
 				<Card className="max-w-md">
 					<CardContent className="p-6 text-center">
-						<AlertTriangle className="mx-auto mb-4 w-12 h-12 text-red-500" />
+						<AlertTriangle className="mx-auto mb-4 w-12 h-12 text-destructive" />
 						<h3 className="mb-2 text-lg font-semibold">Unable to Load Schedule</h3>
 						<p className="mb-4 text-muted-foreground">{error}</p>
 						<Button onClick={refresh}>
@@ -103,30 +103,30 @@ export default function ScheduleOverview() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "completed":
-				return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success/20 dark:text-success/90";
 			case "in_progress":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning/90";
 			case "scheduled":
-				return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300";
+				return "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary/90";
 			case "overdue":
-				return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive/90";
 			default:
-				return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
+				return "bg-muted text-foreground dark:bg-card/20 dark:text-muted-foreground";
 		}
 	};
 
 	const getTechnicianStatusColor = (status) => {
 		switch (status) {
 			case "available":
-				return "bg-green-100 text-green-800";
+				return "bg-success/10 text-success";
 			case "on_job":
-				return "bg-yellow-100 text-yellow-800";
+				return "bg-warning/10 text-warning";
 			case "traveling":
-				return "bg-blue-100 text-blue-800";
+				return "bg-primary/10 text-primary";
 			case "offline":
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-foreground";
 			default:
-				return "bg-gray-100 text-gray-800";
+				return "bg-muted text-foreground";
 		}
 	};
 
@@ -177,7 +177,7 @@ export default function ScheduleOverview() {
 									{todaysStats.completed} completed • {todaysStats.inProgress} in progress
 								</p>
 							</div>
-							<CheckCircle className="w-8 h-8 text-green-500" />
+							<CheckCircle className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -189,7 +189,7 @@ export default function ScheduleOverview() {
 								<p className="text-2xl font-bold">{Math.round(completionRate)}%</p>
 								<Progress value={completionRate} className="mt-2 h-2" />
 							</div>
-							<Target className="w-8 h-8 text-blue-500" />
+							<Target className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -215,7 +215,7 @@ export default function ScheduleOverview() {
 								<p className="text-2xl font-bold">${todaysRevenue.toLocaleString()}</p>
 								<p className="text-xs text-muted-foreground">{lastUpdated ? `Updated ${format(lastUpdated, "HH:mm")}` : "Live data"}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -306,7 +306,7 @@ export default function ScheduleOverview() {
 										</div>
 									) : (
 										<div className="py-8 text-center">
-											<Calendar className="mx-auto mb-4 w-12 h-12 text-gray-400" />
+											<Calendar className="mx-auto mb-4 w-12 h-12 text-muted-foreground" />
 											<p className="text-muted-foreground">No jobs scheduled for today</p>
 											<Button className="mt-4" onClick={() => router.push("/dashboard/business/schedule/new-job")}>
 												<Plus className="mr-2 w-4 h-4" />
@@ -366,19 +366,19 @@ export default function ScheduleOverview() {
 									</div>
 									<div className="flex justify-between">
 										<span className="text-sm">Completed</span>
-										<span className="font-semibold text-green-600">{scheduleMetrics?.completedJobs || 0}</span>
+										<span className="font-semibold text-success">{scheduleMetrics?.completedJobs || 0}</span>
 									</div>
 									<div className="flex justify-between">
 										<span className="text-sm">In Progress</span>
-										<span className="font-semibold text-yellow-600">{scheduleMetrics?.inProgressJobs || 0}</span>
+										<span className="font-semibold text-warning">{scheduleMetrics?.inProgressJobs || 0}</span>
 									</div>
 									<div className="flex justify-between">
 										<span className="text-sm">Scheduled</span>
-										<span className="font-semibold text-blue-600">{scheduleMetrics?.scheduledJobs || 0}</span>
+										<span className="font-semibold text-primary">{scheduleMetrics?.scheduledJobs || 0}</span>
 									</div>
 									<div className="flex justify-between pt-3 border-t">
 										<span className="text-sm font-medium">Est. Revenue</span>
-										<span className="font-semibold text-green-600">${scheduleMetrics?.totalRevenue?.toLocaleString() || 0}</span>
+										<span className="font-semibold text-success">${scheduleMetrics?.totalRevenue?.toLocaleString() || 0}</span>
 									</div>
 								</CardContent>
 							</Card>
@@ -412,7 +412,7 @@ export default function ScheduleOverview() {
 										</div>
 										<div className="flex justify-between">
 											<span>Completed:</span>
-											<span className="font-medium text-green-600">{technician.completedJobs}</span>
+											<span className="font-medium text-success">{technician.completedJobs}</span>
 										</div>
 										<div className="flex justify-between">
 											<span>Efficiency:</span>
@@ -421,8 +421,8 @@ export default function ScheduleOverview() {
 									</div>
 
 									{technician.currentJob && (
-										<div className="p-2 mt-3 bg-yellow-50 rounded border-l-4 border-yellow-500 dark:bg-yellow-900/20">
-											<p className="text-xs font-medium text-yellow-800 dark:text-yellow-300">Currently Working:</p>
+										<div className="p-2 mt-3 bg-yellow-50 rounded border-l-4 border-yellow-500 dark:bg-warning/20">
+											<p className="text-xs font-medium text-warning dark:text-warning/90">Currently Working:</p>
 											<p className="text-sm">{technician.currentJob.customer}</p>
 											<p className="text-xs text-muted-foreground">
 												Started: {technician.currentJob.startTime} • Est. End: {technician.currentJob.estimatedEnd}
@@ -431,8 +431,8 @@ export default function ScheduleOverview() {
 									)}
 
 									{technician.nextJob && (
-										<div className="p-2 mt-3 bg-blue-50 rounded border-l-4 border-blue-500 dark:bg-blue-900/20">
-											<p className="text-xs font-medium text-blue-800 dark:text-blue-300">Next Job:</p>
+										<div className="p-2 mt-3 bg-blue-50 rounded border-l-4 border-primary dark:bg-primary/20">
+											<p className="text-xs font-medium text-primary dark:text-primary/90">Next Job:</p>
 											<p className="text-sm">{technician.nextJob.customer}</p>
 											<p className="text-xs text-muted-foreground">
 												{technician.nextJob.time} • {technician.nextJob.location}
@@ -489,7 +489,7 @@ export default function ScheduleOverview() {
 								</div>
 							) : (
 								<div className="py-8 text-center">
-									<Calendar className="mx-auto mb-4 w-12 h-12 text-gray-400" />
+									<Calendar className="mx-auto mb-4 w-12 h-12 text-muted-foreground" />
 									<p className="text-muted-foreground">No upcoming jobs in the next 7 days</p>
 									<Button className="mt-4" onClick={() => router.push("/dashboard/business/schedule/new-job")}>
 										<Plus className="mr-2 w-4 h-4" />

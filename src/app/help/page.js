@@ -134,7 +134,7 @@ function HelpHero() {
     <div className="bg-background border-b border-border transition-colors duration-200">
       <div className="container mx-auto px-6 py-16">
         <div className="max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-50 dark:bg-green-950/50 text-green-700 dark:text-green-300 text-sm font-medium rounded-full mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-success dark:bg-success/50 text-success dark:text-success/90 text-sm font-medium rounded-full mb-6">
             <HelpCircle className="h-4 w-4" />
             Help Center
           </div>

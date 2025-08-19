@@ -119,7 +119,7 @@ export const PasswordStrength = {
 	 */
 	getColorScheme(level) {
 		const schemes = {
-					none: { bg: "bg-gray-200", fill: "bg-gray-400", text: "text-gray-600" },
+					none: { bg: "bg-muted", fill: "bg-muted", text: "text-muted-foreground" },
 		weak: { bg: "bg-destructive/20", fill: "bg-destructive", text: "text-destructive" },
 		fair: { bg: "bg-muted-foreground/20", fill: "bg-muted-foreground", text: "text-muted-foreground" },
 		good: { bg: "bg-primary/20", fill: "bg-primary", text: "text-primary" },
@@ -151,17 +151,17 @@ export function PasswordStrengthIndicator({ password = "", showRequirements = tr
 					value={assessment.score}
 					className={cn("h-2", size === "small" ? "h-1" : "")}
 					style={{
-						"--progress-background": `rgb(229 231 235)`, // gray-200
+						"--progress-background": `hsl(var(--muted))`, // gray-200
 						"--progress-foreground":
 							assessment.level === "weak"
-								? "rgb(239 68 68)" // red-500
+								? "hsl(var(--muted-foreground))" // red-500
 								: assessment.level === "fair"
-									? "rgb(234 179 8)" // yellow-500
+									? "hsl(var(--accent))" // yellow-500
 									: assessment.level === "good"
-										? "rgb(59 130 246)" // blue-500
+										? "hsl(var(--primary))" // blue-500
 										: assessment.level === "strong"
-											? "rgb(34 197 94)"
-											: "rgb(156 163 175)", // green-500 or gray-400
+											? "hsl(var(--muted-foreground))"
+											: "hsl(var(--muted-foreground))", // green-500 or gray-400
 					}}
 				/>
 			</div>
@@ -173,8 +173,8 @@ export function PasswordStrengthIndicator({ password = "", showRequirements = tr
 					<div className="grid grid-cols-1 gap-1">
 						{assessment.requirements.map((req) => (
 							<div key={req.id} className="flex items-center space-x-2">
-								{req.met ? <CheckCircle2 className="w-3 h-3 text-green-500 flex-shrink-0" /> : <XCircle className="w-3 h-3 text-gray-400 flex-shrink-0" />}
-								<span className={cn("text-xs", req.met ? "text-green-700" : "text-gray-600")}>{req.text}</span>
+								{req.met ? <CheckCircle2 className="w-3 h-3 text-success flex-shrink-0" /> : <XCircle className="w-3 h-3 text-muted-foreground flex-shrink-0" />}
+								<span className={cn("text-xs", req.met ? "text-success" : "text-muted-foreground")}>{req.text}</span>
 							</div>
 						))}
 					</div>
@@ -188,8 +188,8 @@ export function PasswordStrengthIndicator({ password = "", showRequirements = tr
 					<div className="space-y-1">
 						{assessment.feedback.slice(0, 3).map((item, index) => (
 							<div key={index} className="flex items-start space-x-2">
-								<AlertCircle className="w-3 h-3 text-yellow-500 flex-shrink-0 mt-0.5" />
-								<span className="text-xs text-yellow-700">{item}</span>
+								<AlertCircle className="w-3 h-3 text-warning flex-shrink-0 mt-0.5" />
+								<span className="text-xs text-warning">{item}</span>
 							</div>
 						))}
 					</div>
@@ -214,8 +214,8 @@ export function CompactPasswordStrengthIndicator({ password = "", className = ""
 				value={assessment.score}
 				className="h-1 flex-1"
 				style={{
-					"--progress-background": `rgb(229 231 235)`,
-					"--progress-foreground": assessment.level === "weak" ? "rgb(239 68 68)" : assessment.level === "fair" ? "rgb(234 179 8)" : assessment.level === "good" ? "rgb(59 130 246)" : assessment.level === "strong" ? "rgb(34 197 94)" : "rgb(156 163 175)",
+					"--progress-background": `hsl(var(--muted))`,
+					"--progress-foreground": assessment.level === "weak" ? "hsl(var(--muted-foreground))" : assessment.level === "fair" ? "hsl(var(--accent))" : assessment.level === "good" ? "hsl(var(--primary))" : assessment.level === "strong" ? "hsl(var(--muted-foreground))" : "hsl(var(--muted-foreground))",
 				}}
 			/>
 			<span className={cn("text-xs font-medium min-w-0", colorScheme.text)}>{assessment.level === "none" ? "Weak" : assessment.level.charAt(0).toUpperCase() + assessment.level.slice(1)}</span>

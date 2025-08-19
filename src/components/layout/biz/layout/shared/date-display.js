@@ -80,7 +80,7 @@ const formatDate = (dateString) => {
 };
 
 const DateDisplay = ({ date }) => {
-	return <span className="text-sm leading-snug text-gray-500 dark:text-gray-400">{formatDate(date)}</span>;
+	return <span className="text-sm leading-snug text-muted-foreground dark:text-muted-foreground">{formatDate(date)}</span>;
 };
 
 export default DateDisplay;

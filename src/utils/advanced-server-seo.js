@@ -8,7 +8,7 @@
 import { generateServerSEO } from "./server-seo";
 import { seoPerformanceOptimizer } from "./seo-performance-optimizer";
 import { cache } from "react";
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Generate advanced server-side SEO with all optimization strategies

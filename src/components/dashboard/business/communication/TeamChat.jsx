@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils"
 const USERS = [
   { id: "u1", name: "Alex Rivera", role: "Support", online: true, color: "bg-emerald-500" },
   { id: "u2", name: "Bri Chen", role: "Ops", online: true, color: "bg-sky-500" },
-  { id: "u3", name: "Casey Green", role: "Success", online: true, color: "bg-orange-500" },
+  { id: "u3", name: "Casey Green", role: "Success", online: true, color: "bg-warning" },
   { id: "u4", name: "Dee Patel", role: "Billing", online: true, color: "bg-fuchsia-500" },
   { id: "u5", name: "Evan Stone", role: "Support", online: true, color: "bg-rose-500" },
   { id: "u6", name: "Finn Ortiz", role: "Support", online: true, color: "bg-amber-500" },
@@ -206,7 +206,7 @@ export default function TeamChat() {
                       <span
                         className={cn(
                           "absolute -bottom-0.5 -right-0.5 inline-block h-3 w-3 rounded-full border-2 border-background",
-                          user.online ? "bg-emerald-500" : "bg-gray-300"
+                          user.online ? "bg-emerald-500" : "bg-muted"
                         )}
                       />
                     </div>
@@ -373,7 +373,7 @@ export default function TeamChat() {
                     <span
                       className={cn(
                         "absolute -bottom-0.5 -right-0.5 inline-block h-3 w-3 rounded-full border-2 border-background",
-                        user.online ? "bg-emerald-500" : "bg-gray-300"
+                        user.online ? "bg-emerald-500" : "bg-muted"
                       )}
                     />
                   </div>

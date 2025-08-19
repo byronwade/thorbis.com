@@ -1,5 +1,5 @@
 // lib/utils/edgeStreaming.js - Edge-Level Streaming and Static Shell Serving
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Edge Streaming System - Simulates Partial Prerendering (PPR)
@@ -148,8 +148,8 @@ class EdgeStreamingManager {
 							</div>
 						</div>
 						<div class="flex items-center space-x-4">
-							<div class="hidden md:block w-64 h-10 bg-gray-100 rounded-lg"></div>
-							<div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+							<div class="hidden md:block w-64 h-10 bg-muted rounded-lg"></div>
+							<div class="w-10 h-10 bg-muted rounded-full"></div>
 						</div>
 					</div>
 				</div>
@@ -168,7 +168,7 @@ class EdgeStreamingManager {
 						${Array.from(
 							{ length: 6 },
 							(_, i) => `
-							<div class="h-6 bg-gray-200 rounded" style="width: ${60 + i * 20}px"></div>
+							<div class="h-6 bg-muted rounded" style="width: ${60 + i * 20}px"></div>
 						`
 						).join("")}
 					</div>
@@ -205,13 +205,13 @@ class EdgeStreamingManager {
 				<div class="business-hero bg-gradient-to-r from-blue-50 to-indigo-50 p-8 mb-6">
 					<div class="max-w-7xl mx-auto">
 						<div class="flex items-start space-x-6">
-							<div class="w-32 h-32 bg-gray-200 rounded-lg shimmer"></div>
+							<div class="w-32 h-32 bg-muted rounded-lg shimmer"></div>
 							<div class="flex-1">
-								<div class="h-8 bg-gray-200 rounded shimmer mb-3" style="width: 60%"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 40%"></div>
+								<div class="h-8 bg-muted rounded shimmer mb-3" style="width: 60%"></div>
+								<div class="h-4 bg-muted rounded shimmer mb-2" style="width: 40%"></div>
 								<div class="flex space-x-2 mb-4">
 									<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 100px"></div>
-									<div class="h-4 bg-gray-200 rounded shimmer" style="width: 80px"></div>
+									<div class="h-4 bg-muted rounded shimmer" style="width: 80px"></div>
 								</div>
 								<div class="flex space-x-3">
 																	<div class="h-10 bg-primary/20 rounded shimmer" style="width: 100px"></div>
@@ -228,22 +228,22 @@ class EdgeStreamingManager {
 					<div class="lg:col-span-2 space-y-6">
 						<!-- About Section -->
 						<div id="business-info-placeholder" class="bg-white p-6 rounded-lg shadow-sm">
-							<div class="h-6 bg-gray-200 rounded shimmer mb-4" style="width: 30%"></div>
+							<div class="h-6 bg-muted rounded shimmer mb-4" style="width: 30%"></div>
 							<div class="space-y-2">
-								<div class="h-4 bg-gray-200 rounded shimmer"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 90%"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 85%"></div>
+								<div class="h-4 bg-muted rounded shimmer"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 90%"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 85%"></div>
 							</div>
 						</div>
 
 						<!-- Photos Section -->
 						<div id="photos-placeholder" class="bg-white p-6 rounded-lg shadow-sm">
-							<div class="h-6 bg-gray-200 rounded shimmer mb-4" style="width: 20%"></div>
+							<div class="h-6 bg-muted rounded shimmer mb-4" style="width: 20%"></div>
 							<div class="grid grid-cols-3 gap-4">
 								${Array.from(
 									{ length: 6 },
 									() => `
-									<div class="aspect-square bg-gray-200 rounded-lg shimmer"></div>
+									<div class="aspect-square bg-muted rounded-lg shimmer"></div>
 								`
 								).join("")}
 							</div>
@@ -251,22 +251,22 @@ class EdgeStreamingManager {
 
 						<!-- Reviews Section -->
 						<div id="reviews-placeholder" class="bg-white p-6 rounded-lg shadow-sm">
-							<div class="h-6 bg-gray-200 rounded shimmer mb-4" style="width: 25%"></div>
+							<div class="h-6 bg-muted rounded shimmer mb-4" style="width: 25%"></div>
 							<div class="space-y-4">
 								${Array.from(
 									{ length: 3 },
 									() => `
 									<div class="border-b pb-4">
 										<div class="flex items-center space-x-3 mb-2">
-											<div class="w-10 h-10 bg-gray-200 rounded-full shimmer"></div>
+											<div class="w-10 h-10 bg-muted rounded-full shimmer"></div>
 											<div>
-												<div class="h-4 bg-gray-200 rounded shimmer" style="width: 120px"></div>
+												<div class="h-4 bg-muted rounded shimmer" style="width: 120px"></div>
 												<div class="h-3 bg-muted-foreground/20 rounded shimmer mt-1" style="width: 80px"></div>
 											</div>
 										</div>
 										<div class="space-y-2">
-											<div class="h-3 bg-gray-200 rounded shimmer"></div>
-											<div class="h-3 bg-gray-200 rounded shimmer" style="width: 85%"></div>
+											<div class="h-3 bg-muted rounded shimmer"></div>
+											<div class="h-3 bg-muted rounded shimmer" style="width: 85%"></div>
 										</div>
 									</div>
 								`
@@ -279,26 +279,26 @@ class EdgeStreamingManager {
 					<div class="space-y-6">
 						<!-- Contact Info -->
 						<div class="bg-white p-6 rounded-lg shadow-sm">
-							<div class="h-6 bg-gray-200 rounded shimmer mb-4" style="width: 40%"></div>
+							<div class="h-6 bg-muted rounded shimmer mb-4" style="width: 40%"></div>
 							<div class="space-y-3">
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 70%"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 60%"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 80%"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 70%"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 60%"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 80%"></div>
 							</div>
 						</div>
 
 						<!-- Related Businesses -->
 						<div id="related-businesses-placeholder" class="bg-white p-6 rounded-lg shadow-sm">
-							<div class="h-6 bg-gray-200 rounded shimmer mb-4" style="width: 50%"></div>
+							<div class="h-6 bg-muted rounded shimmer mb-4" style="width: 50%"></div>
 							<div class="space-y-3">
 								${Array.from(
 									{ length: 3 },
 									() => `
 									<div class="flex space-x-3">
-										<div class="w-16 h-16 bg-gray-200 rounded shimmer"></div>
+										<div class="w-16 h-16 bg-muted rounded shimmer"></div>
 										<div class="flex-1">
-											<div class="h-4 bg-gray-200 rounded shimmer mb-1" style="width: 80%"></div>
-											<div class="h-3 bg-gray-200 rounded shimmer" style="width: 60%"></div>
+											<div class="h-4 bg-muted rounded shimmer mb-1" style="width: 80%"></div>
+											<div class="h-3 bg-muted rounded shimmer" style="width: 60%"></div>
 										</div>
 									</div>
 								`
@@ -321,7 +321,7 @@ class EdgeStreamingManager {
 				<div class="search-header bg-white shadow-sm p-6">
 					<div class="max-w-7xl mx-auto">
 						<div class="flex items-center space-x-4">
-							<div class="flex-1 h-12 bg-gray-100 rounded-lg shimmer"></div>
+							<div class="flex-1 h-12 bg-muted rounded-lg shimmer"></div>
 															<div class="w-24 h-12 bg-primary/20 rounded-lg shimmer"></div>
 						</div>
 						<!-- Filters -->
@@ -329,7 +329,7 @@ class EdgeStreamingManager {
 							${Array.from(
 								{ length: 5 },
 								(_, i) => `
-								<div class="h-8 bg-gray-200 rounded-full shimmer" style="width: ${80 + i * 20}px"></div>
+								<div class="h-8 bg-muted rounded-full shimmer" style="width: ${80 + i * 20}px"></div>
 							`
 							).join("")}
 						</div>
@@ -343,12 +343,12 @@ class EdgeStreamingManager {
 							{ length: 9 },
 							() => `
 							<div class="bg-white rounded-lg shadow-sm p-4 shimmer-container">
-								<div class="w-full h-32 bg-gray-200 rounded shimmer mb-3"></div>
-								<div class="h-5 bg-gray-200 rounded shimmer mb-2" style="width: 80%"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 60%"></div>
+								<div class="w-full h-32 bg-muted rounded shimmer mb-3"></div>
+								<div class="h-5 bg-muted rounded shimmer mb-2" style="width: 80%"></div>
+								<div class="h-4 bg-muted rounded shimmer mb-2" style="width: 60%"></div>
 								<div class="flex items-center space-x-2">
 									<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 60px"></div>
-									<div class="h-4 bg-gray-200 rounded shimmer" style="width: 40px"></div>
+									<div class="h-4 bg-muted rounded shimmer" style="width: 40px"></div>
 								</div>
 							</div>
 						`
@@ -368,21 +368,21 @@ class EdgeStreamingManager {
 				<!-- Category Header -->
 				<div class="category-header bg-gradient-to-r from-purple-50 to-pink-50 p-8">
 					<div class="max-w-7xl mx-auto">
-						<div class="h-10 bg-gray-200 rounded shimmer mb-4" style="width: 40%"></div>
-						<div class="h-4 bg-gray-200 rounded shimmer" style="width: 60%"></div>
+						<div class="h-10 bg-muted rounded shimmer mb-4" style="width: 40%"></div>
+						<div class="h-4 bg-muted rounded shimmer" style="width: 60%"></div>
 					</div>
 				</div>
 
 				<!-- Subcategories -->
 				<div class="max-w-7xl mx-auto px-4 py-6">
-					<div class="h-6 bg-gray-200 rounded shimmer mb-6" style="width: 30%"></div>
+					<div class="h-6 bg-muted rounded shimmer mb-6" style="width: 30%"></div>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 						${Array.from(
 							{ length: 8 },
 							() => `
 							<div class="bg-white p-4 rounded-lg shadow-sm text-center">
-								<div class="w-12 h-12 bg-gray-200 rounded-full shimmer mx-auto mb-2"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 70%; margin: 0 auto;"></div>
+								<div class="w-12 h-12 bg-muted rounded-full shimmer mx-auto mb-2"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 70%; margin: 0 auto;"></div>
 							</div>
 						`
 						).join("")}
@@ -390,18 +390,18 @@ class EdgeStreamingManager {
 
 					<!-- Category Businesses -->
 					<div id="category-businesses-placeholder">
-						<div class="h-6 bg-gray-200 rounded shimmer mb-6" style="width: 35%"></div>
+						<div class="h-6 bg-muted rounded shimmer mb-6" style="width: 35%"></div>
 						<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 							${Array.from(
 								{ length: 12 },
 								() => `
 								<div class="bg-white rounded-lg shadow-sm p-4">
-									<div class="w-full h-32 bg-gray-200 rounded shimmer mb-3"></div>
-									<div class="h-5 bg-gray-200 rounded shimmer mb-2" style="width: 75%"></div>
-									<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 55%"></div>
+									<div class="w-full h-32 bg-muted rounded shimmer mb-3"></div>
+									<div class="h-5 bg-muted rounded shimmer mb-2" style="width: 75%"></div>
+									<div class="h-4 bg-muted rounded shimmer mb-2" style="width: 55%"></div>
 									<div class="flex items-center space-x-2">
 										<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 60px"></div>
-										<div class="h-4 bg-gray-200 rounded shimmer" style="width: 40px"></div>
+										<div class="h-4 bg-muted rounded shimmer" style="width: 40px"></div>
 									</div>
 								</div>
 							`
@@ -433,14 +433,14 @@ class EdgeStreamingManager {
 
 				<!-- Featured Categories -->
 				<div class="max-w-7xl mx-auto px-4 py-12">
-					<div class="h-8 bg-gray-200 rounded shimmer mb-8 mx-auto" style="width: 40%"></div>
+					<div class="h-8 bg-muted rounded shimmer mb-8 mx-auto" style="width: 40%"></div>
 					<div class="grid grid-cols-3 md:grid-cols-6 gap-6">
 						${Array.from(
 							{ length: 6 },
 							() => `
 							<div class="text-center">
-								<div class="w-16 h-16 bg-gray-200 rounded-full shimmer mx-auto mb-3"></div>
-								<div class="h-4 bg-gray-200 rounded shimmer" style="width: 80%; margin: 0 auto;"></div>
+								<div class="w-16 h-16 bg-muted rounded-full shimmer mx-auto mb-3"></div>
+								<div class="h-4 bg-muted rounded shimmer" style="width: 80%; margin: 0 auto;"></div>
 							</div>
 						`
 						).join("")}
@@ -449,19 +449,19 @@ class EdgeStreamingManager {
 
 				<!-- Featured Businesses -->
 				<div id="featured-businesses-placeholder" class="max-w-7xl mx-auto px-4 py-12">
-					<div class="h-8 bg-gray-200 rounded shimmer mb-8" style="width: 35%"></div>
+					<div class="h-8 bg-muted rounded shimmer mb-8" style="width: 35%"></div>
 					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 						${Array.from(
 							{ length: 6 },
 							() => `
 							<div class="bg-white rounded-lg shadow-sm overflow-hidden">
-								<div class="w-full h-48 bg-gray-200 shimmer"></div>
+								<div class="w-full h-48 bg-muted shimmer"></div>
 								<div class="p-4">
-									<div class="h-6 bg-gray-200 rounded shimmer mb-2" style="width: 80%"></div>
-									<div class="h-4 bg-gray-200 rounded shimmer mb-2" style="width: 60%"></div>
+									<div class="h-6 bg-muted rounded shimmer mb-2" style="width: 80%"></div>
+									<div class="h-4 bg-muted rounded shimmer mb-2" style="width: 60%"></div>
 									<div class="flex items-center space-x-2">
 										<div class="h-4 bg-muted-foreground/20 rounded shimmer" style="width: 80px"></div>
-										<div class="h-4 bg-gray-200 rounded shimmer" style="width: 50px"></div>
+										<div class="h-4 bg-muted rounded shimmer" style="width: 50px"></div>
 									</div>
 								</div>
 							</div>
@@ -478,19 +478,19 @@ class EdgeStreamingManager {
 	 */
 	generateStaticFooter() {
 		return `
-			<footer class="site-footer bg-gray-900 text-white py-12 mt-16">
+			<footer class="site-footer bg-card text-white py-12 mt-16">
 				<div class="max-w-7xl mx-auto px-4">
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 						${Array.from(
 							{ length: 4 },
 							() => `
 							<div>
-								<div class="h-5 bg-gray-700 rounded shimmer mb-4" style="width: 60%"></div>
+								<div class="h-5 bg-muted rounded shimmer mb-4" style="width: 60%"></div>
 								<div class="space-y-2">
 									${Array.from(
 										{ length: 5 },
 										(_, i) => `
-										<div class="h-4 bg-gray-700 rounded shimmer" style="width: ${60 + i * 10}%"></div>
+										<div class="h-4 bg-muted rounded shimmer" style="width: ${60 + i * 10}%"></div>
 									`
 									).join("")}
 								</div>
@@ -726,7 +726,7 @@ class EdgeStreamingManager {
 // CSS for shimmer effects and streaming
 const edgeStreamingStyles = `
 .shimmer {
-	background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+	background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted)) 50%, hsl(var(--muted)) 75%);
 	background-size: 200% 100%;
 	animation: shimmer 1.5s infinite;
 }
@@ -746,7 +746,7 @@ const edgeStreamingStyles = `
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	background: rgba(59, 130, 246, 0.9);
+	background: hsl(var(--primary) / 0.9);
 	color: white;
 	padding: 0.5rem 1rem;
 	border-radius: 0.5rem;

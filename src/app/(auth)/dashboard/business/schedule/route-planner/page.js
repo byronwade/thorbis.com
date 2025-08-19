@@ -330,9 +330,9 @@ export default function RoutePlanner() {
 
 	// Get status color for route optimization
 	const getOptimizationColor = (score) => {
-		if (score >= 80) return "text-green-600";
-		if (score >= 60) return "text-yellow-600";
-		return "text-red-600";
+		if (score >= 80) return "text-success";
+		if (score >= 60) return "text-warning";
+		return "text-destructive";
 	};
 
 	// Set initial date after component mounts to avoid hydration mismatch
@@ -432,7 +432,7 @@ export default function RoutePlanner() {
 									<p className="text-sm text-muted-foreground">Total Distance</p>
 									<p className="text-2xl font-bold">{routeMetrics.distance} mi</p>
 								</div>
-								<Route className="w-8 h-8 text-blue-500" />
+								<Route className="w-8 h-8 text-primary" />
 							</div>
 						</CardContent>
 					</Card>
@@ -443,7 +443,7 @@ export default function RoutePlanner() {
 									<p className="text-sm text-muted-foreground">Travel Time</p>
 									<p className="text-2xl font-bold">{Math.round(routeMetrics.travelTime)} min</p>
 								</div>
-								<Clock className="w-8 h-8 text-orange-500" />
+								<Clock className="w-8 h-8 text-warning" />
 							</div>
 						</CardContent>
 					</Card>
@@ -454,7 +454,7 @@ export default function RoutePlanner() {
 									<p className="text-sm text-muted-foreground">Fuel Cost</p>
 									<p className="text-2xl font-bold">${routeMetrics.fuelCost}</p>
 								</div>
-								<Fuel className="w-8 h-8 text-green-500" />
+								<Fuel className="w-8 h-8 text-success" />
 							</div>
 						</CardContent>
 					</Card>
@@ -492,7 +492,7 @@ export default function RoutePlanner() {
 												{route.technician.name}
 											</div>
 											<Badge variant="outline">{route.technician.vehicle}</Badge>
-											<Badge className={route.technician.status === "available" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800"}>{route.technician.status.replace("_", " ")}</Badge>
+											<Badge className={route.technician.status === "available" ? "bg-success/10 text-success" : "bg-warning/10 text-warning"}>{route.technician.status.replace("_", " ")}</Badge>
 										</CardTitle>
 										<div className="flex items-center gap-4 text-sm">
 											<div className="flex items-center gap-1">
@@ -516,7 +516,7 @@ export default function RoutePlanner() {
 								<CardContent>
 									<div className="space-y-4">
 										{/* Route metrics summary */}
-										<div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+										<div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 dark:bg-card rounded-lg">
 											<div className="text-center">
 												<p className="text-sm text-muted-foreground">Jobs</p>
 												<p className="font-semibold">{route.jobs.length}</p>
@@ -541,14 +541,14 @@ export default function RoutePlanner() {
 										<div className="space-y-3">
 											{route.jobs.map((job, jobIndex) => (
 												<div key={job.id} className="flex items-center gap-4 p-4 border rounded-lg">
-													<div className="flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">{jobIndex + 1}</div>
+													<div className="flex items-center justify-center w-8 h-8 bg-primary/10 text-primary rounded-full text-sm font-medium">{jobIndex + 1}</div>
 													<div className="flex-1">
 														<div className="flex items-center justify-between mb-2">
 															<h4 className="font-medium">{job.title}</h4>
 															<div className="flex items-center gap-2">
 																<Badge variant={job.priority === "urgent" ? "destructive" : job.priority === "high" ? "secondary" : "outline"}>{job.priority}</Badge>
 																{job.isOptimal && (
-																	<Badge className="bg-green-100 text-green-800">
+																	<Badge className="bg-success/10 text-success">
 																		<CheckCircle className="w-3 h-3 mr-1" />
 																		Optimal
 																	</Badge>
@@ -601,7 +601,7 @@ export default function RoutePlanner() {
 										<div className="space-y-3">
 											<div className="flex justify-between">
 												<span>Total Revenue</span>
-												<span className="font-semibold text-green-600">${routeMetrics.totalRevenue}</span>
+												<span className="font-semibold text-success">${routeMetrics.totalRevenue}</span>
 											</div>
 											<div className="flex justify-between">
 												<span>Labor Cost</span>
@@ -613,11 +613,11 @@ export default function RoutePlanner() {
 											</div>
 											<div className="flex justify-between border-t pt-3">
 												<span className="font-medium">Net Profit</span>
-												<span className={`font-semibold ${routeMetrics.profit > 0 ? "text-green-600" : "text-red-600"}`}>${routeMetrics.profit.toFixed(2)}</span>
+												<span className={`font-semibold ${routeMetrics.profit > 0 ? "text-success" : "text-destructive"}`}>${routeMetrics.profit.toFixed(2)}</span>
 											</div>
 											<div className="flex justify-between">
 												<span>Profit Margin</span>
-												<span className={`font-semibold ${routeMetrics.profitMargin > 20 ? "text-green-600" : "text-orange-600"}`}>{routeMetrics.profitMargin}%</span>
+												<span className={`font-semibold ${routeMetrics.profitMargin > 20 ? "text-success" : "text-warning"}`}>{routeMetrics.profitMargin}%</span>
 											</div>
 										</div>
 									</CardContent>
@@ -648,15 +648,15 @@ export default function RoutePlanner() {
 											</div>
 											<div className="pt-3 space-y-2">
 												<div className="flex items-center gap-2 text-sm">
-													<CheckCircle className="w-4 h-4 text-green-500" />
+													<CheckCircle className="w-4 h-4 text-success" />
 													<span>Saved ${(routeMetrics.totalRevenue * 0.15 - routeMetrics.fuelCost).toFixed(2)} in fuel costs</span>
 												</div>
 												<div className="flex items-center gap-2 text-sm">
-													<CheckCircle className="w-4 h-4 text-green-500" />
+													<CheckCircle className="w-4 h-4 text-success" />
 													<span>Optimized {optimizedRoutes.length} technician routes</span>
 												</div>
 												<div className="flex items-center gap-2 text-sm">
-													<CheckCircle className="w-4 h-4 text-green-500" />
+													<CheckCircle className="w-4 h-4 text-success" />
 													<span>{routeMetrics.efficiency > 75 ? "Excellent" : routeMetrics.efficiency > 60 ? "Good" : "Needs improvement"} route efficiency</span>
 												</div>
 											</div>
@@ -676,11 +676,11 @@ export default function RoutePlanner() {
 								</CardTitle>
 							</CardHeader>
 							<CardContent>
-								<div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+								<div className="aspect-video bg-muted dark:bg-card rounded-lg flex items-center justify-center">
 									<div className="text-center">
-										<Map className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-										<p className="text-gray-500">Interactive map view would be implemented here</p>
-										<p className="text-sm text-gray-400 mt-2">Integration with Google Maps or Mapbox for real-time route visualization</p>
+										<Map className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+										<p className="text-muted-foreground">Interactive map view would be implemented here</p>
+										<p className="text-sm text-muted-foreground mt-2">Integration with Google Maps or Mapbox for real-time route visualization</p>
 									</div>
 								</div>
 							</CardContent>
@@ -693,7 +693,7 @@ export default function RoutePlanner() {
 			{filteredJobs.length === 0 && (
 				<Card>
 					<CardContent className="p-8 text-center">
-						<Navigation className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+						<Navigation className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
 						<h3 className="text-lg font-medium mb-2">No Jobs to Optimize</h3>
 						<p className="text-muted-foreground mb-4">Select a date with scheduled jobs or add new appointments to start route optimization.</p>
 						<Button onClick={() => router.push("/dashboard/business/schedule/new-job")}>

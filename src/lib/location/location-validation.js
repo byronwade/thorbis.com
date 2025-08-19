@@ -3,7 +3,7 @@
  * Comprehensive validation, error handling, and data sanitization for location data
  */
 
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 /**
  * Location validation errors

@@ -45,7 +45,7 @@ const RecentActivitySection: React.FC<RecentActivitySectionProps> = ({ activitie
 			description: "Your application has been submitted and is under review",
 			time: "2 hours ago",
 			icon: Briefcase,
-			iconColor: "text-blue-500",
+			iconColor: "text-primary",
 			action: "View Application",
 			actionLink: "/dashboard/user/jobs",
 		},
@@ -56,7 +56,7 @@ const RecentActivitySection: React.FC<RecentActivitySectionProps> = ({ activitie
 			description: "Your review has been published and is visible to others",
 			time: "1 day ago",
 			icon: Star,
-			iconColor: "text-yellow-500",
+			iconColor: "text-warning",
 			action: "View Review",
 			actionLink: "/dashboard/user/reviews",
 		},
@@ -67,7 +67,7 @@ const RecentActivitySection: React.FC<RecentActivitySectionProps> = ({ activitie
 			description: "Your friend Sarah signed up using your referral link",
 			time: "3 days ago",
 			icon: Gift,
-			iconColor: "text-green-500",
+			iconColor: "text-success",
 			action: "View Earnings",
 			actionLink: "/dashboard/user/referrals",
 		},
@@ -123,10 +123,10 @@ const RecentActivitySection: React.FC<RecentActivitySectionProps> = ({ activitie
 					<div className="space-y-4">
 						{Array.from({ length: 3 }).map((_, i) => (
 							<div key={i} className="flex items-start gap-4 p-4 border rounded-lg animate-pulse">
-								<div className="h-10 w-10 bg-gray-200 rounded-full" />
+								<div className="h-10 w-10 bg-muted rounded-full" />
 								<div className="flex-1 space-y-2">
-									<div className="h-4 bg-gray-200 rounded w-3/4" />
-									<div className="h-3 bg-gray-200 rounded w-1/2" />
+									<div className="h-4 bg-muted rounded w-3/4" />
+									<div className="h-3 bg-muted rounded w-1/2" />
 								</div>
 							</div>
 						))}

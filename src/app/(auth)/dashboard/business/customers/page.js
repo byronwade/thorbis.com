@@ -94,8 +94,8 @@ export default function CustomersModule() {
 			{/* Page Header */}
 			<div className="flex items-center justify-between">
 				<div>
-					<h1 className="text-3xl font-bold text-gray-900 dark:text-white">Customer Management</h1>
-					<p className="text-gray-600 dark:text-gray-400 mt-1">Manage customer relationships, track interactions, and analyze customer data</p>
+					<h1 className="text-3xl font-bold text-foreground">Customer Management</h1>
+					<p className="text-muted-foreground mt-1">Manage customer relationships, track interactions, and analyze customer data</p>
 				</div>
 				<div className="flex space-x-2">
 					<Button variant="outline" size="sm">
@@ -114,10 +114,10 @@ export default function CustomersModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Total Customers</CardTitle>
-						<Users className="h-4 w-4 text-blue-600" />
+						<Users className="h-4 w-4 text-primary" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-blue-600">{customerData.overview.totalCustomers}</div>
+						<div className="text-2xl font-bold text-primary">{customerData.overview.totalCustomers}</div>
 						<p className="text-xs text-muted-foreground">{customerData.overview.activeCustomers} active</p>
 					</CardContent>
 				</Card>
@@ -125,10 +125,10 @@ export default function CustomersModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">New This Month</CardTitle>
-						<TrendingUp className="h-4 w-4 text-green-600" />
+						<TrendingUp className="h-4 w-4 text-success" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-green-600">+{customerData.overview.newThisMonth}</div>
+						<div className="text-2xl font-bold text-success">+{customerData.overview.newThisMonth}</div>
 						<p className="text-xs text-muted-foreground">15% growth rate</p>
 					</CardContent>
 				</Card>
@@ -147,10 +147,10 @@ export default function CustomersModule() {
 				<Card>
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">Satisfaction</CardTitle>
-						<Star className="h-4 w-4 text-yellow-600" />
+						<Star className="h-4 w-4 text-warning" />
 					</CardHeader>
 					<CardContent>
-						<div className="text-2xl font-bold text-yellow-600">{customerData.overview.customerSatisfaction}/5</div>
+						<div className="text-2xl font-bold text-warning">{customerData.overview.customerSatisfaction}/5</div>
 						<p className="text-xs text-muted-foreground">Based on reviews</p>
 					</CardContent>
 				</Card>
@@ -181,7 +181,7 @@ export default function CustomersModule() {
 										.map((customer) => (
 											<div key={customer.id} className="flex items-center justify-between p-3 border rounded-lg">
 												<div className="flex items-center space-x-3">
-													<div className="h-8 w-8 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+													<div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center">
 														<User className="h-4 w-4" />
 													</div>
 													<div>
@@ -190,9 +190,9 @@ export default function CustomersModule() {
 													</div>
 												</div>
 												<div className="text-right">
-													<p className="font-medium text-green-600">{formatCurrency(customer.totalRevenue)}</p>
+													<p className="font-medium text-success">{formatCurrency(customer.totalRevenue)}</p>
 													<div className="flex items-center">
-														<Star className="h-3 w-3 text-yellow-500 mr-1" />
+														<Star className="h-3 w-3 text-warning mr-1" />
 														<span className="text-sm">{customer.rating}</span>
 													</div>
 												</div>
@@ -213,9 +213,9 @@ export default function CustomersModule() {
 									{customerData.recentActivity.map((activity) => (
 										<div key={activity.id} className="flex items-center space-x-3 p-3 border rounded-lg">
 											<div className={cn("h-8 w-8 rounded-full flex items-center justify-center", 
-												activity.type === "service" && "bg-blue-100 text-blue-600",
-												activity.type === "payment" && "bg-green-100 text-green-600",
-												activity.type === "review" && "bg-yellow-100 text-yellow-600",
+												activity.type === "service" && "bg-primary/10 text-primary",
+												activity.type === "payment" && "bg-success/10 text-success",
+												activity.type === "review" && "bg-warning/10 text-warning",
 												activity.type === "registration" && "bg-purple-100 text-purple-600"
 											)}>
 												{activity.type === "service" && <FileText className="h-4 w-4" />}
@@ -242,7 +242,7 @@ export default function CustomersModule() {
 						<CardContent className="p-6">
 							<div className="flex flex-col sm:flex-row gap-4">
 								<div className="relative flex-1">
-									<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+									<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
 									<Input 
 										placeholder="Search customers by name, email, or phone..." 
 										value={searchTerm} 
@@ -267,9 +267,9 @@ export default function CustomersModule() {
 						<CardContent>
 							<div className="space-y-4">
 								{filteredCustomers.map((customer) => (
-									<div key={customer.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+									<div key={customer.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted transition-colors">
 										<div className="flex items-center space-x-4">
-											<div className="h-12 w-12 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
+											<div className="h-12 w-12 bg-muted rounded-full flex items-center justify-center">
 												<User className="h-6 w-6" />
 											</div>
 											<div>
@@ -299,10 +299,10 @@ export default function CustomersModule() {
 										</div>
 										<div className="text-right">
 											<div className="flex items-center space-x-1 mb-1">
-												<Star className="h-4 w-4 text-yellow-500" />
+												<Star className="h-4 w-4 text-warning" />
 												<span className="font-medium">{customer.rating}</span>
 											</div>
-											<p className="text-lg font-semibold text-green-600">{formatCurrency(customer.totalRevenue)}</p>
+											<p className="text-lg font-semibold text-success">{formatCurrency(customer.totalRevenue)}</p>
 											<Badge variant={customer.status === "active" ? "default" : "secondary"}>{customer.status}</Badge>
 										</div>
 									</div>
@@ -323,9 +323,9 @@ export default function CustomersModule() {
 								{customerData.recentActivity.map((activity) => (
 									<div key={activity.id} className="flex items-start space-x-4 p-4 border rounded-lg">
 										<div className={cn("h-10 w-10 rounded-full flex items-center justify-center mt-1", 
-											activity.type === "service" && "bg-blue-100 text-blue-600",
-											activity.type === "payment" && "bg-green-100 text-green-600",
-											activity.type === "review" && "bg-yellow-100 text-yellow-600",
+											activity.type === "service" && "bg-primary/10 text-primary",
+											activity.type === "payment" && "bg-success/10 text-success",
+											activity.type === "review" && "bg-warning/10 text-warning",
 											activity.type === "registration" && "bg-purple-100 text-purple-600"
 										)}>
 											{activity.type === "service" && <FileText className="h-5 w-5" />}
@@ -355,10 +355,10 @@ export default function CustomersModule() {
 								<CardDescription>New customers over time</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+								<div className="h-64 flex items-center justify-center bg-muted rounded-lg">
 									<div className="text-center">
-										<TrendingUp className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-										<p className="text-gray-500">Customer growth chart coming soon</p>
+										<TrendingUp className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+										<p className="text-muted-foreground">Customer growth chart coming soon</p>
 									</div>
 								</div>
 							</CardContent>
@@ -370,10 +370,10 @@ export default function CustomersModule() {
 								<CardDescription>Customers by revenue tiers</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-lg">
+								<div className="h-64 flex items-center justify-center bg-muted rounded-lg">
 									<div className="text-center">
-										<Users className="h-12 w-12 mx-auto text-gray-400 mb-4" />
-										<p className="text-gray-500">Segmentation chart coming soon</p>
+										<Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+										<p className="text-muted-foreground">Segmentation chart coming soon</p>
 									</div>
 								</div>
 							</CardContent>

@@ -129,13 +129,13 @@ export default function GoogleBusinessAlternative() {
 							<tbody className="bg-card divide-y divide-border">
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Monthly Cost</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400">Free</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success">Free</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Analytics & Insights</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Lead Generation</td>
@@ -143,18 +143,18 @@ export default function GoogleBusinessAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Review Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">24/7 Priority</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Sync</td>
@@ -162,13 +162,13 @@ export default function GoogleBusinessAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Appointment Booking</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full System</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full System</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Business Growth Tools</td>
@@ -176,7 +176,7 @@ export default function GoogleBusinessAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 							</tbody>
@@ -238,27 +238,27 @@ export default function GoogleBusinessAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Advanced AI Analytics</h4>
+								<h4 className="font-semibold text-success dark:text-success">Advanced AI Analytics</h4>
 								<p className="text-sm text-muted-foreground">Comprehensive insights with AI-powered recommendations for business growth.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Lead Generation System</h4>
+								<h4 className="font-semibold text-success dark:text-success">Lead Generation System</h4>
 								<p className="text-sm text-muted-foreground">Automated lead capture, qualification, and follow-up system.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">24/7 Priority Support</h4>
+								<h4 className="font-semibold text-success dark:text-success">24/7 Priority Support</h4>
 								<p className="text-sm text-muted-foreground">Dedicated support team with quick response times and personalized solutions.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Seamless sync across Google, Facebook, Apple Maps, and other major platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Full Customization</h4>
+								<h4 className="font-semibold text-success dark:text-success">Full Customization</h4>
 								<p className="text-sm text-muted-foreground">Complete control over branding, design, and business presentation.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Growth & Marketing Tools</h4>
+								<h4 className="font-semibold text-success dark:text-success">Growth & Marketing Tools</h4>
 								<p className="text-sm text-muted-foreground">Email campaigns, social media integration, and marketing automation.</p>
 							</div>
 						</CardContent>
@@ -382,30 +382,30 @@ export default function GoogleBusinessAlternative() {
 							<p className="mt-4 text-lg font-semibold text-destructive">Hidden Cost: Lost Opportunities</p>
 						</div>
 						<div className="text-left">
-							<h3 className="mb-4 text-xl font-semibold text-green-600 dark:text-green-400">Thorbis Business</h3>
+							<h3 className="mb-4 text-xl font-semibold text-success dark:text-success">Thorbis Business</h3>
 							<ul className="space-y-3 text-sm">
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">AI-powered insights</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Automated lead generation</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Multi-platform automation</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Growth automation tools</span>
 								</li>
 							</ul>
-							<p className="mt-4 text-lg font-semibold text-green-600 dark:text-green-400">ROI: Increased Revenue & Growth</p>
+							<p className="mt-4 text-lg font-semibold text-success dark:text-success">ROI: Increased Revenue & Growth</p>
 						</div>
 					</div>
 				</div>
@@ -425,7 +425,7 @@ export default function GoogleBusinessAlternative() {
 								<span className="text-sm font-medium text-primary">Case Study</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+347%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+347%</div>
 								<div className="text-sm text-muted-foreground">Lead Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"After switching from Google Business to Thorbis, our leads increased by 347% in just 3 months. The AI-powered insights helped us optimize our presence across all platforms."</blockquote>
@@ -448,7 +448,7 @@ export default function GoogleBusinessAlternative() {
 								<span className="text-sm font-medium text-primary">Success Story</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$45K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$45K</div>
 								<div className="text-sm text-muted-foreground">Monthly Revenue Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Thorbis's multi-platform sync saved us 15 hours per week and increased our monthly revenue by $45,000. The ROI was immediate."</blockquote>
@@ -471,7 +471,7 @@ export default function GoogleBusinessAlternative() {
 								<span className="text-sm font-medium text-primary">Time Savings</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">20hrs</div>
+								<div className="text-2xl font-bold text-success dark:text-success">20hrs</div>
 								<div className="text-sm text-muted-foreground">Weekly Time Saved</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"No more logging into 5 different platforms. Thorbis manages everything from one dashboard. I save 20 hours per week and focus on what matters - my customers."</blockquote>
@@ -544,12 +544,12 @@ export default function GoogleBusinessAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Increased leads (+40% conversion)</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$4,800</span>
+									<span className="font-semibold text-success dark:text-success">+$4,800</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold">
 										<span>Net Monthly Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$10,971</span>
+										<span className="text-success dark:text-success">+$10,971</span>
 									</div>
 								</div>
 							</CardContent>
@@ -632,15 +632,15 @@ export default function GoogleBusinessAlternative() {
 								<p className="text-muted-foreground mb-6">Our migration specialists connect to your Google Business Profile and audit your current setup. We identify optimization opportunities and create a custom migration plan.</p>
 								<div className="space-y-2 text-sm">
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Profile analysis</span>
 									</div>
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Review history import</span>
 									</div>
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Photo migration</span>
 									</div>
 								</div>
@@ -659,15 +659,15 @@ export default function GoogleBusinessAlternative() {
 								<p className="text-muted-foreground mb-6">We optimize your existing presence and expand to additional platforms. AI-powered optimization ensures maximum visibility and lead generation potential.</p>
 								<div className="space-y-2 text-sm">
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Multi-platform setup</span>
 									</div>
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>SEO optimization</span>
 									</div>
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Lead generation setup</span>
 									</div>
 								</div>
@@ -686,15 +686,15 @@ export default function GoogleBusinessAlternative() {
 								<p className="text-muted-foreground mb-6">Your enhanced presence goes live across all platforms. We monitor performance and provide ongoing optimization recommendations to maximize your ROI.</p>
 								<div className="space-y-2 text-sm">
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Performance monitoring</span>
 									</div>
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>AI recommendations</span>
 									</div>
 									<div className="flex items-center gap-2">
-										<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<CheckCircle className="w-4 h-4 text-success dark:text-success" />
 										<span>Ongoing support</span>
 									</div>
 								</div>

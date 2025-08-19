@@ -24,7 +24,7 @@ export function TestimonialCard({ businessType, metric, quote, customer, icon: I
 					<span className="text-sm font-medium text-primary">{businessType}</span>
 				</div>
 				<div className="mb-4">
-					<div className="text-2xl font-bold text-green-600 dark:text-green-400">{metric.value}</div>
+					<div className="text-2xl font-bold text-success dark:text-success">{metric.value}</div>
 					<div className="text-sm text-muted-foreground">{metric.label}</div>
 				</div>
 				<blockquote className="mb-4 text-sm text-muted-foreground">{quote}</blockquote>

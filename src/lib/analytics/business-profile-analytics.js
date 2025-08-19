@@ -4,7 +4,7 @@
  * Implements enterprise-level monitoring as per performance-first requirements
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 class BusinessProfileAnalytics {
 	constructor() {

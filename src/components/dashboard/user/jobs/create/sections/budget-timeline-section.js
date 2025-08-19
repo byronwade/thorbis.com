@@ -64,12 +64,12 @@ export const BudgetTimelineSection = ({ formData, onInputChange, errors = {} }) 
 
 				{/* Budget Estimate Message */}
 				{formData.budgetType === "estimate" && (
-					<div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+					<div className="p-4 bg-blue-50 border border-primary/30 rounded-lg">
 						<div className="flex items-start space-x-2">
-							<DollarSign className="w-5 h-5 text-blue-600 mt-0.5" />
+							<DollarSign className="w-5 h-5 text-primary mt-0.5" />
 							<div>
-								<h4 className="text-sm font-medium text-blue-900">Request Estimates</h4>
-								<p className="text-sm text-blue-700 mt-1">Professionals will provide detailed quotes for your project. You can compare proposals and choose the best fit.</p>
+								<h4 className="text-sm font-medium text-primary">Request Estimates</h4>
+								<p className="text-sm text-primary mt-1">Professionals will provide detailed quotes for your project. You can compare proposals and choose the best fit.</p>
 							</div>
 						</div>
 					</div>

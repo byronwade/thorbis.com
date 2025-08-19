@@ -67,7 +67,7 @@ export default function EnhancedContact({ business }) {
 			label: "Call Now",
 			action: () => business.phone && window.open(`tel:${business.phone}`),
 			variant: "default",
-			className: "bg-green-600 hover:bg-green-700",
+			className: "bg-success hover:bg-success",
 		},
 		{
 			icon: MessageSquare,
@@ -266,7 +266,7 @@ export default function EnhancedContact({ business }) {
 									{business.business_hours.map((hours, index) => (
 										<div key={index} className="flex justify-between">
 											<span className="capitalize font-medium">{hours.day_of_week}</span>
-											<span className={hours.is_closed ? "text-red-600" : "text-green-600"}>{hours.is_closed ? "Closed" : `${hours.open_time} - ${hours.close_time}`}</span>
+											<span className={hours.is_closed ? "text-destructive" : "text-success"}>{hours.is_closed ? "Closed" : `${hours.open_time} - ${hours.close_time}`}</span>
 										</div>
 									))}
 								</div>
@@ -331,14 +331,14 @@ export default function EnhancedContact({ business }) {
 				<Card className="border-2 border-red-200 bg-red-50">
 					<CardContent className="p-6">
 						<div className="flex items-center space-x-4">
-							<div className="p-3 bg-red-100 rounded-full">
-								<Phone className="w-6 h-6 text-red-600" />
+							<div className="p-3 bg-destructive/10 rounded-full">
+								<Phone className="w-6 h-6 text-destructive" />
 							</div>
 							<div className="flex-1">
-								<h3 className="text-lg font-semibold text-red-800">Emergency Services Available</h3>
-								<p className="text-red-700">24/7 emergency response for urgent situations</p>
+								<h3 className="text-lg font-semibold text-destructive">Emergency Services Available</h3>
+								<p className="text-destructive">24/7 emergency response for urgent situations</p>
 							</div>
-							<Button variant="default" className="bg-red-600 hover:bg-red-700" onClick={() => business.phone && window.open(`tel:${business.phone}`)}>
+							<Button variant="default" className="bg-destructive hover:bg-destructive" onClick={() => business.phone && window.open(`tel:${business.phone}`)}>
 								Call Now
 							</Button>
 						</div>

@@ -1,5 +1,5 @@
 // lib/utils/initPerformanceSystem.js - Master Performance Initialization
-import { logger } from "./logger";
+import logger from "./logger.js";
 import instantPreloader from "./instant-preloader";
 import instantPageLoader from "./instant-page-loader";
 import streamingSearchEngine from "./streaming-search";
@@ -475,7 +475,7 @@ class PerformanceSystem {
 			const path = window.location.pathname;
 
 			// Business page optimizations
-			if (path.startsWith("/biz/")) {
+			if (/^\/[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\//.test(path)) {
 				await this._optimizeBusinessPage();
 			}
 

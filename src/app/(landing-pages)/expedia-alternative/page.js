@@ -37,7 +37,8 @@ export async function generateMetadata() {
 		creator: "@thorbis",
 		site: "@thorbis",
 	},
-};
+	});
+}
 
 function BreadcrumbsJsonLd() {
 	const data = {
@@ -110,7 +111,7 @@ export default function ExpediaAlternative() {
 								<span className="text-sm font-medium text-primary">Resort Chain</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">+445%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">+445%</div>
 								<div className="text-sm text-muted-foreground">Profit Margin Increase</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Expedia was taking 25% commission plus penalties. Thorbis costs $29/month and we've increased our profit margins by 445%. We finally own our guest relationships."</blockquote>
@@ -133,7 +134,7 @@ export default function ExpediaAlternative() {
 								<span className="text-sm font-medium text-primary">Travel Agency</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">$180K</div>
+								<div className="text-2xl font-bold text-success dark:text-success">$180K</div>
 								<div className="text-sm text-muted-foreground">Annual Commission Savings</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"We were hemorrhaging money to Expedia commissions. $180K saved annually with Thorbis, plus we can now offer competitive direct pricing. Game changer."</blockquote>
@@ -156,7 +157,7 @@ export default function ExpediaAlternative() {
 								<span className="text-sm font-medium text-primary">Independent Hotel</span>
 							</div>
 							<div className="mb-4">
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400">-91%</div>
+								<div className="text-2xl font-bold text-success dark:text-success">-91%</div>
 								<div className="text-sm text-muted-foreground">Guest Acquisition Cost</div>
 							</div>
 							<blockquote className="mb-4 text-sm text-muted-foreground">"Expedia made us compete solely on price. With Thorbis, we showcase our unique value and build loyal customers. 85% of our guests now book direct."</blockquote>
@@ -228,7 +229,7 @@ export default function ExpediaAlternative() {
 						<CardContent className="px-0 space-y-6">
 							<div className="space-y-4">
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Transparent Fixed Pricing</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Transparent Fixed Pricing</h4>
 									<p className="text-sm text-muted-foreground mb-3">"$29/month regardless of booking volume. Last year we saved $156,000 in commissions. The more successful we become, the more we keep."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -236,7 +237,7 @@ export default function ExpediaAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Direct Guest Relationships</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Direct Guest Relationships</h4>
 									<p className="text-sm text-muted-foreground mb-3">"We have guest contact info, preferences, special requests. Built a loyalty program with 70% repeat booking rate. We're a destination, not a commodity."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -244,7 +245,7 @@ export default function ExpediaAlternative() {
 									</div>
 								</div>
 								<div className="p-4 bg-card rounded-lg border border-primary/20">
-									<h4 className="font-semibold text-green-600 dark:text-green-400 mb-2">Value-Based Competition</h4>
+									<h4 className="font-semibold text-success dark:text-success mb-2">Value-Based Competition</h4>
 									<p className="text-sm text-muted-foreground mb-3">"We compete on experience, service, and unique offerings. Guests pay premium prices because they understand our value. Profitability is sustainable."</p>
 									<div className="flex items-center gap-2 text-xs">
 										<Building className="w-3 h-3" />
@@ -316,24 +317,24 @@ export default function ExpediaAlternative() {
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Saved commission fees</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$75,000</span>
+									<span className="font-semibold text-success dark:text-success">+$75,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Premium direct booking rates</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$54,000</span>
+									<span className="font-semibold text-success dark:text-success">+$54,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Repeat guest revenue (70% rate)</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$72,000</span>
+									<span className="font-semibold text-success dark:text-success">+$72,000</span>
 								</div>
 								<div className="flex justify-between items-center">
 									<span className="text-sm text-muted-foreground">Eliminated processing fees</span>
-									<span className="font-semibold text-green-600 dark:text-green-400">+$4,800</span>
+									<span className="font-semibold text-success dark:text-success">+$4,800</span>
 								</div>
 								<div className="border-t pt-4">
 									<div className="flex justify-between items-center font-bold text-lg">
 										<span>Net Annual Gain</span>
-										<span className="text-green-600 dark:text-green-400">+$366,852</span>
+										<span className="text-success dark:text-success">+$366,852</span>
 									</div>
 								</div>
 							</CardContent>
@@ -465,17 +466,17 @@ export default function ExpediaAlternative() {
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Commission Rate</td>
 									<td className="px-6 py-4 text-center text-destructive font-semibold">20-30%</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">$29/month</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">$29/month</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Direct Bookings</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full Control</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full Control</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Data</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Restricted</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Full Access</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Restricted</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Full Access</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Multi-Platform Sync</td>
@@ -483,13 +484,13 @@ export default function ExpediaAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Customer Support</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Limited</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">24/7 Priority</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Limited</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">24/7 Priority</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Business Growth Tools</td>
@@ -497,18 +498,18 @@ export default function ExpediaAlternative() {
 										<XCircle className="inline w-5 h-5 text-destructive" />
 									</td>
 									<td className="px-6 py-4 text-center">
-										<CheckCircle className="inline w-5 h-5 text-green-600 dark:text-green-400" />
+										<CheckCircle className="inline w-5 h-5 text-success dark:text-success" />
 									</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Review Management</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 								<tr className="hover:bg-muted/50 transition-colors">
 									<td className="px-6 py-4 font-medium text-foreground">Analytics & Insights</td>
-									<td className="px-6 py-4 text-center text-yellow-600 dark:text-yellow-400">Basic</td>
-									<td className="px-6 py-4 text-center text-green-600 dark:text-green-400 font-bold">Advanced AI</td>
+									<td className="px-6 py-4 text-center text-warning dark:text-warning">Basic</td>
+									<td className="px-6 py-4 text-center text-success dark:text-success font-bold">Advanced AI</td>
 								</tr>
 							</tbody>
 						</table>
@@ -569,27 +570,27 @@ export default function ExpediaAlternative() {
 						</CardHeader>
 						<CardContent className="space-y-6">
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Fixed Monthly Pricing</h4>
+								<h4 className="font-semibold text-success dark:text-success">Fixed Monthly Pricing</h4>
 								<p className="text-sm text-muted-foreground">Simple $29/month pricing with no commission fees or hidden costs.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Direct Customer Relationships</h4>
+								<h4 className="font-semibold text-success dark:text-success">Direct Customer Relationships</h4>
 								<p className="text-sm text-muted-foreground">Build direct relationships with customers and increase repeat bookings.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Full Customer Data Access</h4>
+								<h4 className="font-semibold text-success dark:text-success">Full Customer Data Access</h4>
 								<p className="text-sm text-muted-foreground">Complete access to customer information and booking history.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Multi-Platform Integration</h4>
+								<h4 className="font-semibold text-success dark:text-success">Multi-Platform Integration</h4>
 								<p className="text-sm text-muted-foreground">Sync across Google, Facebook, TripAdvisor, Expedia, and other platforms.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">24/7 Priority Support</h4>
+								<h4 className="font-semibold text-success dark:text-success">24/7 Priority Support</h4>
 								<p className="text-sm text-muted-foreground">Dedicated support team with quick response times and personalized solutions.</p>
 							</div>
 							<div className="space-y-2">
-								<h4 className="font-semibold text-green-600 dark:text-green-400">Growth & Marketing Tools</h4>
+								<h4 className="font-semibold text-success dark:text-success">Growth & Marketing Tools</h4>
 								<p className="text-sm text-muted-foreground">Email campaigns, social media integration, and marketing automation.</p>
 							</div>
 						</CardContent>
@@ -732,35 +733,35 @@ export default function ExpediaAlternative() {
 						<CardContent>
 							<ul className="space-y-3 text-sm">
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">No commission fees</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Direct customer relationships</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Full customer data access</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Multi-platform integration</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">24/7 priority support</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Growth automation tools</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Advanced analytics</span>
 								</li>
 								<li className="flex items-center gap-3">
-									<CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
+									<CheckCircle className="w-4 h-4 text-success dark:text-success flex-shrink-0" />
 									<span className="text-muted-foreground">Booking management</span>
 								</li>
 							</ul>

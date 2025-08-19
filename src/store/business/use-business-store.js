@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import debounce from "lodash/debounce";
 import { useMapStore } from "@store/map";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { safeBusinessWrapper } from "@utils/business-data-safety-wrapper";
 
 /**

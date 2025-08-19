@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { buildBusinessUrl } from "@utils";
 import { Star, MapPin } from "react-feather";
 
 export default function BusinessCard({ business, disabled }) {
@@ -15,7 +16,13 @@ export default function BusinessCard({ business, disabled }) {
 	const rating = parseFloat(business.rating);
 
 	return (
-		<Link href={`/biz/${slug}`} className={`group block w-full ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
+		<Link href={buildBusinessUrl({
+			country: (business.country || 'US').toLowerCase(),
+			state: business.state,
+			city: business.city,
+			name: business.name,
+			shortId: business.short_id || business.shortId
+		})} className={`group block w-full ${disabled ? "opacity-50 pointer-events-none" : ""}`}>
 			<div className="w-full">
 				{/* Image - Better aspect ratio */}
 				<div className="relative aspect-[4/3] overflow-hidden rounded-xl mb-3">
@@ -47,7 +54,7 @@ export default function BusinessCard({ business, disabled }) {
 					{/* Rating & Price - Larger text */}
 					<div className="flex items-center justify-between">
 						<div className="flex items-center space-x-1">
-							<Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+							<Star className="w-4 h-4 text-warning fill-yellow-400" />
 							<span className="text-sm font-semibold text-foreground">{business.rating}</span>
 							<span className="text-sm font-medium text-muted-foreground">({business.reviewCount})</span>
 						</div>
@@ -56,8 +63,8 @@ export default function BusinessCard({ business, disabled }) {
 
 					{/* Status - Larger status text */}
 					<div className="flex items-center">
-						<div className={`w-2 h-2 rounded-full mr-2 ${business.status === "Open" ? "bg-green-500" : "bg-red-500"}`} />
-						<span className={`text-sm font-semibold ${business.status === "Open" ? "text-green-600" : "text-red-600"}`}>{business.status}</span>
+						<div className={`w-2 h-2 rounded-full mr-2 ${business.status === "Open" ? "bg-success" : "bg-destructive"}`} />
+						<span className={`text-sm font-semibold ${business.status === "Open" ? "text-success" : "text-destructive"}`}>{business.status}</span>
 					</div>
 				</div>
 			</div>

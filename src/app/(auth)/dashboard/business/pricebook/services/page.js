@@ -23,9 +23,9 @@ const mockServices = [
 ];
 
 const statusColors = {
-	active: "bg-green-100 text-green-800",
+	active: "bg-success/10 text-success",
 	draft: "bg-muted text-muted-foreground",
-	archived: "bg-red-100 text-red-800",
+	archived: "bg-destructive/10 text-destructive",
 };
 
 // metadata removed (client component)
@@ -104,7 +104,7 @@ export default function PricebookServicesPage() {
 								<p className="text-sm text-muted-foreground">Services</p>
 								<p className="text-2xl font-bold">{totals.count}</p>
 							</div>
-							<Settings className="w-8 h-8 text-blue-500" />
+							<Settings className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -115,7 +115,7 @@ export default function PricebookServicesPage() {
 								<p className="text-sm text-muted-foreground">Avg Price</p>
 								<p className="text-2xl font-bold">${totals.avgPrice.toFixed(0)}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -126,7 +126,7 @@ export default function PricebookServicesPage() {
 								<p className="text-sm text-muted-foreground">Avg Duration</p>
 								<p className="text-2xl font-bold">{totals.avgDuration.toFixed(0)}m</p>
 							</div>
-							<Clock className="w-8 h-8 text-orange-500" />
+							<Clock className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -217,7 +217,7 @@ export default function PricebookServicesPage() {
 									<div className="grid grid-cols-2 gap-4 mt-2 text-sm md:grid-cols-4">
 										<div>
 											<span className="text-muted-foreground">Price</span>
-											<p className="font-medium text-green-600">${s.basePrice}</p>
+											<p className="font-medium text-success">${s.basePrice}</p>
 										</div>
 										<div>
 											<span className="text-muted-foreground">Duration</span>
@@ -252,7 +252,7 @@ export default function PricebookServicesPage() {
 											<Edit className="mr-2 w-4 h-4" />
 											Edit
 										</DropdownMenuItem>
-										<DropdownMenuItem onClick={() => archive(s.id)} className="text-red-600">
+										<DropdownMenuItem onClick={() => archive(s.id)} className="text-destructive">
 											<Archive className="mr-2 w-4 h-4" />
 											Archive
 										</DropdownMenuItem>

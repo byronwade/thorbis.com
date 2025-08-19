@@ -123,8 +123,8 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 			</div>
 
 			{/* Instructions */}
-			<div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-				<p className="text-blue-800 text-sm">
+			<div className="p-4 bg-blue-50 border border-primary/30 rounded-lg">
+				<p className="text-primary text-sm">
 					Click on the correct areas in the image. {question.maxSelections ? `You can select up to ${question.maxSelections} area${question.maxSelections > 1 ? "s" : ""}.` : "You can select multiple areas."} {selectedHotspots.length > 0 && <span className="font-medium">Selected: {selectedHotspots.length}</span>}
 				</p>
 			</div>
@@ -145,7 +145,7 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 							return (
 								<div
 									key={hotspot.id}
-									className={`absolute border-4 rounded-full flex items-center justify-center transition-all duration-200 ${status === "correct" ? "border-green-500 bg-green-500/20" : status === "incorrect" ? "border-red-500 bg-red-500/20" : status === "missed" ? "border-yellow-500 bg-yellow-500/20" : status === "selected" ? "border-blue-500 bg-blue-500/20" : "border-gray-400 bg-gray-400/20"}`}
+									className={`absolute border-4 rounded-full flex items-center justify-center transition-all duration-200 ${status === "correct" ? "border-green-500 bg-success/20" : status === "incorrect" ? "border-red-500 bg-destructive/20" : status === "missed" ? "border-yellow-500 bg-warning/20" : status === "selected" ? "border-primary bg-primary/20" : "border-border bg-muted/20"}`}
 									style={{
 										left: (hotspot.x / question.image.width) * 100 + "%",
 										top: (hotspot.y / question.image.height) * 100 + "%",
@@ -154,10 +154,10 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 										transform: "translate(-50%, -50%)",
 									}}
 								>
-									{status === "correct" && <CheckCircle className="h-4 w-4 text-green-600" />}
-									{status === "incorrect" && <XCircle className="h-4 w-4 text-red-600" />}
-									{status === "missed" && <Target className="h-4 w-4 text-yellow-600" />}
-									{status === "selected" && <div className="w-2 h-2 bg-blue-600 rounded-full" />}
+									{status === "correct" && <CheckCircle className="h-4 w-4 text-success" />}
+									{status === "incorrect" && <XCircle className="h-4 w-4 text-destructive" />}
+									{status === "missed" && <Target className="h-4 w-4 text-warning" />}
+									{status === "selected" && <div className="w-2 h-2 bg-primary rounded-full" />}
 								</div>
 							);
 						})}
@@ -167,7 +167,7 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 							clickPositions.map((pos, index) => (
 								<div
 									key={index}
-									className="absolute w-3 h-3 bg-blue-400 rounded-full opacity-50 animate-ping pointer-events-none"
+									className="absolute w-3 h-3 bg-primary/40 rounded-full opacity-50 animate-ping pointer-events-none"
 									style={{
 										left: (pos.x / question.image.width) * 100 + "%",
 										top: (pos.y / question.image.height) * 100 + "%",
@@ -195,10 +195,10 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 							<Card key={hotspotId} className={`border-2 ${isCorrect ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}>
 								<CardContent className="p-4">
 									<div className="flex items-start space-x-3">
-										<div className="flex-shrink-0 mt-0.5">{isCorrect ? <CheckCircle className="h-5 w-5 text-green-500" /> : <XCircle className="h-5 w-5 text-red-500" />}</div>
+										<div className="flex-shrink-0 mt-0.5">{isCorrect ? <CheckCircle className="h-5 w-5 text-success" /> : <XCircle className="h-5 w-5 text-destructive" />}</div>
 										<div className="flex-1">
-											<p className={`font-medium mb-1 ${isCorrect ? "text-green-900" : "text-red-900"}`}>Selected Area: {isCorrect ? "Correct!" : "Incorrect"}</p>
-											<p className={`text-sm ${isCorrect ? "text-green-800" : "text-red-800"}`}>{hotspot.feedback}</p>
+											<p className={`font-medium mb-1 ${isCorrect ? "text-success" : "text-destructive"}`}>Selected Area: {isCorrect ? "Correct!" : "Incorrect"}</p>
+											<p className={`text-sm ${isCorrect ? "text-success" : "text-destructive"}`}>{hotspot.feedback}</p>
 										</div>
 									</div>
 								</CardContent>
@@ -214,11 +214,11 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 								<CardContent className="p-4">
 									<div className="flex items-start space-x-3">
 										<div className="flex-shrink-0 mt-0.5">
-											<Target className="h-5 w-5 text-yellow-500" />
+											<Target className="h-5 w-5 text-warning" />
 										</div>
 										<div className="flex-1">
-											<p className="font-medium text-yellow-900 mb-1">Missed Correct Area</p>
-											<p className="text-sm text-yellow-800">{hotspot.feedback}</p>
+											<p className="font-medium text-warning mb-1">Missed Correct Area</p>
+											<p className="text-sm text-warning">{hotspot.feedback}</p>
 										</div>
 									</div>
 								</CardContent>
@@ -230,11 +230,11 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 						<CardContent className="p-4">
 							<div className="flex items-start space-x-3">
 								<div className="flex-shrink-0 mt-0.5">
-									<Target className="h-5 w-5 text-blue-500" />
+									<Target className="h-5 w-5 text-primary" />
 								</div>
 								<div>
-									<p className="font-medium text-gray-900 mb-1">Explanation:</p>
-									<p className="text-gray-700 text-sm">{question.explanation}</p>
+									<p className="font-medium text-foreground mb-1">Explanation:</p>
+									<p className="text-muted-foreground text-sm">{question.explanation}</p>
 								</div>
 							</div>
 						</CardContent>
@@ -246,10 +246,10 @@ export function ImageHotspotRenderer({ question, onAnswer, isAnswered, userAnswe
 			{!isAnswered && question.hints && question.hints.length > 0 && (
 				<div className="mt-4">
 					<details className="group">
-						<summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 font-medium">💡 Need a hint? Click here</summary>
+						<summary className="cursor-pointer text-sm text-primary hover:text-primary font-medium">💡 Need a hint? Click here</summary>
 						<Card className="mt-2">
 							<CardContent className="p-3 bg-yellow-50">
-								<p className="text-yellow-800 text-sm">{question.hints[0]}</p>
+								<p className="text-warning text-sm">{question.hints[0]}</p>
 							</CardContent>
 						</Card>
 					</details>

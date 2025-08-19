@@ -150,7 +150,7 @@ export default function Settings() {
 							<CardContent className="space-y-4">
 								<div className="flex items-center justify-between p-4 border rounded-lg">
 									<div className="flex items-center space-x-3">
-										<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+										<div className="w-2 h-2 bg-success rounded-full"></div>
 										<div>
 											<p className="text-sm font-medium">Current Session</p>
 											<p className="text-xs text-muted-foreground">Chrome on Mac • Active now</p>

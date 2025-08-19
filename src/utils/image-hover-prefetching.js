@@ -1,5 +1,5 @@
 // lib/utils/imageHoverPrefetching.js - NextFaster-Style Image Prefetching on Hover
-import { logger } from "./logger";
+import logger from "./logger.js";
 import cacheManager from "./cache-manager";
 
 /**

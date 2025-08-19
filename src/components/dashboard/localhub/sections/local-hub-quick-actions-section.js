@@ -20,7 +20,7 @@ const LocalHubQuickActionsSection = () => {
 			description: "Invite or add businesses to your directory",
 			icon: Building2,
 			link: "/dashboard/localhub/businesses/add",
-			color: "bg-blue-500 hover:bg-blue-600",
+			color: "bg-primary hover:bg-primary",
 		},
 		{
 			title: "Customize Directory",
@@ -34,14 +34,14 @@ const LocalHubQuickActionsSection = () => {
 			description: "Revenue, business, and performance analytics",
 			icon: BarChart3,
 			link: "/dashboard/localhub/analytics",
-			color: "bg-green-500 hover:bg-green-600",
+			color: "bg-success hover:bg-success",
 		},
 		{
 			title: "Manage Subscriptions",
 			description: "Business plans, pricing, and billing",
 			icon: Settings,
 			link: "/dashboard/localhub/subscriptions",
-			color: "bg-orange-500 hover:bg-orange-600",
+			color: "bg-warning hover:bg-warning",
 		},
 		{
 			title: "Directory Settings",
@@ -55,7 +55,7 @@ const LocalHubQuickActionsSection = () => {
 			description: "Set up custom domain for your directory",
 			icon: Plus,
 			link: "/dashboard/localhub/domains",
-			color: "bg-red-500 hover:bg-red-600",
+			color: "bg-destructive hover:bg-destructive",
 		},
 	];
 

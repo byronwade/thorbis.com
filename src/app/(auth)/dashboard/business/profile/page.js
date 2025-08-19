@@ -14,9 +14,9 @@ import { Building, DollarSign, Shield, Award, Clock, Image, Users, Handshake, Br
 import { OverviewSection, ServicesSection, TeamSection, BusinessHoursSection, MediaSection, SettingsSection } from "@components/dashboard/business/profile/sections";
 
 // Import existing sections that are already modular
-import PartnershipsSection from "./sections/partnerships-section";
-import CareersSection from "./sections/careers-section";
-import FAQSection from "./sections/faq-section";
+import PartnershipsSection from "@components/dashboard/business/profile/sections/partnerships-section";
+import CareersSection from "@components/dashboard/business/profile/sections/careers-section";
+import FAQSection from "@components/dashboard/business/profile/sections/faq-section";
 
 // Import custom hook
 import { useBusinessProfile } from "@lib/hooks/business/profile/use-business-profile";

@@ -24,7 +24,7 @@ import {
   HelpCircle
 } from "lucide-react";
 import { useToast } from "@components/ui/use-toast";
-import { logger } from "@lib/utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Keyboard Shortcuts System

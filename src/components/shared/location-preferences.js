@@ -52,7 +52,7 @@ import {
 } from 'lucide-react';
 import { useLocationStore, locationUtils } from '@lib/location/enhanced-location-service';
 import { cn } from '@lib/utils';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 import { toast } from 'sonner';
 
 const LocationPreferences = ({ trigger, className = "" }) => {
@@ -127,26 +127,26 @@ const LocationPreferences = ({ trigger, className = "" }) => {
       case 'favorite':
         		return <Star className="w-4 h-4 text-muted-foreground" />;
       default:
-        return <MapPin className="w-4 h-4 text-gray-500" />;
+        return <MapPin className="w-4 h-4 text-muted-foreground" />;
     }
   };
 
   // Render location item
   const LocationItem = ({ location, type = 'favorite', onRemove, onEdit }) => (
-    <div className="flex items-center justify-between p-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+    <div className="flex items-center justify-between p-3 rounded-lg border border-border dark:border-border bg-gray-50 dark:bg-card">
       <div className="flex items-center space-x-3 flex-1 min-w-0">
         <div className="flex-shrink-0">
           {getLocationTypeIcon(type)}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+          <p className="text-sm font-medium text-foreground dark:text-white truncate">
             {location.customName || location.shortName || 'Unknown Location'}
           </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+          <p className="text-xs text-muted-foreground dark:text-muted-foreground truncate">
             {formatLocationDisplay(location)}
           </p>
           {location.addedAt && (
-            <p className="text-xs text-gray-400 dark:text-gray-500">
+            <p className="text-xs text-muted-foreground dark:text-muted-foreground">
               Added {new Date(location.addedAt).toLocaleDateString()}
             </p>
           )}
@@ -231,7 +231,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
                       <Label htmlFor="autoDetect">Auto-detect location</Label>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                         Automatically detect your current location when possible
                       </p>
                     </div>
@@ -247,7 +247,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
                       <Label htmlFor="mapPreview">Show map preview</Label>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                         Display mini maps when selecting locations
                       </p>
                     </div>
@@ -263,7 +263,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
                       <Label htmlFor="saveHistory">Save search history</Label>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                         Remember your recent location searches
                       </p>
                     </div>
@@ -290,7 +290,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                         className="w-full"
                       />
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                       {preferences.defaultRadius} km radius for nearby searches
                     </p>
                   </div>
@@ -313,9 +313,9 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Star className="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-                  <p className="text-gray-500 dark:text-gray-400">No favorite locations yet</p>
-                  <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                  <Star className="w-12 h-12 mx-auto text-muted-foreground dark:text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground dark:text-muted-foreground">No favorite locations yet</p>
+                  <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">
                     Add locations to favorites from search results
                   </p>
                 </div>
@@ -341,9 +341,9 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <Home className="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-                  <p className="text-gray-500 dark:text-gray-400">No saved addresses</p>
-                  <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+                  <Home className="w-12 h-12 mx-auto text-muted-foreground dark:text-muted-foreground mb-4" />
+                  <p className="text-muted-foreground dark:text-muted-foreground">No saved addresses</p>
+                  <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1">
                     Save frequently used addresses for quick access
                   </p>
                 </div>
@@ -361,7 +361,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                     <div className="flex items-center justify-between">
                       <div className="space-y-1">
                         <Label>Location data</Label>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                           {recentLocations.length} recent locations stored locally
                         </p>
                       </div>
@@ -371,7 +371,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                     <div className="flex items-center justify-between">
                       <div className="space-y-1">
                         <Label>Favorites & saved addresses</Label>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-muted-foreground dark:text-muted-foreground">
                           {favoriteLocations.length + savedAddresses.length} saved locations
                         </p>
                       </div>
@@ -379,7 +379,7 @@ const LocationPreferences = ({ trigger, className = "" }) => {
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="pt-4 border-t border-border dark:border-border">
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" className="w-full">

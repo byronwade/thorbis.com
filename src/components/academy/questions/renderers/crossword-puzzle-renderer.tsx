@@ -211,14 +211,14 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 	const getCellStyle = (x: number, y: number) => {
 		const cellData = getCellData(x, y);
 		if (!cellData || cellData.isBlocked) {
-			return "bg-gray-900";
+			return "bg-card";
 		}
 
-		let style = "bg-white border border-gray-400 ";
+		let style = "bg-white border border-border ";
 
 		// Highlight if part of selected clue
 		if (selectedClue && isPartOfClue(x, y, selectedClue)) {
-			style += "bg-blue-100 border-blue-500 ";
+			style += "bg-primary/10 border-primary ";
 		}
 
 		// Highlight if focused
@@ -231,9 +231,9 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 			const relevantClues = question.clues.filter((clue) => isPartOfClue(x, y, clue.id));
 			const allCorrect = relevantClues.every((clue) => checkAnswer(clue));
 			if (allCorrect && relevantClues.length > 0) {
-				style += "bg-green-100 ";
+				style += "bg-success/10 ";
 			} else if (relevantClues.length > 0) {
-				style += "bg-red-100 ";
+				style += "bg-destructive/10 ";
 			}
 		}
 
@@ -247,8 +247,8 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">Fill in the crossword puzzle using the clues provided. Click on a clue to highlight the corresponding word in the grid.</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Fill in the crossword puzzle using the clues provided. Click on a clue to highlight the corresponding word in the grid.</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Clues: {question.clues.length}</span>
 								<span>
 									Grid: {question.grid.width} × {question.grid.height}
@@ -272,7 +272,7 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 					<CardContent className="p-4">
 						<div className="overflow-auto">
 							<div
-								className="grid gap-0 mx-auto border-2 border-gray-600"
+								className="grid gap-0 mx-auto border-2 border-border"
 								style={{
 									gridTemplateColumns: `repeat(${question.grid.width}, 1fr)`,
 									gridTemplateRows: `repeat(${question.grid.height}, 1fr)`,
@@ -291,7 +291,7 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 										return (
 											<div key={cellKey} className="relative" style={{ aspectRatio: "1" }}>
 												<input ref={(el) => (cellRefs.current[cellKey] = el)} type="text" value={cellInputs[cellKey] || ""} onChange={(e) => handleCellChange(x, y, e.target.value)} onClick={() => handleCellClick(x, y)} onKeyDown={(e) => handleKeyDown(e, x, y)} className={`w-full h-full text-center font-bold text-sm uppercase focus:outline-none ${getCellStyle(x, y)}`} maxLength={1} disabled={isAnswered || disabled} />
-												{cellData.number && <span className="absolute top-0 left-0 text-xs font-bold text-gray-600 leading-none p-0.5">{cellData.number}</span>}
+												{cellData.number && <span className="absolute top-0 left-0 text-xs font-bold text-muted-foreground leading-none p-0.5">{cellData.number}</span>}
 											</div>
 										);
 									})
@@ -312,11 +312,11 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 									{question.clues
 										.filter((clue) => clue.direction === "across")
 										.map((clue) => (
-											<div key={clue.id} className={`p-2 rounded cursor-pointer transition-all duration-200 ${selectedClue === clue.id ? "bg-blue-100 border border-blue-300" : showFeedback && isAnswered ? (checkAnswer(clue) ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200") : "hover:bg-gray-100"}`} onClick={() => handleClueClick(clue.id)}>
+											<div key={clue.id} className={`p-2 rounded cursor-pointer transition-all duration-200 ${selectedClue === clue.id ? "bg-primary/10 border border-primary/40" : showFeedback && isAnswered ? (checkAnswer(clue) ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200") : "hover:bg-muted"}`} onClick={() => handleClueClick(clue.id)}>
 												<div className="flex items-start space-x-2">
 													<span className="font-semibold text-sm">{clue.number}.</span>
 													<span className="text-sm">{clue.clue}</span>
-													{showFeedback && isAnswered && <div className="ml-auto flex-shrink-0">{checkAnswer(clue) ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}</div>}
+													{showFeedback && isAnswered && <div className="ml-auto flex-shrink-0">{checkAnswer(clue) ? <CheckCircle className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-destructive" />}</div>}
 												</div>
 											</div>
 										))}
@@ -330,11 +330,11 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 									{question.clues
 										.filter((clue) => clue.direction === "down")
 										.map((clue) => (
-											<div key={clue.id} className={`p-2 rounded cursor-pointer transition-all duration-200 ${selectedClue === clue.id ? "bg-blue-100 border border-blue-300" : showFeedback && isAnswered ? (checkAnswer(clue) ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200") : "hover:bg-gray-100"}`} onClick={() => handleClueClick(clue.id)}>
+											<div key={clue.id} className={`p-2 rounded cursor-pointer transition-all duration-200 ${selectedClue === clue.id ? "bg-primary/10 border border-primary/40" : showFeedback && isAnswered ? (checkAnswer(clue) ? "bg-green-50 border border-green-200" : "bg-red-50 border border-red-200") : "hover:bg-muted"}`} onClick={() => handleClueClick(clue.id)}>
 												<div className="flex items-start space-x-2">
 													<span className="font-semibold text-sm">{clue.number}.</span>
 													<span className="text-sm">{clue.clue}</span>
-													{showFeedback && isAnswered && <div className="ml-auto flex-shrink-0">{checkAnswer(clue) ? <CheckCircle className="w-4 h-4 text-green-500" /> : <XCircle className="w-4 h-4 text-red-500" />}</div>}
+													{showFeedback && isAnswered && <div className="ml-auto flex-shrink-0">{checkAnswer(clue) ? <CheckCircle className="w-4 h-4 text-success" /> : <XCircle className="w-4 h-4 text-destructive" />}</div>}
 												</div>
 											</div>
 										))}
@@ -365,9 +365,9 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 									const isComplete = correctAnswers === question.clues.length;
 									return (
 										<>
-											{isComplete ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${isComplete ? "text-green-700" : "text-red-700"}`}>{isComplete ? "Crossword Complete!" : "Some answers need correction"}</span>
-											<span className="text-sm text-gray-600">
+											{isComplete ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${isComplete ? "text-success" : "text-destructive"}`}>{isComplete ? "Crossword Complete!" : "Some answers need correction"}</span>
+											<span className="text-sm text-muted-foreground">
 												({correctAnswers} / {question.clues.length} correct)
 											</span>
 										</>
@@ -376,21 +376,21 @@ export function CrosswordPuzzleRenderer({ question, onAnswer, isAnswered, userAn
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show incorrect answers */}
 							{question.clues.some((clue) => !checkAnswer(clue)) && (
 								<div className="p-4 rounded-lg bg-orange-50 border border-orange-200">
-									<p className="text-orange-800 font-medium">Answers to review:</p>
+									<p className="text-warning font-medium">Answers to review:</p>
 									<ul className="list-disc list-inside space-y-1 mt-2">
 										{question.clues
 											.filter((clue) => !checkAnswer(clue))
 											.map((clue) => (
-												<li key={clue.id} className="text-orange-700">
+												<li key={clue.id} className="text-warning">
 													{clue.number} {clue.direction}: {clue.answer}
 												</li>
 											))}

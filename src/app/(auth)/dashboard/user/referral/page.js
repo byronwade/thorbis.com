@@ -144,9 +144,9 @@ Best regards`);
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "completed":
-				return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success dark:text-success/90";
 			case "pending":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning dark:text-warning/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
 		}
@@ -180,9 +180,9 @@ Best regards`);
 								<p className="text-sm font-medium text-muted-foreground">Total Referrals</p>
 								<p className="text-3xl font-bold">{referralData.totalReferrals}</p>
 							</div>
-							<Users className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+							<Users className="w-8 h-8 text-primary dark:text-primary" />
 						</div>
-						<div className="mt-4 flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+						<div className="mt-4 flex items-center gap-2 text-sm text-success dark:text-success">
 							<TrendingUp className="w-4 h-4" />
 							<span>+3 this month</span>
 						</div>
@@ -197,9 +197,9 @@ Best regards`);
 								<p className="text-sm font-medium text-muted-foreground">Rewards Earned</p>
 								<p className="text-3xl font-bold">${referralData.rewardsEarned}</p>
 							</div>
-							<Award className="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
+							<Award className="w-8 h-8 text-warning dark:text-warning" />
 						</div>
-						<div className="mt-4 flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
+						<div className="mt-4 flex items-center gap-2 text-sm text-success dark:text-success">
 							<Zap className="w-4 h-4" />
 							<span>${currentTier.rewards} per referral</span>
 						</div>
@@ -214,7 +214,7 @@ Best regards`);
 								<p className="text-sm font-medium text-muted-foreground">Conversion Rate</p>
 								<p className="text-3xl font-bold">{referralData.conversionRate}%</p>
 							</div>
-							<Target className="w-8 h-8 text-green-600 dark:text-green-400" />
+							<Target className="w-8 h-8 text-success dark:text-success" />
 						</div>
 						<div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
 							<BarChart3 className="w-4 h-4" />
@@ -352,7 +352,7 @@ Best regards`);
 									<div className="space-y-2 text-sm">
 										{nextTier.features.map((feature, index) => (
 											<div key={index} className="flex items-center gap-2">
-												<CheckCircle className="w-4 h-4 text-green-600" />
+												<CheckCircle className="w-4 h-4 text-success" />
 												<span>{feature}</span>
 											</div>
 										))}
@@ -378,7 +378,7 @@ Best regards`);
 								{referralData.leaderboard.slice(0, 5).map((user, index) => (
 									<div key={user.rank} className={`flex items-center justify-between p-3 rounded-lg ${user.name === "You" ? "bg-primary/10 border border-primary/20" : "bg-muted/30"}`}>
 										<div className="flex items-center gap-3">
-											<div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${index === 0 ? "bg-yellow-500 text-white" : index === 1 ? "bg-muted-foreground text-white" : index === 2 ? "bg-orange-500 text-white" : "bg-muted text-muted-foreground"}`}>{user.rank}</div>
+											<div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${index === 0 ? "bg-warning text-white" : index === 1 ? "bg-muted-foreground text-white" : index === 2 ? "bg-warning text-white" : "bg-muted text-muted-foreground"}`}>{user.rank}</div>
 											<div>
 												<p className="font-medium">{user.name}</p>
 												<p className="text-sm text-muted-foreground">{user.referrals} referrals</p>

@@ -212,7 +212,7 @@ export default function LocalHubSettings() {
 										<div className="space-y-1">
 											<div className="flex items-center space-x-2">
 												<h3 className="font-semibold">{settings.subdomain}.localhub.com</h3>
-												<Badge className="bg-green-100 text-green-800 border-green-200 text-xs">
+												<Badge className="bg-success/10 text-success border-green-200 text-xs">
 													<Check className="w-3 h-3 mr-1" />
 													Active
 												</Badge>
@@ -321,8 +321,8 @@ export default function LocalHubSettings() {
 								<CardContent>
 									<div className="p-4 border border-border rounded-lg bg-muted/50">
 										<div className="space-y-1">
-											<h3 className="text-lg font-medium text-blue-600 hover:underline cursor-pointer">{settings.metaTitle}</h3>
-											<p className="text-sm text-green-600">{settings.subdomain}.localhub.com</p>
+											<h3 className="text-lg font-medium text-primary hover:underline cursor-pointer">{settings.metaTitle}</h3>
+											<p className="text-sm text-success">{settings.subdomain}.localhub.com</p>
 											<p className="text-sm text-muted-foreground">{settings.metaDescription}</p>
 										</div>
 									</div>
@@ -426,18 +426,18 @@ export default function LocalHubSettings() {
 									<div className="space-y-4">
 										<div className="flex items-center justify-between p-4 border border-border rounded-lg">
 											<div className="flex items-center space-x-3">
-												<Lock className="w-5 h-5 text-green-600" />
+												<Lock className="w-5 h-5 text-success" />
 												<div>
 													<h4 className="font-medium">SSL Certificate</h4>
 													<p className="text-sm text-muted-foreground">Automatically managed and renewed</p>
 												</div>
 											</div>
-											<Badge className="bg-green-100 text-green-800 border-green-200">Active</Badge>
+											<Badge className="bg-success/10 text-success border-green-200">Active</Badge>
 										</div>
 
 										<div className="flex items-center justify-between p-4 border border-border rounded-lg">
 											<div className="flex items-center space-x-3">
-												<Key className="w-5 h-5 text-blue-600" />
+												<Key className="w-5 h-5 text-primary" />
 												<div>
 													<h4 className="font-medium">Two-Factor Authentication</h4>
 													<p className="text-sm text-muted-foreground">Add extra security to your account</p>
@@ -475,7 +475,7 @@ export default function LocalHubSettings() {
 											<h4 className="font-medium">Automatic Backups</h4>
 											<p className="text-sm text-muted-foreground">Daily backups of your directory data</p>
 										</div>
-										<Badge className="bg-blue-100 text-blue-800 border-blue-200">Enabled</Badge>
+										<Badge className="bg-primary/10 text-primary border-primary/30">Enabled</Badge>
 									</div>
 
 									<div className="flex items-center justify-between p-4 border border-border rounded-lg">

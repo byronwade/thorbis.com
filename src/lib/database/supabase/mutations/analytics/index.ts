@@ -5,7 +5,7 @@
  */
 
 import { supabase, getPooledClient, Tables } from "../../client";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 type AnalyticsEvent = Tables<"analytics_events">;
 type FormSubmission = Tables<"form_submissions">;

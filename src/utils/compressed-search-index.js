@@ -4,7 +4,7 @@
  * Enables instant search filtering without API calls
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Compression utilities (simplified LZ4-style)
 class CompressionUtils {

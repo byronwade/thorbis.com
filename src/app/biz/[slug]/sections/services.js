@@ -70,7 +70,7 @@ export default function Services({ business }) {
 						<div className="space-y-2">
 							{safeCommunityInvolvement.map((involvement, index) => (
 								<div key={index} className="flex items-center space-x-2">
-									<Heart className="flex-shrink-0 w-4 h-4 text-red-400" />
+									<Heart className="flex-shrink-0 w-4 h-4 text-destructive" />
 									<span className="text-sm text-foreground">{involvement.activity}</span>
 								</div>
 							))}

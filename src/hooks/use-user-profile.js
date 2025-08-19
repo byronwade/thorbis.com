@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "@context/auth-context";
 import { supabase } from "@lib/database/supabase";
 import { SecureStorage } from "@utils/secure-storage";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Advanced user profile hook with secure caching and real-time updates

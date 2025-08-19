@@ -187,8 +187,8 @@ export function SortingGameRenderer({ question, onAnswer, isAnswered, userAnswer
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">{getSortDescription()}</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">{getSortDescription()}</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Items: {sortedItems.length}</span>
 								<span>Moves: {moves}</span>
 							</div>
@@ -217,24 +217,24 @@ export function SortingGameRenderer({ question, onAnswer, isAnswered, userAnswer
 						{sortedItems.map((item, index) => {
 							const position = getItemPosition(item.id);
 							return (
-								<div key={item.id} className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all duration-200 ${showFeedback && isAnswered ? (position.isCorrect ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50") : "border-gray-200 bg-white"}`}>
+								<div key={item.id} className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all duration-200 ${showFeedback && isAnswered ? (position.isCorrect ? "border-green-500 bg-green-50" : "border-red-500 bg-red-50") : "border-border bg-white"}`}>
 									{/* Position Number */}
 									<div className="flex items-center space-x-4">
-										<div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-semibold flex items-center justify-center text-sm">{index + 1}</div>
+										<div className="w-8 h-8 rounded-full bg-primary/10 text-primary font-semibold flex items-center justify-center text-sm">{index + 1}</div>
 
 										{/* Item Content */}
 										<div className="flex items-center space-x-3">
 											{item.type === "image" && item.src ? <img src={item.src} alt={item.content} className="w-12 h-12 object-cover rounded" /> : null}
 											<div>
 												<span className="font-medium">{item.content}</span>
-												<div className="text-sm text-gray-500">Value: {item.value}</div>
+												<div className="text-sm text-muted-foreground">Value: {item.value}</div>
 											</div>
 										</div>
 									</div>
 
 									{/* Controls and Feedback */}
 									<div className="flex items-center space-x-2">
-										{showFeedback && isAnswered && <div className="text-sm text-gray-600 mr-3">{position.isCorrect ? <span className="text-green-600">✓ Correct position</span> : <span className="text-red-600">Should be position {position.correct}</span>}</div>}
+										{showFeedback && isAnswered && <div className="text-sm text-muted-foreground mr-3">{position.isCorrect ? <span className="text-success">✓ Correct position</span> : <span className="text-destructive">Should be position {position.correct}</span>}</div>}
 
 										{!isAnswered && !disabled && (
 											<div className="flex space-x-1">
@@ -247,7 +247,7 @@ export function SortingGameRenderer({ question, onAnswer, isAnswered, userAnswer
 											</div>
 										)}
 
-										{showFeedback && isAnswered && <div className="flex-shrink-0">{position.isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}</div>}
+										{showFeedback && isAnswered && <div className="flex-shrink-0">{position.isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}</div>}
 									</div>
 								</div>
 							);
@@ -271,25 +271,25 @@ export function SortingGameRenderer({ question, onAnswer, isAnswered, userAnswer
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								{checkSortingCorrectness() ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-								<span className={`font-semibold ${checkSortingCorrectness() ? "text-green-700" : "text-red-700"}`}>{checkSortingCorrectness() ? "Perfect Sorting!" : "Sorting Needs Correction"}</span>
-								<span className="text-sm text-gray-600">({moves} moves)</span>
+								{checkSortingCorrectness() ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+								<span className={`font-semibold ${checkSortingCorrectness() ? "text-success" : "text-destructive"}`}>{checkSortingCorrectness() ? "Perfect Sorting!" : "Sorting Needs Correction"}</span>
+								<span className="text-sm text-muted-foreground">({moves} moves)</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Show correct order if incorrect */}
 							{!checkSortingCorrectness() && (
 								<div className="p-4 rounded-lg bg-green-50 border border-green-200">
-									<p className="text-green-800 font-medium">Correct Order:</p>
+									<p className="text-success font-medium">Correct Order:</p>
 									<ol className="list-decimal list-inside space-y-1 mt-2">
 										{getCorrectOrder().map((item, index) => (
-											<li key={item.id} className="text-green-700">
+											<li key={item.id} className="text-success">
 												{item.content} (Value: {item.value})
 											</li>
 										))}

@@ -6,7 +6,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@lib/database/supabase";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { PasswordSecurity } from "@lib/security/password-security";
 import { validateEmail, validatePasswordStrength } from "@lib/database/supabase/auth/utils";
 import { toast } from "sonner";

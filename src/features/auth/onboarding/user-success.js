@@ -18,17 +18,17 @@ const UserSuccess = () => {
 					<div className="flex flex-row space-x-4">
 						<a href="https://mail.google.com/" target="_blank" rel="noopener noreferrer">
 							<Card className="p-4 transition-all hover:scale-110">
-								<BiLogoGmail size={36} className="text-[#EA4335]" />
+								<BiLogoGmail size={36} className="text-muted-foreground" />
 							</Card>
 						</a>
 						<a href="https://mail.yahoo.com/" target="_blank" rel="noopener noreferrer">
 							<Card className="p-4 transition-all hover:scale-110">
-								<FaYahoo size={36} className="text-[#720E9E]" />
+								<FaYahoo size={36} className="text-muted-foreground" />
 							</Card>
 						</a>
 						<a href="https://mail.aol.com/" target="_blank" rel="noopener noreferrer">
 							<Card className="p-4 transition-all hover:scale-110">
-								<SiAol size={36} className="text-[#00A4E4]" />
+								<SiAol size={36} className="text-muted-foreground" />
 							</Card>
 						</a>
 					</div>

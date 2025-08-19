@@ -87,7 +87,7 @@ export default function Categories() {
 									<span className="block text-5xl font-bold">Helpful Expertise</span>
 								</div>
 							</div>
-							<a href="#surveyResponses" className="block mt-8 text-center text-blue-500">
+							<a href="#surveyResponses" className="block mt-8 text-center text-primary">
 								READ ALL 335 SURVEY RESPONSES
 							</a>
 						</section>
@@ -132,7 +132,7 @@ export default function Categories() {
 									<img src="owner.jpg" alt="Owner Scott Duncan works on a custom boiler" className="object-cover w-full h-48 rounded-lg" />
 									<h3 className="text-2xl font-bold">Company Profile</h3>
 									<p className="text-lg">Duncan Plumbing Ent., Inc. provides a wide range of plumbing services for residential and commercial clients throughout Santa Cruz County...</p>
-									<a href="#readMore" className="block text-blue-500">
+									<a href="#readMore" className="block text-primary">
 										Read More
 									</a>
 								</div>
@@ -140,7 +140,7 @@ export default function Categories() {
 									<img src="team.jpg" alt="Duncan Plumbing Team" className="object-cover w-full h-48 rounded-lg" />
 									<h3 className="text-2xl font-bold">Company Philosophy</h3>
 									<p className="text-lg">Owner Scott Duncan says Duncan Plumbing’s customer-oriented business approach has been a crucial aspect of its success...</p>
-									<a href="#readMore" className="block text-blue-500">
+									<a href="#readMore" className="block text-primary">
 										Read More
 									</a>
 								</div>
@@ -191,7 +191,7 @@ export default function Categories() {
 							<p className="text-lg">(831) 708-8909</p>
 							<p className="text-lg">
 								Website:{" "}
-								<a href="https://www.duncanplumbing.us" className="text-blue-500">
+								<a href="https://www.duncanplumbing.us" className="text-primary">
 									www.duncanplumbing.us
 								</a>
 							</p>

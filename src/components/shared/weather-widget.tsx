@@ -106,10 +106,10 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
   const getBusinessImpactColor = (impact: string) => {
     switch (impact) {
-      case 'high': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'low': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+      case 'high': return 'bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/80';
+      case 'medium': return 'bg-warning/10 text-warning dark:bg-warning dark:text-warning/80';
+      case 'low': return 'bg-success/10 text-success dark:bg-success dark:text-success/80';
+      default: return 'bg-muted text-foreground dark:bg-card dark:text-muted-foreground';
     }
   };
 
@@ -232,10 +232,10 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Current Weather */}
-        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-card rounded-lg">
           <div className="flex items-center gap-3">
             {React.createElement(getWeatherIcon(weatherData.current.condition), { 
-              className: "h-8 w-8 text-blue-600" 
+              className: "h-8 w-8 text-primary" 
             })}
             <div>
               <p className="font-semibold">{weatherData.current.condition}</p>
@@ -260,12 +260,12 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
           </h4>
           <div className="grid grid-cols-7 gap-2">
             {weatherData.forecast.map((day, index) => (
-              <div key={index} className="text-center space-y-2 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              <div key={index} className="text-center space-y-2 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-card transition-colors">
                 <p className="text-xs font-medium text-muted-foreground">
                   {day.day}
                 </p>
                 {React.createElement(getWeatherIcon(day.condition), { 
-                  className: "h-6 w-6 mx-auto text-blue-600" 
+                  className: "h-6 w-6 mx-auto text-primary" 
                 })}
                 <div className="space-y-1">
                   <p className="text-sm font-semibold">{day.high}°</p>
@@ -283,7 +283,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                   </Badge>
                 )}
                 {day.precipitation > 0 && (
-                  <div className="flex items-center justify-center gap-1 text-xs text-blue-600">
+                  <div className="flex items-center justify-center gap-1 text-xs text-primary">
                     <Umbrella className="h-3 w-3" />
                     {day.precipitation}%
                   </div>
@@ -295,7 +295,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
 
         {/* Business Impact Summary */}
         {showBusinessImpact && (
-          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg">
+          <div className="mt-4 p-3 bg-blue-50 dark:bg-primary rounded-lg">
             <h4 className="font-medium mb-2 flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               Business Impact Summary
@@ -307,7 +307,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
             </div>
             
             {/* Business Recommendations */}
-            <div className="mt-3 pt-3 border-t border-blue-200 dark:border-blue-800">
+            <div className="mt-3 pt-3 border-t border-primary/30 dark:border-primary">
               <h5 className="font-medium text-sm mb-2">Recommendations:</h5>
               <div className="text-xs space-y-1">
                 {weatherData.forecast.some(d => d.precipitation > 50) && (

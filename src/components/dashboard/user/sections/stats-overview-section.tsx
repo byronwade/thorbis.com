@@ -84,7 +84,7 @@ const StatsOverviewSection: React.FC<StatsOverviewSectionProps> = ({ user }) => 
 	 * @returns CSS class for trend color
 	 */
 	const getIconColor = (trend: TrendDirection): string => {
-		return trend === "up" ? "text-green-600" : "text-red-600";
+		return trend === "up" ? "text-success" : "text-destructive";
 	};
 
 	/**
@@ -147,7 +147,7 @@ const StatsOverviewSection: React.FC<StatsOverviewSectionProps> = ({ user }) => 
 					<div className="grid grid-cols-2 gap-3">
 						{profileCompletion.sections.map((section, index) => (
 							<div key={index} className="flex items-center gap-2">
-								<div className={`h-2 w-2 rounded-full ${section.completed ? "bg-green-500" : "bg-gray-300"}`} />
+								<div className={`h-2 w-2 rounded-full ${section.completed ? "bg-success" : "bg-muted"}`} />
 								<span className="text-sm text-muted-foreground">{section.name}</span>
 							</div>
 						))}

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@context/auth-context";
 import { SecureStorage } from "@utils/secure-storage";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { businessSubmissionSchema, basicInfoSchema, contactInfoSchema, businessDetailsSchema, ownerInfoSchema } from "@lib/data/business/submission/schema";
 import { DAYS_OF_WEEK, COMMON_AMENITIES, PAYMENT_METHODS, AUTO_SAVE_CONFIG, UPLOAD_CONSTRAINTS } from "@lib/data/business/submission/constants";
 

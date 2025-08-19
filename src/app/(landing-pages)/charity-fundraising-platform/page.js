@@ -145,7 +145,7 @@ export default function CharityFundraisingPlatform() {
 					Powerful fundraising platform with online donation processing, campaign management, donor engagement, and impact reporting designed to maximize your charitable impact.
 				</p>
 				<div className="flex items-center justify-center gap-4 pt-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-green-600 px-6 py-3 text-white font-semibold hover:bg-green-700 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-success px-6 py-3 text-white font-semibold hover:bg-success transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
@@ -159,14 +159,14 @@ export default function CharityFundraisingPlatform() {
 				{features.map((feature) => (
 					<div key={feature.title} className="rounded-xl border p-6 bg-card hover:shadow-lg transition-shadow">
 						<div className="flex items-center gap-3 mb-4">
-							<feature.icon className="w-8 h-8 text-green-600" />
+							<feature.icon className="w-8 h-8 text-success" />
 							<h3 className="font-bold text-lg">{feature.title}</h3>
 						</div>
 						<p className="text-sm text-muted-foreground mb-4">{feature.description}</p>
 						<ul className="space-y-2 text-sm text-muted-foreground">
 							{feature.points.map((point) => (
 								<li key={point} className="flex items-start gap-2">
-									<span className="w-1.5 h-1.5 bg-green-600 rounded-full mt-2 flex-shrink-0"></span>
+									<span className="w-1.5 h-1.5 bg-success rounded-full mt-2 flex-shrink-0"></span>
 									{point}
 								</li>
 							))}
@@ -191,7 +191,7 @@ export default function CharityFundraisingPlatform() {
 			</section>
 
 			{/* Success Stories */}
-			<section className="max-w-6xl mx-auto mt-16 bg-green-50 dark:bg-green-950/20 rounded-2xl p-8">
+			<section className="max-w-6xl mx-auto mt-16 bg-success dark:bg-success/20 rounded-2xl p-8">
 				<div className="text-center mb-8">
 					<h2 className="text-3xl font-bold mb-4">Charity Success Stories</h2>
 					<p className="text-lg text-muted-foreground">See how nonprofits are maximizing their impact with Thorbis</p>
@@ -199,15 +199,15 @@ export default function CharityFundraisingPlatform() {
 				<div className="grid md:grid-cols-3 gap-6">
 					{successStories.map((story, index) => (
 						<div key={index} className="bg-white dark:bg-neutral-800 rounded-lg p-6 text-center">
-							<div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-								<Heart className="w-6 h-6 text-green-600" />
+							<div className="w-12 h-12 bg-success/10 dark:bg-success rounded-full flex items-center justify-center mx-auto mb-4">
+								<Heart className="w-6 h-6 text-success" />
 							</div>
 							<h3 className="font-bold text-lg mb-1">{story.name}</h3>
 							<p className="text-sm text-muted-foreground mb-3">{story.location}</p>
-							<div className="text-2xl font-bold text-green-600 mb-2">{story.growth}</div>
+							<div className="text-2xl font-bold text-success mb-2">{story.growth}</div>
 							<p className="text-sm text-muted-foreground mb-4">{story.story}</p>
 							<div className="flex items-center justify-center gap-1">
-								<Star className="w-4 h-4 text-yellow-400 fill-current" />
+								<Star className="w-4 h-4 text-warning fill-current" />
 								<span className="text-sm font-medium">{story.rating}</span>
 								<span className="text-sm text-muted-foreground ml-1">({story.reviews} reviews)</span>
 							</div>
@@ -220,19 +220,19 @@ export default function CharityFundraisingPlatform() {
 			<section className="max-w-6xl mx-auto mt-16">
 				<div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">$85M+</div>
+						<div className="text-3xl font-bold text-success mb-2">$85M+</div>
 						<div className="text-sm text-muted-foreground">Funds raised</div>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">180+</div>
+						<div className="text-3xl font-bold text-success mb-2">180+</div>
 						<div className="text-sm text-muted-foreground">Nonprofits served</div>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">95%</div>
+						<div className="text-3xl font-bold text-success mb-2">95%</div>
 						<div className="text-sm text-muted-foreground">Donor retention rate</div>
 					</div>
 					<div>
-						<div className="text-3xl font-bold text-green-600 mb-2">40%</div>
+						<div className="text-3xl font-bold text-success mb-2">40%</div>
 						<div className="text-sm text-muted-foreground">Average donation increase</div>
 					</div>
 				</div>

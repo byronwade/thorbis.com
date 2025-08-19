@@ -344,7 +344,7 @@ const MapIntegration = ({ onLocationChange, onBoundsChange, onBusinessesUpdate, 
 
 						{userLocation ? (
 							<div className="flex items-center gap-2 p-3 bg-muted rounded-md">
-								<CheckCircle className="w-4 h-4 text-green-500" />
+								<CheckCircle className="w-4 h-4 text-success" />
 								<span className="text-sm">
 									{userLocation.lat.toFixed(4)}, {userLocation.lng.toFixed(4)}
 								</span>
@@ -354,7 +354,7 @@ const MapIntegration = ({ onLocationChange, onBoundsChange, onBusinessesUpdate, 
 							</div>
 						) : (
 							<div className="flex items-center gap-2 p-3 bg-muted rounded-md">
-								<AlertCircle className="w-4 h-4 text-yellow-500" />
+								<AlertCircle className="w-4 h-4 text-warning" />
 								<span className="text-sm text-muted-foreground">No location set</span>
 							</div>
 						)}

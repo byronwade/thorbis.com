@@ -26,10 +26,10 @@ const channelIcon = {
 };
 
 const statusColors = {
-	unread: "bg-blue-100 text-blue-800",
-	read: "bg-gray-100 text-gray-800",
-	flagged: "bg-red-100 text-red-800",
-	archived: "bg-green-100 text-green-800",
+	unread: "bg-primary/10 text-primary",
+	read: "bg-muted text-foreground",
+	flagged: "bg-destructive/10 text-destructive",
+	archived: "bg-success/10 text-success",
 };
 
 const mockThreads = [

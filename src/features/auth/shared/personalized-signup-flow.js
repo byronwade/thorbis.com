@@ -7,7 +7,7 @@ import { Button } from "@components/ui/button";
 import { Progress } from "@components/ui/progress";
 import { CheckCircle, ArrowRight, Sparkles, MapPin } from "lucide-react";
 import { cn } from "@utils";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Personalized Signup Flow Component
@@ -550,7 +550,7 @@ function CompletionStep({ context, preferences, onComplete }) {
 				<div className="space-y-2">
 					{getNextSteps().map((step, index) => (
 						<div key={index} className="flex items-center space-x-2 text-sm">
-							<CheckCircle className="h-4 w-4 text-green-600" />
+							<CheckCircle className="h-4 w-4 text-success" />
 							<span>{step}</span>
 						</div>
 					))}

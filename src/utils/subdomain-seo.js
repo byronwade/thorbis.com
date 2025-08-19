@@ -1,7 +1,7 @@
 // REQUIRED: Subdomain SEO Optimization Utilities
 // Location-specific SEO optimization for LocalHub subdomains with performance-first approach
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Generate comprehensive SEO metadata for subdomain pages
@@ -22,7 +22,7 @@ export function generateSubdomainSeoMetadata(localHub, pageType = "home", additi
 				description: generateSeoDescription(localHub, pageType, additionalData),
 				url: `https://${localHub.full_domain}${getPagePath(pageType, additionalData)}`,
 				siteName: localHub.name,
-				type: pageType === "business" ? "business.business" : "website",
+				type: "website",
 				locale: "en_US",
 				images: generateOgImages(localHub, pageType, additionalData),
 			},

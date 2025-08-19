@@ -304,8 +304,8 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: rgb(156, 163, 175);
-  color: rgb(156, 163, 175);
+  background-color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
   animation: dot-flashing 1.4s infinite linear alternate;
   animation-delay: 0.5s;
 }
@@ -323,8 +323,8 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: rgb(156, 163, 175);
-  color: rgb(156, 163, 175);
+  background-color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
   animation: dot-flashing 1.4s infinite alternate;
   animation-delay: 0s;
 }
@@ -334,20 +334,20 @@ img {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: rgb(156, 163, 175);
-  color: rgb(156, 163, 175);
+  background-color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
   animation: dot-flashing 1.4s infinite alternate;
   animation-delay: 1s;
 }
 
 @keyframes dot-flashing {
   0% {
-    background-color: rgb(156, 163, 175);
+    background-color: hsl(var(--muted-foreground));
   }
 
   50%,
   100% {
-    background-color: rgba(156, 163, 175, 0.2);
+    background-color: hsl(var(--muted-foreground) / 0.2);
   }
 }
 
@@ -355,8 +355,8 @@ img {
 .dark .dot-flashing,
 .dark .dot-flashing::before,
 .dark .dot-flashing::after {
-  background-color: rgb(107, 114, 128);
-  color: rgb(107, 114, 128);
+  background-color: hsl(var(--muted-foreground));
+    color: hsl(var(--muted-foreground));
 }
 
 .dark .dot-flashing {
@@ -376,94 +376,25 @@ img {
 
 @keyframes dot-flashing-dark {
   0% {
-    background-color: rgb(107, 114, 128);
+    background-color: hsl(var(--muted-foreground));
   }
 
   50%,
   100% {
-    background-color: rgba(107, 114, 128, 0.2);
+    background-color: hsl(var(--muted-foreground) / 0.2);
   }
 }
 
 @layer base {
   :root {
-    /* Thorbis Light Theme - Clean Black, White, Blue, and Neutral Colors */
-      --background: 0 0% 100%;
-      /* Pure white */
-      --foreground: 0 0% 0%;
-      /* Pure black */
-      --card: 0 0% 100%;
-      /* Pure white */
-      --card-foreground: 0 0% 0%;
-      /* Pure black */
-      --popover: 0 0% 100%;
-      /* Pure white */
-      --popover-foreground: 0 0% 0%;
-      /* Pure black */
-      --primary: 217 91% 60%;
-      /* Thorbis blue (#3B82F6) */
-      --primary-foreground: 0 0% 100%;
-      /* White text on blue */
-      --secondary: 0 0% 96%;
-      /* Light neutral gray */
-      --secondary-foreground: 0 0% 0%;
-      /* Black text */
-      --muted: 0 0% 96%;
-      /* Light neutral gray */
-      --muted-foreground: 0 0% 45%;
-      /* Medium neutral gray */
-      --accent: 217 91% 60%;
-      /* Thorbis blue accent */
-      --accent-foreground: 0 0% 100%;
-      /* White text on blue */
-      --destructive: 0 0% 45%;
-      /* Neutral gray for destructive */
-      --destructive-foreground: 0 0% 100%;
-      /* White text */
-      --border: 0 0% 90%;
-      /* Light neutral border */
-      --input: 0 0% 96%;
-      /* Light neutral input */
-      --ring: 217 91% 60%;
-      /* Thorbis blue ring */
-      --chart-1: 217 91% 60%;
-      /* Thorbis blue */
-      --chart-2: 0 0% 45%;
-      /* Neutral gray */
-      --chart-3: 0 0% 70%;
-      /* Light neutral gray */
-      --chart-4: 0 0% 85%;
-      /* Very light neutral gray */
-      --chart-5: 0 0% 60%;
-      /* Medium neutral gray */
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 96%;
-      /* Light neutral gray */
-      --sidebar-foreground: 0 0% 0%;
-      /* Black text */
-      --sidebar-primary: 217 91% 60%;
-      /* Thorbis blue */
-      --sidebar-primary-foreground: 0 0% 100%;
-      /* White text */
-      --sidebar-accent: 0 0% 100%;
-      /* White */
-      --sidebar-accent-foreground: 0 0% 0%;
-      /* Black text */
-      --sidebar-border: 0 0% 90%;
-      /* Light neutral border */
-      --sidebar-ring: 217 91% 60%;
-      /* Thorbis blue ring */
-  }
-
-  .dark {
-    /* Thorbis Dark Theme - Clean Black, White, Blue, and Neutral Colors */
+    /* Thorbis Dark Theme - Clean Black, White, Blue, and Neutral Colors (Dark Mode First) */
     --background: 0 0% 0%; /* Pure black */
     --foreground: 0 0% 100%; /* Pure white */
     --card: 0 0% 4%; /* Very dark neutral */
     --card-foreground: 0 0% 100%; /* Pure white */
     --popover: 0 0% 4%; /* Very dark neutral */
     --popover-foreground: 0 0% 100%; /* Pure white */
-    --primary: 217 91% 60%; /* Thorbis blue (#3B82F6) */
+    --primary: 217 91% 60%; /* Thorbis blue */
     --primary-foreground: 0 0% 100%; /* White text on blue */
     --secondary: 0 0% 8%; /* Dark neutral gray */
     --secondary-foreground: 0 0% 100%; /* White text */
@@ -471,8 +402,12 @@ img {
     --muted-foreground: 0 0% 65%; /* Light neutral gray */
     --accent: 217 91% 60%; /* Thorbis blue accent */
     --accent-foreground: 0 0% 100%; /* White text on blue */
-    --destructive: 0 0% 65%; /* Light neutral gray for destructive */
-    --destructive-foreground: 0 0% 0%; /* Black text */
+    --success: 160 84% 39%; /* Success green */
+    --success-foreground: 0 0% 100%; /* White text on green */
+    --warning: 38 92% 50%; /* Warning orange */
+    --warning-foreground: 0 0% 0%; /* Black text on orange */
+    --destructive: 0 84% 60%; /* Error red */
+    --destructive-foreground: 0 0% 100%; /* White text on red */
     --border: 0 0% 12%; /* Medium dark neutral border */
     --input: 0 0% 8%; /* Dark neutral input */
     --ring: 217 91% 60%; /* Thorbis blue ring */
@@ -481,6 +416,47 @@ img {
     --chart-3: 0 0% 45%; /* Medium neutral gray */
     --chart-4: 0 0% 25%; /* Dark neutral gray */
     --chart-5: 0 0% 55%; /* Medium light neutral gray */
+    --radius: 0.5rem;
+    --sidebar-background: 0 0% 4%; /* Very dark neutral */
+    --sidebar-foreground: 0 0% 100%; /* Pure white */
+    --sidebar-primary: 217 91% 60%; /* Thorbis blue */
+    --sidebar-primary-foreground: 0 0% 100%; /* White text */
+    --sidebar-accent: 0 0% 8%; /* Dark neutral gray */
+    --sidebar-accent-foreground: 0 0% 100%; /* White text */
+    --sidebar-border: 0 0% 12%; /* Medium dark neutral border */
+    --sidebar-ring: 217 91% 60%; /* Thorbis blue ring */
+  }
+
+  .light {
+    /* Thorbis Light Theme - Clean Black, White, Blue, and Neutral Colors (Fallback) */
+    --background: 0 0% 100%; /* Pure white */
+    --foreground: 0 0% 0%; /* Pure black */
+    --card: 0 0% 100%; /* Pure white */
+    --card-foreground: 0 0% 0%; /* Pure black */
+    --popover: 0 0% 100%; /* Pure white */
+    --popover-foreground: 0 0% 0%; /* Pure black */
+    --primary: 217 91% 60%; /* Thorbis blue */
+    --primary-foreground: 0 0% 100%; /* White text on blue */
+    --secondary: 0 0% 96%; /* Light neutral gray */
+    --secondary-foreground: 0 0% 0%; /* Black text */
+    --muted: 0 0% 96%; /* Light neutral gray */
+    --muted-foreground: 0 0% 45%; /* Medium neutral gray */
+    --accent: 217 91% 60%; /* Thorbis blue accent */
+    --accent-foreground: 0 0% 100%; /* White text on blue */
+    --success: 160 84% 39%; /* Success green */
+    --success-foreground: 0 0% 100%; /* White text on green */
+    --warning: 38 92% 50%; /* Warning orange */
+    --warning-foreground: 0 0% 0%; /* Black text on orange */
+    --destructive: 0 84% 60%; /* Error red */
+    --destructive-foreground: 0 0% 100%; /* White text on red */
+    --border: 0 0% 90%; /* Light neutral border */
+    --input: 0 0% 96%; /* Light neutral input */
+    --ring: 217 91% 60%; /* Thorbis blue ring */
+    --chart-1: 217 91% 60%; /* Thorbis blue */
+    --chart-2: 0 0% 45%; /* Neutral gray */
+    --chart-3: 0 0% 70%; /* Light neutral gray */
+    --chart-4: 0 0% 85%; /* Very light neutral gray */
+    --chart-5: 0 0% 60%; /* Medium neutral gray */
   }
 
   * {
@@ -496,15 +472,15 @@ img {
     color: hsl(var(--foreground));
   }
 
-  .dark {
-    /* Thorbis Dark Theme Sidebar - Clean Black, White, Blue, and Neutral Colors */
-    --sidebar-background: 0 0% 4%; /* Very dark neutral */
-    --sidebar-foreground: 0 0% 100%; /* Pure white */
+  .light {
+    /* Thorbis Light Theme Sidebar - Clean Black, White, Blue, and Neutral Colors (Fallback) */
+    --sidebar-background: 0 0% 96%; /* Light neutral gray */
+    --sidebar-foreground: 0 0% 0%; /* Black text */
     --sidebar-primary: 217 91% 60%; /* Thorbis blue */
     --sidebar-primary-foreground: 0 0% 100%; /* White text */
-    --sidebar-accent: 0 0% 8%; /* Dark neutral gray */
-    --sidebar-accent-foreground: 0 0% 100%; /* White text */
-    --sidebar-border: 0 0% 12%; /* Medium dark neutral border */
+    --sidebar-accent: 0 0% 100%; /* White */
+    --sidebar-accent-foreground: 0 0% 0%; /* Black text */
+    --sidebar-border: 0 0% 90%; /* Light neutral border */
     --sidebar-ring: 217 91% 60%; /* Thorbis blue ring */
   }
 }
@@ -535,19 +511,19 @@ img {
   --primary-foreground: 0 0% 100%; /* White text */
 }
 
-.theme-green {
-  --primary: 0 0% 45%; /* Neutral gray */
+.theme-success {
+  --primary: 160 84% 39%; /* Success green */
   --primary-foreground: 0 0% 100%; /* White text */
 }
 
-.theme-blue {
-  --primary: 217 91% 60%; /* Thorbis blue */
-  --primary-foreground: 0 0% 100%; /* White text */
-}
-
-.theme-red {
-  --primary: 0 0% 65%; /* Light neutral gray */
+.theme-warning {
+  --primary: 38 92% 50%; /* Warning orange */
   --primary-foreground: 0 0% 0%; /* Black text */
+}
+
+.theme-error {
+  --primary: 0 84% 60%; /* Error red */
+  --primary-foreground: 0 0% 100%; /* White text */
 }
 
 input,
@@ -745,11 +721,11 @@ select {
 
 /* Enhanced shadow effects for cards */
 .shadow-card {
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px hsl(var(--foreground) / 0.1), 0 2px 4px -1px hsl(var(--foreground) / 0.06);
 }
 
 .shadow-card-hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px hsl(var(--foreground) / 0.1), 0 10px 10px -5px hsl(var(--foreground) / 0.04);
 }
 
 /* Smooth scroll behavior */
@@ -801,7 +777,7 @@ select {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, hsl(var(--background) / 0.2), transparent);
   transition: left 0.5s;
 }
 
@@ -851,13 +827,13 @@ select {
 }
 
 .ProseMirror .placeholder {
-  color: rgba(107, 114, 128, 0.7);
+  color: hsl(var(--muted-foreground) / 0.7);
   pointer-events: none;
 }
 
 .ProseMirror .placeholder:empty::before {
   content: attr(data-placeholder);
-  color: rgba(107, 114, 128, 0.7);
+  color: hsl(var(--muted-foreground) / 0.7);
   pointer-events: none;
 }
 
@@ -867,7 +843,7 @@ select {
 
 /* Token-based Design System Colors */
 .bg-token-bg-primary {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: hsl(var(--foreground) / 0.05);
 }
 
 .dark .bg-token-bg-primary {
@@ -875,36 +851,36 @@ select {
 }
 
 .text-token-text-primary {
-  color: rgb(13, 13, 13);
+  color: hsl(var(--background));
 }
 
 .dark .text-token-text-primary {
-  color: rgb(236, 236, 241);
+  color: hsl(var(--background));
 }
 
 .text-token-text-tertiary {
-  color: rgba(13, 13, 13, 0.6);
+  color: hsl(var(--background) / 0.6);
 }
 
 .dark .text-token-text-tertiary {
-  color: rgba(236, 236, 241, 0.6);
+  color: hsl(var(--background) / 0.6);
 }
 
 .placeholder\:text-token-text-tertiary::placeholder {
-  color: rgba(13, 13, 13, 0.6);
+  color: hsl(var(--background) / 0.6);
 }
 
 .dark .placeholder\:text-token-text-tertiary::placeholder {
-  color: rgba(236, 236, 241, 0.6);
+  color: hsl(var(--background) / 0.6);
 }
 
 /* Shadow utilities */
 .shadow-short {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px hsl(var(--foreground) / 0.1);
 }
 
 .dark .shadow-short {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px hsl(var(--foreground) / 0.3);
 }
 
 /* Container query support */
@@ -928,7 +904,7 @@ select {
 /* Scrollbar styling */
 .default-browser {
   scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.5) transparent;
 }
 
 .vertical-scroll-fade-mask {
@@ -953,20 +929,20 @@ select {
 
 /* Focus states */
 .focus-within\:border-border\/50:focus-within {
-  border-color: rgba(0, 0, 0, 0.5);
+  border-color: hsl(var(--foreground) / 0.5);
 }
 
 .dark .focus-within\:border-border\/50:focus-within {
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: hsl(var(--background) / 0.5);
 }
 
 /* Background surface */
 .bg-primary-surface-primary {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: hsl(var(--background) / 0.8);
 }
 
 .dark .bg-primary-surface-primary {
-  background-color: rgba(48, 48, 48, 0.8);
+  background-color: hsl(var(--card) / 0.8);
 }
 
 /* Max height utilities */
@@ -1106,16 +1082,16 @@ select {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: hsl(var(--foreground) / 0.1);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
+  background: hsl(var(--background) / 0.3);
   border-radius: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: hsl(var(--background) / 0.5);
 }
 
 /* Business profile hover effects */
@@ -1204,7 +1180,7 @@ select {
   left: 0;
   right: 0;
   height: 2px;
-  background: rgba(255, 255, 255, 0.3);
+  background: hsl(var(--background) / 0.3);
 }
 
 .video-progress-bar {
@@ -1218,7 +1194,7 @@ select {
   position: absolute;
   top: 4rem;
   right: 1rem;
-  background: rgba(0, 0, 0, 0.8);
+  background: hsl(var(--foreground) / 0.8);
   border-radius: 8px;
   padding: 0.5rem;
   z-index: 20;
@@ -1229,7 +1205,7 @@ select {
   position: absolute;
   top: 6rem;
   right: 1rem;
-  background: rgba(0, 0, 0, 0.8);
+  background: hsl(var(--foreground) / 0.8);
   border-radius: 8px;
   padding: 0.5rem;
   z-index: 20;
@@ -1254,7 +1230,7 @@ select {
   transform: translate(-50%, -50%);
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  border: 3px solid hsl(var(--background) / 0.3);
   border-top: 3px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -1293,7 +1269,7 @@ select {
   background: linear-gradient(to bottom,
       transparent 0%,
       transparent 60%,
-      rgba(0, 0, 0, 0.3) 100%);
+      hsl(var(--foreground) / 0.3) 100%);
   pointer-events: none;
 }
 
@@ -1309,7 +1285,7 @@ select {
   transform: translate(-50%, -50%);
   font-size: 4rem;
   color: white;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 10px hsl(var(--foreground) / 0.5);
   animation: popIn 0.3s ease-out;
 }
 
@@ -1407,7 +1383,7 @@ select {
   left: 50%;
   width: 100%;
   height: 100%;
-  background: rgba(212, 175, 55, 0.2);
+  background: hsl(var(--accent) / 0.2);
   border-radius: inherit;
   transform: translate(-50%, -50%) scale(0);
   transition: transform 0.3s ease;
@@ -1415,7 +1391,7 @@ select {
 }
 
 .status-indicator.active::before {
-  background: rgba(212, 175, 55, 0.2);
+  background: hsl(var(--accent) / 0.2);
   transform: translate(-50%, -50%) scale(1.5);
   animation: pulse-ring 2s infinite;
 }

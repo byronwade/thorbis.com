@@ -37,7 +37,7 @@ export const AccessibleFormField = forwardRef(({ label, helperText, errorMessage
 				<label htmlFor={fieldId} className={cn("block font-medium text-foreground cursor-pointer", labelSizeClasses[size], disabled && "text-muted-foreground cursor-not-allowed", labelClassName)}>
 					{label}
 					{required && (
-						<span className="ml-1 text-red-500" aria-label="required">
+						<span className="ml-1 text-destructive" aria-label="required">
 							*
 						</span>
 					)}
@@ -89,8 +89,8 @@ export const AccessibleFormField = forwardRef(({ label, helperText, errorMessage
 
 				{/* Right Element (Success/Error Icons or Custom) */}
 				<div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
-					{hasSuccess && <CheckCircle2 className={cn("text-green-500", size === "small" ? "w-4 h-4" : size === "large" ? "w-6 h-6" : "w-5 h-5")} />}
-					{hasError && <AlertCircle className={cn("text-red-500", size === "small" ? "w-4 h-4" : size === "large" ? "w-6 h-6" : "w-5 h-5")} />}
+					{hasSuccess && <CheckCircle2 className={cn("text-success", size === "small" ? "w-4 h-4" : size === "large" ? "w-6 h-6" : "w-5 h-5")} />}
+					{hasError && <AlertCircle className={cn("text-destructive", size === "small" ? "w-4 h-4" : size === "large" ? "w-6 h-6" : "w-5 h-5")} />}
 					{rightElement}
 				</div>
 			</div>
@@ -106,16 +106,16 @@ export const AccessibleFormField = forwardRef(({ label, helperText, errorMessage
 			{/* Success Message */}
 			{successMessage && hasSuccess && (
 				<div className="flex items-start space-x-2">
-					<CheckCircle2 className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-					<p className={cn("text-green-700 font-medium", size === "small" ? "text-xs" : "text-sm")}>{successMessage}</p>
+					<CheckCircle2 className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+					<p className={cn("text-success font-medium", size === "small" ? "text-xs" : "text-sm")}>{successMessage}</p>
 				</div>
 			)}
 
 			{/* Error Message */}
 			{errorMessage && (
 				<div id={errorId} className="flex items-start space-x-2" role="alert">
-					<AlertCircle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-					<p className={cn("text-red-600 font-medium", size === "small" ? "text-xs" : "text-sm")}>{errorMessage}</p>
+					<AlertCircle className="w-4 h-4 text-destructive mt-0.5 flex-shrink-0" />
+					<p className={cn("text-destructive font-medium", size === "small" ? "text-xs" : "text-sm")}>{errorMessage}</p>
 				</div>
 			)}
 		</div>
@@ -134,7 +134,7 @@ export const AccessibleButton = forwardRef(({ children, variant = "default", siz
 		default: "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/20",
 		outline: "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground focus:ring-primary/20",
 		ghost: "text-primary hover:bg-primary/10 focus:ring-primary/20",
-		destructive: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500/20",
+		destructive: "bg-destructive text-white hover:bg-destructive focus:ring-red-500/20",
 	};
 
 	const sizes = {

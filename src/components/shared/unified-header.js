@@ -16,12 +16,18 @@ import {
   DropdownMenuGroup 
 } from "@components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger
+} from "@components/ui/sheet";
+import EnhancedMobileMenu from "./enhanced-mobile-menu";
 import {
   BarChart3,
   Building2,
   Calendar,
-  Users,
   Settings,
   LogOut,
   User,
@@ -48,7 +54,6 @@ import {
   Inbox,
   Mail,
   Send,
-  Bell,
   Search,
   ArrowLeft,
   FileText,
@@ -63,17 +68,17 @@ import {
   Activity
 } from "lucide-react";
 
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { RiComputerFill } from "react-icons/ri";
 import { useTheme } from "next-themes";
 import { useAuth } from "@context/auth-context";
-import { logger } from "@lib/utils/logger";
+import { useCartStore } from "@store/cart";
+import logger from "@lib/utils/logger";
 import { readFlagFromDOM } from "@lib/flags/client";
 import AdvancedSearch from "./advanced-search";
 import AdvancedSearchHeader from "./advanced-search-header";
 import RealTimeNotifications from "./real-time-notifications";
 import KeyboardShortcuts from "./keyboard-shortcuts";
-import MarketplaceHeaderLink from "./marketplace-header-link";
+
 import DarkModeToggle from "@components/ui/dark-mode-toggle";
 import ClientOnlyWrapper from "./client-only-wrapper";
 
@@ -112,8 +117,8 @@ function DevAuthTools() {
         onClick={toggle}
         className={`h-8 px-2 text-xs font-medium transition-all duration-200 rounded-md border ${
           enabled 
-            ? 'bg-red-50 hover:bg-red-100 border-red-200 text-red-700 dark:bg-red-950/20 dark:hover:bg-red-950/30 dark:border-red-800 dark:text-red-300' 
-            : 'bg-green-50 hover:bg-green-100 border-green-200 text-green-700 dark:bg-green-950/20 dark:hover:bg-green-950/30 dark:border-green-800 dark:text-green-300'
+            ? 'bg-red-50 hover:bg-destructive/10 border-red-200 text-destructive dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:border-red-800 dark:text-destructive/90' 
+            : 'bg-green-50 hover:bg-success/10 border-green-200 text-success dark:bg-success/20 dark:hover:bg-success/30 dark:border-green-800 dark:text-success/90'
         }`}
         title={`Development Auth is currently ${enabled ? 'OFF' : 'ON'}`}
       >
@@ -146,7 +151,7 @@ export default function UnifiedHeader({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentCompanyId, setCurrentCompanyId] = useState("1");
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
-  const [cartItemCount, setCartItemCount] = useState(3); // Mock cart count
+  const { totalItems, openCart } = useCartStore();
   const [moreFilter, setMoreFilter] = useState("");
   
   const pathname = usePathname();
@@ -226,6 +231,11 @@ export default function UnifiedHeader({
       title: customTitle || "GoFor Dashboard",
       subtitle: customSubtitle || "Delivery Management",
       primaryColor: "indigo"
+    },
+    jobs: {
+      title: customTitle || "Jobs",
+      subtitle: customSubtitle || "Find Your Next Opportunity",
+      primaryColor: "blue"
     },
     site: {
       title: customTitle || "Thorbis",
@@ -308,6 +318,12 @@ export default function UnifiedHeader({
         { key: "history", text: "Delivery History", icon: Clock, href: "/dashboard/gofor/history" },
         { key: "earnings", text: "Earnings", icon: DollarSign, href: "/dashboard/gofor/earnings" },
         { key: "settings", text: "Settings", icon: Settings, href: "/dashboard/gofor/settings" },
+      ],
+      jobs: [
+        { key: "find-jobs", text: "Find Jobs", icon: Briefcase, href: "/jobs" },
+        { key: "company-reviews", text: "Company Reviews", icon: Star, href: "/reviews" },
+        { key: "salary-guide", text: "Salary Guide", icon: DollarSign, href: "/salary" },
+        { key: "post-job", text: "Post Job", icon: Plus, href: "/jobs/post" },
       ],
       site: [
         { key: "home", text: "Home", icon: Home, href: "/" },
@@ -735,13 +751,13 @@ export default function UnifiedHeader({
                         size="sm" 
                         className={`px-3 py-2 text-sm font-medium relative ${
                           isActive 
-                            ? "bg-blue-900/20 text-blue-300 border-blue-800" 
-                            : "text-white hover:text-blue-300 hover:bg-blue-900/20"
+                            ? "bg-primary/20 text-primary/90 border-primary" 
+                            : "text-white hover:text-primary/90 hover:bg-primary/20"
                         }`}
                       >
                         {item.text}
                         {item.badge && (
-                          <Badge variant="secondary" className="ml-2 text-xs bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
+                          <Badge variant="secondary" className="ml-2 text-xs bg-success/10 text-success dark:bg-success/20 dark:text-success/90">
                             {item.badge}
                           </Badge>
                         )}
@@ -757,7 +773,7 @@ export default function UnifiedHeader({
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="text-white hover:text-blue-300 hover:bg-blue-900/20 px-3 py-2 text-sm font-medium"
+                        className="text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2 text-sm font-medium"
                       >
                         <span className="flex items-center space-x-1">
                           <span>For Business</span>
@@ -778,7 +794,7 @@ export default function UnifiedHeader({
                               href="/add-a-business"
                               className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
                             >
-                              <Plus className="h-4 w-4 text-green-500" />
+                              <Plus className="h-4 w-4 text-success" />
                               <div>
                                 <span className="text-sm font-medium">List Your Business</span>
                                 <p className="text-xs text-muted-foreground">Add your business to our directory</p>
@@ -790,7 +806,7 @@ export default function UnifiedHeader({
                               href="/business"
                               className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
                             >
-                              <Shield className="h-4 w-4 text-blue-500" />
+                              <Shield className="h-4 w-4 text-primary" />
                               <div>
                                 <span className="text-sm font-medium">Business Services</span>
                                 <p className="text-xs text-muted-foreground">Manage your business listing</p>
@@ -823,7 +839,7 @@ export default function UnifiedHeader({
                               href="/advertise"
                               className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
                             >
-                              <Megaphone className="h-4 w-4 text-orange-500" />
+                              <Megaphone className="h-4 w-4 text-warning" />
                               <div>
                                 <span className="text-sm font-medium">Advertise</span>
                                 <p className="text-xs text-muted-foreground">Promote your business</p>
@@ -892,7 +908,7 @@ export default function UnifiedHeader({
                               href="/developers"
                               className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
                             >
-                              <Monitor className="h-4 w-4 text-gray-500" />
+                              <Monitor className="h-4 w-4 text-muted-foreground" />
                               <div>
                                 <span className="text-sm font-medium">Developer API</span>
                                 <p className="text-xs text-muted-foreground">Integrate with your systems</p>
@@ -950,7 +966,7 @@ export default function UnifiedHeader({
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="text-white hover:text-blue-300 hover:bg-blue-900/20 px-3 py-2 text-sm font-medium"
+                        className="text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2 text-sm font-medium"
                       >
                         <span className="flex items-center space-x-1">
                           <span>More</span>
@@ -985,22 +1001,21 @@ export default function UnifiedHeader({
 
             {/* User Controls */}
             <div className="flex items-center space-x-3">
-              {/* Cart (if enabled) */}
-              {showCart && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="relative flex items-center justify-center h-10 w-10 hover:bg-muted transition-colors"
-                  aria-label="Shopping cart"
-                >
-                  <ShoppingCart className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
-                  {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 bg-blue-500 rounded-full text-xs text-white flex items-center justify-center">
-                      {cartItemCount}
-                    </span>
-                  )}
-                </Button>
-              )}
+              {/* Cart (always shown) */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={openCart}
+                className="relative flex items-center justify-center h-10 w-10 hover:bg-muted transition-colors"
+                aria-label="Shopping cart"
+              >
+                <ShoppingCart className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
+                {totalItems > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 bg-primary rounded-full text-xs text-white flex items-center justify-center">
+                    {totalItems > 99 ? '99+' : totalItems}
+                  </span>
+                )}
+              </Button>
 
               {/* Advanced Search Trigger (if search not shown) */}
               {!showSearch && (
@@ -1133,7 +1148,7 @@ export default function UnifiedHeader({
                 </ClientOnlyWrapper>
               ) : (
                 !authBypass && (
-                  <div className="flex items-center space-x-2">
+                  <div className="hidden lg:flex items-center space-x-2">
                     <Link href="/login">
                       <Button variant="ghost" size="sm">Sign In</Button>
                     </Link>
@@ -1146,7 +1161,7 @@ export default function UnifiedHeader({
 
               {/* Auth Bypass Indicator */}
               {authBypass && (
-                <div className="flex items-center px-2 py-1 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 rounded-md text-xs font-medium">
+                <div className="flex items-center px-2 py-1 bg-warning/10 dark:bg-warning/20 text-warning dark:text-warning/80 rounded-md text-xs font-medium">
                   <Key className="h-3 w-3 mr-1" />
                   Auth Bypass
                 </div>
@@ -1157,112 +1172,27 @@ export default function UnifiedHeader({
 
               {/* Mobile Menu */}
               <ClientOnlyWrapper>
-                <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                  <SheetTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className="lg:hidden flex items-center justify-center h-10 w-10 hover:bg-muted transition-colors"
-                    >
-                      <Menu className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
-                    </Button>
-                  </SheetTrigger>
-                <SheetContent side="right" className="w-80">
-                  <SheetHeader>
-                    <SheetTitle>{config.title}</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-6">
-                    {/* Mobile navigation */}
-                    <nav className="space-y-2">
-                      {getNavigationItems.map((item) => (
-                        <Link
-                          key={item.key}
-                          href={item.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                            pathname === item.href
-                              ? 'bg-blue-900/20 text-blue-300'
-                              : 'text-white hover:text-blue-300 hover:bg-blue-900/20'
-                          }`}
-                        >
-                          <span>{item.text}</span>
-                          {item.badge && (
-                            <Badge variant="secondary" className="text-xs bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
-                              {item.badge}
-                            </Badge>
-                          )}
-                        </Link>
-                      ))}
-
-                      {/* Mobile For Business Section */}
-                      <div className="border-t border-neutral-700 pt-4 mt-4">
-                        <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3 px-4">
-                          For Business
-                        </h3>
-                        <div className="space-y-1">
-                          <Link
-                            href="/add-a-business"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <Plus className="h-4 w-4 text-green-500" />
-                            <span>List Your Business</span>
-                          </Link>
-                          <Link
-                            href="/business"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <Shield className="h-4 w-4 text-blue-500" />
-                            <span>Business Services</span>
-                          </Link>
-                          <Link
-                            href="/dashboard/business"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <BarChart3 className="h-4 w-4 text-purple-500" />
-                            <span>Business Dashboard</span>
-                          </Link>
-                          <Link
-                            href="/advertise"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <Megaphone className="h-4 w-4 text-orange-500" />
-                            <span>Advertise</span>
-                          </Link>
-                          <Link
-                            href="/localhub"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <Building2 className="h-4 w-4 text-indigo-500" />
-                            <span>LocalHub</span>
-                          </Link>
-                          <Link
-                            href="/dashboard/academy"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <GraduationCap className="h-4 w-4 text-emerald-500" />
-                            <span>Business Academy</span>
-                          </Link>
-                          <Link
-                            href="/pricing"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center space-x-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors text-white hover:text-blue-300 hover:bg-blue-900/20"
-                          >
-                            <Calculator className="h-4 w-4 text-cyan-500" />
-                            <span>Pricing Plans</span>
-                          </Link>
-                        </div>
-                      </div>
-                    </nav>
-                  </div>
-                </SheetContent>
-              </Sheet>
-                </ClientOnlyWrapper>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="lg:hidden mobile-menu-button flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
+                  onClick={() => setMobileMenuOpen(true)}
+                  style={{ display: 'flex' }}
+                >
+                  <Menu className="h-5 w-5 text-foreground" />
+                </Button>
+                
+                <EnhancedMobileMenu
+                  isOpen={mobileMenuOpen}
+                  onClose={() => setMobileMenuOpen(false)}
+                  dashboardType={dashboardType}
+                  navigationItems={getNavigationItems}
+                  activeNavKey={activeNavKey}
+                  config={config}
+                  businessSubNavItems={businessSubNavItems}
+                  showAuthButtons={dashboardType === "site"}
+                />
+              </ClientOnlyWrapper>
             </div>
           </div>
         </div>
@@ -1280,9 +1210,26 @@ export default function UnifiedHeader({
     );
   }
 
+  // Fallback mobile menu button for testing
+  const FallbackMobileMenu = () => (
+    <div className="fixed top-4 right-4 z-[10000] lg:hidden">
+      <Button 
+        variant="outline" 
+        size="sm" 
+        className="mobile-menu-button flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
+        onClick={() => setMobileMenuOpen(true)}
+        style={{ display: 'flex' }}
+      >
+        <Menu className="h-5 w-5 text-foreground" />
+      </Button>
+    </div>
+  );
+
   // Dashboard Headers (business, user, admin, etc.) - Show sub-navigation
   return (
-    <div className="sticky top-0 z-[9999] bg-neutral-900 border-b border-neutral-800 shadow-sm">
+    <>
+      <FallbackMobileMenu />
+      <div className="sticky top-0 z-[9999] bg-neutral-900 border-b border-neutral-800 shadow-sm">
       {/* Main Header */}
       <div className="flex items-center justify-between py-3 px-4 lg:px-6">
         {/* Left - Navigation & Search */}
@@ -1298,8 +1245,8 @@ export default function UnifiedHeader({
                     size="sm" 
                     className={`px-3 py-2 text-sm font-medium ${
                       isActive 
-                        ? "bg-blue-900/20 text-blue-300" 
-                        : "text-white hover:text-blue-300 hover:bg-blue-900/20"
+                        ? "bg-primary/20 text-primary/90" 
+                        : "text-white hover:text-primary/90 hover:bg-primary/20"
                     }`}
                   >
                     {item.text}
@@ -1320,7 +1267,7 @@ export default function UnifiedHeader({
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="text-sm font-medium text-white hover:text-blue-300 hover:bg-blue-900/20 px-3 py-2"
+                    className="text-sm font-medium text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2"
                   >
                     <span className="flex items-center space-x-1">
                       <span>Explore</span>
@@ -1366,7 +1313,7 @@ export default function UnifiedHeader({
                           className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
                         >
                           <div className="w-5 h-5 flex items-center justify-center">
-                            <Building2 className="h-4 w-4 text-orange-500" />
+                            <Building2 className="h-4 w-4 text-warning" />
                           </div>
                           <span className="text-sm font-medium">LocalHub</span>
                         </Link>
@@ -1377,7 +1324,7 @@ export default function UnifiedHeader({
                           className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
                         >
                           <div className="w-5 h-5 flex items-center justify-center">
-                            <GraduationCap className="h-4 w-4 text-green-500" />
+                            <GraduationCap className="h-4 w-4 text-success" />
                           </div>
                           <span className="text-sm font-medium">Academy</span>
                         </Link>
@@ -1399,7 +1346,7 @@ export default function UnifiedHeader({
                           className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
                         >
                           <div className="w-5 h-5 flex items-center justify-center">
-                            <Monitor className="h-4 w-4 text-gray-500" />
+                            <Monitor className="h-4 w-4 text-muted-foreground" />
                           </div>
                           <span className="text-sm font-medium">Developers</span>
                         </Link>
@@ -1439,7 +1386,7 @@ export default function UnifiedHeader({
           
           {/* Auth Bypass Indicator */}
           {authBypass && (
-            <div className="flex items-center px-2 py-1 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 rounded-md text-xs font-medium">
+            <div className="flex items-center px-2 py-1 bg-warning/10 dark:bg-warning/20 text-warning dark:text-warning/80 rounded-md text-xs font-medium">
               <Key className="h-3 w-3 mr-1" />
               Auth Bypass
             </div>
@@ -1578,49 +1525,26 @@ export default function UnifiedHeader({
 
           {/* Mobile Menu */}
           <ClientOnlyWrapper>
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="lg:hidden flex items-center justify-center h-10 w-10 hover:bg-muted transition-colors"
-                >
-                  <Menu className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
-                </Button>
-              </SheetTrigger>
-            <SheetContent side="right" className="w-80">
-              <SheetHeader>
-                <SheetTitle>{config.title}</SheetTitle>
-              </SheetHeader>
-              <div className="mt-6">
-                <nav className="space-y-2">
-                  {getNavigationItems.map((item) => (
-                    <Link
-                      key={item.key}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                        activeNavKey === item.key
-                          ? 'bg-blue-900/20 text-blue-300'
-                          : 'text-white hover:text-blue-300 hover:bg-blue-900/20'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3">
-                        {item.icon && <item.icon className="h-4 w-4" />}
-                        <span>{item.text}</span>
-                      </div>
-                      {item.badge && (
-                        <Badge variant="secondary" className="text-xs bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </Link>
-                  ))}
-                </nav>
-              </div>
-            </SheetContent>
-          </Sheet>
-            </ClientOnlyWrapper>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="lg:hidden mobile-menu-button flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
+              onClick={() => setMobileMenuOpen(true)}
+              style={{ display: 'flex' }}
+            >
+              <Menu className="h-5 w-5 text-foreground" />
+            </Button>
+            
+            <EnhancedMobileMenu
+              isOpen={mobileMenuOpen}
+              onClose={() => setMobileMenuOpen(false)}
+              dashboardType={dashboardType}
+              navigationItems={getNavigationItems}
+              activeNavKey={activeNavKey}
+              config={config}
+              businessSubNavItems={businessSubNavItems}
+            />
+          </ClientOnlyWrapper>
         </div>
       </div>
 
@@ -1635,8 +1559,8 @@ export default function UnifiedHeader({
                   href={subItem.href}
                   className={`px-3 py-1.5 text-xs font-medium rounded transition-colors flex-shrink-0 ${
                     pathname === subItem.href
-                      ? 'bg-blue-900/20 text-blue-300 border border-blue-800'
-                      : 'text-neutral-400 hover:text-blue-300 hover:bg-blue-900/20'
+                      ? 'bg-primary/20 text-primary/90 border border-primary'
+                      : 'text-neutral-400 hover:text-primary/90 hover:bg-primary/20'
                   }`}
                 >
                   {subItem.text}
@@ -1657,5 +1581,6 @@ export default function UnifiedHeader({
         />
       )}
     </div>
+    </>
   );
 }

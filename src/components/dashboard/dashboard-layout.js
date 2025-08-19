@@ -14,7 +14,7 @@ import { Separator } from "@components/ui/separator";
 import { Sheet, SheetContent, SheetTrigger } from "@components/ui/sheet";
 import { PERMISSIONS, RoleManager } from "@lib/auth/roles";
 import { User, Building, BarChart3, Shield, Settings, Bell, Menu, LogOut, ChevronDown, Star, MapPin, Users, TrendingUp, FileText, Briefcase, Gavel, Eye, Edit, Plus, GraduationCap, BookOpen, AlertTriangle } from "lucide-react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 /**
  * Comprehensive dashboard layout with role-based navigation
@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }) {
 		return (
 			<div className="min-h-screen flex items-center justify-center">
 				<div className="text-center space-y-4">
-					<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+					<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-border mx-auto"></div>
 					<p>Loading dashboard...</p>
 				</div>
 			</div>
@@ -53,7 +53,7 @@ export default function DashboardLayout({ children }) {
 	}
 
 	return (
-		<div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+		<div className="min-h-screen bg-gray-50 dark:bg-card">
 			{/* Mobile sidebar */}
 			<Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
 				<SheetTrigger asChild>
@@ -70,7 +70,7 @@ export default function DashboardLayout({ children }) {
 			<div className="md:flex">
 				{/* Desktop sidebar */}
 				<div className="hidden md:flex md:w-80 md:flex-col">
-					<div className="flex flex-col flex-grow pt-5 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+					<div className="flex flex-col flex-grow pt-5 bg-white dark:bg-card border-r border-border dark:border-border overflow-y-auto">
 						<DashboardSidebar user={user} profile={profile} userRoles={userRoles} checkPermission={checkPermission} getUserLevel={getUserLevel} pathname={pathname} />
 					</div>
 				</div>
@@ -290,8 +290,8 @@ function DashboardSidebar({ user, profile, userRoles, checkPermission, getUserLe
 						<AvatarFallback>{profile?.displayName?.charAt(0)?.toUpperCase() || user.email?.charAt(0)?.toUpperCase()}</AvatarFallback>
 					</Avatar>
 					<div className="flex-1 min-w-0">
-						<p className="text-sm font-medium text-gray-900 dark:text-white truncate">{profile?.displayName || "Loading..."}</p>
-						<p className="text-xs text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+						<p className="text-sm font-medium text-foreground dark:text-white truncate">{profile?.displayName || "Loading..."}</p>
+						<p className="text-xs text-muted-foreground dark:text-muted-foreground truncate">{user.email}</p>
 						<div className="flex items-center space-x-1 mt-1">
 							{userRoles.slice(0, 2).map((role) => (
 								<Badge key={role} variant="secondary" className="text-xs px-1 py-0">
@@ -317,7 +317,7 @@ function DashboardSidebar({ user, profile, userRoles, checkPermission, getUserLe
 
 					return (
 						<div key={categoryName}>
-							<h3 className="px-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{categoryName}</h3>
+							<h3 className="px-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wider">{categoryName}</h3>
 							<div className="mt-2 space-y-1">
 								{items.map((item) => {
 									const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
@@ -330,13 +330,13 @@ function DashboardSidebar({ user, profile, userRoles, checkPermission, getUserLe
 											onClick={onNavigate}
 											className={`
 												group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors
-												${isActive ? "bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200" : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"}
+												${isActive ? "bg-primary/10 dark:bg-primary text-primary dark:text-primary/80" : "text-muted-foreground dark:text-muted-foreground hover:bg-gray-50 dark:hover:bg-muted hover:text-foreground dark:hover:text-white"}
 											`}
 										>
 											<Icon className="mr-3 h-5 w-5 flex-shrink-0" />
 											<div className="flex-1">
 												<div>{item.name}</div>
-												{item.description && <div className="text-xs text-gray-500 dark:text-gray-400">{item.description}</div>}
+												{item.description && <div className="text-xs text-muted-foreground dark:text-muted-foreground">{item.description}</div>}
 											</div>
 										</Link>
 									);
@@ -353,7 +353,7 @@ function DashboardSidebar({ user, profile, userRoles, checkPermission, getUserLe
 					<CardContent className="p-3">
 						<div className="flex items-center justify-between">
 							<div>
-								<p className="text-xs font-medium text-gray-500 dark:text-gray-400">Access Level</p>
+								<p className="text-xs font-medium text-muted-foreground dark:text-muted-foreground">Access Level</p>
 								<p className="text-sm font-semibold">{userLevel}</p>
 							</div>
 							<Badge variant="outline" className="text-xs">
@@ -386,15 +386,15 @@ function DashboardHeader({ user, profile, logout }) {
 	};
 
 	return (
-		<header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+		<header className="bg-white dark:bg-card shadow-sm border-b border-border dark:border-border">
 			<div className="flex items-center justify-between px-6 py-4">
 				{/* Mobile spacing */}
 				<div className="md:hidden w-12"></div>
 
 				{/* Title - emphasizing Business Directory platform */}
 				<div className="flex-1">
-					<h1 className="text-xl font-semibold text-gray-900 dark:text-white">Thorbis Business Directory</h1>
-					<p className="text-sm text-gray-600 dark:text-gray-400">Personal Dashboard</p>
+					<h1 className="text-xl font-semibold text-foreground dark:text-white">Thorbis Business Directory</h1>
+					<p className="text-sm text-muted-foreground dark:text-muted-foreground">Personal Dashboard</p>
 				</div>
 
 				{/* Right side - notifications and user menu */}
@@ -419,17 +419,17 @@ function DashboardHeader({ user, profile, logout }) {
 
 						{/* User menu dropdown */}
 						{showUserMenu && (
-							<div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-700">
-								<Link href="/dashboard/user/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowUserMenu(false)}>
+							<div className="absolute right-0 mt-2 w-48 bg-white dark:bg-card rounded-md shadow-lg py-1 z-50 border border-border dark:border-border">
+								<Link href="/dashboard/user/profile" className="block px-4 py-2 text-sm text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted" onClick={() => setShowUserMenu(false)}>
 									<User className="inline-block mr-2 h-4 w-4" />
 									Profile
 								</Link>
-								<Link href="/dashboard/user/settings" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700" onClick={() => setShowUserMenu(false)}>
+								<Link href="/dashboard/user/settings" className="block px-4 py-2 text-sm text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted" onClick={() => setShowUserMenu(false)}>
 									<Settings className="inline-block mr-2 h-4 w-4" />
 									Settings
 								</Link>
 								<Separator className="my-1" />
-								<button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+								<button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-sm text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted">
 									<LogOut className="inline-block mr-2 h-4 w-4" />
 									Sign out
 								</button>

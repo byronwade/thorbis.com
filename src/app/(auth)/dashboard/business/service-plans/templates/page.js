@@ -137,23 +137,23 @@ const mockTemplates = [
 ];
 
 const categoryColors = {
-	HVAC: "bg-blue-100 text-blue-800",
-	Plumbing: "bg-green-100 text-green-800",
-	Electrical: "bg-yellow-100 text-yellow-800",
+	HVAC: "bg-primary/10 text-primary",
+	Plumbing: "bg-success/10 text-success",
+	Electrical: "bg-warning/10 text-warning",
 	"Multi-Service": "bg-purple-100 text-purple-800",
 };
 
 const typeColors = {
-	maintenance: "bg-orange-100 text-orange-800",
+	maintenance: "bg-warning/10 text-warning",
 	protection: "bg-teal-100 text-teal-800",
-	safety: "bg-red-100 text-red-800",
+	safety: "bg-destructive/10 text-destructive",
 	comprehensive: "bg-indigo-100 text-indigo-800",
 };
 
 const statusColors = {
-	active: "bg-green-100 text-green-800",
+	active: "bg-success/10 text-success",
 	draft: "bg-muted text-muted-foreground",
-	inactive: "bg-red-100 text-red-800",
+	inactive: "bg-destructive/10 text-destructive",
 };
 
 export default function ServicePlanTemplates() {
@@ -268,7 +268,7 @@ export default function ServicePlanTemplates() {
 								<p className="text-sm text-muted-foreground">Total Templates</p>
 								<p className="text-2xl font-bold">{filteredTemplates.length}</p>
 							</div>
-							<Settings className="w-8 h-8 text-blue-500" />
+							<Settings className="w-8 h-8 text-primary" />
 						</div>
 					</CardContent>
 				</Card>
@@ -280,7 +280,7 @@ export default function ServicePlanTemplates() {
 								<p className="text-sm text-muted-foreground">Total Revenue</p>
 								<p className="text-2xl font-bold">${getTotalRevenue().toLocaleString()}</p>
 							</div>
-							<DollarSign className="w-8 h-8 text-green-500" />
+							<DollarSign className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -304,7 +304,7 @@ export default function ServicePlanTemplates() {
 								<p className="text-sm text-muted-foreground">Avg. Price</p>
 								<p className="text-2xl font-bold">${getAveragePrice().toFixed(0)}</p>
 							</div>
-							<Star className="w-8 h-8 text-orange-500" />
+							<Star className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -413,7 +413,7 @@ export default function ServicePlanTemplates() {
 												<Copy className="w-4 h-4 mr-2" />
 												Duplicate
 											</DropdownMenuItem>
-											<DropdownMenuItem onClick={() => handleDeleteTemplate(template.id)} className="text-red-600">
+											<DropdownMenuItem onClick={() => handleDeleteTemplate(template.id)} className="text-destructive">
 												<Trash2 className="w-4 h-4 mr-2" />
 												Delete
 											</DropdownMenuItem>
@@ -427,7 +427,7 @@ export default function ServicePlanTemplates() {
 								<div className="space-y-3">
 									<div className="flex justify-between items-center">
 										<span className="text-sm font-medium">Price</span>
-										<span className="text-lg font-bold text-green-600">
+										<span className="text-lg font-bold text-success">
 											${template.price}/{template.billingCycle}
 										</span>
 									</div>
@@ -530,7 +530,7 @@ export default function ServicePlanTemplates() {
 															<Copy className="w-4 h-4 mr-2" />
 															Duplicate
 														</DropdownMenuItem>
-														<DropdownMenuItem onClick={() => handleDeleteTemplate(template.id)} className="text-red-600">
+														<DropdownMenuItem onClick={() => handleDeleteTemplate(template.id)} className="text-destructive">
 															<Trash2 className="w-4 h-4 mr-2" />
 															Delete
 														</DropdownMenuItem>
@@ -567,7 +567,7 @@ export default function ServicePlanTemplates() {
 								<div>
 									<h4 className="font-medium mb-2">Pricing Information</h4>
 									<div className="bg-accent p-4 rounded-lg">
-										<div className="text-2xl font-bold text-green-600">${selectedTemplate.price}</div>
+										<div className="text-2xl font-bold text-success">${selectedTemplate.price}</div>
 										<div className="text-sm text-muted-foreground">per {selectedTemplate.billingCycle}</div>
 										<div className="text-sm text-muted-foreground mt-1">Duration: {selectedTemplate.duration}</div>
 									</div>
@@ -599,7 +599,7 @@ export default function ServicePlanTemplates() {
 									<ul className="space-y-1">
 										{selectedTemplate.benefits.map((benefit, index) => (
 											<li key={index} className="text-sm flex items-center gap-2">
-												<div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
+												<div className="w-1.5 h-1.5 bg-success rounded-full" />
 												{benefit}
 											</li>
 										))}

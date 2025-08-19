@@ -4,7 +4,7 @@
  * Uses ML-like algorithms to predict user navigation patterns
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Prediction algorithms configuration
 const PREDICTION_CONFIG = {

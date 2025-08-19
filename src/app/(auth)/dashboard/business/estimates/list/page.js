@@ -297,15 +297,15 @@ export default function EstimatesList() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "approved":
-				return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300";
+				return "bg-success/10 text-success dark:bg-success/20 dark:text-success/90";
 			case "pending":
-				return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300";
+				return "bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning/90";
 			case "rejected":
-				return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300";
+				return "bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive/90";
 			case "draft":
 				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 			case "expired":
-				return "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-300";
+				return "bg-warning/10 text-warning dark:bg-warning/20 dark:text-warning/90";
 			default:
 				return "bg-muted text-muted-foreground dark:bg-muted/20 dark:text-muted-foreground";
 		}
@@ -314,13 +314,13 @@ export default function EstimatesList() {
 	const getPriorityColor = (priority) => {
 		switch (priority) {
 			case "urgent":
-				return "border-l-red-500 bg-red-50 dark:bg-red-900/10";
+				return "border-l-red-500 bg-red-50 dark:bg-destructive/10";
 			case "high":
-				return "border-l-orange-500 bg-orange-50 dark:bg-orange-900/10";
+				return "border-l-orange-500 bg-orange-50 dark:bg-warning/10";
 			case "normal":
-				return "border-l-blue-500 bg-blue-50 dark:bg-blue-900/10";
+				return "border-l-blue-500 bg-blue-50 dark:bg-primary/10";
 			case "low":
-				return "border-l-green-500 bg-green-50 dark:bg-green-900/10";
+				return "border-l-green-500 bg-green-50 dark:bg-success/10";
 			default:
 				return "border-l-muted-foreground bg-muted dark:bg-muted/10";
 		}
@@ -344,18 +344,18 @@ export default function EstimatesList() {
 		const expiry = parseISO(validUntil);
 		const daysLeft = differenceInDays(expiry, today);
 
-		if (daysLeft < 0) return { text: "Expired", color: "text-red-600" };
-		if (daysLeft === 0) return { text: "Expires today", color: "text-orange-600" };
-		if (daysLeft <= 3) return { text: `${daysLeft} days left`, color: "text-orange-600" };
-		if (daysLeft <= 7) return { text: `${daysLeft} days left`, color: "text-yellow-600" };
-		return { text: `${daysLeft} days left`, color: "text-green-600" };
+		if (daysLeft < 0) return { text: "Expired", color: "text-destructive" };
+		if (daysLeft === 0) return { text: "Expires today", color: "text-warning" };
+		if (daysLeft <= 3) return { text: `${daysLeft} days left`, color: "text-warning" };
+		if (daysLeft <= 7) return { text: `${daysLeft} days left`, color: "text-warning" };
+		return { text: `${daysLeft} days left`, color: "text-success" };
 	};
 
 	const getConversionColor = (probability) => {
-		if (probability >= 80) return "text-green-600";
-		if (probability >= 60) return "text-yellow-600";
-		if (probability >= 40) return "text-orange-600";
-		return "text-red-600";
+		if (probability >= 80) return "text-success";
+		if (probability >= 60) return "text-warning";
+		if (probability >= 40) return "text-warning";
+		return "text-destructive";
 	};
 
 	// Actions
@@ -433,7 +433,7 @@ export default function EstimatesList() {
 										<p className="text-sm text-muted-foreground">Total Estimates</p>
 										<p className="text-2xl font-bold">{estimateStats.all}</p>
 									</div>
-									<FileText className="w-8 h-8 text-blue-500" />
+									<FileText className="w-8 h-8 text-primary" />
 								</div>
 							</CardContent>
 						</Card>
@@ -444,7 +444,7 @@ export default function EstimatesList() {
 										<p className="text-sm text-muted-foreground">Conversion Rate</p>
 										<p className="text-2xl font-bold">{conversionRate}%</p>
 									</div>
-									<Target className="w-8 h-8 text-green-500" />
+									<Target className="w-8 h-8 text-success" />
 								</div>
 							</CardContent>
 						</Card>
@@ -466,7 +466,7 @@ export default function EstimatesList() {
 										<p className="text-sm text-muted-foreground">Approved Value</p>
 										<p className="text-2xl font-bold">${approvedValue.toLocaleString()}</p>
 									</div>
-									<CheckCircle className="w-8 h-8 text-green-500" />
+									<CheckCircle className="w-8 h-8 text-success" />
 								</div>
 							</CardContent>
 						</Card>
@@ -559,7 +559,7 @@ export default function EstimatesList() {
 										<DropdownMenuItem onClick={() => handleBulkAction("update_status")}>Update Status</DropdownMenuItem>
 										<DropdownMenuItem onClick={() => handleBulkAction("export")}>Export Selected</DropdownMenuItem>
 										<DropdownMenuSeparator />
-										<DropdownMenuItem onClick={() => handleBulkAction("delete")} className="text-red-600">
+										<DropdownMenuItem onClick={() => handleBulkAction("delete")} className="text-destructive">
 											Delete Selected
 										</DropdownMenuItem>
 									</DropdownMenuContent>
@@ -665,8 +665,8 @@ export default function EstimatesList() {
 															<Star className={`w-3 h-3 ${getConversionColor(estimate.conversionProbability)}`} />
 															<span className={`text-sm font-medium ${getConversionColor(estimate.conversionProbability)}`}>{estimate.conversionProbability}%</span>
 														</div>
-														<div className="w-full bg-gray-200 rounded-full h-1.5">
-															<div className="bg-blue-600 h-1.5 rounded-full" style={{ width: `${estimate.conversionProbability}%` }}></div>
+														<div className="w-full bg-muted rounded-full h-1.5">
+															<div className="bg-primary h-1.5 rounded-full" style={{ width: `${estimate.conversionProbability}%` }}></div>
 														</div>
 													</div>
 												</div>
@@ -707,7 +707,7 @@ export default function EstimatesList() {
 																Download PDF
 															</DropdownMenuItem>
 															<DropdownMenuSeparator />
-															<DropdownMenuItem className="text-red-600">
+															<DropdownMenuItem className="text-destructive">
 																<Trash2 className="mr-2 w-4 h-4" />
 																Delete Estimate
 															</DropdownMenuItem>
@@ -720,7 +720,7 @@ export default function EstimatesList() {
 								</div>
 							) : (
 								<div className="text-center py-12">
-									<FileText className="w-12 h-12 mx-auto mb-4 text-gray-400" />
+									<FileText className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
 									<h3 className="text-lg font-medium mb-2">No estimates found</h3>
 									<p className="text-muted-foreground mb-4">No estimates match your current filters. Try adjusting your search criteria.</p>
 									<Button onClick={() => router.push("/dashboard/business/estimates/create")}>

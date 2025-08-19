@@ -470,13 +470,13 @@ function mapChannel(channel) {
     case "webchat":
       return { label: "Web Chat", Icon: MessageSquare, cls: "border-indigo-300 text-indigo-700" }
     case "whatsapp":
-      return { label: "WhatsApp", Icon: MessageCircle, cls: "border-green-300 text-green-700" }
+      return { label: "WhatsApp", Icon: MessageCircle, cls: "border-green-300 text-success" }
     case "teams":
       return { label: "Teams", Icon: Users, cls: "border-purple-300 text-purple-700" }
     case "internal":
       return { label: "Internal", Icon: MessageSquare, cls: "border-amber-300 text-amber-700" }
     default:
-      return { label: "Unknown", Icon: MessageSquare, cls: "border-gray-300" }
+      return { label: "Unknown", Icon: MessageSquare, cls: "border-border" }
   }
 }
 
@@ -517,11 +517,11 @@ function ChannelPicker({ value, onChange }) {
 // Status Badge Component
 function StatusBadge({ status }) {
   const statusMap = {
-    queued: { label: "Queued", cls: "bg-yellow-100 text-yellow-800" },
-    sent: { label: "Sent", cls: "bg-blue-100 text-blue-800" },
-    delivered: { label: "Delivered", cls: "bg-green-100 text-green-800" },
+    queued: { label: "Queued", cls: "bg-warning/10 text-warning" },
+    sent: { label: "Sent", cls: "bg-primary/10 text-primary" },
+    delivered: { label: "Delivered", cls: "bg-success/10 text-success" },
     read: { label: "Read", cls: "bg-purple-100 text-purple-800" },
-    failed: { label: "Failed", cls: "bg-red-100 text-red-800" },
+    failed: { label: "Failed", cls: "bg-destructive/10 text-destructive" },
     none: { label: "", cls: "" },
   }
 

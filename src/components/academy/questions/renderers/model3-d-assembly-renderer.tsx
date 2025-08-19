@@ -37,7 +37,7 @@ function DraggableComponent({ component, isSelected, onSelect, onPositionChange,
 
 	const material = useMemo(() => {
 		const materialProps = {
-			color: isSelected ? "#4F46E5" : component.material.color,
+			color: isSelected ? "hsl(var(--primary))" : component.material.color,
 			wireframe: showWireframe,
 			transparent: isDragging,
 			opacity: isDragging ? 0.7 : 1,
@@ -121,7 +121,7 @@ function DraggableComponent({ component, isSelected, onSelect, onPositionChange,
 			{/* Target position indicator */}
 			{showTargetPosition && (
 				<Box position={[component.targetPosition.x, component.targetPosition.y, component.targetPosition.z]} args={[component.dimensions.width, component.dimensions.height, component.dimensions.depth]}>
-					<meshBasicMaterial color="#22C55E" wireframe opacity={0.3} transparent />
+					<meshBasicMaterial color="hsl(var(--success))" wireframe opacity={0.3} transparent />
 				</Box>
 			)}
 
@@ -131,14 +131,14 @@ function DraggableComponent({ component, isSelected, onSelect, onPositionChange,
 			{/* Selection indicator */}
 			{isSelected && (
 				<Html position={[component.targetPosition.x, component.targetPosition.y + component.dimensions.height / 2 + 1, component.targetPosition.z]}>
-					<div className="bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{component.name}</div>
+					<div className="bg-primary text-white px-2 py-1 rounded text-xs font-medium whitespace-nowrap">{component.name}</div>
 				</Html>
 			)}
 
 			{/* Correctness indicator */}
 			{showTargetPosition && isCorrectlyPlaced && (
 				<Html position={[component.targetPosition.x, component.targetPosition.y + component.dimensions.height / 2 + 1.5, component.targetPosition.z]}>
-					<CheckCircle className="w-6 h-6 text-green-500" />
+					<CheckCircle className="w-6 h-6 text-success" />
 				</Html>
 			)}
 		</group>
@@ -174,7 +174,7 @@ function Scene3D({ question, selectedComponent, onComponentSelect, onComponentMo
 			{/* Ground plane */}
 			<mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
 				<planeGeometry args={[20, 20]} />
-				<meshStandardMaterial color="#f0f0f0" />
+				<meshStandardMaterial color="hsl(var(--muted))" />
 			</mesh>
 
 			{/* Components */}
@@ -268,8 +268,8 @@ export function Model3DAssemblyRenderer({ question, onAnswer, isAnswered, userAn
 				<CardContent className="p-4">
 					<div className="flex items-center justify-between">
 						<div>
-							<p className="text-gray-700 mb-2">Assemble the 3D model by dragging components to their correct positions in the proper order.</p>
-							<div className="flex items-center space-x-4 text-sm text-gray-600">
+							<p className="text-muted-foreground mb-2">Assemble the 3D model by dragging components to their correct positions in the proper order.</p>
+							<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 								<span>Components: {question.components.length}</span>
 								<span>Assembled: {assemblyOrder.length}</span>
 								<span>Tolerance: ±{question.tolerance}</span>
@@ -313,16 +313,16 @@ export function Model3DAssemblyRenderer({ question, onAnswer, isAnswered, userAn
 					<h3 className="text-lg font-semibold mb-3">Components</h3>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 						{question.components.map((component, index) => (
-							<div key={component.id} className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 ${selectedComponent === component.id ? "border-blue-500 bg-blue-50" : assemblyOrder.includes(component.id) ? "border-green-500 bg-green-50" : "border-gray-200 hover:border-gray-300"}`} onClick={() => setSelectedComponent(component.id)}>
+							<div key={component.id} className={`p-3 rounded-lg border-2 cursor-pointer transition-all duration-200 ${selectedComponent === component.id ? "border-primary bg-blue-50" : assemblyOrder.includes(component.id) ? "border-green-500 bg-green-50" : "border-border hover:border-border"}`} onClick={() => setSelectedComponent(component.id)}>
 								<div className="flex items-center space-x-3">
 									<div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center text-sm font-semibold">{assemblyOrder.indexOf(component.id) + 1 || index + 1}</div>
 									<div>
 										<p className="font-medium">{component.name}</p>
-										<p className="text-sm text-gray-600 capitalize">{component.geometry}</p>
+										<p className="text-sm text-muted-foreground capitalize">{component.geometry}</p>
 									</div>
 									{assemblyOrder.includes(component.id) && (
 										<div className="ml-auto">
-											<CheckCircle className="w-5 h-5 text-green-500" />
+											<CheckCircle className="w-5 h-5 text-success" />
 										</div>
 									)}
 								</div>
@@ -342,7 +342,7 @@ export function Model3DAssemblyRenderer({ question, onAnswer, isAnswered, userAn
 								const component = question.components.find((c) => c.id === componentId);
 								const isCompleted = assemblyOrder.slice(0, index + 1).includes(componentId);
 								return (
-									<div key={componentId} className={`px-3 py-2 rounded-lg border-2 transition-all duration-200 ${isCompleted ? "border-green-500 bg-green-50 text-green-800" : "border-gray-300 bg-gray-50 text-gray-600"}`}>
+									<div key={componentId} className={`px-3 py-2 rounded-lg border-2 transition-all duration-200 ${isCompleted ? "border-green-500 bg-green-50 text-success" : "border-border bg-gray-50 text-muted-foreground"}`}>
 										<span className="font-medium">
 											{index + 1}. {component?.name}
 										</span>
@@ -373,24 +373,24 @@ export function Model3DAssemblyRenderer({ question, onAnswer, isAnswered, userAn
 									const result = checkAssembly();
 									return (
 										<>
-											{result.isCorrect ? <CheckCircle className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-											<span className={`font-semibold ${result.isCorrect ? "text-green-700" : "text-red-700"}`}>{result.isCorrect ? "Perfect Assembly!" : "Assembly needs correction"}</span>
+											{result.isCorrect ? <CheckCircle className="w-5 h-5 text-success" /> : <XCircle className="w-5 h-5 text-destructive" />}
+											<span className={`font-semibold ${result.isCorrect ? "text-success" : "text-destructive"}`}>{result.isCorrect ? "Perfect Assembly!" : "Assembly needs correction"}</span>
 										</>
 									);
 								})()}
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Explanation:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Explanation:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
 							{/* Performance breakdown */}
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Assembly Results:</p>
-								<ul className="list-disc list-inside space-y-1 text-gray-700">
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Assembly Results:</p>
+								<ul className="list-disc list-inside space-y-1 text-muted-foreground">
 									<li>Position accuracy: {checkAssembly().correctPositions ? "Perfect" : "Needs adjustment"}</li>
 									<li>Assembly order: {checkAssembly().correctOrder ? "Correct" : "Incorrect sequence"}</li>
 									<li>

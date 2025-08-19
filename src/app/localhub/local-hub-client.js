@@ -25,7 +25,7 @@ export default function LocalHubClient() {
 				<h2 className="text-2xl font-semibold">Get started in minutes</h2>
 				<p className="text-sm text-muted-foreground">Create your directory, invite businesses, and start monetizing.</p>
 				<div className="flex items-center justify-center gap-3">
-					<motion.a whileTap={tap} href="/signup" className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-white font-semibold">
+					<motion.a whileTap={tap} href="/signup" className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-white font-semibold">
 						Start free
 					</motion.a>
 					<motion.a whileTap={tap} href="#pricing" className="inline-flex items-center rounded-md border px-4 py-2 font-semibold">
@@ -65,10 +65,10 @@ export default function LocalHubClient() {
 						<div className="text-xl font-semibold">{p}</div>
 						<div className="mt-1 text-sm text-muted-foreground">{idx === 0 ? "Essential tools" : idx === 1 ? "Advanced features" : "Unlimited potential"}</div>
 						<div className="mt-3 flex items-center gap-2">
-							<span className="text-green-600">✓</span>
+							<span className="text-success">✓</span>
 							<span className="text-sm">Premium listings & sponsors</span>
 						</div>
-						<motion.a whileTap={tap} href="/signup" className={`mt-4 inline-flex w-full items-center justify-center rounded-md ${idx === 1 ? "bg-blue-600 text-white" : "border"} px-3 py-2 font-medium`}>
+						<motion.a whileTap={tap} href="/signup" className={`mt-4 inline-flex w-full items-center justify-center rounded-md ${idx === 1 ? "bg-primary text-white" : "border"} px-3 py-2 font-medium`}>
 							Choose plan
 						</motion.a>
 					</div>

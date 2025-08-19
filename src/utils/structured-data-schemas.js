@@ -10,7 +10,7 @@
  * - Compliance with Google Search Guidelines
  */
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Structured Data Generator Class

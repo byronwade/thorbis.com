@@ -61,7 +61,7 @@ export default function ContactUsForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Name <span className="text-red-500">*</span>
+											Name <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Input {...field} className="bg-background border border-border focus-within:border-primary focus:border-primary" />
@@ -76,7 +76,7 @@ export default function ContactUsForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Email <span className="text-red-500">*</span>
+											Email <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Input {...field} type="email" className="bg-background border border-border focus-within:border-primary focus:border-primary" />
@@ -91,7 +91,7 @@ export default function ContactUsForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Phone Number <span className="text-red-500">*</span>
+											Phone Number <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Input {...field} className="bg-background border border-border focus-within:border-primary focus:border-primary" />
@@ -106,7 +106,7 @@ export default function ContactUsForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Subject <span className="text-red-500">*</span>
+											Subject <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Input {...field} className="bg-background border border-border focus-within:border-primary focus:border-primary" />
@@ -121,7 +121,7 @@ export default function ContactUsForm() {
 								render={({ field }) => (
 									<FormItem>
 										<FormLabel>
-											Message <span className="text-red-500">*</span>
+											Message <span className="text-destructive">*</span>
 										</FormLabel>
 										<FormControl>
 											<Textarea {...field} className="bg-background border border-border focus-within:border-primary focus:border-primary" />
@@ -133,8 +133,8 @@ export default function ContactUsForm() {
 							<Button type="submit" disabled={loading}>
 								{loading ? "Submitting..." : "Submit"} <ArrowRight className="w-4 h-4 ml-2" />
 							</Button>
-							{success && <p className="mt-2 text-sm leading-6 text-left text-green-500">Your message has been sent successfully.</p>}
-							{error && <p className="mt-2 text-sm leading-6 text-left text-red-500">{error}</p>}
+							{success && <p className="mt-2 text-sm leading-6 text-left text-success">Your message has been sent successfully.</p>}
+							{error && <p className="mt-2 text-sm leading-6 text-left text-destructive">{error}</p>}
 						</form>
 					</Form>
 				</FormProvider>

@@ -32,20 +32,20 @@ const formatTime = (date) => {
 // --- Sub-components for a cleaner structure ---
 
 const ChatHeader = ({ onClear, onClose, mode = "sidebar" }) => (
-	<div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/50">
+	<div className="flex items-center justify-between px-4 py-3 border-b border-border dark:border-border bg-gray-50 dark:bg-card/50">
 		<div className="flex items-center gap-3">
 			<div className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-500 to-sky-400 flex items-center justify-center">
 				<Bot className="w-5 h-5 text-white" />
 			</div>
 			<div>
-				<h2 className="font-semibold text-gray-900 dark:text-white">AI Assistant</h2>
-				<p className="text-xs text-gray-500 dark:text-gray-400">Your local business expert</p>
+				<h2 className="font-semibold text-foreground dark:text-white">AI Assistant</h2>
+				<p className="text-xs text-muted-foreground dark:text-muted-foreground">Your local business expert</p>
 			</div>
 		</div>
 		<div className="flex items-center gap-2">
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 dark:text-gray-400">
+					<Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground dark:text-muted-foreground">
 						<MoreVertical className="w-4 h-4" />
 					</Button>
 				</DropdownMenuTrigger>
@@ -56,7 +56,7 @@ const ChatHeader = ({ onClear, onClose, mode = "sidebar" }) => (
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
-			<Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 text-gray-500 dark:text-gray-400">
+			<Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 text-muted-foreground dark:text-muted-foreground">
 				<X className="w-4 h-4" />
 			</Button>
 		</div>
@@ -64,10 +64,10 @@ const ChatHeader = ({ onClear, onClose, mode = "sidebar" }) => (
 );
 
 const MessageContent = ({ message }) => (
-	<div className="prose prose-sm dark:prose-invert max-w-none text-gray-800 dark:text-gray-200">
+	<div className="prose prose-sm dark:prose-invert max-w-none text-foreground dark:text-muted-foreground">
 		<ReactMarkdown
 			components={{
-				a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline" />,
+				a: ({ node, ...props }) => <a {...props} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline" />,
 				p: ({ node, ...props }) => <p {...props} className="mb-3 last:mb-0" />,
 			}}
 		>
@@ -77,11 +77,11 @@ const MessageContent = ({ message }) => (
 );
 
 const FileAttachment = ({ file }) => (
-	<div className="relative group bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-2 flex items-center gap-2 mt-2">
+	<div className="relative group bg-muted dark:bg-card border border-border dark:border-border rounded-lg p-2 flex items-center gap-2 mt-2">
 		<Image src={file.preview} alt={file.name} width={48} height={48} className="w-12 h-12 rounded-md object-cover" />
 		<div className="text-xs flex-1">
-			<p className="font-medium text-gray-800 dark:text-gray-200 truncate">{file.name}</p>
-			<p className="text-gray-500 dark:text-gray-400">{formatFileSize(file.file.size)}</p>
+			<p className="font-medium text-foreground dark:text-muted-foreground truncate">{file.name}</p>
+			<p className="text-muted-foreground dark:text-muted-foreground">{formatFileSize(file.file.size)}</p>
 		</div>
 	</div>
 );
@@ -93,10 +93,10 @@ const MessageActions = ({ message }) => {
 			<Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => navigator.clipboard.writeText(message.content)}>
 				<Copy className="w-3.5 h-3.5" />
 			</Button>
-			<Button variant="ghost" size="icon" className={`h-7 w-7 ${feedback === "up" ? "text-blue-500" : ""}`} onClick={() => setFeedback("up")}>
+			<Button variant="ghost" size="icon" className={`h-7 w-7 ${feedback === "up" ? "text-primary" : ""}`} onClick={() => setFeedback("up")}>
 				<ThumbsUp className="w-3.5 h-3.5" />
 			</Button>
-			<Button variant="ghost" size="icon" className={`h-7 w-7 ${feedback === "down" ? "text-red-500" : ""}`} onClick={() => setFeedback("down")}>
+			<Button variant="ghost" size="icon" className={`h-7 w-7 ${feedback === "down" ? "text-destructive" : ""}`} onClick={() => setFeedback("down")}>
 				<ThumbsDown className="w-3.5 h-3.5" />
 			</Button>
 		</div>
@@ -107,10 +107,10 @@ const Message = ({ message }) => {
 	const isAssistant = message.role === "assistant";
 	return (
 		<motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }} className="group relative flex items-start space-x-3 py-4">
-			<div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAssistant ? "bg-gray-700 dark:bg-gray-800" : "bg-blue-500"}`}>{isAssistant ? <Bot className="w-5 h-5 text-white" /> : <span className="text-sm font-bold text-white">U</span>}</div>
+			<div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAssistant ? "bg-muted dark:bg-card" : "bg-primary"}`}>{isAssistant ? <Bot className="w-5 h-5 text-white" /> : <span className="text-sm font-bold text-white">U</span>}</div>
 			<div className="flex-1 space-y-2">
 				<div className="font-semibold text-sm">
-					{isAssistant ? "AI Assistant" : "You"} <span className="text-xs text-gray-400 ml-2">{formatTime(message.createdAt)}</span>
+					{isAssistant ? "AI Assistant" : "You"} <span className="text-xs text-muted-foreground ml-2">{formatTime(message.createdAt)}</span>
 				</div>
 				<MessageContent message={message} />
 				{message.files && message.files.map((file) => <FileAttachment key={file.id} file={file} />)}
@@ -173,16 +173,16 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 
 	// Compact File Preview component
 	const FilePreviewCompact = ({ file }) => (
-		<motion.div layout initial={{ opacity: 0, y: -10, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, x: -20, scale: 0.9 }} transition={{ duration: 0.2 }} className="relative group bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-1.5 flex items-center gap-2">
+		<motion.div layout initial={{ opacity: 0, y: -10, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, x: -20, scale: 0.9 }} transition={{ duration: 0.2 }} className="relative group bg-muted dark:bg-card border border-border dark:border-border rounded-lg p-1.5 flex items-center gap-2">
 			{file.type.startsWith("image/") ? (
 				<Image src={file.preview} alt={file.name} width={32} height={32} className="w-8 h-8 rounded-md object-cover" />
 			) : (
-				<div className="w-8 h-8 rounded-md bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-					<FileText className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+				<div className="w-8 h-8 rounded-md bg-primary/10 dark:bg-primary/30 flex items-center justify-center">
+					<FileText className="w-5 h-5 text-primary dark:text-primary" />
 				</div>
 			)}
-			<p className="text-sm font-medium text-gray-700 dark:text-gray-300 truncate flex-1">{file.name}</p>
-			<Button variant="ghost" size="icon" onClick={() => removeFile(file.id)} className="h-6 w-6 rounded-full text-gray-500 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50 flex-shrink-0" aria-label="Remove file">
+			<p className="text-sm font-medium text-muted-foreground dark:text-muted-foreground truncate flex-1">{file.name}</p>
+			<Button variant="ghost" size="icon" onClick={() => removeFile(file.id)} className="h-6 w-6 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/50 flex-shrink-0" aria-label="Remove file">
 				<X className="w-4 h-4" />
 			</Button>
 		</motion.div>
@@ -192,13 +192,13 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 	const wrapperProps = mode === "dropdown" ? {} : { onSubmit: handleSubmit };
 
 	return (
-		<div className="border-t border-gray-200 dark:border-gray-800 p-2 sm:p-3 bg-white dark:bg-neutral-900">
+		<div className="border-t border-border dark:border-border p-2 sm:p-3 bg-white dark:bg-neutral-900">
 			<ChatInputWrapper {...wrapperProps} className="relative block" {...dragHandlers}>
-				<div className={`border rounded-xl p-3 transition-all duration-200 ${isDraggingOver ? "border-dashed border-blue-500 bg-blue-100 dark:bg-blue-900/20 shadow-blue-500/20 shadow-xl scale-105" : "border-gray-300 dark:border-gray-700"} focus-within:ring-2 focus-within:ring-blue-500`}>
+				<div className={`border rounded-xl p-3 transition-all duration-200 ${isDraggingOver ? "border-dashed border-primary bg-primary/10 dark:bg-primary/20 shadow-blue-500/20 shadow-xl scale-105" : "border-border dark:border-border"} focus-within:ring-2 focus-within:ring-blue-500`}>
 					{/* Drag overlay indicator */}
 					{isDraggingOver && (
-						<div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-400/10 rounded-xl pointer-events-none z-10 flex items-center justify-center">
-							<div className="bg-blue-600 dark:bg-blue-500 text-white px-3 py-1.5 rounded-md shadow-lg text-sm">
+						<div className="absolute inset-0 bg-primary/10 dark:bg-primary/40/10 rounded-xl pointer-events-none z-10 flex items-center justify-center">
+							<div className="bg-primary dark:bg-primary text-white px-3 py-1.5 rounded-md shadow-lg text-sm">
 								<Upload className="w-4 h-4 mr-1.5 inline" />
 								Drop files here
 							</div>
@@ -217,14 +217,14 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 					</AnimatePresence>
 
 					{/* Textarea */}
-					<textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKeyPress} onPaste={handlePaste} placeholder={isDraggingOver ? "Drop files here" : "Ask a question, or paste an image..."} disabled={isLoading} className="w-full resize-none bg-transparent !border-0 text-base p-0 !outline-none !ring-0 disabled:opacity-60 placeholder:text-gray-500 dark:placeholder:text-gray-400" rows={1} />
+					<textarea ref={textareaRef} value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={handleKeyPress} onPaste={handlePaste} placeholder={isDraggingOver ? "Drop files here" : "Ask a question, or paste an image..."} disabled={isLoading} className="w-full resize-none bg-transparent !border-0 text-base p-0 !outline-none !ring-0 disabled:opacity-60 placeholder:text-muted-foreground dark:placeholder:text-muted-foreground" rows={1} />
 
 					{/* Action Buttons */}
 					<div className="flex items-center justify-between mt-2">
 						<div className="flex items-center gap-1">
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
-									<Button variant="ghost" size="icon" className="h-9 w-9 text-gray-600 dark:text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200" aria-label="Attach file">
+									<Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground dark:text-muted-foreground hover:text-primary hover:bg-blue-50 dark:hover:bg-primary/20 transition-all duration-200" aria-label="Attach file">
 										<Plus className="w-5 h-5" />
 									</Button>
 								</DropdownMenuTrigger>
@@ -232,8 +232,8 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 									<DropdownMenuLabel>Upload Files</DropdownMenuLabel>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem onClick={triggerFileUpload} className="flex items-center gap-3 py-2.5">
-										<div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-											<Upload className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+										<div className="w-8 h-8 rounded-lg bg-primary/10 dark:bg-primary/30 flex items-center justify-center">
+											<Upload className="w-4 h-4 text-primary dark:text-primary" />
 										</div>
 										<div className="flex flex-col">
 											<span className="text-sm font-medium">Upload Files</span>
@@ -241,8 +241,8 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 										</div>
 									</DropdownMenuItem>
 									<DropdownMenuItem onClick={triggerFileUpload} className="flex items-center gap-3 py-2.5">
-										<div className="w-8 h-8 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-											<ImageIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+										<div className="w-8 h-8 rounded-lg bg-success/10 dark:bg-success/30 flex items-center justify-center">
+											<ImageIcon className="w-4 h-4 text-success dark:text-success" />
 										</div>
 										<div className="flex flex-col">
 											<span className="text-sm font-medium">Upload Image</span>
@@ -260,8 +260,8 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 										</div>
 									</DropdownMenuItem>
 									<DropdownMenuItem className="flex items-center gap-3 py-2.5">
-										<div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-											<FileText className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+										<div className="w-8 h-8 rounded-lg bg-warning/10 dark:bg-warning/30 flex items-center justify-center">
+											<FileText className="w-4 h-4 text-warning dark:text-warning" />
 										</div>
 										<div className="flex flex-col">
 											<span className="text-sm font-medium">Scan Document</span>
@@ -270,13 +270,13 @@ const ChatInput = ({ input, setInput, handleSubmit, handleFileUpload, isLoading,
 									</DropdownMenuItem>
 								</DropdownMenuContent>
 							</DropdownMenu>
-							<Button variant="ghost" size="icon" className="h-9 w-9 text-gray-600 dark:text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-200" aria-label="Use microphone">
+							<Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground dark:text-muted-foreground hover:text-primary hover:bg-blue-50 dark:hover:bg-primary/20 transition-all duration-200" aria-label="Use microphone">
 								<Mic className="w-5 h-5" />
 							</Button>
 							<input ref={fileInputRef} type="file" multiple onChange={handleFileSelect} className="hidden" />
 						</div>
 						<div className="flex items-center">
-							<Button type={mode === "dropdown" ? "button" : "submit"} onClick={mode === "dropdown" ? handleSubmit : undefined} size="icon" className="h-9 w-9 rounded-full bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300 dark:disabled:bg-gray-700" disabled={(!input.trim() && uploadedFiles.length === 0) || isLoading} aria-label="Send message">
+							<Button type={mode === "dropdown" ? "button" : "submit"} onClick={mode === "dropdown" ? handleSubmit : undefined} size="icon" className="h-9 w-9 rounded-full bg-primary text-white hover:bg-primary disabled:bg-muted dark:disabled:bg-muted" disabled={(!input.trim() && uploadedFiles.length === 0) || isLoading} aria-label="Send message">
 								{isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
 							</Button>
 						</div>
@@ -321,11 +321,11 @@ const UnifiedAIChat = forwardRef(({ isOpen, onClose, mode = "sidebar" }, ref) =>
 	// In dropdown mode, render a simplified version without input
 	if (mode === "dropdown") {
 		return (
-			<div className={`flex flex-col h-full bg-white dark:bg-neutral-900 border border-gray-200 dark:border-gray-800 rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${isDraggingOver ? "border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-900/10 shadow-blue-500/20 shadow-xl" : ""}`} {...dragHandlers}>
+			<div className={`flex flex-col h-full bg-white dark:bg-neutral-900 border border-border dark:border-border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${isDraggingOver ? "border-dashed border-primary bg-blue-50/50 dark:bg-primary/10 shadow-blue-500/20 shadow-xl" : ""}`} {...dragHandlers}>
 				{/* Drag overlay indicator */}
 				{isDraggingOver && (
-					<div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-400/10 rounded-lg pointer-events-none z-20 flex items-center justify-center">
-						<div className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg">
+					<div className="absolute inset-0 bg-primary/10 dark:bg-primary/40/10 rounded-lg pointer-events-none z-20 flex items-center justify-center">
+						<div className="bg-primary dark:bg-primary text-white px-4 py-2 rounded-lg shadow-lg">
 							<Upload className="w-5 h-5 mr-2 inline" />
 							Drop files here
 						</div>
@@ -336,28 +336,28 @@ const UnifiedAIChat = forwardRef(({ isOpen, onClose, mode = "sidebar" }, ref) =>
 
 				{/* File Preview Section for Dropdown Mode */}
 				{uploadedFiles.length > 0 && (
-					<div className="border-b border-gray-200 dark:border-gray-800 p-3 bg-gray-50 dark:bg-gray-900">
+					<div className="border-b border-border dark:border-border p-3 bg-gray-50 dark:bg-card">
 						<div className="flex items-center justify-between mb-2">
-							<h4 className="text-sm font-medium text-gray-900 dark:text-white">Attached Files</h4>
-							<Button variant="ghost" size="sm" onClick={() => uploadedFiles.forEach((file) => removeFile(file.id))} className="text-xs text-gray-500 hover:text-red-500">
+							<h4 className="text-sm font-medium text-foreground dark:text-white">Attached Files</h4>
+							<Button variant="ghost" size="sm" onClick={() => uploadedFiles.forEach((file) => removeFile(file.id))} className="text-xs text-muted-foreground hover:text-destructive">
 								Clear All
 							</Button>
 						</div>
 						<div className="grid grid-cols-2 gap-2">
 							{uploadedFiles.map((file) => (
-								<div key={file.id} className="relative group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-2 flex items-center gap-2">
+								<div key={file.id} className="relative group bg-white dark:bg-card border border-border dark:border-border rounded-lg p-2 flex items-center gap-2">
 									{file.type.startsWith("image/") ? (
 										<Image src={file.preview} alt={file.name} width={32} height={32} className="w-8 h-8 rounded-md object-cover" />
 									) : (
-										<div className="w-8 h-8 rounded-md bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-											<FileText className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+										<div className="w-8 h-8 rounded-md bg-primary/10 dark:bg-primary/30 flex items-center justify-center">
+											<FileText className="w-5 h-5 text-primary dark:text-primary" />
 										</div>
 									)}
 									<div className="flex-1 min-w-0">
-										<p className="text-xs font-medium text-gray-700 dark:text-gray-300 truncate">{file.name}</p>
-										<p className="text-xs text-gray-500 dark:text-gray-400">{formatFileSize(file.size)}</p>
+										<p className="text-xs font-medium text-muted-foreground dark:text-muted-foreground truncate">{file.name}</p>
+										<p className="text-xs text-muted-foreground dark:text-muted-foreground">{formatFileSize(file.size)}</p>
 									</div>
-									<Button variant="ghost" size="icon" onClick={() => removeFile(file.id)} className="h-5 w-5 rounded-full text-gray-500 hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-900/50 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove file">
+									<Button variant="ghost" size="icon" onClick={() => removeFile(file.id)} className="h-5 w-5 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/50 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" aria-label="Remove file">
 										<X className="w-3 h-3" />
 									</Button>
 								</div>
@@ -375,10 +375,10 @@ const UnifiedAIChat = forwardRef(({ isOpen, onClose, mode = "sidebar" }, ref) =>
 						</AnimatePresence>
 						{isLoading && (
 							<div className="flex items-center justify-center p-4">
-								<Loader2 className="w-6 h-6 animate-spin text-gray-500" />
+								<Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
 							</div>
 						)}
-						{error && <div className="text-center text-red-500 p-4">{error}</div>}
+						{error && <div className="text-center text-destructive p-4">{error}</div>}
 					</div>
 				</ScrollArea>
 
@@ -390,11 +390,11 @@ const UnifiedAIChat = forwardRef(({ isOpen, onClose, mode = "sidebar" }, ref) =>
 
 	// In sidebar mode, render the full version with input
 	return (
-		<div className={`flex flex-col h-full bg-white dark:bg-neutral-900 border-l border-gray-200 dark:border-gray-800 shadow-2xl transition-all duration-200 ${isDraggingOver ? "border-l-blue-500 bg-blue-50/50 dark:bg-blue-900/10 shadow-blue-500/20 shadow-xl" : ""}`} {...dragHandlers}>
+		<div className={`flex flex-col h-full bg-white dark:bg-neutral-900 border-l border-border dark:border-border shadow-2xl transition-all duration-200 ${isDraggingOver ? "border-l-blue-500 bg-blue-50/50 dark:bg-primary/10 shadow-blue-500/20 shadow-xl" : ""}`} {...dragHandlers}>
 			{/* Drag overlay indicator */}
 			{isDraggingOver && (
-				<div className="absolute inset-0 bg-blue-500/10 dark:bg-blue-400/10 pointer-events-none z-20 flex items-center justify-center">
-					<div className="bg-blue-600 dark:bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg">
+				<div className="absolute inset-0 bg-primary/10 dark:bg-primary/40/10 pointer-events-none z-20 flex items-center justify-center">
+					<div className="bg-primary dark:bg-primary text-white px-4 py-2 rounded-lg shadow-lg">
 						<Upload className="w-5 h-5 mr-2 inline" />
 						Drop files here
 					</div>
@@ -412,10 +412,10 @@ const UnifiedAIChat = forwardRef(({ isOpen, onClose, mode = "sidebar" }, ref) =>
 					</AnimatePresence>
 					{isLoading && (
 						<div className="flex items-center justify-center p-4">
-							<Loader2 className="w-6 h-6 animate-spin text-gray-500" />
+							<Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
 						</div>
 					)}
-					{error && <div className="text-center text-red-500 p-4">{error}</div>}
+					{error && <div className="text-center text-destructive p-4">{error}</div>}
 				</div>
 			</ScrollArea>
 

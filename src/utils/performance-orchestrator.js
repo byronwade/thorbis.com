@@ -4,7 +4,7 @@
  * Provides centralized control and real-time monitoring
  */
 
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 import { observeWebVitals, initPerformanceMonitoring } from "@utils/web-vitals";
 import { initInstantPreloader } from "@utils/instant-preloader";
 import { initInstantLoading } from "@utils/instant-page-script";

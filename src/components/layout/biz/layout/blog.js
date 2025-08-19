@@ -79,7 +79,7 @@ export function Blog() {
 						</div>
 						<div>
 							<div className="flex items-center text-xs gap-x-4">
-								<time dateTime={post.datetime} className="text-gray-500 dark:text-gray-300">
+								<time dateTime={post.datetime} className="text-muted-foreground dark:text-muted-foreground">
 									{post.date}
 								</time>
 								<Link href={post.category.href} className="relative z-10 rounded-full bg-primary px-3 py-1.5 font-medium text-white hover:bg-primary-light">
@@ -87,7 +87,7 @@ export function Blog() {
 								</Link>
 							</div>
 							<div className="relative max-w-xl group">
-								<h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 dark:text-white group-hover:text-gray-600">
+								<h3 className="mt-3 text-lg font-semibold leading-6 text-foreground dark:text-white group-hover:text-muted-foreground">
 									<Link href={post.href}>
 										<span className="absolute inset-0" />
 										{post.title}
@@ -99,7 +99,7 @@ export function Blog() {
 								<div className="relative flex items-center gap-x-4">
 									<Image alt="" src={post.author.imageUrl} width={40} height={40} className="w-10 h-10 rounded-full bg-neutral-800" />
 									<div className="text-sm leading-6">
-										<p className="font-semibold text-gray-900 dark:text-white">
+										<p className="font-semibold text-foreground dark:text-white">
 											<Link href={post.author.href}>
 												<span className="absolute inset-0" />
 												{post.author.name}
@@ -115,7 +115,7 @@ export function Blog() {
 			</div>
 			{visiblePosts < posts.length && (
 				<div className="flex justify-center mt-8">
-					<button onClick={handleLoadMore} className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">
+					<button onClick={handleLoadMore} className="px-4 py-2 text-white bg-primary rounded-md hover:bg-primary">
 						Load More
 					</button>
 				</div>

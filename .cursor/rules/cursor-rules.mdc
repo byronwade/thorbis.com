@@ -11,6 +11,21 @@ alwaysApply: false
 2. Check if existing rules can be modified to include new functionality
 3. Only create new rule files when no existing rule can serve the purpose
 
+### REQUIRED: Move rule files, do not recreate
+
+When reorganizing rule files:
+
+- Use `git mv` to move and rename rule files under `.cursor/rules/`
+- Do not copy content into a new file and delete the old one; preserve history
+- Update any internal references (like `@rule-name.mdc`) in the index and docs
+
+Example:
+
+```bash
+git mv .cursor/rules/old-name.mdc .cursor/rules/new-descriptive-name.mdc
+sed -i '' 's/@old-name.mdc/@new-descriptive-name.mdc/g' .cursor/rules/index.mdc
+```
+
 How to add new cursor rules to the project
 
 1. Always place rule files in PROJECT_ROOT/.cursor/rules/:

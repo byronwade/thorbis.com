@@ -12,12 +12,12 @@ import { toast } from "@components/ui/use-toast";
 import Image from "next/image";
 
 const colorSchemes = [
-	{ name: "Ocean Blue", primary: "#0ea5e9", secondary: "#06b6d4", accent: "#3b82f6" },
-	{ name: "Forest Green", primary: "#10b981", secondary: "#059669", accent: "#34d399" },
-	{ name: "Sunset Orange", primary: "#f97316", secondary: "#ea580c", accent: "#fb923c" },
-	{ name: "Royal Purple", primary: "#8b5cf6", secondary: "#7c3aed", accent: "#a78bfa" },
-	{ name: "Rose Pink", primary: "#ec4899", secondary: "#db2777", accent: "#f472b6" },
-	{ name: "Custom", primary: "#6366f1", secondary: "#4f46e5", accent: "#818cf8" },
+	{ name: "Ocean Blue", primary: "hsl(var(--primary))", secondary: "#06b6d4", accent: "#3b82f6" },
+	{ name: "Forest Green", primary: "hsl(var(--muted-foreground))", secondary: "hsl(var(--muted-foreground))", accent: "hsl(var(--success))" },
+	{ name: "Sunset Orange", primary: "hsl(var(--warning))", secondary: "#ea580c", accent: "hsl(var(--warning))" },
+	{ name: "Royal Purple", primary: "hsl(var(--muted-foreground))", secondary: "hsl(var(--muted-foreground))", accent: "hsl(var(--muted-foreground))" },
+	{ name: "Rose Pink", primary: "hsl(var(--muted-foreground))", secondary: "hsl(var(--muted-foreground))", accent: "hsl(var(--muted-foreground))" },
+	{ name: "Custom", primary: "hsl(var(--primary))", secondary: "hsl(var(--primary))", accent: "hsl(var(--primary))" },
 ];
 
 const layoutTemplates = [

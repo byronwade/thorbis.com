@@ -32,7 +32,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 				label: `${insights.openNow} Open Now`,
 				value: "open_now",
 				icon: Clock,
-				color: "bg-green-100 text-green-700 hover:bg-green-200",
+				color: "bg-success/10 text-success hover:bg-success/20",
 			});
 		}
 
@@ -41,7 +41,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 				label: `${insights.freeQuotes} Free Quotes`,
 				value: "free_quotes",
 				icon: Zap,
-				color: "bg-blue-100 text-blue-700 hover:bg-blue-200",
+				color: "bg-primary/10 text-primary hover:bg-primary/20",
 			});
 		}
 
@@ -50,7 +50,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 				label: `${insights.highRated} Top Rated`,
 				value: "top_rated",
 				icon: Star,
-				color: "bg-yellow-100 text-yellow-700 hover:bg-yellow-200",
+				color: "bg-warning/10 text-warning hover:bg-warning/20",
 			});
 		}
 
@@ -87,9 +87,9 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 			<div className="p-4">
 				<div className="flex items-center justify-between mb-3">
 					<div className="flex items-center gap-3">
-						<h2 className="text-lg font-semibold text-gray-900 dark:text-white">{insights.total === 0 ? "No results" : insights.total === 1 ? "1 business found" : `${insights.total} businesses found`}</h2>
+						<h2 className="text-lg font-semibold text-foreground dark:text-white">{insights.total === 0 ? "No results" : insights.total === 1 ? "1 business found" : `${insights.total} businesses found`}</h2>
 						{searchContext && (
-							<Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+							<Badge variant="outline" className="bg-blue-50 text-primary border-primary/30">
 								<MapPin className="w-3 h-3 mr-1" />
 								{searchContext.location || "Current area"}
 							</Badge>
@@ -97,7 +97,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 					</div>
 
 					{activeBusinessId && (
-						<Badge variant="secondary" className="bg-blue-100 text-blue-700 border-blue-200">
+						<Badge variant="secondary" className="bg-primary/10 text-primary border-primary/30">
 							<Eye className="w-3 h-3 mr-1" />
 							Details Open
 						</Badge>
@@ -106,28 +106,28 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 
 				{/* Search Context & Personalization */}
 				{searchContext && (
-					<div className="mb-3 p-3 bg-neutral-900/60 dark:bg-neutral-800/60 rounded-lg border border-blue-100">
+					<div className="mb-3 p-3 bg-neutral-900/60 dark:bg-neutral-800/60 rounded-lg border border-primary/20">
 						<div className="flex items-start gap-2">
-							<Sparkles className="w-4 h-4 text-blue-500 mt-0.5 flex-shrink-0" />
+							<Sparkles className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
 							<div className="text-sm">
-								<p className="text-gray-700 dark:text-gray-300">
+								<p className="text-muted-foreground dark:text-muted-foreground">
 									<span className="font-medium">Showing {searchContext.query}</span> results
 									{searchContext.location && <span> in {searchContext.location}</span>}
 								</p>
-								{insights.total > 10 && <p className="text-xs text-gray-500 mt-1">💡 Tip: Use filters below to narrow down to the best matches for your needs</p>}
+								{insights.total > 10 && <p className="text-xs text-muted-foreground mt-1">💡 Tip: Use filters below to narrow down to the best matches for your needs</p>}
 							</div>
 						</div>
 					</div>
 				)}
 
 				{/* Key Insights Row */}
-				<div className="flex items-center gap-4 text-xs text-gray-600 mb-3">
+				<div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
 					<div className="flex items-center gap-1">
-						<Users className="w-3 h-3 text-green-500" />
+						<Users className="w-3 h-3 text-success" />
 						<span className="font-medium">{insights.openNow} open now</span>
 					</div>
 					<div className="flex items-center gap-1">
-						<TrendingUp className="w-3 h-3 text-blue-500" />
+						<TrendingUp className="w-3 h-3 text-primary" />
 						<span className="font-medium">{insights.verified} verified</span>
 					</div>
 					<div className="flex items-center gap-1">
@@ -136,7 +136,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 					</div>
 					{insights.avgRating > 0 && (
 						<div className="flex items-center gap-1">
-							<Star className="w-3 h-3 text-yellow-500" />
+							<Star className="w-3 h-3 text-warning" />
 							<span className="font-medium">{insights.avgRating.toFixed(1)} avg rating</span>
 						</div>
 					)}
@@ -146,7 +146,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 				{personalizedSuggestions.length > 0 && (
 					<div className="space-y-2">
 						<div className="flex items-center gap-2">
-							<span className="text-xs font-medium text-gray-700 dark:text-gray-300">Quick filters for your search:</span>
+							<span className="text-xs font-medium text-muted-foreground dark:text-muted-foreground">Quick filters for your search:</span>
 						</div>
 						<div className="flex flex-wrap gap-2">
 							{personalizedSuggestions.map((suggestion) => {
@@ -158,7 +158,7 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 									</Button>
 								);
 							})}
-							<Button variant="ghost" size="sm" className="text-xs h-7 text-gray-500 hover:text-gray-700" onClick={() => setShowInsights(!showInsights)}>
+							<Button variant="ghost" size="sm" className="text-xs h-7 text-muted-foreground hover:text-muted-foreground" onClick={() => setShowInsights(!showInsights)}>
 								<Filter className="w-3 h-3 mr-1" />
 								More filters
 								<ChevronDown className={`w-3 h-3 ml-1 transition-transform ${showInsights ? "rotate-180" : ""}`} />
@@ -169,30 +169,30 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 
 				{/* Expanded Insights Panel */}
 				{showInsights && (
-					<Card className="mt-3 border-blue-100 bg-blue-50/50">
+					<Card className="mt-3 border-primary/20 bg-blue-50/50">
 						<CardContent className="p-3">
 							<div className="grid grid-cols-2 gap-3 text-xs">
 								<div className="flex items-center justify-between">
-									<span className="text-gray-600">Highly rated (4.5+)</span>
-									<Badge variant="outline" className="text-yellow-700 bg-yellow-50">
+									<span className="text-muted-foreground">Highly rated (4.5+)</span>
+									<Badge variant="outline" className="text-warning bg-yellow-50">
 										{insights.highRated}
 									</Badge>
 								</div>
 								<div className="flex items-center justify-between">
-									<span className="text-gray-600">Same day service</span>
+									<span className="text-muted-foreground">Same day service</span>
 									<Badge variant="outline" className="text-purple-700 bg-purple-50">
 										{insights.sameDayService}
 									</Badge>
 								</div>
 								<div className="flex items-center justify-between">
-									<span className="text-gray-600">Insured providers</span>
-									<Badge variant="outline" className="text-green-700 bg-green-50">
+									<span className="text-muted-foreground">Insured providers</span>
+									<Badge variant="outline" className="text-success bg-green-50">
 										{insights.insured}
 									</Badge>
 								</div>
 								<div className="flex items-center justify-between">
-									<span className="text-gray-600">Response time &lt; 2h</span>
-									<Badge variant="outline" className="text-blue-700 bg-blue-50">
+									<span className="text-muted-foreground">Response time &lt; 2h</span>
+									<Badge variant="outline" className="text-primary bg-blue-50">
 										{Math.floor(insights.total * 0.4)}
 									</Badge>
 								</div>
@@ -207,10 +207,10 @@ const EnhancedBusinessHeader = ({ businesses = [], activeBusinessId, onFilterCli
 				<div className="p-6 text-center border-t bg-neutral-800/50">
 					<div className="max-w-sm mx-auto">
 						<div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mx-auto mb-3">
-							<MapPin className="w-6 h-6 text-gray-400" />
+							<MapPin className="w-6 h-6 text-muted-foreground" />
 						</div>
-						<h3 className="font-medium text-gray-900 mb-2">No businesses found</h3>
-						<p className="text-sm text-gray-600 mb-4">Don&apos;t worry! Try expanding your search area or adjusting your criteria.</p>
+						<h3 className="font-medium text-foreground mb-2">No businesses found</h3>
+						<p className="text-sm text-muted-foreground mb-4">Don&apos;t worry! Try expanding your search area or adjusting your criteria.</p>
 						<div className="space-y-2">
 							<Button variant="outline" size="sm" className="w-full">
 								<Target className="w-4 h-4 mr-2" />

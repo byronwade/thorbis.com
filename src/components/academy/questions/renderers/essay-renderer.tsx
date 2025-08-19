@@ -38,10 +38,10 @@ export function EssayRenderer({ question, onAnswer, isAnswered, userAnswer, show
 	};
 
 	const getWordCountColor = () => {
-		if (!question.minWords) return "text-gray-600";
-		if (wordCount < question.minWords) return "text-red-600";
-		if (question.maxWords && wordCount > question.maxWords) return "text-red-600";
-		return "text-green-600";
+		if (!question.minWords) return "text-muted-foreground";
+		if (wordCount < question.minWords) return "text-destructive";
+		if (question.maxWords && wordCount > question.maxWords) return "text-destructive";
+		return "text-success";
 	};
 
 	return (
@@ -50,11 +50,11 @@ export function EssayRenderer({ question, onAnswer, isAnswered, userAnswer, show
 			<Card>
 				<CardContent className="p-4">
 					<div className="flex items-center space-x-2 mb-2">
-						<FileText className="w-5 h-5 text-blue-500" />
+						<FileText className="w-5 h-5 text-primary" />
 						<h3 className="text-lg font-semibold">Essay Question</h3>
 					</div>
-					<p className="text-gray-700 mb-4">{question.prompt}</p>
-					<div className="flex items-center space-x-4 text-sm text-gray-600">
+					<p className="text-muted-foreground mb-4">{question.prompt}</p>
+					<div className="flex items-center space-x-4 text-sm text-muted-foreground">
 						{question.minWords && <span>Minimum: {question.minWords} words</span>}
 						{question.maxWords && <span>Maximum: {question.maxWords} words</span>}
 						{question.timeLimit && <span>Time limit: {Math.floor(question.timeLimit / 60)} minutes</span>}
@@ -65,7 +65,7 @@ export function EssayRenderer({ question, onAnswer, isAnswered, userAnswer, show
 			{/* Essay Input */}
 			<Card>
 				<CardContent className="p-4">
-					<textarea value={essay} onChange={handleEssayChange} disabled={disabled || isAnswered} placeholder="Begin writing your essay here..." className="w-full h-64 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+					<textarea value={essay} onChange={handleEssayChange} disabled={disabled || isAnswered} placeholder="Begin writing your essay here..." className="w-full h-64 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-primary" />
 
 					{/* Word count and status */}
 					<div className="flex items-center justify-between mt-2">
@@ -93,7 +93,7 @@ export function EssayRenderer({ question, onAnswer, isAnswered, userAnswer, show
 							{question.rubric.map((criterion, index) => (
 								<div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
 									<span className="font-medium">{criterion.criterion}</span>
-									<span className="text-sm text-gray-600">Max: {criterion.maxPoints} points</span>
+									<span className="text-sm text-muted-foreground">Max: {criterion.maxPoints} points</span>
 								</div>
 							))}
 						</div>
@@ -107,21 +107,21 @@ export function EssayRenderer({ question, onAnswer, isAnswered, userAnswer, show
 					<CardContent className="p-6">
 						<div className="space-y-4">
 							<div className="flex items-center space-x-2">
-								<CheckCircle className="w-5 h-5 text-blue-500" />
-								<span className="font-semibold text-blue-700">Essay Submitted</span>
-								<span className="text-sm text-gray-600">({wordCount} words)</span>
+								<CheckCircle className="w-5 h-5 text-primary" />
+								<span className="font-semibold text-primary">Essay Submitted</span>
+								<span className="text-sm text-muted-foreground">({wordCount} words)</span>
 							</div>
 
 							{question.explanation && (
-								<div className="p-4 rounded-lg bg-blue-50 border border-blue-200">
-									<p className="text-blue-800 font-medium">Essay Guidelines:</p>
-									<p className="text-blue-700 mt-1">{question.explanation}</p>
+								<div className="p-4 rounded-lg bg-blue-50 border border-primary/30">
+									<p className="text-primary font-medium">Essay Guidelines:</p>
+									<p className="text-primary mt-1">{question.explanation}</p>
 								</div>
 							)}
 
-							<div className="p-4 rounded-lg bg-gray-50 border border-gray-200">
-								<p className="text-gray-800 font-medium mb-2">Submission Summary:</p>
-								<ul className="list-disc list-inside space-y-1 text-gray-700">
+							<div className="p-4 rounded-lg bg-gray-50 border border-border">
+								<p className="text-foreground font-medium mb-2">Submission Summary:</p>
+								<ul className="list-disc list-inside space-y-1 text-muted-foreground">
 									<li>Word count: {wordCount}</li>
 									<li>Length requirement: {question.minWords ? `${question.minWords}+ words` : "No minimum"}</li>
 									<li>Status: Submitted for manual review</li>

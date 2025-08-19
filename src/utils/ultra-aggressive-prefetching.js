@@ -1,5 +1,5 @@
 // lib/utils/ultraAggressivePrefetching.js - Maximum Prefetching for Zero Loading
-import { logger } from "./logger";
+import logger from "./logger.js";
 import cacheManager from "./cache-manager";
 
 /**
@@ -99,9 +99,9 @@ class UltraAggressivePrefetcher {
 			this.queuePrefetch("/api/categories/popular", this.strategies.IMMEDIATE, this.contentPriorities.CATEGORY_PAGES);
 		}
 
-		if (currentPath.startsWith("/biz/")) {
+		if (/^\/[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\//.test(currentPath)) {
 			// Business page - prefetch related data
-			const businessId = currentPath.split("/biz/")[1];
+			const businessId = currentPath.split("/").pop();
 			this.queuePrefetch(`/api/business/${businessId}/related`, this.strategies.IMMEDIATE, this.contentPriorities.BUSINESS_PAGES);
 			this.queuePrefetch(`/api/business/${businessId}/photos`, this.strategies.IMMEDIATE, this.contentPriorities.IMAGES);
 			this.queuePrefetch(`/api/business/${businessId}/menu`, this.strategies.IMMEDIATE, this.contentPriorities.MENU_DATA);
@@ -254,7 +254,7 @@ class UltraAggressivePrefetcher {
 
 		// Observe all potential prefetch targets
 		const observeElements = () => {
-			document.querySelectorAll("[data-business-id], [data-prefetch], a[href^='/biz/'], a[href^='/categories/']").forEach((element) => {
+			document.querySelectorAll("[data-business-id], [data-prefetch], a[href^='/'], a[href^='/categories/']").forEach((element) => {
 				aggressiveObserver.observe(element);
 			});
 		};
@@ -357,7 +357,7 @@ class UltraAggressivePrefetcher {
 		const recentSearches = this.sessionData.searchQueries.slice(-3);
 
 		// Pattern: Business browsing -> likely to view similar businesses
-		if (recentPageViews.some((page) => page.startsWith("/biz/"))) {
+		if (recentPageViews.some((page) => /^\/[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\//.test(page))) {
 			this.predictSimilarBusinesses(recentPageViews);
 		}
 
@@ -455,8 +455,8 @@ class UltraAggressivePrefetcher {
 		}
 
 		// Business page predictions
-		if (currentPath.startsWith("/biz/")) {
-			const businessId = currentPath.split("/biz/")[1];
+		if (/^\/[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\//.test(currentPath)) {
+			const businessId = currentPath.split("/").pop();
 			predictions.push({ url: `/api/business/${businessId}/similar`, priority: this.contentPriorities.BUSINESS_PAGES }, { url: `/api/business/${businessId}/reviews`, priority: this.contentPriorities.REVIEWS }, { url: "/search", priority: this.contentPriorities.SEARCH_RESULTS });
 		}
 
@@ -575,7 +575,7 @@ class UltraAggressivePrefetcher {
 	 * Get priority for a path
 	 */
 	getPriorityForPath(path) {
-		if (path.startsWith("/biz/")) return this.contentPriorities.BUSINESS_PAGES;
+		if (/^\/[a-z]{2}\/[a-z]{2}\/[a-z0-9-]+\//.test(path)) return this.contentPriorities.BUSINESS_PAGES;
 		if (path.startsWith("/search")) return this.contentPriorities.SEARCH_RESULTS;
 		if (path.startsWith("/categories/")) return this.contentPriorities.CATEGORY_PAGES;
 		return this.contentPriorities.STATIC_ASSETS;

@@ -159,7 +159,7 @@ function LegacyAcademyHeader() {
 											<p className="text-xs text-muted-foreground">{path.category}</p>
 											<p className="text-xs text-muted-foreground">{path.progress} Complete</p>
 										</div>
-										{path.id === currentPathId && <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full"></div>}
+										{path.id === currentPathId && <div className="flex-shrink-0 w-2 h-2 bg-success rounded-full"></div>}
 									</DropdownMenuItem>
 								))}
 								<DropdownMenuSeparator />
@@ -206,7 +206,7 @@ function LegacyAcademyHeader() {
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" size="sm" className="relative p-2 h-9 w-9 text-muted-foreground hover:text-foreground hover:bg-accent">
 								<Bell className="w-5 h-5" />
-								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-blue-500 border-2 border-background rounded-full"></span>
+								<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-primary border-2 border-background rounded-full"></span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="w-80 z-[80]">
@@ -218,7 +218,7 @@ function LegacyAcademyHeader() {
 							</div>
 							<div className="overflow-y-auto max-h-96">
 								<DropdownMenuItem className="flex items-start p-4 space-x-3">
-									<div className="flex-shrink-0 w-2 h-2 mt-2 bg-green-500 rounded-full"></div>
+									<div className="flex-shrink-0 w-2 h-2 mt-2 bg-success rounded-full"></div>
 									<div className="flex-1 min-w-0">
 										<p className="text-sm font-medium text-foreground">Course completed!</p>
 										<p className="mt-1 text-xs text-muted-foreground">You finished &quot;Plumbing Basics&quot; - claim your certificate</p>
@@ -226,7 +226,7 @@ function LegacyAcademyHeader() {
 									</div>
 								</DropdownMenuItem>
 								<DropdownMenuItem className="flex items-start p-4 space-x-3">
-									<div className="flex-shrink-0 w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
+									<div className="flex-shrink-0 w-2 h-2 mt-2 bg-primary rounded-full"></div>
 									<div className="flex-1 min-w-0">
 										<p className="text-sm font-medium text-foreground">New course available</p>
 										<p className="mt-1 text-xs text-muted-foreground">Advanced HVAC Troubleshooting is now live</p>
@@ -300,7 +300,7 @@ function LegacyAcademyHeader() {
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
 								<DropdownMenuItem onClick={() => setTheme("light")}>
-									<SunIcon className="w-4 h-4 mr-2 text-yellow-500" />
+									<SunIcon className="w-4 h-4 mr-2 text-warning" />
 									Light
 								</DropdownMenuItem>
 								<DropdownMenuItem onClick={() => setTheme("dark")}>
@@ -319,7 +319,7 @@ function LegacyAcademyHeader() {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem onClick={handleLogout} className="text-red-400 focus:text-red-400">
+							<DropdownMenuItem onClick={handleLogout} className="text-destructive focus:text-destructive">
 								<span>Logout</span>
 							</DropdownMenuItem>
 						</DropdownMenuContent>

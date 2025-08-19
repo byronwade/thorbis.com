@@ -7,7 +7,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useBusinessStore } from "@store/business";
 import { useMapStore } from "@store/map";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 export const useMapMarkers = () => {
 	const { filteredBusinesses, activeBusinessId, setActiveBusinessId, setSelectedBusiness } = useBusinessStore();

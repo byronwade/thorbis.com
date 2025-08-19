@@ -69,7 +69,7 @@ const EmailVerified = () => {
 		<>
 			{user?.email_confirmed_at ? (
 				<>
-					<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-green-700 dark:text-green-500">Email has been Verified</h2>
+					<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-success dark:text-success">Email has been Verified</h2>
 					<p className="text-sm leading-6 text-left text-muted-foreground">Your email has been verified and you now have access to your account.</p>
 					<div className="flex flex-col mt-6">
 						<div className="flex flex-col w-full space-y-4">
@@ -119,7 +119,7 @@ const EmailVerified = () => {
 				</>
 			) : (
 				<>
-					<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-red-500">Unable to Verify</h2>
+					<h2 className="mb-1 text-2xl font-bold leading-9 text-left text-destructive">Unable to Verify</h2>
 					<p className="text-sm leading-6 text-left text-muted-foreground">We were unable to verify your account</p>
 					<div className="flex flex-col mt-6">
 						<FormProvider {...formMethods}>
@@ -145,8 +145,8 @@ const EmailVerified = () => {
 							</Form>
 						</FormProvider>
 					</div>
-					{resendSuccess && <p className="mt-2 text-sm leading-6 text-left text-green-500">Verification email resent successfully.</p>}
-					{resendError && <p className="mt-2 text-sm leading-6 text-left text-red-500">{resendError}</p>}
+					{resendSuccess && <p className="mt-2 text-sm leading-6 text-left text-success">Verification email resent successfully.</p>}
+					{resendError && <p className="mt-2 text-sm leading-6 text-left text-destructive">{resendError}</p>}
 
 					<div className="flex flex-col mt-10">
 						<div className="w-full my-20 border rounded-full dark:border-dark-800 border-dark-300" />

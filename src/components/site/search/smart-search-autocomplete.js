@@ -354,10 +354,10 @@ const SmartSearchAutocomplete = ({
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
-        className="absolute top-full mt-2 w-full bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden z-50 max-h-96 overflow-y-auto"
+        className="absolute top-full mt-2 w-full bg-white dark:bg-card rounded-xl shadow-xl border border-border dark:border-border overflow-hidden z-50 max-h-96 overflow-y-auto"
       >
         {isLoading && (
-          <div className="p-4 flex items-center justify-center text-gray-500">
+          <div className="p-4 flex items-center justify-center text-muted-foreground">
             <Loader2 className="w-4 h-4 animate-spin mr-2" />
             Searching...
           </div>
@@ -367,14 +367,14 @@ const SmartSearchAutocomplete = ({
         {showRecent && (
           <div className="p-2">
             <div className="flex items-center justify-between px-3 py-2">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 Recent
               </span>
               <Button 
                 variant="ghost" 
                 size="sm" 
                 onClick={clearRecentSearches}
-                className="text-xs text-gray-400 hover:text-gray-600 h-6 px-2"
+                className="text-xs text-muted-foreground hover:text-muted-foreground h-6 px-2"
               >
                 Clear
               </Button>
@@ -394,7 +394,7 @@ const SmartSearchAutocomplete = ({
         {showSearchResults && (
           <div className="p-2">
             <div className="px-3 py-2">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 Suggestions
               </span>
             </div>
@@ -413,7 +413,7 @@ const SmartSearchAutocomplete = ({
         {showPopular && (
           <div className="p-2">
             <div className="px-3 py-2">
-              <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+              <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                 Popular {type === 'what' ? 'searches' : 'locations'}
               </span>
             </div>
@@ -430,12 +430,12 @@ const SmartSearchAutocomplete = ({
 
         {/* Special actions for location type */}
         {type === 'where' && (
-          <div className="p-2 border-t border-gray-100 dark:border-gray-700">
+          <div className="p-2 border-t border-border dark:border-border">
             <button
               onClick={getCurrentLocation}
-              className="w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              className="w-full flex items-center space-x-3 px-3 py-2 text-left hover:bg-gray-50 dark:hover:bg-muted rounded-lg transition-colors"
             >
-              <Navigation className="w-4 h-4 text-blue-500" />
+              <Navigation className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium">Use current location</span>
             </button>
           </div>
@@ -466,7 +466,7 @@ const SmartSearchAutocomplete = ({
               variant="ghost"
               size="sm"
               onClick={handleVoiceSearch}
-              className="h-6 w-6 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="h-6 w-6 p-0 hover:bg-muted dark:hover:bg-muted"
             >
               <Mic className="w-3 h-3" />
             </Button>
@@ -481,7 +481,7 @@ const SmartSearchAutocomplete = ({
                 onChange('');
                 inputRef.current?.focus();
               }}
-              className="h-6 w-6 p-0 hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="h-6 w-6 p-0 hover:bg-muted dark:hover:bg-muted"
             >
               <X className="w-3 h-3" />
             </Button>
@@ -526,7 +526,7 @@ const SuggestionItem = ({ suggestion, isSelected, onClick }) => {
       return <Badge variant="outline" className="text-xs">Popular</Badge>;
     }
     if (suggestion.count) {
-      return <span className="text-xs text-gray-400">{suggestion.count} results</span>;
+      return <span className="text-xs text-muted-foreground">{suggestion.count} results</span>;
     }
     return null;
   };
@@ -537,12 +537,12 @@ const SuggestionItem = ({ suggestion, isSelected, onClick }) => {
       className={`
         w-full flex items-center space-x-3 px-3 py-2 text-left rounded-lg transition-colors
         ${isSelected 
-          ? 'bg-blue-50 dark:bg-blue-900/20' 
-          : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+          ? 'bg-blue-50 dark:bg-primary/20' 
+          : 'hover:bg-gray-50 dark:hover:bg-muted'
         }
       `}
     >
-      <div className="flex-shrink-0 text-gray-400">
+      <div className="flex-shrink-0 text-muted-foreground">
         {typeof suggestion.icon === 'string' ? (
           <span className="text-base">{suggestion.icon}</span>
         ) : (
@@ -551,11 +551,11 @@ const SuggestionItem = ({ suggestion, isSelected, onClick }) => {
       </div>
       
       <div className="flex-1 min-w-0">
-        <div className="text-sm font-medium text-gray-900 dark:text-white truncate">
+        <div className="text-sm font-medium text-foreground dark:text-white truncate">
           {suggestion.text}
         </div>
         {suggestion.description && (
-          <div className="text-xs text-gray-500 truncate">
+          <div className="text-xs text-muted-foreground truncate">
             {suggestion.description}
           </div>
         )}

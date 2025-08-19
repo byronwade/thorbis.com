@@ -244,8 +244,8 @@ export default function SignupPage() {
 	if (isConfirmationEmailSent) {
 		return (
 			<div className="flex flex-col items-center justify-center text-center space-y-4">
-				<div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-					<svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-4">
+					<svg className="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
 					</svg>
 				</div>
@@ -300,11 +300,11 @@ export default function SignupPage() {
 
 			{/* Display auth errors */}
 			{authError && (
-				<div className="mt-4 p-3 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+				<div className="mt-4 p-3 rounded-md bg-destructive dark:bg-destructive/20 border border-destructive dark:border-destructive">
 					<div className="flex">
-						<AlertCircle className="h-5 w-5 text-red-400" />
+						<AlertCircle className="h-5 w-5 text-destructive" />
 						<div className="ml-3">
-							<p className="text-sm text-red-800 dark:text-red-200">{authError.userMessage}</p>
+							<p className="text-sm text-destructive dark:text-destructive/80">{authError.userMessage}</p>
 						</div>
 					</div>
 				</div>
@@ -327,7 +327,7 @@ export default function SignupPage() {
 													id="firstName"
 													type="text"
 													placeholder="John"
-													className={cn("transition-all duration-200", errors.firstName ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20" : touchedFields.firstName && field.value?.length > 1 ? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20" : "border-input focus:border-primary focus:ring-2 focus:ring-primary/20")}
+													className={cn("transition-all duration-200", errors.firstName ? "border-destructive focus:border-destructive focus:ring-2 focus:ring-red-500/20 bg-destructive/50 dark:bg-destructive/20" : touchedFields.firstName && field.value?.length > 1 ? "border-success focus:border-success focus:ring-2 focus:ring-green-500/20 bg-success/50 dark:bg-success/20" : "border-input focus:border-primary focus:ring-2 focus:ring-primary/20")}
 													required
 													autoComplete="given-name"
 												/>
@@ -348,7 +348,7 @@ export default function SignupPage() {
 													id="lastName"
 													type="text"
 													placeholder="Doe"
-													className={cn("transition-all duration-200", errors.lastName ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20" : touchedFields.lastName && field.value?.length > 1 ? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20" : "border-input focus:border-primary focus:ring-2 focus:ring-primary/20")}
+													className={cn("transition-all duration-200", errors.lastName ? "border-destructive focus:border-destructive focus:ring-2 focus:ring-red-500/20 bg-destructive/50 dark:bg-destructive/20" : touchedFields.lastName && field.value?.length > 1 ? "border-success focus:border-success focus:ring-2 focus:ring-green-500/20 bg-success/50 dark:bg-success/20" : "border-input focus:border-primary focus:ring-2 focus:ring-primary/20")}
 													required
 													autoComplete="family-name"
 												/>
@@ -371,7 +371,7 @@ export default function SignupPage() {
 												id="email"
 												type="email"
 												placeholder="john@example.com"
-												className={cn("transition-all duration-200", errors.email ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20" : touchedFields.email && field.value?.includes("@") && field.value?.includes(".") ? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20" : "border-input focus:border-primary focus:ring-2 focus:ring-primary/20")}
+												className={cn("transition-all duration-200", errors.email ? "border-destructive focus:border-destructive focus:ring-2 focus:ring-red-500/20 bg-destructive/50 dark:bg-destructive/20" : touchedFields.email && field.value?.includes("@") && field.value?.includes(".") ? "border-success focus:border-success focus:ring-2 focus:ring-green-500/20 bg-success/50 dark:bg-success/20" : "border-input focus:border-primary focus:ring-2 focus:ring-primary/20")}
 												required
 												autoComplete="email"
 											/>
@@ -397,13 +397,13 @@ export default function SignupPage() {
 													className={cn(
 														"pr-10 transition-all duration-200",
 														errors.password
-															? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20"
+															? "border-destructive focus:border-destructive focus:ring-2 focus:ring-red-500/20 bg-destructive/50 dark:bg-destructive/20"
 															: passwordStrength?.score >= 3
-																? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20"
+																? "border-success focus:border-success focus:ring-2 focus:ring-green-500/20 bg-success/50 dark:bg-success/20"
 																: passwordStrength?.score >= 2
-																	? "border-yellow-500 focus:border-yellow-600 focus:ring-2 focus:ring-yellow-500/20 bg-yellow-50/50 dark:bg-yellow-950/20"
+																	? "border-warning focus:border-warning focus:ring-2 focus:ring-yellow-500/20 bg-warning/50 dark:bg-warning/20"
 																	: touchedFields.password && field.value?.length > 0
-																		? "border-orange-500 focus:border-orange-600 focus:ring-2 focus:ring-orange-500/20 bg-orange-50/50 dark:bg-orange-950/20"
+																		? "border-warning focus:border-warning focus:ring-2 focus:ring-orange-500/20 bg-warning/50 dark:bg-warning/20"
 																		: "border-input focus:border-primary focus:ring-2 focus:ring-primary/20"
 													)}
 													required
@@ -422,7 +422,7 @@ export default function SignupPage() {
 												<div className="flex items-center space-x-2">
 													<div className="flex space-x-1">
 														{[...Array(4)].map((_, i) => (
-															<div key={i} className={`h-1 w-6 rounded-full ${i < passwordStrength.score ? (passwordStrength.score < 2 ? "bg-red-500" : passwordStrength.score < 3 ? "bg-yellow-500" : "bg-green-500") : "bg-gray-200 dark:bg-gray-600"}`} />
+															<div key={i} className={`h-1 w-6 rounded-full ${i < passwordStrength.score ? (passwordStrength.score < 2 ? "bg-destructive" : passwordStrength.score < 3 ? "bg-warning" : "bg-success") : "bg-muted dark:bg-muted"}`} />
 														))}
 													</div>
 													<span className="text-xs text-muted-foreground">{passwordStrength.score < 2 ? "Weak" : passwordStrength.score < 3 ? "Fair" : passwordStrength.score < 4 ? "Good" : "Strong"}</span>
@@ -459,11 +459,11 @@ export default function SignupPage() {
 													className={cn(
 														"pr-10 transition-all duration-200",
 														errors.confirmPassword
-															? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 bg-red-50/50 dark:bg-red-950/20"
+															? "border-destructive focus:border-destructive focus:ring-2 focus:ring-red-500/20 bg-destructive/50 dark:bg-destructive/20"
 															: touchedFields.confirmPassword && field.value && field.value === watch("password")
-																? "border-green-500 focus:border-green-600 focus:ring-2 focus:ring-green-500/20 bg-green-50/50 dark:bg-green-950/20"
+																? "border-success focus:border-success focus:ring-2 focus:ring-green-500/20 bg-success/50 dark:bg-success/20"
 																: touchedFields.confirmPassword && field.value && field.value !== watch("password")
-																	? "border-orange-500 focus:border-orange-600 focus:ring-2 focus:ring-orange-500/20 bg-orange-50/50 dark:bg-orange-950/20"
+																	? "border-warning focus:border-warning focus:ring-2 focus:ring-orange-500/20 bg-warning/50 dark:bg-warning/20"
 																	: "border-input focus:border-primary focus:ring-2 focus:ring-primary/20"
 													)}
 													required

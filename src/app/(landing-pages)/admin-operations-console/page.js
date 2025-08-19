@@ -81,7 +81,7 @@ export default function AdminOperationsConsole() {
 				<h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">Admin Operations Console</h1>
 				<p className="text-muted-foreground max-w-3xl mx-auto">Control users, billing, and security across your organization.</p>
 				<div className="flex items-center justify-center gap-3">
-					<a href="/contact" className="inline-flex items-center rounded-md bg-blue-600 px-5 py-3 text-white font-semibold hover:bg-blue-700">
+					<a href="/contact" className="inline-flex items-center rounded-md bg-primary px-5 py-3 text-white font-semibold hover:bg-primary">
 						Talk to sales
 					</a>
 					<a href="/signup" className="inline-flex items-center rounded-md border px-5 py-3 font-semibold hover:bg-accent">

@@ -116,7 +116,7 @@ const SmartSearchBar = ({ searchCapabilities, onSearch, initialQuery = "", place
 					<div className="flex items-center gap-2">
 						{/* Voice search */}
 						{searchCapabilities.voiceSearch && (
-							<Button variant="ghost" size="sm" onClick={handleVoiceSearch} className={`h-10 w-10 rounded-xl transition-all duration-200 ${isListening ? "bg-red-100 dark:bg-red-950 text-red-600 dark:text-red-400 animate-pulse" : "hover:bg-neutral-100 dark:hover:bg-neutral-800"}`} title="Voice Search (Click and speak)">
+							<Button variant="ghost" size="sm" onClick={handleVoiceSearch} className={`h-10 w-10 rounded-xl transition-all duration-200 ${isListening ? "bg-destructive/10 dark:bg-destructive text-destructive dark:text-destructive animate-pulse" : "hover:bg-neutral-100 dark:hover:bg-neutral-800"}`} title="Voice Search (Click and speak)">
 								<Mic className="w-4 h-4" />
 							</Button>
 						)}
@@ -201,7 +201,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 								</Badge>
 							)}
 							{business.verified && (
-								<Badge className="bg-blue-500 text-white border-0 shadow-lg">
+								<Badge className="bg-primary text-white border-0 shadow-lg">
 									<Star className="w-3 h-3 mr-1" />
 									Verified
 								</Badge>
@@ -223,7 +223,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 									e.stopPropagation();
 									setIsFavorited(!isFavorited);
 								}}
-								className={`h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 transition-all duration-200 ${isFavorited ? "text-red-500" : "text-white hover:text-red-500"}`}
+								className={`h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 transition-all duration-200 ${isFavorited ? "text-destructive" : "text-white hover:text-destructive"}`}
 							>
 								<Heart className={`w-4 h-4 ${isFavorited ? "fill-current" : ""}`} />
 							</Button>
@@ -234,7 +234,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 									e.stopPropagation();
 									// Share functionality
 								}}
-								className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:text-blue-500 transition-all duration-200"
+								className="h-8 w-8 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:text-primary transition-all duration-200"
 							>
 								<Share2 className="w-4 h-4" />
 							</Button>
@@ -245,7 +245,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 							<div className="flex items-center gap-2 text-white">
 								<div className="flex items-center gap-1">
 									{Array.from({ length: 5 }).map((_, i) => (
-										<Star key={i} className={`w-4 h-4 ${i < Math.floor(business.rating) ? "text-yellow-400 fill-current" : "text-white/40"}`} />
+										<Star key={i} className={`w-4 h-4 ${i < Math.floor(business.rating) ? "text-warning fill-current" : "text-white/40"}`} />
 									))}
 								</div>
 								<span className="text-sm font-medium">{business.rating}</span>
@@ -258,7 +258,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 					<div className="p-6 space-y-4">
 						{/* Business name and category */}
 						<div>
-							<h3 className="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">{business.name}</h3>
+							<h3 className="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200">{business.name}</h3>
 							<p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
 								{business.businessType} • {business.priceRange}
 							</p>
@@ -268,7 +268,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 						<div className="flex items-center gap-2 text-neutral-600 dark:text-neutral-400">
 							<MapPin className="w-4 h-4 flex-shrink-0" />
 							<span className="text-sm truncate flex-1">{business.address}</span>
-							{business.distance && <span className="text-sm font-medium text-blue-600 dark:text-blue-400">{business.distance}</span>}
+							{business.distance && <span className="text-sm font-medium text-primary dark:text-primary">{business.distance}</span>}
 						</div>
 
 						{/* Enhanced action buttons */}
@@ -280,7 +280,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 									e.stopPropagation();
 									window.open(`tel:${business.phone}`, "_self");
 								}}
-								className="flex-1 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900 dark:hover:to-emerald-900"
+								className="flex-1 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-200 dark:border-green-800 text-success dark:text-success/90 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900 dark:hover:to-emerald-900"
 							>
 								<Phone className="w-4 h-4 mr-2" />
 								Call
@@ -292,7 +292,7 @@ const NextGenBusinessCard = ({ business, onSelect, aiEnhanced = false }) => {
 									e.stopPropagation();
 									window.open(`https://maps.google.com/?q=${encodeURIComponent(business.address)}`, "_blank");
 								}}
-								className="flex-1 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900 dark:hover:to-indigo-900"
+								className="flex-1 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 border-primary/30 dark:border-primary text-primary dark:text-primary/90 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-900 dark:hover:to-indigo-900"
 							>
 								<Navigation className="w-4 h-4 mr-2" />
 								Directions
@@ -364,7 +364,7 @@ const NextGenSearchExperience = ({ searchParams, initialBusinesses, searchMetada
 		<div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-800">
 			{/* Hero search section */}
 			<div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/20 dark:via-indigo-950/20 dark:to-purple-950/20 border-b border-neutral-200 dark:border-neutral-800">
-				<div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(120,119,198,0.1),transparent_50%)]" />
+				<div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,hsl(var(--primary) / 0.1),transparent_50%)]" />
 
 				<div className="relative max-w-7xl mx-auto px-4 py-12">
 					{/* Smart search bar */}

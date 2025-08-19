@@ -26,31 +26,31 @@ export const STATUS_CONFIG = {
 		variant: "default",
 		text: "Verified",
 		icon: "CheckCircle",
-		color: "text-green-600",
+		color: "text-success",
 	},
 	[VERIFICATION_STATUS.PENDING]: {
 		variant: "secondary",
 		text: "Pending",
 		icon: "Clock",
-		color: "text-blue-600",
+		color: "text-primary",
 	},
 	[VERIFICATION_STATUS.REJECTED]: {
 		variant: "destructive",
 		text: "Rejected",
 		icon: "XCircle",
-		color: "text-red-600",
+		color: "text-destructive",
 	},
 	[VERIFICATION_STATUS.NOT_STARTED]: {
 		variant: "outline",
 		text: "Not Started",
 		icon: "Circle",
-		color: "text-gray-400",
+		color: "text-muted-foreground",
 	},
 	[VERIFICATION_STATUS.IN_PROGRESS]: {
 		variant: "secondary",
 		text: "In Progress",
 		icon: "Clock",
-		color: "text-blue-600",
+		color: "text-primary",
 	},
 };
 

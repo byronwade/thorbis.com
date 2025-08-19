@@ -19,38 +19,38 @@ export function Vehicle3DIcon({
     switch (status) {
       case "active":
         return {
-          primary: "#b8860b", // Gold
-          secondary: "#ffd700", // Lighter gold
-          accent: "#8b5cf6", // Violet
-          shadow: "rgba(184, 134, 11, 0.4)",
+          primary: "hsl(var(--warning))", // Warning orange
+secondary: "hsl(var(--warning))", // Warning orange
+          accent: "hsl(var(--muted-foreground))", // Violet
+          shadow: "hsl(var(--accent) / 0.4)",
         }
       case "idle":
         return {
-          primary: "#8b5cf6", // Violet
-          secondary: "#a78bfa", // Lighter violet
-          accent: "#b8860b", // Gold
-          shadow: "rgba(139, 92, 246, 0.4)",
+          primary: "hsl(var(--muted-foreground))", // Violet
+          secondary: "hsl(var(--muted-foreground))", // Muted
+accent: "hsl(var(--warning))", // Warning orange
+          shadow: "hsl(var(--muted-foreground) / 0.4)",
         }
       case "maintenance":
         return {
-          primary: "#ef4444", // Red
-          secondary: "#f87171", // Lighter red
-          accent: "#b8860b", // Gold
-          shadow: "rgba(239, 68, 68, 0.4)",
+          primary: "hsl(var(--muted-foreground))", // Red
+          secondary: "hsl(var(--destructive))", // Destructive
+accent: "hsl(var(--warning))", // Warning orange
+          shadow: "hsl(var(--muted-foreground) / 0.4)",
         }
       case "offline":
         return {
-          primary: "#6b7280", // Gray
-          secondary: "#9ca3af", // Lighter gray
-          accent: "#4b5563", // Darker gray
-          shadow: "rgba(107, 114, 128, 0.4)",
+          primary: "hsl(var(--muted-foreground))", // Gray
+secondary: "hsl(var(--muted-foreground))", // Lighter gray
+accent: "hsl(var(--muted-foreground))", // Darker gray
+          shadow: "hsl(var(--muted-foreground) / 0.4)",
         }
       default:
         return {
-          primary: "#b8860b",
-          secondary: "#ffd700",
-          accent: "#8b5cf6",
-          shadow: "rgba(184, 134, 11, 0.4)",
+          primary: "hsl(var(--warning))",
+secondary: "hsl(var(--warning))",
+          accent: "hsl(var(--muted-foreground))",
+          shadow: "hsl(var(--accent) / 0.4)",
         }
     }
   }
@@ -81,7 +81,7 @@ export function Vehicle3DIcon({
       {/* Windshield */}
       <path
         d="M25 25 L30 22 L70 22 L75 25 L70 30 L30 30 Z"
-        fill="rgba(255,255,255,0.3)"
+        fill="hsl(var(--background) / 0.3)"
         stroke={colors.accent}
         strokeWidth="1" />
 
@@ -131,7 +131,7 @@ export function Vehicle3DIcon({
       {/* Windshield */}
       <path
         d="M22 25 L26 18 L74 18 L78 25 L74 35 L26 35 Z"
-        fill="rgba(255,255,255,0.3)"
+        fill="hsl(var(--background) / 0.3)"
         stroke={colors.accent}
         strokeWidth="1.5" />
 
@@ -182,7 +182,7 @@ export function Vehicle3DIcon({
       {/* Front windshield */}
       <path
         d="M15 25 L18 15 L35 15 L32 25 L28 32 L18 32 Z"
-        fill="rgba(255,255,255,0.3)"
+        fill="hsl(var(--background) / 0.3)"
         stroke={colors.accent}
         strokeWidth="1.5" />
 
@@ -192,7 +192,7 @@ export function Vehicle3DIcon({
         y="18"
         width="50"
         height="12"
-        fill="rgba(255,255,255,0.2)"
+        fill="hsl(var(--background) / 0.2)"
         stroke={colors.accent}
         strokeWidth="1" />
 
@@ -242,7 +242,7 @@ export function Vehicle3DIcon({
       {/* Sleek windshield */}
       <path
         d="M28 22 L32 19 L68 19 L72 22 L68 28 L32 28 Z"
-        fill="rgba(255,255,255,0.4)"
+        fill="hsl(var(--background) / 0.4)"
         stroke={colors.accent}
         strokeWidth="1" />
 
@@ -295,7 +295,7 @@ export function Vehicle3DIcon({
       {/* Front windshield */}
       <path
         d="M12 25 L15 12 L25 12 L22 25 L18 35 L15 35 Z"
-        fill="rgba(255,255,255,0.3)"
+        fill="hsl(var(--background) / 0.3)"
         stroke={colors.accent}
         strokeWidth="2" />
 
@@ -305,7 +305,7 @@ export function Vehicle3DIcon({
         y="15"
         width="15"
         height="18"
-        fill="rgba(255,255,255,0.2)"
+        fill="hsl(var(--background) / 0.2)"
         stroke={colors.accent}
         strokeWidth="1" />
       <rect
@@ -313,7 +313,7 @@ export function Vehicle3DIcon({
         y="15"
         width="15"
         height="18"
-        fill="rgba(255,255,255,0.2)"
+        fill="hsl(var(--background) / 0.2)"
         stroke={colors.accent}
         strokeWidth="1" />
       <rect
@@ -321,7 +321,7 @@ export function Vehicle3DIcon({
         y="15"
         width="15"
         height="18"
-        fill="rgba(255,255,255,0.2)"
+        fill="hsl(var(--background) / 0.2)"
         stroke={colors.accent}
         strokeWidth="1" />
       <rect
@@ -329,7 +329,7 @@ export function Vehicle3DIcon({
         y="15"
         width="15"
         height="18"
-        fill="rgba(255,255,255,0.2)"
+        fill="hsl(var(--background) / 0.2)"
         stroke={colors.accent}
         strokeWidth="1" />
 
@@ -385,7 +385,7 @@ export function Vehicle3DIcon({
       {/* Cab windshield */}
       <path
         d="M15 25 L18 15 L35 15 L32 25 L28 35 L18 35 Z"
-        fill="rgba(255,255,255,0.3)"
+        fill="hsl(var(--background) / 0.3)"
         stroke={colors.accent}
         strokeWidth="2" />
 
@@ -395,7 +395,7 @@ export function Vehicle3DIcon({
         y="20"
         width="50"
         height="25"
-        fill="rgba(255,255,255,0.1)"
+        fill="hsl(var(--background) / 0.1)"
         stroke={colors.accent}
         strokeWidth="1" />
 

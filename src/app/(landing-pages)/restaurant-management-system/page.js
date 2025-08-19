@@ -41,7 +41,7 @@ export default function RestaurantManagementSystem() {
 					Comprehensive restaurant management platform with POS, inventory tracking, staff scheduling, and customer management for food service operations.
 				</p>
 				<div className="flex items-center justify-center gap-4 pt-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-yellow-600 px-6 py-3 text-white font-semibold hover:bg-yellow-700 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-warning px-6 py-3 text-white font-semibold hover:bg-warning transition-colors">
 						Start Free Trial
 					</a>
 				</div>
@@ -51,7 +51,7 @@ export default function RestaurantManagementSystem() {
 				{features.map((feature) => (
 					<div key={feature.title} className="rounded-xl border p-6 bg-card hover:shadow-lg transition-shadow">
 						<div className="flex items-center gap-3 mb-4">
-							<feature.icon className="w-8 h-8 text-yellow-600" />
+							<feature.icon className="w-8 h-8 text-warning" />
 							<h3 className="font-bold text-lg">{feature.title}</h3>
 						</div>
 					</div>

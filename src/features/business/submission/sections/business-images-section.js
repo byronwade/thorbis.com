@@ -38,10 +38,10 @@ const BusinessImagesSection = ({ uploadedImages, handleImageUpload, removeImage,
 			</CardHeader>
 			<CardContent className="space-y-4">
 				{/* Upload Area */}
-				<div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors cursor-pointer" onClick={handleFileSelect}>
-					<Upload className="mx-auto h-12 w-12 text-gray-400" />
+				<div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-border transition-colors cursor-pointer" onClick={handleFileSelect}>
+					<Upload className="mx-auto h-12 w-12 text-muted-foreground" />
 					<h3 className="mt-4 text-lg font-medium">Upload Business Photos</h3>
-					<p className="mt-2 text-sm text-gray-600">Drag and drop your images here, or click to browse</p>
+					<p className="mt-2 text-sm text-muted-foreground">Drag and drop your images here, or click to browse</p>
 					<Button variant="outline" className="mt-4" onClick={handleFileSelect}>
 						<Upload className="h-4 w-4 mr-2" />
 						Choose Files
@@ -68,12 +68,12 @@ const BusinessImagesSection = ({ uploadedImages, handleImageUpload, removeImage,
 						<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 							{uploadedImages.map((image, index) => (
 								<div key={index} className="relative group">
-									<div className="aspect-square rounded-lg overflow-hidden bg-gray-100">
+									<div className="aspect-square rounded-lg overflow-hidden bg-muted">
 										<img src={URL.createObjectURL(image)} alt={`Business image ${index + 1}`} className="w-full h-full object-cover" />
 									</div>
 
 									{/* Image Info */}
-									<div className="mt-2 text-xs text-gray-600">
+									<div className="mt-2 text-xs text-muted-foreground">
 										<p className="truncate">{image.name}</p>
 										<p>{formatFileSize(image.size)}</p>
 									</div>

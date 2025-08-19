@@ -170,13 +170,13 @@ export default function PaymentsPage() {
 	const getStatusColor = (status) => {
 		switch (status) {
 			case "completed":
-				return "bg-green-500";
+				return "bg-success";
 			case "pending":
-				return "bg-yellow-500";
+				return "bg-warning";
 			case "failed":
-				return "bg-red-500";
+				return "bg-destructive";
 			default:
-				return "bg-gray-500";
+				return "bg-muted-foreground";
 		}
 	};
 
@@ -347,7 +347,7 @@ export default function PaymentsPage() {
 								<p className="text-2xl font-bold">${paymentStats.completed.amount.toLocaleString()}</p>
 								<p className="text-xs text-muted-foreground">{paymentStats.completed.count} payments</p>
 							</div>
-							<CheckCircle className="w-8 h-8 text-green-500" />
+							<CheckCircle className="w-8 h-8 text-success" />
 						</div>
 					</CardContent>
 				</Card>
@@ -360,7 +360,7 @@ export default function PaymentsPage() {
 								<p className="text-2xl font-bold">${paymentStats.pending.amount.toLocaleString()}</p>
 								<p className="text-xs text-muted-foreground">{paymentStats.pending.count} payments</p>
 							</div>
-							<Clock className="w-8 h-8 text-yellow-500" />
+							<Clock className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -373,7 +373,7 @@ export default function PaymentsPage() {
 								<p className="text-2xl font-bold">${outstandingStats.total.toLocaleString()}</p>
 								<p className="text-xs text-muted-foreground">{mockOutstandingInvoices.length} invoices</p>
 							</div>
-							<AlertTriangle className="w-8 h-8 text-orange-500" />
+							<AlertTriangle className="w-8 h-8 text-warning" />
 						</div>
 					</CardContent>
 				</Card>
@@ -386,7 +386,7 @@ export default function PaymentsPage() {
 								<p className="text-2xl font-bold">${paymentStats.failed.amount.toLocaleString()}</p>
 								<p className="text-xs text-muted-foreground">{paymentStats.failed.count} payments</p>
 							</div>
-							<AlertTriangle className="w-8 h-8 text-red-500" />
+							<AlertTriangle className="w-8 h-8 text-destructive" />
 						</div>
 					</CardContent>
 				</Card>
@@ -486,7 +486,7 @@ export default function PaymentsPage() {
 
 												<td className="p-4">
 													<div className="flex items-center gap-2">
-														{payment.customer.type === "commercial" ? <Building className="w-4 h-4 text-blue-500" /> : <User className="w-4 h-4 text-green-500" />}
+														{payment.customer.type === "commercial" ? <Building className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-success" />}
 														<span className="font-medium">{payment.customer.name}</span>
 													</div>
 												</td>
@@ -529,9 +529,9 @@ export default function PaymentsPage() {
 
 							{filteredPayments.length === 0 && (
 								<div className="text-center py-12">
-									<DollarSign className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-									<h3 className="text-lg font-medium text-gray-900 mb-2">No payments found</h3>
-									<p className="text-gray-500">{searchQuery || statusFilter !== "all" || methodFilter !== "all" ? "Try adjusting your search criteria" : "Payments will appear here once recorded"}</p>
+									<DollarSign className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+									<h3 className="text-lg font-medium text-foreground mb-2">No payments found</h3>
+									<p className="text-muted-foreground">{searchQuery || statusFilter !== "all" || methodFilter !== "all" ? "Try adjusting your search criteria" : "Payments will appear here once recorded"}</p>
 								</div>
 							)}
 						</CardContent>
@@ -568,7 +568,7 @@ export default function PaymentsPage() {
 
 												<td className="p-4">
 													<div className="flex items-center gap-2">
-														{invoice.customer.type === "commercial" ? <Building className="w-4 h-4 text-blue-500" /> : <User className="w-4 h-4 text-green-500" />}
+														{invoice.customer.type === "commercial" ? <Building className="w-4 h-4 text-primary" /> : <User className="w-4 h-4 text-success" />}
 														<span>{invoice.customer.name}</span>
 													</div>
 												</td>
@@ -580,12 +580,12 @@ export default function PaymentsPage() {
 												<td className="p-4">
 													<div>
 														<p className="text-sm">{format(parseISO(invoice.dueDate), "MMM d, yyyy")}</p>
-														{invoice.daysOverdue > 0 && <p className="text-xs text-red-600">{invoice.daysOverdue} days overdue</p>}
+														{invoice.daysOverdue > 0 && <p className="text-xs text-destructive">{invoice.daysOverdue} days overdue</p>}
 													</div>
 												</td>
 
 												<td className="p-4">
-													<Badge variant="outline" className={invoice.daysOverdue > 0 ? "border-red-500 text-red-700" : "border-orange-500 text-orange-700"}>
+													<Badge variant="outline" className={invoice.daysOverdue > 0 ? "border-red-500 text-destructive" : "border-orange-500 text-warning"}>
 														{invoice.daysOverdue > 0 ? "Overdue" : "Outstanding"}
 													</Badge>
 												</td>
@@ -618,9 +618,9 @@ export default function PaymentsPage() {
 
 							{mockOutstandingInvoices.length === 0 && (
 								<div className="text-center py-12">
-									<CheckCircle className="w-12 h-12 mx-auto text-green-500 mb-4" />
-									<h3 className="text-lg font-medium text-gray-900 mb-2">All caught up!</h3>
-									<p className="text-gray-500">No outstanding invoices at the moment</p>
+									<CheckCircle className="w-12 h-12 mx-auto text-success mb-4" />
+									<h3 className="text-lg font-medium text-foreground mb-2">All caught up!</h3>
+									<p className="text-muted-foreground">No outstanding invoices at the moment</p>
 								</div>
 							)}
 						</CardContent>

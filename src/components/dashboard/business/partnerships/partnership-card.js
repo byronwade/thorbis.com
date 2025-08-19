@@ -149,7 +149,7 @@ const PartnershipCard = ({ partnership, onEdit, onRemove, onStartVerification, o
 						)}
 
 						{partnership.verification?.status === "verified" && (
-							<div className="flex items-center space-x-1 text-green-600">
+							<div className="flex items-center space-x-1 text-success">
 								<CheckCircle className="w-4 h-4" />
 								<span className="text-sm font-medium">Verified</span>
 							</div>

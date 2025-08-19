@@ -12,7 +12,7 @@
  */
 
 import React, { lazy, Suspense, memo, useEffect, useState } from "react";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 
 // Cache for dynamic imports to prevent duplicate loading
 const importCache = new Map();
@@ -319,7 +319,7 @@ const ModalError = () => (
 	<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 		<div className="bg-white rounded-lg p-6 text-center">
 								<p className="text-destructive mb-4">Failed to load modal</p>
-			<button onClick={() => window.history.back()} className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700">
+			<button onClick={() => window.history.back()} className="px-4 py-2 bg-muted text-white rounded hover:bg-muted">
 				Go Back
 			</button>
 		</div>
@@ -327,7 +327,7 @@ const ModalError = () => (
 );
 
 const HeavyComponentError = ({ componentName }) => (
-	<div className="border border-red-200 rounded-lg p-6 text-center">
+	<div className="border border-destructive rounded-lg p-6 text-center">
 							<p className="text-destructive">Failed to load {componentName}</p>
 					<button onClick={() => window.location.reload()} className="mt-2 px-3 py-1 text-sm bg-destructive/20 text-destructive rounded hover:bg-destructive/30">
 			Retry

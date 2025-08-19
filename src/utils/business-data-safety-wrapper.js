@@ -4,7 +4,7 @@
  * Implements defensive programming patterns from research
  */
 
-import { logger } from "./logger";
+import logger from "./logger.js";
 
 /**
  * Safely wraps business data to ensure it's always an array

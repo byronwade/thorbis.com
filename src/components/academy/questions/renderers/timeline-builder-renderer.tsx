@@ -134,8 +134,8 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 			</div>
 
 			{/* Instructions */}
-			<div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-				<p className="text-blue-800 text-sm flex items-center">
+			<div className="p-4 bg-blue-50 border border-primary/30 rounded-lg">
+				<p className="text-primary text-sm flex items-center">
 					<Clock className="h-4 w-4 mr-2" />
 					Drag the events to arrange them in the correct chronological order. The earliest event should be at the top.
 				</p>
@@ -150,7 +150,7 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 					return (
 						<Card
 							key={event.id}
-							className={`transition-all duration-200 ${isDragging ? "opacity-50 scale-105 z-50" : ""} ${status === "correct" ? "border-green-500 bg-green-50" : status === "incorrect" ? "border-red-500 bg-red-50" : "border-gray-200 hover:border-gray-300"} ${!isAnswered && !disabled ? "cursor-move hover:shadow-md" : ""}`}
+							className={`transition-all duration-200 ${isDragging ? "opacity-50 scale-105 z-50" : ""} ${status === "correct" ? "border-green-500 bg-green-50" : status === "incorrect" ? "border-red-500 bg-red-50" : "border-border hover:border-border"} ${!isAnswered && !disabled ? "cursor-move hover:shadow-md" : ""}`}
 							draggable={!disabled && !isAnswered}
 							onDragStart={() => handleDragStart(index)}
 							onDragOver={(e) => handleDragOver(e, index)}
@@ -161,23 +161,23 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 									{/* Drag Handle */}
 									{!isAnswered && !disabled && (
 										<div className="flex-shrink-0 mt-1">
-											<GripVertical className="h-5 w-5 text-gray-400" />
+											<GripVertical className="h-5 w-5 text-muted-foreground" />
 										</div>
 									)}
 
 									{/* Sequence Number */}
 									<div className="flex-shrink-0 mt-1">
-										<div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${status === "correct" ? "bg-green-500 text-white" : status === "incorrect" ? "bg-red-500 text-white" : "bg-gray-200 text-gray-600"}`}>{index + 1}</div>
+										<div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${status === "correct" ? "bg-success text-white" : status === "incorrect" ? "bg-destructive text-white" : "bg-muted text-muted-foreground"}`}>{index + 1}</div>
 									</div>
 
 									{/* Event Content */}
 									<div className="flex-1">
-										<h4 className="font-semibold text-gray-900 mb-1">{event.title}</h4>
-										<p className="text-sm text-gray-600">{event.description}</p>
+										<h4 className="font-semibold text-foreground mb-1">{event.title}</h4>
+										<p className="text-sm text-muted-foreground">{event.description}</p>
 									</div>
 
 									{/* Status Icon */}
-									{isAnswered && <div className="flex-shrink-0 mt-1">{status === "correct" ? <CheckCircle className="h-5 w-5 text-green-500" /> : <XCircle className="h-5 w-5 text-red-500" />}</div>}
+									{isAnswered && <div className="flex-shrink-0 mt-1">{status === "correct" ? <CheckCircle className="h-5 w-5 text-success" /> : <XCircle className="h-5 w-5 text-destructive" />}</div>}
 
 									{/* Move Buttons (Alternative to Drag) */}
 									{!isAnswered && !disabled && (
@@ -204,10 +204,10 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 					<Card className={`border-2 ${isSequenceCorrect() ? "border-green-200 bg-green-50" : "border-red-200 bg-red-50"}`}>
 						<CardContent className="p-4">
 							<div className="flex items-start space-x-3">
-								<div className="flex-shrink-0 mt-0.5">{isSequenceCorrect() ? <CheckCircle className="h-5 w-5 text-green-500" /> : <XCircle className="h-5 w-5 text-red-500" />}</div>
+								<div className="flex-shrink-0 mt-0.5">{isSequenceCorrect() ? <CheckCircle className="h-5 w-5 text-success" /> : <XCircle className="h-5 w-5 text-destructive" />}</div>
 								<div className="flex-1">
-									<p className={`font-medium mb-1 ${isSequenceCorrect() ? "text-green-900" : "text-red-900"}`}>{isSequenceCorrect() ? "Perfect Sequence!" : "Sequence Needs Work"}</p>
-									<p className={`text-sm ${isSequenceCorrect() ? "text-green-800" : "text-red-800"}`}>
+									<p className={`font-medium mb-1 ${isSequenceCorrect() ? "text-success" : "text-destructive"}`}>{isSequenceCorrect() ? "Perfect Sequence!" : "Sequence Needs Work"}</p>
+									<p className={`text-sm ${isSequenceCorrect() ? "text-success" : "text-destructive"}`}>
 										You got {getScore()} out of {question.correctOrder.length} events in the correct position.
 									</p>
 								</div>
@@ -218,7 +218,7 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 					{/* Correct Order Display */}
 					<Card>
 						<CardContent className="p-4">
-							<h4 className="font-medium text-gray-900 mb-3">Correct Chronological Order:</h4>
+							<h4 className="font-medium text-foreground mb-3">Correct Chronological Order:</h4>
 							<div className="space-y-2">
 								{question.correctOrder.map((eventId, index) => {
 									const event = question.events.find((e) => e.id === eventId);
@@ -226,10 +226,10 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 
 									return (
 										<div key={eventId} className="flex items-start space-x-3 p-2 bg-green-50 border border-green-200 rounded">
-											<div className="w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center text-sm font-bold">{index + 1}</div>
+											<div className="w-6 h-6 bg-success text-white rounded-full flex items-center justify-center text-sm font-bold">{index + 1}</div>
 											<div>
-												<p className="font-medium text-green-900">{event.title}</p>
-												<p className="text-sm text-green-700">{event.description}</p>
+												<p className="font-medium text-success">{event.title}</p>
+												<p className="text-sm text-success">{event.description}</p>
 											</div>
 										</div>
 									);
@@ -243,11 +243,11 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 						<CardContent className="p-4">
 							<div className="flex items-start space-x-3">
 								<div className="flex-shrink-0 mt-0.5">
-									<Clock className="h-5 w-5 text-blue-500" />
+									<Clock className="h-5 w-5 text-primary" />
 								</div>
 								<div>
-									<p className="font-medium text-gray-900 mb-1">Explanation:</p>
-									<p className="text-gray-700 text-sm">{question.explanation}</p>
+									<p className="font-medium text-foreground mb-1">Explanation:</p>
+									<p className="text-muted-foreground text-sm">{question.explanation}</p>
 								</div>
 							</div>
 						</CardContent>
@@ -259,10 +259,10 @@ export function TimelineBuilderRenderer({ question, onAnswer, isAnswered, userAn
 			{!isAnswered && question.hints && question.hints.length > 0 && (
 				<div className="mt-4">
 					<details className="group">
-						<summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 font-medium">💡 Need a hint? Click here</summary>
+						<summary className="cursor-pointer text-sm text-primary hover:text-primary font-medium">💡 Need a hint? Click here</summary>
 						<Card className="mt-2">
 							<CardContent className="p-3 bg-yellow-50">
-								<p className="text-yellow-800 text-sm">{question.hints[0]}</p>
+								<p className="text-warning text-sm">{question.hints[0]}</p>
 							</CardContent>
 						</Card>
 					</details>

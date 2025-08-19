@@ -11,10 +11,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Phone, PhoneCall, PhoneMissed, Search, MoreVertical, Clock, Calendar, PlayCircle, Voicemail, MessageSquare, ChevronRight } from "lucide-react";
 
 const statusColors = {
-	answered: "bg-green-100 text-green-800",
-	missed: "bg-red-100 text-red-800",
-	voicemail: "bg-yellow-100 text-yellow-800",
-	outgoing: "bg-blue-100 text-blue-800",
+	answered: "bg-success/10 text-success",
+	missed: "bg-destructive/10 text-destructive",
+	voicemail: "bg-warning/10 text-warning",
+	outgoing: "bg-primary/10 text-primary",
 };
 
 const mockCalls = [
@@ -104,7 +104,7 @@ export default function CallsPage() {
 					<Card key={c.id} className="hover:shadow-sm transition-shadow cursor-pointer" onClick={() => router.push(`/dashboard/business/communication/calls/${c.id}`)}>
 						<CardContent className="p-4">
 							<div className="flex items-start gap-4">
-								<div className="mt-1">{c.status === "missed" ? <PhoneMissed className="w-5 h-5 text-red-500" /> : c.status === "voicemail" ? <Voicemail className="w-5 h-5 text-yellow-600" /> : c.type === "outgoing" ? <PhoneCall className="w-5 h-5 text-blue-500" /> : <Phone className="w-5 h-5 text-green-600" />}</div>
+								<div className="mt-1">{c.status === "missed" ? <PhoneMissed className="w-5 h-5 text-destructive" /> : c.status === "voicemail" ? <Voicemail className="w-5 h-5 text-warning" /> : c.type === "outgoing" ? <PhoneCall className="w-5 h-5 text-primary" /> : <Phone className="w-5 h-5 text-success" />}</div>
 								<div className="flex-1 min-w-0">
 									<div className="flex items-start justify-between gap-3">
 										<div className="min-w-0">

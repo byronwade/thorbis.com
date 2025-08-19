@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@lib/supabase/client';
-import { logger } from '@lib/utils/logger';
+import logger from '@lib/utils/logger';
 
 export async function GET(request) {
   const startTime = performance.now();

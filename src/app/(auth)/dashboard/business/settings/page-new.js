@@ -33,10 +33,10 @@ import { useIntegrations } from "@lib/hooks/business/use-integrations";
 function IntegrationCard({ integration, onToggle }) {
   const getStatusColor = (status) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800 border-green-200';
-      case 'setup': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'inactive': return 'bg-gray-100 text-gray-800 border-gray-200';
-      default: return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'active': return 'bg-success/10 text-success border-green-200';
+      case 'setup': return 'bg-warning/10 text-warning border-yellow-200';
+      case 'inactive': return 'bg-muted text-muted-foreground border-border';
+      default: return 'bg-primary/10 text-primary border-primary/30';
     }
   };
 
@@ -74,7 +74,7 @@ function IntegrationCard({ integration, onToggle }) {
                   </Badge>
                 )}
                 {integration.new && (
-                  <Badge className="text-xs bg-green-500">New</Badge>
+                  <Badge className="text-xs bg-success">New</Badge>
                 )}
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -122,10 +122,10 @@ function IntegrationCard({ integration, onToggle }) {
                 <span>Last sync: {integration.lastSync || 'Never'}</span>
                 {integration.health && (
                   <span className={`flex items-center ${
-                    integration.health === 'healthy' ? 'text-green-600' : 'text-yellow-600'
+                    integration.health === 'healthy' ? 'text-success' : 'text-warning'
                   }`}>
                     <div className={`h-2 w-2 rounded-full mr-1 ${
-                      integration.health === 'healthy' ? 'bg-green-500' : 'bg-yellow-500'
+                      integration.health === 'healthy' ? 'bg-success' : 'bg-warning'
                     }`} />
                     {integration.health}
                   </span>
@@ -471,8 +471,8 @@ export default function EnhancedSettingsPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-green-100">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-success/10">
+                <CheckCircle className="h-5 w-5 text-success" />
               </div>
               <div>
                 <p className="text-sm font-medium">Active Integrations</p>
@@ -485,8 +485,8 @@ export default function EnhancedSettingsPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
-                <Plug className="h-5 w-5 text-blue-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <Plug className="h-5 w-5 text-primary" />
               </div>
               <div>
                 <p className="text-sm font-medium">Total Available</p>
@@ -499,8 +499,8 @@ export default function EnhancedSettingsPage() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-yellow-100">
-                <AlertCircle className="h-5 w-5 text-yellow-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-warning/10">
+                <AlertCircle className="h-5 w-5 text-warning" />
               </div>
               <div>
                 <p className="text-sm font-medium">Setup Required</p>

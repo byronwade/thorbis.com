@@ -81,7 +81,7 @@ export default function AutoRepairShopSoftware() {
 					Streamline your automotive service operations with comprehensive shop management software for scheduling, inventory, customer tracking, and digital inspections.
 				</p>
 				<div className="flex items-center justify-center gap-4 pt-4">
-					<a href="/signup" className="inline-flex items-center rounded-md bg-red-600 px-6 py-3 text-white font-semibold hover:bg-red-700 transition-colors">
+					<a href="/signup" className="inline-flex items-center rounded-md bg-destructive px-6 py-3 text-white font-semibold hover:bg-destructive transition-colors">
 						Start Free Trial
 					</a>
 					<a href="/contact" className="inline-flex items-center rounded-md border border-border px-6 py-3 font-semibold hover:bg-accent transition-colors">
@@ -95,13 +95,13 @@ export default function AutoRepairShopSoftware() {
 				{features.map((feature) => (
 					<div key={feature.title} className="rounded-xl border p-6 bg-card hover:shadow-lg transition-shadow">
 						<div className="flex items-center gap-3 mb-4">
-							<feature.icon className="w-8 h-8 text-red-600" />
+							<feature.icon className="w-8 h-8 text-destructive" />
 							<h3 className="font-bold text-lg">{feature.title}</h3>
 						</div>
 						<ul className="space-y-2 text-sm text-muted-foreground">
 							{feature.points.map((point) => (
 								<li key={point} className="flex items-start gap-2">
-									<span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
+									<span className="w-1.5 h-1.5 bg-destructive rounded-full mt-2 flex-shrink-0"></span>
 									{point}
 								</li>
 							))}

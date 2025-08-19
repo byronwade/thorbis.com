@@ -91,12 +91,12 @@ const AdvancedFilterPanel = ({
           initial={{ x: '100%' }}
           animate={{ x: 0 }}
           exit={{ x: '100%' }}
-          className="absolute right-0 top-0 h-full w-full max-w-xs bg-white dark:bg-gray-900 shadow-xl"
+          className="absolute right-0 top-0 h-full w-full max-w-xs bg-white dark:bg-card shadow-xl"
           onClick={e => e.stopPropagation()}
         >
           <div className="flex flex-col h-full">
             {/* Header */}
-            <div className="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between p-3 border-b border-border dark:border-border">
               <h3 className="text-base font-semibold">Filters</h3>
               <Button variant="ghost" size="sm" onClick={onClose}>
                 <X className="w-4 h-4" />
@@ -167,7 +167,7 @@ const AdvancedFilterPanel = ({
               <div>
                 <h4 className="text-sm font-medium mb-2">Minimum Rating</h4>
                 <div className="flex items-center space-x-2">
-                  <Star className="w-4 h-4 text-yellow-400" />
+                  <Star className="w-4 h-4 text-warning" />
                   <Slider
                     value={[tempFilters.rating]}
                     onValueChange={([value]) => setTempFilters(prev => ({ ...prev, rating: value }))}
@@ -184,7 +184,7 @@ const AdvancedFilterPanel = ({
               <div>
                 <h4 className="text-sm font-medium mb-2">Distance</h4>
                 <div className="flex items-center space-x-2">
-                  <MapPin className="w-4 h-4 text-blue-500" />
+                  <MapPin className="w-4 h-4 text-primary" />
                   <Slider
                     value={[tempFilters.distance]}
                     onValueChange={([value]) => setTempFilters(prev => ({ ...prev, distance: value }))}
@@ -251,7 +251,7 @@ const AdvancedFilterPanel = ({
             </div>
 
             {/* Footer */}
-            <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
+            <div className="p-3 border-t border-border dark:border-border space-y-2">
               <Button onClick={handleApplyFilters} className="w-full">
                 Apply Filters
               </Button>
@@ -306,12 +306,12 @@ const AirbnbStyleSearchBar = ({
   return (
     <div className="relative">
       {/* Main Search Bar */}
-      <div className="flex items-center bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div className="flex items-center bg-white dark:bg-card rounded-full shadow-lg border border-border dark:border-border overflow-hidden">
         
         {/* What field */}
         <div className="flex-1 relative">
           <div className="px-6 py-4">
-            <label className="block text-xs font-medium text-gray-500 mb-1">What</label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">What</label>
             <SmartSearchAutocomplete
               value={query}
               onChange={setQuery}
@@ -323,17 +323,17 @@ const AirbnbStyleSearchBar = ({
             />
           </div>
           {activeField === 'what' && (
-            <div className="absolute left-0 right-0 top-1 rounded-full bg-white dark:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-600"></div>
+            <div className="absolute left-0 right-0 top-1 rounded-full bg-white dark:bg-muted shadow-sm border border-border dark:border-border"></div>
           )}
         </div>
 
         {/* Divider */}
-        <div className="w-px h-8 bg-gray-200 dark:bg-gray-700"></div>
+        <div className="w-px h-8 bg-muted dark:bg-muted"></div>
 
         {/* Where field */}
         <div className="flex-1 relative">
           <div className="px-6 py-4">
-            <label className="block text-xs font-medium text-gray-500 mb-1">Where</label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1">Where</label>
             <SmartSearchAutocomplete
               value={location}
               onChange={setLocation}
@@ -345,7 +345,7 @@ const AirbnbStyleSearchBar = ({
             />
           </div>
           {activeField === 'where' && (
-            <div className="absolute left-0 right-0 top-1 rounded-full bg-white dark:bg-gray-700 shadow-sm border border-gray-100 dark:border-gray-600"></div>
+            <div className="absolute left-0 right-0 top-1 rounded-full bg-white dark:bg-muted shadow-sm border border-border dark:border-border"></div>
           )}
         </div>
 
@@ -360,7 +360,7 @@ const AirbnbStyleSearchBar = ({
             <SlidersHorizontal className="w-4 h-4 mr-2" />
             Filters
             {activeFiltersCount > 0 && (
-              <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-xs p-0 bg-red-500 text-white">
+              <Badge className="absolute -top-2 -right-2 h-5 w-5 rounded-full text-xs p-0 bg-destructive text-white">
                 {activeFiltersCount}
               </Badge>
             )}
@@ -369,7 +369,7 @@ const AirbnbStyleSearchBar = ({
 
         {/* Search Button */}
         <div className="px-2">
-          <Button onClick={handleSearch} className="rounded-full h-12 w-12 p-0 bg-red-500 hover:bg-red-600">
+          <Button onClick={handleSearch} className="rounded-full h-12 w-12 p-0 bg-destructive hover:bg-destructive">
             <Search className="w-4 h-4" />
           </Button>
         </div>
@@ -425,7 +425,7 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                 <span className="text-2xl">🏢</span>
               </div>
             )}
@@ -485,19 +485,19 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
             </div>
 
             {/* Address */}
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 truncate">
+            <p className="text-sm text-muted-foreground dark:text-muted-foreground mt-1 truncate">
               {business.address}, {business.city}
             </p>
 
             {/* Status */}
             <div className="flex items-center space-x-2 mt-2">
               {business.isOpenNow && (
-                <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                <Badge className="bg-success/10 text-success dark:bg-success dark:text-success/80">
                   Open Now
                 </Badge>
               )}
               {business.verified && (
-                <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                <Badge className="bg-primary/10 text-primary dark:bg-primary dark:text-primary/80">
                   <Shield className="w-3 h-3 mr-1" />
                   Verified
                 </Badge>
@@ -514,11 +514,11 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all cursor-pointer group"
+      className="bg-white dark:bg-card rounded-xl shadow-sm border border-border dark:border-border overflow-hidden hover:shadow-lg transition-all cursor-pointer group"
       onClick={handleBusinessClick}
     >
       {/* Business Image */}
-      <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+      <div className="relative h-48 bg-muted dark:bg-muted">
         {business.photos?.[0] ? (
           <img 
             src={business.photos[0]} 
@@ -526,7 +526,7 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400">
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
             <span className="text-4xl">🏢</span>
           </div>
         )}
@@ -554,10 +554,10 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
         {/* Status badges */}
         <div className="absolute top-3 left-3 flex flex-col space-y-1">
           {business.isOpenNow && (
-            <Badge className="bg-green-500 text-white">Open Now</Badge>
+            <Badge className="bg-success text-white">Open Now</Badge>
           )}
           {business.verified && (
-            <Badge className="bg-blue-500 text-white">
+            <Badge className="bg-primary text-white">
               <Shield className="w-3 h-3 mr-1" />
               Verified
             </Badge>
@@ -568,7 +568,7 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
       {/* Business Info */}
       <div className="p-4">
         <div className="flex items-start justify-between mb-2">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate pr-2">
+          <h3 className="text-lg font-semibold text-foreground dark:text-white truncate pr-2">
             {business.name}
           </h3>
           {business.priceRange && (
@@ -587,13 +587,13 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
                   key={i}
                   className={`w-4 h-4 ${
                     i < Math.floor(business.rating) 
-                      ? 'text-yellow-400 fill-current' 
-                      : 'text-gray-300'
+                      ? 'text-warning fill-current' 
+                      : 'text-muted-foreground'
                   }`}
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="text-sm text-muted-foreground dark:text-muted-foreground">
               {business.rating} ({business.reviewCount})
             </span>
           </div>
@@ -609,20 +609,20 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
         </div>
 
         {/* Address */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 truncate">
+        <p className="text-sm text-muted-foreground dark:text-muted-foreground mb-3 truncate">
           <MapPin className="w-4 h-4 inline mr-1" />
           {business.address}, {business.city}
         </p>
 
         {/* Description */}
         {business.description && (
-          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-3">
+          <p className="text-sm text-muted-foreground dark:text-muted-foreground line-clamp-2 mb-3">
             {business.description}
           </p>
         )}
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between pt-2 border-t border-border dark:border-border">
           <div className="flex space-x-2">
             {business.phone && (
               <Button variant="ghost" size="sm" onClick={(e) => {
@@ -641,7 +641,7 @@ const BusinessCard = ({ business, viewMode, onSelect, onSave, onShare }) => {
               </Button>
             )}
           </div>
-          <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600">
+          <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
             <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
@@ -659,7 +659,7 @@ const ViewModeToggle = ({ viewMode, onViewModeChange }) => {
   ];
 
   return (
-    <div className="flex items-center bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-1">
+    <div className="flex items-center bg-white dark:bg-card rounded-lg border border-border dark:border-border p-1">
       {viewModes.map(({ id, label, icon: Icon }) => (
         <Button
           key={id}
@@ -794,9 +794,9 @@ const AirbnbStyleSearchExperience = ({
   }, [searchResults, initialBusinesses]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-card">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+      <div className="bg-white dark:bg-card border-b border-border dark:border-border sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <AirbnbStyleSearchBar
             searchCapabilities={searchCapabilities}
@@ -814,17 +814,17 @@ const AirbnbStyleSearchExperience = ({
         {/* Results Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-2xl font-bold text-foreground dark:text-white">
               {totalResults ? `${totalResults} places` : (businesses.length > 0 ? `${businesses.length} places` : 'Discover places')}
               {searchLocation && (
-                <span className="text-lg font-normal text-gray-600 dark:text-gray-400 ml-2">
+                <span className="text-lg font-normal text-muted-foreground dark:text-muted-foreground ml-2">
                   in {searchLocation}
                 </span>
               )}
             </h2>
             
             {isLoading && (
-              <div className="flex items-center text-gray-500">
+              <div className="flex items-center text-muted-foreground">
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
                 Searching...
               </div>
@@ -857,7 +857,7 @@ const AirbnbStyleSearchExperience = ({
               <SlidersHorizontal className="w-4 h-4" />
               <span>Filters</span>
               {activeFiltersCount > 0 && (
-                <Badge className="ml-1 h-5 w-5 rounded-full text-xs p-0 bg-red-500 text-white">
+                <Badge className="ml-1 h-5 w-5 rounded-full text-xs p-0 bg-destructive text-white">
                   {activeFiltersCount}
                 </Badge>
               )}
@@ -880,7 +880,7 @@ const AirbnbStyleSearchExperience = ({
                         categories: prev.categories.filter(c => c !== category)
                       }));
                     }}
-                    className="ml-1 hover:bg-gray-300 rounded-full p-0.5"
+                    className="ml-1 hover:bg-muted rounded-full p-0.5"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -897,7 +897,7 @@ const AirbnbStyleSearchExperience = ({
                       priceRange: prev.priceRange.filter(p => p !== price)
                     }));
                   }}
-                  className="ml-1 hover:bg-gray-300 rounded-full p-0.5"
+                  className="ml-1 hover:bg-muted rounded-full p-0.5"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -910,7 +910,7 @@ const AirbnbStyleSearchExperience = ({
                 const { resetFilters } = useEnhancedSearchStore.getState();
                 await resetFilters();
               }}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-muted-foreground hover:text-muted-foreground"
             >
               Clear all
             </Button>
@@ -919,7 +919,7 @@ const AirbnbStyleSearchExperience = ({
 
         {/* Content based on view mode */}
         {viewMode === 'map' ? (
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="bg-white dark:bg-card rounded-xl border border-border dark:border-border overflow-hidden">
             <div style={{ height: '70vh' }}>
               <MapContainer 
                 businesses={businesses}
@@ -940,7 +940,7 @@ const AirbnbStyleSearchExperience = ({
                 Array.from({ length: viewMode === 'list' ? 6 : 8 }).map((_, i) => (
                   <div key={i} className="animate-pulse">
                     <div className={`
-                      bg-gray-200 dark:bg-gray-800 rounded-xl
+                      bg-muted dark:bg-card rounded-xl
                       ${viewMode === 'list' ? 'h-32' : 'h-80'}
                     `} />
                   </div>
@@ -967,10 +967,10 @@ const AirbnbStyleSearchExperience = ({
             className="text-center py-12"
           >
             <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <h3 className="text-xl font-semibold text-foreground dark:text-white mb-2">
               No businesses found
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-muted-foreground dark:text-muted-foreground mb-4">
               Try adjusting your search criteria or expanding your location radius.
             </p>
             <Button onClick={() => setShowFilters(true)} variant="outline">

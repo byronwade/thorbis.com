@@ -65,7 +65,7 @@ const CampaignSummary = ({ campaignData, onEditSection }) => {
 						</div>
 						<div>
 							<p className="text-sm text-muted-foreground">Status</p>
-							<Badge variant="outline" className="text-yellow-600 border-yellow-600">
+							<Badge variant="outline" className="text-warning border-yellow-600">
 								Draft
 							</Badge>
 						</div>
@@ -170,7 +170,7 @@ const CampaignSummary = ({ campaignData, onEditSection }) => {
 						</div>
 						<div>
 							<p className="text-sm text-muted-foreground">Total Budget</p>
-							<p className="font-bold text-xl text-green-600">${totalBudget}</p>
+							<p className="font-bold text-xl text-success">${totalBudget}</p>
 						</div>
 						<div>
 							<p className="text-sm text-muted-foreground">Schedule</p>
@@ -243,7 +243,7 @@ const ValidationChecklist = ({ campaignData, validationErrors }) => {
 		<Card className={isComplete ? "border-green-200 bg-green-50/50" : "border-yellow-200 bg-yellow-50/50"}>
 			<CardHeader className="pb-3">
 				<CardTitle className="flex items-center gap-2">
-					{isComplete ? <CheckCircle className="w-5 h-5 text-green-600" /> : <AlertCircle className="w-5 h-5 text-yellow-600" />}
+					{isComplete ? <CheckCircle className="w-5 h-5 text-success" /> : <AlertCircle className="w-5 h-5 text-warning" />}
 					Campaign Validation
 					<Badge variant={isComplete ? "default" : "secondary"} className="ml-2">
 						{validItems}/{totalItems}
@@ -253,10 +253,10 @@ const ValidationChecklist = ({ campaignData, validationErrors }) => {
 			<CardContent className="space-y-3">
 				{checklistItems.map((item) => (
 					<div key={item.id} className="flex items-start gap-3">
-						{item.isValid ? <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" /> : <AlertCircle className="w-4 h-4 text-yellow-600 mt-0.5" />}
+						{item.isValid ? <CheckCircle className="w-4 h-4 text-success mt-0.5" /> : <AlertCircle className="w-4 h-4 text-warning mt-0.5" />}
 						<div className="flex-1">
-							<p className={`text-sm ${item.isValid ? "text-green-700" : "text-yellow-700"}`}>{item.label}</p>
-							{item.error && <p className="text-xs text-red-600 mt-1">{item.error}</p>}
+							<p className={`text-sm ${item.isValid ? "text-success" : "text-warning"}`}>{item.label}</p>
+							{item.error && <p className="text-xs text-destructive mt-1">{item.error}</p>}
 						</div>
 					</div>
 				))}
@@ -331,11 +331,11 @@ export const ReviewSubmitSection = ({
 						<Checkbox id="terms" checked={termsAccepted} onCheckedChange={setTermsAccepted} />
 						<Label htmlFor="terms" className="text-sm cursor-pointer">
 							I agree to the{" "}
-							<a href="/terms" className="text-blue-600 hover:underline" target="_blank">
+							<a href="/terms" className="text-primary hover:underline" target="_blank">
 								Terms of Service
 							</a>{" "}
 							and{" "}
-							<a href="/privacy" className="text-blue-600 hover:underline" target="_blank">
+							<a href="/privacy" className="text-primary hover:underline" target="_blank">
 								Privacy Policy
 							</a>
 						</Label>

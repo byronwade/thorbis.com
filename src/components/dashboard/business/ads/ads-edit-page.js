@@ -96,8 +96,8 @@ const StepProgress = ({ currentStep, totalSteps, steps, onStepClick }) => (
 
 		<div className="hidden md:flex justify-between">
 			{steps.map((step, index) => (
-				<button key={step.id} onClick={() => onStepClick(step.id)} className={`text-center cursor-pointer transition-colors ${step.id === currentStep ? "text-primary" : step.id < currentStep ? "text-green-600" : "text-muted-foreground"}`}>
-					<div className={`w-8 h-8 rounded-full border-2 mx-auto mb-2 flex items-center justify-center text-sm font-medium ${step.id === currentStep ? "border-primary bg-primary text-primary-foreground" : step.id < currentStep ? "border-green-600 bg-green-600 text-white" : "border-muted"}`}>{step.id}</div>
+				<button key={step.id} onClick={() => onStepClick(step.id)} className={`text-center cursor-pointer transition-colors ${step.id === currentStep ? "text-primary" : step.id < currentStep ? "text-success" : "text-muted-foreground"}`}>
+					<div className={`w-8 h-8 rounded-full border-2 mx-auto mb-2 flex items-center justify-center text-sm font-medium ${step.id === currentStep ? "border-primary bg-primary text-primary-foreground" : step.id < currentStep ? "border-green-600 bg-success text-white" : "border-muted"}`}>{step.id}</div>
 					<div className="text-xs font-medium">{step.title}</div>
 				</button>
 			))}
@@ -319,7 +319,7 @@ export default function AdsEditPage({ businessType = "plumbing" }) {
 				{/* Quick actions */}
 				<div className="flex gap-2">
 					{isDirty && (
-						<Badge variant="outline" className="text-yellow-600">
+						<Badge variant="outline" className="text-warning">
 							Unsaved Changes
 						</Badge>
 					)}

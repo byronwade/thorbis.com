@@ -142,15 +142,15 @@ export function BusinessNavigation() {
   ];
 
   return (
-    <div className="flex flex-col flex-grow bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+    <div className="flex flex-col flex-grow bg-white dark:bg-card border-r border-border dark:border-border overflow-y-auto">
       {/* Business header */}
-      <div className="flex items-center px-4 py-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="flex items-center px-4 py-4 border-b border-border dark:border-border">
         <span className="text-2xl mr-3">🏢</span>
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <h2 className="text-lg font-semibold text-foreground dark:text-white">
             Business
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-muted-foreground dark:text-muted-foreground">
             Management Dashboard
           </p>
         </div>
@@ -166,7 +166,7 @@ export function BusinessNavigation() {
               className={cn(
                 item.current
                   ? 'bg-primary text-primary-foreground'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white',
+                  : 'text-muted-foreground hover:bg-gray-50 hover:text-foreground dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
                 'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors'
               )}
             >
@@ -174,7 +174,7 @@ export function BusinessNavigation() {
                 className={cn(
                   item.current 
                     ? 'text-primary-foreground' 
-                    : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300',
+                    : 'text-muted-foreground group-hover:text-muted-foreground dark:text-muted-foreground dark:group-hover:text-muted-foreground',
                   'mr-3 h-5 w-5 transition-colors'
                 )}
                 aria-hidden="true"
@@ -186,7 +186,7 @@ export function BusinessNavigation() {
 
         {/* Secondary navigation */}
         <div className="pt-6">
-          <p className="px-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+          <p className="px-2 text-xs font-semibold text-muted-foreground dark:text-muted-foreground uppercase tracking-wider">
             More Tools
           </p>
         </div>
@@ -198,7 +198,7 @@ export function BusinessNavigation() {
               className={cn(
                 item.current
                   ? 'bg-primary text-primary-foreground'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white',
+                  : 'text-muted-foreground hover:bg-gray-50 hover:text-foreground dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white',
                 'group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors'
               )}
             >
@@ -206,7 +206,7 @@ export function BusinessNavigation() {
                 className={cn(
                   item.current 
                     ? 'text-primary-foreground' 
-                    : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300',
+                    : 'text-muted-foreground group-hover:text-muted-foreground dark:text-muted-foreground dark:group-hover:text-muted-foreground',
                   'mr-3 h-5 w-5 transition-colors'
                 )}
                 aria-hidden="true"
@@ -218,11 +218,11 @@ export function BusinessNavigation() {
       </nav>
 
       {/* Footer info */}
-      <div className="px-4 py-3 border-t border-gray-200 dark:border-gray-700">
-        <p className="text-xs text-gray-500 dark:text-gray-400">
+      <div className="px-4 py-3 border-t border-border dark:border-border">
+        <p className="text-xs text-muted-foreground dark:text-muted-foreground">
           Business Dashboard
         </p>
-        <p className="text-xs text-gray-400 dark:text-gray-500">
+        <p className="text-xs text-muted-foreground dark:text-muted-foreground">
           All modules available
         </p>
       </div>

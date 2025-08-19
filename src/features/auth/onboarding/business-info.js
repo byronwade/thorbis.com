@@ -129,7 +129,7 @@ export default function BusinessInfo() {
 								</FormLabel>
 								<FormDescription>Please provide the company display name not legal entity name.</FormDescription>
 								<FormControl>
-									<Input {...field} placeholder="e.g., Joe's Pizza & Pasta" className={fieldState.error ? "border-red-500" : ""} />
+									<Input {...field} placeholder="e.g., Joe's Pizza & Pasta" className={fieldState.error ? "border-destructive" : ""} />
 								</FormControl>
 								{validationTips.businessName && (
 									<div className={`flex items-center gap-1 text-sm ${validationTips.businessName.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>
@@ -160,7 +160,7 @@ export default function BusinessInfo() {
 											const formatted = formatPhoneNumber(e.target.value);
 											field.onChange(formatted);
 										}}
-										className={fieldState.error ? "border-red-500" : ""}
+										className={fieldState.error ? "border-destructive" : ""}
 									/>
 								</FormControl>
 								{validationTips.phoneNumber && (
@@ -185,7 +185,7 @@ export default function BusinessInfo() {
 								</FormLabel>
 								<FormDescription>We don&apos;t use your email for marketing.</FormDescription>
 								<FormControl>
-									<Input {...field} type="email" placeholder="contact@yourbusiness.com" className={fieldState.error ? "border-red-500" : ""} />
+									<Input {...field} type="email" placeholder="contact@yourbusiness.com" className={fieldState.error ? "border-destructive" : ""} />
 								</FormControl>
 								{validationTips.email && (
 									<div className={`flex items-center gap-1 text-sm ${validationTips.email.startsWith("✓") ? "text-primary" : "text-muted-foreground"}`}>

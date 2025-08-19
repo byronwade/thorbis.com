@@ -55,7 +55,7 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 		if (!isAnswered) {
 			return {
 				variant: isSelected ? "default" : "outline",
-				className: isSelected ? "bg-blue-500 text-white hover:bg-blue-600 border-blue-500" : "hover:bg-gray-50 hover:border-gray-300",
+				className: isSelected ? "bg-primary text-white hover:bg-primary border-primary" : "hover:bg-gray-50 hover:border-border",
 			};
 		}
 
@@ -63,14 +63,14 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 		if (isCorrect) {
 			return {
 				variant: "default",
-				className: "bg-green-500 text-white border-green-500",
+				className: "bg-success text-white border-green-500",
 			};
 		}
 
 		if (isSelected && !isCorrect) {
 			return {
 				variant: "destructive",
-				className: "bg-red-500 text-white border-red-500",
+				className: "bg-destructive text-white border-red-500",
 			};
 		}
 
@@ -84,11 +84,11 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 		if (!isAnswered) return null;
 
 		if (option.isCorrect) {
-			return <CheckCircle className="h-5 w-5 text-green-500" />;
+			return <CheckCircle className="h-5 w-5 text-success" />;
 		}
 
 		if (selectedOptions.includes(option.id) && !option.isCorrect) {
-			return <XCircle className="h-5 w-5 text-red-500" />;
+			return <XCircle className="h-5 w-5 text-destructive" />;
 		}
 
 		return null;
@@ -119,7 +119,7 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 							<CardContent className="p-4">
 								<div className="flex items-start space-x-4">
 									<div className="flex items-center space-x-3 flex-1">
-										<span className="text-lg font-bold flex-shrink-0 text-gray-600">{String.fromCharCode(65 + index)}.</span>
+										<span className="text-lg font-bold flex-shrink-0 text-muted-foreground">{String.fromCharCode(65 + index)}.</span>
 										<span className="text-lg flex-1">{option.text}</span>
 									</div>
 									{icon && <div className="flex-shrink-0">{icon}</div>}
@@ -138,12 +138,12 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 						if (!selectedOption?.explanation) return null;
 
 						return (
-							<div key={selectedId} className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+							<div key={selectedId} className="p-4 bg-blue-50 border border-primary/30 rounded-lg">
 								<div className="flex items-start space-x-3">
-									<Lightbulb className="h-5 w-5 text-blue-500 mt-0.5 flex-shrink-0" />
+									<Lightbulb className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
 									<div>
-										<p className="font-medium text-blue-900 mb-1">Option {selectedOption.text}:</p>
-										<p className="text-blue-800 text-sm">{selectedOption.explanation}</p>
+										<p className="font-medium text-primary mb-1">Option {selectedOption.text}:</p>
+										<p className="text-primary text-sm">{selectedOption.explanation}</p>
 									</div>
 								</div>
 							</div>
@@ -151,12 +151,12 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 					})}
 
 					{/* General explanation */}
-					<div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+					<div className="p-4 bg-gray-50 border border-border rounded-lg">
 						<div className="flex items-start space-x-3">
-							<Lightbulb className="h-5 w-5 text-gray-500 mt-0.5 flex-shrink-0" />
+							<Lightbulb className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
 							<div>
-								<p className="font-medium text-gray-900 mb-1">Explanation:</p>
-								<p className="text-gray-700 text-sm">{question.explanation}</p>
+								<p className="font-medium text-foreground mb-1">Explanation:</p>
+								<p className="text-muted-foreground text-sm">{question.explanation}</p>
 							</div>
 						</div>
 					</div>
@@ -167,9 +167,9 @@ export function MultipleChoiceRenderer({ question, onAnswer, isAnswered, userAns
 			{!isAnswered && question.hints && question.hints.length > 0 && (
 				<div className="mt-4">
 					<details className="group">
-						<summary className="cursor-pointer text-sm text-blue-600 hover:text-blue-800 font-medium">💡 Need a hint? Click here</summary>
+						<summary className="cursor-pointer text-sm text-primary hover:text-primary font-medium">💡 Need a hint? Click here</summary>
 						<div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-							<p className="text-yellow-800 text-sm">{question.hints[0]}</p>
+							<p className="text-warning text-sm">{question.hints[0]}</p>
 						</div>
 					</details>
 				</div>

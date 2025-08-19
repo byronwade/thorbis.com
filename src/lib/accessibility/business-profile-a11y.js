@@ -330,7 +330,7 @@ export function initializeBusinessProfileAccessibility(businessName) {
 	style.textContent = `
 		/* Enhanced focus indicators */
 		*:focus {
-			outline: 2px solid #0066cc;
+			outline: 2px solid hsl(var(--primary));
 			outline-offset: 2px;
 		}
 		

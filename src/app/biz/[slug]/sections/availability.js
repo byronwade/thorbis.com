@@ -20,7 +20,7 @@ export default function Availability({ business }) {
 					<div className="p-6 space-y-6 border rounded-xl bg-card border-border">
 						{/* Business Avatar & Info */}
 						<div className="flex items-center gap-4">
-							<div className="w-16 h-16 overflow-hidden bg-blue-600 rounded-lg">
+							<div className="w-16 h-16 overflow-hidden bg-primary rounded-lg">
 								<div className="flex items-center justify-center w-full h-full text-xl font-bold text-white">
 									{business?.name
 										? business.name
@@ -50,19 +50,19 @@ export default function Availability({ business }) {
 						</div>
 
 						{/* Live Status */}
-						<div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20">
+						<div className="p-4 rounded-lg bg-success/20">
 							<div className="flex items-center gap-2">
-								<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-								<span className="text-sm font-medium text-green-700 dark:text-green-400">LIVE - Available Now</span>
+								<div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+								<span className="text-sm font-medium text-success dark:text-success">LIVE - Available Now</span>
 							</div>
-							<p className="mt-1 text-xs text-green-600 dark:text-green-500">45 minutes response time</p>
+							<p className="mt-1 text-xs text-success dark:text-success">45 minutes response time</p>
 						</div>
 
 						{/* Emergency Service */}
-						<div className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20">
-							<h4 className="mb-2 text-sm font-semibold text-red-700 dark:text-red-400">Emergency Service</h4>
-							<p className="mb-3 text-xs text-red-600 dark:text-red-500">24/7 immediate response</p>
-							<Button size="sm" className="w-full text-white bg-red-600 hover:bg-red-700">
+						<div className="p-4 rounded-lg bg-red-50 dark:bg-destructive/20">
+							<h4 className="mb-2 text-sm font-semibold text-destructive dark:text-destructive">Emergency Service</h4>
+							<p className="mb-3 text-xs text-destructive dark:text-destructive">24/7 immediate response</p>
+							<Button size="sm" className="w-full text-white bg-destructive hover:bg-destructive">
 								<Phone className="w-3 h-3 mr-2" />
 								Call Emergency: {business?.phone?.replace(/[()]/g, "") || "(706) 555-0123"}
 							</Button>
@@ -103,8 +103,8 @@ export default function Availability({ business }) {
 											key={index}
 											className={`
 												p-2 text-sm font-medium rounded-lg transition-all text-center
-												${date === 22 ? "bg-blue-600 text-white" : date > 30 ? "text-muted-foreground/50 hover:bg-muted/50" : "text-foreground hover:bg-muted"}
-												${[16, 17, 19, 23, 24, 25].includes(date) && date <= 30 ? "text-blue-600 font-semibold" : ""}
+												${date === 22 ? "bg-primary text-white" : date > 30 ? "text-muted-foreground/50 hover:bg-muted/50" : "text-foreground hover:bg-muted"}
+												${[16, 17, 19, 23, 24, 25].includes(date) && date <= 30 ? "text-primary font-semibold" : ""}
 											`}
 										>
 											{date}
@@ -132,7 +132,7 @@ export default function Availability({ business }) {
 											key={time}
 											className={`
 												w-full p-3 text-left rounded-lg border-2 transition-all
-												${index === 0 ? "border-blue-600 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300" : "border-border hover:border-blue-300 hover:bg-blue-50/50 dark:hover:bg-blue-900/10"}
+												${index === 0 ? "border-primary bg-primary/20 text-primary" : "border-border hover:border-primary/40 hover:bg-primary/10"}
 											`}
 										>
 											<div className="text-sm font-medium text-foreground">{time}</div>
@@ -141,10 +141,10 @@ export default function Availability({ business }) {
 
 									{/* Available Slot with Special Styling */}
 									<div className="relative">
-										<button className="w-full p-3 text-left transition-all border-2 border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/20">
-											<div className="text-sm font-medium text-blue-700 dark:text-blue-300">11:00am</div>
+										<button className="w-full p-3 text-left transition-all border-2 border-primary rounded-lg bg-primary/20">
+											<div className="text-sm font-medium text-primary dark:text-primary/90">11:00am</div>
 										</button>
-										<Button size="sm" className="absolute text-xs text-white bg-blue-600 top-2 right-2 h-7 hover:bg-blue-700">
+										<Button size="sm" className="absolute text-xs text-white bg-primary top-2 right-2 h-7 hover:bg-primary">
 											Confirm
 										</Button>
 									</div>
@@ -154,7 +154,7 @@ export default function Availability({ business }) {
 								<div className="p-4 mt-6 rounded-lg bg-muted/50">
 									<div className="flex items-center justify-between mb-2">
 										<h4 className="text-sm font-semibold text-foreground">Video Consultation</h4>
-										<Badge variant="outline" className="text-blue-600 border-blue-200 dark:text-blue-400 dark:border-blue-800">
+										<Badge variant="outline" className="text-primary border-primary/30 dark:text-primary dark:border-primary">
 											Free
 										</Badge>
 									</div>

@@ -86,14 +86,14 @@ export default function BusinessProfile() {
 
 				{/* Completion Time Estimate */}
 				{completionTime > 0 && (
-					<Card className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950/20">
+					<Card className="border-green-200 bg-green-50 dark:border-green-800 dark:bg-success/20">
 						<CardContent className="p-4">
 							<div className="flex items-center justify-between">
 								<div className="flex items-center gap-2">
-									<Clock className="w-4 h-4 text-green-600" />
+									<Clock className="w-4 h-4 text-success" />
 									<span className="text-sm font-medium">Estimated completion time</span>
 								</div>
-								<Badge variant="secondary" className="bg-green-100 text-green-800">
+								<Badge variant="secondary" className="bg-success/10 text-success">
 									~{completionTime} seconds
 								</Badge>
 							</div>
@@ -114,13 +114,13 @@ export default function BusinessProfile() {
 								<FormDescription>Upload your business logo. This will appear on your business profile.</FormDescription>
 								<FormControl>
 									<div className="flex items-center space-x-4">
-										<Avatar className="w-16 h-16 bg-white border border-gray-300 rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary">
+										<Avatar className="w-16 h-16 bg-white border border-border rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary">
 											<AvatarImage src={logoUrl || "https://github.com/shadcn.png"} alt="Business Logo" />
 											<AvatarFallback className="rounded-md">Logo</AvatarFallback>
 										</Avatar>
 										<div className="flex flex-col space-y-2">
-											<label htmlFor="logo-upload" className="p-2 text-sm bg-white border border-gray-300 rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary hover:bg-muted/50">
-												<span className="text-blue-500">Click here to add image</span>
+											<label htmlFor="logo-upload" className="p-2 text-sm bg-white border border-border rounded-md cursor-pointer dark:border-neutral-800 dark:bg-neutral-900 focus-within:border-primary focus:border-primary dark:focus:border-primary dark:focus-within:border-primary hover:bg-muted/50">
+												<span className="text-primary">Click here to add image</span>
 												<input id="logo-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
 											</label>
 											{logoUrl && (
@@ -152,7 +152,7 @@ export default function BusinessProfile() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<Wrench className="w-4 h-4" />
-									Services <span className="text-red-500">*</span>
+									Services <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Select the services your business offers. You can select multiple services.</FormDescription>
 
@@ -186,7 +186,7 @@ export default function BusinessProfile() {
 							<FormItem>
 								<FormLabel className="flex items-center gap-2">
 									<MapPin className="w-4 h-4" />
-									Service Area (miles) <span className="text-red-500">*</span>
+									Service Area (miles) <span className="text-destructive">*</span>
 								</FormLabel>
 								<FormDescription>Specify the radius within which your business operates.</FormDescription>
 								<FormControl>

@@ -10,7 +10,7 @@ import { Badge } from "@components/ui/badge";
 import { Card, CardContent } from "@components/ui/card";
 import { Building2, Star, Calendar, Heart, Users, Shield, Sparkles, MessageCircle, User, Settings, ChevronRight, Clock, TrendingUp, CheckCircle, MapPin } from "lucide-react";
 import { cn } from "@utils";
-import { logger } from "@utils/logger";
+import logger from "@lib/utils/logger";
 // Logger validation moved to tests - removing for production build
 // import { validateLogger } from "@utils/logger-test";
 
@@ -187,10 +187,10 @@ export default function IntelligentLoginMessage({ onContextDetected, isSignupMod
 			isVisible ? "opacity-100" : "opacity-0"
 		)}>
 			{/* Noticeable but Clean Banner */}
-			<div className="flex items-center p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg border border-blue-200 dark:border-blue-800">
+			<div className="flex items-center p-4 bg-blue-50 dark:bg-primary/30 rounded-lg border border-primary/30 dark:border-primary">
 				<div className="flex items-center space-x-3">
-					<IconComponent className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-					<p className="text-sm text-blue-900 dark:text-blue-100 font-medium">{context.message}</p>
+					<IconComponent className="h-4 w-4 text-primary dark:text-primary" />
+					<p className="text-sm text-primary dark:text-primary/70 font-medium">{context.message}</p>
 				</div>
 			</div>
 		</div>
@@ -206,11 +206,11 @@ export function MinimalContextMessage({ context }) {
 	const IconComponent = CONTEXT_ICONS[context.category] || Shield;
 
 	return (
-		<div className="flex items-center p-4 space-x-3 bg-blue-50 rounded-lg border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800">
-			<IconComponent className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+		<div className="flex items-center p-4 space-x-3 bg-blue-50 rounded-lg border border-primary/30 dark:bg-primary/20 dark:border-primary">
+			<IconComponent className="w-5 h-5 text-primary dark:text-primary" />
 			<div>
-				<p className="text-sm font-medium text-blue-900 dark:text-blue-100">{context.title}</p>
-				<p className="text-xs text-blue-700 dark:text-blue-300">{context.message}</p>
+				<p className="text-sm font-medium text-primary dark:text-primary/70">{context.title}</p>
+				<p className="text-xs text-primary dark:text-primary/90">{context.message}</p>
 			</div>
 		</div>
 	);

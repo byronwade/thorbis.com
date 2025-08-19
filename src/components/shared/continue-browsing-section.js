@@ -40,7 +40,7 @@ export default function ContinueBrowsingSection({ businesses = [] }) {
               						<Clock className="w-5 h-5 text-primary" />
               <h2 className="text-xl font-bold text-white">Continue Exploring</h2>
             </div>
-            <Link href="/profile/history" className="text-sm text-gray-400 hover:text-white transition-colors">
+            <Link href="/profile/history" className="text-sm text-muted-foreground hover:text-white transition-colors">
               View All
             </Link>
           </div>
@@ -51,7 +51,7 @@ export default function ContinueBrowsingSection({ businesses = [] }) {
                 <BusinessCard business={business} />
                 
                 {/* Netflix-style progress bar */}
-                <div className="absolute bottom-12 left-0 right-0 h-1 bg-gray-700 mx-2">
+                <div className="absolute bottom-12 left-0 right-0 h-1 bg-muted mx-2">
                   <div 
                     					className="h-full bg-destructive transition-all duration-300"
                     style={{ width: `${business.viewProgress || 0}%` }}
@@ -77,7 +77,7 @@ export default function ContinueBrowsingSection({ businesses = [] }) {
               						<Heart className="w-5 h-5 text-destructive" />
               <h2 className="text-xl font-bold text-white">My List</h2>
             </div>
-            <Link href="/profile/saved" className="text-sm text-gray-400 hover:text-white transition-colors">
+            <Link href="/profile/saved" className="text-sm text-muted-foreground hover:text-white transition-colors">
               Manage List
             </Link>
           </div>

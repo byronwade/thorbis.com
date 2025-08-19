@@ -14,14 +14,14 @@ const businessCategories = ["Restaurants & Food", "Healthcare & Medical", "Home 
 
 // Color options - Updated to Thorbis theme (Blue + Neutral variations)
 const colorOptions = [
-	{ name: "Thorbis Blue", value: "#3B82F6", class: "bg-primary" },
-	{ name: "Dark Blue", value: "#1E40AF", class: "bg-primary/80" },
-	{ name: "Light Blue", value: "#60A5FA", class: "bg-primary/60" },
-	{ name: "Neutral Gray", value: "#6B7280", class: "bg-muted-foreground" },
-	{ name: "Dark Gray", value: "#374151", class: "bg-muted-foreground/80" },
-	{ name: "Light Gray", value: "#9CA3AF", class: "bg-muted-foreground/60" },
-	{ name: "White", value: "#FFFFFF", class: "bg-background" },
-	{ name: "Black", value: "#000000", class: "bg-foreground" },
+	{ name: "Thorbis Blue", value: "hsl(var(--primary))", class: "bg-primary" },
+	{ name: "Dark Blue", value: "hsl(var(--primary))", class: "bg-primary/80" },
+{ name: "Light Blue", value: "hsl(var(--primary))", class: "bg-primary/60" },
+	{ name: "Neutral Gray", value: "hsl(var(--muted-foreground))", class: "bg-muted-foreground" },
+	{ name: "Dark Gray", value: "hsl(var(--border))", class: "bg-muted-foreground/80" },
+	{ name: "Light Gray", value: "hsl(var(--muted-foreground))", class: "bg-muted-foreground/60" },
+	{ name: "White", value: "hsl(var(--foreground))", class: "bg-background" },
+	{ name: "Black", value: "hsl(var(--background))", class: "bg-foreground" },
 ];
 
 export default function DirectoryCustomization() {
@@ -154,7 +154,7 @@ export default function DirectoryCustomization() {
 												const formatted = formatSubdomain(e.target.value);
 												field.onChange(formatted);
 											}}
-											className={`rounded-r-none ${fieldState.error ? "border-red-500" : ""}`}
+											className={`rounded-r-none ${fieldState.error ? "border-destructive" : ""}`}
 										/>
 										<div className="px-3 py-2 bg-muted border border-l-0 rounded-r text-sm text-muted-foreground">.localhub.com</div>
 									</div>

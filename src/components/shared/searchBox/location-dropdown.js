@@ -314,14 +314,14 @@ const LocationDropdown = ({ className, size = "default" }) => {
 
 					{/* Clear Button Section */}
 					{(typeof location.city === "string" && location.city) || (typeof location.value === "string" && location.value) ? (
-						<button onClick={clearLocation} className="flex items-center justify-center w-6 h-full border-l border-slate-300/60 dark:border-slate-600/60 hover:bg-red-100/80 dark:hover:bg-red-900/30 hover:text-red-500 dark:hover:text-red-400 text-slate-400 dark:text-slate-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" title="Clear location" type="button">
+						<button onClick={clearLocation} className="flex items-center justify-center w-6 h-full border-l border-slate-300/60 dark:border-slate-600/60 hover:bg-destructive/10/80 dark:hover:bg-destructive/30 hover:text-destructive dark:hover:text-destructive text-slate-400 dark:text-slate-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" title="Clear location" type="button">
 							<X className="w-3 h-3" />
 						</button>
 					) : null}
 				</div>
 
 				{/* Dropdown Content */}
-				<DropdownMenuContent className={`${currentSize.dropdown} bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl z-[9999]`} side="bottom" align="center" sideOffset={8} avoidCollisions={true} collisionPadding={20}>
+				<DropdownMenuContent className={`${currentSize.dropdown} bg-white dark:bg-card border border-border dark:border-border rounded-xl shadow-xl z-[9999]`} side="bottom" align="center" sideOffset={8} avoidCollisions={true} collisionPadding={20}>
 					{/* Current Location Button */}
 					<DropdownMenuItem asChild>
 						<Button onClick={handleGetLocationClick} disabled={location.loading} variant="ghost" className="w-full justify-start gap-3 h-12 hover:bg-accent hover:text-accent-foreground">
@@ -345,8 +345,8 @@ const LocationDropdown = ({ className, size = "default" }) => {
 							<div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
 								{popularLocations.map((loc, idx) => (
 									<button key={idx} onClick={() => handleSelectLocation({ place_id: `popular_${idx}`, description: loc.name })} className="w-full text-left p-2 hover:bg-muted rounded-md text-sm transition-colors flex items-center gap-3 group">
-										<div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center group-hover:bg-blue-200 dark:group-hover:bg-blue-900/50 transition-colors">
-											<loc.icon className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+										<div className="w-8 h-8 rounded-lg bg-primary/10 dark:bg-primary/30 flex items-center justify-center group-hover:bg-primary/20 dark:group-hover:bg-primary/50 transition-colors">
+											<loc.icon className="w-4 h-4 text-primary dark:text-primary" />
 										</div>
 										<div className="flex flex-col">
 											<span className="font-medium">{loc.name}</span>

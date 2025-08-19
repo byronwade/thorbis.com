@@ -41,7 +41,7 @@ const BusinessSubmissionForm = () => {
 								<span className="font-medium">{getProgressStatus()}</span>
 								<span className="text-muted-foreground">{Math.round(progress)}%</span>
 							</div>
-							<div className="w-full bg-gray-200 rounded-full h-2">
+							<div className="w-full bg-muted rounded-full h-2">
 								<div className={`h-2 rounded-full transition-all duration-300 ${getProgressColor()}`} style={{ width: `${progress}%` }} />
 							</div>
 							{progress === 100 && (

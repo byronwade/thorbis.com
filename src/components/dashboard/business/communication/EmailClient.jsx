@@ -38,7 +38,7 @@ import { cn } from "@/lib/utils"
 const USERS = [
   { id: "u1", name: "Alex Rivera", role: "Support", online: true, color: "bg-emerald-500" },
   { id: "u2", name: "Bri Chen", role: "Ops", online: true, color: "bg-sky-500" },
-  { id: "u3", name: "Casey Green", role: "Success", online: true, color: "bg-orange-500" },
+  { id: "u3", name: "Casey Green", role: "Success", online: true, color: "bg-warning" },
   { id: "u4", name: "Dee Patel", role: "Billing", online: true, color: "bg-fuchsia-500" },
   { id: "u5", name: "Evan Stone", role: "Support", online: true, color: "bg-rose-500" },
 ]
@@ -512,7 +512,7 @@ function GmailList({ mails, selectedId, selectedIds, onToggleSelect, onSelect, o
                 <Star
                   className={cn(
                     "h-4 w-4",
-                    m.starred ? "text-yellow-500 fill-yellow-500" : "text-muted-foreground",
+                    m.starred ? "text-warning fill-yellow-500" : "text-muted-foreground",
                   )}
                 />
               </button>
@@ -616,7 +616,7 @@ function ReaderSheet({ mail, users, currentUserId, onAssign, onOpenCompose, onTo
               <Circle className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onToggleStar()}>
-              <Star className={cn("h-4 w-4", mail.starred ? "text-yellow-500 fill-yellow-500" : "")} />
+              <Star className={cn("h-4 w-4", mail.starred ? "text-warning fill-yellow-500" : "")} />
             </Button>
 
             <div className="ml-auto flex items-center gap-1">

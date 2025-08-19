@@ -250,7 +250,7 @@ export default function PricingPage() {
 					<div className="flex flex-col sm:flex-row items-center justify-center gap-4">
 						<a 
 							href="/signup" 
-							className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-4 text-lg font-semibold text-white hover:bg-blue-700 transition-colors shadow-sm"
+							className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-4 text-lg font-semibold text-white hover:bg-primary transition-colors shadow-sm"
 						>
 							<Zap className="w-5 h-5" />
 							Start Your Trial
@@ -287,7 +287,7 @@ export default function PricingPage() {
 								}`}
 							>
 								{tier.popular && (
-									<div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-blue-600 text-white text-sm font-medium rounded-full flex items-center gap-1">
+									<div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-primary text-white text-sm font-medium rounded-full flex items-center gap-1">
 										<Star className="w-3 h-3" />
 										Most Popular
 									</div>
@@ -305,7 +305,7 @@ export default function PricingPage() {
 								<ul className="space-y-3 mb-8">
 									{tier.features.map((feature, featureIndex) => (
 										<li key={featureIndex} className="flex items-start gap-3">
-											<CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
+											<CheckCircle className="w-5 h-5 text-success mt-0.5 flex-shrink-0" />
 											<span className="text-muted-foreground text-sm">{feature}</span>
 										</li>
 									))}
@@ -315,7 +315,7 @@ export default function PricingPage() {
 									href={tier.name === "LocalHub Partner" ? "/contact" : "/signup"}
 									className={`w-full inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors ${
 										tier.popular
-											? 'bg-blue-600 text-white hover:bg-blue-700'
+											? 'bg-primary text-white hover:bg-primary'
 											: 'border border-border text-foreground hover:bg-accent'
 									}`}
 								>
@@ -347,8 +347,8 @@ export default function PricingPage() {
 
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
 						<div className="bg-card rounded-lg p-6 border border-border hover:shadow-lg transition-all duration-200">
-							<div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
-								<Bot className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+							<div className="w-12 h-12 bg-primary dark:bg-primary/30 rounded-lg flex items-center justify-center mb-4">
+								<Bot className="w-6 h-6 text-primary dark:text-primary" />
 							</div>
 							<h3 className="text-lg font-bold mb-3 text-foreground">AI Chat Assistant</h3>
 							<p className="text-muted-foreground mb-4 text-sm leading-relaxed">
@@ -363,8 +363,8 @@ export default function PricingPage() {
 						</div>
 
 						<div className="bg-card rounded-lg p-6 border border-border hover:shadow-lg transition-all duration-200">
-							<div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mb-4">
-								<Mic className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+							<div className="w-12 h-12 bg-primary dark:bg-primary/30 rounded-lg flex items-center justify-center mb-4">
+								<Mic className="w-6 h-6 text-primary dark:text-primary" />
 							</div>
 							<h3 className="text-lg font-bold mb-3 text-foreground">Voice AI</h3>
 							<p className="text-muted-foreground mb-4 text-sm leading-relaxed">
@@ -379,8 +379,8 @@ export default function PricingPage() {
 						</div>
 
 						<div className="bg-card rounded-lg p-6 border border-border hover:shadow-lg transition-all duration-200 md:col-span-2 lg:col-span-1">
-							<div className="w-12 h-12 bg-green-50 dark:bg-green-900/30 rounded-lg flex items-center justify-center mb-4">
-								<BarChart3 className="w-6 h-6 text-green-600 dark:text-green-400" />
+							<div className="w-12 h-12 bg-success dark:bg-success/30 rounded-lg flex items-center justify-center mb-4">
+								<BarChart3 className="w-6 h-6 text-success dark:text-success" />
 							</div>
 							<h3 className="text-lg font-bold mb-3 text-foreground">Smart Analytics</h3>
 							<p className="text-muted-foreground mb-4 text-sm leading-relaxed">
@@ -404,26 +404,26 @@ export default function PricingPage() {
 						</div>
 						<div className="grid md:grid-cols-3 gap-8">
 							<div className="text-center">
-								<div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-4 border border-blue-200 dark:border-blue-800">
-									<MessageSquare className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+								<div className="w-16 h-16 bg-primary dark:bg-primary/30 rounded-lg flex items-center justify-center mx-auto mb-4 border border-primary/30 dark:border-primary">
+									<MessageSquare className="w-8 h-8 text-primary dark:text-primary" />
 								</div>
-								<div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">25,000</div>
+								<div className="text-2xl font-bold text-primary dark:text-primary mb-2">25,000</div>
 								<div className="font-medium mb-2 text-foreground">Input tokens/month</div>
 								<div className="text-sm text-muted-foreground">≈ 18,750 words sent to AI</div>
 							</div>
 							<div className="text-center">
-								<div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center mx-auto mb-4 border border-blue-200 dark:border-blue-800">
-									<Bot className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+								<div className="w-16 h-16 bg-primary dark:bg-primary/30 rounded-lg flex items-center justify-center mx-auto mb-4 border border-primary/30 dark:border-primary">
+									<Bot className="w-8 h-8 text-primary dark:text-primary" />
 								</div>
-								<div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">25,000</div>
+								<div className="text-2xl font-bold text-primary dark:text-primary mb-2">25,000</div>
 								<div className="font-medium mb-2 text-foreground">Output tokens/month</div>
 								<div className="text-sm text-muted-foreground">≈ 18,750 words from AI</div>
 							</div>
 							<div className="text-center">
-								<div className="w-16 h-16 bg-green-50 dark:bg-green-900/30 rounded-lg flex items-center justify-center mx-auto mb-4 border border-green-200 dark:border-green-800">
-									<CreditCard className="w-8 h-8 text-green-600 dark:text-green-400" />
+								<div className="w-16 h-16 bg-success dark:bg-success/30 rounded-lg flex items-center justify-center mx-auto mb-4 border border-success dark:border-success">
+									<CreditCard className="w-8 h-8 text-success dark:text-success" />
 								</div>
-								<div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">$237.50</div>
+								<div className="text-2xl font-bold text-success dark:text-success mb-2">$237.50</div>
 								<div className="font-medium mb-2 text-foreground">Total monthly cost</div>
 								<div className="text-sm text-muted-foreground">$50 base + $187.50 AI usage</div>
 							</div>
@@ -466,15 +466,15 @@ export default function PricingPage() {
 						{allFeatures.map((category, index) => (
 							<div key={index} className="bg-card rounded-lg border border-border p-6 hover:shadow-lg transition-all duration-200">
 								<div className="flex items-center gap-3 mb-4">
-									<div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-										<category.icon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+									<div className="w-10 h-10 bg-primary dark:bg-primary/30 rounded-lg flex items-center justify-center">
+										<category.icon className="w-5 h-5 text-primary dark:text-primary" />
 									</div>
 									<h3 className="font-bold text-lg text-foreground">{category.category}</h3>
 								</div>
 								<ul className="space-y-2">
 									{category.features.map((feature, featureIndex) => (
 										<li key={featureIndex} className="flex items-start gap-2">
-											<CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
+											<CheckCircle className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
 											<span className="text-muted-foreground text-sm">{feature}</span>
 										</li>
 									))}
@@ -502,8 +502,8 @@ export default function PricingPage() {
 					<div className="grid md:grid-cols-2 gap-6">
 						<div className="bg-muted/30 rounded-lg p-6 border border-border">
 							<div className="flex items-start gap-3 mb-3">
-								<div className="w-6 h-6 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-									<DollarSign className="w-3 h-3 text-blue-600 dark:text-blue-400" />
+								<div className="w-6 h-6 bg-primary/10 dark:bg-primary/30 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
+									<DollarSign className="w-3 h-3 text-primary dark:text-primary" />
 								</div>
 								<h3 className="text-lg font-bold text-foreground">Why is there a $50 monthly base fee?</h3>
 							</div>
@@ -613,7 +613,7 @@ export default function PricingPage() {
 						<div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
 							<a 
 								href="/signup" 
-								className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3 text-lg font-semibold text-white hover:bg-blue-700 transition-colors"
+								className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 text-lg font-semibold text-white hover:bg-primary transition-colors"
 							>
 								<Zap className="w-5 h-5" />
 								Start Your Trial

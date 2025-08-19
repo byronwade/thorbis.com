@@ -21,7 +21,7 @@ const VideoPost = ({ media }) => {
 					Your browser does not support the video tag.
 				</video>
 			) : (
-				<p className="text-red-500">Invalid video URL or media not provided.</p>
+				<p className="text-destructive">Invalid video URL or media not provided.</p>
 			)}
 		</div>
 	);

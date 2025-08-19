@@ -67,7 +67,7 @@ export default function Analytics() {
 	const formatGrowth = (growth) => {
 		const isPositive = growth > 0;
 		const IconComponent = isPositive ? ArrowUpRight : ArrowDownRight;
-		const colorClass = isPositive ? "text-green-600" : "text-red-600";
+		const colorClass = isPositive ? "text-success" : "text-destructive";
 
 		return (
 			<span className={`text-xs flex items-center ${colorClass}`}>
@@ -181,7 +181,7 @@ export default function Analytics() {
 							{mockAnalytics.trafficSources.map((source, index) => (
 								<div key={index} className="flex items-center justify-between">
 									<div className="flex items-center space-x-3">
-										<div className="w-3 h-3 rounded-full bg-primary" style={{ backgroundColor: `hsl(${index * 72}, 70%, 50%)` }}></div>
+										<div className="w-3 h-3 rounded-full bg-primary" style={{ backgroundColor: index % 2 === 0 ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))' }}></div>
 										<span className="font-medium">{source.source}</span>
 									</div>
 									<div className="text-right">
@@ -207,7 +207,7 @@ export default function Analytics() {
 							{mockAnalytics.deviceBreakdown.map((device, index) => (
 								<div key={index} className="flex items-center justify-between">
 									<div className="flex items-center space-x-3">
-										<div className="w-3 h-3 rounded-full bg-primary" style={{ backgroundColor: `hsl(${index * 120}, 70%, 50%)` }}></div>
+										<div className="w-3 h-3 rounded-full bg-primary" style={{ backgroundColor: index % 2 === 0 ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))' }}></div>
 										<span className="font-medium">{device.device}</span>
 									</div>
 									<div className="text-right">
@@ -234,7 +234,7 @@ export default function Analytics() {
 						{mockAnalytics.recentActivity.map((activity, index) => (
 							<div key={index} className="flex items-center justify-between p-3 border border-border rounded-lg">
 								<div className="flex items-center space-x-3">
-									<div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+									<div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
 									<div>
 										<div className="font-medium">{activity.action}</div>
 										<div className="text-sm text-muted-foreground">{activity.business}</div>
@@ -273,7 +273,7 @@ export default function Analytics() {
 									</div>
 									<div className="text-right">
 										<div className="font-bold">{business.views} views</div>
-										<div className="text-sm text-green-600">{business.contacts} contacts</div>
+										<div className="text-sm text-success">{business.contacts} contacts</div>
 									</div>
 								</div>
 							))}
@@ -342,12 +342,12 @@ export default function Analytics() {
 				<CardContent>
 					<div className="grid gap-4 md:grid-cols-4">
 						<div className="p-4 border border-border rounded-lg text-center">
-							<Phone className="w-6 h-6 mx-auto mb-2 text-blue-500" />
+							<Phone className="w-6 h-6 mx-auto mb-2 text-primary" />
 							<div className="text-2xl font-bold">1,245</div>
 							<div className="text-sm text-muted-foreground">Phone Calls</div>
 						</div>
 						<div className="p-4 border border-border rounded-lg text-center">
-							<Mail className="w-6 h-6 mx-auto mb-2 text-green-500" />
+							<Mail className="w-6 h-6 mx-auto mb-2 text-success" />
 							<div className="text-2xl font-bold">892</div>
 							<div className="text-sm text-muted-foreground">Email Contacts</div>
 						</div>
@@ -357,7 +357,7 @@ export default function Analytics() {
 							<div className="text-sm text-muted-foreground">Website Visits</div>
 						</div>
 						<div className="p-4 border border-border rounded-lg text-center">
-							<MapPin className="w-6 h-6 mx-auto mb-2 text-orange-500" />
+							<MapPin className="w-6 h-6 mx-auto mb-2 text-warning" />
 							<div className="text-2xl font-bold">3,421</div>
 							<div className="text-sm text-muted-foreground">Directions</div>
 						</div>
@@ -373,7 +373,7 @@ export default function Analytics() {
 				<CardContent>
 					<div className="grid gap-4 md:grid-cols-3">
 						<div className="p-4 border border-border rounded-lg">
-							<div className="text-2xl font-bold text-green-600">$1,872</div>
+							<div className="text-2xl font-bold text-success">$1,872</div>
 							<div className="text-sm text-muted-foreground">Your Monthly Share (80%)</div>
 							{formatGrowth(18.7)}
 						</div>
