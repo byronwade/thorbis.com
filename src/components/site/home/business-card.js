@@ -25,7 +25,7 @@ export default function BusinessCard({ business, disabled, sponsored = false }) 
 		location: business.location || "Location",
 		rating: rating > 0 ? rating.toFixed(1) : "0.0",
 		reviewCount: business.reviewCount || 0,
-		image: business.image || "/placeholder-business.svg",
+		image: business.image || business.logo || null,
 		// Add missing location data
 		state: business.state || "",
 		city: business.city || "",
@@ -56,6 +56,21 @@ export default function BusinessCard({ business, disabled, sponsored = false }) 
 		? buildBusinessUrl(urlParams)
 		: '/';
 
+	// Generate a consistent background color based on business name
+	const getBusinessColor = (businessName) => {
+		const colors = [
+			'bg-slate-600', // Dark gray
+			'bg-neutral-600', // Neutral gray
+			'bg-zinc-600', // Zinc gray
+			'bg-stone-600', // Stone gray
+			'bg-gray-600', // Gray
+		];
+		const index = businessName.length % colors.length;
+		return colors[index];
+	};
+
+	const businessColor = getBusinessColor(consistentBusiness.name);
+
 	return (
 		<div className="group/card relative h-[320px] sm:h-[380px]">
 			<Link
@@ -67,26 +82,38 @@ export default function BusinessCard({ business, disabled, sponsored = false }) 
 				data-business-name={consistentBusiness.name}
 				data-business-category={consistentBusiness.category}
 			>
-				{/* Enhanced mobile-optimized card */}
-				<div className="relative w-full h-full bg-card rounded-2xl overflow-hidden transition-all duration-300 ease-out group-hover/card:bg-accent/5 group-hover/card:shadow-lg group-hover/card:shadow-primary/10 group-hover/card:-translate-y-1 group-active/card:scale-95 border border-border/50 group-hover/card:border-primary/20">
-					{/* Business image with mobile-optimized aspect ratio */}
-					<div className="relative aspect-[3/2] sm:aspect-[4/3] overflow-hidden bg-muted/30">
-						<Image
-							className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover/card:scale-105"
-							src={consistentBusiness.image}
-							alt={consistentBusiness.name}
-							width={400}
-							height={300}
-							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-							onError={(e) => {
-								// Next/Image onError uses currentTarget in React
-								if (e?.currentTarget) {
-									e.currentTarget.src = "/placeholder-business.svg";
-								}
-							}}
-						/>
+				{/* Enhanced card with image-first design */}
+				<div className="relative w-full h-full bg-card rounded-2xl overflow-hidden transition-all duration-300 ease-out group-hover/card:shadow-lg group-hover/card:shadow-primary/10 group-hover/card:-translate-y-1 group-active/card:scale-95 border border-border/50 group-hover/card:border-primary/20">
+					
+					{/* Main Image Area (70-75% of height) */}
+					<div className="relative h-[75%] overflow-hidden">
+						{/* Background Image or Color */}
+						{consistentBusiness.image ? (
+							<Image
+								className="object-cover w-full h-full transition-transform duration-500 ease-out group-hover/card:scale-105"
+								src={consistentBusiness.image}
+								alt={consistentBusiness.name}
+								width={400}
+								height={300}
+								sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+								onError={(e) => {
+									// Fallback to color background if image fails
+									if (e?.currentTarget) {
+										e.currentTarget.style.display = "none";
+										e.currentTarget.parentElement.classList.add(businessColor);
+									}
+								}}
+							/>
+						) : (
+							/* Solid color background when no image */
+							<div className={`w-full h-full ${businessColor} flex items-center justify-center`}>
+								<div className="text-white/80 text-6xl font-bold">
+									{consistentBusiness.name.charAt(0).toUpperCase()}
+								</div>
+							</div>
+						)}
 
-						{/* Enhanced rating badge with better mobile touch target */}
+						{/* Rating Badge - Top Right */}
 						{rating > 0 && (
 							<div className="absolute top-3 right-3 opacity-90 group-hover/card:opacity-100 transition-opacity duration-300">
 								<div className="flex items-center gap-1.5 px-3 py-2 bg-background/95 backdrop-blur-sm rounded-xl border border-border/50 shadow-sm min-w-[60px] justify-center">
@@ -96,7 +123,7 @@ export default function BusinessCard({ business, disabled, sponsored = false }) 
 							</div>
 						)}
 
-						{/* Sponsored badge - subtle but clear */}
+						{/* Sponsored Badge - Top Left */}
 						{sponsored && (
 							<div className="absolute top-3 left-3 opacity-90 group-hover/card:opacity-100 transition-opacity duration-300">
 								<div className="flex items-center gap-1 px-2 py-1.5 bg-primary/90 backdrop-blur-sm rounded-lg border border-primary/30 shadow-sm">
@@ -105,43 +132,56 @@ export default function BusinessCard({ business, disabled, sponsored = false }) 
 							</div>
 						)}
 
-						{/* Subtle overlay for better text readability */}
-						<div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
-					</div>
-
-					{/* Content section with mobile-optimized spacing */}
-					<div className="p-4 sm:p-5 space-y-3 flex flex-col justify-between h-full">
-						<div className="space-y-3">
-							{/* Business name with mobile-optimized typography */}
-							<h3 className="font-semibold text-foreground text-base sm:text-lg leading-tight line-clamp-2 group-hover/card:text-primary transition-colors duration-200 h-12 sm:h-10 flex items-start">
-								{consistentBusiness.name}
-							</h3>
-
-							{/* Category and location with mobile-friendly layout */}
-							<div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-sm text-muted-foreground">
-								<span className="inline-flex items-center gap-1 px-3 py-1.5 bg-muted/50 rounded-lg text-xs font-medium w-fit">
-									{consistentBusiness.category}
-								</span>
-								{consistentBusiness.location && (
-									<div className="flex items-center gap-1.5 text-xs">
-										<MapPin className="w-3.5 h-3.5 flex-shrink-0" />
-										<span className="truncate">{consistentBusiness.location}</span>
-									</div>
-								)}
-							</div>
-						</div>
-
-						{/* Reviews and additional info with better mobile layout */}
-						{consistentBusiness.reviewCount > 0 && (
-							<div className="flex items-center justify-between text-xs text-muted-foreground/80 pt-1">
-								<span className="font-medium">{consistentBusiness.reviewCount} reviews</span>
-								{/* Enhanced status indicator */}
-								<div className="flex items-center gap-1.5">
-									<div className="w-2 h-2 bg-success rounded-full"></div>
-									<span className="text-xs font-medium">Verified</span>
+						{/* Price Range - Top Right (if rating not shown) */}
+						{!rating && business.priceRange && (
+							<div className="absolute top-3 right-3 opacity-90 group-hover/card:opacity-100 transition-opacity duration-300">
+								<div className="px-2 py-1 bg-background/95 backdrop-blur-sm rounded-lg border border-border/50 shadow-sm">
+									<span className="text-sm font-medium text-foreground">{business.priceRange}</span>
 								</div>
 							</div>
 						)}
+					</div>
+
+					{/* Dark Overlay Section (25-30% of height) */}
+					<div className="absolute bottom-0 left-0 right-0 h-[25%] bg-gradient-to-t from-black/80 via-black/60 to-transparent">
+						<div className="absolute bottom-0 left-0 right-0 p-4 space-y-2">
+							{/* Business Name - Large and Bold */}
+							<h3 className="font-bold text-white text-lg sm:text-xl leading-tight line-clamp-1 group-hover/card:text-primary transition-colors duration-200">
+								{consistentBusiness.name}
+							</h3>
+
+							{/* Category and Location Row */}
+							<div className="flex items-center justify-between text-sm">
+								{/* Category */}
+								<span className="text-white/90 font-medium">
+									{consistentBusiness.category}
+									{business.priceRange && <span className="ml-2 text-white/70">• {business.priceRange}</span>}
+								</span>
+
+								{/* Location with Distance */}
+								{consistentBusiness.location && (
+									<div className="flex items-center gap-1.5 text-white/80">
+										<MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+										<span className="text-xs truncate max-w-[120px]">
+											{consistentBusiness.location}
+											{business.distance && <span className="ml-1 text-primary">• {business.distance}</span>}
+										</span>
+									</div>
+								)}
+							</div>
+
+							{/* Reviews and Status Row */}
+							{consistentBusiness.reviewCount > 0 && (
+								<div className="flex items-center justify-between text-xs">
+									<span className="text-white/70 font-medium">{consistentBusiness.reviewCount} reviews</span>
+									{/* Status indicator */}
+									<div className="flex items-center gap-1.5">
+										<div className="w-2 h-2 bg-success rounded-full"></div>
+										<span className="text-white/70 font-medium">Verified</span>
+									</div>
+								</div>
+							)}
+						</div>
 					</div>
 
 					{/* Enhanced touch feedback */}

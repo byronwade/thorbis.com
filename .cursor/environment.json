@@ -1,9 +1,0 @@
-{
-  "install": "bun install",
-  "start": "bun run build",
-  "terminals": [],
-  "build": {
-    "context": ".",
-    "dockerfile": ".cursor/Dockerfile"
-  }
-}

@@ -10,13 +10,15 @@ import {
 	TrendingUp, ArrowRight, CheckCircle, Crown, Shield, Compass, Zap, Sparkles, 
 	Navigation, Target, Globe, Clock, Filter, Grid, List, Map, Play, Pause,
 	ChevronLeft, ChevronRight, Eye, EyeOff, RotateCcw, Shuffle, Bookmark,
-	Camera, Calendar, Tag, ExternalLink, Share2, BookOpen, Phone, Mail
+	Camera, Calendar, Tag, ExternalLink, Share2, BookOpen, Phone, Mail,
+	Menu, X, Bell, User, Settings, Home, Briefcase, ShoppingCart, Gift,
+	ChevronDown, Plus, Minus, Sliders, DollarSign, ThumbsUp, MessageCircle, Share
 } from "lucide-react";
 import BusinessCard from "@components/site/home/business-card";
 import ScrollSection from "@components/site/home/scroll-section";
 import EnhancedLocationSelector from "@components/shared/enhanced-location-selector";
 
-// Netflix-style featured businesses with auto-rotation
+// Featured businesses data
 const featuredBusinesses = [
 	{
 		id: 1,
@@ -30,7 +32,10 @@ const featuredBusinesses = [
 		tags: ["Pizza", "Italian", "Family-Friendly"],
 		featured: true,
 		certified: true,
-		slug: "tonys-authentic-pizza"
+		slug: "tonys-authentic-pizza",
+		priceRange: "$$",
+		openNow: true,
+		distance: "0.3 mi"
 	},
 	{
 		id: 2,
@@ -44,7 +49,10 @@ const featuredBusinesses = [
 		tags: ["Landscaping", "Garden Design", "Eco-Friendly"],
 		featured: false,
 		certified: true,
-		slug: "green-thumb-landscaping"
+		slug: "green-thumb-landscaping",
+		priceRange: "$$$",
+		openNow: true,
+		distance: "1.2 mi"
 	},
 	{
 		id: 3,
@@ -58,7 +66,10 @@ const featuredBusinesses = [
 		tags: ["Fashion", "Sustainable", "Local Brands"],
 		featured: false,
 		certified: true,
-		slug: "bellas-boutique"
+		slug: "bellas-boutique",
+		priceRange: "$$",
+		openNow: true,
+		distance: "0.8 mi"
 	},
 	{
 		id: 4,
@@ -72,11 +83,14 @@ const featuredBusinesses = [
 		tags: ["Spa", "Wellness", "Luxury"],
 		featured: true,
 		certified: true,
-		slug: "serenity-day-spa"
+		slug: "serenity-day-spa",
+		priceRange: "$$$",
+		openNow: true,
+		distance: "2.1 mi"
 	}
 ];
 
-// Mood-based discovery categories with enhanced data
+// Mood categories
 const moodCategories = [
 	{
 		id: "happy",
@@ -102,25 +116,25 @@ const moodCategories = [
 		icon: ShoppingBag,
 		color: "bg-blue-500",
 		description: "Discover unique finds",
-		businesses: 8500,
+		businesses: 8000,
 		subcategories: ["Fashion", "Electronics", "Home & Garden", "Gifts", "Artisan"]
 	},
 	{
 		id: "play",
 		name: "Play",
-		icon: Users,
+		icon: Play,
 		color: "bg-green-500",
-		description: "Entertainment & fun",
-		businesses: 2700,
+		description: "Find entertainment",
+		businesses: 6000,
 		subcategories: ["Bars", "Music", "Events", "Recreation", "Family Fun"]
 	},
 	{
 		id: "relax",
 		name: "Relax",
-		icon: Heart,
+		icon: Shield,
 		color: "bg-purple-500",
 		description: "Unwind and recharge",
-		businesses: 3900,
+		businesses: 4000,
 		subcategories: ["Spa", "Massage", "Yoga", "Meditation", "Wellness"]
 	},
 	{
@@ -129,7 +143,7 @@ const moodCategories = [
 		icon: Building2,
 		color: "bg-gray-500",
 		description: "Professional services",
-		businesses: 4800,
+		businesses: 10000,
 		subcategories: ["Legal", "Accounting", "Real Estate", "Consulting", "Coworking"]
 	},
 	{
@@ -137,1196 +151,639 @@ const moodCategories = [
 		name: "Fix",
 		icon: Wrench,
 		color: "bg-red-500",
-		description: "Repair & maintenance",
-		businesses: 6200,
+		description: "Repair and maintenance",
+		businesses: 7000,
 		subcategories: ["Plumbing", "Electrical", "Auto Repair", "Home Repair", "Electronics"]
 	}
 ];
 
-// Trending discovery methods
-const discoveryMethods = [
-	{
-		id: "nearby",
-		name: "Nearby Now",
-		icon: Target,
-		description: "Businesses within walking distance",
-		color: "bg-success/10 text-success",
-		count: "2,500+"
-	},
-	{
-		id: "trending",
-		name: "Trending Today",
-		icon: TrendingUp,
-		description: "Most popular this week",
-		color: "bg-warning/10 text-warning",
-		count: "150+"
-	},
-	{
-		id: "new",
-		name: "New in Town",
-		icon: Sparkles,
-		description: "Recently opened businesses",
-		color: "bg-primary/10 text-primary",
-		count: "45+"
-	},
-	{
-		id: "certified",
-		name: "Certified Excellence",
-		icon: Crown,
-		description: "Verified quality businesses",
-		color: "bg-muted text-muted-foreground",
-		count: "3,200+"
-	}
+// Quick actions
+const quickActions = [
+	{ id: "nearby", label: "Nearby", icon: MapPin, color: "bg-blue-500" },
+	{ id: "trending", label: "Trending", icon: TrendingUp, color: "bg-green-500" },
+	{ id: "new", label: "New", icon: Sparkles, color: "bg-purple-500" },
+	{ id: "deals", label: "Deals", icon: Tag, color: "bg-orange-500" },
+	{ id: "favorites", label: "Favorites", icon: Heart, color: "bg-red-500" },
+	{ id: "recent", label: "Recent", icon: Clock, color: "bg-gray-500" }
 ];
 
-// Interactive map hotspots
-const mapHotspots = [
+// Deals and offers
+const dealsAndOffers = [
 	{
 		id: 1,
-		name: "Downtown Core",
-		businesses: 234,
-		trending: "+23%",
-		highlights: ["Restaurants", "Bars", "Shopping"],
-		coordinates: { x: 25, y: 30 }
+		title: "50% Off First Visit",
+		business: "Serenity Day Spa",
+		description: "Get 50% off your first massage or facial treatment",
+		expires: "3 days left",
+		discount: "50%",
+		category: "Wellness",
+		image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
 	},
 	{
 		id: 2,
-		name: "Arts District",
-		businesses: 156,
-		trending: "+18%",
-		highlights: ["Galleries", "Studios", "Cafes"],
-		coordinates: { x: 70, y: 45 }
+		title: "Buy 1 Get 1 Free",
+		business: "Tony's Authentic Pizza",
+		description: "Buy any large pizza, get a medium pizza free",
+		expires: "1 day left",
+		discount: "BOGO",
+		category: "Food",
+		image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
 	},
 	{
 		id: 3,
-		name: "Tech Hub",
-		businesses: 89,
-		trending: "+35%",
-		highlights: ["Startups", "Coworking", "Coffee"],
-		coordinates: { x: 45, y: 70 }
+		title: "Free Consultation",
+		business: "Green Thumb Landscaping",
+		description: "Free landscape design consultation for new customers",
+		expires: "5 days left",
+		discount: "FREE",
+		category: "Services",
+		image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+	},
+	{
+		id: 4,
+		title: "20% Off Everything",
+		business: "Bella's Boutique",
+		description: "20% off all clothing and accessories",
+		expires: "2 days left",
+		discount: "20%",
+		category: "Shopping",
+		image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
 	}
 ];
 
-function NetflixHeroSection() {
-	const [currentBusiness, setCurrentBusiness] = useState(0);
-	const [isPlaying, setIsPlaying] = useState(true);
+// Events and activities
+const eventsAndActivities = [
+	{
+		id: 1,
+		title: "Local Food Festival",
+		date: "Tomorrow",
+		time: "12:00 PM - 8:00 PM",
+		location: "Downtown Square",
+		attendees: 250,
+		price: "Free",
+		category: "Food & Drink",
+		image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+	},
+	{
+		id: 2,
+		title: "Art Walk",
+		date: "This Weekend",
+		time: "6:00 PM - 9:00 PM",
+		location: "Arts District",
+		attendees: 180,
+		price: "$15",
+		category: "Arts & Culture",
+		image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+	},
+	{
+		id: 3,
+		title: "Yoga in the Park",
+		date: "Every Sunday",
+		time: "9:00 AM - 10:00 AM",
+		location: "Central Park",
+		attendees: 45,
+		price: "Free",
+		category: "Wellness",
+		image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+	},
+	{
+		id: 4,
+		title: "Live Music Night",
+		date: "Friday",
+		time: "8:00 PM - 11:00 PM",
+		location: "The Blue Note",
+		attendees: 120,
+		price: "$25",
+		category: "Entertainment",
+		image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+	}
+];
 
-	useEffect(() => {
-		if (!isPlaying) return;
-		
-		const interval = setInterval(() => {
-			setCurrentBusiness((prev) => (prev + 1) % featuredBusinesses.length);
-		}, 5000);
+// Local insights and tips
+const localInsights = [
+	{
+		id: 1,
+		title: "Best Coffee Shops for Remote Work",
+		author: "Local Guide",
+		readTime: "3 min read",
+		likes: 156,
+		image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+		category: "Work & Study"
+	},
+	{
+		id: 2,
+		title: "Hidden Gems: Local Artisan Shops",
+		author: "Community Member",
+		readTime: "5 min read",
+		likes: 89,
+		image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+		category: "Shopping"
+	},
+	{
+		id: 3,
+		title: "Weekend Wellness Guide",
+		author: "Wellness Expert",
+		readTime: "4 min read",
+		likes: 203,
+		image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+		category: "Wellness"
+	},
+	{
+		id: 4,
+		title: "Family-Friendly Activities This Month",
+		author: "Parent Guide",
+		readTime: "6 min read",
+		likes: 134,
+		image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+		category: "Family"
+	}
+];
 
-		return () => clearInterval(interval);
-	}, [isPlaying]);
-
-	const business = featuredBusinesses[currentBusiness];
+// Location Bar Component
+function LocationBar() {
+	const [currentLocation, setCurrentLocation] = useState('San Francisco, CA');
+	const [showLocationModal, setShowLocationModal] = useState(false);
 
 	return (
-		<section className="relative h-[70vh] md:h-[85vh] overflow-hidden bg-background">
-			{/* Hero background image */}
-			<div className="absolute inset-0">
-				<img
-					src={business.image}
-					alt={business.name}
-					className="object-cover w-full h-full transition-all duration-1000 ease-in-out"
-				/>
-				<div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background/20 md:to-transparent" />
-				<div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-			</div>
-
-			{/* Content overlay */}
-			<div className="relative z-10 h-full flex items-center">
-				<div className="px-4 md:px-6 lg:px-12 max-w-screen-2xl mx-auto w-full">
-					<div className="max-w-full md:max-w-2xl">
-						{/* Category badge */}
-						<div className="flex items-center space-x-2 mb-4 animate-fade-in-scale">
-							<span className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-primary bg-primary/10 rounded-full">
-								<div className="w-2 h-2 bg-primary rounded-full"></div>
-								{business.category}
-							</span>
-							{business.certified && (
-								<Badge className="bg-success">
-									<CheckCircle className="h-3 w-3 mr-1" />
-									Certified
-								</Badge>
-							)}
-						</div>
-
-						{/* Business title */}
-						<h1 className="text-4xl md:text-6xl font-bold text-card-foreground mb-4 animate-fade-in-up">
-							{business.name}
-						</h1>
-
-						{/* Business details */}
-						<div className="flex items-center space-x-6 mb-6 animate-fade-in-up animate-delay-100">
-							<div className="flex items-center space-x-1">
-								<Star className="h-5 w-5 text-warning fill-current" />
-								<span className="font-semibold">{business.rating}</span>
-								<span className="text-muted-foreground">({business.reviewCount})</span>
-							</div>
-							<div className="flex items-center space-x-1 text-muted-foreground">
-								<MapPin className="h-4 w-4" />
-								<span>{business.location}</span>
-							</div>
-						</div>
-
-						{/* Description */}
-						<p className="text-lg text-muted-foreground mb-8 max-w-xl animate-fade-in-up animate-delay-200">
-							{business.description}
-						</p>
-
-						{/* Action buttons */}
-						<div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animate-delay-300">
-							<Button size="lg" className="bg-primary hover:bg-primary/90">
-								<Play className="h-4 w-4 mr-2" />
-								Explore Business
-							</Button>
-							<Button size="lg" variant="outline" className="border-2">
-								<Bookmark className="h-4 w-4 mr-2" />
-								Save for Later
-							</Button>
-						</div>
-
-						{/* Auto-play controls */}
-						<div className="flex items-center space-x-4 mt-8 animate-fade-in-up animate-delay-400">
-							<Button
-								variant="ghost"
-								size="sm"
-								onClick={() => setIsPlaying(!isPlaying)}
-								className="text-muted-foreground hover:text-foreground"
-							>
-								{isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-							</Button>
-							<div className="flex space-x-2">
-								{featuredBusinesses.map((_, index) => (
-									<button
-										key={index}
-										onClick={() => setCurrentBusiness(index)}
-										className={`w-2 h-2 rounded-full transition-colors ${
-											index === currentBusiness ? 'bg-primary' : 'bg-muted-foreground/30'
-										}`}
-									/>
-								))}
-							</div>
-						</div>
+		<div className="bg-muted/30 border-b border-border">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="flex items-center justify-between h-12">
+					<div className="flex items-center space-x-2">
+						<MapPin className="h-4 w-4 text-muted-foreground" />
+						<span className="text-sm text-muted-foreground">Discovering in</span>
+						<Button 
+							variant="ghost" 
+							size="sm" 
+							className="h-auto p-0 text-sm font-medium"
+							onClick={() => setShowLocationModal(true)}
+						>
+							{currentLocation}
+							<ChevronDown className="h-3 w-3 ml-1" />
+						</Button>
 					</div>
+					<div className="flex items-center space-x-2">
+						<Button variant="ghost" size="sm" className="text-xs">
+							<Filter className="h-3 w-3 mr-1" />
+							Filters
+						</Button>
+						<Button variant="ghost" size="sm" className="text-xs">
+							<Map className="h-3 w-3 mr-1" />
+							Map View
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+// Quick Actions Component
+function QuickActions() {
+	const [activeAction, setActiveAction] = useState('nearby');
+
+	return (
+		<section className="py-8 sm:py-12 bg-background">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Quick Actions
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Find what you're looking for faster
+					</p>
+				</div>
+				<div className="grid grid-cols-3 md:grid-cols-6 gap-4 sm:gap-6">
+					{quickActions.map((action) => (
+						<Button
+							key={action.id}
+							variant={activeAction === action.id ? "default" : "ghost"}
+							className="flex flex-col items-center space-y-3 h-auto p-6 hover:bg-muted/50 transition-all duration-200"
+							onClick={() => setActiveAction(action.id)}
+						>
+							<div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center transition-transform duration-200 hover:scale-110`}>
+								<action.icon className="h-6 w-6 text-white" />
+							</div>
+							<span className="text-sm font-medium">{action.label}</span>
+						</Button>
+					))}
 				</div>
 			</div>
 		</section>
 	);
 }
 
-function InteractiveDiscoverySection() {
-	const [selectedMood, setSelectedMood] = useState(null);
+// Featured Section Component
+function FeaturedSection() {
 	const [viewMode, setViewMode] = useState('grid');
 
 	return (
-		<section className="py-16 bg-gradient-to-b from-background to-muted/20">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="How are you feeling today?" 
-					subtitle="Discover businesses based on your mood and current needs"
-					link="/discover"
-				>
-					{moodCategories.map((mood) => (
-						<a
-							key={mood.id}
-							href={`/discover/${mood.id}`}
-							className="group"
+		<section className="py-8 sm:py-12 bg-muted/30">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="flex items-center justify-between mb-8">
+					<div className="flex flex-col space-y-2">
+						<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground">
+							Featured for You
+						</h2>
+						<p className="text-muted-foreground text-lg">
+							Handpicked businesses you'll love
+						</p>
+					</div>
+					<div className="flex items-center space-x-2">
+						<Button
+							variant={viewMode === 'grid' ? 'default' : 'ghost'}
+							size="sm"
+							onClick={() => setViewMode('grid')}
 						>
-							<Card
-								className={`cursor-pointer transition-all duration-300 hover:scale-105 group-hover:shadow-lg ${
-									selectedMood === mood.id ? 'ring-2 ring-primary shadow-lg' : 'hover:shadow-md'
-								}`}
-								onClick={() => setSelectedMood(mood.id)}
-							>
-								<CardContent className="p-6 text-center">
-									<div className="flex items-center justify-center mb-4">
-										<div className={`w-12 h-12 ${mood.color} rounded-full flex items-center justify-center`}>
-											<mood.icon className="h-6 w-6 text-white" />
-										</div>
-									</div>
-									<h3 className="font-semibold mb-2 text-lg">{mood.name}</h3>
-									<p className="text-sm text-muted-foreground mb-3">{mood.description}</p>
-									<div className="flex flex-col gap-2">
-										<Badge variant="secondary">{mood.businesses.toLocaleString()}+ businesses</Badge>
-										<div className="flex flex-wrap gap-1 justify-center">
-											{mood.subcategories.slice(0, 3).map((sub) => (
-												<span key={sub} className="text-xs text-muted-foreground">• {sub}</span>
-											))}
-										</div>
-									</div>
-								</CardContent>
-							</Card>
-						</a>
-					))}
-				</ScrollSection>
-
-				{/* Discovery methods */}
-				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-					{discoveryMethods.map((method) => (
-						<Card key={method.id} className="hover:shadow-lg transition-shadow cursor-pointer">
-							<CardContent className="p-6">
-								<div className="flex items-center space-x-4 mb-4">
-									<div className={`p-3 rounded-lg ${method.color}`}>
-										<method.icon className="h-6 w-6" />
-									</div>
-									<div>
-										<h4 className="font-semibold">{method.name}</h4>
-										<p className="text-sm text-muted-foreground">{method.description}</p>
-									</div>
-								</div>
-								<div className="flex items-center justify-between">
-									<Badge variant="outline">{method.count}</Badge>
-									<ArrowRight className="h-4 w-4 text-muted-foreground" />
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</div>
-
-				{/* Interactive map preview */}
-				<Card className="overflow-hidden">
-					<CardHeader>
-						<div className="flex items-center justify-between">
-							<div>
-								<CardTitle>Interactive Discovery Map</CardTitle>
-								<CardDescription>Click on hotspots to explore different areas</CardDescription>
-							</div>
-							<div className="flex items-center space-x-2">
-								<Button
-									variant="outline"
-									size="sm"
-									onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-								>
-									{viewMode === 'grid' ? <List className="h-4 w-4" /> : <Grid className="h-4 w-4" />}
-								</Button>
-								<Button variant="outline" size="sm">
-									<Filter className="h-4 w-4" />
-								</Button>
-							</div>
-						</div>
-					</CardHeader>
-					<CardContent className="p-0">
-						<div className="relative h-64 bg-gradient-to-br from-blue-50 to-indigo-100">
-							{/* Map hotspots */}
-							{mapHotspots.map((hotspot) => (
-								<div
-									key={hotspot.id}
-									className="absolute cursor-pointer group"
-									style={{
-										left: `${hotspot.coordinates.x}%`,
-										top: `${hotspot.coordinates.y}%`,
-										transform: 'translate(-50%, -50%)'
-									}}
-								>
-									<div className="relative">
-										<div className="w-4 h-4 bg-primary rounded-full animate-pulse" />
-										<div className="absolute -top-2 -left-2 w-8 h-8 bg-primary/20 rounded-full animate-ping" />
-										
-										{/* Tooltip */}
-										<div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-											<div className="bg-card border rounded-lg p-3 shadow-lg whitespace-nowrap">
-												<h4 className="font-semibold text-sm">{hotspot.name}</h4>
-												<p className="text-xs text-muted-foreground">{hotspot.businesses} businesses</p>
-												<Badge className="text-xs mt-1">{hotspot.trending}</Badge>
-											</div>
-										</div>
-									</div>
-								</div>
-							))}
-							
-							{/* Map controls */}
-							<div className="absolute bottom-4 right-4 flex space-x-2">
-								<Button size="sm" variant="secondary">
-									<Navigation className="h-4 w-4" />
-								</Button>
-								<Button size="sm" variant="secondary">
-									<RotateCcw className="h-4 w-4" />
-								</Button>
-								<Button size="sm" variant="secondary">
-									<Zap className="h-4 w-4" />
-								</Button>
-							</div>
-						</div>
-					</CardContent>
-				</Card>
-			</div>
-		</section>
-	);
-}
-
-function EnhancedSearchSection() {
-	const [searchQuery, setSearchQuery] = useState('');
-	const [location, setLocation] = useState('');
-	const [activeFilters, setActiveFilters] = useState([]);
-
-	const quickFilters = [
-		{ id: 'open-now', label: 'Open Now', icon: Clock },
-		{ id: 'certified', label: 'Certified', icon: CheckCircle },
-		{ id: 'trending', label: 'Trending', icon: TrendingUp },
-		{ id: 'nearby', label: 'Nearby', icon: Target },
-		{ id: 'highly-rated', label: 'Highly Rated', icon: Star },
-	];
-
-	return (
-		<section className="py-16 bg-muted/30">
-			<div className="container mx-auto px-4">
-				<div className="max-w-4xl mx-auto">
-					<div className="text-center mb-8">
-						<h2 className="text-3xl font-bold mb-4">Find Exactly What You Need</h2>
-						<p className="text-muted-foreground">Advanced search with smart filters and location-based discovery</p>
-					</div>
-
-					{/* Enhanced search bar */}
-					<Card className="p-6 mb-8">
-						<div className="flex flex-col lg:flex-row gap-4">
-							<div className="flex-1 relative">
-								<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-5 w-5" />
-								<Input
-									placeholder="What are you looking for?"
-									value={searchQuery}
-									onChange={(e) => setSearchQuery(e.target.value)}
-									className="pl-10 py-3 text-lg"
-								/>
-							</div>
-							<div className="flex-1">
-								<EnhancedLocationSelector
-									value={location}
-									onChange={setLocation}
-									placeholder="Where?"
-									className="w-full"
-								/>
-							</div>
-							<Button size="lg" className="bg-primary hover:bg-primary/90">
-								<Search className="h-5 w-5 mr-2" />
-								Discover
-							</Button>
-						</div>
-
-						{/* Quick filters */}
-						<div className="flex flex-wrap gap-2 mt-4">
-							{quickFilters.map((filter) => (
-								<Button
-									key={filter.id}
-									variant={activeFilters.includes(filter.id) ? "default" : "outline"}
-									size="sm"
-									onClick={() => {
-										setActiveFilters(prev => 
-											prev.includes(filter.id) 
-												? prev.filter(f => f !== filter.id)
-												: [...prev, filter.id]
-										);
-									}}
-								>
-									<filter.icon className="h-4 w-4 mr-2" />
-									{filter.label}
-								</Button>
-							))}
-						</div>
-					</Card>
-
-					{/* Search suggestions */}
-					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-						<Card className="hover:shadow-lg transition-shadow cursor-pointer">
-							<CardContent className="p-6">
-								<div className="flex items-center space-x-4 mb-4">
-									<div className="p-3 bg-primary/10 rounded-lg">
-										<Compass className="h-6 w-6 text-primary" />
-									</div>
-									<div>
-										<h4 className="font-semibold">Explore by Mood</h4>
-										<p className="text-sm text-muted-foreground">Find businesses based on how you feel</p>
-									</div>
-								</div>
-								<Button variant="outline" className="w-full">
-									<Shuffle className="h-4 w-4 mr-2" />
-									Surprise Me
-								</Button>
-							</CardContent>
-						</Card>
-
-						<Card className="hover:shadow-lg transition-shadow cursor-pointer">
-							<CardContent className="p-6">
-								<div className="flex items-center space-x-4 mb-4">
-									<div className="p-3 bg-success/10 rounded-lg">
-										<Globe className="h-6 w-6 text-success" />
-									</div>
-									<div>
-										<h4 className="font-semibold">Popular Areas</h4>
-										<p className="text-sm text-muted-foreground">Discover trending neighborhoods</p>
-									</div>
-								</div>
-								<Button variant="outline" className="w-full">
-									<Map className="h-4 w-4 mr-2" />
-									View Map
-								</Button>
-							</CardContent>
-						</Card>
-
-						<Card className="hover:shadow-lg transition-shadow cursor-pointer">
-							<CardContent className="p-6">
-								<div className="flex items-center space-x-4 mb-4">
-									<div className="p-3 bg-muted rounded-lg">
-										<Sparkles className="h-6 w-6 text-muted-foreground" />
-									</div>
-									<div>
-										<h4 className="font-semibold">New Discoveries</h4>
-										<p className="text-sm text-muted-foreground">Recently added businesses</p>
-									</div>
-								</div>
-								<Button variant="outline" className="w-full">
-									<Eye className="h-4 w-4 mr-2" />
-									See New
-								</Button>
-							</CardContent>
-						</Card>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
-}
-
-function BusinessShowcase() {
-	return (
-		<section className="py-16">
-			<div className="container mx-auto px-4">
-				<div className="flex items-center justify-between mb-12">
-					<div>
-						<h2 className="text-3xl font-bold mb-2">Featured Discoveries</h2>
-						<p className="text-muted-foreground">Handpicked businesses you'll love</p>
-					</div>
-					<Button variant="outline">
-						View All <ArrowRight className="h-4 w-4 ml-2" />
-					</Button>
-				</div>
-
-				{/* Netflix-style horizontal scroll */}
-				<ScrollSection title="Trending Now" link="/trending">
-					{featuredBusinesses.map((business) => (
-						<BusinessCard key={business.id} business={business} />
-					))}
-				</ScrollSection>
-
-				<ScrollSection title="New in Your Area" link="/new" category="Fresh">
-					{featuredBusinesses.slice().reverse().map((business) => (
-						<BusinessCard key={business.id} business={business} />
-					))}
-				</ScrollSection>
-
-				<ScrollSection title="Highly Rated" link="/top-rated" category="Excellence">
-					{featuredBusinesses.map((business) => (
-						<BusinessCard key={business.id} business={business} />
-					))}
-				</ScrollSection>
-			</div>
-		</section>
-	);
-}
-
-// New section: Mood-based quick access
-function MoodQuickAccessSection() {
-	return (
-		<section className="py-16 bg-muted/20">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Quick Mood Access" 
-					subtitle="Jump directly to your favorite mood categories"
-					link="/discover"
-				>
-					{moodCategories.map((mood) => (
-						<a
-							key={mood.id}
-							href={`/discover/${mood.id}`}
-							className="group"
+							<Grid className="h-4 w-4" />
+						</Button>
+						<Button
+							variant={viewMode === 'list' ? 'default' : 'ghost'}
+							size="sm"
+							onClick={() => setViewMode('list')}
 						>
-							<Card className="hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-								<CardContent className="p-4 text-center">
-									<div className="flex flex-col items-center">
-										<div className={`w-10 h-10 ${mood.color} rounded-full flex items-center justify-center mb-2`}>
-											<mood.icon className="h-5 w-5 text-white" />
-										</div>
-										<h3 className="font-semibold text-sm mb-1">{mood.name}</h3>
-										<p className="text-xs text-muted-foreground">{mood.businesses.toLocaleString()}+</p>
-									</div>
-								</CardContent>
-							</Card>
-						</a>
+							<List className="h-4 w-4" />
+						</Button>
+						<Button variant="ghost" size="sm" className="text-primary">
+							See all
+							<ArrowRight className="h-4 w-4 ml-1" />
+						</Button>
+					</div>
+				</div>
+				<div className={`grid gap-6 sm:gap-8 ${
+					viewMode === 'grid' 
+						? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4' 
+						: 'grid-cols-1'
+				}`}>
+					{featuredBusinesses.map((business) => (
+						<BusinessCard key={business.id} business={business} viewMode={viewMode} />
 					))}
-				</ScrollSection>
-
-				<div className="text-center mt-8">
-					<Button variant="outline" className="bg-primary text-primary-foreground hover:bg-primary/90">
-						<Shuffle className="h-4 w-4 mr-2" />
-						Surprise Me
-					</Button>
 				</div>
 			</div>
 		</section>
 	);
 }
 
-// Section 6: Expert Insights & Market Analysis
-function ExpertInsightsSection() {
-	const insights = [
-		{
-			id: 1,
-			expert: "Dr. Jennifer Martinez",
-			title: "Consumer Behavior Analyst",
-			avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-			insight: "Local business discovery has increased by 45% in the past year, with consumers prioritizing authenticity and community connection.",
-			trend: "+45%",
-			verified: true,
-			expertise: "Market Research"
-		},
-		{
-			id: 2,
-			expert: "Marcus Thompson",
-			title: "Local Business Consultant",
-			avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-			insight: "Businesses with strong digital presence and community engagement see 60% higher customer retention rates.",
-			trend: "+60%",
-			verified: true,
-			expertise: "Business Strategy"
-		},
-		{
-			id: 3,
-			expert: "Sarah Chen",
-			title: "Customer Experience Expert",
-			avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80",
-			insight: "Personalized discovery experiences lead to 3x higher engagement and 2x higher conversion rates.",
-			trend: "+300%",
-			verified: true,
-			expertise: "UX Research"
-		}
-	];
-
+// Mood Categories Component
+function MoodCategories() {
 	return (
-		<section className="py-16 bg-background">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Expert Insights & Market Analysis" 
-					subtitle="Professional analysis and trends in local business discovery"
-					link="/insights"
-				>
-					{insights.map((insight) => (
-						<Card key={insight.id} className="hover:shadow-lg transition-shadow">
+		<section className="py-8 sm:py-12 bg-background">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Browse by Mood
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Find businesses that match your current needs
+					</p>
+				</div>
+				<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 sm:gap-6">
+					{moodCategories.map((mood) => (
+						<Button
+							key={mood.id}
+							variant="ghost"
+							className="flex flex-col items-center space-y-4 h-auto p-6 hover:bg-muted/50 transition-all duration-200 group"
+						>
+							<div className={`w-16 h-16 ${mood.color} rounded-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110`}>
+								<mood.icon className="h-8 w-8 text-white" />
+							</div>
+							<div className="text-center">
+								<div className="font-semibold text-base">{mood.name}</div>
+								<div className="text-sm text-muted-foreground">{mood.businesses.toLocaleString()}</div>
+							</div>
+						</Button>
+					))}
+				</div>
+			</div>
+		</section>
+	);
+}
+
+// Deals and Offers Section
+function DealsAndOffers() {
+	return (
+		<section className="py-8 sm:py-12 bg-muted/30">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Deals & Offers
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Save money with exclusive local deals
+					</p>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+					{dealsAndOffers.map((deal) => (
+						<Card key={deal.id} className="hover:shadow-lg transition-all duration-200 cursor-pointer group overflow-hidden">
+							<div className="relative">
+								<img
+									src={deal.image}
+									alt={deal.title}
+									className="w-full h-48 object-cover transition-transform duration-200 group-hover:scale-105"
+								/>
+								<Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
+									{deal.discount}
+								</Badge>
+								<Badge className="absolute top-4 right-4 bg-destructive text-destructive-foreground text-xs">
+									{deal.expires}
+								</Badge>
+							</div>
 							<CardContent className="p-6">
-								<div className="flex items-center space-x-3 mb-4">
-									<img
-										src={insight.avatar}
-										alt={insight.expert}
-										className="w-12 h-12 rounded-full object-cover"
-									/>
-									<div>
-										<h4 className="font-semibold">{insight.expert}</h4>
-										<p className="text-sm text-muted-foreground">{insight.title}</p>
-									</div>
-									{insight.verified && (
-										<Badge className="bg-success">
-											<CheckCircle className="h-3 w-3 mr-1" />
-											Verified
-										</Badge>
-									)}
-								</div>
-								<p className="text-muted-foreground mb-4">"{insight.insight}"</p>
+								<h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+									{deal.title}
+								</h3>
+								<p className="text-sm text-muted-foreground mb-2">{deal.business}</p>
+								<p className="text-sm text-muted-foreground mb-4">{deal.description}</p>
 								<div className="flex items-center justify-between">
-									<div className="flex items-center space-x-2">
-										<TrendingUp className="h-4 w-4 text-success" />
-										<span className="text-sm font-semibold text-success">{insight.trend}</span>
-									</div>
-									<Badge variant="secondary">{insight.expertise}</Badge>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</ScrollSection>
-
-				<div className="text-center mt-8">
-					<Button variant="outline">
-						<TrendingUp className="h-4 w-4 mr-2" />
-						View Full Market Report
-					</Button>
-				</div>
-			</div>
-		</section>
-	);
-}
-
-// Section 7: Multimedia Content Hub
-function MultimediaHubSection() {
-	const contentHub = [
-		{
-			id: 1,
-			type: "video",
-			title: "Complete Guide to Local Business Discovery",
-			thumbnail: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			duration: "15:30",
-			views: "89.5K",
-			author: "Local Discovery Channel",
-			featured: true
-		},
-		{
-			id: 2,
-			type: "podcast",
-			title: "Local Business Spotlight",
-			thumbnail: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			duration: "42:15",
-			views: "23.8K",
-			author: "Community Business Podcast",
-			featured: false
-		},
-		{
-			id: 3,
-			type: "gallery",
-			title: "Hidden Gems Photo Collection",
-			thumbnail: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			images: 234,
-			author: "Local Photography",
-			featured: false
-		}
-	];
-
-	return (
-		<section className="py-16 bg-muted/20">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Content Hub" 
-					subtitle="Videos, podcasts, and visual content about local business discovery"
-					link="/content"
-				>
-					{contentHub.map((content) => (
-						<Card key={content.id} className={`hover:shadow-lg transition-shadow cursor-pointer ${content.featured ? 'ring-2 ring-primary' : ''}`}>
-							<CardContent className="p-0">
-								<div className="relative">
-									<img
-										src={content.thumbnail}
-										alt={content.title}
-										className="w-full h-48 object-cover rounded-t-lg"
-									/>
-									{content.type === "video" && (
-										<div className="absolute inset-0 flex items-center justify-center">
-											<div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center">
-												<Play className="h-8 w-8 text-primary ml-1" />
-											</div>
-										</div>
-									)}
-									{content.duration && (
-										<div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
-											{content.duration}
-										</div>
-									)}
-									{content.featured && (
-										<Badge className="absolute top-2 left-2 bg-primary">
-											<Sparkles className="h-3 w-3 mr-1" />
-											Featured
-										</Badge>
-									)}
-								</div>
-								<div className="p-4">
-									<h4 className="font-semibold mb-2">{content.title}</h4>
-									<div className="flex items-center justify-between text-sm text-muted-foreground">
-										<span>{content.author}</span>
-										{content.views && <span>{content.views} views</span>}
-										{content.images && <span>{content.images} photos</span>}
-									</div>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</ScrollSection>
-
-				<div className="text-center mt-8">
-					<Button variant="outline">
-						<Camera className="h-4 w-4 mr-2" />
-						Explore Content Library
-					</Button>
-				</div>
-			</div>
-		</section>
-	);
-}
-
-// Section 8: Upcoming Events & Community Happenings
-function CommunityEventsSection() {
-	const events = [
-		{
-			id: 1,
-			title: "Local Business Discovery Festival 2024",
-			date: "2024-03-15",
-			time: "All Day",
-			location: "City Center",
-			image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			attendees: 5000,
-			price: "Free",
-			featured: true,
-			category: "Festival"
-		},
-		{
-			id: 2,
-			title: "Small Business Networking Expo",
-			date: "2024-03-20",
-			time: "9:00 AM - 6:00 PM",
-			location: "Convention Center",
-			image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			attendees: 1200,
-			price: "$35",
-			featured: false,
-			category: "Expo"
-		},
-		{
-			id: 3,
-			title: "Community Business Meetup",
-			date: "2024-03-25",
-			time: "7:00 PM - 10:00 PM",
-			location: "Downtown Lounge",
-			image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			attendees: 250,
-			price: "$15",
-			featured: false,
-			category: "Networking"
-		}
-	];
-
-	return (
-		<section className="py-16 bg-background">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Community Events & Happenings" 
-					subtitle="Don't miss these local business events and experiences"
-					link="/events"
-				>
-					{events.map((event) => (
-						<Card key={event.id} className="hover:shadow-lg transition-shadow">
-							<CardContent className="p-0">
-								<div className="relative">
-									<img
-										src={event.image}
-										alt={event.title}
-										className="w-full h-48 object-cover rounded-t-lg"
-									/>
-									{event.featured && (
-										<Badge className="absolute top-2 left-2 bg-primary">
-											<Sparkles className="h-3 w-3 mr-1" />
-											Featured
-										</Badge>
-									)}
-									<Badge className="absolute top-2 right-2 bg-success">
-										{event.price}
+									<Badge variant="secondary" className="text-sm">
+										{deal.category}
 									</Badge>
-									<Badge className="absolute bottom-2 left-2 bg-muted">
+									<Button size="sm" variant="outline" className="text-sm">
+										Claim Offer
+									</Button>
+								</div>
+							</CardContent>
+						</Card>
+					))}
+				</div>
+			</div>
+		</section>
+	);
+}
+
+// Events and Activities Section
+function EventsAndActivities() {
+	return (
+		<section className="py-8 sm:py-12 bg-background">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Events & Activities
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Discover exciting local events and activities
+					</p>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+					{eventsAndActivities.map((event) => (
+						<Card key={event.id} className="hover:shadow-lg transition-all duration-200 cursor-pointer group overflow-hidden">
+							<div className="relative">
+								<img
+									src={event.image}
+									alt={event.title}
+									className="w-full h-48 object-cover transition-transform duration-200 group-hover:scale-105"
+								/>
+								<Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
+									{event.price}
+								</Badge>
+							</div>
+							<CardContent className="p-6">
+								<h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+									{event.title}
+								</h3>
+								<div className="space-y-2 mb-4">
+									<div className="flex items-center text-sm text-muted-foreground">
+										<Calendar className="h-4 w-4 mr-2" />
+										{event.date} • {event.time}
+									</div>
+									<div className="flex items-center text-sm text-muted-foreground">
+										<MapPin className="h-4 w-4 mr-2" />
+										{event.location}
+									</div>
+									<div className="flex items-center text-sm text-muted-foreground">
+										<Users className="h-4 w-4 mr-2" />
+										{event.attendees} attending
+									</div>
+								</div>
+								<div className="flex items-center justify-between">
+									<Badge variant="secondary" className="text-sm">
 										{event.category}
 									</Badge>
-								</div>
-								<div className="p-4">
-									<h4 className="font-semibold mb-2">{event.title}</h4>
-									<div className="space-y-2 text-sm text-muted-foreground">
-										<div className="flex items-center space-x-2">
-											<Calendar className="h-4 w-4" />
-											<span>{new Date(event.date).toLocaleDateString()}</span>
-										</div>
-										<div className="flex items-center space-x-2">
-											<Clock className="h-4 w-4" />
-											<span>{event.time}</span>
-										</div>
-										<div className="flex items-center space-x-2">
-											<MapPin className="h-4 w-4" />
-											<span>{event.location}</span>
-										</div>
-										<div className="flex items-center space-x-2">
-											<Users className="h-4 w-4" />
-											<span>{event.attendees.toLocaleString()} attending</span>
-										</div>
-									</div>
-									<Button className="w-full mt-4">
-										<Calendar className="h-4 w-4 mr-2" />
-										RSVP Now
+									<Button size="sm" variant="outline" className="text-sm">
+										RSVP
 									</Button>
 								</div>
 							</CardContent>
 						</Card>
 					))}
-				</ScrollSection>
-			</div>
-		</section>
-	);
-}
-
-// Section 9: Special Offers & Community Deals
-function CommunityDealsSection() {
-	const deals = [
-		{
-			id: 1,
-			title: "New Customer Welcome Package",
-			description: "Get 30% off your first experience with any participating local business",
-			discount: "30%",
-			code: "WELCOME30",
-			expires: "2024-04-01",
-			participants: 89,
-			featured: true
-		},
-		{
-			id: 2,
-			title: "Weekend Discovery Special",
-			description: "Special weekend rates for local business experiences and services",
-			discount: "20%",
-			code: "WEEKEND20",
-			expires: "2024-03-31",
-			participants: 67,
-			featured: false
-		},
-		{
-			id: 3,
-			title: "Community Bundle Deal",
-			description: "Book multiple local services and save up to 40%",
-			discount: "40%",
-			code: "COMMUNITY40",
-			expires: "2024-03-25",
-			participants: 45,
-			featured: false
-		}
-	];
-
-	return (
-		<section className="py-16 bg-muted/30">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Community Deals & Special Offers" 
-					subtitle="Exclusive deals from local businesses in your community"
-					link="/deals"
-				>
-					{deals.map((deal) => (
-						<Card key={deal.id} className={`hover:shadow-lg transition-shadow ${deal.featured ? 'ring-2 ring-primary' : ''}`}>
-							<CardContent className="p-6">
-								{deal.featured && (
-									<Badge className="mb-3 bg-primary">
-										<Sparkles className="h-3 w-3 mr-1" />
-										Featured Deal
-									</Badge>
-								)}
-								<div className="text-center mb-4">
-									<div className="text-4xl font-bold text-primary mb-2">{deal.discount}</div>
-									<h4 className="font-semibold mb-1">{deal.title}</h4>
-									<p className="text-sm text-muted-foreground">{deal.participants} businesses participating</p>
-								</div>
-								<p className="text-muted-foreground mb-4 text-center">{deal.description}</p>
-								<div className="space-y-3">
-									<div className="bg-muted p-3 rounded-lg">
-										<div className="text-sm font-semibold mb-1">Promo Code</div>
-										<div className="font-mono text-lg">{deal.code}</div>
-									</div>
-									<div className="flex items-center justify-between text-sm">
-										<span className="text-muted-foreground">Expires:</span>
-										<span className="font-semibold">{new Date(deal.expires).toLocaleDateString()}</span>
-									</div>
-									<Button className="w-full">
-										<Tag className="h-4 w-4 mr-2" />
-										Claim Deal
-									</Button>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</ScrollSection>
-			</div>
-		</section>
-	);
-}
-
-// Section 10: Social Media & Community Engagement
-function SocialCommunitySection() {
-	const socialContent = [
-		{
-			id: 1,
-			platform: "Instagram",
-			username: "@localdiscovery",
-			content: "Amazing local business discoveries this week! 🌟 Check out these hidden gems in our community.",
-			image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			likes: 2345,
-			comments: 189,
-			timeAgo: "3h ago",
-			trending: true
-		},
-		{
-			id: 2,
-			platform: "Twitter",
-			username: "@communitybusiness",
-			content: "Just launched our new local business discovery platform! Find the best spots and share your favorites.",
-			image: null,
-			likes: 876,
-			comments: 67,
-			timeAgo: "6h ago",
-			trending: false
-		},
-		{
-			id: 3,
-			platform: "TikTok",
-			username: "@localexplorer",
-			content: "POV: You're discovering the best local spots in town ✨ #localdiscovery #community",
-			image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
-			likes: 5678,
-			comments: 234,
-			timeAgo: "1d ago",
-			trending: true
-		}
-	];
-
-	return (
-		<section className="py-16 bg-background">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Social Media & Community" 
-					subtitle="Join the local business discovery conversation"
-					link="/social"
-				>
-					{socialContent.map((post) => (
-						<Card key={post.id} className="hover:shadow-lg transition-shadow">
-							<CardContent className="p-6">
-								<div className="flex items-center space-x-3 mb-4">
-									<div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-										post.platform === 'Instagram' ? 'bg-gradient-to-r from-purple-500 to-pink-500' :
-										post.platform === 'Twitter' ? 'bg-blue-500' : 'bg-black'
-									}`}>
-										<span className="text-white text-sm font-bold">
-											{post.platform === 'Instagram' ? 'IG' : post.platform === 'Twitter' ? 'TW' : 'TT'}
-										</span>
-									</div>
-									<div>
-										<div className="font-semibold">{post.username}</div>
-										<div className="text-sm text-muted-foreground">{post.timeAgo}</div>
-									</div>
-									{post.trending && (
-										<Badge className="bg-warning">
-											<TrendingUp className="h-3 w-3 mr-1" />
-											Trending
-										</Badge>
-									)}
-								</div>
-								
-								{post.image && (
-									<img
-										src={post.image}
-										alt="Social media post"
-										className="w-full h-48 object-cover rounded-lg mb-4"
-									/>
-								)}
-								
-								<p className="text-muted-foreground mb-4">{post.content}</p>
-								
-								<div className="flex items-center justify-between text-sm text-muted-foreground">
-									<div className="flex items-center space-x-4">
-										<span>❤️ {post.likes.toLocaleString()}</span>
-										<span>💬 {post.comments}</span>
-									</div>
-									<Button variant="outline" size="sm">
-										<ExternalLink className="h-4 w-4 mr-2" />
-										View Post
-									</Button>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</ScrollSection>
-
-				<div className="text-center mt-8">
-					<Button variant="outline">
-						<Share2 className="h-4 w-4 mr-2" />
-						Join the Conversation
-					</Button>
 				</div>
 			</div>
 		</section>
 	);
 }
 
-// Section 11: Business Directory & Contact Hub
-function BusinessDirectorySection() {
-	const directory = [
-		{
-			id: 1,
-			business: "Local Business Network",
-			phone: "(555) 123-4567",
-			email: "info@localbusinessnetwork.com",
-			website: "www.localbusinessnetwork.com",
-			address: "123 Main St, Downtown",
-			hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM",
-			verified: true,
-			rating: 4.9,
-			reviews: 456
-		},
-		{
-			id: 2,
-			business: "Community Business Hub",
-			phone: "(555) 987-6543",
-			email: "hello@communitybusinesshub.com",
-			website: "www.communitybusinesshub.com",
-			address: "456 Oak Ave, Uptown",
-			hours: "Daily: 8AM-8PM",
-			verified: true,
-			rating: 4.8,
-			reviews: 234
-		},
-		{
-			id: 3,
-			business: "Local Discovery Center",
-			phone: "(555) 456-7890",
-			email: "contact@localdiscoverycenter.com",
-			website: "www.localdiscoverycenter.com",
-			address: "789 Pine St, Arts District",
-			hours: "Tue-Sun: 11AM-9PM",
-			verified: false,
-			rating: 4.7,
-			reviews: 189
-		}
-	];
-
+// Local Insights Section
+function LocalInsights() {
 	return (
-		<section className="py-16 bg-muted/20">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Business Directory" 
-					subtitle="Connect with local business networks and discovery services"
-					link="/directory"
-				>
-					{directory.map((business) => (
-						<Card key={business.id} className="hover:shadow-lg transition-shadow">
+		<section className="py-8 sm:py-12 bg-muted/30">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Local Insights
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Discover hidden gems and local recommendations
+					</p>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+					{localInsights.map((insight) => (
+						<Card key={insight.id} className="hover:shadow-lg transition-all duration-200 cursor-pointer group overflow-hidden">
+							<div className="relative">
+								<img
+									src={insight.image}
+									alt={insight.title}
+									className="w-full h-48 object-cover transition-transform duration-200 group-hover:scale-105"
+								/>
+								<Badge className="absolute top-4 left-4 bg-primary text-primary-foreground">
+									{insight.category}
+								</Badge>
+							</div>
 							<CardContent className="p-6">
-								<div className="flex items-center justify-between mb-4">
-									<h4 className="font-semibold">{business.business}</h4>
-									{business.verified && (
-										<Badge className="bg-success">
-											<CheckCircle className="h-3 w-3 mr-1" />
-											Verified
-										</Badge>
-									)}
+								<h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
+									{insight.title}
+								</h3>
+								<div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
+									<span>{insight.author}</span>
+									<span>{insight.readTime}</span>
 								</div>
-								
-								<div className="flex items-center space-x-2 mb-4">
-									<div className="flex items-center space-x-1">
-										<Star className="h-4 w-4 text-warning fill-current" />
-										<span className="font-semibold">{business.rating}</span>
-									</div>
-									<span className="text-sm text-muted-foreground">({business.reviews} reviews)</span>
-								</div>
-								
-								<div className="space-y-3">
-									<div className="flex items-center space-x-3">
-										<Phone className="h-4 w-4 text-muted-foreground" />
-										<a href={`tel:${business.phone}`} className="text-primary hover:underline">{business.phone}</a>
-									</div>
-									<div className="flex items-center space-x-3">
-										<Mail className="h-4 w-4 text-muted-foreground" />
-										<a href={`mailto:${business.email}`} className="text-primary hover:underline">{business.email}</a>
-									</div>
-									<div className="flex items-center space-x-3">
-										<ExternalLink className="h-4 w-4 text-muted-foreground" />
-										<a href={`https://${business.website}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{business.website}</a>
-									</div>
-									<div className="flex items-start space-x-3">
-										<MapPin className="h-4 w-4 text-muted-foreground mt-1" />
-										<span>{business.address}</span>
-									</div>
-									<div className="flex items-center space-x-3">
-										<Clock className="h-4 w-4 text-muted-foreground" />
-										<span>{business.hours}</span>
-									</div>
-								</div>
-								
-								<div className="flex space-x-2 mt-4">
-									<Button size="sm" className="flex-1">
-										<Phone className="h-4 w-4 mr-2" />
-										Call Now
-									</Button>
-									<Button size="sm" variant="outline" className="flex-1">
-										<Mail className="h-4 w-4 mr-2" />
-										Email
-									</Button>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</ScrollSection>
-			</div>
-		</section>
-	);
-}
-
-// Section 12: Enhanced SEO & Educational Content
-function EducationalContentSection() {
-	const educationalContent = [
-		{
-			id: 1,
-			title: "Complete Guide to Local Business Discovery",
-			content: "Learn everything you need to know about finding the best local businesses in your area. From understanding what to look for to making informed decisions, this comprehensive guide covers all aspects of local business discovery.",
-			keywords: ["local business guide", "how to find local businesses", "local business tips", "best local business practices"],
-			readTime: "10 min read",
-			featured: true
-		},
-		{
-			id: 2,
-			title: "Local Business Industry Trends 2024",
-			content: "Stay ahead of the curve with our analysis of the latest trends in the local business industry. Discover what's new, what's changing, and what you should expect in the coming year.",
-			keywords: ["local business trends", "local business 2024", "local business industry", "local business market"],
-			readTime: "7 min read",
-			featured: false
-		},
-		{
-			id: 3,
-			title: "Why Supporting Local Businesses Matters",
-			content: "Supporting local businesses has far-reaching benefits for your community. Learn about the economic, social, and environmental impacts of choosing local providers.",
-			keywords: ["support local", "local business benefits", "community impact", "local economy"],
-			readTime: "6 min read",
-			featured: false
-		}
-	];
-
-	return (
-		<section className="py-16 bg-background">
-			<div className="container mx-auto px-4">
-				<ScrollSection 
-					title="Educational Resources" 
-					subtitle="Expert guides and insights about local business discovery"
-					link="/resources"
-				>
-					{educationalContent.map((article) => (
-						<Card key={article.id} className={`hover:shadow-lg transition-shadow ${article.featured ? 'ring-2 ring-primary' : ''}`}>
-							<CardContent className="p-6">
-								{article.featured && (
-									<Badge className="mb-3 bg-primary">
-										<Sparkles className="h-3 w-3 mr-1" />
-										Featured Article
-									</Badge>
-								)}
-								<h4 className="font-semibold mb-3">{article.title}</h4>
-								<p className="text-muted-foreground mb-4">{article.content}</p>
-								
-								<div className="flex flex-wrap gap-1 mb-4">
-									{article.keywords.map((keyword, index) => (
-										<Badge key={index} variant="secondary" className="text-xs">
-											{keyword}
-										</Badge>
-									))}
-								</div>
-								
 								<div className="flex items-center justify-between">
-									<span className="text-sm text-muted-foreground">{article.readTime}</span>
-									<Button variant="outline" size="sm">
-										<BookOpen className="h-4 w-4 mr-2" />
+									<div className="flex items-center text-sm text-muted-foreground">
+										<ThumbsUp className="h-4 w-4 mr-1" />
+										{insight.likes}
+									</div>
+									<Button size="sm" variant="outline" className="text-sm">
 										Read More
 									</Button>
 								</div>
 							</CardContent>
 						</Card>
 					))}
-				</ScrollSection>
+				</div>
+			</div>
+		</section>
+	);
+}
 
-				<div className="text-center mt-8">
-					<Button variant="outline">
-						<BookOpen className="h-4 w-4 mr-2" />
-						Browse All Resources
+// Trending Section Component
+function TrendingSection() {
+	const trendingBusinesses = [
+		{
+			id: 5,
+			name: "Tech Solutions Pro",
+			category: "Technology",
+			rating: 4.8,
+			reviewCount: 178,
+			location: "Tech District",
+			image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+			description: "Professional IT services and technology solutions for businesses.",
+			tags: ["IT Services", "Technology", "Business Solutions"],
+			featured: false,
+			certified: true,
+			slug: "tech-solutions-pro"
+		},
+		{
+			id: 6,
+			name: "Urban Fitness Studio",
+			category: "Fitness",
+			rating: 4.9,
+			reviewCount: 245,
+			location: "Downtown",
+			image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+			description: "Modern fitness studio with personal training and group classes.",
+			tags: ["Fitness", "Personal Training", "Group Classes"],
+			featured: true,
+			certified: true,
+			slug: "urban-fitness-studio"
+		},
+		{
+			id: 7,
+			name: "Creative Design Agency",
+			category: "Design",
+			rating: 4.7,
+			reviewCount: 92,
+			location: "Arts District",
+			image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+			description: "Full-service design agency specializing in branding and digital design.",
+			tags: ["Design", "Branding", "Digital"],
+			featured: false,
+			certified: true,
+			slug: "creative-design-agency"
+		},
+		{
+			id: 8,
+			name: "Coastal Coffee Roasters",
+			category: "Coffee",
+			rating: 4.8,
+			reviewCount: 156,
+			location: "Harbor District",
+			image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+			description: "Artisan coffee roasters with a passion for quality and sustainability.",
+			tags: ["Coffee", "Artisan", "Sustainable"],
+			featured: false,
+			certified: true,
+			slug: "coastal-coffee-roasters"
+		}
+	];
+
+	return (
+		<section className="py-8 sm:py-12 bg-background">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Trending Now
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Popular businesses gaining attention
+					</p>
+				</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+					{trendingBusinesses.map((business) => (
+						<BusinessCard key={business.id} business={business} />
+					))}
+				</div>
+			</div>
+		</section>
+	);
+}
+
+// Categories Grid Component
+function CategoriesGrid() {
+	const categories = [
+		{ id: "restaurants", name: "Restaurants", icon: Utensils, color: "bg-orange-500", count: "2,450" },
+		{ id: "shopping", name: "Shopping", icon: ShoppingBag, color: "bg-blue-500", count: "1,890" },
+		{ id: "services", name: "Services", icon: Wrench, color: "bg-green-500", count: "3,200" },
+		{ id: "entertainment", name: "Entertainment", icon: Play, color: "bg-purple-500", count: "890" },
+		{ id: "health", name: "Health & Wellness", icon: Shield, color: "bg-red-500", count: "1,200" },
+		{ id: "professional", name: "Professional", icon: Briefcase, color: "bg-gray-500", count: "1,800" }
+	];
+
+	return (
+		<section className="py-8 sm:py-12 bg-muted/30">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Popular Categories
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Browse businesses by category
+					</p>
+				</div>
+				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8">
+					{categories.map((category) => (
+						<Card key={category.id} className="hover:shadow-lg transition-all duration-200 cursor-pointer group">
+							<CardContent className="p-6 text-center">
+								<div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center mx-auto mb-4 transition-transform duration-200 group-hover:scale-110`}>
+									<category.icon className="h-8 w-8 text-white" />
+								</div>
+								<h3 className="font-semibold text-base mb-2">{category.name}</h3>
+								<p className="text-sm text-muted-foreground">{category.count} businesses</p>
+							</CardContent>
+						</Card>
+					))}
+				</div>
+			</div>
+		</section>
+	);
+}
+
+// Community Section
+function CommunitySection() {
+	const communityStats = [
+		{ label: "Active Users", value: "12.5K", icon: Users },
+		{ label: "Reviews Posted", value: "45.2K", icon: Star },
+		{ label: "Photos Shared", value: "23.8K", icon: Camera },
+		{ label: "Events Created", value: "1.2K", icon: Calendar }
+	];
+
+	return (
+		<section className="py-8 sm:py-12 bg-background">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Join Our Community
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Connect with local businesses and fellow community members
+					</p>
+				</div>
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-8 sm:mb-12">
+					{communityStats.map((stat, index) => (
+						<div key={index} className="text-center">
+							<div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+								<stat.icon className="h-8 w-8 text-primary" />
+							</div>
+							<div className="font-bold text-2xl sm:text-3xl mb-2">{stat.value}</div>
+							<div className="text-sm text-muted-foreground">{stat.label}</div>
+						</div>
+					))}
+				</div>
+				<div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+					<Button className="flex items-center space-x-2 px-8 py-4 text-lg">
+						<Share2 className="h-5 w-5" />
+						<span>Share Your Experience</span>
+					</Button>
+					<Button variant="outline" className="flex items-center space-x-2 px-8 py-4 text-lg">
+						<MessageCircle className="h-5 w-5" />
+						<span>Join Discussion</span>
 					</Button>
 				</div>
 			</div>
@@ -1334,21 +791,316 @@ function EducationalContentSection() {
 	);
 }
 
+// Personalized Recommendations Section
+function PersonalizedRecommendations() {
+	const recommendations = [
+		{
+			id: 1,
+			title: "Based on your location",
+			businesses: [
+				{
+					id: 9,
+					name: "Downtown Coffee Co.",
+					category: "Coffee",
+					rating: 4.6,
+					reviewCount: 89,
+					location: "0.2 mi away",
+					image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+					reason: "Near your home"
+				},
+				{
+					id: 10,
+					name: "Quick Fix Auto",
+					category: "Auto Repair",
+					rating: 4.8,
+					reviewCount: 156,
+					location: "0.5 mi away",
+					image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+					reason: "Highly rated nearby"
+				}
+			]
+		},
+		{
+			id: 2,
+			title: "Based on your preferences",
+			businesses: [
+				{
+					id: 11,
+					name: "Zen Yoga Studio",
+					category: "Wellness",
+					rating: 4.9,
+					reviewCount: 203,
+					location: "1.1 mi away",
+					image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+					reason: "Similar to places you like"
+				},
+				{
+					id: 12,
+					name: "Artisan Bakery",
+					category: "Food",
+					rating: 4.7,
+					reviewCount: 134,
+					location: "0.8 mi away",
+					image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
+					reason: "Matches your taste"
+				}
+			]
+		}
+	];
+
+	return (
+		<section className="py-8 sm:py-12 bg-muted/30">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Recommended for You
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						Personalized suggestions based on your preferences
+					</p>
+				</div>
+				<div className="space-y-8 sm:space-y-12">
+					{recommendations.map((category) => (
+						<div key={category.id}>
+							<h3 className="text-xl font-semibold text-muted-foreground mb-6">{category.title}</h3>
+							<div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+								{category.businesses.map((business) => (
+									<Card key={business.id} className="hover:shadow-lg transition-all duration-200 cursor-pointer group">
+										<div className="flex">
+											<div className="w-32 h-32 flex-shrink-0">
+												<img
+													src={business.image}
+													alt={business.name}
+													className="w-full h-full object-cover rounded-l-lg transition-transform duration-200 group-hover:scale-105"
+												/>
+											</div>
+											<div className="flex-1 p-6">
+												<div className="flex items-start justify-between mb-3">
+													<h4 className="font-semibold text-lg group-hover:text-primary transition-colors">
+														{business.name}
+													</h4>
+													<Badge variant="secondary" className="text-sm">
+														{business.reason}
+													</Badge>
+												</div>
+												<p className="text-sm text-muted-foreground mb-3">{business.category}</p>
+												<div className="flex items-center space-x-6 text-sm text-muted-foreground">
+													<div className="flex items-center">
+														<Star className="h-4 w-4 mr-1 fill-current text-yellow-400" />
+														{business.rating} ({business.reviewCount})
+													</div>
+													<div className="flex items-center">
+														<MapPin className="h-4 w-4 mr-1" />
+														{business.location}
+													</div>
+												</div>
+											</div>
+										</div>
+									</Card>
+								))}
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+	);
+}
+
+// Enhanced Business Stats Section
+function BusinessStats() {
+	const stats = [
+		{
+			label: "Total Businesses",
+			value: "15,432",
+			change: "+12%",
+			trend: "up",
+			icon: Building2
+		},
+		{
+			label: "New This Month",
+			value: "234",
+			change: "+8%",
+			trend: "up",
+			icon: Sparkles
+		},
+		{
+			label: "Average Rating",
+			value: "4.6",
+			change: "+0.2",
+			trend: "up",
+			icon: Star
+		},
+		{
+			label: "Active Users",
+			value: "8.9K",
+			change: "+15%",
+			trend: "up",
+			icon: Users
+		}
+	];
+
+	return (
+		<section className="py-8 sm:py-12 bg-background">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="text-center mb-8 sm:mb-12">
+					<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+						Platform Statistics
+					</h2>
+					<p className="text-muted-foreground text-lg">
+						See how our community is growing
+					</p>
+				</div>
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+					{stats.map((stat, index) => (
+						<Card key={index} className="p-6 hover:shadow-lg transition-all duration-200">
+							<div className="flex items-center justify-between">
+								<div>
+									<p className="text-sm text-muted-foreground mb-2">{stat.label}</p>
+									<p className="text-3xl sm:text-4xl font-bold mb-2">{stat.value}</p>
+									<div className="flex items-center text-sm">
+										<TrendingUp className={`h-4 w-4 mr-1 ${
+											stat.trend === 'up' ? 'text-green-500' : 'text-red-500'
+										}`} />
+										<span className={stat.trend === 'up' ? 'text-green-500' : 'text-red-500'}>
+											{stat.change}
+										</span>
+									</div>
+								</div>
+								<div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+									<stat.icon className="h-6 w-6 text-primary" />
+								</div>
+							</div>
+						</Card>
+					))}
+				</div>
+			</div>
+		</section>
+	);
+}
+
+// Footer Section
+function Footer() {
+	const footerLinks = {
+		"Discover": [
+			"Browse Categories",
+			"Featured Businesses",
+			"New in Town",
+			"Trending Now",
+			"Local Events"
+		],
+		"Business": [
+			"Add Your Business",
+			"Business Dashboard",
+			"Advertising",
+			"Analytics",
+			"Support"
+		],
+		"Community": [
+			"Write Reviews",
+			"Share Photos",
+			"Create Events",
+			"Join Discussions",
+			"Local Groups"
+		],
+		"Support": [
+			"Help Center",
+			"Contact Us",
+			"Privacy Policy",
+			"Terms of Service",
+			"Cookie Policy"
+		]
+	};
+
+	return (
+		<footer className="bg-muted/30 border-t border-border mt-16 sm:mt-20">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+				<div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12">
+					{Object.entries(footerLinks).map(([category, links]) => (
+						<div key={category}>
+							<h3 className="font-semibold text-base mb-6">{category}</h3>
+							<ul className="space-y-3">
+								{links.map((link) => (
+									<li key={link}>
+										<Button variant="ghost" size="sm" className="h-auto p-0 text-sm text-muted-foreground hover:text-foreground">
+											{link}
+										</Button>
+									</li>
+								))}
+							</ul>
+						</div>
+					))}
+				</div>
+				<div className="border-t border-border mt-12 sm:mt-16 pt-8 sm:pt-12 text-center">
+					<div className="flex items-center justify-center space-x-4 mb-6">
+						<div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+							<Compass className="w-6 h-6 text-primary-foreground" />
+						</div>
+						<span className="font-semibold text-lg">Discover Local</span>
+					</div>
+					<p className="text-sm text-muted-foreground">
+						© 2024 Discover Local. All rights reserved. Connecting communities with amazing local businesses.
+					</p>
+				</div>
+			</div>
+		</footer>
+	);
+}
+
+// Enhanced Bottom Navigation Component
+function BottomNavigation() {
+	const [activeTab, setActiveTab] = useState('discover');
+
+	const tabs = [
+		{ id: 'discover', label: 'Discover', icon: Compass },
+		{ id: 'search', label: 'Search', icon: Search },
+		{ id: 'favorites', label: 'Favorites', icon: Heart },
+		{ id: 'profile', label: 'Profile', icon: User }
+	];
+
+	return (
+		<nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border md:hidden">
+			<div className="flex items-center justify-around h-16">
+				{tabs.map((tab) => (
+					<Button
+						key={tab.id}
+						variant="ghost"
+						size="sm"
+						className={`flex flex-col items-center space-y-1 h-auto p-2 ${
+							activeTab === tab.id ? 'text-primary' : 'text-muted-foreground'
+						}`}
+						onClick={() => setActiveTab(tab.id)}
+					>
+						<tab.icon className="h-5 w-5" />
+						<span className="text-xs">{tab.label}</span>
+					</Button>
+				))}
+			</div>
+		</nav>
+	);
+}
+
 export default function DiscoverClient() {
 	return (
-		<>
-			<NetflixHeroSection />
-			<InteractiveDiscoverySection />
-			<EnhancedSearchSection />
-			<BusinessShowcase />
-			<MoodQuickAccessSection />
-			<ExpertInsightsSection />
-			<MultimediaHubSection />
-			<CommunityEventsSection />
-			<CommunityDealsSection />
-			<SocialCommunitySection />
-			<BusinessDirectorySection />
-			<EducationalContentSection />
-		</>
+		<div className="min-h-screen bg-background">
+			<LocationBar />
+			
+			<main className="pb-16 md:pb-0">
+				<QuickActions />
+				<BusinessStats />
+				<FeaturedSection />
+				<MoodCategories />
+				<PersonalizedRecommendations />
+				<DealsAndOffers />
+				<EventsAndActivities />
+				<TrendingSection />
+				<LocalInsights />
+				<CategoriesGrid />
+				<CommunitySection />
+			</main>
+
+			<Footer />
+			<BottomNavigation />
+		</div>
 	);
 }

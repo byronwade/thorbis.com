@@ -31,6 +31,7 @@ import {
   Settings,
   LogOut,
   User,
+  Users,
   Home,
   MapPin,
   Crown,
