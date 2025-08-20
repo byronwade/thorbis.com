@@ -176,6 +176,28 @@ export default function UnifiedHeader({
   // Performance tracking
   const startTime = performance.now();
 
+  // Fallback mobile menu button for testing - only show when no other mobile menu is available
+  const FallbackMobileMenu = () => {
+    // Only show fallback if we're on a page that doesn't have its own mobile menu
+    const shouldShowFallback = dashboardType === "site" && !showSearch;
+    
+    if (!shouldShowFallback) return null;
+    
+    return (
+      <div className="fixed top-4 right-4 z-[10000] lg:hidden">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="mobile-menu-button flex items-center justify-center h-12 w-12 border-border/50 bg-background/90 backdrop-blur-md hover:bg-muted/80 transition-all duration-200 shadow-lg"
+          onClick={() => setMobileMenuOpen(true)}
+          style={{ display: 'flex' }}
+        >
+          <Menu className="h-6 w-6 text-foreground" />
+        </Button>
+      </div>
+    );
+  };
+
   // Mock companies data (in production, this would come from context/API)
   const mockCompanies = useMemo(() => [
     {
@@ -253,18 +275,17 @@ export default function UnifiedHeader({
 
     const navConfigs = {
       business: [
-        { key: "dashboard", text: "Dashboard", icon: BarChart3, href: "/dashboard/business" },
-        { key: "profile", text: "Directory Profile", icon: Building2, href: "/dashboard/business/profile" },
-        { key: "schedule", text: "Scheduling", icon: Calendar, href: "/dashboard/business/schedule" },
+        { key: "dashboard", text: "Overview", icon: BarChart3, href: "/dashboard/business" },
+        { key: "profile", text: "Profile", icon: Building2, href: "/dashboard/business/profile" },
+        { key: "schedule", text: "Schedule", icon: Calendar, href: "/dashboard/business/schedule" },
         { key: "customers", text: "Customers", icon: Users, href: "/dashboard/business/customers" },
         { key: "estimates", text: "Estimates", icon: FileText, href: "/dashboard/business/estimates" },
         { key: "invoices", text: "Invoices", icon: Receipt, href: "/dashboard/business/invoices" },
         { key: "inventory", text: "Inventory", icon: Package, href: "/dashboard/business/inventory" },
-        { key: "employees", text: "Employees", icon: Users, href: "/dashboard/business/employees" },
-        { key: "communication", text: "Communication", icon: MessageSquare, href: "/dashboard/business/communication" },
+        { key: "employees", text: "Team", icon: Users, href: "/dashboard/business/employees" },
+        { key: "communication", text: "Messages", icon: MessageSquare, href: "/dashboard/business/communication" },
         { key: "analytics", text: "Analytics", icon: BarChart3, href: "/dashboard/business/analytics" },
         { key: "marketing", text: "Marketing", icon: TrendingUp, href: "/dashboard/business/marketing" },
-        { key: "ads", text: "Ads", icon: Megaphone, href: "/dashboard/business/ads" },
         { key: "accounting", text: "Accounting", icon: Calculator, href: "/dashboard/business/accounting" },
       ],
       user: [
@@ -328,16 +349,16 @@ export default function UnifiedHeader({
       ],
       site: [
         { key: "home", text: "Home", icon: Home, href: "/" },
-        { key: "categories", text: "Categories", icon: MapPin, href: "/categories" },
         { key: "discover", text: "Discover", icon: Star, href: "/discover" },
+        { key: "categories", text: "Categories", icon: MapPin, href: "/categories" },
+        { key: "jobs", text: "Jobs", icon: Briefcase, href: "/jobs" },
         { key: "store", text: "Store", icon: ShoppingCart, href: "/store" },
         { key: "localhub", text: "LocalHub", icon: Building2, href: "/localhub" },
         { key: "academy", text: "Academy", icon: GraduationCap, href: "/academy" },
         ...(readFlagFromDOM('data-flag-fleet-management') ? [{ key: "fleet", text: "Fleet", icon: Truck, href: "/fleet" }] : []),
-        { key: "jobs", text: "Jobs", icon: Briefcase, href: "/jobs" },
         { key: "pricing", text: "Pricing", icon: Calculator, href: "/pricing" },
         { key: "advertise", text: "Advertise", icon: TrendingUp, href: "/advertise" },
-        { key: "developers", text: "Developers", icon: Monitor, href: "/developers" },
+        { key: "developers", text: "API", icon: Monitor, href: "/developers" },
       ],
     };
 
@@ -696,25 +717,28 @@ export default function UnifiedHeader({
   // Marketing Header (Site pages) - Professional two-section layout
   if (dashboardType === "site") {
     return (
-      <div className="sticky top-0 z-[9999] bg-neutral-900 border-b border-neutral-800 shadow-sm">
+      <>
+        <FallbackMobileMenu />
+        <div className="sticky top-0 z-[9999] bg-gradient-to-r from-neutral-900 via-neutral-900 to-neutral-800 border-b border-neutral-800/50 shadow-lg backdrop-blur-md">
         {/* Main Header */}
-        <div className="flex items-center w-full py-4 px-6 lg:px-8">
+        <div className="flex items-center w-full py-3 px-4 sm:py-4 sm:px-6 lg:px-8">
           {/* Left Section - Logo & Search */}
-          <div className="flex items-center space-x-6 flex-1">
+          <div className="flex items-center space-x-3 sm:space-x-6 flex-1 min-w-0">
             {/* Logo */}
-            <Link href="/" className="flex items-center flex-shrink-0">
+            <Link href="/" className="flex items-center flex-shrink-0 group">
               <Image
                 src="/logos/ThorbisLogo.webp"
                 alt={config.title}
                 width={32}
                 height={32}
-                className="h-8 w-auto object-contain"
+                className="h-7 w-auto sm:h-8 object-contain transition-transform duration-200 group-hover:scale-105"
               />
+              <span className="ml-2 text-lg font-bold text-white hidden sm:block">Thorbis</span>
             </Link>
 
             {/* Enhanced Search Bar */}
             {showSearch && (
-              <div className="flex-1 max-w-xl">
+              <div className="flex-1 max-w-xl hidden sm:block">
                 <div className="relative">
                   <AdvancedSearchHeader 
                     onSearch={(query, location) => {
@@ -737,7 +761,7 @@ export default function UnifiedHeader({
           </div>
 
           {/* Right Section - Navigation & User Controls */}
-          <div className="flex items-center space-x-6 flex-shrink-0">
+          <div className="flex items-center space-x-2 sm:space-x-4 lg:space-x-6 flex-shrink-0">
             {/* Navigation Menu (Desktop) */}
             <nav className="hidden lg:flex items-center">
               <div className="flex space-x-1 items-center">
@@ -750,9 +774,9 @@ export default function UnifiedHeader({
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className={`px-3 py-2 text-sm font-medium relative ${
+                        className={`px-3 py-2 text-sm font-medium relative transition-all duration-200 ${
                           isActive 
-                            ? "bg-primary/20 text-primary/90 border-primary" 
+                            ? "bg-primary/20 text-primary/90 border-primary shadow-sm" 
                             : "text-white hover:text-primary/90 hover:bg-primary/20"
                         }`}
                       >
@@ -767,114 +791,132 @@ export default function UnifiedHeader({
                   );
                 })}
 
-                {/* For Business Mega Menu */}
+                                {/* Unified Menu Dropdown */}
                 <ClientOnlyWrapper>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2 text-sm font-medium"
+                        className="text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2 text-sm font-medium transition-all duration-200"
                       >
                         <span className="flex items-center space-x-1">
-                          <span>For Business</span>
-                          <ChevronDown className="h-4 w-4" />
+                          <span>Menu</span>
+                          <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                         </span>
                       </Button>
                     </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-[600px] p-4 origin-top-right animate-in zoom-in-95 duration-200">
+                  <DropdownMenuContent align="start" side="top" className="w-[600px] p-4 z-[10000]">
                     <div className="grid grid-cols-3 gap-6">
-                      {/* Get Started Section */}
+                      {/* Business Section */}
                       <div>
                         <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-                          Get Started
+                          For Business
                         </DropdownMenuLabel>
                         <div className="space-y-2">
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
                               href="/add-a-business"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <Plus className="h-4 w-4 text-success" />
-                              <div>
-                                <span className="text-sm font-medium">List Your Business</span>
-                                <p className="text-xs text-muted-foreground">Add your business to our directory</p>
+                              <div className="w-6 h-6 bg-success/10 rounded-md flex items-center justify-center group-hover:bg-success/20 transition-colors">
+                                <Plus className="h-3 w-3 text-success" />
                               </div>
-                            </Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem asChild className="p-0">
-                            <Link 
-                              href="/business"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
-                            >
-                              <Shield className="h-4 w-4 text-primary" />
-                              <div>
-                                <span className="text-sm font-medium">Business Services</span>
-                                <p className="text-xs text-muted-foreground">Manage your business listing</p>
-                              </div>
+                              <span className="text-sm font-medium">List Business</span>
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
                               href="/dashboard/business"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <BarChart3 className="h-4 w-4 text-purple-500" />
-                              <div>
-                                <span className="text-sm font-medium">Business Dashboard</span>
-                                <p className="text-xs text-muted-foreground">Manage your business online</p>
+                              <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                                <BarChart3 className="h-3 w-3 text-primary" />
                               </div>
+                              <span className="text-sm font-medium">Dashboard</span>
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild className="p-0">
+                            <Link 
+                              href="/advertise"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                            >
+                              <div className="w-6 h-6 bg-warning/10 rounded-md flex items-center justify-center group-hover:bg-warning/20 transition-colors">
+                                <Megaphone className="h-3 w-3 text-warning" />
+                              </div>
+                              <span className="text-sm font-medium">Advertise</span>
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild className="p-0">
+                            <Link 
+                              href="/academy"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                            >
+                              <div className="w-6 h-6 bg-emerald-500/10 rounded-md flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+                                <GraduationCap className="h-3 w-3 text-emerald-500" />
+                              </div>
+                              <span className="text-sm font-medium">Academy</span>
                             </Link>
                           </DropdownMenuItem>
                         </div>
                       </div>
 
-                      {/* Business Tools Section */}
+                      {/* Platform Features */}
                       <div>
                         <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-                          Business Tools
+                          Platform
                         </DropdownMenuLabel>
                         <div className="space-y-2">
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
-                              href="/advertise"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              href="/store"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <Megaphone className="h-4 w-4 text-warning" />
-                              <div>
-                                <span className="text-sm font-medium">Advertise</span>
-                                <p className="text-xs text-muted-foreground">Promote your business</p>
+                              <div className="w-6 h-6 bg-blue-500/10 rounded-md flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                                <ShoppingCart className="h-3 w-3 text-blue-500" />
                               </div>
+                              <span className="text-sm font-medium">Store</span>
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
                               href="/localhub"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <Building2 className="h-4 w-4 text-indigo-500" />
-                              <div>
-                                <span className="text-sm font-medium">LocalHub</span>
-                                <p className="text-xs text-muted-foreground">Create your own directory</p>
+                              <div className="w-6 h-6 bg-indigo-500/10 rounded-md flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
+                                <Building2 className="h-3 w-3 text-indigo-500" />
                               </div>
+                              <span className="text-sm font-medium">LocalHub</span>
                             </Link>
                           </DropdownMenuItem>
+                          {readFlagFromDOM('data-flag-fleet-management') && (
+                            <DropdownMenuItem asChild className="p-0">
+                              <Link 
+                                href="/fleet"
+                                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                              >
+                                <div className="w-6 h-6 bg-orange-500/10 rounded-md flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+                                  <Truck className="h-3 w-3 text-orange-500" />
+                                </div>
+                                <span className="text-sm font-medium">Fleet</span>
+                              </Link>
+                            </DropdownMenuItem>
+                          )}
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
-                              href="/dashboard/academy"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              href="/jobs"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <GraduationCap className="h-4 w-4 text-emerald-500" />
-                              <div>
-                                <span className="text-sm font-medium">Business Academy</span>
-                                <p className="text-xs text-muted-foreground">Learn & grow your business</p>
+                              <div className="w-6 h-6 bg-purple-500/10 rounded-md flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                                <Briefcase className="h-3 w-3 text-purple-500" />
                               </div>
+                              <span className="text-sm font-medium">Jobs</span>
                             </Link>
                           </DropdownMenuItem>
                         </div>
                       </div>
 
-                      {/* Resources Section */}
+                      {/* Resources */}
                       <div>
                         <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
                           Resources
@@ -883,37 +925,34 @@ export default function UnifiedHeader({
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
                               href="/pricing"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <Calculator className="h-4 w-4 text-cyan-500" />
-                              <div>
-                                <span className="text-sm font-medium">Pricing Plans</span>
-                                <p className="text-xs text-muted-foreground">Choose the right plan</p>
+                              <div className="w-6 h-6 bg-cyan-500/10 rounded-md flex items-center justify-center group-hover:bg-cyan-500/20 transition-colors">
+                                <Calculator className="h-3 w-3 text-cyan-500" />
                               </div>
-                            </Link>
-                          </DropdownMenuItem>
-                          <DropdownMenuItem asChild className="p-0">
-                            <Link 
-                              href="/help"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
-                            >
-                              <HelpCircle className="h-4 w-4 text-amber-500" />
-                              <div>
-                                <span className="text-sm font-medium">Help Center</span>
-                                <p className="text-xs text-muted-foreground">Get support & guidance</p>
-                              </div>
+                              <span className="text-sm font-medium">Pricing</span>
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild className="p-0">
                             <Link 
                               href="/developers"
-                              className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                             >
-                              <Monitor className="h-4 w-4 text-muted-foreground" />
-                              <div>
-                                <span className="text-sm font-medium">Developer API</span>
-                                <p className="text-xs text-muted-foreground">Integrate with your systems</p>
+                              <div className="w-6 h-6 bg-gray-500/10 rounded-md flex items-center justify-center group-hover:bg-gray-500/20 transition-colors">
+                                <Monitor className="h-3 w-3 text-gray-500" />
                               </div>
+                              <span className="text-sm font-medium">API</span>
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem asChild className="p-0">
+                            <Link 
+                              href="/help"
+                              className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                            >
+                              <div className="w-6 h-6 bg-amber-500/10 rounded-md flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                                <HelpCircle className="h-3 w-3 text-amber-500" />
+                              </div>
+                              <span className="text-sm font-medium">Help</span>
                             </Link>
                           </DropdownMenuItem>
                         </div>
@@ -925,74 +964,35 @@ export default function UnifiedHeader({
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="flex-1 h-8"
+                        className="flex-1 h-9 font-medium"
                         asChild
                       >
                         <Link href="/add-a-business">
-                          <Plus className="h-3 w-3 mr-1" />
+                          <Plus className="h-3 w-3 mr-2" />
                           List Business
                         </Link>
                       </Button>
                       <Button 
-                        variant="outline" 
                         size="sm" 
-                        className="flex-1 h-8"
+                        className="flex-1 h-9 font-medium"
                         asChild
                       >
-                        <Link href="/dashboard/business">
-                          <BarChart3 className="h-3 w-3 mr-1" />
-                          Dashboard
+                        <Link href="/pricing">
+                          <Calculator className="h-3 w-3 mr-2" />
+                          View Pricing
                         </Link>
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="flex-1 h-8"
+                        className="flex-1 h-9 font-medium"
                         asChild
                       >
-                        <Link href="/advertise">
-                          <Megaphone className="h-3 w-3 mr-1" />
-                          Advertise
+                        <Link href="/help">
+                          <HelpCircle className="h-3 w-3 mr-2" />
+                          Get Help
                         </Link>
                       </Button>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                </ClientOnlyWrapper>
-
-                {/* More Dropdown */}
-                <ClientOnlyWrapper>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2 text-sm font-medium"
-                      >
-                        <span className="flex items-center space-x-1">
-                          <span>More</span>
-                          <ChevronDown className="h-4 w-4" />
-                        </span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-64 p-3 origin-top-right animate-in zoom-in-95 duration-200">
-                    <div className="space-y-1">
-                      {getNavigationItems.slice(4).map((item) => (
-                        <DropdownMenuItem key={item.key} asChild className="p-0">
-                          <Link 
-                            href={item.href}
-                            className="flex items-center space-x-3 p-2 rounded-md hover:bg-muted transition-colors"
-                          >
-                            <item.icon className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm font-medium">{item.text}</span>
-                            {item.badge && (
-                              <Badge variant="secondary" className="ml-auto text-xs">
-                                {item.badge}
-                              </Badge>
-                            )}
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
                     </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -1045,7 +1045,7 @@ export default function UnifiedHeader({
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-64" align="end" forceMount origin-top-right animate-in zoom-in-95 duration-200>
+                  <DropdownMenuContent className="w-64 z-[10000]" align="end" side="top" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">{getDisplayName()}</p>
@@ -1168,17 +1168,34 @@ export default function UnifiedHeader({
                 </div>
               )}
 
+              {/* Mobile Search Button */}
+              {showSearch && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="sm:hidden flex items-center justify-center h-10 w-10 border-border/50 bg-background/80 backdrop-blur-sm hover:bg-muted/80 transition-all duration-200 shadow-sm"
+                  onClick={() => {
+                    // Trigger search focus or open search modal
+                    router.push('/search');
+                  }}
+                >
+                  <Search className="h-5 w-5 text-foreground" />
+                </Button>
+              )}
+
               {/* Dark Mode Toggle for Site Header */}
-              <DarkModeToggle />
+              <div className="hidden sm:block">
+                <DarkModeToggle />
+              </div>
 
               {/* Mobile Menu */}
               <ClientOnlyWrapper>
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="lg:hidden mobile-menu-button flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
+                  className="lg:hidden mobile-menu-button flex items-center justify-center h-10 w-10 border-border/50 bg-background/80 backdrop-blur-sm hover:bg-muted/80 transition-all duration-200 shadow-sm"
                   onClick={() => setMobileMenuOpen(true)}
-                  style={{ display: 'flex' }}
+
                 >
                   <Menu className="h-5 w-5 text-foreground" />
                 </Button>
@@ -1208,33 +1225,18 @@ export default function UnifiedHeader({
           />
         )}
       </div>
+        </>
     );
   }
-
-  // Fallback mobile menu button for testing
-  const FallbackMobileMenu = () => (
-    <div className="fixed top-4 right-4 z-[10000] lg:hidden">
-      <Button 
-        variant="outline" 
-        size="sm" 
-        className="mobile-menu-button flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
-        onClick={() => setMobileMenuOpen(true)}
-        style={{ display: 'flex' }}
-      >
-        <Menu className="h-5 w-5 text-foreground" />
-      </Button>
-    </div>
-  );
 
   // Dashboard Headers (business, user, admin, etc.) - Show sub-navigation
   return (
     <>
-      <FallbackMobileMenu />
-      <div className="sticky top-0 z-[9999] bg-neutral-900 border-b border-neutral-800 shadow-sm">
+      <div className="sticky top-0 z-[9999] bg-gradient-to-r from-neutral-900 via-neutral-900 to-neutral-800 border-b border-neutral-800/50 shadow-lg backdrop-blur-md">
       {/* Main Header */}
-      <div className="flex items-center justify-between py-3 px-4 lg:px-6">
+      <div className="flex items-center justify-between py-3 px-4 sm:py-4 sm:px-6 lg:px-8">
         {/* Left - Navigation & Search */}
-        <div className="flex items-center space-x-4 flex-1 min-w-0">
+        <div className="flex items-center space-x-3 sm:space-x-4 flex-1 min-w-0">
           <nav className="hidden lg:flex items-center space-x-1">
             {getNavigationItems.slice(0, 6).map((item) => {
               const isActive = activeNavKey === item.key;
@@ -1244,9 +1246,9 @@ export default function UnifiedHeader({
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className={`px-3 py-2 text-sm font-medium ${
+                    className={`px-3 py-2 text-sm font-medium transition-all duration-200 ${
                       isActive 
-                        ? "bg-primary/20 text-primary/90" 
+                        ? "bg-primary/20 text-primary/90 shadow-sm" 
                         : "text-white hover:text-primary/90 hover:bg-primary/20"
                     }`}
                   >
@@ -1268,111 +1270,90 @@ export default function UnifiedHeader({
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="text-sm font-medium text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2"
+                    className="text-sm font-medium text-white hover:text-primary/90 hover:bg-primary/20 px-3 py-2 transition-all duration-200"
                   >
                     <span className="flex items-center space-x-1">
                       <span>Explore</span>
-                      <ChevronDown className="h-4 w-4" />
+                      <ChevronDown className="h-4 w-4 transition-transform duration-200" />
                     </span>
                   </Button>
                 </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-[400px] p-3 origin-top-right animate-in zoom-in-95 duration-200">
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Dashboard Features */}
+              <DropdownMenuContent align="start" side="top" className="w-80 p-4 z-[10000]">
+                <div className="space-y-4">
+                  {/* Additional Dashboard Features */}
                   <div>
-                    <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
-                      Dashboard
+                    <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                      More Features
                     </DropdownMenuLabel>
-                    <div className="space-y-1">
+                    <div className="grid grid-cols-2 gap-2">
                       {getNavigationItems.slice(6).map((item) => (
                         <DropdownMenuItem key={item.key} asChild className="p-0">
                           <Link 
                             href={item.href}
-                            className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
+                            className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                           >
-                            <div className="w-5 h-5 flex items-center justify-center">
-                              <item.icon className="h-4 w-4 text-muted-foreground" />
+                            <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                              <item.icon className="h-3 w-3 text-primary" />
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <span className="text-sm font-medium">{item.text}</span>
-                            </div>
+                            <span className="text-xs font-medium">{item.text}</span>
                           </Link>
                         </DropdownMenuItem>
                       ))}
                     </div>
                   </div>
 
-                  {/* Quick Links */}
-                  <div>
-                    <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
-                      Quick Links
+                  {/* Platform Links */}
+                  <div className="border-t border-muted pt-3">
+                    <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                      Platform
                     </DropdownMenuLabel>
-                    <div className="space-y-1">
+                    <div className="grid grid-cols-2 gap-2">
                       <DropdownMenuItem asChild className="p-0">
                         <Link 
-                          href="/localhub"
-                          className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
+                          href="/store"
+                          className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                         >
-                          <div className="w-5 h-5 flex items-center justify-center">
-                            <Building2 className="h-4 w-4 text-warning" />
+                          <div className="w-6 h-6 bg-blue-500/10 rounded-md flex items-center justify-center group-hover:bg-blue-500/20 transition-colors">
+                            <ShoppingCart className="h-3 w-3 text-blue-500" />
                           </div>
-                          <span className="text-sm font-medium">LocalHub</span>
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild className="p-0">
-                        <Link 
-                          href="/academy"
-                          className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
-                        >
-                          <div className="w-5 h-5 flex items-center justify-center">
-                            <GraduationCap className="h-4 w-4 text-success" />
-                          </div>
-                          <span className="text-sm font-medium">Academy</span>
+                          <span className="text-xs font-medium">Store</span>
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild className="p-0">
                         <Link 
                           href="/jobs"
-                          className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
+                          className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                         >
-                          <div className="w-5 h-5 flex items-center justify-center">
-                            <Briefcase className="h-4 w-4 text-purple-500" />
+                          <div className="w-6 h-6 bg-purple-500/10 rounded-md flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                            <Briefcase className="h-3 w-3 text-purple-500" />
                           </div>
-                          <span className="text-sm font-medium">Jobs</span>
+                          <span className="text-xs font-medium">Jobs</span>
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild className="p-0">
                         <Link 
-                          href="/developers"
-                          className="flex items-center space-x-2 p-1.5 rounded-md hover:bg-muted transition-colors"
+                          href="/academy"
+                          className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
                         >
-                          <div className="w-5 h-5 flex items-center justify-center">
-                            <Monitor className="h-4 w-4 text-muted-foreground" />
+                          <div className="w-6 h-6 bg-emerald-500/10 rounded-md flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+                            <GraduationCap className="h-3 w-3 text-emerald-500" />
                           </div>
-                          <span className="text-sm font-medium">Developers</span>
+                          <span className="text-xs font-medium">Academy</span>
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild className="p-0">
+                        <Link 
+                          href="/help"
+                          className="flex items-center space-x-2 p-2 rounded-lg hover:bg-muted/50 transition-colors group"
+                        >
+                          <div className="w-6 h-6 bg-amber-500/10 rounded-md flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                            <HelpCircle className="h-3 w-3 text-amber-500" />
+                          </div>
+                          <span className="text-xs font-medium">Help</span>
                         </Link>
                       </DropdownMenuItem>
                     </div>
                   </div>
-                </div>
-
-                {/* Quick Actions */}
-                <div className="border-t border-muted mt-3 pt-3 flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="flex-1 h-8"
-                    onClick={() => setShowAdvancedSearch(true)}
-                  >
-                    <Search className="h-3 w-3 mr-1" />
-                    Search
-                  </Button>
-                  <Link href="/help" className="flex-1">
-                    <Button variant="outline" size="sm" className="w-full h-8">
-                      <HelpCircle className="h-3 w-3 mr-1" />
-                      Help
-                    </Button>
-                  </Link>
                 </div>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -1409,7 +1390,7 @@ export default function UnifiedHeader({
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-64" align="end" forceMount origin-top-right animate-in zoom-in-95 duration-200>
+              <DropdownMenuContent className="w-64 z-[10000]" align="end" side="top" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">{getDisplayName()}</p>
@@ -1524,17 +1505,17 @@ export default function UnifiedHeader({
             )
           )}
 
-          {/* Mobile Menu */}
-          <ClientOnlyWrapper>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="lg:hidden mobile-menu-button flex items-center justify-center h-10 w-10 border-border bg-background hover:bg-muted transition-colors"
-              onClick={() => setMobileMenuOpen(true)}
-              style={{ display: 'flex' }}
-            >
-              <Menu className="h-5 w-5 text-foreground" />
-            </Button>
+                        {/* Mobile Menu */}
+              <ClientOnlyWrapper>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="lg:hidden mobile-menu-button flex items-center justify-center h-10 w-10 border-border/50 bg-background/80 backdrop-blur-sm hover:bg-muted/80 transition-all duration-200 shadow-sm"
+                  onClick={() => setMobileMenuOpen(true)}
+
+                >
+                  <Menu className="h-5 w-5 text-foreground" />
+                </Button>
             
             <EnhancedMobileMenu
               isOpen={mobileMenuOpen}

@@ -208,15 +208,15 @@ export default function EnhancedMobileMenu({
         onTouchEnd={handleTouchEnd}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border bg-card/95 backdrop-blur-md w-full">
+        <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-card via-card to-card/95 backdrop-blur-md w-full shadow-sm">
           <div className="flex items-center space-x-3">
             {dashboardType === "site" ? (
               <>
-                <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/80 rounded-xl flex items-center justify-center shadow-sm">
                   <span className="text-primary-foreground font-bold text-lg">T</span>
                 </div>
                 <div>
-                  <p className="font-medium text-foreground">Thorbis</p>
+                  <p className="font-semibold text-foreground">Thorbis</p>
                   <p className="text-sm text-muted-foreground">Local Business Directory</p>
                 </div>
               </>
@@ -266,79 +266,199 @@ export default function EnhancedMobileMenu({
             )}
 
             {/* Main Navigation */}
-            <nav className="space-y-1">
-              {memoizedNavigationItems.map((item) => (
-                <div key={item.key} className="space-y-1">
-                  <div className="flex items-center">
-                    <Link
-                      href={item.href}
-                      onClick={handleLinkClick}
-                      className={cn(
-                        "flex-1 flex items-center justify-between text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none",
-                        item.isActive 
-                          ? "bg-primary/20 text-primary border border-primary/20" 
-                          : "hover:bg-primary/10 hover:text-primary"
-                      )}
-                    >
-                      <div className="flex items-center space-x-3">
-                        {item.icon && <item.icon className="h-4 w-4" />}
-                        <span>{item.text}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        {item.badge && (
-                          <Badge variant="secondary" className="text-xs bg-success/10 text-success">
-                            {item.badge}
-                          </Badge>
-                        )}
-                        {item.hasSubItems && (
-                          <ChevronDown 
-                            className={cn(
-                              "h-4 w-4 transition-transform duration-200",
-                              item.isExpanded ? "rotate-90" : ""
-                            )} 
-                          />
-                        )}
-                      </div>
-                    </Link>
-                    {item.hasSubItems && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => toggleSection(item.key)}
-                        className="h-10 w-10 ml-1 hover:bg-muted"
-                      >
-                        <ChevronRight 
-                          className={cn(
-                            "h-4 w-4 transition-transform duration-200",
-                            item.isExpanded ? "rotate-90" : ""
-                          )} 
-                        />
-                      </Button>
-                    )}
-                  </div>
-
-                  {/* Sub-navigation items */}
-                  {item.hasSubItems && item.isExpanded && (
-                    <div className="ml-8 space-y-1 animate-in slide-in-from-left duration-200">
-                      {getSubNavItems(item.key).map((subItem, index) => (
+            <nav className="space-y-4">
+              {dashboardType === "site" ? (
+                <>
+                  {/* Core Features for Site */}
+                  <div>
+                    <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                      Explore
+                    </h3>
+                    <div className="space-y-1">
+                      {memoizedNavigationItems.slice(0, 4).map((item) => (
                         <Link
-                          key={index}
-                          href={subItem.href}
+                          key={item.key}
+                          href={item.href}
                           onClick={handleLinkClick}
                           className={cn(
-                            "block px-4 py-2 text-sm rounded-lg transition-colors",
-                            pathname === subItem.href
-                              ? "bg-primary/10 text-primary"
-                              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                            "flex items-center space-x-3 text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none",
+                            item.isActive 
+                              ? "bg-primary/20 text-primary border border-primary/20" 
+                              : "hover:bg-primary/10 hover:text-primary"
                           )}
                         >
-                          {subItem.text}
+                          <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center">
+                            {item.icon && <item.icon className="h-3 w-3 text-primary" />}
+                          </div>
+                          <span>{item.text}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="ml-auto text-xs bg-success/10 text-success">
+                              {item.badge}
+                            </Badge>
+                          )}
                         </Link>
                       ))}
                     </div>
-                  )}
+                  </div>
+
+                  {/* Business Section */}
+                  <div>
+                    <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                      For Business
+                    </h3>
+                    <div className="space-y-1">
+                      <Link
+                        href="/add-a-business"
+                        onClick={handleLinkClick}
+                        className="flex items-center space-x-3 text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none hover:bg-success/10 hover:text-success"
+                      >
+                        <div className="w-6 h-6 bg-success/10 rounded-md flex items-center justify-center">
+                          <Plus className="h-3 w-3 text-success" />
+                        </div>
+                        <span>List Business</span>
+                      </Link>
+                      <Link
+                        href="/dashboard/business"
+                        onClick={handleLinkClick}
+                        className="flex items-center space-x-3 text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none hover:bg-primary/10 hover:text-primary"
+                      >
+                        <div className="w-6 h-6 bg-primary/10 rounded-md flex items-center justify-center">
+                          <BarChart3 className="h-3 w-3 text-primary" />
+                        </div>
+                        <span>Dashboard</span>
+                      </Link>
+                      <Link
+                        href="/advertise"
+                        onClick={handleLinkClick}
+                        className="flex items-center space-x-3 text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none hover:bg-warning/10 hover:text-warning"
+                      >
+                        <div className="w-6 h-6 bg-warning/10 rounded-md flex items-center justify-center">
+                          <Megaphone className="h-3 w-3 text-warning" />
+                        </div>
+                        <span>Advertise</span>
+                      </Link>
+                      <Link
+                        href="/academy"
+                        onClick={handleLinkClick}
+                        className="flex items-center space-x-3 text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none hover:bg-emerald-500/10 hover:text-emerald-500"
+                      >
+                        <div className="w-6 h-6 bg-emerald-500/10 rounded-md flex items-center justify-center">
+                          <GraduationCap className="h-3 w-3 text-emerald-500" />
+                        </div>
+                        <span>Academy</span>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Platform Features */}
+                  <div>
+                    <h3 className="px-4 text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                      Platform
+                    </h3>
+                    <div className="space-y-1">
+                      {memoizedNavigationItems.slice(4).map((item) => (
+                        <Link
+                          key={item.key}
+                          href={item.href}
+                          onClick={handleLinkClick}
+                          className={cn(
+                            "flex items-center space-x-3 text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none",
+                            item.isActive 
+                              ? "bg-primary/20 text-primary border border-primary/20" 
+                              : "hover:bg-primary/10 hover:text-primary"
+                          )}
+                        >
+                          <div className="w-6 h-6 bg-muted/50 rounded-md flex items-center justify-center">
+                            {item.icon && <item.icon className="h-3 w-3 text-muted-foreground" />}
+                          </div>
+                          <span>{item.text}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="ml-auto text-xs bg-success/10 text-success">
+                              {item.badge}
+                            </Badge>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              ) : (
+                /* Dashboard Navigation */
+                <div className="space-y-1">
+                  {memoizedNavigationItems.map((item) => (
+                    <div key={item.key} className="space-y-1">
+                      <div className="flex items-center">
+                        <Link
+                          href={item.href}
+                          onClick={handleLinkClick}
+                          className={cn(
+                            "flex-1 flex items-center justify-between text-sm font-medium rounded-lg min-h-[44px] px-4 py-3 transition-all duration-200 select-none",
+                            item.isActive 
+                              ? "bg-primary/20 text-primary border border-primary/20" 
+                              : "hover:bg-primary/10 hover:text-primary"
+                          )}
+                        >
+                          <div className="flex items-center space-x-3">
+                            {item.icon && <item.icon className="h-4 w-4" />}
+                            <span>{item.text}</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            {item.badge && (
+                              <Badge variant="secondary" className="text-xs bg-success/10 text-success">
+                                {item.badge}
+                              </Badge>
+                            )}
+                            {item.hasSubItems && (
+                              <ChevronDown 
+                                className={cn(
+                                  "h-4 w-4 transition-transform duration-200",
+                                  item.isExpanded ? "rotate-90" : ""
+                                )} 
+                              />
+                            )}
+                          </div>
+                        </Link>
+                        {item.hasSubItems && (
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => toggleSection(item.key)}
+                            className="h-10 w-10 ml-1 hover:bg-muted"
+                          >
+                            <ChevronRight 
+                              className={cn(
+                                "h-4 w-4 transition-transform duration-200",
+                                item.isExpanded ? "rotate-90" : ""
+                              )} 
+                            />
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Sub-navigation items */}
+                      {item.hasSubItems && item.isExpanded && (
+                        <div className="ml-8 space-y-1 animate-in slide-in-from-left duration-200">
+                          {getSubNavItems(item.key).map((subItem, index) => (
+                            <Link
+                              key={index}
+                              href={subItem.href}
+                              onClick={handleLinkClick}
+                              className={cn(
+                                "block px-4 py-2 text-sm rounded-lg transition-colors",
+                                pathname === subItem.href
+                                  ? "bg-primary/10 text-primary"
+                                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                              )}
+                            >
+                              {subItem.text}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </nav>
 
             {/* Quick Actions */}
