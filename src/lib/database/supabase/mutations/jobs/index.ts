@@ -4,9 +4,9 @@
  * Following domain-based Supabase organization
  */
 
-import { supabase, getPooledClient, Tables, Database } from "../../client";
-import { logger } from "@/lib/utils/logger";
-import { CacheManager } from "@/lib/utils/cache-manager";
+import { supabase, Tables, Database } from "../../client";
+import { logger } from "@lib/utils/logger";
+import { CacheManager } from "@lib/utils/cache-manager";
 
 type Job = Tables<"jobs">;
 type JobInsert = Database["public"]["Tables"]["jobs"]["Insert"];
@@ -16,7 +16,7 @@ type JobUpdate = Database["public"]["Tables"]["jobs"]["Update"];
  * High-performance job mutations with validation and error handling
  */
 export class JobMutations {
-	private static readonly pooledClient = getPooledClient("jobs");
+	private static readonly pooledClient = supabase;
 
 	/**
 	 * Create a new job posting

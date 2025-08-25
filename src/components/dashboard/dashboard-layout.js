@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@context/auth-context";
 import { useUserProfile } from "@hooks/use-user-profile";
-import { usePermissions, ProtectedComponent } from "@features/auth";
+// import { usePermissions, ProtectedComponent } from "@features/auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";

@@ -1,12 +1,12 @@
 // REQUIRED: Optimized file upload with CDN integration
-import { supabase, getPooledClient } from "../client";
-import { logger } from "@/lib/utils/logger";
+import { supabase } from "../client";
+import { logger } from "@lib/utils/logger";
 
 /**
  * High-performance file storage operations with optimization
  */
 export class SupabaseStorage {
-	private static readonly pooledClient = getPooledClient("storage");
+	private static readonly pooledClient = supabase;
 	private static readonly MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 	private static readonly ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif", "application/pdf", "text/csv", "application/json"];
 

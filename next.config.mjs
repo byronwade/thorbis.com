@@ -9,6 +9,24 @@ const baseConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   
+  // Optimize package imports
+  experimental: {
+    optimizePackageImports: [
+      '@radix-ui/react-icons',
+      'lucide-react',
+      'react-icons',
+      '@heroicons/react',
+      'framer-motion',
+      'date-fns',
+      'lodash',
+      'clsx',
+      'tailwind-merge',
+    ],
+  },
+  
+  // Suppress hydration warnings for browser extension attributes
+  suppressHydrationWarning: true,
+  
   // Image configuration for external sources
   images: {
     remotePatterns: [
@@ -59,10 +77,26 @@ const baseConfig = {
     ignoreBuildErrors: true,
   },
 
-  // Minimal webpack config
+  // Optimized webpack config for development
   webpack: (config, { dev, isServer }) => {
-    // Disable caching completely
-    config.cache = false;
+    // Enable caching for development (was disabled before)
+    if (dev) {
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+        cacheDirectory: path.resolve(__dirname, '.next/cache'),
+      };
+    }
+    
+    // Disable source maps in development for faster builds
+    if (dev) {
+      config.devtool = false;
+    }
+    
+    // Optimize module resolution
+    config.resolve.modules = [path.resolve(__dirname, 'src'), 'node_modules'];
     
     // Add path aliases
     config.resolve.alias = {
@@ -79,7 +113,27 @@ const baseConfig = {
       '@features': path.resolve(__dirname, 'src/features'),
     };
 
+    // Optimize for development
+    if (dev) {
+      // Reduce bundle analysis overhead
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      };
+    }
+
+    // Note: Hydration warnings are handled at the component level
+
     return config;
+  },
+
+  // Optimize on-demand entries for development
+  onDemandEntries: {
+    // Keep pages in memory longer to reduce recompilation
+    maxInactiveAge: 25 * 1000, // 25 seconds
+    pagesBufferLength: 5, // Keep 5 pages in memory
   },
 };
 

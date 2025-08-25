@@ -2,7 +2,7 @@
  * Business Hours Queries for Supabase (Consolidated)
  */
 
-import { getPooledClient, Tables } from "../client";
+import { supabase, Tables } from "../client";
 import { CacheManager } from "@utils/cache-manager";
 import logger from "@lib/utils/logger";
 
@@ -43,7 +43,7 @@ export interface SpecialHoursEvent {
 
 export class BusinessHoursQueries {
 	private static readonly CACHE_TTL = 30 * 60 * 1000;
-	private static readonly pooledClient = getPooledClient("business_hours");
+	private static readonly pooledClient = supabase;
 
 	static async getBusinessHours(businessId: string): Promise<{
 		weeklyHours: WeeklyHours;

@@ -103,7 +103,7 @@ const NotificationMenu = () => (
 				<span className="absolute top-1 right-1 w-2.5 h-2.5 bg-destructive border-2 border-card rounded-full"></span>
 			</Button>
 		</DropdownMenuTrigger>
-		<DropdownMenuContent align="end" className="w-80 z-[80] bg-card/95 backdrop-blur-md border border-border/50">
+						<DropdownMenuContent align="end" className="w-80 z-[10001] bg-card/95 backdrop-blur-md border border-border/50">
 			<div className="flex items-center justify-between p-3 border-b border-border/50">
 				<h3 className="font-semibold text-foreground">Notifications</h3>
 				<Badge variant="destructive" className="text-xs">
@@ -148,7 +148,7 @@ const UserMenu = () => (
 				</Avatar>
 			</Button>
 		</DropdownMenuTrigger>
-		<DropdownMenuContent align="end" className="w-56 z-[80] bg-card/95 backdrop-blur-md border border-border/50">
+						<DropdownMenuContent align="end" className="w-56 z-[10001] bg-card/95 backdrop-blur-md border border-border/50">
 			<div className="flex items-center p-3 space-x-3 border-b border-border/50">
 				<Avatar className="w-8 h-8">
 					<AvatarImage src={currentUser.avatar} />

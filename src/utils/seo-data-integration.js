@@ -4,7 +4,7 @@
  * Replaces all placeholder functions with actual database queries
  */
 
-import { getPooledClient } from "@lib/database/supabase/client";
+import { supabase } from "@lib/database/supabase/client";
 import logger from "./logger.js";
 
 /**
@@ -14,7 +14,7 @@ export class SEODataIntegration {
 	constructor() {
 		this.cacheManager = new Map();
 		this.cacheTTL = 10 * 60 * 1000; // 10 minutes
-		this.pooledClient = getPooledClient("seo");
+		this.pooledClient = supabase;
 	}
 
 	/**

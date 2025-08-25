@@ -1,30 +1,9 @@
-<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background - Dark neutral following Thorbis theme -->
-  <rect width="400" height="300" fill="#374151"/>
-  
-  <!-- Business icon - Clean, minimalist design -->
-  <g opacity="0.8">
-    <!-- Building outline -->
-    <rect x="160" y="120" width="80" height="60" rx="4" fill="#6B7280" stroke="#9CA3AF" stroke-width="2"/>
-    
-    <!-- Windows -->
-    <rect x="170" y="130" width="12" height="12" rx="2" fill="#9CA3AF"/>
-    <rect x="190" y="130" width="12" height="12" rx="2" fill="#9CA3AF"/>
-    <rect x="210" y="130" width="12" height="12" rx="2" fill="#9CA3AF"/>
-    
-    <rect x="170" y="150" width="12" height="12" rx="2" fill="#9CA3AF"/>
-    <rect x="190" y="150" width="12" height="12" rx="2" fill="#9CA3AF"/>
-    <rect x="210" y="150" width="12" height="12" rx="2" fill="#9CA3AF"/>
-    
-    <!-- Door -->
-    <rect x="185" y="165" width="10" height="15" rx="2" fill="#9CA3AF"/>
-    
-    <!-- Roof -->
-    <path d="M160 120 L200 100 L240 120" stroke="#9CA3AF" stroke-width="2" fill="none"/>
-  </g>
-  
-  <!-- Text label -->
-  <text x="200" y="220" text-anchor="middle" fill="#9CA3AF" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500">
-    Business Image
-  </text>
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="40" height="40" rx="8" fill="#3B82F6"/>
+<path d="M12 16H28V28H12V16Z" stroke="white" stroke-width="2" fill="none"/>
+<path d="M16 12V16" stroke="white" stroke-width="2"/>
+<path d="M20 12V16" stroke="white" stroke-width="2"/>
+<path d="M24 12V16" stroke="white" stroke-width="2"/>
+<path d="M16 20H24" stroke="white" stroke-width="2"/>
+<path d="M16 24H24" stroke="white" stroke-width="2"/>
 </svg>

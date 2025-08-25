@@ -4,9 +4,9 @@
  * Following domain-based Supabase organization
  */
 
-import { supabase, getPooledClient, Tables, Database } from "../../client";
-import { CacheManager } from "@/lib/utils/cache-manager";
-import { logger } from "@/lib/utils/logger";
+import { supabase, Tables, Database } from "../../client";
+import { CacheManager } from "@lib/utils/cache-manager";
+import { logger } from "@lib/utils/logger";
 
 type Job = Tables<"jobs">;
 type JobWithRelations = Job & {
@@ -22,7 +22,7 @@ type JobWithRelations = Job & {
  */
 export class JobQueries {
 	private static readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
-	private static readonly pooledClient = getPooledClient("jobs");
+	private static readonly pooledClient = supabase;
 
 	/**
 	 * Search jobs with advanced filtering and caching

@@ -104,6 +104,36 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
     return Sun;
   };
 
+  const getWeatherColor = (condition: string) => {
+    const conditionLower = condition.toLowerCase();
+    
+    // Subtle weather-appropriate colors that work with the black/white theme
+    if (conditionLower.includes('rain') || conditionLower.includes('drizzle')) {
+      return 'text-blue-400 dark:text-blue-300'; // Soft blue for rain
+    }
+    if (conditionLower.includes('snow')) {
+      return 'text-slate-300 dark:text-slate-400'; // Light gray for snow
+    }
+    if (conditionLower.includes('cloud') || conditionLower.includes('overcast')) {
+      return 'text-slate-500 dark:text-slate-400'; // Medium gray for clouds
+    }
+    if (conditionLower.includes('wind') || conditionLower.includes('breeze')) {
+      return 'text-slate-400 dark:text-slate-500'; // Light gray for wind
+    }
+    if (conditionLower.includes('sun') || conditionLower.includes('clear') || conditionLower.includes('fair')) {
+      return 'text-amber-500 dark:text-amber-400'; // Warm amber for sun
+    }
+    if (conditionLower.includes('storm') || conditionLower.includes('thunder')) {
+      return 'text-slate-600 dark:text-slate-300'; // Darker gray for storms
+    }
+    if (conditionLower.includes('fog') || conditionLower.includes('mist')) {
+      return 'text-slate-400 dark:text-slate-500'; // Muted gray for fog
+    }
+    
+    // Default fallback
+    return 'text-foreground';
+  };
+
   const getBusinessImpactColor = (impact: string) => {
     switch (impact) {
       case 'high': return 'bg-destructive/10 text-destructive dark:bg-destructive dark:text-destructive/80';
@@ -235,7 +265,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
         <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-card rounded-lg">
           <div className="flex items-center gap-3">
             {React.createElement(getWeatherIcon(weatherData.current.condition), { 
-              className: "h-8 w-8 text-primary" 
+              className: `h-8 w-8 ${getWeatherColor(weatherData.current.condition)}` 
             })}
             <div>
               <p className="font-semibold">{weatherData.current.condition}</p>
@@ -265,7 +295,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                   {day.day}
                 </p>
                 {React.createElement(getWeatherIcon(day.condition), { 
-                  className: "h-6 w-6 mx-auto text-primary" 
+                  className: `h-6 w-6 mx-auto ${getWeatherColor(day.condition)}` 
                 })}
                 <div className="space-y-1">
                   <p className="text-sm font-semibold">{day.high}°</p>
@@ -283,7 +313,7 @@ const WeatherWidget: React.FC<WeatherWidgetProps> = ({
                   </Badge>
                 )}
                 {day.precipitation > 0 && (
-                  <div className="flex items-center justify-center gap-1 text-xs text-primary">
+                  <div className="flex items-center justify-center gap-1 text-xs text-blue-400 dark:text-blue-300">
                     <Umbrella className="h-3 w-3" />
                     {day.precipitation}%
                   </div>

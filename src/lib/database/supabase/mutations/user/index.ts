@@ -4,9 +4,9 @@
  * Following domain-based Supabase organization
  */
 
-import { supabase, getPooledClient, Tables, Database } from "../../client";
-import { logger } from "@/lib/utils/logger";
-import { CacheManager } from "@/lib/utils/cache-manager";
+import { supabase, Tables, Database } from "../../client";
+import { logger } from "@lib/utils/logger";
+import { CacheManager } from "@lib/utils/cache-manager";
 
 type User = Tables<"users">;
 type UserProfile = Tables<"user_profiles">;
@@ -17,7 +17,7 @@ type ProfileUpdate = Database["public"]["Tables"]["user_profiles"]["Update"];
  * High-performance user mutations with validation and error handling
  */
 export class UserMutations {
-	private static readonly pooledClient = getPooledClient("user");
+	private static readonly pooledClient = supabase;
 
 	/**
 	 * Update user profile information

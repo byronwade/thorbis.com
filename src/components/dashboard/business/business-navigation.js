@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, Calculator, Users, MessageSquare, 
   BarChart3, Zap, TrendingUp, Settings, FileText, Receipt, 
-  Building, Star, ShoppingCart, Package, Calendar
+  Building, Star, ShoppingCart, Package, Calendar, Cpu
 } from 'lucide-react';
 import { cn } from '@lib/utils';
 
@@ -126,6 +126,18 @@ export function BusinessNavigation() {
       href: '/dashboard/business/automation',
       icon: Zap,
       current: pathname.startsWith('/dashboard/business/automation')
+    },
+    {
+      name: 'Devices',
+      href: '/dashboard/business/devices',
+      icon: Cpu,
+      current: pathname.startsWith('/dashboard/business/devices'),
+      submenu: [
+        { name: 'Device Scanner', href: '/dashboard/business/devices' },
+        { name: 'Firmware Updates', href: '/dashboard/business/devices/firmware' },
+        { name: 'Network Config', href: '/dashboard/business/devices/network' },
+        { name: 'Device Monitor', href: '/dashboard/business/devices/monitor' }
+      ]
     },
     {
       name: 'Ads',

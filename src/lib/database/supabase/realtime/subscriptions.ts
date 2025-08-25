@@ -1,7 +1,7 @@
 // REQUIRED: Performance-optimized real-time subscriptions
-import { supabase, getPooledClient } from "../client";
-import { CacheManager } from "@/lib/utils/cache-manager";
-import { logger } from "@/lib/utils/logger";
+import { supabase } from "../client";
+import { CacheManager } from "@lib/utils/cache-manager";
+import { logger } from "@lib/utils/logger";
 
 /**
  * High-performance real-time subscription management
@@ -10,7 +10,7 @@ import { logger } from "@/lib/utils/logger";
 export class SupabaseRealtime {
 	private static subscriptions = new Map<string, any>();
 	private static connectionPool = new Map<string, any>();
-	private static readonly pooledClient = getPooledClient("realtime");
+	private static readonly pooledClient = supabase;
 
 	/**
 	 * Subscribe to table changes with performance optimization

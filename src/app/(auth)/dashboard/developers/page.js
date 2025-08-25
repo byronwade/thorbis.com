@@ -62,7 +62,7 @@ export default function DevelopersDashboard() {
 	};
 
 	return (
-		<div className="mx-auto space-y-6 max-w-7xl">
+		<div className="w-full space-y-6">
 			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 			<div className="flex justify-between items-center">
 				<div>

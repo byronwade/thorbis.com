@@ -1,5 +1,6 @@
-import { Login } from "@features/auth";
+// import { Login } from "@features/auth";
 import { getDictionary, languages } from '@lib/i18n/dictionaries';
+import SimpleLogin from '@components/auth/SimpleLogin';
 
 // Generate internationalized metadata
 export async function generateMetadata({ params, searchParams }) {
@@ -122,7 +123,7 @@ export default async function LoginPage() {
 
 	return (
 		<>
-			<Login />
+			<SimpleLogin />
 			<script 
 				type="application/ld+json" 
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }} 

@@ -122,7 +122,7 @@ export default function Customization() {
 				<h1 className="text-4xl font-bold">Directory Customization</h1>
 				<p className="mt-2 text-muted-foreground">Customize your directory&apos;s appearance, branding, and functionality to match your vision.</p>
 			</div>
-			<div className="mx-auto grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+			<div className="grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
 				{/* Sidebar Navigation */}
 				<nav className="grid gap-4 text-sm text-muted-foreground">
 					{sidebarSections.map((item) => {

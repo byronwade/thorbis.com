@@ -90,7 +90,7 @@ export default function LocalHubSettings() {
 				<p className="text-muted-foreground">Manage your LocalHub directory settings and preferences.</p>
 			</div>
 
-			<div className="mx-auto grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+			<div className="grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
 				{/* Sidebar Navigation */}
 				<nav className="grid gap-4 text-sm text-muted-foreground">
 					{navigationItems.map((item) => {

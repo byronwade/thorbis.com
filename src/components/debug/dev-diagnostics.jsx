@@ -19,107 +19,28 @@ const DevDiagnostics = () => {
 			try {
 				// Defer state updates to prevent useInsertionEffect errors
 				setTimeout(() => {
-					setPerformanceMetrics(logger.getPerformanceMetrics());
-					setThrottledLogs(logger.getThrottledLogsSummary());
+					try {
+						setPerformanceMetrics(logger.getPerformanceMetrics());
+						setThrottledLogs(logger.getThrottledLogsSummary());
+					} catch (loggerError) {
+						// Silently handle logger errors to prevent loops
+					}
 				}, 0);
 			} catch (error) {
 				// Silently handle logger errors to prevent loops
 			}
 		}, 10000);
 
-		// Capture console logs for debugging
-		const originalLog = console.log;
-		const originalWarn = console.warn;
-		const originalError = console.error;
-
-		let isLoggingGeneral = false;
-		console.log = (...args) => {
-			originalLog.apply(console, args);
-			if (isLoggingGeneral) return;
-			isLoggingGeneral = true;
-			// Defer state update to prevent useInsertionEffect errors
-			setTimeout(() => {
-				setLogs(prev => [...prev.slice(-50), { type: 'log', message: args.join(' '), timestamp: Date.now() }]);
-				isLoggingGeneral = false;
-			}, 0);
-		};
-
-		console.warn = (...args) => {
-			originalWarn.apply(console, args);
-			if (isLoggingGeneral) return;
-			isLoggingGeneral = true;
-			// Defer state update to prevent useInsertionEffect errors
-			setTimeout(() => {
-				setLogs(prev => [...prev.slice(-50), { type: 'warn', message: args.join(' '), timestamp: Date.now() }]);
-				isLoggingGeneral = false;
-			}, 0);
-		};
-
-		let isLoggingError = false;
-		console.error = (...args) => {
-			originalError.apply(console, args);
-			
-			// Prevent infinite loops from useInsertionEffect errors
-			if (isLoggingError) return;
-			const message = args[0];
-			if (typeof message === 'string' && message.includes('useInsertionEffect')) return;
-			
-			isLoggingError = true;
-			// Defer state update to prevent useInsertionEffect errors
-			setTimeout(() => {
-				setLogs(prev => [...prev.slice(-50), { type: 'error', message: args.join(' '), timestamp: Date.now() }]);
-				isLoggingError = false;
-			}, 0);
-		};
+			// Console logging disabled to prevent infinite loops with logger utility
 
 		return () => {
 			if (intervalRef.current) {
 				clearInterval(intervalRef.current);
 			}
-			console.log = originalLog;
-			console.warn = originalWarn;
-			console.error = originalError;
 		};
 	}, []);
 
-	// Performance monitoring
-	useEffect(() => {
-		if (typeof window === "undefined") return;
-
-		// Monitor Core Web Vitals
-		if ("PerformanceObserver" in window) {
-			try {
-				const observer = new PerformanceObserver((list) => {
-					for (const entry of list.getEntries()) {
-						if (entry.entryType === "largest-contentful-paint") {
-							logger.performance("LCP", { value: entry.startTime, element: entry.element?.tagName });
-						}
-						if (entry.entryType === "first-input") {
-							logger.performance("FID", { value: entry.processingStart - entry.startTime });
-						}
-					}
-				});
-
-				observer.observe({ entryTypes: ["largest-contentful-paint", "first-input"] });
-			} catch (error) {
-				logger.debug("Performance Observer not available");
-			}
-		}
-
-		// Monitor memory usage
-		if (window.performance?.memory) {
-			setInterval(() => {
-				const memory = window.performance.memory;
-				if (memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
-					logger.warn("High memory usage detected", {
-						used: memory.usedJSHeapSize,
-						limit: memory.jsHeapSizeLimit,
-						percentage: (memory.usedJSHeapSize / memory.jsHeapSizeLimit * 100).toFixed(2)
-					});
-				}
-			}, 30000); // Check every 30 seconds
-		}
-	}, []);
+	// Performance monitoring disabled to prevent infinite loops with logger utility
 
 	if (process.env.NODE_ENV !== "development") return null;
 
@@ -182,7 +103,13 @@ const DevDiagnostics = () => {
 					{/* Actions */}
 					<div className="flex gap-2">
 						<button
-							onClick={() => logger.clearPerformanceMetrics()}
+							onClick={() => {
+								try {
+									logger.clearPerformanceMetrics();
+								} catch (error) {
+									// Silently handle logger errors
+								}
+							}}
 							className="bg-destructive text-white px-2 py-1 rounded text-xs"
 						>
 							Clear Metrics

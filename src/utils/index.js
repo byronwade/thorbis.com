@@ -152,9 +152,9 @@ export function buildBusinessUrlFrom(business) {
 	}
 	
 	const country = toKebabCase(business.country);
-	const state = business.state || "";
-	const city = business.city || "";
-	const name = business.name || business.slug || "";
+	const state = toKebabCase(business.state || "");
+	const city = toKebabCase(business.city || "");
+	const name = toKebabCase(business.name || business.slug || "");
 	const shortId = business.short_id || business.shortId || undefined;
 	
 	return buildBusinessUrl({ country, state, city, name, shortId });

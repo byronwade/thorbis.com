@@ -14,9 +14,11 @@ export default function UnifiedDashboardLayout({ children, dashboardType = "busi
       {/* Compact Dashboard Header with Icon-Only Design */}
       <UnifiedHeader dashboardType={dashboardType} />
       
-      {/* Main Content Area - Ensure content isn't hidden behind header */}
-      <main className="px-4 py-6 lg:px-8">
-        {children}
+      {/* Main Content Area - Full Width Container */}
+      <main className="w-full px-4 py-6 sm:px-6 lg:px-8">
+        <div className="w-full max-w-none">
+          {children}
+        </div>
       </main>
     </div>
   );

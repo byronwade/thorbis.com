@@ -208,7 +208,7 @@ export default function EnhancedMobileMenu({
         onTouchEnd={handleTouchEnd}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border bg-gradient-to-r from-card via-card to-card/95 backdrop-blur-md w-full shadow-sm">
+        <div className="flex items-center justify-between p-3 sm:p-4 border-b border-border bg-gradient-to-r from-card via-card to-card/95 backdrop-blur-md w-full shadow-sm">
           <div className="flex items-center space-x-3">
             {dashboardType === "site" ? (
               <>
@@ -248,7 +248,7 @@ export default function EnhancedMobileMenu({
 
         {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain scroll-smooth w-full">
-          <div className="p-4 space-y-6 w-full">
+          <div className="p-3 sm:p-4 space-y-4 sm:space-y-6 w-full">
             {/* Auth Buttons - Show only for site header */}
             {showAuthButtons && (
               <div className="flex flex-col space-y-3 pb-4 border-b border-border">

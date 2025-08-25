@@ -1,537 +1,668 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import * as React from "react"
+import { useState, useRef, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import {
+  Mail, 
+  MessageSquare, 
   Search,
-  MessageSquare,
-  Mail,
-  MessageCircle,
+  Phone,
+  Video,
   Users,
-  RefreshCw,
-  Send,
-  Paperclip,
+  MoreHorizontal,
+  Clock,
+  CheckCircle,
+  AlertCircle,
+  Archive,
+  Trash2,
   Smartphone,
+  MessageCircle,
+  ReplyIcon as Comment,
+  ChevronDown,
   Plus,
+  Settings,
+  Filter,
+  SortAsc,
+  Star,
+  StarOff,
+  User,
+  Calendar,
+  Tag,
+  Hash,
+  MoreVertical,
+  Send
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-// Sample data for conversations
-const SAMPLE_CONVERSATIONS = [
-  {
-    id: "conv-1",
-    subject: "HVAC Service Inquiry",
-    customerId: "cust-1",
-    customerName: "John Smith",
-    customerEmail: "john@example.com",
-    participants: [
-      { id: "cust-1", name: "John Smith", role: "customer", email: "john@example.com" },
-      { id: "u1", name: "Alex Rivera", role: "agent", email: "alex@company.com" },
-    ],
-    labels: ["Support", "HVAC"],
-    createdAt: Date.now() - 2 * 60 * 60 * 1000,
-    updatedAt: Date.now() - 30 * 60 * 1000,
-    lastMessagePreview: "Thank you for the quick response. When can we schedule the service?",
-    unreadFor: ["u1"],
-    channels: ["email", "sms"],
-  },
-  {
-    id: "conv-2", 
-    subject: "Plumbing Emergency",
-    customerId: "cust-2",
-    customerName: "Sarah Johnson",
-    customerEmail: "sarah@business.com",
-    participants: [
-      { id: "cust-2", name: "Sarah Johnson", role: "customer", email: "sarah@business.com" },
-      { id: "u2", name: "Bri Chen", role: "agent", email: "bri@company.com" },
-    ],
-    labels: ["Emergency", "Plumbing"],
-    createdAt: Date.now() - 4 * 60 * 60 * 1000,
-    updatedAt: Date.now() - 10 * 60 * 1000,
-    lastMessagePreview: "The technician is on the way. ETA 15 minutes.",
-    unreadFor: [],
-    channels: ["email", "whatsapp"],
-  },
-  {
-    id: "conv-3",
-    subject: "Quote Request - Commercial Installation",
-    customerId: "cust-3", 
-    customerName: "Mike Wilson",
-    customerEmail: "mike@company.org",
-    participants: [
-      { id: "cust-3", name: "Mike Wilson", role: "customer", email: "mike@company.org" },
-      { id: "u3", name: "Casey Green", role: "agent", email: "casey@company.com" },
-    ],
-    labels: ["Quote", "Commercial"],
-    createdAt: Date.now() - 24 * 60 * 60 * 1000,
-    updatedAt: Date.now() - 2 * 60 * 60 * 1000,
-    lastMessagePreview: "I've reviewed the specifications and will send the quote by tomorrow.",
-    unreadFor: ["u3"],
-    channels: ["email"],
-  },
+// Sample data
+const USERS = [
+  { id: "u1", name: "Alex Rivera", role: "Support", online: true, color: "bg-emerald-500" },
+  { id: "u2", name: "Bri Chen", role: "Ops", online: true, color: "bg-sky-500" },
+  { id: "u3", name: "Casey Green", role: "Success", online: true, color: "bg-orange-500" },
+  { id: "u4", name: "Dee Patel", role: "Billing", online: true, color: "bg-fuchsia-500" },
+  { id: "u5", name: "Evan Stone", role: "Support", online: true, color: "bg-rose-500" },
 ]
 
-const SAMPLE_MESSAGES = {
-  "conv-1": [
-    {
-      id: "msg-1",
-      conversationId: "conv-1",
-      channel: "email",
-      direction: "inbound",
-      authorId: "cust-1",
-      createdAt: Date.now() - 2 * 60 * 60 * 1000,
-      text: "Hi, I need to schedule maintenance for my HVAC system. It's been making strange noises lately.",
-      deliveryStatus: "delivered",
-      external: { channel: "email", messageId: "ext-1" },
-    },
-    {
-      id: "msg-2", 
-      conversationId: "conv-1",
-      channel: "email",
-      direction: "outbound",
-      authorId: "u1",
-      createdAt: Date.now() - 90 * 60 * 1000,
-      text: "Thank you for reaching out! I can schedule a technician for this week. What days work best for you?",
-      deliveryStatus: "delivered",
-      external: { channel: "email", messageId: "ext-2" },
-    },
-    {
-      id: "msg-3",
-      conversationId: "conv-1", 
-      channel: "sms",
-      direction: "inbound",
-      authorId: "cust-1",
-      createdAt: Date.now() - 30 * 60 * 1000,
-      text: "Thank you for the quick response. When can we schedule the service?",
-      deliveryStatus: "delivered",
-      external: { channel: "sms", provider: "twilio", sid: "SMS123" },
-    },
-  ],
-}
+const CONVERSATIONS = [
+  {
+    id: "1",
+    subject: "HVAC Maintenance Request",
+    customerId: "c1",
+    customerName: "Sarah Johnson",
+    customerEmail: "sarah@acme.com",
+    status: "active",
+    priority: "high",
+    assignedTo: "u1",
+    assignedToName: "Alex Rivera",
+    channel: "email",
+    lastMessage: "Hi there, I need to schedule maintenance for our HVAC system. Could you please let me know your available time slots for this week?",
+    lastMessageTime: "2 hours ago",
+    unreadCount: 1,
+    labels: ["Support", "HVAC"],
+    createdAt: "2024-01-15T10:30:00Z",
+    updatedAt: "2024-01-15T14:30:00Z",
+    channels: ["email"],
+    participants: [
+      { id: "c1", name: "Sarah Johnson", role: "customer", email: "sarah@acme.com" },
+      { id: "u1", name: "Alex Rivera", role: "agent" }
+    ]
+  },
+  {
+    id: "2",
+    subject: "Billing Inquiry - Invoice #12345",
+    customerId: "c2",
+    customerName: "Mike Chen",
+    customerEmail: "mike@techcorp.com",
+    status: "active",
+    priority: "medium",
+    assignedTo: "u4",
+    assignedToName: "Dee Patel",
+    channel: "email",
+    lastMessage: "I have a question about the recent invoice. There seems to be a discrepancy in the charges. Can you please review and get back to me?",
+    lastMessageTime: "4 hours ago",
+    unreadCount: 0,
+    labels: ["Billing"],
+    createdAt: "2024-01-15T08:00:00Z",
+    updatedAt: "2024-01-15T12:00:00Z",
+    channels: ["email"],
+    participants: [
+      { id: "c2", name: "Mike Chen", role: "customer", email: "mike@techcorp.com" },
+      { id: "u4", name: "Dee Patel", role: "agent" }
+    ]
+  },
+  {
+    id: "3",
+    subject: "New Service Quote Request",
+    customerId: "c3",
+    customerName: "Lisa Rodriguez",
+    customerEmail: "lisa@startup.io",
+    status: "pending",
+    priority: "high",
+    assignedTo: "u2",
+    assignedToName: "Bri Chen",
+    channel: "webchat",
+    lastMessage: "We're looking to upgrade our office systems and would like a quote for your services. What packages do you offer?",
+    lastMessageTime: "1 day ago",
+    unreadCount: 2,
+    labels: ["Lead", "Marketing"],
+    createdAt: "2024-01-14T15:00:00Z",
+    updatedAt: "2024-01-15T09:00:00Z",
+    channels: ["webchat"],
+    participants: [
+      { id: "c3", name: "Lisa Rodriguez", role: "customer", email: "lisa@startup.io" },
+      { id: "u2", name: "Bri Chen", role: "agent" }
+    ]
+  },
+  {
+    id: "4",
+    subject: "Emergency Plumbing Issue",
+    customerId: "c4",
+    customerName: "David Kim",
+    customerEmail: "david@enterprise.com",
+    status: "urgent",
+    priority: "critical",
+    assignedTo: "u1",
+    assignedToName: "Alex Rivera",
+    channel: "phone",
+    lastMessage: "We have a major plumbing emergency in our building. Need immediate assistance. Please call as soon as possible.",
+    lastMessageTime: "3 hours ago",
+    unreadCount: 0,
+    labels: ["Support", "Plumbing", "Priority"],
+    createdAt: "2024-01-15T11:00:00Z",
+    updatedAt: "2024-01-15T13:00:00Z",
+    channels: ["phone", "email"],
+    participants: [
+      { id: "c4", name: "David Kim", role: "customer", email: "david@enterprise.com" },
+      { id: "u1", name: "Alex Rivera", role: "agent" }
+    ]
+  },
+  {
+    id: "5",
+    subject: "Follow-up on Previous Service",
+    customerId: "c5",
+    customerName: "Emma Wilson",
+    customerEmail: "emma@retail.com",
+    status: "resolved",
+    priority: "low",
+    assignedTo: "u3",
+    assignedToName: "Casey Green",
+    channel: "email",
+    lastMessage: "Just wanted to follow up on the service you provided last week. Everything is working great, thank you!",
+    lastMessageTime: "3 days ago",
+    unreadCount: 0,
+    labels: ["Follow-up"],
+    createdAt: "2024-01-12T10:00:00Z",
+    updatedAt: "2024-01-15T16:00:00Z",
+    channels: ["email"],
+    participants: [
+      { id: "c5", name: "Emma Wilson", role: "customer", email: "emma@retail.com" },
+      { id: "u3", name: "Casey Green", role: "agent" }
+    ]
+  }
+]
 
-function getInitials(name) {
-  const parts = name.split(" ")
-  return ((parts[0]?.[0] ?? "") + (parts[1]?.[0] ?? "")).toUpperCase()
-}
-
-function formatTime(timestamp) {
-  const d = new Date(timestamp)
-  return d.toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
-}
+const MESSAGES = [
+  {
+    id: "m1",
+    conversationId: "1",
+    userId: "c1",
+    userName: "Sarah Johnson",
+    text: "Hi there, I need to schedule maintenance for our HVAC system. Could you please let me know your available time slots for this week?",
+    timestamp: "2024-01-15T14:30:00Z",
+    status: "read",
+    channel: "email"
+  },
+  {
+    id: "m2",
+    conversationId: "1",
+    userId: "u1",
+    userName: "Alex Rivera",
+    text: "Hi Sarah, thanks for reaching out. I can help you schedule that maintenance. What's the best time for you this week?",
+    timestamp: "2024-01-15T14:45:00Z",
+    status: "delivered",
+    channel: "email"
+  }
+]
 
 export default function ConversationManager() {
-  const [conversations, setConversations] = useState(SAMPLE_CONVERSATIONS)
-  const [selected, setSelected] = useState(null)
-  const [messages, setMessages] = useState([])
+  const [selectedId, setSelectedId] = useState("1")
   const [query, setQuery] = useState("")
+  const [scope, setScope] = useState("all") // all, assigned, unassigned
+  const [statusFilter, setStatusFilter] = useState("all") // all, active, pending, resolved, urgent
+  const [priorityFilter, setPriorityFilter] = useState("all") // all, low, medium, high, critical
+  const [channelFilter, setChannelFilter] = useState("all") // all, email, webchat, phone, sms
   const [density, setDensity] = useState("compact")
-  const [currentUserId, setCurrentUserId] = useState("u1")
+  const [channel, setChannel] = useState("email")
   const [newMessage, setNewMessage] = useState("")
-  const [selectedChannel, setSelectedChannel] = useState("email")
 
   const searchRef = useRef(null)
-  const messagesEndRef = useRef(null)
 
-  useEffect(() => {
-    if (conversations.length > 0 && !selected) {
-      loadConversation(conversations[0].id)
-    }
-  }, [conversations, selected])
+  // Filter conversations based on current filters
+  const filtered = useMemo(() => {
+    let result = CONVERSATIONS
 
-  useEffect(() => {
-    // Scroll to bottom when messages update
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
-
-  function loadConversation(id) {
-    const conv = conversations.find(c => c.id === id)
-    setSelected(conv)
-    setMessages(SAMPLE_MESSAGES[id] || [])
-  }
-
-  function toggleUnread(convId) {
-    setConversations((prev) =>
-      prev.map((c) => {
-        if (c.id !== convId) return c
-        const list = new Set(c.unreadFor ?? [])
-        if (list.has(currentUserId)) list.delete(currentUserId)
-        else list.add(currentUserId)
-        return { ...c, unreadFor: Array.from(list) }
-      }),
-    )
-  }
-
-  function sendMessage() {
-    if (!newMessage.trim() || !selected) return
-    
-    const message = {
-      id: `msg-${Date.now()}`,
-      conversationId: selected.id,
-      channel: selectedChannel,
-      direction: "outbound",
-      authorId: currentUserId,
-      createdAt: Date.now(),
-      text: newMessage.trim(),
-      deliveryStatus: "sent",
-      external: { channel: selectedChannel },
+    // Filter by scope
+    if (scope === "assigned") {
+      result = result.filter(conv => conv.assignedTo)
+    } else if (scope === "unassigned") {
+      result = result.filter(conv => !conv.assignedTo)
     }
 
-    setMessages(prev => [...prev, message])
-    setNewMessage("")
-    
-    // Update conversation preview
-    setConversations(prev =>
-      prev.map(c =>
-        c.id === selected.id
-          ? { ...c, updatedAt: message.createdAt, lastMessagePreview: message.text }
-          : c
+    // Filter by status
+    if (statusFilter !== "all") {
+      result = result.filter(conv => conv.status === statusFilter)
+    }
+
+    // Filter by priority
+    if (priorityFilter !== "all") {
+      result = result.filter(conv => conv.priority === priorityFilter)
+    }
+
+    // Filter by channel
+    if (channelFilter !== "all") {
+      result = result.filter(conv => conv.channels.includes(channelFilter))
+    }
+
+    // Filter by search query
+    if (query) {
+      const q = query.toLowerCase()
+      result = result.filter(conv => 
+        conv.subject.toLowerCase().includes(q) ||
+        conv.customerName.toLowerCase().includes(q) ||
+        conv.customerEmail.toLowerCase().includes(q) ||
+        conv.lastMessage.toLowerCase().includes(q)
       )
+    }
+
+    return result
+  }, [CONVERSATIONS, scope, statusFilter, priorityFilter, channelFilter, query])
+
+  const selected = selectedId ? CONVERSATIONS.find(c => c.id === selectedId) : null
+  const selectedMessages = MESSAGES.filter(m => m.conversationId === selectedId)
+
+  function getInitials(name) {
+    return name.split(" ").map(n => n[0]).join("").toUpperCase()
+  }
+
+  function formatTime(ts) {
+    const d = new Date(ts)
+    return d.toLocaleString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })
+  }
+
+  function ChannelBadge({ channel, className }) {
+    const { label, Icon, color } = mapChannel(channel)
+    return (
+      <div className={cn(
+        "inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium",
+        "bg-white border border-gray-200 shadow-sm",
+        "dark:bg-gray-800 dark:border-gray-700",
+        color,
+        className
+      )}>
+        <Icon className="h-3 w-3" />
+        {label}
+      </div>
     )
   }
 
-  const filtered = conversations.filter((c) => {
-    const q = query.toLowerCase()
-    return !q || c.subject.toLowerCase().includes(q) || c.lastMessagePreview.toLowerCase().includes(q)
-  })
+  function mapChannel(channel) {
+    switch (channel) {
+      case "email":
+        return { label: "Email", Icon: Mail, color: "text-gray-700 dark:text-gray-300" }
+      case "sms":
+        return { label: "SMS", Icon: Smartphone, color: "text-emerald-600 dark:text-emerald-400" }
+      case "webchat":
+        return { label: "Chat", Icon: MessageSquare, color: "text-blue-600 dark:text-blue-400" }
+      case "whatsapp":
+        return { label: "WhatsApp", Icon: MessageCircle, color: "text-green-600 dark:text-green-400" }
+      case "teams":
+        return { label: "Teams", Icon: Users, color: "text-purple-600 dark:text-purple-400" }
+      case "internal":
+        return { label: "Internal", Icon: Comment, color: "text-amber-600 dark:text-amber-400" }
+      case "phone":
+        return { label: "Phone", Icon: Phone, color: "text-indigo-600 dark:text-indigo-400" }
+      default:
+        return { label: "Email", Icon: Mail, color: "text-gray-700 dark:text-gray-300" }
+    }
+  }
 
-  const rowPadding = density === "compact" ? "px-2 py-2" : "px-3 py-3"
+  function LabelChips({ labels, max = 2 }) {
+    const shown = labels.slice(0, max)
+    const remaining = labels.length - shown.length
+    return (
+      <div className="flex flex-wrap items-center gap-1">
+        {shown.map((l) => (
+          <div key={l} className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+            {l}
+          </div>
+        ))}
+        {remaining > 0 && (
+          <div className="inline-flex items-center px-2 py-0.5 rounded-md text-xs text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-700">
+            +{remaining}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  function StatusPill({ status }) {
+    const statusConfig = {
+      active: { label: "Active", color: "text-green-600 dark:text-green-400" },
+      pending: { label: "Pending", color: "text-yellow-600 dark:text-yellow-400" },
+      resolved: { label: "Resolved", color: "text-blue-600 dark:text-blue-400" },
+      urgent: { label: "Urgent", color: "text-red-600 dark:text-red-400" },
+      failed: { label: "Failed", color: "text-red-600 dark:text-red-400" }
+    }
+    
+    const config = statusConfig[status] || statusConfig.active
+    return (
+      <div className={cn(
+        "inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium",
+        "bg-white border border-gray-200 shadow-sm",
+        "dark:bg-gray-800 dark:border-gray-700",
+        config.color
+      )}>
+        {config.label}
+      </div>
+    )
+  }
+
+  function PriorityBadge({ priority }) {
+    const priorityConfig = {
+      low: { label: "Low", color: "text-gray-600 dark:text-gray-400" },
+      medium: { label: "Medium", color: "text-blue-600 dark:text-blue-400" },
+      high: { label: "High", color: "text-orange-600 dark:text-orange-400" },
+      critical: { label: "Critical", color: "text-red-600 dark:text-red-400" }
+    }
+    
+    const config = priorityConfig[priority] || priorityConfig.medium
+    return (
+      <div className={cn(
+        "inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium",
+        "bg-white border border-gray-200 shadow-sm",
+        "dark:bg-gray-800 dark:border-gray-700",
+        config.color
+      )}>
+        {config.label}
+      </div>
+    )
+  }
+
+  function ChannelPicker({ value, onChange }) {
+    const [open, setOpen] = useState(false)
+    return (
+      <div className="relative">
+        <Button type="button" variant="outline" size="sm" className="gap-1" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+          <ChannelBadge channel={value} />
+          <ChevronDown className="ml-1 h-4 w-4 opacity-60" />
+        </Button>
+        {open && (
+          <div className="absolute z-10 mt-1 w-40 rounded-md border bg-popover p-1 shadow-md">
+            {["email", "sms", "webchat", "whatsapp", "teams", "internal", "phone"].map((ch) => (
+              <button
+                key={ch}
+                onClick={() => {
+                  onChange(ch)
+                  setOpen(false)
+                }}
+                className={cn(
+                  "flex w-full items-center gap-2 rounded-sm px-2 py-1 text-left text-sm hover:bg-muted/60",
+                  ch === value && "bg-muted/50"
+                )}
+              >
+                <ChannelBadge channel={ch} />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  function onSent(message) {
+    // Handle new message sent
+    console.log("Message sent:", message)
+  }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center">
-            <MessageSquare className="h-8 w-8 mr-3 text-primary" />
-            Conversation Manager
-          </h1>
-          <p className="text-muted-foreground">
-            Manage multi-channel customer conversations across email, SMS, chat, and more
-          </p>
+    <div className="flex h-[calc(100vh-120px)] -mx-4 -my-6 lg:-mx-8">
+      {/* Left Sidebar - Conversations */}
+      <div className="w-80 border-r bg-background flex flex-col min-h-0">
+        {/* Sidebar Header */}
+        <div className="flex-shrink-0 p-4 border-b">
+          <div className="flex items-center gap-3">
+            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <MessageSquare className="size-4" />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">Conversations</span>
+              <span className="truncate text-xs text-muted-foreground">Customer Support</span>
         </div>
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm">
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Sync
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <MoreVertical className="h-4 w-4" />
           </Button>
-          <Button size="sm">
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem>
+                  <Settings className="h-4 w-4 mr-2" />
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem>
             <Plus className="h-4 w-4 mr-2" />
             New Conversation
-          </Button>
-        </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex min-h-0 flex-1 overflow-hidden">
-        {/* Conversation List */}
-        <div className="w-80 shrink-0 border-r flex flex-col">
-          {/* List Header */}
-          <div className="flex items-center gap-2 border-b p-3">
-            <div className="text-sm font-semibold">Conversations</div>
-            <div className="relative flex min-w-0 flex-1 items-center">
+        {/* Search and Filters */}
+        <div className="flex-shrink-0 p-4 border-b space-y-3">
+          <div className="relative">
               <Search className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 ref={searchRef}
-                className="h-8 w-full pl-8 text-sm"
+              className="h-9 pl-8"
                 placeholder="Search conversations"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
             </div>
-            <Button
-              variant={density === "compact" ? "secondary" : "outline"}
-              size="sm"
-              onClick={() => setDensity((d) => (d === "compact" ? "comfortable" : "compact"))}
-            >
-              {density === "compact" ? "Compact" : "Comfortable"}
+          
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className="h-8 px-2">
+              <Filter className="h-3 w-3 mr-1" />
+              Filter
+            </Button>
+            <Button variant="outline" size="sm" className="h-8 px-2">
+              <SortAsc className="h-3 w-3 mr-1" />
+              Sort
             </Button>
           </div>
+          </div>
 
-          {/* Conversation List */}
-          <ScrollArea className="flex-1">
-            <div className="p-2">
-              {filtered.map((c) => {
-                const isUnread = Array.isArray(c.unreadFor) && c.unreadFor.includes(currentUserId)
-                const isSelected = selected?.id === c.id
-                const customer = c.participants?.find(p => p.role === "customer")
+        {/* Conversations List */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-2 min-h-0">
+          {filtered.map((conv) => {
+            const isSelected = selected?.id === conv.id
+            const isUnread = conv.unreadCount > 0
                 
                 return (
-                  <div key={c.id} className={cn(
-                    "relative block w-full rounded-md text-left text-sm mb-1",
-                    isSelected ? "bg-muted/50" : "",
-                    isUnread ? "bg-muted/70" : "",
-                  )}>
-                    <button
-                      onClick={() => loadConversation(c.id)}
+              <div
+                key={conv.id}
                       className={cn(
-                        "w-full text-left hover:bg-muted/40 rounded-md border border-transparent",
-                        rowPadding,
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className={cn("truncate", isUnread ? "font-semibold" : "font-medium")}>
-                          {c.subject}
+                  "relative block w-full rounded-lg border text-left text-sm transition-all",
+                  isSelected 
+                    ? "border-primary/20 bg-primary/5 shadow-sm" 
+                    : "border-border/50 bg-card hover:border-border hover:bg-muted/30",
+                  isUnread && "border-blue-200 bg-blue-50/50 dark:border-blue-800 dark:bg-blue-950/20"
+                )}
+              >
+                <button
+                  onClick={() => setSelectedId(conv.id)}
+                  className="w-full text-left p-3 rounded-lg transition-colors"
+                  aria-label={isUnread ? "Unread conversation" : undefined}
+                >
+                  {/* Header with subject and time */}
+                  <div className="flex items-start justify-between mb-2">
+                    <div className={cn(
+                      "truncate text-sm leading-tight",
+                      isUnread ? "font-semibold text-foreground" : "font-medium text-foreground"
+                    )}>
+                      {conv.subject}
                         </div>
-                        <span className="ml-auto text-[11px] text-muted-foreground">
-                          {formatTime(c.updatedAt)}
+                    <span className={cn(
+                      "ml-2 text-xs shrink-0",
+                      isUnread ? "text-blue-600 dark:text-blue-400" : "text-muted-foreground"
+                    )}>
+                      {conv.lastMessageTime}
                         </span>
                       </div>
 
-                      {customer && (
-                        <div className="mt-0.5 text-xs">
-                          <span className="cursor-default">
-                            {customer.name}
+                  {/* Customer info and status */}
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <span className="font-medium text-foreground">
+                        {conv.customerName}
                           </span>
-                          <span className="text-muted-foreground"> • Customer</span>
+                      <span className="text-muted-foreground">• Customer</span>
                         </div>
-                      )}
-
-                      <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                         <div className="flex gap-1">
-                          {c.channels.map((ch) => (
+                      <StatusPill status={conv.status} />
+                      <PriorityBadge priority={conv.priority} />
+                    </div>
+                  </div>
+
+                  {/* Channels and labels */}
+                  <div className="mb-2">
+                    <div className="flex gap-1 mb-1">
+                      {conv.channels.map((ch) => (
                             <ChannelBadge key={ch} channel={ch} />
                           ))}
                         </div>
-                        {c.labels.length > 0 && <span>•</span>}
-                        <div className="flex flex-wrap items-center gap-1">
-                          {c.labels.slice(0, 2).map((l) => (
-                            <Badge key={l} variant="secondary" className="text-[10px]">
-                              {l}
-                            </Badge>
-                          ))}
-                        </div>
+                    <LabelChips labels={conv.labels} />
                       </div>
 
-                      <div className="mt-1 line-clamp-1 text-xs text-muted-foreground">
-                        {c.lastMessagePreview || "—"}
-                      </div>
-                    </button>
-
-                    {/* Mark as read/unread button */}
+                  {/* Message preview */}
                     <div className={cn(
-                      "absolute right-2 top-2 flex items-center gap-1 opacity-0 transition-opacity hover:opacity-100",
-                      isSelected && "opacity-100",
-                    )}>
-                      <Button
-                        variant="ghost"
-                        size="xs"
-                        className="h-6 px-2 text-xs"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleUnread(c.id)
-                        }}
-                      >
-                        {isUnread ? "Mark read" : "Mark unread"}
-                      </Button>
+                    "line-clamp-1 text-xs leading-relaxed",
+                    isUnread ? "text-foreground" : "text-muted-foreground"
+                  )}>
+                    {conv.lastMessage || "No message content"}
+                  </div>
+
+                  {/* Unread indicator */}
+                  {isUnread && (
+                    <div className="mt-2 flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                      <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">
+                        {conv.unreadCount} unread
+                      </span>
                     </div>
+                  )}
+                </button>
                   </div>
                 )
               })}
+          
               {filtered.length === 0 && (
-                <div className="p-4 text-sm text-muted-foreground">No conversations</div>
-              )}
+            <div className="flex flex-col items-center justify-center p-6 text-center">
+              <MessageSquare className="h-10 w-10 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">No conversations found</p>
+              <p className="text-xs text-muted-foreground mt-1">Try adjusting your search or filters</p>
             </div>
-          </ScrollArea>
+          )}
+        </div>
         </div>
 
-        {/* Conversation View */}
-        <div className="flex min-w-0 flex-1 flex-col">
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
           {selected ? (
             <>
-              {/* Header */}
-              <div className="flex items-center gap-2 border-b p-3">
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center gap-2">
-                    <div className="truncate text-sm font-semibold">{selected.subject}</div>
-                    <Badge variant="secondary" className="text-[10px]">{selected.labels.join(" • ")}</Badge>
+            {/* Conversation Header */}
+            <div className="flex-shrink-0 flex w-full items-center gap-2 border-b bg-background p-3">
+              <div className="flex min-w-0 flex-1 items-center gap-3">
+                <Avatar className="h-8 w-8">
+                  <AvatarFallback className="text-xs">
+                    {getInitials(selected.customerName)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-semibold truncate">{selected.subject}</div>
+                  <div className="text-xs text-muted-foreground truncate">
+                    {selected.customerName} • {selected.customerEmail}
                   </div>
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {selected.channels.map((ch) => <ChannelBadge key={ch} channel={ch} />)}
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Badge variant="outline" className="text-[10px]">ID: {selected.id}</Badge>
-                  <Badge variant="outline" className="text-[10px]">Updated: {formatTime(selected.updatedAt)}</Badge>
                 </div>
               </div>
 
-              {/* Messages */}
-              <ScrollArea className="flex-1">
-                <div className="mx-auto w-full max-w-3xl p-3">
-                  <div className="space-y-3">
-                    {messages.map((m, i) => {
-                      const side = m.direction === "inbound" ? "left" : m.direction === "outbound" ? "right" : "center"
-                      const participant = selected.participants.find(p => p.id === m.authorId)
-                      const isSystem = m.direction === "internal"
-                      
-                      return (
-                        <div key={m.id} className={cn(
-                          "flex gap-2",
-                          side === "right" ? "flex-row-reverse" : "flex-row",
-                          side === "center" ? "justify-center" : ""
-                        )}>
-                          {!isSystem && (
-                            <Avatar className="h-8 w-8 shrink-0">
+              <div className="flex items-center gap-2">
+                <StatusPill status={selected.status} />
+                <PriorityBadge priority={selected.priority} />
+                <Button variant="ghost" size="sm">
+                  <Star className="h-4 w-4" />
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>
+                      <Archive className="h-4 w-4 mr-2" />
+                      Archive
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </div>
+
+            {/* Messages Area */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {/* Messages Timeline */}
+              <div className="flex-1 overflow-hidden">
+                <ScrollArea className="h-full">
+                  <div className="p-4 space-y-4">
+                    {selectedMessages.map((message) => (
+                      <div key={message.id} className="flex items-start gap-3">
+                        <Avatar className="h-8 w-8 flex-shrink-0">
                               <AvatarFallback className="text-xs">
-                                {getInitials(participant?.name || "User")}
+                            {getInitials(message.userName)}
                               </AvatarFallback>
                             </Avatar>
-                          )}
-                          
-                          <Card className={cn(
-                            "max-w-[70%]",
-                            side === "right" && "bg-primary text-primary-foreground",
-                            isSystem && "bg-muted/50 max-w-none mx-8"
-                          )}>
-                            <CardContent className="p-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="bg-muted/50 rounded-lg p-3">
                               <div className="flex items-center gap-2 mb-1">
-                                <div className="text-xs font-medium">
-                                  {participant?.name || "System"}
+                              <span className="text-xs font-medium">{message.userName}</span>
+                              <span className="text-xs text-muted-foreground">{formatTime(message.timestamp)}</span>
+                              <ChannelBadge channel={message.channel} />
+                              <StatusPill status={message.status} />
                                 </div>
-                                <ChannelBadge channel={m.channel} />
-                                <div className="text-[10px] opacity-60">
-                                  {formatTime(m.createdAt)}
-                                </div>
-                                <StatusBadge status={m.deliveryStatus} />
+                            <div className="text-sm">{message.text}</div>
                               </div>
-                              {m.text && <div className="text-sm">{m.text}</div>}
-                            </CardContent>
-                          </Card>
                         </div>
-                      )
-                    })}
-                    <div ref={messagesEndRef} />
-                  </div>
+                      </div>
+                    ))}
                 </div>
               </ScrollArea>
-
-              {/* Compose Area */}
-              <div className="border-t p-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <ChannelPicker value={selectedChannel} onChange={setSelectedChannel} />
                 </div>
-                <div className="flex gap-2">
-                  <div className="flex-1 flex gap-2">
-                    <Input
+
+              {/* Message Composer */}
+              <div className="flex-shrink-0 p-4 border-t">
+                <div className="flex items-end gap-2 rounded-lg border bg-background p-3">
+                  <div className="flex min-w-0 flex-1 items-end gap-2">
+                    <ChannelPicker value={channel} onChange={setChannel} />
+                    <div className="min-w-0 flex-1">
+                      <textarea
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       placeholder="Type your message..."
-                      className="flex-1"
+                        className="min-h-[20px] max-h-[120px] w-full resize-none rounded-md border-0 bg-transparent px-0 py-1 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+                        rows={1}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault()
-                          sendMessage()
+                            onSent({ text: newMessage, channel })
+                            setNewMessage("")
                         }
                       }}
                     />
-                    <Button variant="outline" size="icon">
-                      <Paperclip className="h-4 w-4" />
-                    </Button>
+                    </div>
                   </div>
-                  <Button onClick={sendMessage} disabled={!newMessage.trim()}>
+                  <Button size="sm" onClick={() => {
+                    onSent({ text: newMessage, channel })
+                    setNewMessage("")
+                  }} disabled={!newMessage.trim()}>
                     <Send className="h-4 w-4" />
                   </Button>
+                </div>
                 </div>
               </div>
             </>
           ) : (
-            <div className="flex items-center justify-center h-full text-muted-foreground">
-              Select a conversation to view
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
+              <p className="text-sm text-muted-foreground">Select a conversation to view details</p>
+            </div>
             </div>
           )}
-        </div>
       </div>
     </div>
-  )
-}
-
-// Channel Badge Component
-function ChannelBadge({ channel, className }) {
-  const { label, Icon, cls } = mapChannel(channel)
-  return (
-    <Badge variant="outline" className={cn("h-5 gap-1 px-1.5 text-[10px]", cls, className)}>
-      <Icon className="h-3.5 w-3.5" />
-      {label}
-    </Badge>
-  )
-}
-
-function mapChannel(channel) {
-  switch (channel) {
-    case "email":
-      return { label: "Email", Icon: Mail, cls: "border-slate-300" }
-    case "sms":
-      return { label: "SMS", Icon: Smartphone, cls: "border-emerald-300 text-emerald-700" }
-    case "webchat":
-      return { label: "Web Chat", Icon: MessageSquare, cls: "border-indigo-300 text-indigo-700" }
-    case "whatsapp":
-      return { label: "WhatsApp", Icon: MessageCircle, cls: "border-green-300 text-success" }
-    case "teams":
-      return { label: "Teams", Icon: Users, cls: "border-purple-300 text-purple-700" }
-    case "internal":
-      return { label: "Internal", Icon: MessageSquare, cls: "border-amber-300 text-amber-700" }
-    default:
-      return { label: "Unknown", Icon: MessageSquare, cls: "border-border" }
-  }
-}
-
-// Channel Picker Component
-function ChannelPicker({ value, onChange }) {
-  const channels = [
-    { value: "email", label: "Email", icon: Mail },
-    { value: "sms", label: "SMS", icon: Smartphone },
-    { value: "webchat", label: "Web Chat", icon: MessageSquare },
-    { value: "whatsapp", label: "WhatsApp", icon: MessageCircle },
-    { value: "teams", label: "Teams", icon: Users },
-    { value: "internal", label: "Internal", icon: MessageSquare },
-  ]
-
-  const selected = channels.find(ch => ch.value === value)
-
-  return (
-    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-      <span>Send via:</span>
-      <div className="flex gap-1">
-        {channels.map((ch) => (
-          <Button
-            key={ch.value}
-            variant={value === ch.value ? "secondary" : "outline"}
-            size="xs"
-            className="h-6 px-2 gap-1"
-            onClick={() => onChange(ch.value)}
-          >
-            <ch.icon className="h-3 w-3" />
-            {ch.label}
-          </Button>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// Status Badge Component
-function StatusBadge({ status }) {
-  const statusMap = {
-    queued: { label: "Queued", cls: "bg-warning/10 text-warning" },
-    sent: { label: "Sent", cls: "bg-primary/10 text-primary" },
-    delivered: { label: "Delivered", cls: "bg-success/10 text-success" },
-    read: { label: "Read", cls: "bg-purple-100 text-purple-800" },
-    failed: { label: "Failed", cls: "bg-destructive/10 text-destructive" },
-    none: { label: "", cls: "" },
-  }
-
-  const { label, cls } = statusMap[status] || statusMap.none
-  
-  if (!label) return null
-  
-  return (
-    <span className={cn("px-1.5 py-0.5 rounded text-[9px] font-medium", cls)}>
-      {label}
-    </span>
   )
 }

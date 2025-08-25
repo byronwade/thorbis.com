@@ -59,32 +59,32 @@ export async function middleware(request: NextRequest) {
   // Get the current locale for protected routes
   const locale = getLocaleFromPath(pathname);
 
-  // Handle authentication for protected routes
-  const isProtectedRoute = pathname.startsWith("/dashboard") || 
-                          pathname.startsWith("/admin") ||
-                          pathname.startsWith(`/${locale}/dashboard`) ||
-                          pathname.startsWith(`/${locale}/admin`);
+  // TEMPORARILY DISABLED - Handle authentication for protected routes
+  // const isProtectedRoute = pathname.startsWith("/dashboard") || 
+  //                         pathname.startsWith("/admin") ||
+  //                         pathname.startsWith(`/${locale}/dashboard`) ||
+  //                         pathname.startsWith(`/${locale}/admin`);
 
-  if (isProtectedRoute) {
-    console.log("🔍 Middleware: Processing protected route:", pathname, "Locale:", locale, "Referer:", request.headers.get("referer"));
-    try {
-      const authResponse = await createAuthMiddleware(request);
-      if (authResponse) {
-        // If auth middleware returned a response, use it but preserve i18n headers
-        if (response.headers.get('x-locale')) {
-          authResponse.headers.set('x-locale', response.headers.get('x-locale'));
-        }
-        return authResponse;
-      }
-    } catch (error) {
-      console.error("Auth middleware error:", error);
-      // Fail securely - redirect to localized login
-      const loginPath = locale === 'en' ? '/login' : `/${locale}/login`;
-      const loginUrl = new URL(loginPath, url.origin);
-      loginUrl.searchParams.set("redirectTo", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-  }
+  // if (isProtectedRoute) {
+  //   console.log("🔍 Middleware: Processing protected route:", pathname, "Locale:", locale, "Referer:", request.headers.get("referer"));
+  //   try {
+  //     const authResponse = await createAuthMiddleware(request);
+  //     if (authResponse) {
+  //       // If auth middleware returned a response, use it but preserve i18n headers
+  //       if (response.headers.get('x-locale')) {
+  //         authResponse.headers.set('x-locale', response.headers.get('x-locale'));
+  //       }
+  //       return authResponse;
+  //     }
+  //   } catch (error) {
+  //     console.error("Auth middleware error:", error);
+  //     // Fail securely - redirect to localized login
+  //     const loginPath = locale === 'en' ? '/login' : `/${locale}/login`;
+  //     const loginUrl = new URL(loginPath, url.origin);
+  //     loginUrl.searchParams.set("redirectTo", pathname);
+  //     return NextResponse.redirect(loginUrl);
+  //   }
+  // }
 
   // Sanitize sensitive query parameters from login pages
   const isLoginPage = pathname === "/login" || pathname.endsWith("/login");

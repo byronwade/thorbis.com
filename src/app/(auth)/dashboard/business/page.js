@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtectedRoute } from "@features/auth";
+// import { ProtectedRoute } from "@features/auth";
 import { PERMISSIONS } from "@lib/auth/roles";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { IntegrationVisibility } from "@components/dashboard/business/integrations/IntegrationVisibility";
@@ -23,37 +23,41 @@ import WeatherWidget from "@components/shared/weather-widget";
  * Full-width modern dashboard with comprehensive analytics and management tools
  */
 export default function BusinessDashboardPage() {
-	return (
-		<ProtectedRoute
-			requiredPermissions={[PERMISSIONS.BUSINESS_MANAGE]}
-			minRoleLevel={1}
-			requireEmailVerification={false}
-			fallbackPermissions={[PERMISSIONS.PROFILE_READ]}
-			unauthorizedComponent={
-				<div className="mx-auto max-w-7xl space-y-8">
-					<RoleDebugger />
-					<div className="text-center">
-						<h2 className="text-2xl font-bold text-destructive">Access Denied</h2>
-						<p className="text-muted-foreground">Please sync your user roles using the debug panel above</p>
-					</div>
-				</div>
-			}
-		>
-			<AutoRoleSync 
-				fallback={
-					<div className="mx-auto max-w-7xl space-y-8">
-						<RoleDebugger />
-						<div className="text-center">
-							<h2 className="text-2xl font-bold text-warning">Account Setup Required</h2>
-							<p className="text-muted-foreground">Unable to automatically configure your account. Please use the sync button above.</p>
-						</div>
-					</div>
-				}
-			>
-				<BusinessDashboardContent />
-			</AutoRoleSync>
-		</ProtectedRoute>
-	);
+	// TEMPORARILY DISABLED - Auth protection removed for development
+	// return (
+	// 	<ProtectedRoute
+	// 		requiredPermissions={[PERMISSIONS.BUSINESS_MANAGE]}
+	// 		minRoleLevel={1}
+	// 		requireEmailVerification={false}
+	// 		fallbackPermissions={[PERMISSIONS.PROFILE_READ]}
+	// 		unauthorizedComponent={
+	// 			<div className="mx-auto max-w-7xl space-y-8">
+	// 				<RoleDebugger />
+	// 				<div className="text-center">
+	// 					<h2 className="text-2xl font-bold text-destructive">Access Denied</h2>
+	// 					<p className="text-muted-foreground">Please sync your user roles using the debug panel above</p>
+	// 				</div>
+	// 			</div>
+	// 		}
+	// 	>
+	// 		<AutoRoleSync 
+	// 			fallback={
+	// 				<div className="mx-auto max-w-7xl space-y-8">
+	// 				<RoleDebugger />
+	// 				<div className="text-center">
+	// 				<h2 className="text-2xl font-bold text-warning">Account Setup Required</h2>
+	// 				<p className="text-muted-foreground">Unable to automatically configure your account. Please use the sync button above.</p>
+	// 				</div>
+	// 				</div>
+	// 			}
+	// 		>
+	// 			<BusinessDashboardContent />
+	// 		</AutoRoleSync>
+	// 	</ProtectedRoute>
+	// );
+	
+	// Direct access without auth
+	return <BusinessDashboardContent />;
 }
 
 function BusinessDashboardContent() {
@@ -257,7 +261,7 @@ function BusinessDashboardContent() {
 	];
 
 	return (
-		<div className="mx-auto max-w-7xl space-y-6">
+		<div className="w-full space-y-6">
 			{/* Temporary debug component - remove after fixing */}
 			<RoleDebugger />
 

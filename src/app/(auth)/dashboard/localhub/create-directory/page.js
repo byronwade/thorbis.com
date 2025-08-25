@@ -223,7 +223,7 @@ export default function CreateDirectoryPage() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<div className="container mx-auto px-4 py-8">
+			<div className="w-full px-4 py-8 sm:px-6 lg:px-8">
 				{/* Header */}
 				<div className="mb-8">
 					<div className="flex items-center gap-4 mb-6">
@@ -239,7 +239,7 @@ export default function CreateDirectoryPage() {
 					</div>
 				</div>
 
-				<div className="max-w-2xl mx-auto">
+				<div className="w-full max-w-4xl">
 					<FormProvider {...formMethods}>
 						<form className="space-y-8">
 							{/* Progress Indicator */}

@@ -9,14 +9,9 @@
 	"description": "Discover local businesses, events, and community resources.",
 	"icons": [
 		{
-			"src": "/favicon-32x32.png",
-			"sizes": "32x32",
-			"type": "image/png"
-		},
-		{
-			"src": "/favicon-16x16.png",
-			"sizes": "16x16",
-			"type": "image/png"
+			"src": "/favicon.ico",
+			"sizes": "any",
+			"type": "image/x-icon"
 		},
 		{
 			"src": "/logos/ThorbisLogo.webp",

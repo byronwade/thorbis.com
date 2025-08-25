@@ -1,5 +1,5 @@
 // REQUIRED: Optimized user queries with performance monitoring
-import { supabase, getPooledClient, Tables } from "../../client";
+import { supabase, Tables } from "../../client";
 import { CacheManager } from "@utils/cache-manager";
 import logger from "@lib/utils/logger";
 
@@ -16,7 +16,7 @@ export class UserQueries {
 	private static readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 	// Lazy initialization to avoid circular dependencies during module loading
 	private static getPooledClientInstance() {
-		return getPooledClient("user");
+		return supabase;
 	}
 
 	/**

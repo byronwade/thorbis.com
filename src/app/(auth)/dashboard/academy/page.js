@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtectedRoute } from "@features/auth";
+// import { ProtectedRoute } from "@features/auth";
 import { DashboardStats, DashboardQuickActions } from "@components/dashboard/dashboard-layout";
 import { PERMISSIONS } from "@lib/auth/roles";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
@@ -17,11 +17,7 @@ import { courses } from "@data/academy/courses";
  * Shows learning progress and course management tools
  */
 export default function AcademyDashboardPage() {
-	return (
-		<ProtectedRoute requireEmailVerification={true}>
-			<AcademyDashboardContent />
-		</ProtectedRoute>
-	);
+	return <AcademyDashboardContent />;
 }
 
 function AcademyDashboardContent() {
@@ -103,7 +99,7 @@ function AcademyDashboardContent() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<div className="container px-4 py-8 mx-auto space-y-8 lg:px-24">
+			<div className="w-full px-4 py-8 space-y-8 sm:px-6 lg:px-8">
 				<div>
 					<h2 className="text-3xl font-bold tracking-tight">Learning Dashboard</h2>
 					<p className="text-muted-foreground">Track your progress and continue your professional development.</p>

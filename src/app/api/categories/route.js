@@ -4,7 +4,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { serviceSupabase } from "@lib/database/supabase/client";
 import logger from "@lib/utils/logger";
 
 // Mock categories data for development/testing
@@ -72,21 +72,12 @@ function validateEnvironment() {
 	return requiredEnvVars;
 }
 
-// Create Supabase client with error handling
-function createSupabaseClient() {
+// Get Supabase client with error handling
+function getSupabaseClient() {
 	try {
-		const env = validateEnvironment();
-		if (!env) {
-			return null;
-		}
-
-		return createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
-			auth: {
-				persistSession: false,
-			},
-		});
+		return serviceSupabase();
 	} catch (error) {
-		logger.error("Failed to create Supabase client for categories:", error);
+		logger.error("Failed to get Supabase client for categories:", error);
 		return null;
 	}
 }
@@ -126,8 +117,8 @@ export async function GET(request) {
 			);
 		}
 
-		// Try to create Supabase client
-		const supabase = createSupabaseClient();
+		// Try to get Supabase client
+		const supabase = getSupabaseClient();
 		if (!supabase) {
 			logger.warn("Supabase client not available for categories, falling back to mock data");
 			

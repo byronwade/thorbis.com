@@ -8,7 +8,6 @@
 import UserDashboardPage from "@components/dashboard/user/user-dashboard-page";
 import { getServerSession, createSupabaseServerClient } from "@lib/database/supabase/server";
 import { UserQueries } from "@lib/database/supabase/queries/user";
-import { redirect } from "next/navigation";
 import { generateStaticPageMetadata } from "@utils/server-seo";
 
 // Generate dynamic metadata using server-side SEO generator
@@ -28,9 +27,11 @@ export default async function Page() {
 
 	const userId = session?.user?.id;
 
-	if (!userId) return redirect("/login?redirectTo=/dashboard/user");
+	// Remove automatic redirect - handle no user session gracefully
+	// if (!userId) return redirect("/login?redirectTo=/dashboard/user");
 
-	const [reviewsResult, recentActivityResult, statsResult] = await Promise.all([
+	// If no user session, provide empty data instead of redirecting
+	const serverData = userId ? await Promise.all([
 		UserQueries.getUserReviews(userId, 1, 5).catch(() => ({ reviews: [], total: 0 })),
 		supabase
 			.from("user_activities")
@@ -48,14 +49,23 @@ export default async function Page() {
 			averageRating: 0,
 			totalHelpfulVotes: 0
 		}))
-	]);
-
-	const serverData = {
+	]).then(([reviewsResult, recentActivityResult, statsResult]) => ({
 		stats: statsResult,
 		recentActivity: recentActivityResult,
 		reviews: reviewsResult?.reviews || [],
 		savedBusinesses: [],
 		user: { id: userId }
+	})) : {
+		stats: {
+			businessCount: 0,
+			reviewCount: 0,
+			averageRating: 0,
+			totalHelpfulVotes: 0
+		},
+		recentActivity: [],
+		reviews: [],
+		savedBusinesses: [],
+		user: null
 	};
 
 	return <UserDashboardPage serverData={serverData} />;

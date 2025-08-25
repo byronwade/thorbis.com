@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import debounce from "lodash/debounce";
 import useMapStore from "./use-map-store";
 import logger from "@lib/utils/logger";
@@ -123,7 +124,9 @@ const mockBusinesses = [
 	},
 ];
 
-const useBusinessStore = create((set, get) => ({
+const useBusinessStore = create(
+	persist(
+		(set, get) => ({
 	allBusinesses: [],
 	filteredBusinesses: [],
 	activeBusinessId: null,
@@ -508,6 +511,19 @@ const useBusinessStore = create((set, get) => ({
 		set({ selectedBusiness: null });
 		console.log("Selected business cleared");
 	},
-}));
+		}),
+		{
+			name: "business-store", // unique name for localStorage key
+			partialize: (state) => ({
+				activeBusinessId: state.activeBusinessId, // only persist the active business ID
+			}),
+			onRehydrateStorage: () => (state) => {
+				if (state?.activeBusinessId) {
+					console.log("🔄 Rehydrated business store with activeBusinessId:", state.activeBusinessId);
+				}
+			},
+		}
+	)
+);
 
 export default useBusinessStore;

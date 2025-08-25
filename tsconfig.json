@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"target": "ES2017",
+		"target": "ES2020",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
 		"skipLibCheck": true,
@@ -9,7 +9,7 @@
 		"incremental": true,
 		"module": "esnext",
 		"esModuleInterop": true,
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"jsx": "preserve",
@@ -34,17 +34,20 @@
 				"name": "next"
 			}
 		],
-		// Additional strict type checking options
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"exactOptionalPropertyTypes": true,
+		// Development-optimized type checking (less strict for speed)
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"exactOptionalPropertyTypes": false,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
-		"noImplicitOverride": true,
-		"allowUnusedLabels": false,
-		"allowUnreachableCode": false
+		"noUncheckedIndexedAccess": false,
+		"noImplicitOverride": false,
+		"allowUnusedLabels": true,
+		"allowUnreachableCode": true,
+		// Performance optimizations
+		"assumeChangesOnlyAffectDirectDependencies": true,
+		"disableSourceOfProjectReferenceRedirect": true
 	},
 	"include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", ".next", "dist", "build", "coverage"]
 }

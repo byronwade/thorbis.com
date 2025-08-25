@@ -20,7 +20,7 @@ bun install
 # Set up environment variables (see docs/environment-setup.md)
 cp .env.example .env.local
 
-# Run development server
+# Run development server (optimized with Turbopack)
 bun run dev
 
 # Build for production
@@ -28,6 +28,11 @@ bun run build
 
 # Start production server
 bun run start
+
+# Development performance tools
+bun run dev:optimize    # Clean and optimize development environment
+bun run dev:monitor     # Check development performance status
+bun run dev:clean       # Quick cache cleanup
 ```
 
 ## 📁 Multi-Platform Architecture
@@ -86,6 +91,25 @@ thorbis.com/
     ├── ai/                       # AI integration documentation
     └── deployment/               # Multi-tenant deployment guides
 ```
+
+## ⚡ Development Performance
+
+This project has been optimized for maximum development speed:
+
+- **🚀 Turbopack**: Next.js's new bundler for 50-80% faster builds
+- **⚡ Optimized TypeScript**: Incremental compilation with development-optimized settings
+- **🎯 Tailwind Optimization**: Streamlined CSS scanning for faster processing
+- **📦 Package Optimization**: Smart imports for heavy libraries
+- **💾 Intelligent Caching**: Filesystem caching for faster rebuilds
+
+**Quick Performance Commands:**
+```bash
+bun run dev:optimize    # Clean and optimize environment
+bun run dev:monitor     # Check performance status
+bun run dev:clean       # Quick cache cleanup
+```
+
+For detailed performance optimization guide, see [DEVELOPMENT_PERFORMANCE.md](./DEVELOPMENT_PERFORMANCE.md).
 
 ## 🛠 Tech Stack
 

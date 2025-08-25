@@ -4,7 +4,7 @@
  * High-performance search operations with intelligent caching
  */
 
-import { supabase, getPooledClient, Tables } from "../../client";
+import { supabase, Tables } from "../../client";
 import { CacheManager } from "@utils/cache-manager";
 import logger from "@lib/utils/logger";
 
@@ -20,7 +20,7 @@ export class BusinessSearchQueries {
 
 	// Lazy initialization to avoid circular dependencies during module loading
 	private static getPooledClientInstance() {
-		return getPooledClient("business");
+		return supabase;
 	}
 
 	/**

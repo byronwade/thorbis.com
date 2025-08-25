@@ -47,7 +47,7 @@ const LocalHubDashboardPage = () => {
 	};
 
 	return (
-		<div className="container mx-auto p-6 space-y-8">
+		<div className="w-full px-4 py-6 sm:px-6 lg:px-8 space-y-8">
 			{/* Dashboard Header */}
 			<div className="flex items-center justify-between">
 				<div>
@@ -212,7 +212,7 @@ const LocalHubDashboardPage = () => {
  */
 const LocalHubDashboardSkeleton = () => {
 	return (
-		<div className="container mx-auto p-6 space-y-8">
+		<div className="w-full px-4 py-6 sm:px-6 lg:px-8 space-y-8">
 			{/* Header Skeleton */}
 			<div className="flex items-center justify-between">
 				<div className="space-y-2">

@@ -71,19 +71,7 @@ export function RoleDebugger() {
 		}
 	};
 
-	if (!isAuthenticated) {
-		return (
-			<Card className="mb-4 border-muted-foreground/20 dark:border-muted-foreground/20 bg-muted-foreground/10 dark:bg-muted-foreground/10">
-				<CardHeader>
-					<CardTitle className="flex items-center gap-2 text-muted-foreground dark:text-muted-foreground">
-						<AlertTriangle className="h-5 w-5" />
-						Debug: Not Authenticated
-					</CardTitle>
-					<CardDescription className="text-muted-foreground dark:text-muted-foreground">User is not currently authenticated</CardDescription>
-				</CardHeader>
-			</Card>
-		);
-	}
+
 
 	return (
 		<Card className="mb-4 border-primary/20 dark:border-primary/20 bg-primary/10 dark:bg-primary/10">

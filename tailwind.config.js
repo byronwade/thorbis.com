@@ -1,19 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+import typography from '@tailwindcss/typography';
+import animate from 'tailwindcss-animate';
+import forms from '@tailwindcss/forms';
+
+export default {
 	darkMode: ["class"],
 	content: [
-		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/lib/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/utils/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/hooks/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/context/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/store/**/*.{js,ts,jsx,tsx,mdx}",
-		"./src/types/**/*.{js,ts,jsx,tsx,mdx}",
-		// Legacy paths for any remaining files
-		"./app/**/*.{js,ts,jsx,tsx,mdx}",
-		"./pages/**/*.{js,ts,jsx,tsx,mdx}",
-		"./components/**/*.{js,ts,jsx,tsx,mdx}",
+		"./src/**/*.{js,ts,jsx,tsx,mdx}",
+		// Remove legacy paths to reduce scanning overhead
 	],
 	prefix: "",
 	theme: {
@@ -199,9 +193,9 @@ module.exports = {
 
 			addUtilities(newUtilities, ["responsive", "hover"]);
 		},
-		require("@tailwindcss/typography"),
-		require("tailwindcss-animate"),
-		require("@tailwindcss/forms"),
+		typography,
+		animate,
+		forms,
 		function ({ addBase, config }) {
 			addBase({
 				"input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill": {

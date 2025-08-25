@@ -67,6 +67,7 @@ const EnhancedLocationSelector = React.memo(({
   const [isSearching, setIsSearching] = useState(false);
   const [businessSuggestions, setBusinessSuggestions] = useState([]);
   const [isLoadingBusinesses, setIsLoadingBusinesses] = useState(false);
+  const [isInitializing, setIsInitializing] = useState(true);
 
   // Refs
   const inputRef = useRef(null);
@@ -95,19 +96,19 @@ const EnhancedLocationSelector = React.memo(({
   // Size configurations
   const sizeConfig = {
     small: {
-      button: "h-8 text-sm px-3",
+      button: "h-7 text-xs px-2.5",
       input: "h-8 text-sm",
       dropdown: "w-80",
       icon: "w-4 h-4"
     },
     default: {
-      button: "h-10 text-base px-4",
+      button: "h-8 text-sm px-3",
       input: "h-10 text-base", 
       dropdown: "w-96",
       icon: "w-5 h-5"
     },
     large: {
-      button: "h-12 text-lg px-6",
+      button: "h-10 text-base px-4",
       input: "h-12 text-lg",
       dropdown: "w-[28rem]",
       icon: "w-6 h-6"
@@ -118,9 +119,9 @@ const EnhancedLocationSelector = React.memo(({
 
   // Variant styles
   const variantStyles = {
-    default: "border-neutral-600 bg-neutral-700/30 text-white placeholder:text-neutral-400 hover:bg-neutral-700/50 hover:border-neutral-500",
-    filled: "border-neutral-500 bg-neutral-700/50 text-white placeholder:text-neutral-400 hover:bg-neutral-700/70",
-    outlined: "border-2 border-primary/50 bg-neutral-700/30 text-white placeholder:text-neutral-400 hover:border-primary/70"
+    default: "border-neutral-700/50 bg-transparent text-white placeholder:text-neutral-400 hover:bg-neutral-800/30 hover:border-neutral-600",
+    filled: "border-neutral-600 bg-neutral-800/20 text-white placeholder:text-neutral-400 hover:bg-neutral-800/40",
+    outlined: "border border-primary/30 bg-transparent text-white placeholder:text-neutral-400 hover:border-primary/50"
   };
 
   // Handle business search
@@ -152,7 +153,7 @@ const EnhancedLocationSelector = React.memo(({
     [isLoadingBusinesses]
   );
 
-  // Handle search input changes with Google Places API and business search
+  // Handle search input changes with simplified location search
   const handleSearchChange = useCallback(
     async (query) => {
       setSearchQuery(query);
@@ -161,48 +162,66 @@ const EnhancedLocationSelector = React.memo(({
         setIsSearching(true);
         set({ isLoadingSuggestions: true });
         
-        // Start both location and business searches in parallel
-        const searchPromises = [];
-        
-        // Location search
-        searchPromises.push(
-          (async () => {
-            try {
-              // Use Google Places API for better search suggestions
-              const suggestions = await googleMapsService.searchLocations(query, {
-                types: 'geocode',
-                location: currentLocation ? `${currentLocation.lat},${currentLocation.lng}` : null,
-                radius: 50000 // 50km radius
-              });
-
-              // Transform Google Places suggestions to our format
-              const transformedSuggestions = suggestions.map(prediction => ({
-                placeId: prediction.place_id,
-                shortName: prediction.structured_formatting?.main_text || prediction.description,
-                formattedAddress: prediction.description,
-                city: prediction.structured_formatting?.secondary_text || '',
+        try {
+          // Create simple location suggestions based on common patterns
+          const searchTerm = query.toLowerCase();
+          const commonCities = [
+            'San Francisco, CA',
+            'New York, NY',
+            'Los Angeles, CA',
+            'Chicago, IL',
+            'Houston, TX',
+            'Phoenix, AZ',
+            'Philadelphia, PA',
+            'San Antonio, TX',
+            'San Diego, CA',
+            'Dallas, TX',
+            'Austin, TX',
+            'Jacksonville, FL',
+            'Fort Worth, TX',
+            'Columbus, OH',
+            'Charlotte, NC',
+            'San Jose, CA',
+            'Indianapolis, IN',
+            'Seattle, WA',
+            'Denver, CO',
+            'Washington, DC'
+          ];
+          
+          const matchingCities = commonCities
+            .filter(city => city.toLowerCase().includes(searchTerm))
+            .slice(0, 5)
+            .map(city => {
+              const [cityName, state] = city.split(', ');
+              return {
+                placeId: `custom_${cityName}_${state}`,
+                shortName: cityName,
+                formattedAddress: city,
+                city: cityName,
+                state: state,
                 type: 'suggestion',
-                types: prediction.types || []
-              }));
+                types: ['locality', 'political']
+              };
+            });
 
-              // Update store with suggestions
-              set({ searchSuggestions: transformedSuggestions, isLoadingSuggestions: false });
-            } catch (error) {
-              logger.error('Google Places search failed:', error);
-              // Fallback to existing search method
-              await getLocationSuggestions(query, {
-                location: currentLocation,
-                types: 'geocode'
-              });
-            }
-          })()
-        );
+          // Add the search query as a custom location option
+          const customLocation = {
+            placeId: `custom_${query}`,
+            shortName: query,
+            formattedAddress: query,
+            city: query,
+            type: 'custom',
+            types: ['custom']
+          };
+
+          const allSuggestions = [customLocation, ...matchingCities];
+          set({ searchSuggestions: allSuggestions, isLoadingSuggestions: false });
+          
+        } catch (error) {
+          logger.error('Location search failed:', error);
+          set({ searchSuggestions: [], isLoadingSuggestions: false });
+        }
         
-        // Business search
-        searchPromises.push(handleBusinessSearch(query));
-        
-        // Wait for both searches to complete
-        await Promise.allSettled(searchPromises);
         setIsSearching(false);
       } else if (query.length <= 1) {
         set({ searchSuggestions: [], isLoadingSuggestions: false });
@@ -210,7 +229,7 @@ const EnhancedLocationSelector = React.memo(({
         setIsSearching(false);
       }
     },
-    [getLocationSuggestions, currentLocation, set, isSearching, handleBusinessSearch]
+    [set, isSearching]
   );
 
   // Handle location selection with zip code verification
@@ -262,21 +281,44 @@ const EnhancedLocationSelector = React.memo(({
   const handleGetCurrentLocation = useCallback(
     async () => {
       try {
+        set({ isGettingLocation: true });
         const location = await getCurrentLocation();
-        handleLocationSelect(location);
+        
+        // Ensure the location has proper formatting
+        const formattedLocation = {
+          ...location,
+          shortName: location.city || 'Current Location',
+          formattedAddress: location.formattedAddress || `${location.city || 'Unknown'}, ${location.state || 'Unknown'}`,
+          type: 'current'
+        };
+        
+        handleLocationSelect(formattedLocation);
       } catch (error) {
         logger.error('Error getting current location:', error);
+        
+        // Create a fallback location object
+        const fallbackLocation = {
+          placeId: 'current_location_fallback',
+          shortName: 'Current Location',
+          formattedAddress: 'Location access required',
+          city: 'Current Location',
+          type: 'current',
+          error: true
+        };
+        
+        handleLocationSelect(fallbackLocation);
         
         // Show user-friendly error message
         const errorMessage = error.message.includes('permission denied') 
           ? 'Location access denied. Please enable location permissions in your browser settings.'
           : 'Unable to get your current location. Please try searching for a location instead.';
         
-        // You can add a toast notification here if you have a toast system
         console.warn('Location Error:', errorMessage);
+      } finally {
+        set({ isGettingLocation: false });
       }
     },
-    [getCurrentLocation, handleLocationSelect]
+    [getCurrentLocation, handleLocationSelect, set]
   );
 
   // Handle favorite toggle
@@ -297,10 +339,77 @@ const EnhancedLocationSelector = React.memo(({
     [favoriteLocations, addToFavorites, removeFromFavorites]
   );
 
+  // Handle initialization
+  useEffect(() => {
+    const initializeComponent = async () => {
+      try {
+        // Simulate a brief loading time for better UX
+        await new Promise(resolve => setTimeout(resolve, 100));
+        setIsInitializing(false);
+      } catch (error) {
+        logger.error('Error initializing location selector:', error);
+        setIsInitializing(false);
+      }
+    };
+
+    initializeComponent();
+  }, []);
+
+  // Focus search input when dropdown opens
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      // Small delay to ensure dropdown is rendered
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isOpen]);
+
+  // Calculate distance between two points using Haversine formula
+  const calculateDistance = (point1, point2) => {
+    if (!point1.lat || !point1.lng || !point2.lat || !point2.lng) {
+      return null;
+    }
+    
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (point2.lat - point1.lat) * Math.PI / 180;
+    const dLng = (point2.lng - point1.lng) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(point1.lat * Math.PI / 180) * Math.cos(point2.lat * Math.PI / 180) * 
+      Math.sin(dLng/2) * Math.sin(dLng/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const distance = R * c;
+    
+    return distance;
+  };
+
   // Format location display
   const formatLocationDisplay = (location) => {
     if (!location) return placeholder;
-    return locationUtils.formatLocationDisplay(location, { showState: true });
+    
+    // Handle different location types
+    if (location.type === 'zipcode') {
+      return `ZIP ${location.postalCode}`;
+    }
+    
+    if (location.shortName) {
+      return location.shortName;
+    }
+    
+    if (location.city && location.state) {
+      return `${location.city}, ${location.state}`;
+    }
+    
+    if (location.city) {
+      return location.city;
+    }
+    
+    if (location.formattedAddress) {
+      return location.formattedAddress;
+    }
+    
+    return 'Unknown Location';
   };
 
   // Get location icon
@@ -317,15 +426,19 @@ const EnhancedLocationSelector = React.memo(({
   // Render location item
   const LocationItem = ({ location, type = 'suggestion', showDistance = false }) => {
     const isFavorite = favoriteLocations.some(fav => fav.placeId === location.placeId);
-    const distance = currentLocation && location ? 
-      locationUtils.calculateDistance(currentLocation, location) : null;
+    
+      // Safely calculate distance only if both locations have coordinates
+  const distance = currentLocation && location && 
+    currentLocation.lat && currentLocation.lng && 
+    location.lat && location.lng ? 
+    calculateDistance(currentLocation, location) : null;
 
     return (
       <DropdownMenuItem
         className="flex items-center justify-between p-2.5 cursor-pointer hover:bg-neutral-800 focus:bg-neutral-800 transition-colors duration-150"
         onClick={() => handleLocationSelect(location)}
       >
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+        <div className="flex items-center space-x-3 flex-1 min-w-0">
           <div className="flex-shrink-0">
             <div className="flex items-center justify-center w-6 h-6 rounded-md bg-neutral-800">
               {getLocationIcon(location)}
@@ -334,21 +447,21 @@ const EnhancedLocationSelector = React.memo(({
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2">
               <p className="text-sm font-medium text-white truncate">
-                {location.shortName || location.city || 'Unknown Location'}
+                {location.shortName || location.city || formatLocationDisplay(location)}
               </p>
               {type === 'favorite' && (
-                							<Star className="w-3 h-3 text-warning fill-current" />
+                <Star className="w-3 h-3 text-warning fill-current" />
               )}
               {type === 'recent' && (
                 <Badge variant="secondary" className="text-xs bg-neutral-700 text-neutral-300 border-neutral-600">Recent</Badge>
               )}
             </div>
             <p className="text-xs text-neutral-400 truncate">
-              {location.formattedAddress}
+              {location.formattedAddress || location.city || ''}
             </p>
-            {showDistance && distance && (
-              							<p className="text-xs text-neutral-500">
-                {locationUtils.formatDistance(distance)} away
+            {showDistance && distance && typeof distance === 'number' && !isNaN(distance) && (
+              <p className="text-xs text-neutral-500">
+                {distance < 1 ? `${Math.round(distance * 1000)}m away` : `${distance.toFixed(1)}km away`}
               </p>
             )}
           </div>
@@ -443,7 +556,7 @@ const EnhancedLocationSelector = React.memo(({
         {/* Current Location */}
         {showCurrentLocation && (
           <DropdownMenuGroup>
-                        <DropdownMenuItem
+            <DropdownMenuItem
               className="flex items-center space-x-3 p-2.5 cursor-pointer hover:bg-neutral-800 transition-colors duration-150"
               onClick={handleGetCurrentLocation}
               disabled={isGettingLocation}
@@ -453,17 +566,22 @@ const EnhancedLocationSelector = React.memo(({
                   {isGettingLocation ? (
                     <Loader2 className={cn(config.icon, "animate-spin text-neutral-400")} />
                   ) : (
-                    							<Crosshair className={cn(config.icon, "text-neutral-400")} />
+                    <Crosshair className={cn(config.icon, "text-neutral-400")} />
                   )}
                 </div>
               </div>
-                              <div className="flex-1">
-                							<p className="text-sm font-medium text-white">
+              <div className="flex-1">
+                <p className="text-sm font-medium text-white">
                   {isGettingLocation ? 'Getting location...' : 'Use current location'}
                 </p>
-                {currentLocation && (
+                {currentLocation && currentLocation.city && (
                   <p className="text-xs text-neutral-400">
                     {formatLocationDisplay(currentLocation)}
+                  </p>
+                )}
+                {!currentLocation && !isGettingLocation && (
+                  <p className="text-xs text-neutral-400">
+                    Click to detect your location
                   </p>
                 )}
               </div>
@@ -558,24 +676,31 @@ const EnhancedLocationSelector = React.memo(({
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
+          variant="ghost"
+          disabled={isGettingLocation || isLoadingSuggestions || isInitializing}
           className={cn(
-            "justify-between text-left font-normal hover:bg-neutral-700/50 hover:border-neutral-500 transition-all duration-200",
+            "justify-between text-left font-normal transition-all duration-200",
             config.button,
             variantStyles[variant],
-            !selectedLocation && "text-muted-foreground",
+            !selectedLocation && "text-neutral-400",
+            (isGettingLocation || isLoadingSuggestions || isInitializing) && "opacity-70 cursor-not-allowed",
             className
           )}
         >
-          <div className="flex items-center space-x-3 flex-1 min-w-0">
-            <div className="flex items-center justify-center w-6 h-6 rounded-lg bg-neutral-700/50">
-              {getLocationIcon(selectedLocation)}
-            </div>
-            <span className="truncate font-medium">
-              {formatLocationDisplay(selectedLocation)}
+          <div className="flex items-center space-x-2 flex-1 min-w-0">
+            {(isGettingLocation || isLoadingSuggestions || isInitializing) ? (
+              <Loader2 className="w-3.5 h-3.5 text-primary animate-spin" />
+            ) : (
+              <MapPin className={cn("w-3.5 h-3.5 text-neutral-400", selectedLocation && "text-neutral-300")} />
+            )}
+            <span className="truncate text-sm">
+              {isInitializing ? "Loading..." :
+               isGettingLocation ? "Getting location..." : 
+               isLoadingSuggestions ? "Searching..." :
+               formatLocationDisplay(selectedLocation)}
             </span>
           </div>
-          <ChevronDown className={cn(config.icon, "opacity-50 flex-shrink-0 transition-transform duration-200", isOpen && "rotate-180")} />
+          <ChevronDown className={cn("w-3 h-3 opacity-40 flex-shrink-0 transition-transform duration-200", isOpen && "rotate-180")} />
         </Button>
       </DropdownMenuTrigger>
 
@@ -602,7 +727,10 @@ const EnhancedLocationSelector = React.memo(({
                 className="pl-8 pr-8 h-8 text-sm bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500 focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600"
                 autoFocus
               />
-              {searchQuery && (
+              {isSearching && (
+                <Loader2 className="absolute right-2 top-1/2 transform -translate-y-1/2 w-3.5 h-3.5 animate-spin text-primary" />
+              )}
+              {searchQuery && !isSearching && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -623,31 +751,47 @@ const EnhancedLocationSelector = React.memo(({
               <Input
                 placeholder="Or enter zip code..."
                 className="pl-8 pr-4 h-8 text-sm bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500 focus:border-neutral-600 focus:ring-1 focus:ring-neutral-600"
-                onKeyPress={async (e) => {
+                onKeyPress={(e) => {
                   if (e.key === 'Enter') {
                     const zipCode = e.target.value.trim();
                     if (zipCode && /^\d{5}(-\d{4})?$/.test(zipCode)) {
-                      try {
-                        const verification = await googleMapsService.verifyZipCode(zipCode);
-                        if (verification.isValid) {
-                          const location = {
-                            postalCode: verification.zipCode,
-                            city: verification.city,
-                            state: verification.state,
-                            country: verification.country,
-                            formattedAddress: verification.formattedAddress,
-                            shortName: `${verification.city}, ${verification.state}`,
-                            type: 'zipcode'
-                          };
-                          handleLocationSelect(location);
-                        }
-                      } catch (error) {
-                        logger.error('Zip code verification failed:', error);
-                      }
+                      // Create a simple location object for the zip code
+                      const location = {
+                        postalCode: zipCode,
+                        shortName: `ZIP ${zipCode}`,
+                        formattedAddress: `ZIP Code ${zipCode}`,
+                        city: `ZIP ${zipCode}`,
+                        type: 'zipcode'
+                      };
+                      handleLocationSelect(location);
                     }
                   }
                 }}
               />
+            </div>
+            
+            {/* Quick Location Buttons */}
+            <div className="flex flex-wrap gap-1">
+              {['San Francisco, CA', 'New York, NY', 'Los Angeles, CA', 'Chicago, IL'].map((city) => (
+                <button
+                  key={city}
+                  onClick={() => {
+                    const [cityName, state] = city.split(', ');
+                    const location = {
+                      placeId: `quick_${cityName}_${state}`,
+                      shortName: cityName,
+                      formattedAddress: city,
+                      city: cityName,
+                      state: state,
+                      type: 'quick'
+                    };
+                    handleLocationSelect(location);
+                  }}
+                  className="px-2 py-1 text-xs bg-neutral-800 hover:bg-neutral-700 text-neutral-300 rounded transition-colors"
+                >
+                  {city}
+                </button>
+              ))}
             </div>
           </div>
         </div>

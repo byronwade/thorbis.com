@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
@@ -13,9 +14,11 @@ import { withErrorHandling, showErrorToast } from "@utils/error-handler";
 import { filterAndSortBusinesses, SORT_OPTIONS } from "@utils/sorting";
 import { useBusinessStore } from "@store/business";
 import { useSearchStore } from "@store/search";
+import { buildBusinessUrlFrom } from "@utils";
 import debounce from "lodash/debounce";
 
 const RealTimeSearch = ({ onSearchResults, onLocationChange, placeholder = "Search for businesses...", showSuggestions = true, autoFocus = false, className = "" }) => {
+	const router = useRouter();
 	const [query, setQuery] = useState("");
 	const [location, setLocation] = useState("");
 	const [suggestions, setSuggestions] = useState([]);
@@ -169,14 +172,26 @@ const RealTimeSearch = ({ onSearchResults, onLocationChange, placeholder = "Sear
 	// Handle suggestion selection
 	const handleSuggestionClick = useCallback(
 		(suggestion) => {
-			setQuery(suggestion.name || suggestion.query || "");
-			setLocation(suggestion.location || "");
-			setShowSuggestionsPanel(false);
+			// Check if this is a business suggestion (has business properties)
+			if (suggestion.id && suggestion.name && (suggestion.categories || suggestion.description || suggestion.rating)) {
+				// This is a business - navigate to business page
+				try {
+					router.push(buildBusinessUrlFrom(suggestion));
+				} catch {
+					router.push(`/us/${(suggestion.state||'').toLowerCase()}/${(suggestion.city||'').toLowerCase()}/${(suggestion.name||'').toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-')}-${suggestion.short_id || suggestion.shortId || ''}`);
+				}
+				setShowSuggestionsPanel(false);
+			} else {
+				// This is a search suggestion - perform search
+				setQuery(suggestion.name || suggestion.query || "");
+				setLocation(suggestion.location || "");
+				setShowSuggestionsPanel(false);
 
-			// Trigger search
-			debouncedSearch(suggestion.name || suggestion.query || "", suggestion.location || "");
+				// Trigger search
+				debouncedSearch(suggestion.name || suggestion.query || "", suggestion.location || "");
+			}
 		},
-		[debouncedSearch]
+		[debouncedSearch, router]
 	);
 
 	// Handle keyboard navigation

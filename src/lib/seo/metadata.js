@@ -95,12 +95,9 @@ export const baseMetadata = {
 	icons: {
 		icon: [
 			{ url: "/favicon.ico", sizes: "any" },
-			{ url: "/icon.svg", type: "image/svg+xml" },
-			{ url: "/icon-192.png", type: "image/png", sizes: "192x192" },
-			{ url: "/icon-512.png", type: "image/png", sizes: "512x512" },
 		],
 		apple: [
-			{ url: "/apple-icon-180.png", sizes: "180x180", type: "image/png" },
+			{ url: "/favicon.ico", sizes: "any" },
 		],
 		shortcut: "/favicon.ico",
 	},
@@ -111,9 +108,9 @@ export const baseMetadata = {
 	// Alternates
 	alternates: {
 		canonical: "https://thorbis.com",
-		types: {
-			"application/rss+xml": [{ url: "https://thorbis.com/rss.xml", title: "Thorbis RSS Feed" }],
-		},
+		// types: {
+		// 	"application/rss+xml": [{ url: "https://thorbis.com/rss.xml", title: "Thorbis RSS Feed" }],
+		// },
 	},
 
 	// Verification
@@ -128,7 +125,7 @@ export const baseMetadata = {
 		// Performance and mobile optimization
 		"theme-color": "hsl(var(--background))",
 		"msapplication-TileColor": "hsl(var(--background))",
-		"msapplication-config": "/browserconfig.xml",
+		// "msapplication-config": "/browserconfig.xml", // Removed - file doesn't exist
 		"mobile-web-app-capable": "yes",
 		"apple-mobile-web-app-status-bar-style": "default",
 		"apple-mobile-web-app-title": "Local Directory",

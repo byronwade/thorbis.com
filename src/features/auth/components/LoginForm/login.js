@@ -11,6 +11,7 @@ import { useAuth } from "@context/auth-context";
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { toast } from "sonner";
 import { getEnabledProviders } from "@lib/database/supabase/auth/providers";
+import { clearSupabaseStorage } from "@lib/database/supabase/ssr";
 import { Eye, EyeOff, AlertCircle, CheckCircle2 } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook, FaGithub, FaTwitter, FaApple } from "react-icons/fa";
@@ -384,35 +385,77 @@ export default function LoginPage() {
 			didRedirect: didRedirectRef.current, 
 			isAuthenticated, 
 			hasUser: !!user,
-			userRoles 
+			userRoles,
+			redirectTo: searchParams.get("redirectTo"),
+			contextualRedirect,
+			loading
 		});
 		
 		if (didRedirectRef.current) return;
-		if (isAuthenticated && user) {
+		
+		// Prevent redirect loop - if we're already on login page and authenticated, don't redirect
+		if (isAuthenticated && user && !loading) {
 			didRedirectRef.current = true;
 			let targetPath = contextualRedirect;
-			if (!targetPath) {
-				const redirectTo = searchParams.get("redirectTo");
-				if (redirectTo && redirectTo.startsWith("/")) {
-					targetPath = redirectTo;
+
+			// Prioritize redirectTo parameter over role-based redirects
+			const redirectTo = searchParams.get("redirectTo");
+			if (redirectTo && redirectTo.startsWith("/")) {
+				targetPath = redirectTo;
+				console.log('🔍 Using explicit redirectTo:', targetPath);
+			} else if (!targetPath) {
+				// Only use role-based redirects if no explicit redirectTo is provided
+				const userRole = user?.user_metadata?.role || user?.role || "user";
+				const accountType = user?.user_metadata?.account_type || user?.account_type;
+				
+				console.log('🔍 User role info:', { userRole, accountType, userRoles });
+				
+				if (userRoles.includes("admin") || userRoles.includes("super_admin") || userRole === "admin" || userRole === "super_admin") {
+					targetPath = "/dashboard/admin";
+				} else if (userRole === "localhub_operator" || accountType === "localhub") {
+					targetPath = "/dashboard/localhub";
+				} else if (userRole === "user" || userRoles.includes("user")) {
+					targetPath = "/dashboard/user";
 				} else {
-					// Use same logic as dashboard router
-					const userRole = user?.user_metadata?.role || user?.role || "user";
-					const accountType = user?.user_metadata?.account_type || user?.account_type;
-					
-					if (userRoles.includes("admin") || userRoles.includes("super_admin") || userRole === "admin" || userRole === "super_admin") {
-						targetPath = "/dashboard/admin";
-					} else if (userRole === "localhub_operator" || accountType === "localhub") {
-						targetPath = "/dashboard/localhub";
-					} else {
-						targetPath = "/dashboard/business"; // All other users use business dashboard
-					}
+					targetPath = "/dashboard/business"; // All other users use business dashboard
 				}
 			}
+			
 			console.log('🚀 Login successful, redirecting to:', targetPath);
-			router.replace(targetPath);
+
+			// Set login success indicators for middleware
+			try {
+				// Set cookies to indicate recent successful login
+				document.cookie = `login_success=true; path=/; max-age=10; samesite=lax`;
+				document.cookie = `recent_login_timestamp=${Date.now()}; path=/; max-age=10; samesite=lax`;
+				console.log('🍪 Login success cookies set for middleware');
+			} catch (cookieError) {
+				console.warn('⚠️ Could not set login cookies:', cookieError);
+			}
+
+			// Add a delay to ensure session is properly established before redirecting
+			// This prevents the "not authenticated" state after login
+			setTimeout(() => {
+				// Try multiple redirect methods to ensure navigation happens
+				try {
+					// First try router.replace
+					router.replace(targetPath);
+					
+					// Fallback to window.location if router doesn't work
+					setTimeout(() => {
+						if (window.location.pathname !== targetPath) {
+							console.log('🔍 Router redirect failed, using window.location fallback');
+							window.location.href = targetPath;
+						}
+					}, 100);
+				} catch (error) {
+					console.error('❌ Redirect error:', error);
+					// Final fallback
+					window.location.href = targetPath;
+				}
+			}, 1000); // Increased delay to 1 second to ensure session propagation
 		}
-	}, [isAuthenticated, user, userRoles, router, searchParams, contextualRedirect]);
+	}, [isAuthenticated, user, userRoles, router, searchParams, contextualRedirect, loading]);
 
 	// Enhanced submit with security features
 	const onSubmit = useCallback(
@@ -543,6 +586,16 @@ export default function LoginPage() {
 					setLoginAttempts(newAttempts);
 					sessionStorage.setItem("loginAttempts", newAttempts.toString());
 
+					// Check for authentication errors that require storage clearing
+					const isAuthError = result.error?.message?.includes('Invalid Refresh Token') ||
+										result.error?.message?.includes('session') ||
+										result.error?.message?.includes('authentication');
+
+					if (isAuthError) {
+						logger.warn("🔄 Authentication error detected, clearing storage");
+						clearSupabaseStorage();
+					}
+
 					// Enable additional security measures
 					if (newAttempts >= 3) {
 						setSecurityFeatures((prev) => ({
@@ -568,6 +621,8 @@ export default function LoginPage() {
 					// Show appropriate error message
 					if (result.error?.userMessage) {
 						toast.error(result.error.userMessage);
+					} else if (isAuthError) {
+						toast.error("Authentication session expired. Please try logging in again.");
 					} else {
 						toast.error("Login failed. Please check your credentials.");
 					}
@@ -579,6 +634,7 @@ export default function LoginPage() {
 						deviceFingerprint: deviceFingerprint?.id,
 						attemptNumber: newAttempts,
 						error: result.error?.message,
+						authError: isAuthError,
 						timestamp: Date.now(),
 					});
 				}
@@ -594,7 +650,7 @@ export default function LoginPage() {
 				setIsSubmitting(false);
 			}
 		},
-		[isRateLimited, loginAttempts, deviceFingerprint, login, clearError, checkBreachedPassword] // Removed loading dependencies
+		[isRateLimited, loginAttempts, deviceFingerprint, login, clearError, checkBreachedPassword, tLogin] // Removed loading dependencies
 	);
 
 	const handleOAuthLogin = async (providerName) => {

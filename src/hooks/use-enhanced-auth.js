@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@lib/database/supabase";
+import { createSupabaseBrowserClient } from "@lib/database/supabase/ssr";
 import logger from "@lib/utils/logger";
 import { PasswordSecurity } from "@lib/security/password-security";
 import { validateEmail, validatePasswordStrength } from "@lib/database/supabase/auth/utils";
@@ -36,6 +36,24 @@ const secureStorage = {
  */
 export function useEnhancedAuth() {
 	const router = useRouter();
+	
+	// Create browser-specific Supabase client for better session management
+	const [supabase, setSupabase] = useState(null);
+
+	useEffect(() => {
+		const initializeClient = async () => {
+			try {
+				const client = await createSupabaseBrowserClient();
+				setSupabase(client);
+			} catch (error) {
+				console.error('❌ Failed to create Supabase browser client:', error);
+				throw error;
+			}
+		};
+
+		initializeClient();
+	}, []);
+
 	const [user, setUser] = useState(null);
 	const [session, setSession] = useState(null);
 	const [initialized, setInitialized] = useState(false);
@@ -45,6 +63,7 @@ export function useEnhancedAuth() {
 	const [userRoles, setUserRoles] = useState([]);
 	const [profile, setProfile] = useState(null);
 	const [deviceInfo, setDeviceInfo] = useState(null);
+	const [isInitializingAuth, setIsInitializingAuth] = useState(false);
 	const [securityMetrics, setSecurityMetrics] = useState({
 		loginAttempts: 0,
 		lastLogin: null,
@@ -69,6 +88,46 @@ export function useEnhancedAuth() {
 		
 		return () => clearTimeout(timeoutId);
 	}, [user?.id, session?.access_token, loading, userRoles.length, profile?.id, initialized]); // Only log on meaningful changes
+
+	// Session refresh mechanism to prevent "not authenticated" state
+	useEffect(() => {
+		if (!session?.user || !initialized) return;
+
+		const refreshSession = async () => {
+			try {
+				console.log('🔍 useEnhancedAuth: Refreshing session...');
+				const { data, error } = await supabase.auth.refreshSession();
+				
+				if (error) {
+					console.warn('⚠️ useEnhancedAuth: Session refresh failed:', error);
+					return;
+				}
+				
+				if (data.session) {
+					console.log('✅ useEnhancedAuth: Session refreshed successfully');
+					setSession(data.session);
+					setUser(data.session.user);
+				}
+			} catch (error) {
+				console.warn('⚠️ useEnhancedAuth: Session refresh error:', error);
+			}
+		};
+
+		// Refresh session every 30 minutes to keep it alive
+		const refreshInterval = setInterval(refreshSession, 30 * 60 * 1000);
+		
+		// Also refresh on window focus to ensure session is current
+		const handleFocus = () => {
+			refreshSession();
+		};
+		
+		window.addEventListener('focus', handleFocus);
+		
+		return () => {
+			clearInterval(refreshInterval);
+			window.removeEventListener('focus', handleFocus);
+		};
+	}, [session?.user, initialized]);
 
 	// This useEffect will be moved after initializeAuth is defined
 
@@ -155,7 +214,7 @@ export function useEnhancedAuth() {
 				}
 			}
 		},
-		[session]
+		[session, supabase]
 	);
 
 	const fetchUserRoles = useCallback(
@@ -231,12 +290,9 @@ export function useEnhancedAuth() {
 				setUserRoles(["user"]); // Safe fallback
 			}
 		},
-		[session]
+		[session, supabase]
 	);
 
-	/**
-	 * Initialize authentication state
-	 */
 	/**
 	 * Handle auth state changes - defined before initializeAuth to avoid circular dependencies
 	 */
@@ -314,107 +370,26 @@ export function useEnhancedAuth() {
 				}
 			}
 		},
-		[fetchUserProfile, fetchUserRoles] // Dependencies for the handler
+		[fetchUserProfile, fetchUserRoles, supabase] // Dependencies for the handler
 	);
 
+	/**
+	 * Initialize authentication state
+	 */
 	const initializeAuth = useCallback(async () => {
 		const startTime = performance.now();
+
+		// Prevent multiple simultaneous initialization attempts
+		if (isInitializingAuth || initialized) {
+			console.log('🔍 useEnhancedAuth: Already initializing or initialized, skipping');
+			return;
+		}
+
+		setIsInitializingAuth(true);
 		console.log('🔍 useEnhancedAuth initializeAuth: Starting initialization');
 
 		try {
-			setLoading(true);
-
-			// OPTIMIZED: Run device fingerprint and session fetch in parallel
-			// PERFORMANCE OPTIMIZATION: Use lightweight device info instead of heavy fingerprinting
-			console.log('🔍 useEnhancedAuth: Starting parallel device info and session fetch');
-			
-			const [deviceInfo, sessionResult] = await Promise.all([
-				// Generate lightweight device info for security
-				Promise.resolve({
-					id: `device_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-					userAgent: navigator.userAgent.substring(0, 100), // Truncate for performance
-					screen: `${window.screen.width}x${window.screen.height}`,
-					timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-					language: navigator.language,
-					platform: navigator.platform,
-					timestamp: Date.now(),
-				}),
-				Promise.race([
-					supabase.auth.getSession(),
-					new Promise((_, reject) => 
-						setTimeout(() => reject(new Error('Session fetch timeout')), 1500) // Reduced from 5s to 1.5s
-					)
-				]).catch(err => {
-					console.warn('⚠️ Session fetch failed:', err);
-					return { data: { session: null }, error: null };
-				})
-			]);
-			
-			console.log('🔍 useEnhancedAuth: Parallel fetch completed:', {
-				hasDeviceInfo: !!deviceInfo,
-				hasSessionResult: !!sessionResult
-			});
-
-			setDeviceInfo(deviceInfo);
-			
-			console.log('🔍 useEnhancedAuth: Processing session result:', {
-				sessionResult,
-				hasData: !!sessionResult?.data,
-				hasSession: !!sessionResult?.data?.session,
-				error: sessionResult?.error
-			});
-
-			const {
-				data: { session } = { session: null },
-				error: sessionError,
-			} = sessionResult || {};
-
-			if (sessionError) {
-				console.warn('⚠️ Session initialization error:', sessionError);
-				logger.error("Session initialization error:", sessionError);
-				// Don't throw - continue with no session
-			}
-
-			if (session) {
-				console.log('🔍 useEnhancedAuth: Session found, calling handleAuthStateChange');
-				await handleAuthStateChange("SIGNED_IN", session);
-			} else {
-				console.log('🔍 useEnhancedAuth: No session found initially, checking localStorage backup');
-				
-				// Check if we have a session in localStorage as backup
-				if (typeof window !== 'undefined') {
-					// Check for Supabase session data in localStorage
-					const supabaseSessionKey = `sb-${process.env.NEXT_PUBLIC_SUPABASE_URL?.split('//')[1]?.split('.')[0]}-auth-token`;
-					const localSession = localStorage.getItem(supabaseSessionKey);
-					
-					if (localSession) {
-						console.log('🔍 useEnhancedAuth: Found potential session in localStorage, attempting refresh');
-						try {
-							// Try to refresh the session using Supabase's built-in method
-							const { data: { session: refreshedSession }, error: refreshError } = await supabase.auth.refreshSession();
-							if (refreshedSession && !refreshError) {
-								console.log('✅ useEnhancedAuth: Successfully restored session from localStorage');
-								await handleAuthStateChange("SIGNED_IN", refreshedSession);
-								return; // Exit early since we found a valid session
-							} else {
-								console.log('🔍 useEnhancedAuth: Session refresh failed or returned no session:', refreshError);
-							}
-						} catch (error) {
-							console.warn('⚠️ useEnhancedAuth: Session refresh failed:', error);
-						}
-					} else {
-						console.log('🔍 useEnhancedAuth: No session data found in localStorage');
-					}
-				}
-				
-				console.log('🔍 useEnhancedAuth: No valid session found, setting unauthenticated state');
-				setLoading(false);
-				setUser(null);
-				setProfile(null);
-				setUserRoles([]);
-			}
-
-			// Set up auth state change listener
+			// Set up auth state change listener first
 			console.log('🔍 useEnhancedAuth: Setting up auth state change listener');
 			const {
 				data: { subscription },
@@ -431,10 +406,68 @@ export function useEnhancedAuth() {
 				hasSubscription: !!subscription
 			});
 
+			// Get initial session with proper error handling and retry logic
+			console.log('🔍 useEnhancedAuth: Fetching initial session');
+			let session = null;
+			let retryCount = 0;
+			const maxRetries = 3;
+			
+			while (retryCount < maxRetries) {
+				try {
+					const result = await Promise.race([
+						supabase.auth.getSession(),
+						new Promise((_, reject) =>
+							setTimeout(() => reject(new Error('Session fetch timeout')), 5000) // Increased to 5s for better reliability
+						)
+					]);
+					
+					session = result.data.session;
+					console.log('🔍 useEnhancedAuth: Session fetch successful:', { hasSession: !!session, userId: session?.user?.id });
+					break;
+				} catch (error) {
+					retryCount++;
+					console.warn(`⚠️ useEnhancedAuth: Session fetch attempt ${retryCount} failed:`, error.message);
+					
+					if (retryCount < maxRetries) {
+						// Wait before retrying with exponential backoff
+						await new Promise(resolve => setTimeout(resolve, 1000 * retryCount));
+					} else {
+						console.error('❌ useEnhancedAuth: All session fetch attempts failed');
+						// Don't throw error, just continue with null session
+					}
+				}
+			}
+
+			// If we have a session, set it up properly
+			if (session?.user) {
+				console.log('🔍 useEnhancedAuth: Setting up user session:', session.user.id);
+				setSession(session);
+				setUser(session.user);
+				
+				// Load user data with proper error handling
+				try {
+					await Promise.allSettled([
+						fetchUserProfile(session.user.id),
+						fetchUserRoles(session.user.id),
+						updateSecurityMetrics(session.user.id)
+					]);
+					console.log('✅ useEnhancedAuth: User data loaded successfully');
+				} catch (error) {
+					console.warn('⚠️ useEnhancedAuth: Some user data loading failed:', error);
+				}
+			} else {
+				console.log('🔍 useEnhancedAuth: No valid session found, setting unauthenticated state');
+				setSession(null);
+				setUser(null);
+				setProfile(null);
+				setUserRoles([]);
+			}
+
 			const duration = performance.now() - startTime;
 			logger.performance(`Auth initialization completed in ${duration.toFixed(2)}ms`);
 			console.log('✅ useEnhancedAuth: Initialization completed successfully');
 			setInitialized(true);
+			setIsInitializingAuth(false);
 
 			return () => {
 				subscription?.unsubscribe();
@@ -449,29 +482,60 @@ export function useEnhancedAuth() {
 			// Ensure loading is set to false even on error
 			setLoading(false);
 			setInitialized(true);
+			setIsInitializingAuth(false);
 		}
-	}, [handleAuthStateChange]); // Now properly depends on handleAuthStateChange
+	}, [handleAuthStateChange, supabase, isInitializingAuth, initialized]); // Now properly depends on handleAuthStateChange and supabase client
 
+	// Global flag to prevent multiple simultaneous initializations across components
+	const globalInitKey = 'useEnhancedAuth_initializing';
+	
 	// Initialize auth state and listeners - runs only once on mount
 	useEffect(() => {
 		console.log('🔍 useEnhancedAuth: useEffect triggered for auth initialization');
 		let cleanup;
 		let timeoutId;
 		let initializationCompleted = false;
+
+		// Wait for Supabase client to be ready
+		if (!supabase) {
+			console.log('🔍 useEnhancedAuth: Waiting for Supabase client to initialize');
+			return;
+		}
+
+		// Prevent multiple simultaneous initializations
+		if (initialized || isInitializingAuth) {
+			console.log('🔍 useEnhancedAuth: Already initialized or initializing, skipping');
+			return;
+		}
+
+		// Check global initialization flag
+		if (typeof window !== 'undefined' && window[globalInitKey]) {
+			console.log('🔍 useEnhancedAuth: Another instance is initializing, skipping');
+			return;
+		}
+
+		// Set global flag
+		if (typeof window !== 'undefined') {
+			window[globalInitKey] = true;
+		}
 		
 		const init = async () => {
 			console.log('🔍 useEnhancedAuth: Calling initializeAuth()');
 			
-			// Set a reasonable timeout failsafe - reduced from 5s to 2s for better UX
+			// Set a reasonable timeout failsafe - increased to 5s for better reliability
 			timeoutId = setTimeout(() => {
 				if (!initializationCompleted) {
-					console.warn('⚠️ useEnhancedAuth: Auth initialization timeout after 2 seconds');
+					console.warn('⚠️ useEnhancedAuth: Auth initialization timeout after 5 seconds');
 					setLoading(false);
 					// Don't clear user state - might be a valid session that took time to load
 					console.log('🔄 useEnhancedAuth: Timeout triggered, but preserving any valid session data');
 					setInitialized(true);
+					// Clear global flag
+					if (typeof window !== 'undefined') {
+						window[globalInitKey] = false;
+					}
 				}
-			}, 2000); // 2 second timeout - faster response for better UX
+			}, 5000); // 5 second timeout - better reliability for session management
 			
 			try {
 				cleanup = await initializeAuth();
@@ -486,6 +550,10 @@ export function useEnhancedAuth() {
 				if (timeoutId) {
 					clearTimeout(timeoutId);
 				}
+				// Clear global flag
+				if (typeof window !== 'undefined') {
+					window[globalInitKey] = false;
+				}
 			}
 		};
 		
@@ -493,6 +561,11 @@ export function useEnhancedAuth() {
 
 		// Cleanup subscription on unmount
 		return () => {
+			// Clear global flag
+			if (typeof window !== 'undefined') {
+				window[globalInitKey] = false;
+			}
+			
 			if (timeoutId) {
 				clearTimeout(timeoutId);
 			}
@@ -500,7 +573,7 @@ export function useEnhancedAuth() {
 				cleanup();
 			}
 		};
-	}, []); // Empty dependency array ensures this only runs once
+	}, [supabase, isInitializingAuth, initialized]); // Include supabase client and initialization state
 
 
 
@@ -592,7 +665,7 @@ export function useEnhancedAuth() {
 				setLoading(false);
 			}
 		},
-		[deviceInfo, handleAuthStateChange]
+		[deviceInfo, handleAuthStateChange, supabase]
 	);
 
 	/**
@@ -653,7 +726,7 @@ export function useEnhancedAuth() {
 		} finally {
 			setLoading(false);
 		}
-	}, [user, deviceInfo, router]);
+	}, [user, deviceInfo, router, supabase]);
 
 	/**
 	 * OAuth login with enhanced security
@@ -706,7 +779,7 @@ export function useEnhancedAuth() {
 				setLoading(false);
 			}
 		},
-		[deviceInfo]
+		[deviceInfo, supabase]
 	);
 
 	/**
@@ -811,7 +884,7 @@ export function useEnhancedAuth() {
 				setLoading(false);
 			}
 		},
-		[deviceInfo]
+		[deviceInfo, supabase]
 	);
 
 	/**
@@ -986,7 +1059,7 @@ export function useEnhancedAuth() {
 				setLoading(false);
 			}
 		},
-		[deviceInfo]
+		[deviceInfo, supabase]
 	);
 
 	/**
@@ -1041,7 +1114,7 @@ export function useEnhancedAuth() {
 				setLoading(false);
 			}
 		},
-		[user, deviceInfo, checkBreachedPassword]
+		[user, deviceInfo, checkBreachedPassword, supabase]
 	);
 
 	const updateSecurityMetrics = async (userId) => {

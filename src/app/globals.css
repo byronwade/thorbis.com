@@ -47,6 +47,18 @@ img {
   image-rendering: -webkit-optimize-contrast;
 }
 
+/* Hide scrollbars for better mobile UX */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}
 /* Netflix-style shimmer animation */
 @keyframes shimmer {
   0% {

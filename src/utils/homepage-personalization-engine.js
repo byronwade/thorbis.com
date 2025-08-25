@@ -4,13 +4,13 @@
  * Creates dynamic sections personalized to individual users
  */
 
-import { getPooledClient } from "@lib/database/supabase/client";
+import { supabase } from "@lib/database/supabase/client";
 import logger from "./logger.js";
 import { cache } from "react";
 
 export class HomepagePersonalizationEngine {
 	constructor() {
-		this.pooledClient = getPooledClient("personalization");
+		this.pooledClient = supabase;
 		this.cacheManager = new Map();
 		this.cacheTTL = 5 * 60 * 1000; // 5 minutes for real-time personalization
 

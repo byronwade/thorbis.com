@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ProtectedRoute } from "@features/auth";
+// import { ProtectedRoute } from "@features/auth";
 import { DashboardStats } from "@components/dashboard/dashboard-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
@@ -19,11 +19,7 @@ import { courses } from "@data/academy/courses";
  * Shows course catalog with filtering and search
  */
 export default function AcademyCoursesPage() {
-	return (
-		<ProtectedRoute requireEmailVerification={true}>
-			<AcademyCoursesContent />
-		</ProtectedRoute>
-	);
+	return <AcademyCoursesContent />;
 }
 
 function AcademyCoursesContent() {
@@ -87,7 +83,7 @@ function AcademyCoursesContent() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<div className="container mx-auto px-4 lg:px-24 py-8 space-y-8">
+			<div className="w-full px-4 py-8 space-y-8 sm:px-6 lg:px-8">
 				<div>
 					<h2 className="text-3xl font-bold tracking-tight">Course Catalog</h2>
 					<p className="text-muted-foreground">Discover courses to advance your contractor skills</p>

@@ -5,7 +5,8 @@
   "type": "module",
   "packageManager": "bun@1.2.18",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
+    "dev:legacy": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -42,9 +43,16 @@
     "theme:fix": "node scripts/fix-theme-issues.js",
     "theme:audit": "bun run theme:check && echo 'Theme audit completed'",
     "check:logger-imports": "node scripts/check-logger-imports.js",
-    "fix:logger-imports": "node scripts/fix-all-logger-imports.js"
+    "fix:logger-imports": "node scripts/fix-all-logger-imports.js",
+    "dev:optimize": "node scripts/dev-optimize.js",
+    "dev:clean": "rm -rf .next && rm -rf node_modules/.cache && rm -f tsconfig.tsbuildinfo",
+    "dev:monitor": "node scripts/dev-monitor.js"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.19",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@faker-js/faker": "^9.8.0",
     "@googlemaps/markerclusterer": "^2.6.2",
     "@headlessui/react": "^2.1.2",
@@ -101,6 +109,7 @@
     "@vercel/functions": "^1.4.0",
     "@vercel/speed-insights": "^1.2.0",
     "@vercel/toolbar": "^0.1.38",
+    "ai": "^5.0.22",
     "axe-core": "^4.10.3",
     "axios": "^1.11.0",
     "babel-plugin-react-compiler": "^19.1.0-rc.2",
@@ -194,6 +203,9 @@
     "turbo": "latest",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "@supabase/auth-js": "2.66.1"
   },
   "trustedDependencies": [
     "@sentry/cli",

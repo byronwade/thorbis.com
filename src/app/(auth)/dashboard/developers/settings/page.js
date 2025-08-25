@@ -31,7 +31,7 @@ export default function DeveloperSettings() {
 	};
 
 	return (
-		<div className="mx-auto max-w-4xl space-y-6">
+		<div className="w-full space-y-6">
 			<div className="grid w-full gap-2">
 				<h1 className="text-3xl font-bold tracking-tight">Developer Settings</h1>
 				<p className="text-muted-foreground">Security and integration configuration</p>

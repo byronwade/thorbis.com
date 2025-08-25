@@ -21,6 +21,10 @@ try {
   };
 }
 
+// Singleton instances to prevent multiple GoTrueClient instances
+let clientInstance: SupabaseClient<Database> | null = null;
+let serviceClientInstance: SupabaseClient<Database> | null = null;
+
 // Environment variable validation
 const validateEnvironmentVariables = () => {
 	const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -48,12 +52,24 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_fi1Knpd6lz__Iw5v-uunEw_8AYCrbyH
 // Get service role key for server-side operations
 export const getServiceRoleKey = (): string => {
 	const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+	
 	if (!serviceRoleKey) {
-		throw new Error(`
+		// Provide a more helpful error message
+		const errorMessage = `
 Missing SUPABASE_SERVICE_ROLE_KEY environment variable.
+
 Please add to your .env.local file:
-SUPABASE_SERVICE_ROLE_KEY=sb_secret_Pnk_NHm-hm0r3iKiCdRIWw_lbzuPCUY
-		`);
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+
+You can find your service role key in your Supabase project dashboard:
+1. Go to your Supabase project dashboard
+2. Navigate to Settings > API
+3. Copy the "service_role" key (not the anon key)
+4. Add it to your .env.local file
+
+Note: The service role key should be kept secret and only used server-side.
+		`;
+		throw new Error(errorMessage);
 	}
 	return serviceRoleKey;
 };
@@ -99,189 +115,101 @@ const createSupabaseConfig = (anonKey: string) => ({
 				document.cookie = cookieOptions;
 			},
 			removeItem: (key: string) => {
+				// Remove from both localStorage and cookies
 				window.localStorage.removeItem(key);
-				// Remove cookie by setting expired date
-				document.cookie = `${key}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+				
+				// Remove cookie
+				document.cookie = `${key}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
 			}
 		} : undefined,
 	},
-	db: {
-		// Connection pooling configuration
-		schema: "public" as const,
-		// Optimize for read performance
-		enableReadReplicas: true,
-	},
-	realtime: {
-		// Efficient heartbeat for connection management
-		heartbeatIntervalMs: 30000,
-		// Optimize for minimal bandwidth usage
-		enableCompression: true,
-	},
 	global: {
-		// Performance headers
 		headers: {
-			apikey: anonKey,
-			Authorization: `Bearer ${anonKey}`,
-			// Fix 406 Not Acceptable errors
-			Accept: "application/json",
-			"Content-Type": "application/json",
-			// Performance optimizations
-			"Cache-Control": "public, max-age=300, stale-while-revalidate=600",
-			Connection: "keep-alive",
+			'X-Client-Info': 'thorbis-web@1.0.0',
+		},
+	},
+	// Optimize for performance
+	db: {
+		schema: 'public',
+	},
+	// Real-time configuration
+	realtime: {
+		params: {
+			eventsPerSecond: 10,
 		},
 	},
 });
 
-// Singleton pattern for optimal connection management
-class SupabaseManager {
-	private static instance: SupabaseClient<Database>;
-	private static connectionPool: Map<string, SupabaseClient> = new Map();
-
-	/**
-	 * Get the main Supabase client instance
-	 * Uses singleton pattern to prevent multiple connections
-	 */
-	public static getClient(): SupabaseClient<Database> {
-		if (!this.instance) {
-			const startTime = performance.now();
-
-			// Validate environment variables before creating client
-			const { supabaseUrl, supabaseAnonKey } = validateEnvironmentVariables();
-
-			const config = createSupabaseConfig(supabaseAnonKey);
-
-			// Debug: Log configuration to ensure headers are set
-			if (process.env.NODE_ENV === "development") {
-				console.log("🔧 Supabase client config headers:", config.global.headers);
-			}
-
-			this.instance = createClient<Database>(supabaseUrl, supabaseAnonKey, config);
-
-			const initTime = performance.now() - startTime;
-			if (logger && logger.performance) {
-				logger.performance(`Supabase client initialized in ${initTime.toFixed(2)}ms`);
-			}
-			if (logger && logger.info) {
-				logger.info(`Connected to Supabase project: ${supabaseUrl}`);
-			}
-
-			// Monitor connection health
-			this.setupConnectionMonitoring();
-		}
-
-		return this.instance;
+// Singleton client factory
+export const createSupabaseClient = (): SupabaseClient<Database> => {
+	if (clientInstance) {
+		return clientInstance;
 	}
 
-	/**
-	 * Get specialized client for specific operations
-	 * FIXED: Use single auth instance to prevent multiple GoTrueClient warning
-	 */
-	public static getPooledClient(poolKey: string): SupabaseClient<Database> {
-		// Use main instance for auth operations to prevent multiple GoTrueClient instances
-		if (poolKey === "auth" || poolKey === "analytics") {
-			return this.getClient();
-		}
-
-		// Ensure connectionPool is initialized
-		if (!this.connectionPool) {
-			this.connectionPool = new Map();
-		}
-
-		if (!this.connectionPool.has(poolKey)) {
-			// Validate environment variables before creating pooled client
-			const { supabaseUrl, supabaseAnonKey } = validateEnvironmentVariables();
-
-			const config = createSupabaseConfig(supabaseAnonKey);
-
-			// Create client without auth to prevent multiple GoTrueClient instances
-			const client = createClient<Database>(supabaseUrl, supabaseAnonKey, {
-				...config,
-				auth: {
-					...config.auth,
-					// Disable auth for pooled clients to prevent multiple instances
-					autoRefreshToken: false,
-					persistSession: false,
-					detectSessionInUrl: false,
-				},
-				// Pool-specific optimizations
-				db: {
-					...config.db,
-					schema: "public" as const,
-				},
-			});
-
-			this.connectionPool.set(poolKey, client);
-			if (logger && logger.debug) {
-				logger.debug(`Created pooled connection for: ${poolKey}`);
-			}
-		}
-
-		return this.connectionPool.get(poolKey)!;
+	try {
+		const { supabaseUrl, supabaseAnonKey } = validateEnvironmentVariables();
+		const config = createSupabaseConfig(supabaseAnonKey);
+		
+		clientInstance = createClient<Database>(supabaseUrl, supabaseAnonKey, config);
+		
+		logger.debug("Supabase client created successfully");
+		return clientInstance;
+	} catch (error) {
+		logger.error("Failed to create Supabase client:", error);
+		throw error;
 	}
-
-	/**
-	 * Monitor connection health and performance
-	 */
-	private static setupConnectionMonitoring(): void {
-		// Simple performance logging without query builder modification
-		// This avoids TypeScript issues with complex query builder types
-		if (logger && logger.info) {
-			logger.info("Supabase connection monitoring enabled");
-		}
-
-		// Log connection status
-		if (process.env.NODE_ENV === "development") {
-			if (logger && logger.debug) {
-				logger.debug("Supabase client connection monitoring initialized");
-			}
-		}
-	}
-
-	/**
-	 * Reset singleton instance (for development/testing)
-	 */
-	public static resetInstance(): void {
-		this.instance = null as any;
-		this.connectionPool.clear();
-		if (process.env.NODE_ENV === "development") {
-			console.log("🔄 Supabase client instance reset");
-		}
-	}
-
-	/**
-	 * Graceful cleanup for connection pooling
-	 */
-	public static cleanup(): void {
-		if (this.connectionPool) {
-			this.connectionPool.clear();
-		}
-		if (logger && logger.debug) {
-			logger.debug("Supabase connection pool cleaned up");
-		}
-	}
-}
-
-// Create server-side client with service role key (for admin operations)
-export const createServiceRoleClient = (): SupabaseClient<Database> => {
-	const { supabaseUrl } = validateEnvironmentVariables();
-	const serviceRoleKey = getServiceRoleKey();
-
-	return createClient<Database>(supabaseUrl, serviceRoleKey, {
-		auth: {
-			autoRefreshToken: false,
-			persistSession: false,
-		},
-		db: {
-			schema: "public" as const,
-		},
-	});
 };
 
-// Export the optimized client
-export const supabase = SupabaseManager.getClient();
-export const getPooledClient = (poolKey: string) => SupabaseManager.getPooledClient(poolKey);
-export const cleanupConnections = () => SupabaseManager.cleanup();
-export const resetSupabaseClient = () => SupabaseManager.resetInstance();
+// Singleton service client factory
+export const createServiceSupabaseClient = (): SupabaseClient<Database> => {
+	if (serviceClientInstance) {
+		return serviceClientInstance;
+	}
+
+	try {
+		const { supabaseUrl } = validateEnvironmentVariables();
+		const serviceRoleKey = getServiceRoleKey();
+		
+		serviceClientInstance = createClient<Database>(supabaseUrl, serviceRoleKey, {
+			auth: {
+				persistSession: false,
+			},
+			global: {
+				headers: {
+					'X-Client-Info': 'thorbis-service@1.0.0',
+				},
+			},
+		});
+		
+		logger.debug("Supabase service client created successfully");
+		return serviceClientInstance;
+	} catch (error) {
+		logger.error("Failed to create Supabase service client:", error);
+		throw error;
+	}
+};
+
+// Export singleton instances
+export const supabase = createSupabaseClient();
+
+// Lazy service client - only created when accessed
+let _serviceSupabase: SupabaseClient<Database> | null = null;
+export const serviceSupabase = (): SupabaseClient<Database> => {
+	if (!_serviceSupabase) {
+		try {
+			_serviceSupabase = createServiceSupabaseClient();
+		} catch (error) {
+			// In development, fallback to regular client if service role key is not available
+			if (process.env.NODE_ENV === 'development') {
+				logger.warn("Service role key not available, falling back to regular client for development");
+				_serviceSupabase = createSupabaseClient();
+			} else {
+				throw error;
+			}
+		}
+	}
+	return _serviceSupabase;
+};
 
 // Type exports for better developer experience
 export type { Database } from "./types";

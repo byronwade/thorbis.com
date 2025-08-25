@@ -1,0 +1,62 @@
+---
+alwaysApply: true
+---
+
+# No Automatic Builds
+
+## Build Policy
+- **Do NOT run builds automatically** unless the user explicitly asks for it
+- **Do NOT run `npm run build`** or similar build commands without user request
+- **Do NOT suggest running builds** unless there's a specific build-related issue
+- **Only run builds when the user says**: "run build", "test build", "check if it builds", etc.
+
+## When to Run Builds
+✅ **User explicitly requests**: "Can you run a build test?"
+✅ **User asks**: "Does this build successfully?"
+✅ **User says**: "Test the build"
+✅ **Build-related debugging**: When investigating build errors
+
+## When NOT to Run Builds
+❌ **After code changes** - unless user asks
+❌ **After file edits** - unless user asks  
+❌ **After refactoring** - unless user asks
+❌ **After adding features** - unless user asks
+❌ **As a general verification step** - unless user asks
+
+## Response Guidelines
+- Focus on the actual code changes and improvements
+- Don't mention "let me test the build" unless user requests it
+- If you need to verify something, ask the user first: "Would you like me to run a build test?"
+- Assume the user will test builds themselves when needed
+
+## Exception
+Only run builds automatically if the user is actively debugging a build error and you need to verify a fix.
+# No Automatic Builds
+
+## Build Policy
+- **Do NOT run builds automatically** unless the user explicitly asks for it
+- **Do NOT run `npm run build`** or similar build commands without user request
+- **Do NOT suggest running builds** unless there's a specific build-related issue
+- **Only run builds when the user says**: "run build", "test build", "check if it builds", etc.
+
+## When to Run Builds
+✅ **User explicitly requests**: "Can you run a build test?"
+✅ **User asks**: "Does this build successfully?"
+✅ **User says**: "Test the build"
+✅ **Build-related debugging**: When investigating build errors
+
+## When NOT to Run Builds
+❌ **After code changes** - unless user asks
+❌ **After file edits** - unless user asks  
+❌ **After refactoring** - unless user asks
+❌ **After adding features** - unless user asks
+❌ **As a general verification step** - unless user asks
+
+## Response Guidelines
+- Focus on the actual code changes and improvements
+- Don't mention "let me test the build" unless user requests it
+- If you need to verify something, ask the user first: "Would you like me to run a build test?"
+- Assume the user will test builds themselves when needed
+
+## Exception
+Only run builds automatically if the user is actively debugging a build error and you need to verify a fix.

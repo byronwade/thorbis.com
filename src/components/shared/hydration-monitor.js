@@ -40,7 +40,22 @@ export default function HydrationMonitor() {
       }
       
       const message = args[0];
-      if (typeof message === "string" && message.includes("hydration") && !message.includes("useInsertionEffect")) {
+      
+      // Filter out WebSocket errors and other non-hydration errors
+      const isWebSocketError = typeof message === "string" && (
+        message.includes("WebSocket") ||
+        message.includes("ws://") ||
+        message.includes("wss://") ||
+        message.includes("connection") ||
+        message.includes("network")
+      );
+      
+      const isHydrationError = typeof message === "string" && 
+        message.includes("hydration") && 
+        !message.includes("useInsertionEffect") &&
+        !isWebSocketError;
+      
+      if (isHydrationError) {
         isLoggingError = true;
         // Defer logger call to prevent useInsertionEffect errors
         setTimeout(() => {

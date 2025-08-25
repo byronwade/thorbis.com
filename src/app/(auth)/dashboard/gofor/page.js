@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ProtectedRoute } from "@features/auth";
-import { PERMISSIONS } from "@lib/auth/roles";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import { Button } from "@components/ui/button";
 import { Badge } from "@components/ui/badge";
@@ -423,7 +421,7 @@ export default function GoForDashboard() {
   );
 
   const renderRequestDeliveryForm = () => (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="w-full space-y-6">
       <div>
         <h2 className="text-2xl font-bold tracking-tight">Request New Delivery</h2>
         <p className="text-muted-foreground">Fill out the details for your delivery request</p>
@@ -636,144 +634,138 @@ export default function GoForDashboard() {
   );
 
   return (
-    <ProtectedRoute
-      requiredPermissions={[PERMISSIONS.BUSINESS_MANAGE]}
-      minRoleLevel={2}
-      requireEmailVerification={true}
-    >
-      <div className="container mx-auto p-6 space-y-6">
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="dashboard" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="request" className="flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              Request Delivery
-            </TabsTrigger>
-            <TabsTrigger value="drivers" className="flex items-center gap-2">
-              <Users className="w-4 h-4" />
-              Drivers
-            </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-2">
-              <History className="w-4 h-4" />
-              History
-            </TabsTrigger>
-          </TabsList>
+    <div className="w-full px-4 py-6 sm:px-6 lg:px-8 space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="dashboard" className="flex items-center gap-2">
+            <BarChart3 className="w-4 h-4" />
+            Dashboard
+          </TabsTrigger>
+          <TabsTrigger value="request" className="flex items-center gap-2">
+            <Plus className="w-4 h-4" />
+            Request Delivery
+          </TabsTrigger>
+          <TabsTrigger value="drivers" className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            Drivers
+          </TabsTrigger>
+          <TabsTrigger value="history" className="flex items-center gap-2">
+            <History className="w-4 h-4" />
+            History
+          </TabsTrigger>
+        </TabsList>
 
-          <TabsContent value="dashboard">
-            {renderDashboardOverview()}
-          </TabsContent>
+        <TabsContent value="dashboard">
+          {renderDashboardOverview()}
+        </TabsContent>
 
-          <TabsContent value="request">
-            {renderRequestDeliveryForm()}
-          </TabsContent>
+        <TabsContent value="request">
+          {renderRequestDeliveryForm()}
+        </TabsContent>
 
-          <TabsContent value="drivers">
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight">Driver Management</h2>
-                <p className="text-muted-foreground">Manage and track your delivery drivers</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mockDrivers.map((driver) => (
-                  <Card key={driver.id}>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="w-12 h-12">
-                            <AvatarFallback>{driver.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <CardTitle className="text-lg">{driver.name}</CardTitle>
-                            <CardDescription>{driver.vehicle}</CardDescription>
-                          </div>
-                        </div>
-                        <Badge variant={driver.status === 'available' ? 'default' : 'secondary'}>
-                          {driver.status}
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <span className="text-muted-foreground">Rating:</span>
-                          <div className="flex items-center gap-1 mt-1">
-                            <Star className="w-4 h-4 fill-yellow-400 text-warning" />
-                            <span className="font-medium">{driver.rating}</span>
-                          </div>
-                        </div>
-                        <div>
-                          <span className="text-muted-foreground">Deliveries:</span>
-                          <p className="font-medium">{driver.deliveries}</p>
-                        </div>
-                        <div className="col-span-2">
-                          <span className="text-muted-foreground">Current Location:</span>
-                          <p className="font-medium">{driver.location}</p>
-                        </div>
-                      </div>
-                      
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="flex-1">
-                          <Phone className="w-3 h-3 mr-2" />
-                          Call
-                        </Button>
-                        <Button size="sm" variant="outline" className="flex-1">
-                          <MessageSquare className="w-3 h-3 mr-2" />
-                          Message
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+        <TabsContent value="drivers">
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Driver Management</h2>
+              <p className="text-muted-foreground">Manage and track your delivery drivers</p>
             </div>
-          </TabsContent>
 
-          <TabsContent value="history">
-            {renderDeliveryHistory()}
-          </TabsContent>
-        </Tabs>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {mockDrivers.map((driver) => (
+                <Card key={driver.id}>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-12 h-12">
+                          <AvatarFallback>{driver.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <CardTitle className="text-lg">{driver.name}</CardTitle>
+                          <CardDescription>{driver.vehicle}</CardDescription>
+                        </div>
+                      </div>
+                      <Badge variant={driver.status === 'available' ? 'default' : 'secondary'}>
+                        {driver.status}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Rating:</span>
+                        <div className="flex items-center gap-1 mt-1">
+                          <Star className="w-4 h-4 fill-yellow-400 text-warning" />
+                          <span className="font-medium">{driver.rating}</span>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Deliveries:</span>
+                        <p className="font-medium">{driver.deliveries}</p>
+                      </div>
+                      <div className="col-span-2">
+                        <span className="text-muted-foreground">Current Location:</span>
+                        <p className="font-medium">{driver.location}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <Phone className="w-3 h-3 mr-2" />
+                        Call
+                      </Button>
+                      <Button size="sm" variant="outline" className="flex-1">
+                        <MessageSquare className="w-3 h-3 mr-2" />
+                        Message
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </TabsContent>
 
-        {/* Request Delivery Dialog */}
-        <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Quick Delivery Request</DialogTitle>
-              <DialogDescription>
-                Get an instant quote for your delivery needs
-              </DialogDescription>
-            </DialogHeader>
-            
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>Pickup Location</Label>
-                  <Input placeholder="Store or address" />
-                </div>
-                <div className="space-y-2">
-                  <Label>Delivery Location</Label>
-                  <Input placeholder="Your location" />
-                </div>
-              </div>
-              
+        <TabsContent value="history">
+          {renderDeliveryHistory()}
+        </TabsContent>
+      </Tabs>
+
+      {/* Request Delivery Dialog */}
+      <Dialog open={showRequestDialog} onOpenChange={setShowRequestDialog}>
+        <DialogContent className="w-full max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Quick Delivery Request</DialogTitle>
+            <DialogDescription>
+              Get an instant quote for your delivery needs
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>What needs to be delivered?</Label>
-                <Textarea placeholder="Describe the items..." />
+                <Label>Pickup Location</Label>
+                <Input placeholder="Store or address" />
               </div>
-              
-              <div className="flex gap-3">
-                <Button className="flex-1">Get Quote & Submit</Button>
-                <Button variant="outline" onClick={() => setShowRequestDialog(false)}>
-                  Cancel
-                </Button>
+              <div className="space-y-2">
+                <Label>Delivery Location</Label>
+                <Input placeholder="Your location" />
               </div>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </ProtectedRoute>
+            
+            <div className="space-y-2">
+              <Label>What needs to be delivered?</Label>
+              <Textarea placeholder="Describe the items..." />
+            </div>
+            
+            <div className="flex gap-3">
+              <Button className="flex-1">Get Quote & Submit</Button>
+              <Button variant="outline" onClick={() => setShowRequestDialog(false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

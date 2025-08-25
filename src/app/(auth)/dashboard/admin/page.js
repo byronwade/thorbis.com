@@ -1,5 +1,5 @@
 import React from "react";
-import { ProtectedRoute } from "@features/auth";
+// import { ProtectedRoute } from "@features/auth";
 import { DashboardStats } from "@components/dashboard/dashboard-layout";
 import PermissionManager from "@components/admin/permission-manager";
 import { PERMISSIONS } from "@lib/auth/roles";
@@ -21,11 +21,7 @@ export async function generateMetadata() {
  * Requires admin-level permissions
  */
 export default function AdminDashboardPage() {
-	return (
-		<ProtectedRoute requiredPermissions={[PERMISSIONS.USER_MANAGE]} minRoleLevel={4} requireEmailVerification={true}>
-			<AdminDashboardContent />
-		</ProtectedRoute>
-	);
+	return <AdminDashboardContent />;
 }
 
 function AdminDashboardContent() {

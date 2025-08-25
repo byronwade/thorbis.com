@@ -2,7 +2,7 @@
 // Main entry point for all Supabase functionality
 
 // Core client and types
-export { supabase, getPooledClient, cleanupConnections, createServiceRoleClient, getServiceRoleKey } from "./client";
+export { supabase, serviceSupabase, createSupabaseClient, createServiceSupabaseClient, getServiceRoleKey } from "./client";
 export type { Database, Tables, Inserts, Updates } from "./client";
 
 // Authentication and security

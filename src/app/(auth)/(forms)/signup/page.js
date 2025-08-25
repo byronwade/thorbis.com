@@ -1,5 +1,6 @@
-import { SignupPage } from "@features/auth";
+// import { SignupPage } from "@features/auth";
 import { generateStaticPageMetadata } from "@utils/server-seo";
+import SimpleSignup from '@components/auth/SimpleSignup';
 
 // Generate dynamic metadata using server-side SEO generator
 export async function generateMetadata() {
@@ -35,7 +36,7 @@ const jsonLdData = {
 export default function Signup() {
 	return (
 		<>
-			<SignupPage />
+			<SimpleSignup />
 			<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }} />
 		</>
 	);

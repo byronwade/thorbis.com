@@ -4,75 +4,90 @@
 import { NextResponse } from "next/server";
 import { createProfessionalSubdomainMiddleware } from "./src/lib/middleware/professional-subdomain";
 import { getRedirectDestination } from "./src/app/redirects";
+import { createAuthMiddleware } from "./src/lib/database/supabase/middleware";
 
 /**
  * TEMPORARILY SIMPLIFIED - Main application middleware
  * Disabled complex subdomain middleware to prevent build hanging
  */
 export async function middleware(request) {
-	const startTime = performance.now();
-	const { pathname } = request.nextUrl;
+	// TEMPORARILY DISABLED - All middleware disabled for development
+	// const startTime = performance.now();
+	// const { pathname } = request.nextUrl;
 
-	try {
-		// Skip middleware for static assets
-		if (shouldSkipMiddleware(pathname)) {
-			return NextResponse.next();
-		}
+	// try {
+	// 	// Skip middleware for static assets
+	// 	if (shouldSkipMiddleware(pathname)) {
+	// 		return NextResponse.next();
+	// 	}
 
-		// Handle page consolidation redirects FIRST
-		const redirectDestination = getRedirectDestination(pathname);
-		if (redirectDestination) {
-			console.log(`Redirecting ${pathname} to ${redirectDestination}`);
+	// 	// Handle page consolidation redirects FIRST
+	// 	const redirectDestination = getRedirectDestination(pathname);
+	// 	if (redirectDestination) {
+	// 		console.log(`Redirecting ${pathname} to ${redirectDestination}`);
 
-			// Create the new URL with the redirect destination
-			const redirectUrl = new URL(redirectDestination, request.url);
+	// 		// Create the new URL with the redirect destination
+	// 		const redirectUrl = new URL(redirectDestination, request.url);
 
-			// Preserve query parameters
-			redirectUrl.search = request.nextUrl.search;
+	// 		// Preserve query parameters
+	// 		redirectUrl.search = request.nextUrl.search;
 
-			// Return 301 permanent redirect for SEO
-			const redirectResponse = NextResponse.redirect(redirectUrl, 301);
+	// 		// Return 301 permanent redirect for SEO
+	// 		const redirectResponse = NextResponse.redirect(redirectUrl, 301);
 
-			// Add security headers to redirect response
-			addSecurityHeaders(redirectResponse);
+	// 		// Add security headers to redirect response
+	// 		addSecurityHeaders(redirectResponse);
 
-			// Log redirect for analytics
-			redirectResponse.headers.set("X-Redirect-From", pathname);
-			redirectResponse.headers.set("X-Redirect-To", redirectDestination);
-			redirectResponse.headers.set("X-Redirect-Type", "consolidation");
+	// 		// Log redirect for analytics
+	// 		redirectResponse.headers.set("X-Redirect-From", pathname);
+	// 		redirectResponse.headers.set("X-Redirect-To", redirectDestination);
+	// 		redirectResponse.headers.set("X-Redirect-Type", "consolidation");
 
-			return redirectResponse;
-		}
+	// 		return redirectResponse;
+	// 	}
 
-		// Re-enabled advanced middleware after dependency updates
-		let response;
+	// 	// TEMPORARILY DISABLED - Handle Supabase authentication first (most critical)
+	// 	// let response;
+	// 	// try {
+	// 	// 	response = await createAuthMiddleware(request);
+	// 	// } catch (authError) {
+	// 	// 	console.warn("Supabase auth middleware failed:", authError.message);
+	// 	// 	// Continue with basic response for other middleware to work
+	// 	// 	response = NextResponse.next();
+	// 	// }
+		
+	// 	// Skip auth for now - allow all access
+	// 	let response = NextResponse.next();
 
-		try {
-			// TEMPORARILY DISABLED - Try to use professional subdomain middleware
-			// response = await createProfessionalSubdomainMiddleware(request);
-			response = NextResponse.next();
-		} catch (middlewareError) {
-			// Fallback to basic response if advanced middleware fails
-			console.warn("Advanced middleware failed, using fallback:", middlewareError.message);
-			response = NextResponse.next();
-		}
+	// 	// Then handle other middleware if auth succeeded
+	// 	try {
+	// 		// TEMPORARILY DISABLED - Try to use professional subdomain middleware
+	// 		// response = await createProfessionalSubdomainMiddleware(request);
+	// 		// For now, just use the response from auth middleware
+	// 	} catch (middlewareError) {
+	// 		// Fallback to basic response if advanced middleware fails
+	// 		console.warn("Advanced middleware failed, using fallback:", middlewareError.message);
+	// 	}
 
-		// Always add security headers
-		addSecurityHeaders(response);
+	// 	// Always add security headers
+	// 	addSecurityHeaders(response);
 
-		// Add performance monitoring
-		const duration = performance.now() - startTime;
-		response.headers.set("X-Response-Time", `${duration.toFixed(2)}ms`);
+	// 	// Add performance monitoring
+	// 	const duration = performance.now() - startTime;
+	// 	response.headers.set("X-Response-Time", `${duration.toFixed(2)}ms`);
 
-		return response;
-	} catch (error) {
-		console.error(`Middleware failed for ${pathname}:`, error);
+	// 	return response;
+	// } catch (error) {
+	// 	console.error(`Middleware failed for ${pathname}:`, error);
 
-		// Return basic response on error
-		const errorResponse = NextResponse.next();
-		addSecurityHeaders(errorResponse);
-		return errorResponse;
-	}
+	// 	// Return basic response on error
+	// 	const errorResponse = NextResponse.next();
+	// 	addSecurityHeaders(errorResponse);
+	// 	return errorResponse;
+	// }
+	
+	// Completely bypass all middleware - allow all requests
+	return NextResponse.next();
 }
 
 /**

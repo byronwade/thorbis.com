@@ -4,7 +4,7 @@
  * Handles business intelligence, user analytics, and performance tracking
  */
 
-import { supabase, getPooledClient, Tables } from "../../client";
+import { supabase, Tables } from "../../client";
 import { CacheManager } from "@utils/cache-manager";
 import logger from "@lib/utils/logger";
 
@@ -17,7 +17,7 @@ type FormSubmission = Tables<"form_submissions">;
  */
 export class AnalyticsQueries {
 	private static readonly CACHE_TTL = 5 * 60 * 1000; // 5 minutes for analytics
-	private static readonly pooledClient = getPooledClient("analytics");
+	private static readonly pooledClient = supabase;
 
 	/**
 	 * Get user analytics summary with comprehensive metrics

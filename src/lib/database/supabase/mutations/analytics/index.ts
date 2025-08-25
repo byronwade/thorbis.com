@@ -4,7 +4,7 @@
  * Handles event tracking, form submissions, and analytics data management
  */
 
-import { supabase, getPooledClient, Tables } from "../../client";
+import { supabase, Tables } from "../../client";
 import logger from "@lib/utils/logger";
 
 type AnalyticsEvent = Tables<"analytics_events">;
@@ -15,7 +15,7 @@ type FormSubmission = Tables<"form_submissions">;
  * Centralized analytics data writing operations
  */
 export class AnalyticsMutations {
-	private static readonly pooledClient = getPooledClient("analytics");
+	private static readonly pooledClient = supabase;
 	private static eventQueue: any[] = [];
 	private static batchTimer: NodeJS.Timeout | null = null;
 

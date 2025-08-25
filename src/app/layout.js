@@ -25,7 +25,8 @@ import { Analytics } from "@vercel/analytics/next";
 // Feature flags and site layout components
 import { evaluateAllFlags } from "@/lib/flags/server";
 import { cookies, headers } from "next/headers";
-import { VoipProvider, VoipControlButton } from "@components/shared/voip/voip-system";
+import VoipProvider from "@components/voip/VoipProvider";
+import { VoipControlButton } from "@components/shared/voip/voip-integration";
 import VercelFlagTracker from "@components/shared/vercel-flag-tracker";
 import ConditionalLayoutWrapper from "@components/layout/conditional-layout-wrapper";
 import HydrationMonitor from "@components/shared/hydration-monitor";
@@ -33,6 +34,12 @@ import CartProvider from "@components/shared/cart/cart-provider";
 
 // Import SEO configuration from centralized location
 export { baseMetadata as metadata, viewport } from "@lib/seo";
+
+// Font configuration - must be defined early
+const fontSans = FontSans({
+	subsets: ["latin"],
+	variable: "--font-sans",
+});
 
 // Legacy metadata kept for reference - moved to @lib/seo/metadata.js
 /* export const metadata = {
@@ -159,12 +166,9 @@ export { baseMetadata as metadata, viewport } from "@lib/seo";
 		"dns-prefetch": "https://fonts.googleapis.com",
 		preconnect: "https://fonts.gstatic.com",
 	},
-}; */
+};
 
-const fontSans = FontSans({
-	subsets: ["latin"],
-	variable: "--font-sans",
-});
+
 
 /**
  * Development route index for quick navigation
@@ -734,7 +738,6 @@ function LayoutContent({ children, isDev, overridden, locale, dictionary }) {
 									{/* Compact global site alert above all headers */}
 									<SiteWideAlert />
 									{content}
-									<VoipControlButton />
 									<Toaster />
 									<SpeedInsights />
 									<Analytics />
@@ -757,10 +760,9 @@ function LayoutContent({ children, isDev, overridden, locale, dictionary }) {
 									<CartProvider>
 										<AnalyticsInitializer />
 										{/* Compact global site alert above all headers */}
-										<SiteWideAlert />
-										{content}
-										<VoipControlButton />
-										<Toaster />
+																			<SiteWideAlert />
+									{content}
+									<Toaster />
 										<SpeedInsights />
 										<Analytics />
 										<VercelFlagTracker />

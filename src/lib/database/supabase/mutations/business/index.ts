@@ -1,5 +1,5 @@
 // REQUIRED: Optimized business mutations with cache invalidation
-import { supabase, getPooledClient, Tables, Inserts, Updates } from "../../client";
+import { supabase, Tables, Inserts, Updates } from "../../client";
 import { CacheManager } from "@utils/cache-manager";
 import logger from "@lib/utils/logger";
 
@@ -11,7 +11,7 @@ type BusinessUpdate = Updates<"businesses">;
  * High-performance business mutations with intelligent cache management
  */
 export class BusinessMutations {
-	private static readonly pooledClient = getPooledClient("business");
+	private static readonly pooledClient = supabase;
 
 	/**
 	 * Create a new business with optimized data insertion
