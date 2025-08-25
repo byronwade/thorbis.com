@@ -279,9 +279,9 @@ export default function CallPage({ params }) {
   )
   useEffect(() => {
     let i = 0,
-      j = 0
-    let ti: any = null,
-      to: any = null
+      j = 0;
+    let ti = null,
+      to = null;
     function typeNext() {
       const text = demoLines[i % demoLines.length]
       j = 0
@@ -338,7 +338,7 @@ FieldOps`
   const smsHref = `sms:${encodeURIComponent(normalizePhone(contact.phone || caller.number))}?&body=${encodeURIComponent(smsBody)}`
   const mailHref = `mailto:${encodeURIComponent(contact.email || "")}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`
 
-  const copy = async (text: string, label?: string) => {
+  const copy = async (text, label) => {
     try {
       await navigator.clipboard.writeText(text)
       toast({ title: "Copied", description: label || text })
@@ -346,9 +346,8 @@ FieldOps`
   }
 
   // Reminders checklist
-  type Reminder = { id: string; text: string; done: boolean }
   const remKey = `voip:reminders:${id}`
-  const defaultReminders: Reminder[] = [
+  const defaultReminders = [
     { id: "cb", text: "Verify callback number", done: false },
     { id: "addr", text: "Confirm site address and access details", done: false },
     { id: "impact", text: "Clarify business impact and urgency", done: false },
@@ -357,11 +356,11 @@ FieldOps`
     { id: "channel", text: "Confirm preferred contact channel", done: false },
     { id: "prep", text: "Offer arrival prep instructions", done: false },
   ]
-  const [reminders, setReminders] = useState<Reminder[]>(() => {
+  const [reminders, setReminders] = useState(() => {
     if (typeof window === "undefined") return defaultReminders
     try {
       const raw = window.localStorage.getItem(remKey)
-      return raw ? (JSON.parse(raw) as Reminder[]) : defaultReminders
+      return raw ? JSON.parse(raw) : defaultReminders
     } catch {
       return defaultReminders
     }
@@ -378,10 +377,10 @@ FieldOps`
     setReminders((prev) => [{ id: `${Date.now()}-${Math.random()}`, text, done: false }, ...prev])
     setNewReminder("")
   }
-  function removeReminder(rid: string) {
+  function removeReminder(rid) {
     setReminders((prev) => prev.filter((r) => r.id !== rid))
   }
-  function toggleReminder(rid: string) {
+  function toggleReminder(rid) {
     setReminders((prev) => prev.map((r) => (r.id === rid ? { ...r, done: !r.done } : r)))
   }
   async function copyRemaining() {
@@ -400,15 +399,13 @@ FieldOps`
   }
 
   // Photos
-  type Photo = { id: string; dataUrl: string }
-  const [photos, setPhotos] = useState<Photo[]>([])
-  function removePhoto(id: string) {
+  const [photos, setPhotos] = useState([])
+  function removePhoto(id) {
     setPhotos((prev) => prev.filter((p) => p.id !== id))
   }
 
   // Knowledge (simple demo)
-  type KB = { id: string; title: string; description: string; steps: string[] }
-  const kbs: KB[] = useMemo(
+  const kbs = useMemo(
     () => [
       {
         id: "kb1",
@@ -452,8 +449,8 @@ FieldOps`
         maxLat = Math.max(...lats) + 0.01
       const minLng = Math.min(...lngs) - 0.01,
         maxLng = Math.max(...lngs) + 0.01
-      const x = (lng: number) => ((lng - minLng) / (maxLng - minLng)) * (w - 20) + 10
-      const y = (lat: number) => ((maxLat - lat) / (maxLat - minLat)) * (h - 20) + 10
+        const x = (lng) => ((lng - minLng) / (maxLng - minLng)) * (w - 20) + 10
+  const y = (lat) => ((maxLat - lat) / (maxLat - minLat)) * (h - 20) + 10
 
       ctx.strokeStyle = "rgba(0,0,0,0.06)"
       for (let gx = 20; gx < w; gx += 24) {
@@ -505,11 +502,11 @@ FieldOps`
     toast({ title: "Payment recorded", description: `${formatCurrency(amt)} applied to ${caller.accountId}` })
   }
 
-  const handleSmartSearch = (query: string, filters: string[]) => {
+  const handleSmartSearch = (query, filters) => {
     console.log("Searching:", query, "with filters:", filters)
   }
 
-  const handleQuickAction = (action: string) => {
+  const handleQuickAction = (action) => {
     switch (action) {
       case "hold":
         toast({ title: "Call on hold" })
@@ -532,7 +529,7 @@ FieldOps`
     }
   }
 
-  const handleSuggestionClick = (suggestion: string) => {
+  const handleSuggestionClick = (suggestion) => {
     navigator.clipboard?.writeText(suggestion)
     toast({ title: "Suggestion copied to clipboard" })
   }
