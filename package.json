@@ -136,7 +136,7 @@
     "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "lucide-react": "^0.516.0",
+    "lucide-react": "^0.536.0",
     "mapbox-gl": "^3.5.2",
     "next": "^15.4.1",
     "next-seo": "^5.15.0",
