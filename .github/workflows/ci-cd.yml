@@ -1,0 +1,498 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: '20.x'
+  FORCE_COLOR: 1
+
+jobs:
+  # Quality checks and tests
+  quality:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript check
+        run: npm run type-check
+
+      - name: ESLint check
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm run test:coverage
+
+      - name: Bundle size check
+        run: npm run bundle:size
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        if: always()
+        with:
+          file: ./coverage/lcov.info
+          fail_ci_if_error: false
+
+  # Build verification
+  build:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    needs: quality
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+        env:
+          NEXT_PUBLIC_APP_URL: https://thorbis.com
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: |
+            .next/
+            !.next/cache/
+          retention-days: 1
+
+  # End-to-end testing
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [chromium, firefox, webkit]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.project }}
+
+      - name: Run E2E tests
+        run: npx playwright test --project=${{ matrix.project }}
+        env:
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results-${{ matrix.project }}
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+  # Accessibility testing
+  accessibility-tests:
+    name: Accessibility Tests  
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run accessibility tests
+        run: npm run test:e2e:accessibility
+
+      - name: Upload accessibility results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+  # Performance testing
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run performance tests
+        run: npm run test:e2e:performance
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+  # Mobile testing
+  mobile-tests:
+    name: Mobile Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run mobile tests
+        run: npm run test:e2e:mobile
+
+      - name: Upload mobile test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+  # Visual regression testing
+  visual-tests:
+    name: Visual Regression Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run visual tests
+        run: npm run test:e2e:visual
+
+      - name: Upload visual test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+  # Lighthouse CI for performance auditing
+  lighthouse:
+    name: Lighthouse Audit
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Start application
+        run: |
+          npm run start &
+          npx wait-on http://localhost:3000
+        env:
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-results
+          path: |
+            .lighthouseci/
+            lighthouse-report.*
+          retention-days: 30
+
+  # Security scanning
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: npm audit --audit-level high
+
+      - name: CodeQL Analysis
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+  # Test results summary
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [quality, e2e-tests, accessibility-tests, performance-tests, mobile-tests, visual-tests]
+    if: always()
+    
+    steps:
+      - name: Download all test results
+        uses: actions/download-artifact@v4
+        with:
+          path: test-results/
+
+      - name: Generate test summary
+        run: |
+          echo "# Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Quality checks
+          if [ "${{ needs.quality.result }}" == "success" ]; then
+            echo "✅ Quality checks passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Quality checks failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # E2E tests
+          if [ "${{ needs.e2e-tests.result }}" == "success" ]; then
+            echo "✅ E2E tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ E2E tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Accessibility tests
+          if [ "${{ needs.accessibility-tests.result }}" == "success" ]; then
+            echo "✅ Accessibility tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Accessibility tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Performance tests
+          if [ "${{ needs.performance-tests.result }}" == "success" ]; then
+            echo "✅ Performance tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Performance tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Mobile tests
+          if [ "${{ needs.mobile-tests.result }}" == "success" ]; then
+            echo "✅ Mobile tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Mobile tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Visual tests
+          if [ "${{ needs.visual-tests.result }}" == "success" ]; then
+            echo "✅ Visual regression tests passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Visual regression tests failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = {
+              quality: '${{ needs.quality.result }}',
+              e2e: '${{ needs.e2e-tests.result }}',
+              accessibility: '${{ needs.accessibility-tests.result }}',
+              performance: '${{ needs.performance-tests.result }}',
+              mobile: '${{ needs.mobile-tests.result }}',
+              visual: '${{ needs.visual-tests.result }}'
+            };
+            
+            const passed = Object.values(results).filter(r => r === 'success').length;
+            const total = Object.keys(results).length;
+            
+            const body = `## 🧪 Test Results
+            
+            **${passed}/${total} test suites passed**
+            
+            ${Object.entries(results).map(([name, result]) => 
+              `${result === 'success' ? '✅' : '❌'} ${name.charAt(0).toUpperCase() + name.slice(1)} tests`
+            ).join('\n')}
+            
+            ${passed === total ? '🎉 All tests passed!' : '⚠️ Some tests failed - please review the results'}
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+# Deployment job (only on main branch)
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [quality, build, e2e-tests, accessibility-tests, performance-tests]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    environment:
+      name: production
+      url: https://thorbis.com
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: .next/
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-org-id: ${{ secrets.ORG_ID }}
+          vercel-project-id: ${{ secrets.PROJECT_ID }}
+          vercel-args: '--prod'

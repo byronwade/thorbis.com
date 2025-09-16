@@ -1,0 +1,194 @@
+# Docker Compose configuration for Thorbis Billing System
+# Provides complete billing infrastructure with monitoring
+# Created: 2025-01-31
+
+version: '3.8'
+
+services:
+  # Main billing application
+  billing-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: thorbis-billing-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - ENABLE_EMAIL_ALERTS=${ENABLE_EMAIL_ALERTS:-true}
+      - EMAIL_API_KEY=${EMAIL_API_KEY}
+      - FROM_EMAIL=${FROM_EMAIL:-billing@thorbis.com}
+      - ENABLE_SLACK_ALERTS=${ENABLE_SLACK_ALERTS:-false}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - HEALTH_CHECK_INTERVAL=${HEALTH_CHECK_INTERVAL:-30000}
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - billing-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Billing monitor service
+  billing-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile.monitor
+    container_name: thorbis-billing-monitor
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - ENABLE_EMAIL_ALERTS=${ENABLE_EMAIL_ALERTS:-true}
+      - EMAIL_API_KEY=${EMAIL_API_KEY}
+      - FROM_EMAIL=${FROM_EMAIL:-billing@thorbis.com}
+      - ENABLE_SLACK_ALERTS=${ENABLE_SLACK_ALERTS:-false}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - SLACK_CHANNEL=${SLACK_CHANNEL:-#billing-alerts}
+      - CUSTOM_WEBHOOKS=${CUSTOM_WEBHOOKS}
+      - HEALTH_CHECK_INTERVAL=${HEALTH_CHECK_INTERVAL:-30000}
+    volumes:
+      - ./logs:/app/logs
+    depends_on:
+      - billing-app
+      - redis
+      - postgres
+    networks:
+      - billing-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.exit(0)"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    container_name: thorbis-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - billing-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # PostgreSQL for local development (use external for production)
+  postgres:
+    image: postgres:15-alpine
+    container_name: thorbis-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-thorbis}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_INITDB_ARGS="--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./supabase/migrations:/docker-entrypoint-initdb.d/migrations
+      - ./supabase/seeds:/docker-entrypoint-initdb.d/seeds
+    networks:
+      - billing-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-thorbis}"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: thorbis-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    networks:
+      - billing-network
+
+  # Grafana for monitoring dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: thorbis-grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+      - GF_INSTALL_PLUGINS=redis-datasource
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+    depends_on:
+      - prometheus
+    networks:
+      - billing-network
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: thorbis-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/ssl:/etc/nginx/ssl
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - billing-app
+    networks:
+      - billing-network
+
+networks:
+  billing-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local

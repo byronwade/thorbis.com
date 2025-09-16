@@ -1,0 +1,426 @@
+/**
+ * Portal Theme Styles
+ * Dynamic theming system for customer portals
+ */
+
+/* Base Portal Theme Variables */
+:root {
+  /* Default Colors */
+  --portal-primary: #3B82F6;
+  --portal-primary-rgb: 59, 130, 246;
+  --portal-secondary: #6B7280;
+  --portal-secondary-rgb: 107, 114, 128;
+  --portal-accent: #F59E0B;
+  --portal-accent-rgb: 245, 158, 11;
+  --portal-background: #FFFFFF;
+  --portal-text: #1F2937;
+  --portal-border: #E5E7EB;
+  
+  /* Typography */
+  --portal-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --portal-heading-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --portal-font-size-base: 16px;
+  
+  /* Spacing and Layout */
+  --portal-spacing-unit: 0.25rem;
+  --portal-border-radius: 0.5rem;
+  --portal-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Industry-specific color overrides */
+  --portal-industry-primary: var(--portal-primary);
+  --portal-industry-accent: var(--portal-accent);
+}
+
+/* Dark Mode Variables */
+.portal-dark {
+  --portal-background: #0F172A;
+  --portal-text: #F1F5F9;
+  --portal-border: #334155;
+  --portal-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* High Contrast Mode */
+.portal-high-contrast {
+  --portal-text: #000000;
+  --portal-background: #FFFFFF;
+  --portal-border: #000000;
+  --portal-primary: #0000FF;
+  --portal-accent: #FF0000;
+}
+
+.portal-high-contrast.portal-dark {
+  --portal-text: #FFFFFF;
+  --portal-background: #000000;
+  --portal-border: #FFFFFF;
+  --portal-primary: #00FFFF;
+  --portal-accent: #FFFF00;
+}
+
+/* Industry-Specific Theme Configurations */
+.portal-theme-restaurant {
+  --portal-industry-primary: #FF6B35;
+  --portal-industry-accent: #FFA500;
+  --portal-gradient: linear-gradient(135deg, #FF6B35, #FFA500);
+}
+
+.portal-theme-auto {
+  --portal-industry-primary: #DC2626;
+  --portal-industry-accent: #991B1B;
+  --portal-gradient: linear-gradient(135deg, #DC2626, #991B1B);
+}
+
+.portal-theme-retail {
+  --portal-industry-primary: #059669;
+  --portal-industry-accent: #047857;
+  --portal-gradient: linear-gradient(135deg, #059669, #047857);
+}
+
+.portal-theme-hs {
+  --portal-industry-primary: #2563EB;
+  --portal-industry-accent: #1D4ED8;
+  --portal-gradient: linear-gradient(135deg, #2563EB, #1D4ED8);
+}
+
+/* Layout Styles */
+.portal-layout-default {
+  container-type: normal;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.portal-layout-compact {
+  container-type: normal;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 0.75rem;
+}
+
+.portal-layout-spacious {
+  container-type: normal;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Header Styles */
+.portal-header-standard {
+  background: rgba(var(--portal-background), 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(var(--portal-primary-rgb), 0.1);
+  box-shadow: var(--portal-shadow);
+}
+
+.portal-header-minimal {
+  background: transparent;
+  border-bottom: 1px solid rgba(var(--portal-border-rgb), 0.2);
+  backdrop-filter: none;
+}
+
+.portal-header-branded {
+  background: var(--portal-gradient);
+  color: white;
+  border-bottom: none;
+  box-shadow: var(--portal-shadow);
+}
+
+.portal-header-branded .text-neutral-900 {
+  color: white !important;
+}
+
+.portal-header-branded .text-neutral-600 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Sidebar Styles */
+.portal-sidebar-full {
+  width: 256px;
+  background: var(--portal-background);
+  border-right: 1px solid var(--portal-border);
+}
+
+.portal-sidebar-icons {
+  width: 64px;
+  background: var(--portal-background);
+  border-right: 1px solid var(--portal-border);
+}
+
+.portal-sidebar-hidden {
+  display: none;
+}
+
+/* Component Theme Integration */
+.portal-button-primary {
+  background-color: var(--portal-primary);
+  border-color: var(--portal-primary);
+  color: white;
+}
+
+.portal-button-primary:hover {
+  background-color: rgba(var(--portal-primary-rgb), 0.9);
+  border-color: rgba(var(--portal-primary-rgb), 0.9);
+}
+
+.portal-button-secondary {
+  background-color: var(--portal-secondary);
+  border-color: var(--portal-secondary);
+  color: white;
+}
+
+.portal-button-accent {
+  background-color: var(--portal-accent);
+  border-color: var(--portal-accent);
+  color: var(--portal-text);
+}
+
+/* Card and Panel Styles */
+.portal-card {
+  background: var(--portal-background);
+  border: 1px solid var(--portal-border);
+  border-radius: var(--portal-border-radius);
+  box-shadow: var(--portal-shadow);
+  color: var(--portal-text);
+}
+
+.portal-card-header {
+  border-bottom: 1px solid var(--portal-border);
+  padding: 1rem;
+}
+
+.portal-card-content {
+  padding: 1rem;
+}
+
+.portal-card-branded {
+  border-color: var(--portal-primary);
+  border-width: 2px;
+}
+
+.portal-card-accent {
+  background: linear-gradient(to right, 
+    rgba(var(--portal-primary-rgb), 0.05), 
+    rgba(var(--portal-accent-rgb), 0.05)
+  );
+  border-color: var(--portal-accent);
+}
+
+/* Navigation Styles */
+.portal-nav-item {
+  color: var(--portal-text);
+  padding: 0.5rem 1rem;
+  border-radius: var(--portal-border-radius);
+  transition: all 0.2s ease;
+}
+
+.portal-nav-item:hover {
+  background-color: rgba(var(--portal-primary-rgb), 0.1);
+  color: var(--portal-primary);
+}
+
+.portal-nav-item.active {
+  background-color: var(--portal-primary);
+  color: white;
+}
+
+/* Badge and Status Styles */
+.portal-badge-primary {
+  background-color: var(--portal-primary);
+  color: white;
+}
+
+.portal-badge-secondary {
+  background-color: var(--portal-secondary);
+  color: white;
+}
+
+.portal-badge-accent {
+  background-color: var(--portal-accent);
+  color: var(--portal-text);
+}
+
+.portal-badge-success {
+  background-color: #10B981;
+  color: white;
+}
+
+.portal-badge-warning {
+  background-color: #F59E0B;
+  color: white;
+}
+
+.portal-badge-error {
+  background-color: #EF4444;
+  color: white;
+}
+
+/* Form Element Styles */
+.portal-input {
+  background: var(--portal-background);
+  border: 1px solid var(--portal-border);
+  color: var(--portal-text);
+  border-radius: var(--portal-border-radius);
+  padding: 0.5rem 0.75rem;
+  font-family: var(--portal-font-family);
+  font-size: var(--portal-font-size-base);
+}
+
+.portal-input:focus {
+  border-color: var(--portal-primary);
+  box-shadow: 0 0 0 3px rgba(var(--portal-primary-rgb), 0.1);
+  outline: none;
+}
+
+.portal-textarea {
+  background: var(--portal-background);
+  border: 1px solid var(--portal-border);
+  color: var(--portal-text);
+  border-radius: var(--portal-border-radius);
+  padding: 0.75rem;
+  font-family: var(--portal-font-family);
+  font-size: var(--portal-font-size-base);
+  min-height: 120px;
+  resize: vertical;
+}
+
+.portal-select {
+  background: var(--portal-background);
+  border: 1px solid var(--portal-border);
+  color: var(--portal-text);
+  border-radius: var(--portal-border-radius);
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-family: var(--portal-font-family);
+  font-size: var(--portal-font-size-base);
+}
+
+/* Typography Styles */
+.portal-heading {
+  font-family: var(--portal-heading-font);
+  color: var(--portal-text);
+  font-weight: 600;
+}
+
+.portal-text {
+  font-family: var(--portal-font-family);
+  color: var(--portal-text);
+  font-size: var(--portal-font-size-base);
+  line-height: 1.5;
+}
+
+.portal-text-muted {
+  color: rgba(var(--portal-text-rgb), 0.7);
+}
+
+.portal-text-primary {
+  color: var(--portal-primary);
+}
+
+.portal-text-accent {
+  color: var(--portal-accent);
+}
+
+/* Animation and Transition Styles */
+.portal-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portal-fade-in {
+  animation: portalFadeIn 0.3s ease-out;
+}
+
+.portal-slide-in {
+  animation: portalSlideIn 0.3s ease-out;
+}
+
+@keyframes portalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .portal-layout-default,
+  .portal-layout-compact,
+  .portal-layout-spacious {
+    padding: 0 1rem;
+  }
+  
+  .portal-sidebar-full {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .portal-sidebar-full.open {
+    transform: translateX(0);
+  }
+  
+  .portal-sidebar-icons {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    border-right: none;
+    border-top: 1px solid var(--portal-border);
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0.5rem;
+  }
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+  .portal-transition,
+  .portal-fade-in,
+  .portal-slide-in {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* Focus Styles */
+.portal-focus-visible {
+  outline: 2px solid var(--portal-primary);
+  outline-offset: 2px;
+}
+
+/* Print Styles */
+@media print {
+  .portal-header,
+  .portal-sidebar,
+  .portal-nav,
+  .portal-button {
+    display: none !important;
+  }
+  
+  .portal-card {
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .portal-text {
+    color: #000 !important;
+  }
+}

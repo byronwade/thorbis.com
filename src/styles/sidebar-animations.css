@@ -1,0 +1,129 @@
+/* Sidebar Menu Animations */
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(35px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-8px) scale(1.1);
+  }
+  80% {
+    transform: translateX(3px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-35px) scale(0.8);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(8px) scale(1.1);
+  }
+  80% {
+    transform: translateX(-3px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes initialLoad {
+  0% {
+    opacity: 0;
+    transform: translateX(25px) scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-5px) scale(1.15);
+  }
+  75% {
+    transform: translateX(2px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.menu-item-animate-forward {
+  animation: slideInFromRight 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.menu-item-animate-back {
+  animation: slideInFromLeft 0.08s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+.menu-item-initial-load {
+  animation: initialLoad 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+/* Staggered animation delays - extremely close together */
+.menu-item-stagger-1 { animation-delay: 0ms; }
+.menu-item-stagger-2 { animation-delay: 1ms; }
+.menu-item-stagger-3 { animation-delay: 2ms; }
+.menu-item-stagger-4 { animation-delay: 3ms; }
+.menu-item-stagger-5 { animation-delay: 4ms; }
+.menu-item-stagger-6 { animation-delay: 5ms; }
+.menu-item-stagger-7 { animation-delay: 6ms; }
+.menu-item-stagger-8 { animation-delay: 7ms; }
+.menu-item-stagger-9 { animation-delay: 8ms; }
+.menu-item-stagger-10 { animation-delay: 9ms; }
+.menu-item-stagger-11 { animation-delay: 10ms; }
+.menu-item-stagger-12 { animation-delay: 11ms; }
+.menu-item-stagger-13 { animation-delay: 12ms; }
+.menu-item-stagger-14 { animation-delay: 13ms; }
+.menu-item-stagger-15 { animation-delay: 14ms; }
+
+/* Additional bounce effect for fast transitions */
+@keyframes bounceInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-10px) scale(1.05);
+  }
+  70% {
+    transform: translateX(2px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes bounceInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(10px) scale(1.05);
+  }
+  70% {
+    transform: translateX(-2px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.menu-item-bounce-forward {
+  animation: bounceInFromRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+.menu-item-bounce-back {
+  animation: bounceInFromLeft 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}

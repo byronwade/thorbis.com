@@ -1,0 +1,40 @@
+{
+  "name": "@thorbis/seo-content-config",
+  "version": "1.0.0",
+  "description": "SEO content plan and strategy configuration for Thorbis Business OS",
+  "main": "validate-seo-content.js",
+  "scripts": {
+    "validate": "node validate-seo-content.js",
+    "test": "npm run validate"
+  },
+  "keywords": [
+    "thorbis",
+    "seo",
+    "content-marketing",
+    "schema-markup",
+    "sitemap",
+    "canonical-urls",
+    "performance-budgets",
+    "core-web-vitals",
+    "local-seo"
+  ],
+  "author": "Thorbis Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thorbis/thorbis-business-os.git",
+    "directory": "seo-content-config"
+  },
+  "files": [
+    "sitemap-plan.md",
+    "schema-markup.md",
+    "canonical-urls.md",
+    "content-ops.md",
+    "performance-budgets.md",
+    "validate-seo-content.js",
+    "README.md"
+  ]
+}

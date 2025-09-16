@@ -1,0 +1,37 @@
+{
+  "name": "@thorbis/mcp-tools",
+  "version": "1.0.0",
+  "description": "Thorbis Truth Layer MCP Configuration for Claude",
+  "main": "tools.json",
+  "scripts": {
+    "validate": "node validate-tools.js",
+    "test": "node test-examples.js",
+    "check": "npm run validate && npm run test"
+  },
+  "keywords": [
+    "thorbis",
+    "mcp",
+    "claude",
+    "ai-tools",
+    "local-commerce",
+    "truth-layer",
+    "business-os"
+  ],
+  "author": "Thorbis Team",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thorbis/mcp-tools.git"
+  },
+  "files": [
+    "tools.json",
+    "tools-to-openapi.md",
+    "README.md",
+    "validate-tools.js",
+    "test-examples.js"
+  ]
+}

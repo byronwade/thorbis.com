@@ -1,0 +1,912 @@
+# Thorbis Business OS - Alert Rules Configuration
+# Compatible with Prometheus Alertmanager
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thorbis-alert-rules
+  namespace: thorbis-production
+data:
+  alerts.yml: |
+    groups:
+    
+    # ============================================================================
+    # API AVAILABILITY & PERFORMANCE ALERTS
+    # ============================================================================
+    
+    - name: thorbis.api.availability
+      interval: 30s
+      rules:
+      
+      - alert: ThorbisSLOAPIAvailabilityBreach
+        expr: |
+          (
+            sum(rate(thorbis_http_requests_total{job="thorbis-api"}[5m])) -
+            sum(rate(thorbis_http_requests_total{job="thorbis-api", code=~"5.."}[5m])) -
+            sum(rate(thorbis_http_request_timeouts_total{job="thorbis-api"}[5m]))
+          ) / sum(rate(thorbis_http_requests_total{job="thorbis-api"}[5m])) < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          service: thorbis-api
+          slo: availability
+          team: platform
+        annotations:
+          summary: "Thorbis API availability below SLO threshold"
+          description: |
+            API availability is {{ $value | humanizePercentage }} which is below the 99.9% SLO.
+            Current error rate: {{ with query "sum(rate(thorbis_http_requests_total{code=~\"5..\"}[5m])) / sum(rate(thorbis_http_requests_total[5m])) * 100" }}{{ . | first | value | printf "%.2f" }}%{{ end }}
+            
+          runbook: |
+            ## Immediate Actions
+            1. Check service health endpoints:
+               ```bash
+               curl -s https://api.thorbis.com/health | jq .
+               ```
+            
+            2. Check current error rates by endpoint:
+               ```promql
+               sum(rate(thorbis_http_requests_total{code=~"5.."}[5m])) by (endpoint, code)
+               ```
+            
+            3. Verify infrastructure health:
+               ```bash
+               kubectl get pods -n thorbis-production
+               kubectl top pods -n thorbis-production
+               ```
+            
+            ## Investigation Steps
+            1. Check recent deployments:
+               ```bash
+               kubectl rollout history deployment/thorbis-api
+               ```
+            
+            2. Examine logs for errors:
+               ```bash
+               kubectl logs -n thorbis-production deployment/thorbis-api --tail=100 | grep ERROR
+               ```
+            
+            3. Check database connectivity:
+               ```promql
+               thorbis_db_connections_active / thorbis_db_connections_max
+               ```
+            
+            ## Rollback Steps
+            1. If recent deployment caused issues:
+               ```bash
+               kubectl rollout undo deployment/thorbis-api -n thorbis-production
+               ```
+            
+            2. Scale up replicas if capacity issue:
+               ```bash
+               kubectl scale deployment/thorbis-api --replicas=6 -n thorbis-production
+               ```
+            
+            3. Enable circuit breaker if dependency failure:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"CIRCUIT_BREAKER_ENABLED":"true"}}'
+               ```
+      
+      - alert: ThorbisAPIHighLatency
+        expr: |
+          histogram_quantile(0.95, 
+            sum(rate(thorbis_http_request_duration_seconds_bucket{job="thorbis-api"}[5m])) by (le)
+          ) * 1000 > 1000
+        for: 10m
+        labels:
+          severity: warning
+          service: thorbis-api
+          team: platform
+        annotations:
+          summary: "Thorbis API p95 latency is high"
+          description: |
+            API p95 latency is {{ $value }}ms, which exceeds 1000ms warning threshold.
+            Current p99 latency: {{ with query "histogram_quantile(0.99, sum(rate(thorbis_http_request_duration_seconds_bucket[5m])) by (le)) * 1000" }}{{ . | first | value | printf "%.0f" }}ms{{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Check slowest endpoints:
+               ```promql
+               topk(10, 
+                 histogram_quantile(0.95,
+                   sum(rate(thorbis_http_request_duration_seconds_bucket[5m])) by (le, endpoint)
+                 ) * 1000
+               )
+               ```
+            
+            2. Examine database query performance:
+               ```promql
+               histogram_quantile(0.95,
+                 sum(rate(thorbis_db_query_duration_seconds_bucket[5m])) by (le, query_type)
+               ) * 1000
+               ```
+            
+            3. Check for resource constraints:
+               ```bash
+               kubectl top pods -n thorbis-production --sort-by=cpu
+               kubectl top pods -n thorbis-production --sort-by=memory
+               ```
+            
+            ## Optimization Actions
+            1. Enable aggressive caching:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"CACHE_AGGRESSIVE_MODE":"true"}}'
+               ```
+            
+            2. Scale up if CPU/memory bound:
+               ```bash
+               kubectl scale deployment/thorbis-api --replicas=8 -n thorbis-production
+               ```
+    
+    # ============================================================================
+    # TOOL PERFORMANCE ALERTS
+    # ============================================================================
+    
+    - name: thorbis.tools.performance
+      interval: 30s
+      rules:
+      
+      - alert: ThorbisToolLatencySLOBreach  
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le)
+          ) * 1000 > 700
+        for: 10m
+        labels:
+          severity: warning
+          service: thorbis-tools
+          slo: tool_latency
+          team: ai-platform
+        annotations:
+          summary: "Thorbis tool p95 latency above SLO"
+          description: |
+            Tool execution p95 latency is {{ $value }}ms, exceeding 700ms SLO.
+            Slowest tools: {{ range query "topk(3, histogram_quantile(0.95, sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le, tool_name)) * 1000)" }}{{ .Labels.tool_name }}: {{ .Value | printf "%.0f" }}ms {{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Identify slowest tools:
+               ```promql
+               topk(10,
+                 histogram_quantile(0.95,
+                   sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le, tool_name)
+                 ) * 1000
+               )
+               ```
+            
+            2. Check tool error rates:
+               ```promql
+               sum(rate(thorbis_tool_execution_errors_total[5m])) by (tool_name, error_type)
+               ```
+            
+            3. Examine AI service performance:
+               ```promql
+               histogram_quantile(0.95,
+                 sum(rate(thorbis_ai_request_duration_seconds_bucket[5m])) by (le, model_name)
+               ) * 1000
+               ```
+            
+            ## Optimization Actions
+            1. Enable tool result caching:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"TOOL_CACHE_ENABLED":"true","TOOL_CACHE_TTL":"3600"}}'
+               ```
+            
+            2. Scale AI service workers:
+               ```bash
+               kubectl scale deployment/thorbis-ai-service --replicas=4 -n thorbis-production
+               ```
+            
+            3. Enable parallel tool execution:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"TOOL_PARALLEL_ENABLED":"true"}}'
+               ```
+      
+      - alert: ThorbisToolHighErrorRate
+        expr: |
+          sum(rate(thorbis_tool_execution_errors_total[5m])) /
+          sum(rate(thorbis_tool_executions_total[5m])) * 100 > 5
+        for: 5m
+        labels:
+          severity: critical
+          service: thorbis-tools
+          team: ai-platform
+        annotations:
+          summary: "High tool execution error rate"
+          description: |
+            Tool execution error rate is {{ $value | printf "%.2f" }}%, exceeding 5% threshold.
+            Top failing tools: {{ range query "topk(3, sum(rate(thorbis_tool_execution_errors_total[5m])) by (tool_name))" }}{{ .Labels.tool_name }}: {{ .Value | printf "%.2f" }}/s {{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Identify failing tools and error types:
+               ```promql
+               sum(rate(thorbis_tool_execution_errors_total[5m])) by (tool_name, error_type)
+               ```
+            
+            2. Check recent tool deployments:
+               ```bash
+               kubectl rollout history deployment/thorbis-tools
+               ```
+            
+            3. Examine error logs:
+               ```bash
+               kubectl logs -n thorbis-production deployment/thorbis-tools --tail=200 | grep -E "(ERROR|FATAL)"
+               ```
+            
+            ## Recovery Actions
+            1. Rollback if recent deployment caused issues:
+               ```bash
+               kubectl rollout undo deployment/thorbis-tools -n thorbis-production
+               ```
+            
+            2. Disable failing tools temporarily:
+               ```bash
+               kubectl patch configmap thorbis-tools-config -p '{"data":{"DISABLED_TOOLS":"vectorSearch,complexTool"}}'
+               ```
+    
+    # ============================================================================
+    # RATE SPIKE ALERTS
+    # ============================================================================
+    
+    - name: thorbis.traffic.spikes
+      interval: 15s
+      rules:
+      
+      - alert: ThorbisTrafficSpikeHigh
+        expr: |
+          sum(rate(thorbis_http_requests_total[2m])) >
+          sum(rate(thorbis_http_requests_total[30m] offset 1h)) * 3
+        for: 2m
+        labels:
+          severity: warning
+          service: thorbis-api
+          team: platform
+        annotations:
+          summary: "Traffic spike detected - 3x normal rate"
+          description: |
+            Current request rate: {{ $value | printf "%.0f" }} req/s
+            Baseline (1h ago): {{ with query "sum(rate(thorbis_http_requests_total[30m] offset 1h))" }}{{ . | first | value | printf "%.0f" }} req/s{{ end }}
+            Spike ratio: {{ with query "sum(rate(thorbis_http_requests_total[2m])) / sum(rate(thorbis_http_requests_total[30m] offset 1h))" }}{{ . | first | value | printf "%.1f" }}x{{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Check traffic patterns by endpoint:
+               ```promql
+               topk(10, sum(rate(thorbis_http_requests_total[5m])) by (endpoint))
+               ```
+            
+            2. Analyze traffic sources:
+               ```promql
+               sum(rate(thorbis_http_requests_total[5m])) by (tenant_id)
+               ```
+            
+            3. Check for bot/abuse patterns:
+               ```bash
+               kubectl logs -n thorbis-production deployment/thorbis-api --tail=100 | \
+                 grep -E "user-agent|x-forwarded-for" | sort | uniq -c | sort -nr | head -20
+               ```
+            
+            ## Response Actions
+            1. Scale up immediately if legitimate traffic:
+               ```bash
+               kubectl scale deployment/thorbis-api --replicas=12 -n thorbis-production
+               ```
+            
+            2. Enable rate limiting if suspicious:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"RATE_LIMIT_ENABLED":"true","RATE_LIMIT_PER_MINUTE":"120"}}'
+               ```
+            
+            3. Enable auto-scaling:
+               ```bash
+               kubectl patch hpa thorbis-api-hpa -p '{"spec":{"maxReplicas":20}}'
+               ```
+      
+      - alert: ThorbisTrafficSpikeCritical
+        expr: |
+          sum(rate(thorbis_http_requests_total[1m])) >
+          sum(rate(thorbis_http_requests_total[30m] offset 1h)) * 10
+        for: 1m
+        labels:
+          severity: critical
+          service: thorbis-api
+          team: platform
+        annotations:
+          summary: "CRITICAL: Traffic spike - 10x normal rate"
+          description: |
+            CRITICAL traffic spike detected!
+            Current rate: {{ $value | printf "%.0f" }} req/s (10x+ normal)
+            This may indicate DDoS attack or viral growth.
+            
+          runbook: |
+            ## Immediate Actions (< 5 minutes)
+            1. Enable aggressive rate limiting:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"RATE_LIMIT_ENABLED":"true","RATE_LIMIT_PER_MINUTE":"60","RATE_LIMIT_BURST":"100"}}'
+               ```
+            
+            2. Scale to maximum capacity:
+               ```bash
+               kubectl scale deployment/thorbis-api --replicas=20 -n thorbis-production
+               ```
+            
+            3. Enable CloudFlare DDoS protection:
+               ```bash
+               # Update DNS to enable proxy mode
+               curl -X PATCH "https://api.cloudflare.com/client/v4/zones/{zone_id}/dns_records/{dns_record_id}" \
+                    -H "Authorization: Bearer {api_token}" \
+                    -d '{"proxied": true}'
+               ```
+            
+            ## Investigation (parallel to scaling)
+            1. Identify attack patterns:
+               ```bash
+               kubectl logs -n thorbis-production deployment/thorbis-api --tail=500 | \
+                 grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | \
+                 sort | uniq -c | sort -nr | head -10
+               ```
+            
+            2. Block top offenders:
+               ```bash
+               kubectl patch configmap thorbis-blocked-ips -p '{"data":{"BLOCKED_IPS":"1.2.3.4,5.6.7.8"}}'
+               ```
+    
+    # ============================================================================  
+    # WEBHOOK FAILURE ALERTS
+    # ============================================================================
+    
+    - name: thorbis.webhooks.failures
+      interval: 30s
+      rules:
+      
+      - alert: ThorbisWebhookHighFailureRate
+        expr: |
+          sum(rate(thorbis_webhook_deliveries_total{status_code!~"2.."}[5m])) /
+          sum(rate(thorbis_webhook_deliveries_total[5m])) * 100 > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: thorbis-webhooks
+          team: integrations
+        annotations:
+          summary: "High webhook failure rate"
+          description: |
+            Webhook failure rate is {{ $value | printf "%.2f" }}% over the last 5 minutes.
+            Failed deliveries: {{ with query "sum(rate(thorbis_webhook_deliveries_total{status_code!~\"2..\"}[5m])) * 60" }}{{ . | first | value | printf "%.0f" }}/min{{ end }}
+            Total deliveries: {{ with query "sum(rate(thorbis_webhook_deliveries_total[5m])) * 60" }}{{ . | first | value | printf "%.0f" }}/min{{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Check failure patterns by status code:
+               ```promql
+               sum(rate(thorbis_webhook_deliveries_total{status_code!~"2.."}[5m])) by (status_code)
+               ```
+            
+            2. Identify failing webhook types:
+               ```promql
+               sum(rate(thorbis_webhook_deliveries_total{status_code!~"2.."}[5m])) by (webhook_type)
+               ```
+            
+            3. Check specific tenant failures:
+               ```promql
+               topk(10, sum(rate(thorbis_webhook_deliveries_total{status_code!~"2.."}[5m])) by (tenant_id))
+               ```
+            
+            ## Resolution Steps
+            1. Check webhook service health:
+               ```bash
+               kubectl get pods -n thorbis-production -l app=thorbis-webhooks
+               kubectl logs -n thorbis-production deployment/thorbis-webhooks --tail=100
+               ```
+            
+            2. Examine retry queue:
+               ```promql
+               thorbis_webhook_retry_queue_size by (priority)
+               ```
+            
+            3. Increase retry attempts temporarily:
+               ```bash
+               kubectl patch configmap thorbis-webhooks-config -p '{"data":{"MAX_RETRIES":"5","RETRY_BACKOFF":"exponential"}}'
+               ```
+            
+            ## Recovery Actions
+            1. Restart webhook workers if stuck:
+               ```bash
+               kubectl rollout restart deployment/thorbis-webhooks -n thorbis-production
+               ```
+            
+            2. Scale up webhook workers:
+               ```bash
+               kubectl scale deployment/thorbis-webhooks --replicas=6 -n thorbis-production
+               ```
+      
+      - alert: ThorbisWebhookDeliveryStalled
+        expr: |
+          rate(thorbis_webhook_deliveries_total[5m]) == 0 and
+          thorbis_webhook_queue_size > 10
+        for: 3m
+        labels:
+          severity: critical
+          service: thorbis-webhooks
+          team: integrations
+        annotations:
+          summary: "Webhook delivery completely stalled"
+          description: |
+            No webhook deliveries in last 5 minutes but queue size is {{ with query "thorbis_webhook_queue_size" }}{{ . | first | value }}{{ end }}.
+            This indicates webhook workers are stuck or crashed.
+            
+          runbook: |
+            ## Immediate Actions
+            1. Check webhook worker status:
+               ```bash
+               kubectl get pods -n thorbis-production -l app=thorbis-webhooks
+               kubectl describe pods -n thorbis-production -l app=thorbis-webhooks
+               ```
+            
+            2. Check for deadlocks or resource exhaustion:
+               ```bash
+               kubectl logs -n thorbis-production deployment/thorbis-webhooks --tail=200 | grep -E "(deadlock|timeout|memory|cpu)"
+               ```
+            
+            3. Restart webhook service:
+               ```bash
+               kubectl rollout restart deployment/thorbis-webhooks -n thorbis-production
+               ```
+            
+            ## Fallback Actions
+            1. Enable webhook bypass mode:
+               ```bash
+               kubectl patch configmap thorbis-config -p '{"data":{"WEBHOOK_BYPASS_ENABLED":"true"}}'
+               ```
+            
+            2. Clear stuck queue (emergency only):
+               ```bash
+               kubectl exec -it deployment/thorbis-webhooks -- redis-cli FLUSHDB
+               ```
+    
+    # ============================================================================
+    # SCHEMA DRIFT ALERTS  
+    # ============================================================================
+    
+    - name: thorbis.schema.drift
+      interval: 60s
+      rules:
+      
+      - alert: ThorbisSchemaVersionMismatch
+        expr: |
+          count(count by (schema_version) (thorbis_schema_version)) > 1
+        for: 2m
+        labels:
+          severity: critical
+          service: thorbis-database
+          team: platform
+        annotations:
+          summary: "Database schema version mismatch detected"
+          description: |
+            Multiple schema versions detected across services:
+            {{ range query "count by (schema_version, service) (thorbis_schema_version)" }}
+            Service {{ .Labels.service }}: v{{ .Labels.schema_version }}
+            {{ end }}
+            This indicates incomplete migration or rollback issues.
+            
+          runbook: |
+            ## Investigation Steps
+            1. Check schema versions across services:
+               ```promql
+               thorbis_schema_version by (service, instance)
+               ```
+            
+            2. Check migration status:
+               ```bash
+               kubectl exec -it deployment/thorbis-api -- npm run db:migrate:status
+               ```
+            
+            3. Check recent deployments:
+               ```bash
+               kubectl rollout history deployment/thorbis-api
+               kubectl rollout history deployment/thorbis-workers
+               ```
+            
+            ## Resolution Steps
+            1. If migration is in progress, wait for completion:
+               ```bash
+               kubectl logs -n thorbis-production job/schema-migration --follow
+               ```
+            
+            2. If migration failed, rollback:
+               ```bash
+               kubectl exec -it deployment/thorbis-api -- npm run db:migrate:rollback
+               ```
+            
+            3. If services are out of sync, restart with correct version:
+               ```bash
+               kubectl rollout restart deployment/thorbis-api -n thorbis-production
+               kubectl rollout restart deployment/thorbis-workers -n thorbis-production
+               ```
+      
+      - alert: ThorbisUnauthorizedSchemaChange
+        expr: |
+          increase(thorbis_schema_changes_total[5m]) > 0 and
+          on() thorbis_maintenance_mode == 0
+        for: 0s
+        labels:
+          severity: critical
+          service: thorbis-database
+          team: security
+        annotations:
+          summary: "Unauthorized database schema change detected"
+          description: |
+            Schema changes detected outside of maintenance window!
+            Changes in last 5 minutes: {{ $value }}
+            This may indicate unauthorized access or system compromise.
+            
+          runbook: |
+            ## Immediate Actions (Security Incident)
+            1. Enable database audit logging:
+               ```bash
+               kubectl patch configmap supabase-config -p '{"data":{"AUDIT_LEVEL":"verbose"}}'
+               ```
+            
+            2. Check who made changes:
+               ```sql
+               SELECT * FROM audit_log 
+               WHERE table_name ~ 'pg_class|information_schema' 
+               AND created_at > NOW() - INTERVAL '10 minutes'
+               ORDER BY created_at DESC;
+               ```
+            
+            3. Lock down database access:
+               ```bash
+               kubectl patch networkpolicy database-access -p '{"spec":{"ingress":[{"from":[{"podSelector":{"matchLabels":{"app":"thorbis-api"}}}]}]}}'
+               ```
+            
+            ## Investigation Steps
+            1. Check database connection logs:
+               ```bash
+               kubectl logs -n supabase statefulset/postgresql --tail=100 | grep -i "connection\|authentication"
+               ```
+            
+            2. Review recent schema changes:
+               ```sql
+               SELECT schemaname, tablename, tableowner, tablespace 
+               FROM pg_tables 
+               WHERE schemaname = 'public' 
+               ORDER BY tablename;
+               ```
+            
+            3. Check for suspicious queries:
+               ```sql
+               SELECT query, query_start, usename, client_addr 
+               FROM pg_stat_activity 
+               WHERE query ILIKE '%CREATE%' OR query ILIKE '%ALTER%' OR query ILIKE '%DROP%';
+               ```
+    
+    # ============================================================================
+    # BUDGET EXHAUSTION ALERTS
+    # ============================================================================
+    
+    - name: thorbis.billing.budget
+      interval: 60s
+      rules:
+      
+      - alert: ThorbisBudgetThresholdWarning
+        expr: |
+          thorbis_billing_threshold_status == 1
+        for: 1m
+        labels:
+          severity: warning
+          service: thorbis-billing
+          team: business
+        annotations:
+          summary: "Tenant approaching usage budget limit"
+          description: |
+            Tenant {{ $labels.tenant_id }} has reached warning threshold for {{ $labels.metric_type }}.
+            Current usage: {{ with query (printf "thorbis_usage_%s_current{tenant_id=\"%s\"}" $labels.metric_type $labels.tenant_id) }}{{ . | first | value }}{{ end }}
+            Budget limit: {{ with query (printf "thorbis_usage_%s_limit{tenant_id=\"%s\"}" $labels.metric_type $labels.tenant_id) }}{{ . | first | value }}{{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Check tenant usage patterns:
+               ```promql
+               thorbis_usage_{{ $labels.metric_type }}_current{tenant_id="{{ $labels.tenant_id }}"}
+               ```
+            
+            2. Review usage trends:
+               ```promql
+               increase(thorbis_usage_{{ $labels.metric_type }}_total{tenant_id="{{ $labels.tenant_id }}"}[24h])
+               ```
+            
+            3. Check if usage is legitimate growth:
+               ```sql
+               SELECT * FROM usage_metrics 
+               WHERE tenant_id = '{{ $labels.tenant_id }}' 
+               AND metric_type = '{{ $labels.metric_type }}'
+               ORDER BY date DESC LIMIT 7;
+               ```
+            
+            ## Customer Communication
+            1. Send usage alert email:
+               ```bash
+               kubectl exec -it deployment/thorbis-api -- node scripts/send-usage-alert.js \
+                 --tenant-id={{ $labels.tenant_id }} \
+                 --metric={{ $labels.metric_type }} \
+                 --threshold=warning
+               ```
+            
+            2. Update dashboard with warning:
+               ```bash
+               curl -X POST https://api.thorbis.com/internal/usage-alerts \
+                    -H "Authorization: Bearer ${INTERNAL_API_KEY}" \
+                    -d '{"tenant_id":"{{ $labels.tenant_id }}","metric":"{{ $labels.metric_type }}","level":"warning"}'
+               ```
+      
+      - alert: ThorbisBudgetLimitExceeded
+        expr: |
+          thorbis_billing_threshold_status == 2
+        for: 0s
+        labels:
+          severity: critical
+          service: thorbis-billing
+          team: business
+        annotations:
+          summary: "Tenant exceeded usage budget - service restricted"
+          description: |
+            CRITICAL: Tenant {{ $labels.tenant_id }} exceeded budget for {{ $labels.metric_type }}.
+            Service restrictions have been automatically applied.
+            Current usage: {{ with query (printf "thorbis_usage_%s_current{tenant_id=\"%s\"}" $labels.metric_type $labels.tenant_id) }}{{ . | first | value }}{{ end }}
+            Overage: {{ with query (printf "thorbis_usage_%s_overage{tenant_id=\"%s\"}" $labels.metric_type $labels.tenant_id) }}{{ . | first | value }}{{ end }}
+            
+          runbook: |
+            ## Immediate Actions
+            1. Verify service restrictions are active:
+               ```promql
+               thorbis_service_restriction_status{tenant_id="{{ $labels.tenant_id }}", metric="{{ $labels.metric_type }}"}
+               ```
+            
+            2. Check for override requests:
+               ```sql
+               SELECT * FROM usage_overrides 
+               WHERE tenant_id = '{{ $labels.tenant_id }}' 
+               AND metric_type = '{{ $labels.metric_type }}'
+               AND status = 'pending';
+               ```
+            
+            ## Customer Support Actions
+            1. Create support ticket automatically:
+               ```bash
+               kubectl exec -it deployment/thorbis-api -- node scripts/create-support-ticket.js \
+                 --tenant-id={{ $labels.tenant_id }} \
+                 --issue-type=budget_exceeded \
+                 --metric={{ $labels.metric_type }}
+               ```
+            
+            2. Enable emergency override if critical business impact:
+               ```bash
+               kubectl exec -it deployment/thorbis-api -- node scripts/emergency-override.js \
+                 --tenant-id={{ $labels.tenant_id }} \
+                 --metric={{ $labels.metric_type }} \
+                 --duration=24h \
+                 --approver="${USER}"
+               ```
+            
+            3. Send urgent notification to account manager:
+               ```bash
+               curl -X POST https://api.thorbis.com/internal/account-alerts \
+                    -H "Authorization: Bearer ${INTERNAL_API_KEY}" \
+                    -d '{"tenant_id":"{{ $labels.tenant_id }}","alert_type":"budget_exceeded","metric":"{{ $labels.metric_type }}"}'
+               ```
+      
+      - alert: ThorbisAICostSpike
+        expr: |
+          increase(thorbis_ai_cost_usd_total[1h]) > 
+          avg_over_time(increase(thorbis_ai_cost_usd_total[1h])[24h:1h]) * 5
+        for: 5m
+        labels:
+          severity: critical
+          service: thorbis-ai
+          team: platform
+        annotations:
+          summary: "AI cost spike detected - 5x normal hourly spend"
+          description: |
+            AI costs spiked to ${{ $value | printf "%.2f" }}/hour (5x+ normal).
+            This may indicate runaway AI usage or attack.
+            Normal hourly cost: ${{ with query "avg_over_time(increase(thorbis_ai_cost_usd_total[1h])[24h:1h])" }}{{ . | first | value | printf "%.2f" }}{{ end }}
+            
+          runbook: |
+            ## Immediate Actions
+            1. Check cost by model and service:
+               ```promql
+               topk(5, increase(thorbis_ai_cost_usd_total[1h])) by (model_name, service_name)
+               ```
+            
+            2. Identify high-usage tenants:
+               ```promql
+               topk(10, increase(thorbis_ai_cost_usd_total[1h])) by (tenant_id)
+               ```
+            
+            3. Enable AI rate limiting:
+               ```bash
+               kubectl patch configmap thorbis-ai-config -p '{"data":{"RATE_LIMIT_ENABLED":"true","TOKENS_PER_MINUTE":"1000"}}'
+               ```
+            
+            ## Investigation Steps  
+            1. Check for token usage spikes:
+               ```promql
+               increase(thorbis_ai_tokens_consumed_total[1h]) by (tool_name, model_name)
+               ```
+            
+            2. Look for abuse patterns:
+               ```sql
+               SELECT tenant_id, tool_name, count(*), sum(tokens_used)
+               FROM ai_requests 
+               WHERE created_at > NOW() - INTERVAL '1 hour'
+               GROUP BY tenant_id, tool_name 
+               ORDER BY sum(tokens_used) DESC 
+               LIMIT 20;
+               ```
+            
+            ## Cost Control Actions
+            1. Implement emergency token limits:
+               ```bash
+               kubectl patch configmap thorbis-ai-limits -p '{"data":{"EMERGENCY_TOKEN_LIMIT":"10000","COST_LIMIT_USD":"100"}}'
+               ```
+            
+            2. Suspend high-usage tenants if abuse detected:
+               ```bash
+               kubectl exec -it deployment/thorbis-api -- node scripts/suspend-tenant.js \
+                 --tenant-id=<abusing_tenant_id> \
+                 --reason="ai_abuse_emergency"
+               ```
+
+    # ============================================================================
+    # TEMPLATE GENERATION ALERTS
+    # ============================================================================
+    
+    - name: thorbis.templates.performance
+      interval: 30s
+      rules:
+      
+      - alert: ThorbisTemplateSLOBreach
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(thorbis_template_generation_duration_seconds_bucket[5m])) by (le)
+          ) * 1000 > 3000
+        for: 10m
+        labels:
+          severity: warning
+          service: thorbis-templates
+          slo: template_generation
+          team: platform
+        annotations:
+          summary: "Template generation p99 latency above SLO"
+          description: |
+            Template generation p99 latency is {{ $value }}ms, exceeding 3000ms SLO.
+            Current queue size: {{ with query "thorbis_template_queue_size" }}{{ . | first | value }}{{ end }}
+            Active workers: {{ with query "thorbis_template_workers_active" }}{{ . | first | value }}{{ end }}
+            
+          runbook: |
+            ## Investigation Steps
+            1. Check queue depth and processing rate:
+               ```promql
+               thorbis_template_queue_size by (priority)
+               ```
+               ```promql
+               rate(thorbis_template_generations_completed_total[5m]) * 60
+               ```
+            
+            2. Identify slow templates:
+               ```promql
+               topk(5,
+                 histogram_quantile(0.99,
+                   sum(rate(thorbis_template_generation_duration_seconds_bucket[5m])) by (le, template_type)
+                 ) * 1000
+               )
+               ```
+            
+            3. Check worker resource usage:
+               ```bash
+               kubectl top pods -n thorbis-production -l app=thorbis-templates
+               ```
+            
+            ## Optimization Actions
+            1. Scale up template workers:
+               ```bash
+               kubectl scale deployment/thorbis-templates --replicas=8 -n thorbis-production
+               ```
+            
+            2. Enable template caching:
+               ```bash
+               kubectl patch configmap thorbis-templates-config -p '{"data":{"TEMPLATE_CACHE_ENABLED":"true","CACHE_TTL":"3600"}}'
+               ```
+            
+            3. Prioritize critical templates:
+               ```bash
+               kubectl patch configmap thorbis-templates-config -p '{"data":{"PRIORITY_TEMPLATES":"invoice,estimate,contract"}}'
+               ```
+
+    # ============================================================================
+    # ALERT ROUTING & ESCALATION
+    # ============================================================================
+
+  alertmanager.yml: |
+    global:
+      smtp_smarthost: 'localhost:587'
+      smtp_from: 'alerts@thorbis.com'
+      
+    templates:
+      - '/etc/alertmanager/templates/*.tmpl'
+      
+    route:
+      group_by: ['alertname', 'severity', 'service']
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 4h
+      receiver: 'default'
+      
+      routes:
+      # Critical alerts - immediate escalation
+      - match:
+          severity: critical
+        receiver: 'critical-escalation'
+        group_wait: 10s
+        repeat_interval: 1h
+        
+      # SLO breaches - specialized handling  
+      - match_re:
+          slo: '.*'
+        receiver: 'slo-team'
+        group_wait: 1m
+        
+      # Business/billing alerts
+      - match:
+          team: business
+        receiver: 'business-team'
+        
+      # Security incidents
+      - match:
+          team: security
+        receiver: 'security-team'
+        group_wait: 0s
+        repeat_interval: 30m
+    
+    receivers:
+    - name: 'default'
+      email_configs:
+      - to: 'oncall@thorbis.com'
+        subject: '[Thorbis] {{ .GroupLabels.alertname }}'
+        body: |
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Runbook: {{ .Annotations.runbook }}
+          {{ end }}
+    
+    - name: 'critical-escalation'
+      pagerduty_configs:
+      - service_key: 'your-pagerduty-service-key'
+        description: 'CRITICAL: {{ .GroupLabels.alertname }}'
+      slack_configs:
+      - api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+        channel: '#critical-alerts'
+        title: 'CRITICAL ALERT: {{ .GroupLabels.alertname }}'
+        text: '{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+        
+    - name: 'slo-team'
+      slack_configs:
+      - api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+        channel: '#slo-violations'
+        title: 'SLO Violation: {{ .GroupLabels.slo }}'
+        
+    - name: 'business-team'
+      email_configs:
+      - to: 'business-ops@thorbis.com'
+        subject: '[Thorbis Business] {{ .GroupLabels.alertname }}'
+        
+    - name: 'security-team'
+      pagerduty_configs:
+      - service_key: 'your-security-pagerduty-key'
+        description: 'SECURITY INCIDENT: {{ .GroupLabels.alertname }}'
+      email_configs:
+      - to: 'security@thorbis.com'
+        subject: '[SECURITY ALERT] {{ .GroupLabels.alertname }}'

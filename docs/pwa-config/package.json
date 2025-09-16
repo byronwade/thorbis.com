@@ -1,0 +1,62 @@
+{
+  "name": "@thorbis/pwa-config",
+  "version": "1.0.0",
+  "description": "Progressive Web App configuration for Thorbis Business OS with offline-first capabilities",
+  "main": "validate-pwa.js",
+  "scripts": {
+    "validate": "node validate-pwa.js",
+    "demo": "node -e \"console.log('Open offline-demo-script.js in a browser to run the interactive demo')\"",
+    "test": "npm run validate"
+  },
+  "keywords": [
+    "thorbis",
+    "pwa",
+    "progressive-web-app",
+    "offline-first",
+    "service-worker",
+    "background-sync",
+    "push-notifications",
+    "cache-strategies",
+    "pos-system",
+    "offline-demo"
+  ],
+  "author": "Thorbis Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thorbis/thorbis-business-os.git",
+    "directory": "pwa-config"
+  },
+  "files": [
+    "pwa.md",
+    "background-sync.md",
+    "push-notifications.md",
+    "validate-pwa.js",
+    "offline-demo-script.js",
+    "README.md"
+  ],
+  "pwa": {
+    "features": [
+      "offline-first",
+      "background-sync", 
+      "push-notifications",
+      "install-prompts",
+      "cache-strategies"
+    ],
+    "industries": [
+      "home-services",
+      "restaurants",
+      "auto-services", 
+      "retail"
+    ],
+    "criticalRoutes": [
+      "/pos",
+      "/invoices",
+      "/schedule",
+      "/customers"
+    ]
+  }
+}

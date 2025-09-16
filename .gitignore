@@ -1,0 +1,301 @@
+# =============================================================================
+# THORBIS COMPREHENSIVE .GITIGNORE - PREVENTS LARGE FILE GITHUB ISSUES
+# =============================================================================
+
+# CRITICAL: Files that commonly cause GitHub large file issues
+# =============================================================================
+
+# TypeScript build info (can be 1MB+)
+*.tsbuildinfo
+next-env.d.ts
+
+# All cache directories (can grow massive)
+**/.cache/
+**/cache/
+**/.next/cache/
+**/node_modules/.cache/
+**/.turbo/
+**/.parcel-cache/
+**/.rpt2_cache*/
+**/.rts2_cache*/
+
+# Build outputs (can be 100MB+)
+**/build/
+**/dist/
+**/.next/
+**/out/
+**/.nuxt/
+**/.output/
+
+# Backup and dump files (often very large)
+*.backup
+*.dump
+*.sql.backup
+**/migrations.backup/
+**/backup/
+**/dumps/
+*.tar.gz
+*.zip
+*.7z
+*.rar
+
+# Large media files (prevent accidental commits)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wmv
+*.flv
+*.webm
+# Uncomment if you need to exclude large images
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.webp
+# *.bmp
+# *.tiff
+# *.svg
+
+# Package manager artifacts
+# =============================================================================
+
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Lock files (choose one approach for your team)
+# Option 1: Keep all lock files (recommended for monorepos)
+# Option 2: Uncomment to ignore all lock files (not recommended)
+# yarn.lock
+# package-lock.json
+# pnpm-lock.yaml
+# bun.lock
+# bun.lockb
+
+# Bundle analyzer and package outputs
+*.tgz
+**/*.pack
+bundle-report.html
+bundle-analyzer-report.html
+
+# Development and Testing
+# =============================================================================
+
+# Test outputs
+/coverage
+test-results/
+playwright-report/
+playwright/.cache/
+.playwright-mcp/
+*.test.js.snap
+coverage/
+.nyc_output/
+
+# Logs (can grow very large)
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment and Configuration
+# =============================================================================
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+.env.sentry-build-plugin
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Deployment and Platform Files
+# =============================================================================
+
+# Vercel
+.vercel/
+.vercel
+
+# Netlify
+.netlify/
+
+# Supabase
+.branches/
+.temp/
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# AWS
+.aws-sam/
+.serverless/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Temporary and Archive Directories
+# =============================================================================
+
+# Temporary folders
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Archive directories (your existing pattern)
+(archive)/
+unused-*/
+*-archive/
+*-backup/
+old-*/
+deprecated-*/
+
+# Monorepo and Build Tools
+# =============================================================================
+
+# Turbo
+.turbo/
+
+# Nx
+.nx/
+
+# Rush
+common/temp/
+*.log
+
+# Lerna
+lerna-debug.log*
+
+# ESLint
+.eslintcache
+
+# Prettier
+.prettiercache
+
+# Stylelint
+.stylelintcache
+
+# Database and Data Files
+# =============================================================================
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+
+# PostgreSQL dumps
+*.sql
+*.backup
+
+# Redis dumps
+dump.rdb
+
+# Large JSON files
+**/large-data.json
+**/test-data.json
+**/mock-data.json
+**/sample-data.json
+
+# Performance and Monitoring
+# =============================================================================
+
+# Bundle analyzers
+bundle-report.html
+.next/analyze/
+analyze/
+
+# Lighthouse reports
+lighthouse-report.html
+lighthouserc.js
+*.lighthouse.json
+
+# Performance monitoring
+.clinic/
+profile-*/
+*.heapsnapshot
+*.cpuprofile
+
+# Sentry
+.sentryclirc
+
+# Security and Certificates
+# =============================================================================
+
+# Private keys and certificates
+*.pem
+*.key
+*.crt
+*.cert
+*.ca-bundle
+*.p12
+*.pfx
+
+# Security scans
+.snyk
+security-report.html
+
+# Custom Thorbis Patterns
+# =============================================================================
+
+# Billing and monitoring data (your existing pattern)
+billing-test-report.json
+**/test-reports/
+**/monitoring-data/
+
+# AI/ML models and data (can be very large)
+*.model
+*.weights
+*.h5
+*.pkl
+*.pickle
+training-data/
+model-checkpoints/
+
+# Documentation builds
+docs/build/
+site/
+
+# Storybook
+.out/
+.storybook-out/
+storybook-static/
+
+# =============================================================================
+# END THORBIS .GITIGNORE
+# =============================================================================

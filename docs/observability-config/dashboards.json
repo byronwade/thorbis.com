@@ -1,0 +1,767 @@
+{
+  "version": "1.0.0",
+  "description": "Thorbis Business OS Monitoring Dashboards Configuration",
+  "grafana_version": "9.0.0",
+  "prometheus_data_source": "prometheus",
+  "refresh_interval": "30s",
+  
+  "dashboards": [
+    {
+      "id": "thorbis_overview",
+      "title": "Thorbis Business OS - Platform Overview",
+      "tags": ["thorbis", "overview", "slo"],
+      "time_from": "now-1h",
+      "time_to": "now",
+      "refresh": "30s",
+      "panels": [
+        {
+          "id": "slo_status",
+          "title": "SLO Status",
+          "type": "stat",
+          "gridPos": {"h": 4, "w": 24, "x": 0, "y": 0},
+          "targets": [
+            {
+              "expr": "thorbis_slo_availability_ratio",
+              "legendFormat": "API Availability",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le)) * 1000",
+              "legendFormat": "Tool Latency p95 (ms)",
+              "refId": "B"
+            },
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(thorbis_template_generation_duration_seconds_bucket[5m])) by (le)) * 1000",
+              "legendFormat": "Template Gen p99 (ms)",
+              "refId": "C"
+            },
+            {
+              "expr": "avg(thorbis_incident_mttr_minutes)",
+              "legendFormat": "MTTR (minutes)",
+              "refId": "D"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "thresholds": {
+                "steps": [
+                  {"color": "red", "value": null},
+                  {"color": "yellow", "value": 0.95},
+                  {"color": "green", "value": 0.999}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "api_requests",
+          "title": "API Request Rate",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_http_requests_total[5m])) by (method, status)",
+              "legendFormat": "{{method}} {{status}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Requests/sec",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "api_latency",
+          "title": "API Latency Distribution",
+          "type": "graph", 
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.50, sum(rate(thorbis_http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+              "legendFormat": "p50",
+              "refId": "A"
+            },
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(thorbis_http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+              "legendFormat": "p95",
+              "refId": "B"
+            },
+            {
+              "expr": "histogram_quantile(0.99, sum(rate(thorbis_http_request_duration_seconds_bucket[5m])) by (le)) * 1000",
+              "legendFormat": "p99",
+              "refId": "C"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Latency (ms)",
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_tools_performance",
+      "title": "Thorbis Tools - Performance & Errors",
+      "tags": ["thorbis", "tools", "performance"],
+      "time_from": "now-1h",
+      "time_to": "now",
+      "panels": [
+        {
+          "id": "tool_latency_heatmap",
+          "title": "Tool Execution Latency Heatmap",
+          "type": "heatmap",
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le, tool_name)",
+              "legendFormat": "{{tool_name}}",
+              "refId": "A"
+            }
+          ],
+          "heatmap": {
+            "xBucketSize": null,
+            "yBucketSize": null
+          }
+        },
+        {
+          "id": "tool_error_rates",
+          "title": "Tool Error Rates by Type",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_tool_execution_errors_total[5m])) by (tool_name, error_type)",
+              "legendFormat": "{{tool_name}} - {{error_type}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Errors/sec",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "tool_success_rates",
+          "title": "Tool Success Rates",
+          "type": "stat",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+          "targets": [
+            {
+              "expr": "(sum(rate(thorbis_tool_executions_total[5m])) by (tool_name) - sum(rate(thorbis_tool_execution_errors_total[5m])) by (tool_name)) / sum(rate(thorbis_tool_executions_total[5m])) by (tool_name) * 100",
+              "legendFormat": "{{tool_name}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "thresholds": {
+                "steps": [
+                  {"color": "red", "value": null},
+                  {"color": "yellow", "value": 95},
+                  {"color": "green", "value": 99}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "tool_execution_breakdown",
+          "title": "Tool Execution Time Breakdown",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+          "targets": [
+            {
+              "expr": "avg(thorbis_tool_db_query_duration_seconds) by (tool_name) * 1000",
+              "legendFormat": "{{tool_name}} - DB Query",
+              "refId": "A"
+            },
+            {
+              "expr": "avg(thorbis_tool_ai_processing_duration_seconds) by (tool_name) * 1000",
+              "legendFormat": "{{tool_name}} - AI Processing",
+              "refId": "B"
+            },
+            {
+              "expr": "avg(thorbis_tool_response_serialization_duration_seconds) by (tool_name) * 1000",
+              "legendFormat": "{{tool_name}} - Serialization",
+              "refId": "C"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Duration (ms)",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "per_tool_metrics",
+          "title": "Per-Tool Detailed Metrics",
+          "type": "table",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_tool_executions_total[5m])) by (tool_name)",
+              "legendFormat": "{{tool_name}}",
+              "refId": "executions",
+              "format": "table"
+            },
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le, tool_name)) * 1000",
+              "legendFormat": "{{tool_name}}",
+              "refId": "latency_p95",
+              "format": "table"
+            },
+            {
+              "expr": "sum(rate(thorbis_tool_execution_errors_total[5m])) by (tool_name)",
+              "legendFormat": "{{tool_name}}",
+              "refId": "errors",
+              "format": "table"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {}
+            }
+          ]
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_ai_costs",
+      "title": "Thorbis AI & Token Usage",
+      "tags": ["thorbis", "ai", "costs", "tokens"],
+      "time_from": "now-24h",
+      "time_to": "now",
+      "panels": [
+        {
+          "id": "token_spend_overview",
+          "title": "Token Spend Overview",
+          "type": "stat",
+          "gridPos": {"h": 4, "w": 24, "x": 0, "y": 0},
+          "targets": [
+            {
+              "expr": "sum(increase(thorbis_ai_tokens_consumed_total[24h]))",
+              "legendFormat": "Total Tokens (24h)",
+              "refId": "A"
+            },
+            {
+              "expr": "sum(increase(thorbis_ai_cost_usd_total[24h]))",
+              "legendFormat": "Total Cost USD (24h)",
+              "refId": "B"
+            },
+            {
+              "expr": "avg(thorbis_ai_cost_per_token_usd)",
+              "legendFormat": "Avg Cost/Token",
+              "refId": "C"
+            },
+            {
+              "expr": "sum(rate(thorbis_ai_tokens_consumed_total[5m])) * 60",
+              "legendFormat": "Tokens/minute",
+              "refId": "D"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short"
+            },
+            "overrides": [
+              {
+                "matcher": {"id": "byName", "options": "Total Cost USD (24h)"},
+                "properties": [
+                  {"id": "unit", "value": "currencyUSD"}
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "token_usage_by_model",
+          "title": "Token Usage by AI Model",
+          "type": "piechart",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 4},
+          "targets": [
+            {
+              "expr": "sum(increase(thorbis_ai_tokens_consumed_total[24h])) by (model_name)",
+              "legendFormat": "{{model_name}}",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": "cost_by_service",
+          "title": "AI Cost by Service",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 4},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_ai_cost_usd_total[5m])) by (service_name) * 3600",
+              "legendFormat": "{{service_name}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "USD/hour",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "token_usage_by_tenant",
+          "title": "Top 10 Tenants by Token Usage",
+          "type": "bargauge",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 12},
+          "targets": [
+            {
+              "expr": "topk(10, sum(increase(thorbis_ai_tokens_consumed_total[24h])) by (tenant_id))",
+              "legendFormat": "{{tenant_id}}",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": "token_efficiency_metrics",
+          "title": "Token Efficiency Metrics",
+          "type": "table",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 12},
+          "targets": [
+            {
+              "expr": "avg(thorbis_ai_tokens_per_request) by (tool_name)",
+              "legendFormat": "{{tool_name}}",
+              "refId": "tokens_per_request",
+              "format": "table"
+            },
+            {
+              "expr": "avg(thorbis_ai_response_quality_score) by (tool_name)",
+              "legendFormat": "{{tool_name}}",
+              "refId": "quality_score",
+              "format": "table"
+            },
+            {
+              "expr": "avg(thorbis_ai_cost_per_successful_request_usd) by (tool_name)",
+              "legendFormat": "{{tool_name}}",
+              "refId": "cost_per_success",
+              "format": "table"
+            }
+          ],
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {}
+            }
+          ]
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_caching",
+      "title": "Thorbis Caching Performance",
+      "tags": ["thorbis", "cache", "performance"],
+      "time_from": "now-1h",
+      "time_to": "now",
+      "panels": [
+        {
+          "id": "cache_hit_rates",
+          "title": "Cache Hit Rates by Type",
+          "type": "stat",
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_cache_hits_total[5m])) by (cache_type) / (sum(rate(thorbis_cache_hits_total[5m])) by (cache_type) + sum(rate(thorbis_cache_misses_total[5m])) by (cache_type)) * 100",
+              "legendFormat": "{{cache_type}}",
+              "refId": "A"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "thresholds": {
+                "steps": [
+                  {"color": "red", "value": null},
+                  {"color": "yellow", "value": 70},
+                  {"color": "green", "value": 90}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "cache_operations",
+          "title": "Cache Operations Rate",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_cache_hits_total[5m])) by (cache_type)",
+              "legendFormat": "{{cache_type}} - Hits",
+              "refId": "A"
+            },
+            {
+              "expr": "sum(rate(thorbis_cache_misses_total[5m])) by (cache_type)",
+              "legendFormat": "{{cache_type}} - Misses",
+              "refId": "B"
+            },
+            {
+              "expr": "sum(rate(thorbis_cache_sets_total[5m])) by (cache_type)",
+              "legendFormat": "{{cache_type}} - Sets",
+              "refId": "C"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Operations/sec",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "cache_latency",
+          "title": "Cache Operation Latency",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(thorbis_cache_operation_duration_seconds_bucket[5m])) by (le, operation, cache_type)) * 1000",
+              "legendFormat": "{{cache_type}} - {{operation}} p95",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Latency (ms)",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "cache_memory_usage",
+          "title": "Cache Memory Usage",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+          "targets": [
+            {
+              "expr": "thorbis_cache_memory_bytes by (cache_type)",
+              "legendFormat": "{{cache_type}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Bytes",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "cache_eviction_rates",
+          "title": "Cache Eviction Rates", 
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_cache_evictions_total[5m])) by (cache_type, eviction_reason)",
+              "legendFormat": "{{cache_type}} - {{eviction_reason}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Evictions/sec",
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_infrastructure",
+      "title": "Thorbis Infrastructure Health",
+      "tags": ["thorbis", "infrastructure", "database"],
+      "time_from": "now-1h",
+      "time_to": "now",
+      "panels": [
+        {
+          "id": "db_connection_pool",
+          "title": "Database Connection Pool",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+          "targets": [
+            {
+              "expr": "thorbis_db_connections_active",
+              "legendFormat": "Active Connections",
+              "refId": "A"
+            },
+            {
+              "expr": "thorbis_db_connections_idle",
+              "legendFormat": "Idle Connections",
+              "refId": "B"
+            },
+            {
+              "expr": "thorbis_db_connections_max",
+              "legendFormat": "Max Connections",
+              "refId": "C"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Connections",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "db_query_performance",
+          "title": "Database Query Performance",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+          "targets": [
+            {
+              "expr": "histogram_quantile(0.95, sum(rate(thorbis_db_query_duration_seconds_bucket[5m])) by (le, query_type)) * 1000",
+              "legendFormat": "{{query_type}} p95",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Query Duration (ms)",
+              "show": true
+            }
+          ]
+        },
+        {
+          "id": "template_generation_queue",
+          "title": "Template Generation Queue",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+          "targets": [
+            {
+              "expr": "thorbis_template_queue_size",
+              "legendFormat": "Queue Size",
+              "refId": "A"
+            },
+            {
+              "expr": "thorbis_template_workers_active",
+              "legendFormat": "Active Workers",
+              "refId": "B"
+            },
+            {
+              "expr": "rate(thorbis_template_generations_completed_total[5m]) * 60",
+              "legendFormat": "Completions/min",
+              "refId": "C"
+            }
+          ]
+        },
+        {
+          "id": "webhook_delivery_status",
+          "title": "Webhook Delivery Status",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+          "targets": [
+            {
+              "expr": "sum(rate(thorbis_webhook_deliveries_total[5m])) by (status_code)",
+              "legendFormat": "HTTP {{status_code}}",
+              "refId": "A"
+            }
+          ],
+          "yAxes": [
+            {
+              "label": "Deliveries/sec",
+              "show": true
+            }
+          ]
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_business_metrics",
+      "title": "Thorbis Business Metrics",
+      "tags": ["thorbis", "business", "billing"],
+      "time_from": "now-24h",
+      "time_to": "now",
+      "panels": [
+        {
+          "id": "tenant_activity",
+          "title": "Active Tenants",
+          "type": "stat",
+          "gridPos": {"h": 4, "w": 6, "x": 0, "y": 0},
+          "targets": [
+            {
+              "expr": "count(count by (tenant_id) (rate(thorbis_http_requests_total{tenant_id!=\"\"}[1h])))",
+              "legendFormat": "Active Tenants (1h)",
+              "refId": "A"
+            }
+          ]
+        },
+        {
+          "id": "usage_metrics",
+          "title": "Usage Metrics by Tenant",
+          "type": "graph",
+          "gridPos": {"h": 8, "w": 18, "x": 6, "y": 0},
+          "targets": [
+            {
+              "expr": "sum(increase(thorbis_usage_active_app_users_total[1h])) by (tenant_id)",
+              "legendFormat": "{{tenant_id}} - AAU",
+              "refId": "A"
+            },
+            {
+              "expr": "sum(increase(thorbis_usage_template_renders_total[1h])) by (tenant_id)",
+              "legendFormat": "{{tenant_id}} - Templates",
+              "refId": "B"
+            }
+          ]
+        },
+        {
+          "id": "billing_alerts",
+          "title": "Billing Threshold Alerts",
+          "type": "table",
+          "gridPos": {"h": 8, "w": 24, "x": 0, "y": 8},
+          "targets": [
+            {
+              "expr": "thorbis_billing_threshold_status",
+              "legendFormat": "",
+              "refId": "A",
+              "format": "table"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  
+  "metric_definitions": {
+    "api_metrics": {
+      "thorbis_http_requests_total": {
+        "type": "counter",
+        "description": "Total HTTP requests",
+        "labels": ["method", "endpoint", "status", "tenant_id"]
+      },
+      "thorbis_http_request_duration_seconds": {
+        "type": "histogram",
+        "description": "HTTP request duration",
+        "labels": ["method", "endpoint", "tenant_id"],
+        "buckets": [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+      }
+    },
+    "tool_metrics": {
+      "thorbis_tool_executions_total": {
+        "type": "counter",
+        "description": "Total tool executions",
+        "labels": ["tool_name", "tenant_id", "status"]
+      },
+      "thorbis_tool_execution_duration_seconds": {
+        "type": "histogram",
+        "description": "Tool execution duration",
+        "labels": ["tool_name", "tenant_id"],
+        "buckets": [0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10, 30]
+      },
+      "thorbis_tool_execution_errors_total": {
+        "type": "counter", 
+        "description": "Tool execution errors",
+        "labels": ["tool_name", "tenant_id", "error_type"]
+      }
+    },
+    "ai_metrics": {
+      "thorbis_ai_tokens_consumed_total": {
+        "type": "counter",
+        "description": "Total AI tokens consumed",
+        "labels": ["model_name", "service_name", "tenant_id", "tool_name"]
+      },
+      "thorbis_ai_cost_usd_total": {
+        "type": "counter",
+        "description": "Total AI cost in USD",
+        "labels": ["model_name", "service_name", "tenant_id"]
+      },
+      "thorbis_ai_tokens_per_request": {
+        "type": "histogram",
+        "description": "Tokens per AI request",
+        "labels": ["tool_name", "model_name"],
+        "buckets": [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000]
+      }
+    },
+    "cache_metrics": {
+      "thorbis_cache_hits_total": {
+        "type": "counter",
+        "description": "Cache hits",
+        "labels": ["cache_type", "cache_name"]
+      },
+      "thorbis_cache_misses_total": {
+        "type": "counter",
+        "description": "Cache misses",
+        "labels": ["cache_type", "cache_name"]
+      },
+      "thorbis_cache_operation_duration_seconds": {
+        "type": "histogram",
+        "description": "Cache operation duration",
+        "labels": ["operation", "cache_type"],
+        "buckets": [0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1]
+      }
+    },
+    "database_metrics": {
+      "thorbis_db_connections_active": {
+        "type": "gauge",
+        "description": "Active database connections",
+        "labels": ["database", "pool"]
+      },
+      "thorbis_db_query_duration_seconds": {
+        "type": "histogram",
+        "description": "Database query duration",
+        "labels": ["query_type", "table"],
+        "buckets": [0.001, 0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5]
+      }
+    },
+    "template_metrics": {
+      "thorbis_template_generation_duration_seconds": {
+        "type": "histogram",
+        "description": "Template generation duration",
+        "labels": ["template_type", "tenant_id"],
+        "buckets": [0.1, 0.25, 0.5, 1, 2, 3, 5, 10, 30]
+      },
+      "thorbis_template_queue_size": {
+        "type": "gauge",
+        "description": "Template generation queue size",
+        "labels": ["priority"]
+      }
+    },
+    "billing_metrics": {
+      "thorbis_usage_active_app_users_total": {
+        "type": "counter",
+        "description": "Active app users count",
+        "labels": ["tenant_id"]
+      },
+      "thorbis_billing_threshold_status": {
+        "type": "gauge",
+        "description": "Billing threshold status (0=ok, 1=warning, 2=critical)",
+        "labels": ["tenant_id", "metric_type", "threshold_type"]
+      }
+    }
+  },
+  
+  "alerting_integration": {
+    "grafana_alerts": {
+      "high_error_rate": {
+        "query": "sum(rate(thorbis_http_requests_total{status=~\"5..\"}[5m])) / sum(rate(thorbis_http_requests_total[5m])) * 100",
+        "threshold": 1,
+        "for": "5m"
+      },
+      "tool_latency_breach": {
+        "query": "histogram_quantile(0.95, sum(rate(thorbis_tool_execution_duration_seconds_bucket[5m])) by (le)) * 1000",
+        "threshold": 700,
+        "for": "10m"
+      }
+    }
+  }
+}

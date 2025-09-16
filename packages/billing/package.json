@@ -1,0 +1,50 @@
+{
+  "name": "@thorbis/billing",
+  "version": "1.0.0",
+  "description": "Comprehensive billing and subscription management for Thorbis Business OS",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "billing",
+    "subscription",
+    "stripe",
+    "api-usage",
+    "webhooks",
+    "thorbis"
+  ],
+  "author": "Thorbis",
+  "license": "MIT",
+  "dependencies": {
+    "stripe": "^14.21.0",
+    "@supabase/supabase-js": "^2.39.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "typescript": "^5.3.3",
+    "tsup": "^8.0.2",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0"
+  },
+  "peerDependencies": {
+    "next": "^14.1.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  }
+}

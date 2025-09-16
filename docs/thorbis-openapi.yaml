@@ -1,0 +1,1963 @@
+openapi: 3.0.3
+info:
+  title: Thorbis Truth Layer API
+  version: 1.0.0
+  description: |
+    The Thorbis Truth Layer provides verified, real-time business data for AI agents and partners.
+    
+    **Never Write on Open**: All mutation actions return confirmation URLs rather than executing immediately.
+    This ensures consent and prevents accidental state changes.
+    
+    **Rate Limiting**: Read operations have generous free tiers. Action endpoints require authentication
+    and are subject to per-tenant rate limits.
+    
+    **Tenant Scoping**: All operations are scoped to authenticated tenant contexts via Bearer JWT.
+  
+  contact:
+    name: Thorbis API Support
+    url: https://thorbis.com/support
+    email: api-support@thorbis.com
+  
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.thorbis.com/v1
+    description: Production server
+  - url: https://api-staging.thorbis.com/v1
+    description: Staging server
+
+security:
+  - BearerAuth: []
+  - SignedActionLink: []
+
+paths:
+  # Read Endpoints (Rate Limited, Free Tier)
+  /businesses/{slug}:
+    get:
+      summary: Get business profile and verification status
+      description: |
+        Returns public business information including verification badges,
+        license/insurance expiry status, and operational metadata.
+      operationId: getBusinessBySlug
+      tags:
+        - Businesses
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[a-z0-9-]+$'
+            example: "smith-plumbing-co"
+          description: Business URL slug
+      responses:
+        '200':
+          description: Business profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessProfile'
+              examples:
+                field_service:
+                  summary: Field service business
+                  value:
+                    slug: "smith-plumbing-co"
+                    name: "Smith Plumbing Company"
+                    industry: "plumbing"
+                    description: "Licensed plumbing services for residential and commercial clients"
+                    address:
+                      street: "123 Main St"
+                      city: "Austin"
+                      state: "TX"
+                      zip: "78701"
+                      coordinates:
+                        lat: 30.2672
+                        lng: -97.7431
+                    contact:
+                      phone: "+1-512-555-0100"
+                      email: "contact@smithplumbing.com"
+                      website: "https://smithplumbing.com"
+                    verification:
+                      badges: ["licensed", "insured", "invoice_verified_reviews"]
+                      licenses:
+                        - type: "plumbing_license"
+                          number: "TX-PLB-12345"
+                          expires_at: "2024-12-31T00:00:00Z"
+                          verified_at: "2024-01-15T10:00:00Z"
+                          status: "valid"
+                      insurance:
+                        - type: "general_liability"
+                          provider: "State Farm"
+                          policy_number: "SF-GL-789456"
+                          expires_at: "2024-08-15T00:00:00Z"
+                          verified_at: "2024-01-20T14:30:00Z"
+                          status: "valid"
+                    business_hours:
+                      monday: { open: "08:00", close: "17:00", closed: false }
+                      tuesday: { open: "08:00", close: "17:00", closed: false }
+                      wednesday: { open: "08:00", close: "17:00", closed: false }
+                      thursday: { open: "08:00", close: "17:00", closed: false }
+                      friday: { open: "08:00", close: "17:00", closed: false }
+                      saturday: { open: "09:00", close: "15:00", closed: false }
+                      sunday: { open: null, close: null, closed: true }
+                    service_areas:
+                      - "Austin, TX"
+                      - "Round Rock, TX"
+                      - "Cedar Park, TX"
+                    specialties: ["emergency_repairs", "new_construction", "remodeling"]
+                    last_updated: "2024-01-20T15:45:00Z"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /availability:
+    get:
+      summary: Get real-time availability windows
+      description: |
+        Returns Now/Next availability windows for booking services.
+        Results include earliest available slots and next available after current day.
+      operationId: getAvailability
+      tags:
+        - Availability
+      parameters:
+        - name: service_code
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ["plumbing", "electrical", "hvac", "general_repair", "emergency"]
+            example: "plumbing"
+          description: Service category code
+        - name: zip
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{5}(-\d{4})?$'
+            example: "78701"
+          description: ZIP code for service area
+        - name: when
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+            example: "2024-02-15T10:00:00Z"
+          description: Preferred start time (defaults to now)
+        - name: duration_minutes
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 30
+            maximum: 480
+            default: 120
+            example: 120
+          description: Expected service duration in minutes
+      responses:
+        '200':
+          description: Availability windows retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailabilityResponse'
+              examples:
+                with_availability:
+                  summary: Available slots found
+                  value:
+                    service_code: "plumbing"
+                    zip: "78701"
+                    requested_when: "2024-02-15T10:00:00Z"
+                    duration_minutes: 120
+                    now_available:
+                      available: true
+                      earliest_start: "2024-02-15T11:30:00Z"
+                      latest_start: "2024-02-15T15:00:00Z"
+                      providers:
+                        - business_slug: "smith-plumbing-co"
+                          name: "Smith Plumbing Company"
+                          estimated_arrival: "2024-02-15T11:30:00Z"
+                          confidence: 0.95
+                    next_available:
+                      date: "2024-02-16"
+                      slots:
+                        - start_time: "08:00:00Z"
+                          end_time: "10:00:00Z"
+                          providers: 3
+                        - start_time: "10:00:00Z"
+                          end_time: "12:00:00Z"
+                          providers: 2
+                        - start_time: "13:00:00Z"
+                          end_time: "15:00:00Z"
+                          providers: 4
+                    metadata:
+                      providers_searched: 5
+                      search_radius_miles: 25
+                      as_of: "2024-02-15T10:15:00Z"
+                no_availability:
+                  summary: No current availability
+                  value:
+                    service_code: "emergency"
+                    zip: "78701"
+                    requested_when: "2024-02-15T22:00:00Z"
+                    duration_minutes: 60
+                    now_available:
+                      available: false
+                      reason: "outside_business_hours"
+                      next_check: "2024-02-16T08:00:00Z"
+                    next_available:
+                      date: "2024-02-16"
+                      slots:
+                        - start_time: "08:00:00Z"
+                          end_time: "09:00:00Z"
+                          providers: 2
+                    metadata:
+                      providers_searched: 3
+                      search_radius_miles: 25
+                      as_of: "2024-02-15T22:15:00Z"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /price-bands:
+    get:
+      summary: Get pricing data with percentiles
+      description: |
+        Returns pricing bands (p50/p75/p90) for services in a geographic area.
+        Requires minimum sample sizes for statistical validity.
+      operationId: getPriceBands
+      tags:
+        - Pricing
+      parameters:
+        - name: service_code
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ["plumbing", "electrical", "hvac", "general_repair"]
+          description: Service category
+        - name: zip
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^\d{5}(-\d{4})?$'
+          description: ZIP code for pricing area
+        - name: job_type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ["diagnostic", "repair", "installation", "maintenance", "emergency"]
+            default: "repair"
+          description: Specific job type within service category
+      responses:
+        '200':
+          description: Price bands retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceBandsResponse'
+              examples:
+                plumbing_repair:
+                  summary: Plumbing repair pricing
+                  value:
+                    service_code: "plumbing"
+                    job_type: "repair"
+                    zip: "78701"
+                    currency: "USD"
+                    price_bands:
+                      p50: 285.00
+                      p75: 425.00
+                      p90: 650.00
+                    sample_size: 147
+                    date_range:
+                      from: "2023-11-15"
+                      to: "2024-02-15"
+                    common_line_items:
+                      - description: "Diagnostic fee"
+                        price_range: { min: 75, max: 125 }
+                      - description: "Labor (per hour)"
+                        price_range: { min: 95, max: 150 }
+                      - description: "Standard pipe repair"
+                        price_range: { min: 150, max: 300 }
+                    factors:
+                      - "Time of service (emergency +20-50%)"
+                      - "Complexity (simple repair vs full replacement)"
+                      - "Parts availability"
+                    metadata:
+                      last_updated: "2024-02-15T06:00:00Z"
+                      confidence_level: 0.95
+                      geographic_coverage: "Austin metro area"
+                insufficient_data:
+                  summary: Insufficient sample size
+                  value:
+                    service_code: "hvac"
+                    job_type: "installation"
+                    zip: "78799"
+                    error:
+                      code: "INSUFFICIENT_DATA"
+                      message: "Not enough pricing data for reliable estimates"
+                      details:
+                        sample_size: 3
+                        minimum_required: 10
+                        suggestion: "Try broader ZIP code or different service type"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          description: No pricing data available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+
+  /reviews:
+    get:
+      summary: Get invoice-verified reviews
+      description: |
+        Returns reviews that are backed by actual invoices and service completion.
+        Personal identifiers are masked for privacy.
+      operationId: getReviews
+      tags:
+        - Reviews
+      parameters:
+        - name: business
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Business slug or ID
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: min_rating
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: Minimum star rating filter
+        - name: service_type
+          in: query
+          schema:
+            type: string
+          description: Filter by service type
+      responses:
+        '200':
+          description: Reviews retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewsResponse'
+              examples:
+                verified_reviews:
+                  summary: Verified customer reviews
+                  value:
+                    business: "smith-plumbing-co"
+                    total_reviews: 127
+                    average_rating: 4.7
+                    rating_distribution:
+                      5: 89
+                      4: 28
+                      3: 7
+                      2: 2
+                      1: 1
+                    reviews:
+                      - id: "rev_a1b2c3d4e5f6"
+                        rating: 5
+                        title: "Excellent emergency service"
+                        content: "Quick response time and professional work. Fixed our burst pipe within 2 hours of calling."
+                        service_type: "emergency_repair"
+                        completion_date: "2024-02-10"
+                        invoice_verified: true
+                        invoice_hash: "sha256:a1b2c3..."
+                        customer_id_masked: "cust_****567"
+                        helpful_votes: 12
+                      - id: "rev_b2c3d4e5f6g7"
+                        rating: 4
+                        title: "Good value for bathroom renovation"
+                        content: "Professional installation of new fixtures. Work was completed on time and within budget."
+                        service_type: "installation"
+                        completion_date: "2024-02-05"
+                        invoice_verified: true
+                        invoice_hash: "sha256:b2c3d4..."
+                        customer_id_masked: "cust_****890"
+                        helpful_votes: 8
+                    pagination:
+                      limit: 20
+                      offset: 0
+                      has_more: true
+                    verification_summary:
+                      total_invoice_verified: 127
+                      total_unverified: 0
+                      verification_rate: 1.0
+                      last_updated: "2024-02-15T12:00:00Z"
+
+  # Action Endpoints (Confirm-Flow Only)
+  /bookings/hold:
+    post:
+      summary: Create booking hold with confirmation URL
+      description: |
+        Creates a temporary booking hold that expires after a set time.
+        Returns a confirmation URL for the customer to complete the booking.
+        **Never writes directly** - always requires confirmation step.
+      operationId: createBookingHold
+      tags:
+        - Bookings
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique key to prevent duplicate holds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingHoldRequest'
+            examples:
+              plumbing_appointment:
+                summary: Standard plumbing appointment
+                value:
+                  business_slug: "smith-plumbing-co"
+                  service_code: "plumbing"
+                  job_type: "repair"
+                  requested_time: "2024-02-16T10:00:00Z"
+                  duration_minutes: 120
+                  customer_info:
+                    name: "John Smith"
+                    phone: "+1-512-555-0200"
+                    email: "john.smith@email.com"
+                    address:
+                      street: "456 Oak Ave"
+                      city: "Austin"
+                      state: "TX"
+                      zip: "78701"
+                  job_details:
+                    description: "Kitchen sink not draining properly"
+                    priority: "normal"
+                    access_instructions: "Ring doorbell, dog is friendly"
+                  preferences:
+                    contact_method: "phone"
+                    reminder_preferences: ["24h_before", "2h_before"]
+      responses:
+        '201':
+          description: Booking hold created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingHoldResponse'
+              examples:
+                successful_hold:
+                  summary: Hold created with confirmation URL
+                  value:
+                    hold_id: "hold_1234567890abcdef"
+                    status: "pending_confirmation"
+                    expires_at: "2024-02-15T11:30:00Z"
+                    confirm_url: "https://smithplumbing.com/confirm/hold_1234567890abcdef?token=eyJ0eXAi..."
+                    booking_details:
+                      business: "Smith Plumbing Company"
+                      service: "Plumbing Repair"
+                      scheduled_time: "2024-02-16T10:00:00Z"
+                      duration_minutes: 120
+                      estimated_cost: "$285-425"
+                      technician: "Will be assigned 24h before appointment"
+                    next_steps:
+                      - "Customer will receive confirmation link via email and SMS"
+                      - "Booking becomes confirmed once customer clicks confirm_url"
+                      - "Hold expires in 30 minutes if not confirmed"
+                    idempotency_key: "550e8400-e29b-41d4-a716-446655440000"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Booking conflict or slot no longer available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                slot_unavailable:
+                  summary: Requested time slot no longer available
+                  value:
+                    error:
+                      code: "CONFLICT"
+                      message: "Requested time slot is no longer available"
+                      details:
+                        requested_time: "2024-02-16T10:00:00Z"
+                        alternative_slots:
+                          - "2024-02-16T11:00:00Z"
+                          - "2024-02-16T14:00:00Z"
+                          - "2024-02-17T09:00:00Z"
+        '429':
+          $ref: '#/components/responses/RateLimit'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+
+  /estimates/draft:
+    post:
+      summary: Create estimate draft with confirmation URL
+      description: |
+        Creates a draft estimate that can be reviewed before being sent to customer.
+        Returns confirmation URL for business to review and approve sending.
+      operationId: createEstimateDraft
+      tags:
+        - Estimates
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEstimateDraftRequest'
+            examples:
+              bathroom_renovation:
+                summary: Bathroom renovation estimate
+                value:
+                  business_slug: "smith-plumbing-co"
+                  customer_info:
+                    name: "Sarah Johnson"
+                    email: "sarah.johnson@email.com"
+                    phone: "+1-512-555-0300"
+                    address:
+                      street: "789 Pine St"
+                      city: "Austin"
+                      state: "TX"
+                      zip: "78702"
+                  project_details:
+                    title: "Master Bathroom Renovation"
+                    description: "Complete bathroom renovation including new fixtures, plumbing rough-in, and finish work"
+                    type: "renovation"
+                    timeline_days: 5
+                  line_items:
+                    - description: "Demolition and prep work"
+                      quantity: 1
+                      unit: "job"
+                      unit_price: 800.00
+                      total: 800.00
+                    - description: "New plumbing rough-in"
+                      quantity: 1
+                      unit: "job"
+                      unit_price: 1200.00
+                      total: 1200.00
+                    - description: "Fixture installation (toilet, vanity, shower)"
+                      quantity: 3
+                      unit: "fixture"
+                      unit_price: 350.00
+                      total: 1050.00
+                    - description: "Final connections and testing"
+                      quantity: 8
+                      unit: "hour"
+                      unit_price: 125.00
+                      total: 1000.00
+                  totals:
+                    subtotal: 4050.00
+                    tax_rate: 0.0825
+                    tax_amount: 334.13
+                    total: 4384.13
+                  terms:
+                    payment_schedule:
+                      - description: "50% deposit upon acceptance"
+                        amount: 2192.07
+                        due: "upon_acceptance"
+                      - description: "Remaining balance upon completion"
+                        amount: 2192.06
+                        due: "completion"
+                    warranty: "1 year parts and labor warranty"
+                    estimated_start: "2024-03-01"
+                    valid_until: "2024-03-15"
+      responses:
+        '201':
+          description: Estimate draft created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstimateDraftResponse'
+              examples:
+                draft_created:
+                  summary: Draft estimate ready for review
+                  value:
+                    draft_id: "draft_abcd1234efgh5678"
+                    status: "draft"
+                    confirm_url: "https://app.thorbis.com/estimates/draft_abcd1234efgh5678/review?token=eyJ0eXAi..."
+                    estimate_preview:
+                      number: "EST-2024-001"
+                      customer: "Sarah Johnson"
+                      project: "Master Bathroom Renovation"
+                      total: 4384.13
+                      valid_until: "2024-03-15"
+                    next_steps:
+                      - "Review estimate details via confirm_url"
+                      - "Make any necessary edits"
+                      - "Send to customer for approval"
+                      - "Draft expires in 24 hours if not reviewed"
+                    expires_at: "2024-02-16T10:00:00Z"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimit'
+
+  /payments/link:
+    post:
+      summary: Create payment link with confirmation URL
+      description: |
+        Creates a secure payment link for invoice or estimate.
+        Returns confirmation URL to review payment details before sending to customer.
+      operationId: createPaymentLink
+      tags:
+        - Payments
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentLinkRequest'
+            examples:
+              invoice_payment:
+                summary: Payment link for completed work
+                value:
+                  business_slug: "smith-plumbing-co"
+                  reference_type: "invoice"
+                  reference_id: "inv_2024_0089"
+                  amount: 487.50
+                  currency: "USD"
+                  customer_info:
+                    name: "Mike Davis"
+                    email: "mike.davis@email.com"
+                    phone: "+1-512-555-0400"
+                  description: "Emergency pipe repair - Kitchen sink line"
+                  payment_methods: ["card", "ach", "apple_pay", "google_pay"]
+                  due_date: "2024-03-01"
+                  late_fee:
+                    enabled: true
+                    amount: 25.00
+                    grace_period_days: 5
+                  options:
+                    allow_partial: false
+                    send_reminders: true
+                    auto_reconcile: true
+              deposit_payment:
+                summary: Deposit payment for estimate
+                value:
+                  business_slug: "smith-plumbing-co"
+                  reference_type: "estimate"
+                  reference_id: "est_2024_0012"
+                  amount: 2192.07
+                  currency: "USD"
+                  customer_info:
+                    name: "Sarah Johnson"
+                    email: "sarah.johnson@email.com"
+                  description: "50% deposit - Master Bathroom Renovation"
+                  payment_methods: ["card", "ach"]
+                  due_date: "2024-02-20"
+                  options:
+                    allow_partial: false
+                    send_reminders: true
+                    conversion_to_invoice: true
+      responses:
+        '201':
+          description: Payment link created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+              examples:
+                payment_link_created:
+                  summary: Secure payment link ready
+                  value:
+                    payment_link_id: "plink_xyz789abc123def456"
+                    status: "draft"
+                    confirm_url: "https://app.thorbis.com/payments/plink_xyz789abc123def456/review?token=eyJ0eXAi..."
+                    payment_details:
+                      amount: 487.50
+                      currency: "USD"
+                      description: "Emergency pipe repair - Kitchen sink line"
+                      due_date: "2024-03-01"
+                      reference: "Invoice INV-2024-0089"
+                    customer_preview:
+                      payment_url: "https://pay.thorbis.com/plink_xyz789abc123def456"
+                      methods_available: ["Visa", "Mastercard", "ACH Bank Transfer", "Apple Pay", "Google Pay"]
+                      security_features: ["SSL encrypted", "PCI compliant", "Fraud protection"]
+                    next_steps:
+                      - "Review payment link settings via confirm_url"
+                      - "Customize payment page if needed"
+                      - "Send link to customer via email/SMS"
+                      - "Link expires in 7 days if not reviewed"
+                    expires_at: "2024-02-22T10:00:00Z"
+
+# Webhook Endpoints (for documentation - implemented by subscribers)
+  /webhooks/availability.changed:
+    post:
+      summary: Availability change notification
+      description: |
+        Webhook sent when business availability windows change.
+        Subscribers must implement this endpoint to receive notifications.
+      tags:
+        - Webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvailabilityChangedWebhook'
+            examples:
+              availability_updated:
+                summary: New availability window opened
+                value:
+                  event_type: "availability.changed"
+                  event_id: "evt_availability_123456"
+                  timestamp: "2024-02-15T14:30:00Z"
+                  business_slug: "smith-plumbing-co"
+                  data:
+                    service_code: "plumbing"
+                    change_type: "slots_added"
+                    affected_dates: ["2024-02-16", "2024-02-17"]
+                    new_slots:
+                      - date: "2024-02-16"
+                        start_time: "16:00:00Z"
+                        end_time: "18:00:00Z"
+                        capacity: 1
+                    reason: "technician_schedule_updated"
+      responses:
+        '200':
+          description: Webhook received and processed
+        '400':
+          description: Invalid webhook payload
+
+  /webhooks/booking.confirmed:
+    post:
+      summary: Booking confirmation notification
+      description: Webhook sent when a booking hold is confirmed by customer
+      tags:
+        - Webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingConfirmedWebhook'
+      responses:
+        '200':
+          description: Webhook processed
+
+  /webhooks/booking.canceled:
+    post:
+      summary: Booking cancellation notification
+      description: Webhook sent when a booking is canceled
+      tags:
+        - Webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingCanceledWebhook'
+      responses:
+        '200':
+          description: Webhook processed
+
+  /webhooks/review.verified:
+    post:
+      summary: Review verification notification
+      description: Webhook sent when a new review is invoice-verified
+      tags:
+        - Webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewVerifiedWebhook'
+      responses:
+        '200':
+          description: Webhook processed
+
+  /webhooks/invoice.settled:
+    post:
+      summary: Invoice settlement notification
+      description: Webhook sent when an invoice is fully paid
+      tags:
+        - Webhooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceSettledWebhook'
+      responses:
+        '200':
+          description: Webhook processed
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token with tenant scoping. Include business context and user permissions.
+        
+        Example: `Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...`
+    
+    SignedActionLink:
+      type: apiKey
+      in: query
+      name: token
+      description: |
+        Short-lived signed tokens for confirm URLs. Generated by action endpoints
+        and automatically verified when accessing confirmation pages.
+
+  responses:
+    ValidationError:
+      description: Request validation failed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            missing_field:
+              summary: Required field missing
+              value:
+                error:
+                  code: "VALIDATION_ERROR"
+                  message: "Validation failed"
+                  details:
+                    field: "service_code"
+                    issue: "Field is required"
+                    provided: null
+
+    Unauthorized:
+      description: Authentication required or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            missing_auth:
+              summary: No authorization header
+              value:
+                error:
+                  code: "AUTH_ERROR"
+                  message: "Authentication required"
+                  details:
+                    suggestion: "Include Bearer token in Authorization header"
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            business_not_found:
+              summary: Business slug not found
+              value:
+                error:
+                  code: "NOT_FOUND"
+                  message: "Business not found"
+                  details:
+                    resource: "business"
+                    identifier: "nonexistent-business"
+
+    RateLimit:
+      description: Rate limit exceeded
+      headers:
+        X-RateLimit-Limit:
+          schema:
+            type: integer
+          description: Request limit per window
+        X-RateLimit-Remaining:
+          schema:
+            type: integer
+          description: Remaining requests in current window
+        X-RateLimit-Reset:
+          schema:
+            type: integer
+            format: unix-timestamp
+          description: When the current window resets
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            rate_exceeded:
+              summary: Too many requests
+              value:
+                error:
+                  code: "RATE_LIMIT"
+                  message: "Rate limit exceeded"
+                  details:
+                    limit: 100
+                    window: "1 hour"
+                    reset_at: "2024-02-15T11:00:00Z"
+
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            dependency_down:
+              summary: External service unavailable
+              value:
+                error:
+                  code: "DEPENDENCY_DOWN"
+                  message: "External service temporarily unavailable"
+                  details:
+                    service: "scheduling_system"
+                    retry_after: "60 seconds"
+
+    ServiceUnavailable:
+      description: Service temporarily unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    # Core Business Entities
+    BusinessProfile:
+      type: object
+      required: [slug, name, industry, verification, business_hours, last_updated]
+      properties:
+        slug:
+          type: string
+          pattern: '^[a-z0-9-]+$'
+          example: "smith-plumbing-co"
+        name:
+          type: string
+          example: "Smith Plumbing Company"
+        industry:
+          type: string
+          enum: [plumbing, electrical, hvac, general_repair, restaurant, retail]
+          example: "plumbing"
+        description:
+          type: string
+          example: "Licensed plumbing services for residential and commercial clients"
+        address:
+          $ref: '#/components/schemas/Address'
+        contact:
+          $ref: '#/components/schemas/ContactInfo'
+        verification:
+          $ref: '#/components/schemas/BusinessVerification'
+        business_hours:
+          $ref: '#/components/schemas/BusinessHours'
+        service_areas:
+          type: array
+          items:
+            type: string
+          example: ["Austin, TX", "Round Rock, TX"]
+        specialties:
+          type: array
+          items:
+            type: string
+          example: ["emergency_repairs", "new_construction"]
+        last_updated:
+          type: string
+          format: date-time
+          example: "2024-01-20T15:45:00Z"
+
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+          default: "US"
+        coordinates:
+          type: object
+          properties:
+            lat:
+              type: number
+            lng:
+              type: number
+
+    ContactInfo:
+      type: object
+      properties:
+        phone:
+          type: string
+          pattern: '^\+1-\d{3}-\d{3}-\d{4}$'
+        email:
+          type: string
+          format: email
+        website:
+          type: string
+          format: uri
+
+    BusinessVerification:
+      type: object
+      properties:
+        badges:
+          type: array
+          items:
+            type: string
+            enum: [licensed, insured, bonded, invoice_verified_reviews, background_checked]
+        licenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/License'
+        insurance:
+          type: array
+          items:
+            $ref: '#/components/schemas/Insurance'
+
+    License:
+      type: object
+      required: [type, number, expires_at, status]
+      properties:
+        type:
+          type: string
+          example: "plumbing_license"
+        number:
+          type: string
+          example: "TX-PLB-12345"
+        expires_at:
+          type: string
+          format: date-time
+        verified_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [valid, expired, suspended, pending_renewal]
+
+    Insurance:
+      type: object
+      required: [type, provider, policy_number, expires_at, status]
+      properties:
+        type:
+          type: string
+          enum: [general_liability, workers_compensation, bonding, professional_liability]
+        provider:
+          type: string
+        policy_number:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+        verified_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [valid, expired, canceled, pending_renewal]
+
+    BusinessHours:
+      type: object
+      properties:
+        monday:
+          $ref: '#/components/schemas/DayHours'
+        tuesday:
+          $ref: '#/components/schemas/DayHours'
+        wednesday:
+          $ref: '#/components/schemas/DayHours'
+        thursday:
+          $ref: '#/components/schemas/DayHours'
+        friday:
+          $ref: '#/components/schemas/DayHours'
+        saturday:
+          $ref: '#/components/schemas/DayHours'
+        sunday:
+          $ref: '#/components/schemas/DayHours'
+
+    DayHours:
+      type: object
+      required: [closed]
+      properties:
+        open:
+          type: string
+          pattern: '^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
+          nullable: true
+          example: "08:00"
+        close:
+          type: string
+          pattern: '^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
+          nullable: true
+          example: "17:00"
+        closed:
+          type: boolean
+          example: false
+
+    # Availability Schemas
+    AvailabilityResponse:
+      type: object
+      required: [service_code, zip, now_available, metadata]
+      properties:
+        service_code:
+          type: string
+        zip:
+          type: string
+        requested_when:
+          type: string
+          format: date-time
+        duration_minutes:
+          type: integer
+        now_available:
+          $ref: '#/components/schemas/NowAvailable'
+        next_available:
+          $ref: '#/components/schemas/NextAvailable'
+        metadata:
+          $ref: '#/components/schemas/AvailabilityMetadata'
+
+    NowAvailable:
+      type: object
+      required: [available]
+      properties:
+        available:
+          type: boolean
+        earliest_start:
+          type: string
+          format: date-time
+        latest_start:
+          type: string
+          format: date-time
+        providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableProvider'
+        reason:
+          type: string
+          description: Reason when not available
+        next_check:
+          type: string
+          format: date-time
+          description: When to check again
+
+    NextAvailable:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/AvailableSlot'
+
+    AvailableProvider:
+      type: object
+      properties:
+        business_slug:
+          type: string
+        name:
+          type: string
+        estimated_arrival:
+          type: string
+          format: date-time
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    AvailableSlot:
+      type: object
+      properties:
+        start_time:
+          type: string
+          example: "08:00:00Z"
+        end_time:
+          type: string
+          example: "10:00:00Z"
+        providers:
+          type: integer
+          description: Number of providers available in this slot
+
+    AvailabilityMetadata:
+      type: object
+      properties:
+        providers_searched:
+          type: integer
+        search_radius_miles:
+          type: number
+        as_of:
+          type: string
+          format: date-time
+
+    # Pricing Schemas
+    PriceBandsResponse:
+      type: object
+      required: [service_code, zip, currency, price_bands, sample_size]
+      properties:
+        service_code:
+          type: string
+        job_type:
+          type: string
+        zip:
+          type: string
+        currency:
+          type: string
+          example: "USD"
+        price_bands:
+          $ref: '#/components/schemas/PriceBands'
+        sample_size:
+          type: integer
+          description: Number of jobs in sample
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+        common_line_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommonLineItem'
+        factors:
+          type: array
+          items:
+            type: string
+          description: Factors affecting pricing
+        metadata:
+          $ref: '#/components/schemas/PricingMetadata'
+
+    PriceBands:
+      type: object
+      required: [p50, p75, p90]
+      properties:
+        p50:
+          type: number
+          description: 50th percentile (median)
+        p75:
+          type: number
+          description: 75th percentile
+        p90:
+          type: number
+          description: 90th percentile
+
+    CommonLineItem:
+      type: object
+      properties:
+        description:
+          type: string
+        price_range:
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+
+    PricingMetadata:
+      type: object
+      properties:
+        last_updated:
+          type: string
+          format: date-time
+        confidence_level:
+          type: number
+        geographic_coverage:
+          type: string
+
+    DateRange:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date
+        to:
+          type: string
+          format: date
+
+    # Reviews Schemas
+    ReviewsResponse:
+      type: object
+      required: [business, total_reviews, average_rating, reviews]
+      properties:
+        business:
+          type: string
+        total_reviews:
+          type: integer
+        average_rating:
+          type: number
+        rating_distribution:
+          type: object
+          properties:
+            '5':
+              type: integer
+            '4':
+              type: integer
+            '3':
+              type: integer
+            '2':
+              type: integer
+            '1':
+              type: integer
+        reviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/Review'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        verification_summary:
+          $ref: '#/components/schemas/VerificationSummary'
+
+    Review:
+      type: object
+      required: [id, rating, service_type, completion_date, invoice_verified]
+      properties:
+        id:
+          type: string
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+        title:
+          type: string
+        content:
+          type: string
+        service_type:
+          type: string
+        completion_date:
+          type: string
+          format: date
+        invoice_verified:
+          type: boolean
+        invoice_hash:
+          type: string
+          description: SHA256 hash of invoice for verification
+        customer_id_masked:
+          type: string
+          description: Masked customer ID for privacy
+        helpful_votes:
+          type: integer
+
+    VerificationSummary:
+      type: object
+      properties:
+        total_invoice_verified:
+          type: integer
+        total_unverified:
+          type: integer
+        verification_rate:
+          type: number
+        last_updated:
+          type: string
+          format: date-time
+
+    # Action Request/Response Schemas
+    CreateBookingHoldRequest:
+      type: object
+      required: [business_slug, service_code, requested_time, customer_info]
+      properties:
+        business_slug:
+          type: string
+        service_code:
+          type: string
+        job_type:
+          type: string
+        requested_time:
+          type: string
+          format: date-time
+        duration_minutes:
+          type: integer
+          minimum: 30
+          maximum: 480
+          default: 120
+        customer_info:
+          $ref: '#/components/schemas/CustomerInfo'
+        job_details:
+          $ref: '#/components/schemas/JobDetails'
+        preferences:
+          $ref: '#/components/schemas/CustomerPreferences'
+
+    CustomerInfo:
+      type: object
+      required: [name, phone]
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+          format: email
+        address:
+          $ref: '#/components/schemas/Address'
+
+    JobDetails:
+      type: object
+      properties:
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, normal, high, emergency]
+          default: normal
+        access_instructions:
+          type: string
+        estimated_cost_range:
+          type: object
+          properties:
+            min:
+              type: number
+            max:
+              type: number
+
+    CustomerPreferences:
+      type: object
+      properties:
+        contact_method:
+          type: string
+          enum: [phone, email, sms]
+          default: phone
+        reminder_preferences:
+          type: array
+          items:
+            type: string
+            enum: [24h_before, 2h_before, 30min_before]
+
+    BookingHoldResponse:
+      type: object
+      required: [hold_id, status, expires_at, confirm_url]
+      properties:
+        hold_id:
+          type: string
+        status:
+          type: string
+          enum: [pending_confirmation, confirmed, expired, canceled]
+        expires_at:
+          type: string
+          format: date-time
+        confirm_url:
+          type: string
+          format: uri
+          description: URL for customer to confirm booking
+        booking_details:
+          $ref: '#/components/schemas/BookingDetails'
+        next_steps:
+          type: array
+          items:
+            type: string
+        idempotency_key:
+          type: string
+
+    BookingDetails:
+      type: object
+      properties:
+        business:
+          type: string
+        service:
+          type: string
+        scheduled_time:
+          type: string
+          format: date-time
+        duration_minutes:
+          type: integer
+        estimated_cost:
+          type: string
+        technician:
+          type: string
+
+    CreateEstimateDraftRequest:
+      type: object
+      required: [business_slug, customer_info, project_details, line_items, totals]
+      properties:
+        business_slug:
+          type: string
+        customer_info:
+          $ref: '#/components/schemas/CustomerInfo'
+        project_details:
+          $ref: '#/components/schemas/ProjectDetails'
+        line_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+        totals:
+          $ref: '#/components/schemas/EstimateTotals'
+        terms:
+          $ref: '#/components/schemas/EstimateTerms'
+
+    ProjectDetails:
+      type: object
+      required: [title, type]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum: [repair, installation, renovation, maintenance, emergency]
+        timeline_days:
+          type: integer
+
+    LineItem:
+      type: object
+      required: [description, quantity, unit, unit_price, total]
+      properties:
+        description:
+          type: string
+        quantity:
+          type: number
+        unit:
+          type: string
+          example: "hour"
+        unit_price:
+          type: number
+        total:
+          type: number
+
+    EstimateTotals:
+      type: object
+      required: [subtotal, total]
+      properties:
+        subtotal:
+          type: number
+        tax_rate:
+          type: number
+        tax_amount:
+          type: number
+        discount_amount:
+          type: number
+        total:
+          type: number
+
+    EstimateTerms:
+      type: object
+      properties:
+        payment_schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentScheduleItem'
+        warranty:
+          type: string
+        estimated_start:
+          type: string
+          format: date
+        valid_until:
+          type: string
+          format: date
+
+    PaymentScheduleItem:
+      type: object
+      properties:
+        description:
+          type: string
+        amount:
+          type: number
+        due:
+          type: string
+          enum: [upon_acceptance, material_delivery, completion, net_30]
+
+    EstimateDraftResponse:
+      type: object
+      required: [draft_id, status, confirm_url]
+      properties:
+        draft_id:
+          type: string
+        status:
+          type: string
+          enum: [draft, under_review, sent, accepted, declined]
+        confirm_url:
+          type: string
+          format: uri
+        estimate_preview:
+          $ref: '#/components/schemas/EstimatePreview'
+        next_steps:
+          type: array
+          items:
+            type: string
+        expires_at:
+          type: string
+          format: date-time
+
+    EstimatePreview:
+      type: object
+      properties:
+        number:
+          type: string
+        customer:
+          type: string
+        project:
+          type: string
+        total:
+          type: number
+        valid_until:
+          type: string
+          format: date
+
+    CreatePaymentLinkRequest:
+      type: object
+      required: [business_slug, reference_type, reference_id, amount, currency, customer_info]
+      properties:
+        business_slug:
+          type: string
+        reference_type:
+          type: string
+          enum: [invoice, estimate, deposit, service_fee]
+        reference_id:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+          default: "USD"
+        customer_info:
+          type: object
+          required: [name, email]
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+              format: email
+            phone:
+              type: string
+        description:
+          type: string
+        payment_methods:
+          type: array
+          items:
+            type: string
+            enum: [card, ach, apple_pay, google_pay, paypal]
+        due_date:
+          type: string
+          format: date
+        late_fee:
+          $ref: '#/components/schemas/LateFee'
+        options:
+          $ref: '#/components/schemas/PaymentLinkOptions'
+
+    LateFee:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        amount:
+          type: number
+        grace_period_days:
+          type: integer
+
+    PaymentLinkOptions:
+      type: object
+      properties:
+        allow_partial:
+          type: boolean
+          default: false
+        send_reminders:
+          type: boolean
+          default: true
+        auto_reconcile:
+          type: boolean
+          default: true
+        conversion_to_invoice:
+          type: boolean
+          description: For estimate deposits
+
+    PaymentLinkResponse:
+      type: object
+      required: [payment_link_id, status, confirm_url]
+      properties:
+        payment_link_id:
+          type: string
+        status:
+          type: string
+          enum: [draft, active, paid, expired, canceled]
+        confirm_url:
+          type: string
+          format: uri
+        payment_details:
+          $ref: '#/components/schemas/PaymentDetails'
+        customer_preview:
+          $ref: '#/components/schemas/CustomerPaymentPreview'
+        next_steps:
+          type: array
+          items:
+            type: string
+        expires_at:
+          type: string
+          format: date-time
+
+    PaymentDetails:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+        description:
+          type: string
+        due_date:
+          type: string
+          format: date
+        reference:
+          type: string
+
+    CustomerPaymentPreview:
+      type: object
+      properties:
+        payment_url:
+          type: string
+          format: uri
+        methods_available:
+          type: array
+          items:
+            type: string
+        security_features:
+          type: array
+          items:
+            type: string
+
+    # Webhook Schemas
+    AvailabilityChangedWebhook:
+      type: object
+      required: [event_type, event_id, timestamp, business_slug, data]
+      properties:
+        event_type:
+          type: string
+          enum: [availability.changed]
+        event_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        business_slug:
+          type: string
+        data:
+          type: object
+          properties:
+            service_code:
+              type: string
+            change_type:
+              type: string
+              enum: [slots_added, slots_removed, schedule_updated]
+            affected_dates:
+              type: array
+              items:
+                type: string
+                format: date
+            new_slots:
+              type: array
+              items:
+                $ref: '#/components/schemas/WebhookSlot'
+            reason:
+              type: string
+
+    WebhookSlot:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        start_time:
+          type: string
+        end_time:
+          type: string
+        capacity:
+          type: integer
+
+    BookingConfirmedWebhook:
+      type: object
+      required: [event_type, event_id, timestamp, business_slug, data]
+      properties:
+        event_type:
+          type: string
+          enum: [booking.confirmed]
+        event_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        business_slug:
+          type: string
+        data:
+          type: object
+          properties:
+            booking_id:
+              type: string
+            hold_id:
+              type: string
+            customer_name:
+              type: string
+            service_code:
+              type: string
+            scheduled_time:
+              type: string
+              format: date-time
+            confirmed_at:
+              type: string
+              format: date-time
+
+    BookingCanceledWebhook:
+      type: object
+      properties:
+        event_type:
+          type: string
+          enum: [booking.canceled]
+        event_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        business_slug:
+          type: string
+        data:
+          type: object
+          properties:
+            booking_id:
+              type: string
+            reason:
+              type: string
+            canceled_by:
+              type: string
+              enum: [customer, business, system]
+            canceled_at:
+              type: string
+              format: date-time
+
+    ReviewVerifiedWebhook:
+      type: object
+      properties:
+        event_type:
+          type: string
+          enum: [review.verified]
+        event_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        business_slug:
+          type: string
+        data:
+          type: object
+          properties:
+            review_id:
+              type: string
+            rating:
+              type: integer
+            service_type:
+              type: string
+            invoice_hash:
+              type: string
+            verified_at:
+              type: string
+              format: date-time
+
+    InvoiceSettledWebhook:
+      type: object
+      properties:
+        event_type:
+          type: string
+          enum: [invoice.settled]
+        event_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        business_slug:
+          type: string
+        data:
+          type: object
+          properties:
+            invoice_id:
+              type: string
+            amount:
+              type: number
+            currency:
+              type: string
+            payment_method:
+              type: string
+            settled_at:
+              type: string
+              format: date-time
+
+    # Common Schemas
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [
+                VALIDATION_ERROR,
+                AUTH_ERROR,
+                RATE_LIMIT,
+                SCHEMA_MISSING,
+                CONFLICT,
+                NOT_FOUND,
+                DEPENDENCY_DOWN,
+                UNKNOWN,
+                INSUFFICIENT_DATA
+              ]
+            message:
+              type: string
+            field:
+              type: string
+              description: Specific field that caused validation error
+            details:
+              oneOf:
+                - type: object
+                - type: array
+                - type: string
+              description: Additional error context
+
+    Pagination:
+      type: object
+      properties:
+        limit:
+          type: integer
+        offset:
+          type: integer
+        has_more:
+          type: boolean
+
+tags:
+  - name: Businesses
+    description: Business profile and verification data
+  - name: Availability
+    description: Real-time availability windows
+  - name: Pricing
+    description: Market pricing data and bands
+  - name: Reviews
+    description: Invoice-verified reviews and ratings
+  - name: Bookings
+    description: Booking holds and confirmations
+  - name: Estimates
+    description: Estimate drafts and approvals
+  - name: Payments
+    description: Payment links and processing
+  - name: Webhooks
+    description: Event notifications for external systems

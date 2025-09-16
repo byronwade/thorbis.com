@@ -1,0 +1,371 @@
+/**
+ * TradingView Custom Styling
+ * 
+ * This CSS file customizes the TradingView widget appearance to match
+ * the Thorbis dark-first design system with electric blue accents.
+ */
+
+/* Main widget container */
+.tv-embed-widget-wrapper {
+  background-color: #0a0a0a !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+/* Chart background */
+.chart-container {
+  background-color: #0a0a0a !important;
+}
+
+/* Toolbar styling */
+.tv-header {
+  background-color: #0f0f0f !important;
+  border-bottom: 1px solid #262626 !important;
+}
+
+.tv-header__button {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+.tv-header__button:hover {
+  background-color: #1C8BFF !important;
+  color: #ffffff !important;
+}
+
+/* Symbol search */
+.tv-symbol-search-dialog {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 8px !important;
+}
+
+.tv-symbol-search-dialog__input {
+  background-color: #262626 !important;
+  border: 1px solid #404040 !important;
+  color: #ffffff !important;
+}
+
+.tv-symbol-search-dialog__input:focus {
+  border-color: #1C8BFF !important;
+}
+
+/* Dropdown menus */
+.tv-dropdown-behavior__body {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.tv-dropdown-behavior__item {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+.tv-dropdown-behavior__item:hover {
+  background-color: #1C8BFF !important;
+  color: #ffffff !important;
+}
+
+/* Timeframe buttons */
+.tv-header__timeframe-button {
+  color: #a3a3a3 !important;
+  background-color: transparent !important;
+  border: 1px solid #404040 !important;
+  border-radius: 4px !important;
+}
+
+.tv-header__timeframe-button--active {
+  background-color: #1C8BFF !important;
+  border-color: #1C8BFF !important;
+  color: #ffffff !important;
+}
+
+.tv-header__timeframe-button:hover {
+  border-color: #1C8BFF !important;
+  color: #1C8BFF !important;
+}
+
+/* Drawing tools */
+.tv-header__drawing-toolbar {
+  background-color: #0f0f0f !important;
+}
+
+.tv-header__drawing-toolbar-button {
+  color: #a3a3a3 !important;
+  background-color: transparent !important;
+}
+
+.tv-header__drawing-toolbar-button:hover {
+  background-color: #1C8BFF !important;
+  color: #ffffff !important;
+}
+
+.tv-header__drawing-toolbar-button--active {
+  background-color: #1C8BFF !important;
+  color: #ffffff !important;
+}
+
+/* Study/Indicator dialogs */
+.tv-study-dialog {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 8px !important;
+}
+
+.tv-study-dialog__title {
+  color: #ffffff !important;
+  background-color: #0f0f0f !important;
+  border-bottom: 1px solid #262626 !important;
+}
+
+.tv-study-dialog__body {
+  background-color: #171717 !important;
+}
+
+/* Input fields in dialogs */
+.tv-control-input {
+  background-color: #262626 !important;
+  border: 1px solid #404040 !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+}
+
+.tv-control-input:focus {
+  border-color: #1C8BFF !important;
+  box-shadow: 0 0 0 2px rgba(28, 139, 255, 0.2) !important;
+}
+
+/* Buttons */
+.tv-button {
+  background-color: #1C8BFF !important;
+  border: 1px solid #1C8BFF !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+}
+
+.tv-button:hover {
+  background-color: #1574e6 !important;
+  border-color: #1574e6 !important;
+}
+
+.tv-button--secondary {
+  background-color: transparent !important;
+  border: 1px solid #404040 !important;
+  color: #ffffff !important;
+}
+
+.tv-button--secondary:hover {
+  background-color: #262626 !important;
+  border-color: #1C8BFF !important;
+  color: #1C8BFF !important;
+}
+
+/* Tabs */
+.tv-tabs__tab {
+  color: #a3a3a3 !important;
+  background-color: transparent !important;
+  border-bottom: 2px solid transparent !important;
+}
+
+.tv-tabs__tab--active {
+  color: #1C8BFF !important;
+  border-bottom-color: #1C8BFF !important;
+}
+
+.tv-tabs__tab:hover {
+  color: #1C8BFF !important;
+}
+
+/* Scrollbars */
+.tv-scroll-wrap::-webkit-scrollbar {
+  width: 6px !important;
+  height: 6px !important;
+}
+
+.tv-scroll-wrap::-webkit-scrollbar-track {
+  background-color: #262626 !important;
+  border-radius: 3px !important;
+}
+
+.tv-scroll-wrap::-webkit-scrollbar-thumb {
+  background-color: #404040 !important;
+  border-radius: 3px !important;
+}
+
+.tv-scroll-wrap::-webkit-scrollbar-thumb:hover {
+  background-color: #1C8BFF !important;
+}
+
+/* Context menus */
+.tv-context-menu {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.tv-context-menu__item {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+.tv-context-menu__item:hover {
+  background-color: #1C8BFF !important;
+}
+
+.tv-context-menu__separator {
+  background-color: #262626 !important;
+}
+
+/* Price scale */
+.tv-price-axis {
+  background-color: #0a0a0a !important;
+  border-left: 1px solid #262626 !important;
+}
+
+.tv-price-axis__label {
+  color: #a3a3a3 !important;
+  background-color: #0a0a0a !important;
+}
+
+/* Time scale */
+.tv-time-axis {
+  background-color: #0a0a0a !important;
+  border-top: 1px solid #262626 !important;
+}
+
+.tv-time-axis__label {
+  color: #a3a3a3 !important;
+  background-color: #0a0a0a !important;
+}
+
+/* Legend */
+.tv-legend {
+  background-color: rgba(10, 10, 10, 0.9) !important;
+  border: 1px solid #262626 !important;
+  border-radius: 4px !important;
+}
+
+.tv-legend__item {
+  color: #ffffff !important;
+}
+
+/* Volume indicator */
+.tv-legend-item-volume .tv-legend-item__title {
+  color: #1C8BFF !important;
+}
+
+/* Loading spinner */
+.tv-spinner {
+  border-color: rgba(28, 139, 255, 0.2) !important;
+  border-top-color: #1C8BFF !important;
+}
+
+/* Alert dialog */
+.tv-alert-dialog {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 8px !important;
+}
+
+.tv-alert-dialog__header {
+  background-color: #0f0f0f !important;
+  border-bottom: 1px solid #262626 !important;
+  color: #ffffff !important;
+}
+
+/* Symbol info */
+.tv-symbol-header {
+  color: #ffffff !important;
+  background-color: #0f0f0f !important;
+}
+
+.tv-symbol-header__short-name {
+  color: #1C8BFF !important;
+}
+
+.tv-symbol-header__description {
+  color: #a3a3a3 !important;
+}
+
+/* Comparison mode */
+.tv-comparison-item {
+  color: #ffffff !important;
+}
+
+.tv-comparison-item__remove-button {
+  color: #ef4444 !important;
+}
+
+.tv-comparison-item__remove-button:hover {
+  color: #dc2626 !important;
+}
+
+/* News widget */
+.tv-news-item {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 6px !important;
+}
+
+.tv-news-item__title {
+  color: #ffffff !important;
+}
+
+.tv-news-item__time {
+  color: #a3a3a3 !important;
+}
+
+.tv-news-item__provider {
+  color: #1C8BFF !important;
+}
+
+/* Economic calendar */
+.tv-economic-calendar-item {
+  background-color: #171717 !important;
+  border: 1px solid #262626 !important;
+  border-radius: 6px !important;
+}
+
+.tv-economic-calendar-item__event {
+  color: #ffffff !important;
+}
+
+.tv-economic-calendar-item__time {
+  color: #a3a3a3 !important;
+}
+
+.tv-economic-calendar-item__impact--high {
+  color: #ef4444 !important;
+}
+
+.tv-economic-calendar-item__impact--medium {
+  color: #f59e0b !important;
+}
+
+.tv-economic-calendar-item__impact--low {
+  color: #10b981 !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .tv-header {
+    flex-wrap: wrap !important;
+  }
+  
+  .tv-header__timeframe-button {
+    min-width: 40px !important;
+    font-size: 12px !important;
+  }
+  
+  .tv-legend {
+    font-size: 12px !important;
+  }
+  
+  .tv-price-axis,
+  .tv-time-axis {
+    font-size: 11px !important;
+  }
+}

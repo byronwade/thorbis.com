@@ -1,0 +1,66 @@
+{
+  "name": "@thorbis/ai-safety",
+  "version": "1.0.0",
+  "description": "AI safety framework for Thorbis Business OS with system prompts, red team testing, and change management",
+  "main": "validate-ai-safety.js",
+  "scripts": {
+    "validate": "node validate-ai-safety.js",
+    "redteam": "node -e \"require('./validate-ai-safety.js').simulateRedTeamTest()\"",
+    "abtest": "node -e \"require('./validate-ai-safety.js').simulateABTestValidation()\"",
+    "test": "npm run validate"
+  },
+  "keywords": [
+    "thorbis",
+    "ai-safety",
+    "system-prompt",
+    "red-team-testing",
+    "jailbreak-prevention",
+    "prompt-versioning",
+    "ab-testing",
+    "ai-guardrails",
+    "safety-validation",
+    "malicious-prevention"
+  ],
+  "author": "Thorbis Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thorbis/thorbis-business-os.git",
+    "directory": "ai-safety"
+  },
+  "files": [
+    "system-prompt.md",
+    "redteam-suite.md",
+    "change-log.md",
+    "validate-ai-safety.js",
+    "README.md"
+  ],
+  "ai_safety": {
+    "current_prompt_version": "2.1.0",
+    "safety_compliance_level": "enterprise",
+    "redteam_test_coverage": [
+      "jailbreak-prompts",
+      "malicious-tool-usage",
+      "schema-missing-traps",
+      "social-engineering",
+      "privilege-escalation",
+      "cross-tenant-attacks"
+    ],
+    "evaluation_framework": {
+      "ab_testing": true,
+      "safety_validation": true,
+      "performance_monitoring": true,
+      "rollback_capability": true
+    }
+  },
+  "safety_metrics": {
+    "malicious_blocking_rate": ">= 99.5%",
+    "cross_tenant_protection": "100%",
+    "financial_safety": "100%",
+    "user_satisfaction": ">= 4.3/5",
+    "false_positive_rate": "< 5%"
+  }
+}

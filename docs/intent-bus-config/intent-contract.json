@@ -1,0 +1,663 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Thorbis Intent Bus Contract",
+  "description": "Strict schemas for client-side UI intent commands with validation and safety guarantees",
+  "version": "1.0.0",
+  
+  "intent_types": {
+    "NAVIGATE": {
+      "description": "Navigate to a different route within the application",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "NAVIGATE"
+          },
+          "intent_id": {
+            "type": "string",
+            "pattern": "^intent_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this intent"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when intent was created"
+          },
+          "origin": {
+            "type": "string",
+            "enum": ["AI", "USER", "SYSTEM"],
+            "description": "Source that initiated this intent"
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "route": {
+                "type": "string",
+                "pattern": "^/(hs|rest|auto|ret)/(app|auth)/[a-zA-Z0-9/_-]*$",
+                "description": "Industry-namespaced route path"
+              },
+              "params": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "URL parameters to include"
+              },
+              "query": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "description": "Query string parameters"
+              },
+              "replace": {
+                "type": "boolean",
+                "default": false,
+                "description": "Replace current history entry instead of pushing"
+              },
+              "external": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether this is an external URL (requires additional validation)"
+              }
+            },
+            "required": ["route"],
+            "additionalProperties": false
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "session_id": {
+                "type": "string"
+              },
+              "tenant_id": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "string"
+              },
+              "correlation_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": ["type", "intent_id", "timestamp", "origin", "payload"],
+        "additionalProperties": false
+      },
+      "validation_rules": [
+        "Route must match industry-specific pattern",
+        "External navigation requires explicit user consent",
+        "Cross-industry navigation requires permission validation"
+      ]
+    },
+
+    "SET_TABLE_STATE": {
+      "description": "Update data table state including filters, sorting, and pagination",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "SET_TABLE_STATE"
+          },
+          "intent_id": {
+            "type": "string",
+            "pattern": "^intent_[a-zA-Z0-9_-]+$"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "origin": {
+            "type": "string",
+            "enum": ["AI", "USER", "SYSTEM"]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "table_id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]+$",
+                "description": "Unique identifier for the target table"
+              },
+              "state_update": {
+                "type": "object",
+                "properties": {
+                  "filters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string"
+                        },
+                        "operator": {
+                          "type": "string",
+                          "enum": ["eq", "ne", "lt", "le", "gt", "ge", "contains", "startswith", "endswith", "in", "not_in", "between", "is_null", "is_not_null"]
+                        },
+                        "value": {
+                          "oneOf": [
+                            {"type": "string"},
+                            {"type": "number"},
+                            {"type": "boolean"},
+                            {"type": "array"},
+                            {"type": "null"}
+                          ]
+                        },
+                        "data_type": {
+                          "type": "string",
+                          "enum": ["string", "number", "boolean", "date", "datetime", "enum"]
+                        }
+                      },
+                      "required": ["field", "operator", "value", "data_type"],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 20
+                  },
+                  "sorting": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "field": {
+                          "type": "string"
+                        },
+                        "direction": {
+                          "type": "string",
+                          "enum": ["asc", "desc"]
+                        }
+                      },
+                      "required": ["field", "direction"],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 5
+                  },
+                  "pagination": {
+                    "type": "object",
+                    "properties": {
+                      "page": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 10000
+                      },
+                      "page_size": {
+                        "type": "integer",
+                        "enum": [10, 25, 50, 100, 250]
+                      },
+                      "offset": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "selection": {
+                    "type": "object",
+                    "properties": {
+                      "selected_rows": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "maxItems": 1000
+                      },
+                      "select_all": {
+                        "type": "boolean"
+                      },
+                      "select_page": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "columns": {
+                    "type": "object",
+                    "properties": {
+                      "visible_columns": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "column_widths": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "number",
+                          "minimum": 50,
+                          "maximum": 800
+                        }
+                      },
+                      "column_order": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "merge_strategy": {
+                "type": "string",
+                "enum": ["replace", "merge", "append"],
+                "default": "merge",
+                "description": "How to apply state update to existing table state"
+              }
+            },
+            "required": ["table_id", "state_update"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["type", "intent_id", "timestamp", "origin", "payload"],
+        "additionalProperties": false
+      },
+      "validation_rules": [
+        "Table ID must exist in current page context",
+        "Filter values must match field data types",
+        "Maximum 20 filters and 5 sort columns allowed",
+        "Selected rows must exist in current dataset"
+      ]
+    },
+
+    "OPEN_MODAL": {
+      "description": "Open inline panels, sidebars, or page sections (no overlay modals per Thorbis design)",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "OPEN_MODAL"
+          },
+          "intent_id": {
+            "type": "string",
+            "pattern": "^intent_[a-zA-Z0-9_-]+$"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "origin": {
+            "type": "string",
+            "enum": ["AI", "USER", "SYSTEM"]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "panel_type": {
+                "type": "string",
+                "enum": ["sidebar", "inline_form", "section_expand", "detail_panel", "filter_panel", "action_panel"],
+                "description": "Type of UI panel to open (no overlay modals allowed)"
+              },
+              "panel_id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]+$",
+                "description": "Unique identifier for the panel instance"
+              },
+              "content_type": {
+                "type": "string",
+                "enum": ["form", "details", "list", "filters", "actions", "confirmation", "help"],
+                "description": "Type of content to display in the panel"
+              },
+              "context": {
+                "type": "object",
+                "properties": {
+                  "entity_id": {
+                    "type": "string",
+                    "description": "ID of entity being acted upon"
+                  },
+                  "entity_type": {
+                    "type": "string",
+                    "enum": ["work_order", "invoice", "estimate", "customer", "product", "service", "check", "menu_item", "repair_order", "receipt"]
+                  },
+                  "parent_context": {
+                    "type": "string",
+                    "description": "Parent component or page context"
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": ["create", "edit", "view", "delete", "duplicate", "export", "print", "share"]
+                  }
+                },
+                "additionalProperties": false
+              },
+              "panel_config": {
+                "type": "object",
+                "properties": {
+                  "width": {
+                    "type": "string",
+                    "enum": ["sm", "md", "lg", "xl", "full"],
+                    "default": "md"
+                  },
+                  "position": {
+                    "type": "string",
+                    "enum": ["left", "right", "below", "inline"],
+                    "default": "right"
+                  },
+                  "closable": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "auto_focus": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to focus first interactive element"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "data": {
+                "type": "object",
+                "description": "Initial data or form values for the panel",
+                "additionalProperties": true
+              }
+            },
+            "required": ["panel_type", "panel_id", "content_type"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["type", "intent_id", "timestamp", "origin", "payload"],
+        "additionalProperties": false
+      },
+      "validation_rules": [
+        "Panel type must be supported inline pattern (no overlay modals)",
+        "Entity type must match current industry context",
+        "Panel ID must be unique within current page",
+        "Context entity must exist if specified"
+      ]
+    },
+
+    "SET_THEME": {
+      "description": "Update application theme and visual preferences",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "SET_THEME"
+          },
+          "intent_id": {
+            "type": "string",
+            "pattern": "^intent_[a-zA-Z0-9_-]+$"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "origin": {
+            "type": "string",
+            "enum": ["AI", "USER", "SYSTEM"]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "theme_updates": {
+                "type": "object",
+                "properties": {
+                  "color_scheme": {
+                    "type": "string",
+                    "enum": ["light", "dark", "auto"],
+                    "description": "Overall color scheme preference"
+                  },
+                  "density": {
+                    "type": "string",
+                    "enum": ["compact", "comfortable", "spacious"],
+                    "description": "UI density preference"
+                  },
+                  "font_size": {
+                    "type": "string",
+                    "enum": ["small", "medium", "large"],
+                    "description": "Base font size preference"
+                  },
+                  "motion": {
+                    "type": "string",
+                    "enum": ["full", "reduced", "none"],
+                    "description": "Animation and motion preference"
+                  },
+                  "high_contrast": {
+                    "type": "boolean",
+                    "description": "High contrast mode for accessibility"
+                  },
+                  "industry_branding": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to apply industry-specific styling"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "scope": {
+                "type": "string",
+                "enum": ["session", "user", "device"],
+                "default": "user",
+                "description": "Persistence scope for theme changes"
+              },
+              "apply_immediately": {
+                "type": "boolean",
+                "default": true,
+                "description": "Whether to apply changes immediately or require confirmation"
+              }
+            },
+            "required": ["theme_updates"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["type", "intent_id", "timestamp", "origin", "payload"],
+        "additionalProperties": false
+      },
+      "validation_rules": [
+        "Theme changes must respect accessibility requirements",
+        "High contrast mode cannot be disabled by AI origin",
+        "Industry branding must remain enabled for business context"
+      ]
+    },
+
+    "RUN_CLIENT_ACTION": {
+      "description": "Execute client-side actions like exports, prints, or UI operations",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "RUN_CLIENT_ACTION"
+          },
+          "intent_id": {
+            "type": "string",
+            "pattern": "^intent_[a-zA-Z0-9_-]+$"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "origin": {
+            "type": "string",
+            "enum": ["AI", "USER", "SYSTEM"]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "print_document",
+                  "export_data", 
+                  "copy_to_clipboard",
+                  "download_file",
+                  "refresh_data",
+                  "clear_cache",
+                  "focus_element",
+                  "scroll_to_element",
+                  "show_toast",
+                  "play_notification_sound",
+                  "take_screenshot",
+                  "open_external_link"
+                ],
+                "description": "Type of client action to execute"
+              },
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "string",
+                    "description": "Target element or resource for the action"
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": ["pdf", "csv", "xlsx", "json", "xml", "png", "svg"],
+                    "description": "Output format for export/download actions"
+                  },
+                  "data": {
+                    "type": "object",
+                    "description": "Data payload for the action",
+                    "additionalProperties": true
+                  },
+                  "options": {
+                    "type": "object",
+                    "properties": {
+                      "filename": {
+                        "type": "string",
+                        "pattern": "^[a-zA-Z0-9_-]+\\.[a-zA-Z0-9]+$"
+                      },
+                      "title": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "message": {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "url": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "timeout_ms": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 30000
+                      },
+                      "confirm_required": {
+                        "type": "boolean",
+                        "default": false
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              },
+              "safety_checks": {
+                "type": "object",
+                "properties": {
+                  "requires_user_consent": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether action requires explicit user consent"
+                  },
+                  "data_access_level": {
+                    "type": "string",
+                    "enum": ["none", "current_page", "user_data", "tenant_data"],
+                    "default": "none"
+                  },
+                  "external_interaction": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether action interacts with external systems"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": ["action", "parameters"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["type", "intent_id", "timestamp", "origin", "payload"],
+        "additionalProperties": false
+      },
+      "validation_rules": [
+        "External links require user consent when initiated by AI",
+        "Data exports must respect tenant data access permissions",
+        "File downloads must use safe filenames and approved formats",
+        "Screenshot actions require explicit user permission"
+      ]
+    }
+  },
+
+  "global_validation_rules": {
+    "intent_id_uniqueness": "Intent IDs must be unique within a 24-hour window",
+    "rate_limiting": {
+      "USER": "100 intents per minute",
+      "AI": "50 intents per minute", 
+      "SYSTEM": "200 intents per minute"
+    },
+    "sequence_validation": "Intent sequences must follow logical UI flow patterns",
+    "tenant_isolation": "All intents must operate within tenant boundary",
+    "permission_checks": "User must have permission for all entities referenced in intent",
+    "data_validation": "All referenced IDs must exist and be accessible",
+    "timestamp_tolerance": "Intent timestamps must be within 5 minutes of server time"
+  },
+
+  "error_responses": {
+    "VALIDATION_ERROR": {
+      "code": "INTENT_VALIDATION_FAILED",
+      "message": "Intent failed schema or business rule validation",
+      "details": {
+        "field_errors": "Array of specific field validation failures",
+        "rule_violations": "Array of business rule violations"
+      }
+    },
+    "PERMISSION_DENIED": {
+      "code": "INTENT_PERMISSION_DENIED", 
+      "message": "User lacks permission to execute this intent",
+      "details": {
+        "required_permission": "The permission required for this action",
+        "user_permissions": "User's current permissions"
+      }
+    },
+    "RATE_LIMITED": {
+      "code": "INTENT_RATE_LIMITED",
+      "message": "Intent rate limit exceeded",
+      "details": {
+        "limit": "Rate limit that was exceeded",
+        "reset_time": "When the rate limit resets"
+      }
+    },
+    "UNSUPPORTED_INTENT": {
+      "code": "INTENT_TYPE_UNSUPPORTED",
+      "message": "Intent type is not supported or recognized",
+      "details": {
+        "supported_types": "Array of supported intent types",
+        "suggested_alternative": "Suggested alternative intent if available"
+      }
+    },
+    "EXECUTION_FAILED": {
+      "code": "INTENT_EXECUTION_FAILED",
+      "message": "Intent passed validation but failed during execution",
+      "details": {
+        "error_type": "Category of execution failure",
+        "recovery_suggestion": "Suggested recovery action"
+      }
+    }
+  },
+
+  "metadata_schema": {
+    "session_context": {
+      "session_id": "Current user session ID",
+      "tenant_id": "Current tenant context", 
+      "user_id": "Current user ID",
+      "industry": "Current industry context (hs|rest|auto|ret)",
+      "permissions": "Array of user permissions",
+      "feature_flags": "Active feature flags for user"
+    },
+    "execution_context": {
+      "page_route": "Current page route",
+      "component_stack": "Stack of active components",
+      "ui_state": "Current UI state snapshot",
+      "data_context": "Available data entities on page"
+    }
+  }
+}

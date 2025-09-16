@@ -1,0 +1,37 @@
+{
+  "name": "@thorbis/hardware-integration-config",
+  "version": "1.0.0",
+  "description": "Hardware integration configuration and validation for Thorbis Business OS",
+  "main": "validate-hardware-integration.js",
+  "scripts": {
+    "validate": "node validate-hardware-integration.js",
+    "test": "npm run validate"
+  },
+  "keywords": [
+    "thorbis",
+    "hardware",
+    "integration",
+    "thermal-printer",
+    "kds",
+    "barcode-scanner",
+    "pos",
+    "iot"
+  ],
+  "author": "Thorbis Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thorbis/thorbis-business-os.git",
+    "directory": "hardware-integration-config"
+  },
+  "files": [
+    "pairing-flows.md",
+    "profile-specs.md", 
+    "security-notes.md",
+    "validate-hardware-integration.js",
+    "README.md"
+  ]
+}

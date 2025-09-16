@@ -1,0 +1,35 @@
+{
+  "name": "@thorbis/supabase-rls-config",
+  "version": "1.0.0",
+  "description": "Supabase Row Level Security configuration for Thorbis Business OS multi-tenancy",
+  "main": "rls-policies.sql",
+  "scripts": {
+    "validate": "node validate-sql.js",
+    "test": "echo 'Run test cases from test-rls.md against seeded database'",
+    "docs": "echo 'Documentation available in README.md and role-matrix.md'"
+  },
+  "keywords": [
+    "supabase",
+    "rls",
+    "row-level-security",
+    "multi-tenant",
+    "postgres",
+    "rbac",
+    "thorbis",
+    "business-os"
+  ],
+  "author": "Thorbis Team",
+  "license": "MIT",
+  "files": [
+    "rls-policies.sql",
+    "role-matrix.md",
+    "test-rls.md",
+    "README.md",
+    "validate-sql.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thorbis/business-os.git",
+    "directory": "supabase-config"
+  }
+}

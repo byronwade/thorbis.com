@@ -1,0 +1,50 @@
+{
+  "name": "@thorbis/v0-templates-config",
+  "version": "1.0.0",
+  "description": "Thorbis v0 template generation control system with enterprise-grade safety and validation",
+  "scripts": {
+    "validate": "node validate-templates.js",
+    "demo": "npx ts-node demo-template-management.ts",
+    "lint": "eslint example-templates/*.tsx",
+    "type-check": "tsc --noEmit --skipLibCheck",
+    "test": "npm run validate && npm run type-check"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "@types/react": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0"
+  },
+  "keywords": [
+    "thorbis",
+    "v0",
+    "templates",
+    "react",
+    "typescript",
+    "pdf",
+    "print",
+    "accessibility",
+    "dark-mode",
+    "rtl"
+  ],
+  "author": "Thorbis Engineering Team",
+  "license": "MIT",
+  "files": [
+    "v0-input-spec.json",
+    "acceptance-checklist.md",
+    "versioning.md",
+    "example-templates/",
+    "validate-templates.js",
+    "template-manager.ts",
+    "demo-template-management.ts",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -1,0 +1,519 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Thorbis v0 Template Generation Specification",
+  "description": "Comprehensive input specification for v0 template generation with business document requirements",
+  "version": "1.0.0",
+  
+  "template_constraints": {
+    "framework": "React + TypeScript",
+    "styling": "Tailwind CSS only",
+    "no_external_dependencies": true,
+    "no_dynamic_javascript": true,
+    "static_rendering_compatible": true,
+    "print_optimized": true
+  },
+
+  "brand_tokens": {
+    "colors": {
+      "primary": {
+        "thorbis_blue": "#1C8BFF",
+        "usage": "Primary CTA, focus states, key highlights only"
+      },
+      "neutrals": {
+        "black": "#000000",
+        "white": "#FFFFFF", 
+        "gray_25": "#0A0B0D",
+        "gray_50": "#0D0F13",
+        "gray_100": "#111318",
+        "gray_200": "#171A21",
+        "gray_300": "#1D212B",
+        "gray_400": "#2A2F3A",
+        "gray_500": "#3A4150",
+        "gray_600": "#545D6E",
+        "gray_700": "#7A8598",
+        "gray_800": "#A9B2C1",
+        "gray_900": "#E6EAF0"
+      },
+      "status": {
+        "success": "#18B26B",
+        "warning": "#E5A400", 
+        "danger": "#E5484D",
+        "info": "#4FA2FF"
+      },
+      "semantic_mappings": {
+        "background_base": "gray_25",
+        "background_surface": "gray_50",
+        "background_elevated": "gray_200",
+        "border_subtle": "gray_400",
+        "border_strong": "gray_500",
+        "text_primary": "gray_900",
+        "text_secondary": "gray_700",
+        "text_muted": "gray_600",
+        "text_inverse": "white"
+      }
+    },
+    
+    "typography": {
+      "font_family": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif",
+      "font_mono": "Geist Mono, 'SF Mono', Monaco, 'Cascadia Code', monospace",
+      "scale": {
+        "display": {"size": "32px", "line_height": "38px", "usage": "Document titles only"},
+        "h1": {"size": "24px", "line_height": "30px", "usage": "Main headings"},
+        "h2": {"size": "20px", "line_height": "28px", "usage": "Section headers"},
+        "h3": {"size": "18px", "line_height": "26px", "usage": "Subsection headers"},
+        "body": {"size": "14px", "line_height": "20px", "usage": "Default text"},
+        "small": {"size": "12px", "line_height": "18px", "usage": "Captions, metadata"}
+      },
+      "weights": {
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600
+      }
+    },
+
+    "spacing": {
+      "base_unit": "4px",
+      "scale": [2, 4, 6, 8, 12, 16, 20, 24, 32, 40, 48, 64],
+      "usage": {
+        "tight": [2, 4, 6, 8],
+        "component": [12, 16, 20, 24],
+        "section": [32, 40, 48],
+        "page": [64]
+      }
+    },
+
+    "layout": {
+      "max_widths": {
+        "invoice": "8.5in",
+        "estimate": "8.5in", 
+        "receipt": "3in"
+      },
+      "print_margins": {
+        "top": "0.5in",
+        "right": "0.5in",
+        "bottom": "0.5in",
+        "left": "0.5in"
+      },
+      "breakpoints": {
+        "mobile": "320px",
+        "tablet": "768px",
+        "desktop": "1024px",
+        "print": "8.5in"
+      }
+    }
+  },
+
+  "template_slots": {
+    "invoice": {
+      "required_slots": [
+        {
+          "slot_id": "business_header",
+          "description": "Business name, logo, contact information",
+          "data_type": "BusinessProfile",
+          "constraints": {
+            "max_height": "2in",
+            "logo_max_size": "120px x 60px",
+            "required_fields": ["business_name", "address", "phone", "email"]
+          }
+        },
+        {
+          "slot_id": "invoice_metadata", 
+          "description": "Invoice number, date, due date, terms",
+          "data_type": "InvoiceMetadata",
+          "constraints": {
+            "invoice_number_format": "INV-YYYYMMDD-####",
+            "date_format": "MM/DD/YYYY",
+            "required_fields": ["invoice_number", "invoice_date", "due_date", "payment_terms"]
+          }
+        },
+        {
+          "slot_id": "customer_details",
+          "description": "Bill to customer information", 
+          "data_type": "CustomerInfo",
+          "constraints": {
+            "max_height": "1.5in",
+            "required_fields": ["name", "address"],
+            "optional_fields": ["phone", "email", "tax_id"]
+          }
+        },
+        {
+          "slot_id": "line_items_table",
+          "description": "Services/products with pricing",
+          "data_type": "LineItem[]",
+          "constraints": {
+            "min_columns": ["description", "quantity", "rate", "amount"],
+            "max_items_per_page": 25,
+            "currency_format": "USD",
+            "decimal_places": 2
+          }
+        },
+        {
+          "slot_id": "totals_section",
+          "description": "Subtotal, tax, discounts, total",
+          "data_type": "InvoiceTotals",
+          "constraints": {
+            "alignment": "right",
+            "required_fields": ["subtotal", "total"],
+            "optional_fields": ["tax_amount", "discount_amount", "paid_amount", "balance_due"]
+          }
+        },
+        {
+          "slot_id": "payment_instructions",
+          "description": "Payment methods and instructions",
+          "data_type": "PaymentInfo",
+          "constraints": {
+            "max_height": "1in",
+            "required_if_balance_due": true
+          }
+        },
+        {
+          "slot_id": "terms_and_conditions",
+          "description": "Legal terms, late fees, etc.",
+          "data_type": "string",
+          "constraints": {
+            "max_height": "1in",
+            "font_size": "small",
+            "placement": "footer"
+          }
+        }
+      ],
+      "optional_slots": [
+        {
+          "slot_id": "project_details",
+          "description": "Project name, location, dates",
+          "data_type": "ProjectInfo"
+        },
+        {
+          "slot_id": "technician_info", 
+          "description": "Assigned technician details",
+          "data_type": "TechnicianInfo"
+        }
+      ]
+    },
+
+    "estimate": {
+      "required_slots": [
+        {
+          "slot_id": "business_header",
+          "description": "Business name, logo, contact information",
+          "data_type": "BusinessProfile",
+          "constraints": {
+            "max_height": "2in",
+            "logo_max_size": "120px x 60px"
+          }
+        },
+        {
+          "slot_id": "estimate_metadata",
+          "description": "Estimate number, date, valid until",
+          "data_type": "EstimateMetadata", 
+          "constraints": {
+            "estimate_number_format": "EST-YYYYMMDD-####",
+            "validity_period_required": true,
+            "required_fields": ["estimate_number", "estimate_date", "valid_until"]
+          }
+        },
+        {
+          "slot_id": "customer_details",
+          "description": "Customer information and project location",
+          "data_type": "CustomerInfo",
+          "constraints": {
+            "required_fields": ["name", "address"],
+            "project_address_if_different": true
+          }
+        },
+        {
+          "slot_id": "scope_of_work",
+          "description": "Detailed description of proposed work",
+          "data_type": "WorkScope",
+          "constraints": {
+            "min_length": 50,
+            "max_height": "3in",
+            "formatting": "bulleted_list_preferred"
+          }
+        },
+        {
+          "slot_id": "line_items_table",
+          "description": "Labor, materials, equipment costs",
+          "data_type": "EstimateLineItem[]",
+          "constraints": {
+            "min_columns": ["description", "quantity", "rate", "amount"],
+            "categories": ["labor", "materials", "equipment", "permits"],
+            "category_subtotals": true
+          }
+        },
+        {
+          "slot_id": "totals_section", 
+          "description": "Subtotal, tax, total estimate",
+          "data_type": "EstimateTotals",
+          "constraints": {
+            "alignment": "right",
+            "required_fields": ["subtotal", "total_estimate"],
+            "estimate_disclaimer": "Estimate only - final costs may vary"
+          }
+        },
+        {
+          "slot_id": "estimate_conditions",
+          "description": "Validity, change orders, acceptance terms",
+          "data_type": "EstimateConditions",
+          "constraints": {
+            "required_clauses": ["validity_period", "change_order_policy", "acceptance_terms"]
+          }
+        }
+      ],
+      "optional_slots": [
+        {
+          "slot_id": "timeline_section",
+          "description": "Estimated start and completion dates",
+          "data_type": "ProjectTimeline"
+        },
+        {
+          "slot_id": "alternative_options",
+          "description": "Different service level options",
+          "data_type": "AlternativeOption[]"
+        }
+      ]
+    },
+
+    "receipt": {
+      "required_slots": [
+        {
+          "slot_id": "business_header_compact",
+          "description": "Business name and essential contact info",
+          "data_type": "BusinessProfile",
+          "constraints": {
+            "max_height": "0.8in",
+            "compact_layout": true,
+            "logo_max_size": "60px x 30px"
+          }
+        },
+        {
+          "slot_id": "receipt_metadata",
+          "description": "Receipt number, date, time",
+          "data_type": "ReceiptMetadata",
+          "constraints": {
+            "receipt_number_format": "RCT-YYYYMMDD-####",
+            "datetime_format": "MM/DD/YYYY HH:MM",
+            "required_fields": ["receipt_number", "transaction_date", "transaction_time"]
+          }
+        },
+        {
+          "slot_id": "transaction_items",
+          "description": "Items purchased with prices",
+          "data_type": "TransactionItem[]",
+          "constraints": {
+            "compact_layout": true,
+            "max_description_width": "2in",
+            "min_columns": ["description", "amount"]
+          }
+        },
+        {
+          "slot_id": "payment_summary",
+          "description": "Subtotal, tax, total, payment method",
+          "data_type": "PaymentSummary", 
+          "constraints": {
+            "required_fields": ["subtotal", "total_paid", "payment_method"],
+            "change_due_if_applicable": true
+          }
+        },
+        {
+          "slot_id": "receipt_footer",
+          "description": "Thank you message, return policy",
+          "data_type": "ReceiptFooter",
+          "constraints": {
+            "max_height": "0.5in",
+            "thank_you_required": true
+          }
+        }
+      ],
+      "optional_slots": [
+        {
+          "slot_id": "customer_info_compact",
+          "description": "Customer name if known",
+          "data_type": "CustomerInfo"
+        },
+        {
+          "slot_id": "loyalty_info",
+          "description": "Points earned, rewards available",
+          "data_type": "LoyaltyInfo"
+        }
+      ]
+    }
+  },
+
+  "layout_constraints": {
+    "print_requirements": {
+      "paper_sizes": ["letter", "a4", "thermal_3in"],
+      "orientation": "portrait",
+      "margins": {
+        "letter": {"top": "0.5in", "right": "0.5in", "bottom": "0.5in", "left": "0.5in"},
+        "a4": {"top": "12.7mm", "right": "12.7mm", "bottom": "12.7mm", "left": "12.7mm"},
+        "thermal_3in": {"top": "0.1in", "right": "0.1in", "bottom": "0.1in", "left": "0.1in"}
+      },
+      "page_breaks": {
+        "avoid_breaking": ["business_header", "totals_section", "customer_details"],
+        "break_before": ["terms_and_conditions"],
+        "break_inside": "avoid"
+      }
+    },
+
+    "responsive_behavior": {
+      "mobile_first": true,
+      "breakpoint_strategy": "progressive_enhancement",
+      "print_media_queries": {
+        "@media print": {
+          "hide_elements": [".no-print", ".screen-only"],
+          "show_elements": [".print-only"],
+          "color_adjustments": "exact",
+          "background_images": "remove"
+        }
+      }
+    },
+
+    "grid_system": {
+      "invoice": {
+        "desktop": "grid-cols-12",
+        "tablet": "grid-cols-8", 
+        "mobile": "grid-cols-4"
+      },
+      "estimate": {
+        "desktop": "grid-cols-12",
+        "tablet": "grid-cols-8",
+        "mobile": "grid-cols-4"
+      },
+      "receipt": {
+        "all": "grid-cols-1"
+      }
+    }
+  },
+
+  "printability_requirements": {
+    "css_requirements": [
+      "Use CSS print media queries (@media print)",
+      "Set explicit page-break-before, page-break-after, page-break-inside",
+      "Define print-specific colors with color-adjust: exact",
+      "Remove or minimize shadows, transitions, animations for print",
+      "Ensure sufficient contrast ratios for black & white printing"
+    ],
+    
+    "font_requirements": {
+      "print_safe_fonts": ["Inter", "Arial", "Helvetica", "system fonts"],
+      "min_font_size_print": "10px",
+      "line_height_print": 1.4,
+      "font_weight_print": "normal or bold only"
+    },
+
+    "color_requirements": {
+      "print_color_mode": "exact",
+      "high_contrast_mode": true,
+      "grayscale_compatible": true,
+      "background_color_print": "white or very light gray only"
+    },
+
+    "layout_requirements": {
+      "fixed_positioning": "convert to static for print",
+      "flexbox_print_safe": true,
+      "grid_print_safe": true,
+      "table_layout": "preferred for tabular data"
+    }
+  },
+
+  "accessibility_requirements": {
+    "wcag_level": "AA",
+    "semantic_html": {
+      "document_structure": "Use proper heading hierarchy (h1 -> h2 -> h3)",
+      "table_markup": "Use <table>, <thead>, <tbody>, <th>, <td> with proper scope",
+      "form_labels": "All form elements must have associated labels",
+      "landmark_roles": "main, header, footer, navigation, complementary"
+    },
+    
+    "color_contrast": {
+      "normal_text": 4.5,
+      "large_text": 3.0,
+      "ui_components": 3.0,
+      "brand_blue_usage": "Only for non-text elements or with sufficient contrast"
+    },
+
+    "keyboard_navigation": {
+      "tab_order": "logical and predictable",
+      "focus_indicators": "visible and high contrast",
+      "interactive_elements": "all must be keyboard accessible"
+    },
+
+    "screen_reader_support": {
+      "alt_text": "All images must have descriptive alt text",
+      "aria_labels": "Use for complex elements and data tables",
+      "table_headers": "Associate data cells with headers using scope or headers/id",
+      "document_title": "Descriptive and unique page title"
+    },
+
+    "rtl_readiness": {
+      "text_direction": "Support both LTR and RTL text direction",
+      "layout_mirroring": "Logical properties for margin, padding, positioning",
+      "icon_mirroring": "Directional icons should flip in RTL mode",
+      "reading_order": "Maintain logical reading order in both directions"
+    }
+  },
+
+  "validation_rules": {
+    "html_validation": {
+      "doctype": "<!DOCTYPE html>",
+      "lang_attribute": "required on html element",
+      "viewport_meta": "required for responsive design",
+      "charset_meta": "UTF-8 encoding required"
+    },
+
+    "css_validation": {
+      "vendor_prefixes": "include for cross-browser compatibility",
+      "fallback_fonts": "always provide fallback font stacks",
+      "css_custom_properties": "provide fallbacks for older browsers"
+    },
+
+    "javascript_restrictions": {
+      "no_client_side_js": "Templates must work without JavaScript",
+      "server_side_rendering": "Must be compatible with SSR",
+      "progressive_enhancement": "Any interactions must be optional enhancements"
+    },
+
+    "performance_requirements": {
+      "total_size_limit": "500KB including all assets",
+      "critical_css": "Inline critical CSS for above-the-fold content",
+      "lazy_loading": "Non-critical images should be lazy loaded",
+      "caching_headers": "Templates should be cacheable"
+    }
+  },
+
+  "dark_mode_requirements": {
+    "implementation_strategy": "CSS custom properties with prefers-color-scheme",
+    "color_scheme_meta": "<meta name=\"color-scheme\" content=\"light dark\">",
+    
+    "dark_theme_tokens": {
+      "background_base": "gray_25",
+      "background_surface": "gray_50", 
+      "background_elevated": "gray_100",
+      "text_primary": "gray_900",
+      "text_secondary": "gray_700",
+      "text_muted": "gray_600",
+      "border_color": "gray_400"
+    },
+
+    "light_theme_tokens": {
+      "background_base": "white",
+      "background_surface": "gray_900",
+      "background_elevated": "white",
+      "text_primary": "gray_25",
+      "text_secondary": "gray_100",
+      "text_muted": "gray_200", 
+      "border_color": "gray_200"
+    },
+
+    "print_mode_override": "Always use light theme for print regardless of user preference"
+  },
+
+  "template_generation_prompts": {
+    "invoice_prompt": "Create a professional invoice template using the Thorbis design system. The template must be print-optimized, accessible, and support both light and dark themes. Include all required slots: business header with logo placement, invoice metadata with proper formatting, customer billing details, line items table with quantity/rate/amount columns, totals section with subtotal/tax/total, payment instructions, and terms section. Use Tailwind CSS classes only, ensure proper heading hierarchy, include print media queries, and make it RTL-ready. The design should be clean, minimalist, and professional with Thorbis blue used sparingly for focus elements only.",
+
+    "estimate_prompt": "Create a professional estimate template using the Thorbis design system. The template must be print-optimized, accessible, and support both light and dark themes. Include all required slots: business header, estimate metadata with validity period, customer details with project location, detailed scope of work section, line items table categorized by labor/materials/equipment, totals section with estimate disclaimer, and estimate conditions with acceptance terms. Use Tailwind CSS classes only, ensure proper semantic HTML, include print media queries, and make it RTL-ready. The design should inspire confidence and professionalism with clear hierarchy and easy scanning.",
+
+    "receipt_prompt": "Create a compact receipt template using the Thorbis design system optimized for thermal printing and mobile display. The template must be print-optimized for 3-inch thermal printers, accessible, and support both light and dark themes. Include all required slots: compact business header, receipt metadata with date/time, transaction items list, payment summary with payment method, and footer with thank you message. Use Tailwind CSS classes only, ensure maximum information density while maintaining readability, include thermal print media queries, and make it RTL-ready. The design should be clean and functional with all essential information clearly presented."
+  }
+}

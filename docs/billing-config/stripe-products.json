@@ -1,0 +1,529 @@
+{
+  "version": "1.0.0",
+  "description": "Thorbis Business OS Stripe Products and Pricing Configuration",
+  "base_currency": "usd",
+  "billing_cycle": "monthly",
+  "aggregation_strategy": "sum_per_month",
+  
+  "products": [
+    {
+      "id": "thorbis_business_os_base",
+      "name": "Thorbis Business OS",
+      "description": "Complete business management platform with AI-powered features",
+      "type": "service",
+      "statement_descriptor": "THORBIS",
+      "unit_label": null,
+      "metadata": {
+        "category": "base_plan",
+        "features": [
+          "Multi-user dashboard",
+          "Customer management", 
+          "Job scheduling",
+          "Invoice and estimate generation",
+          "Payment processing",
+          "Truth Layer API access",
+          "Mobile apps",
+          "Standard support"
+        ]
+      },
+      "prices": [
+        {
+          "id": "thorbis_base_monthly",
+          "nickname": "Base Plan Monthly",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 5000,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "licensed",
+            "aggregate_usage": null
+          },
+          "billing_scheme": "per_unit",
+          "tiers_mode": null,
+          "metadata": {
+            "plan_type": "base",
+            "included_usage": {
+              "active_app_users": 10,
+              "embeddings": 10000,
+              "vector_search": 25000,
+              "template_render": 500,
+              "sms": 100,
+              "email": 2500,
+              "storage_gb": 25,
+              "webhook_delivery": 10000
+            }
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_aau",
+      "name": "Active App Users",
+      "description": "Monthly active users using the Thorbis platform",
+      "type": "service", 
+      "statement_descriptor": "THORBIS AAU",
+      "unit_label": "user",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "active_app_users",
+        "aggregation": "sum",
+        "included_in_base": 10
+      },
+      "prices": [
+        {
+          "id": "thorbis_aau_usage",
+          "nickname": "Active App Users Overage",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 800,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "per_unit",
+          "tiers_mode": null,
+          "metadata": {
+            "meter_type": "active_app_users",
+            "included_quantity": 10,
+            "overage_rate": 8.00,
+            "billing_description": "Additional active users beyond 10 included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_embeddings", 
+      "name": "AI Embeddings",
+      "description": "Vector embeddings generated for AI features",
+      "type": "service",
+      "statement_descriptor": "THORBIS AI",
+      "unit_label": "embedding",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "embeddings",
+        "aggregation": "sum",
+        "included_in_base": 10000
+      },
+      "prices": [
+        {
+          "id": "thorbis_embeddings_usage",
+          "nickname": "AI Embeddings Overage",
+          "type": "recurring", 
+          "currency": "usd",
+          "unit_amount": 10,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "tiered",
+          "tiers_mode": "graduated",
+          "tiers": [
+            {
+              "up_to": 100000,
+              "unit_amount": 10
+            },
+            {
+              "up_to": 500000,
+              "unit_amount": 8
+            },
+            {
+              "up_to": "inf",
+              "unit_amount": 6
+            }
+          ],
+          "metadata": {
+            "meter_type": "embeddings",
+            "included_quantity": 10000,
+            "base_rate": 0.10,
+            "unit_description": "per 1,000 embeddings",
+            "billing_description": "AI embeddings beyond 10,000 included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_vector_search",
+      "name": "Vector Search Operations",
+      "description": "Semantic search queries against embedded data",
+      "type": "service",
+      "statement_descriptor": "THORBIS SEARCH",
+      "unit_label": "search",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "vector_search",
+        "aggregation": "sum",
+        "included_in_base": 25000
+      },
+      "prices": [
+        {
+          "id": "thorbis_vector_search_usage",
+          "nickname": "Vector Search Overage",
+          "type": "recurring",
+          "currency": "usd", 
+          "unit_amount": 50,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "tiered",
+          "tiers_mode": "graduated",
+          "tiers": [
+            {
+              "up_to": 100000,
+              "unit_amount": 50
+            },
+            {
+              "up_to": 1000000, 
+              "unit_amount": 40
+            },
+            {
+              "up_to": "inf",
+              "unit_amount": 30
+            }
+          ],
+          "metadata": {
+            "meter_type": "vector_search",
+            "included_quantity": 25000,
+            "base_rate": 0.50,
+            "unit_description": "per 1,000 searches",
+            "billing_description": "Vector searches beyond 25,000 included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_template_render",
+      "name": "Template Rendering",
+      "description": "PDF and document generation",
+      "type": "service",
+      "statement_descriptor": "THORBIS PDF",
+      "unit_label": "render",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "template_render",
+        "aggregation": "sum",
+        "included_in_base": 500
+      },
+      "prices": [
+        {
+          "id": "thorbis_template_render_usage",
+          "nickname": "Template Rendering Overage",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 25,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "per_unit",
+          "tiers_mode": null,
+          "metadata": {
+            "meter_type": "template_render",
+            "included_quantity": 500,
+            "overage_rate": 0.25,
+            "billing_description": "Document renders beyond 500 included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_sms",
+      "name": "SMS Messages",
+      "description": "Text messages sent to customers and staff",
+      "type": "service",
+      "statement_descriptor": "THORBIS SMS",
+      "unit_label": "message",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "sms", 
+        "aggregation": "sum",
+        "included_in_base": 100
+      },
+      "prices": [
+        {
+          "id": "thorbis_sms_usage",
+          "nickname": "SMS Messages Overage",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 5,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "per_unit",
+          "tiers_mode": null,
+          "metadata": {
+            "meter_type": "sms",
+            "included_quantity": 100,
+            "overage_rate": 0.05,
+            "billing_description": "SMS messages beyond 100 included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_email",
+      "name": "Email Messages", 
+      "description": "Emails sent to customers and contacts",
+      "type": "service",
+      "statement_descriptor": "THORBIS EMAIL",
+      "unit_label": "email",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "email",
+        "aggregation": "sum",
+        "included_in_base": 2500
+      },
+      "prices": [
+        {
+          "id": "thorbis_email_usage",
+          "nickname": "Email Messages Overage",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 2,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "per_unit", 
+          "tiers_mode": null,
+          "metadata": {
+            "meter_type": "email",
+            "included_quantity": 2500,
+            "overage_rate": 0.02,
+            "billing_description": "Emails beyond 2,500 included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_storage",
+      "name": "Storage Usage",
+      "description": "Data storage across all resources",
+      "type": "service",
+      "statement_descriptor": "THORBIS STORAGE",
+      "unit_label": "GB",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "storage_gb",
+        "aggregation": "max",
+        "included_in_base": 25
+      },
+      "prices": [
+        {
+          "id": "thorbis_storage_usage",
+          "nickname": "Storage Overage",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 10,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered", 
+            "aggregate_usage": "max"
+          },
+          "billing_scheme": "per_unit",
+          "tiers_mode": null,
+          "metadata": {
+            "meter_type": "storage_gb",
+            "included_quantity": 25,
+            "overage_rate": 0.10,
+            "billing_description": "Storage beyond 25 GB included"
+          }
+        }
+      ]
+    },
+    
+    {
+      "id": "thorbis_meter_webhooks",
+      "name": "Webhook Deliveries",
+      "description": "HTTP webhook calls to external systems",
+      "type": "service",
+      "statement_descriptor": "THORBIS WEBHOOK",
+      "unit_label": "delivery",
+      "metadata": {
+        "category": "usage_meter",
+        "meter_type": "webhook_delivery",
+        "aggregation": "sum",
+        "included_in_base": 10000
+      },
+      "prices": [
+        {
+          "id": "thorbis_webhook_usage", 
+          "nickname": "Webhook Deliveries Overage",
+          "type": "recurring",
+          "currency": "usd",
+          "unit_amount": 1,
+          "recurring": {
+            "interval": "month",
+            "interval_count": 1,
+            "usage_type": "metered",
+            "aggregate_usage": "sum"
+          },
+          "billing_scheme": "per_unit",
+          "tiers_mode": null,
+          "metadata": {
+            "meter_type": "webhook_delivery",
+            "included_quantity": 10000,
+            "overage_rate": 0.01,
+            "billing_description": "Webhook deliveries beyond 10,000 included"
+          }
+        }
+      ]
+    }
+  ],
+  
+  "subscription_configuration": {
+    "default_payment_method_required": true,
+    "prorate_upgrades": true,
+    "billing_cycle_anchor": "subscription_start",
+    "collection_method": "charge_automatically",
+    "payment_settings": {
+      "save_default_payment_method": "on_subscription",
+      "payment_method_types": ["card", "us_bank_account"]
+    },
+    "automatic_tax": {
+      "enabled": true
+    },
+    "invoice_settings": {
+      "days_until_due": null
+    }
+  },
+  
+  "meter_reporting_configuration": {
+    "reporting_interval": "daily",
+    "aggregation_window": "calendar_month", 
+    "usage_threshold_notifications": {
+      "warning_thresholds": [0.75, 0.90],
+      "critical_threshold": 1.0
+    },
+    "billing_grace_period": "3_days",
+    "usage_export_retention": "24_months"
+  },
+  
+  "webhook_events": [
+    "invoice.created",
+    "invoice.finalized", 
+    "invoice.payment_succeeded",
+    "invoice.payment_failed",
+    "customer.subscription.updated",
+    "usage_record.created"
+  ],
+  
+  "api_configuration": {
+    "stripe_api_version": "2023-10-16",
+    "idempotency_key_prefix": "thorbis_",
+    "request_timeout_ms": 10000,
+    "retry_configuration": {
+      "max_retries": 3,
+      "base_delay_ms": 1000,
+      "max_delay_ms": 10000
+    }
+  },
+  
+  "pricing_examples": {
+    "small_business_monthly": {
+      "description": "3 users, light usage",
+      "usage": {
+        "active_app_users": 3,
+        "embeddings": 5000,
+        "vector_search": 15000,
+        "template_render": 200,
+        "sms": 50,
+        "email": 1200,
+        "storage_gb": 12,
+        "webhook_delivery": 3000
+      },
+      "cost_breakdown": {
+        "base_plan": 50.00,
+        "overages": {
+          "active_app_users": 0.00,
+          "embeddings": 0.00,
+          "vector_search": 0.00,
+          "template_render": 0.00,
+          "sms": 0.00,
+          "email": 0.00,
+          "storage_gb": 0.00,
+          "webhook_delivery": 0.00
+        },
+        "total_monthly": 50.00
+      }
+    },
+    
+    "growing_business_monthly": {
+      "description": "8 users, moderate usage",
+      "usage": {
+        "active_app_users": 8,
+        "embeddings": 18000,
+        "vector_search": 45000,
+        "template_render": 750,
+        "sms": 180,
+        "email": 4200,
+        "storage_gb": 32,
+        "webhook_delivery": 15000
+      },
+      "cost_breakdown": {
+        "base_plan": 50.00,
+        "overages": {
+          "active_app_users": 0.00,
+          "embeddings": 0.80,
+          "vector_search": 10.00,
+          "template_render": 62.50,
+          "sms": 4.00,
+          "email": 34.00,
+          "storage_gb": 0.70,
+          "webhook_delivery": 50.00
+        },
+        "total_monthly": 212.00
+      }
+    },
+    
+    "enterprise_monthly": {
+      "description": "25 users, heavy usage", 
+      "usage": {
+        "active_app_users": 25,
+        "embeddings": 75000,
+        "vector_search": 180000,
+        "template_render": 2000,
+        "sms": 800,
+        "email": 12000,
+        "storage_gb": 150,
+        "webhook_delivery": 45000
+      },
+      "cost_breakdown": {
+        "base_plan": 50.00,
+        "overages": {
+          "active_app_users": 120.00,
+          "embeddings": 6.50,
+          "vector_search": 77.50,
+          "template_render": 375.00,
+          "sms": 35.00,
+          "email": 190.00,
+          "storage_gb": 12.50,
+          "webhook_delivery": 350.00
+        },
+        "total_monthly": 1216.50
+      }
+    }
+  }
+}

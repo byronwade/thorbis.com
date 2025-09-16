@@ -1,0 +1,1070 @@
+{
+  "version": "1.0.0",
+  "description": "Thorbis Truth Layer MCP Tools - AI-safe interfaces for local commerce",
+  "tools": [
+    {
+      "name": "getBusinessBySlug",
+      "description": "Get verified business profile including licenses, insurance, and operational status",
+      "category": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Business URL slug (e.g., 'smith-plumbing-co')",
+            "examples": ["smith-plumbing-co", "austin-hvac-pros", "downtown-electric"]
+          }
+        },
+        "required": ["slug"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "slug": { "type": "string" },
+              "name": { "type": "string" },
+              "industry": { "type": "string", "enum": ["plumbing", "electrical", "hvac", "general_repair", "restaurant", "retail"] },
+              "verification": {
+                "type": "object",
+                "properties": {
+                  "badges": { "type": "array", "items": { "type": "string" } },
+                  "licenses": { "type": "array" },
+                  "insurance": { "type": "array" }
+                }
+              },
+              "business_hours": { "type": "object" },
+              "contact": { "type": "object" },
+              "service_areas": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": false,
+        "requiresIdempotencyKey": false,
+        "rateLimited": true
+      },
+      "authorization": {
+        "required_role": "public",
+        "scopes": ["read:business"]
+      },
+      "budgets": {
+        "cost_per_call": 0.001,
+        "rate_limit": {
+          "requests_per_minute": 60,
+          "requests_per_hour": 1000
+        }
+      },
+      "examples": [
+        {
+          "name": "Get plumbing company profile",
+          "input": {
+            "slug": "smith-plumbing-co"
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "slug": "smith-plumbing-co",
+              "name": "Smith Plumbing Company",
+              "industry": "plumbing",
+              "verification": {
+                "badges": ["licensed", "insured", "invoice_verified_reviews"],
+                "licenses": [
+                  {
+                    "type": "plumbing_license",
+                    "number": "TX-PLB-12345",
+                    "expires_at": "2024-12-31T00:00:00Z",
+                    "status": "valid"
+                  }
+                ]
+              },
+              "contact": {
+                "phone": "+1-512-555-0100",
+                "email": "contact@smithplumbing.com"
+              },
+              "service_areas": ["Austin, TX", "Round Rock, TX"]
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "NOT_FOUND": {
+          "description": "Business slug does not exist",
+          "recovery": "Check the slug spelling or search for similar businesses"
+        },
+        "RATE_LIMIT": {
+          "description": "Too many requests",
+          "recovery": "Wait for rate limit reset or upgrade API tier"
+        }
+      }
+    },
+    {
+      "name": "getAvailability",
+      "description": "Get real-time availability windows for service booking with Now/Next scheduling",
+      "category": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "service_code": {
+            "type": "string",
+            "enum": ["plumbing", "electrical", "hvac", "general_repair", "emergency"],
+            "description": "Type of service needed"
+          },
+          "zip": {
+            "type": "string",
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "description": "ZIP code for service area"
+          },
+          "when": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Preferred start time (ISO 8601 format)"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "minimum": 30,
+            "maximum": 480,
+            "default": 120,
+            "description": "Expected service duration in minutes"
+          }
+        },
+        "required": ["service_code", "zip"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "service_code": { "type": "string" },
+              "zip": { "type": "string" },
+              "now_available": {
+                "type": "object",
+                "properties": {
+                  "available": { "type": "boolean" },
+                  "earliest_start": { "type": "string", "format": "date-time" },
+                  "providers": { "type": "array" }
+                }
+              },
+              "next_available": {
+                "type": "object",
+                "properties": {
+                  "date": { "type": "string", "format": "date" },
+                  "slots": { "type": "array" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": false,
+        "requiresIdempotencyKey": false,
+        "rateLimited": true
+      },
+      "authorization": {
+        "required_role": "public",
+        "scopes": ["read:availability"]
+      },
+      "budgets": {
+        "cost_per_call": 0.002,
+        "rate_limit": {
+          "requests_per_minute": 30,
+          "requests_per_hour": 500
+        }
+      },
+      "examples": [
+        {
+          "name": "Check plumbing availability in Austin",
+          "input": {
+            "service_code": "plumbing",
+            "zip": "78701",
+            "duration_minutes": 120
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "service_code": "plumbing",
+              "zip": "78701",
+              "now_available": {
+                "available": true,
+                "earliest_start": "2024-02-16T11:30:00Z",
+                "providers": [
+                  {
+                    "business_slug": "smith-plumbing-co",
+                    "name": "Smith Plumbing Company",
+                    "estimated_arrival": "2024-02-16T11:30:00Z"
+                  }
+                ]
+              },
+              "next_available": {
+                "date": "2024-02-17",
+                "slots": [
+                  {"start_time": "08:00:00Z", "end_time": "10:00:00Z", "providers": 3}
+                ]
+              }
+            }
+          }
+        },
+        {
+          "name": "Emergency service availability",
+          "input": {
+            "service_code": "emergency",
+            "zip": "78701",
+            "when": "2024-02-15T22:00:00Z",
+            "duration_minutes": 60
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "service_code": "emergency",
+              "zip": "78701",
+              "now_available": {
+                "available": false,
+                "reason": "outside_business_hours",
+                "next_check": "2024-02-16T08:00:00Z"
+              }
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "VALIDATION_ERROR": {
+          "description": "Invalid service code or ZIP format",
+          "recovery": "Use valid service codes: plumbing, electrical, hvac, general_repair, emergency"
+        },
+        "NOT_FOUND": {
+          "description": "No providers found in service area",
+          "recovery": "Try a broader ZIP code or different service type"
+        }
+      }
+    },
+    {
+      "name": "getPriceBands",
+      "description": "Get market pricing data with percentiles (p50/p75/p90) based on historical invoice data",
+      "category": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "service_code": {
+            "type": "string",
+            "enum": ["plumbing", "electrical", "hvac", "general_repair"],
+            "description": "Service category for pricing"
+          },
+          "zip": {
+            "type": "string",
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "description": "ZIP code for regional pricing"
+          },
+          "job_type": {
+            "type": "string",
+            "enum": ["diagnostic", "repair", "installation", "maintenance", "emergency"],
+            "description": "Specific job type within service category"
+          }
+        },
+        "required": ["service_code", "zip"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "service_code": { "type": "string" },
+              "zip": { "type": "string" },
+              "currency": { "type": "string" },
+              "price_bands": {
+                "type": "object",
+                "properties": {
+                  "p50": { "type": "number" },
+                  "p75": { "type": "number" },
+                  "p90": { "type": "number" }
+                }
+              },
+              "sample_size": { "type": "integer" },
+              "common_line_items": { "type": "array" }
+            }
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": false,
+        "requiresIdempotencyKey": false,
+        "rateLimited": true
+      },
+      "authorization": {
+        "required_role": "public",
+        "scopes": ["read:pricing"]
+      },
+      "budgets": {
+        "cost_per_call": 0.001,
+        "rate_limit": {
+          "requests_per_minute": 20,
+          "requests_per_hour": 200
+        }
+      },
+      "examples": [
+        {
+          "name": "Get plumbing repair pricing in Austin",
+          "input": {
+            "service_code": "plumbing",
+            "zip": "78701",
+            "job_type": "repair"
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "service_code": "plumbing",
+              "job_type": "repair",
+              "zip": "78701",
+              "currency": "USD",
+              "price_bands": {
+                "p50": 285.00,
+                "p75": 425.00,
+                "p90": 650.00
+              },
+              "sample_size": 147,
+              "common_line_items": [
+                {"description": "Diagnostic fee", "price_range": {"min": 75, "max": 125}},
+                {"description": "Labor (per hour)", "price_range": {"min": 95, "max": 150}}
+              ]
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "INSUFFICIENT_DATA": {
+          "description": "Not enough pricing data for reliable estimates",
+          "recovery": "Try broader ZIP code or different service type"
+        }
+      }
+    },
+    {
+      "name": "getReviews",
+      "description": "Get invoice-verified reviews and ratings with masked customer identities",
+      "category": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "business": {
+            "type": "string",
+            "description": "Business slug or ID"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20,
+            "description": "Number of reviews to return"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Pagination offset"
+          },
+          "min_rating": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5,
+            "description": "Filter by minimum star rating"
+          },
+          "service_type": {
+            "type": "string",
+            "description": "Filter by specific service type"
+          }
+        },
+        "required": ["business"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "business": { "type": "string" },
+              "total_reviews": { "type": "integer" },
+              "average_rating": { "type": "number" },
+              "reviews": { "type": "array" },
+              "verification_summary": { "type": "object" }
+            }
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": false,
+        "requiresIdempotencyKey": false,
+        "rateLimited": true
+      },
+      "authorization": {
+        "required_role": "public",
+        "scopes": ["read:reviews"]
+      },
+      "budgets": {
+        "cost_per_call": 0.001,
+        "rate_limit": {
+          "requests_per_minute": 30,
+          "requests_per_hour": 300
+        }
+      },
+      "examples": [
+        {
+          "name": "Get reviews for plumbing company",
+          "input": {
+            "business": "smith-plumbing-co",
+            "limit": 5,
+            "min_rating": 4
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "business": "smith-plumbing-co",
+              "total_reviews": 127,
+              "average_rating": 4.7,
+              "reviews": [
+                {
+                  "id": "rev_a1b2c3d4e5f6",
+                  "rating": 5,
+                  "title": "Excellent emergency service",
+                  "content": "Quick response time and professional work.",
+                  "service_type": "emergency_repair",
+                  "completion_date": "2024-02-10",
+                  "invoice_verified": true
+                }
+              ],
+              "verification_summary": {
+                "total_invoice_verified": 127,
+                "verification_rate": 1.0
+              }
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "NOT_FOUND": {
+          "description": "Business not found",
+          "recovery": "Verify business slug or search for similar businesses"
+        }
+      }
+    },
+    {
+      "name": "createBookingHold",
+      "description": "Create a temporary booking hold that requires customer confirmation - NEVER writes directly",
+      "category": "action",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "business_slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Business to book with"
+          },
+          "service_code": {
+            "type": "string",
+            "enum": ["plumbing", "electrical", "hvac", "general_repair", "emergency"],
+            "description": "Type of service needed"
+          },
+          "job_type": {
+            "type": "string",
+            "enum": ["diagnostic", "repair", "installation", "maintenance", "emergency"],
+            "description": "Specific job type"
+          },
+          "requested_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Requested appointment time (ISO 8601)"
+          },
+          "duration_minutes": {
+            "type": "integer",
+            "minimum": 30,
+            "maximum": 480,
+            "default": 120,
+            "description": "Expected duration"
+          },
+          "customer_info": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+              "phone": { "type": "string", "pattern": "^\\+1-\\d{3}-\\d{3}-\\d{4}$" },
+              "email": { "type": "string", "format": "email" },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "street": { "type": "string" },
+                  "city": { "type": "string" },
+                  "state": { "type": "string" },
+                  "zip": { "type": "string", "pattern": "^\\d{5}(-\\d{4})?$" }
+                },
+                "required": ["street", "city", "state", "zip"]
+              }
+            },
+            "required": ["name", "phone"],
+            "additionalProperties": false
+          },
+          "job_details": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string", "maxLength": 1000 },
+              "priority": { "type": "string", "enum": ["low", "normal", "high", "emergency"], "default": "normal" },
+              "access_instructions": { "type": "string", "maxLength": 500 }
+            },
+            "additionalProperties": false
+          },
+          "preferences": {
+            "type": "object",
+            "properties": {
+              "contact_method": { "type": "string", "enum": ["phone", "email", "sms"], "default": "phone" },
+              "reminder_preferences": {
+                "type": "array",
+                "items": { "type": "string", "enum": ["24h_before", "2h_before", "30min_before"] }
+              }
+            },
+            "additionalProperties": false
+          },
+          "idempotency_key": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique key to prevent duplicate bookings"
+          }
+        },
+        "required": ["business_slug", "service_code", "requested_time", "customer_info", "idempotency_key"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "hold_id": { "type": "string" },
+              "status": { "type": "string", "enum": ["pending_confirmation", "confirmed", "expired", "canceled"] },
+              "expires_at": { "type": "string", "format": "date-time" },
+              "confirm_url": { "type": "string", "format": "uri" },
+              "booking_details": { "type": "object" },
+              "next_steps": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["hold_id", "status", "expires_at", "confirm_url"]
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": true,
+        "requiresIdempotencyKey": true,
+        "destructive": false,
+        "confirmation_message": "This will create a booking hold that expires in 30 minutes. Customer must confirm via the provided URL."
+      },
+      "authorization": {
+        "required_role": "agent",
+        "scopes": ["write:bookings"]
+      },
+      "budgets": {
+        "cost_per_call": 0.05,
+        "rate_limit": {
+          "requests_per_minute": 5,
+          "requests_per_hour": 50
+        }
+      },
+      "examples": [
+        {
+          "name": "Create plumbing appointment hold",
+          "input": {
+            "business_slug": "smith-plumbing-co",
+            "service_code": "plumbing",
+            "job_type": "repair",
+            "requested_time": "2024-02-16T10:00:00Z",
+            "duration_minutes": 120,
+            "customer_info": {
+              "name": "John Smith",
+              "phone": "+1-512-555-0200",
+              "email": "john.smith@email.com",
+              "address": {
+                "street": "456 Oak Ave",
+                "city": "Austin",
+                "state": "TX",
+                "zip": "78701"
+              }
+            },
+            "job_details": {
+              "description": "Kitchen sink not draining properly",
+              "priority": "normal",
+              "access_instructions": "Ring doorbell, dog is friendly"
+            },
+            "idempotency_key": "550e8400-e29b-41d4-a716-446655440000"
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "hold_id": "hold_1234567890abcdef",
+              "status": "pending_confirmation",
+              "expires_at": "2024-02-15T11:30:00Z",
+              "confirm_url": "https://smithplumbing.com/confirm/hold_1234567890abcdef?token=eyJ0eXAi...",
+              "booking_details": {
+                "business": "Smith Plumbing Company",
+                "service": "Plumbing Repair",
+                "scheduled_time": "2024-02-16T10:00:00Z",
+                "duration_minutes": 120,
+                "estimated_cost": "$285-425"
+              },
+              "next_steps": [
+                "Customer will receive confirmation link via email and SMS",
+                "Booking becomes confirmed once customer clicks confirm_url",
+                "Hold expires in 30 minutes if not confirmed"
+              ]
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "VALIDATION_ERROR": {
+          "description": "Invalid input parameters",
+          "recovery": "Check all required fields and format constraints"
+        },
+        "CONFLICT": {
+          "description": "Requested time slot no longer available",
+          "recovery": "Check availability again and suggest alternative times"
+        },
+        "AUTH_ERROR": {
+          "description": "Invalid or missing API key",
+          "recovery": "Ensure valid Bearer token in Authorization header"
+        }
+      }
+    },
+    {
+      "name": "createEstimateDraft",
+      "description": "Create an estimate draft for business review before sending to customer - NEVER writes directly",
+      "category": "action",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "business_slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Business creating the estimate"
+          },
+          "customer_info": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+              "email": { "type": "string", "format": "email" },
+              "phone": { "type": "string", "pattern": "^\\+1-\\d{3}-\\d{3}-\\d{4}$" },
+              "address": {
+                "type": "object",
+                "properties": {
+                  "street": { "type": "string" },
+                  "city": { "type": "string" },
+                  "state": { "type": "string" },
+                  "zip": { "type": "string" }
+                },
+                "required": ["street", "city", "state", "zip"]
+              }
+            },
+            "required": ["name", "email", "phone"],
+            "additionalProperties": false
+          },
+          "project_details": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+              "description": { "type": "string", "maxLength": 2000 },
+              "type": { "type": "string", "enum": ["repair", "installation", "renovation", "maintenance", "emergency"] },
+              "timeline_days": { "type": "integer", "minimum": 1, "maximum": 365 }
+            },
+            "required": ["title", "type"],
+            "additionalProperties": false
+          },
+          "line_items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "description": { "type": "string", "minLength": 1, "maxLength": 500 },
+                "quantity": { "type": "number", "minimum": 0 },
+                "unit": { "type": "string", "maxLength": 50 },
+                "unit_price": { "type": "number", "minimum": 0 },
+                "total": { "type": "number", "minimum": 0 }
+              },
+              "required": ["description", "quantity", "unit", "unit_price", "total"],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 50
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "subtotal": { "type": "number", "minimum": 0 },
+              "tax_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+              "tax_amount": { "type": "number", "minimum": 0 },
+              "discount_amount": { "type": "number", "minimum": 0 },
+              "total": { "type": "number", "minimum": 0 }
+            },
+            "required": ["subtotal", "total"],
+            "additionalProperties": false
+          },
+          "terms": {
+            "type": "object",
+            "properties": {
+              "payment_schedule": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "description": { "type": "string" },
+                    "amount": { "type": "number", "minimum": 0 },
+                    "due": { "type": "string", "enum": ["upon_acceptance", "material_delivery", "completion", "net_30"] }
+                  },
+                  "required": ["description", "amount", "due"]
+                }
+              },
+              "warranty": { "type": "string", "maxLength": 500 },
+              "estimated_start": { "type": "string", "format": "date" },
+              "valid_until": { "type": "string", "format": "date" }
+            },
+            "additionalProperties": false
+          },
+          "idempotency_key": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique key to prevent duplicate estimates"
+          }
+        },
+        "required": ["business_slug", "customer_info", "project_details", "line_items", "totals", "idempotency_key"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "draft_id": { "type": "string" },
+              "status": { "type": "string", "enum": ["draft", "under_review", "sent", "accepted", "declined"] },
+              "confirm_url": { "type": "string", "format": "uri" },
+              "estimate_preview": { "type": "object" },
+              "expires_at": { "type": "string", "format": "date-time" }
+            },
+            "required": ["draft_id", "status", "confirm_url"]
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": true,
+        "requiresIdempotencyKey": true,
+        "destructive": false,
+        "confirmation_message": "This will create an estimate draft for business review. No customer communication will occur until the business approves via the confirm URL."
+      },
+      "authorization": {
+        "required_role": "agent",
+        "scopes": ["write:estimates"]
+      },
+      "budgets": {
+        "cost_per_call": 0.10,
+        "rate_limit": {
+          "requests_per_minute": 3,
+          "requests_per_hour": 20
+        }
+      },
+      "examples": [
+        {
+          "name": "Create bathroom renovation estimate",
+          "input": {
+            "business_slug": "smith-plumbing-co",
+            "customer_info": {
+              "name": "Sarah Johnson",
+              "email": "sarah.johnson@email.com",
+              "phone": "+1-512-555-0300",
+              "address": {
+                "street": "789 Pine St",
+                "city": "Austin",
+                "state": "TX",
+                "zip": "78702"
+              }
+            },
+            "project_details": {
+              "title": "Master Bathroom Renovation",
+              "description": "Complete bathroom renovation including new fixtures, plumbing rough-in, and finish work",
+              "type": "renovation",
+              "timeline_days": 5
+            },
+            "line_items": [
+              {
+                "description": "Demolition and prep work",
+                "quantity": 1,
+                "unit": "job",
+                "unit_price": 800.00,
+                "total": 800.00
+              },
+              {
+                "description": "New plumbing rough-in",
+                "quantity": 1,
+                "unit": "job",
+                "unit_price": 1200.00,
+                "total": 1200.00
+              }
+            ],
+            "totals": {
+              "subtotal": 2000.00,
+              "tax_rate": 0.0825,
+              "tax_amount": 165.00,
+              "total": 2165.00
+            },
+            "terms": {
+              "payment_schedule": [
+                {
+                  "description": "50% deposit upon acceptance",
+                  "amount": 1082.50,
+                  "due": "upon_acceptance"
+                },
+                {
+                  "description": "Remaining balance upon completion",
+                  "amount": 1082.50,
+                  "due": "completion"
+                }
+              ],
+              "warranty": "1 year parts and labor warranty",
+              "valid_until": "2024-03-15"
+            },
+            "idempotency_key": "750e8400-e29b-41d4-a716-446655440001"
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "draft_id": "draft_abcd1234efgh5678",
+              "status": "draft",
+              "confirm_url": "https://app.thorbis.com/estimates/draft_abcd1234efgh5678/review?token=eyJ0eXAi...",
+              "estimate_preview": {
+                "number": "EST-2024-001",
+                "customer": "Sarah Johnson",
+                "project": "Master Bathroom Renovation",
+                "total": 2165.00,
+                "valid_until": "2024-03-15"
+              },
+              "expires_at": "2024-02-16T10:00:00Z"
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "VALIDATION_ERROR": {
+          "description": "Invalid estimate data or calculations don't match",
+          "recovery": "Verify all line item calculations and required fields"
+        }
+      }
+    },
+    {
+      "name": "createPaymentLink",
+      "description": "Create a secure payment link for invoices or estimates - NEVER writes directly",
+      "category": "action",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "business_slug": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Business creating the payment link"
+          },
+          "reference_type": {
+            "type": "string",
+            "enum": ["invoice", "estimate", "deposit", "service_fee"],
+            "description": "Type of payment reference"
+          },
+          "reference_id": {
+            "type": "string",
+            "description": "ID of the invoice, estimate, etc."
+          },
+          "amount": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 100000,
+            "description": "Payment amount"
+          },
+          "currency": {
+            "type": "string",
+            "enum": ["USD", "CAD"],
+            "default": "USD",
+            "description": "Payment currency"
+          },
+          "customer_info": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+              "email": { "type": "string", "format": "email" },
+              "phone": { "type": "string", "pattern": "^\\+1-\\d{3}-\\d{3}-\\d{4}$" }
+            },
+            "required": ["name", "email"],
+            "additionalProperties": false
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Payment description for customer"
+          },
+          "payment_methods": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["card", "ach", "apple_pay", "google_pay", "paypal"]
+            },
+            "minItems": 1,
+            "default": ["card", "ach"]
+          },
+          "due_date": {
+            "type": "string",
+            "format": "date",
+            "description": "Payment due date"
+          },
+          "late_fee": {
+            "type": "object",
+            "properties": {
+              "enabled": { "type": "boolean", "default": false },
+              "amount": { "type": "number", "minimum": 0 },
+              "grace_period_days": { "type": "integer", "minimum": 0, "maximum": 90 }
+            },
+            "additionalProperties": false
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "allow_partial": { "type": "boolean", "default": false },
+              "send_reminders": { "type": "boolean", "default": true },
+              "auto_reconcile": { "type": "boolean", "default": true }
+            },
+            "additionalProperties": false
+          },
+          "idempotency_key": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique key to prevent duplicate payment links"
+          }
+        },
+        "required": ["business_slug", "reference_type", "reference_id", "amount", "customer_info", "idempotency_key"],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "payment_link_id": { "type": "string" },
+              "status": { "type": "string", "enum": ["draft", "active", "paid", "expired", "canceled"] },
+              "confirm_url": { "type": "string", "format": "uri" },
+              "payment_details": { "type": "object" },
+              "customer_preview": { "type": "object" },
+              "expires_at": { "type": "string", "format": "date-time" }
+            },
+            "required": ["payment_link_id", "status", "confirm_url"]
+          }
+        }
+      },
+      "guardrails": {
+        "needsConfirmation": true,
+        "requiresIdempotencyKey": true,
+        "destructive": false,
+        "confirmation_message": "This will create a payment link draft for business review. No customer communication will occur until approved."
+      },
+      "authorization": {
+        "required_role": "agent",
+        "scopes": ["write:payments"]
+      },
+      "budgets": {
+        "cost_per_call": 0.05,
+        "rate_limit": {
+          "requests_per_minute": 5,
+          "requests_per_hour": 30
+        }
+      },
+      "examples": [
+        {
+          "name": "Create payment link for completed work",
+          "input": {
+            "business_slug": "smith-plumbing-co",
+            "reference_type": "invoice",
+            "reference_id": "inv_2024_0089",
+            "amount": 487.50,
+            "currency": "USD",
+            "customer_info": {
+              "name": "Mike Davis",
+              "email": "mike.davis@email.com",
+              "phone": "+1-512-555-0400"
+            },
+            "description": "Emergency pipe repair - Kitchen sink line",
+            "payment_methods": ["card", "ach", "apple_pay"],
+            "due_date": "2024-03-01",
+            "options": {
+              "allow_partial": false,
+              "send_reminders": true,
+              "auto_reconcile": true
+            },
+            "idempotency_key": "850e8400-e29b-41d4-a716-446655440002"
+          },
+          "expected_output": {
+            "success": true,
+            "data": {
+              "payment_link_id": "plink_xyz789abc123def456",
+              "status": "draft",
+              "confirm_url": "https://app.thorbis.com/payments/plink_xyz789abc123def456/review?token=eyJ0eXAi...",
+              "payment_details": {
+                "amount": 487.50,
+                "currency": "USD",
+                "description": "Emergency pipe repair - Kitchen sink line",
+                "due_date": "2024-03-01",
+                "reference": "Invoice INV-2024-0089"
+              },
+              "customer_preview": {
+                "payment_url": "https://pay.thorbis.com/plink_xyz789abc123def456",
+                "methods_available": ["Visa", "Mastercard", "ACH Bank Transfer", "Apple Pay"],
+                "security_features": ["SSL encrypted", "PCI compliant", "Fraud protection"]
+              },
+              "expires_at": "2024-02-22T10:00:00Z"
+            }
+          }
+        }
+      ],
+      "error_codes": {
+        "VALIDATION_ERROR": {
+          "description": "Invalid payment details or amount",
+          "recovery": "Verify payment amount is positive and customer info is complete"
+        }
+      }
+    }
+  ],
+  "global_settings": {
+    "default_timeout_ms": 30000,
+    "max_retries": 3,
+    "base_url": "https://api.thorbis.com/v1",
+    "user_agent": "thorbis-mcp-client/1.0.0",
+    "required_headers": ["Authorization", "Content-Type"],
+    "error_recovery": {
+      "retry_on_codes": ["DEPENDENCY_DOWN", "RATE_LIMIT", "UNKNOWN"],
+      "no_retry_codes": ["VALIDATION_ERROR", "AUTH_ERROR", "NOT_FOUND", "CONFLICT"]
+    }
+  },
+  "compliance": {
+    "data_retention": "90 days for audit logs",
+    "privacy": "Customer PII is masked in responses",
+    "consent": "All actions require explicit confirmation URLs",
+    "auditability": "All tool calls logged with context and outcomes"
+  }
+}
