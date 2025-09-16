@@ -101,7 +101,7 @@ RESEND_API_KEY=your_resend_api_key
 
 ```env
 # Anthropic Claude
-ANTHROPIC_API_KEY=***REMOVED***
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 # Voyage AI
 VOYAGE_API_KEY=pa-zEUayrcTCUAASyJ7KWaqzoeAwHMqIWnP2aZjofAeURj

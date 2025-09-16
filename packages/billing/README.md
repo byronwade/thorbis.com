@@ -21,7 +21,7 @@ pnpm add @thorbis/billing
 
 ```bash
 # Stripe Configuration
-STRIPE_SECRET_KEY=***REMOVED***
+STRIPE_SECRET_KEY=your_stripe_secret_key_here
 STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
 
 # Supabase Configuration

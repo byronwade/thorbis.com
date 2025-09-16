@@ -9,7 +9,7 @@ import { createThorbisStripe, ApiUsageTracker, withUsageTracking } from './packa
 
 // Test configuration
 const TEST_CONFIG = {
-  stripeSecretKey: '***REMOVED***',
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
   supabaseUrl: process.env.SUPABASE_URL || 'your-supabase-url',
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || 'your-service-role-key',
   testOrganizationId: 'hs-001-uuid-a1b2c3d4e5f6', // From seed data

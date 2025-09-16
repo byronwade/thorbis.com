@@ -74,7 +74,7 @@ The Thorbis Business OS now has a **comprehensive $50/month subscription system*
 ```typescript
 // Production-ready Stripe integration
 const stripe = createThorbisStripe({
-  stripeSecretKey: '***REMOVED***',
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY!,
   apiVersion: '2024-09-30.acacia', // Latest stable
   environment: 'production',
 });

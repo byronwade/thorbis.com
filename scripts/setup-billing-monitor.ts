@@ -24,7 +24,7 @@ const config = {
         serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
     },
     stripe: {
-        secretKey: process.env.STRIPE_SECRET_KEY || '***REMOVED***',
+        secretKey: process.env.STRIPE_SECRET_KEY || '',
         webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',
     },
     notifications: {

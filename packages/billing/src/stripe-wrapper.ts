@@ -669,7 +669,7 @@ export class ThorbisStripeWrapper {
 // Export default configuration for easy setup
 export const createThorbisStripe = (config: Partial<StripeWrapperConfig> = {}) => {
   const defaultConfig: StripeWrapperConfig = {
-    stripeSecretKey: '***REMOVED***',
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
     supabaseUrl: process.env.SUPABASE_URL || '',
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || '',

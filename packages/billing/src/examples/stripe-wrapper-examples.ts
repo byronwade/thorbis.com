@@ -14,9 +14,9 @@ const stripe = createThorbisStripe();
 
 // Option 2: Custom configuration
 const stripeCustom = new ThorbisStripeWrapper({
-  stripeSecretKey: '***REMOVED***',
-  supabaseUrl: 'your-supabase-url',
-  supabaseServiceRoleKey: 'your-service-role-key',
+  stripeSecretKey: process.env.STRIPE_SECRET_KEY!,
+  supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
   environment: 'test',
   debugMode: true,
 });
